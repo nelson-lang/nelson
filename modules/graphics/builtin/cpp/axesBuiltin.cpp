@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <utility>
 #include "axesBuiltin.hpp"
 #include "GOPropertyNames.hpp"
 #include "GOPropertyValues.hpp"
@@ -40,6 +41,8 @@ static ArrayOfVector
 buildReturnValue(int nLhs, int64 handle);
 static ArrayOfVector
 activateOrCreateAxesFromHandle(int nLhs, const ArrayOfVector& argIn);
+static std::pair<GOFigure*, int64>
+findFigureOwningChild(int64 childHandle);
 //=============================================================================
 ArrayOfVector
 axesBuiltin(int nLhs, const ArrayOfVector& argIn)
@@ -56,8 +59,11 @@ axesBuiltin(int nLhs, const ArrayOfVector& argIn)
     int64 currentFigureID;
 
     if (argIn.size() != 0 && argIn[0].isGraphicsObject()) {
-        int64 handle = (unsigned int)argIn[0].getContentAsGraphicsObjectScalar();
+        int64 handle = argIn[0].getContentAsGraphicsObjectScalar();
         GraphicsObject* hp = getGraphicsObjectFromGraphicHandle(handle);
+        if (!hp) {
+            Error(_("Invalid graphics object handle."));
+        }
         if (!hp->isType(GO_PROPERTY_VALUE_FIGURE_STR)) {
             Error(_("Single argument to axes function must be handle for a figure."));
         }
@@ -114,6 +120,10 @@ int64
 createNewAxes(
     GOFigure* fig, int64 currentFigureID, const ArrayOfVector& properties, bool restoreLimMode)
 {
+    if (!fig) {
+        Error(_("Invalid figure handle."));
+    }
+
     GraphicsObject* fp = new GOAxis;
     int64 handle = assignGraphicsObject(fp);
 
@@ -159,15 +169,30 @@ copyColorMapFromFigureToAxes(GOFigure* fig, GraphicsObject* axes)
 void
 addAxesToFigureChildren(GOFigure* fig, int64 axesHandle)
 {
+    if (!fig) {
+        return;
+    }
     GOGObjectsProperty* hp = (GOGObjectsProperty*)fig->findProperty(GO_CHILDREN_PROPERTY_NAME_STR);
     std::vector<int64> children(hp->data());
-    children.push_back(axesHandle);
+    bool exists = false;
+    for (int64 child : children) {
+        if (child == axesHandle) {
+            exists = true;
+            break;
+        }
+    }
+    if (!exists) {
+        children.push_back(axesHandle);
+    }
     hp->data(children);
 }
 //=============================================================================
 void
 moveAxesToFront(GOFigure* fig, int64 handle)
 {
+    if (!fig) {
+        return;
+    }
     GOGObjectsProperty* cp = (GOGObjectsProperty*)fig->findProperty(GO_CHILDREN_PROPERTY_NAME_STR);
     std::vector<int64> children(cp->data());
 
@@ -199,8 +224,11 @@ buildReturnValue(int nLhs, int64 handle)
 static ArrayOfVector
 activateOrCreateAxesFromHandle(int nLhs, const ArrayOfVector& argIn)
 {
-    int64 handle = (unsigned int)argIn[0].getContentAsGraphicsObjectScalar();
+    int64 handle = argIn[0].getContentAsGraphicsObjectScalar();
     GraphicsObject* hp = getGraphicsObjectFromGraphicHandle(handle);
+    if (!hp) {
+        Error(_("Invalid graphics object handle."));
+    }
 
     if (hp->isType(GO_PROPERTY_VALUE_FIGURE_STR)) {
         int64 currentAxes = hp->findGoProperty(GO_CURRENT_AXES_PROPERTY_NAME_STR);
@@ -224,12 +252,45 @@ activateOrCreateAxesFromHandle(int nLhs, const ArrayOfVector& argIn)
     }
 
     GOFigure* fig = hp->getParentFigure();
+    if (!fig) {
+        auto [ownerFigure, ownerFigureId] = findFigureOwningChild(handle);
+        fig = ownerFigure;
+        if (fig && ownerFigureId != -1) {
+            hp->setGoProperty(GO_PARENT_PROPERTY_NAME_STR, ownerFigureId);
+        }
+    }
+    if (!fig) {
+        Error(_("Axes object does not have a valid parent figure."));
+    }
     fig->setGoProperty(GO_CURRENT_AXES_PROPERTY_NAME_STR, handle);
     moveAxesToFront(fig, handle);
     fig->setRenderingStateInvalid(true);
     fig->repaint();
 
     return buildReturnValue(nLhs, handle);
+}
+//=============================================================================
+std::pair<GOFigure*, int64>
+findFigureOwningChild(int64 childHandle)
+{
+    std::vector<int64> figures = getFigureGraphicsObjects();
+    for (int64 figHandle : figures) {
+        GOFigure* fig = findGOFigure(figHandle);
+        if (!fig) {
+            continue;
+        }
+        GOGObjectsProperty* children = static_cast<GOGObjectsProperty*>(
+            fig->findProperty(GO_CHILDREN_PROPERTY_NAME_STR, false));
+        if (!children) {
+            continue;
+        }
+        for (int64 child : children->data()) {
+            if (child == childHandle) {
+                return { fig, figHandle };
+            }
+        }
+    }
+    return { nullptr, -1 };
 }
 //=============================================================================
 }

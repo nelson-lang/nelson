@@ -273,6 +273,12 @@
       </tr>
       <tr>
         <td>
+          <b>Layout</b>
+        </td>
+        <td>Inclure les axes lors de la mise en page automatique de la figure : &apos;on&apos; ou &apos;off&apos; (par défaut).</td>
+      </tr>
+      <tr>
+        <td>
           <b>LineStyleOrder</b>
         </td>
         <td

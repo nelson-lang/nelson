@@ -49,6 +49,7 @@
 #include "GOFigure.hpp"
 #include "GOText.hpp"
 #include "GOHelpers.hpp"
+#include "GOLayoutOptions.hpp"
 #include "RenderQt.hpp"
 #include "QStringConverter.hpp"
 #include "characters_encoding.hpp"
@@ -181,6 +182,7 @@ GOAxis::constructProperties()
     registerProperty(new GOVectorProperty, GO_ALPHA_MAP_PROPERTY_NAME_STR);
     registerProperty(new GOTextInterpreterProperty, GO_TICK_LABEL_INTERPRETER_PROPERTY_NAME_STR);
     registerProperty(new GOVectorProperty(true), GO_VIEW_PROPERTY_NAME_STR);
+    registerProperty(new GOGObjectsProperty, GO_LAYOUT_PROPERTY_NAME_STR);
 
     sortProperties();
 }
@@ -420,7 +422,8 @@ GOAxis::getTickCount(
     gc.toPixels(x2, y2, z2, u2, v2);
     double axlen;
     axlen = sqrt((u2 - u1) * (u2 - u1) + (v2 - v1) * (v2 - v1));
-    int numtics = (int)(std::max(2.0, axlen / 25.0));
+    // Keep enough ticks for compact/tiled axes while avoiding over-dense labels.
+    int numtics = (int)(std::max(5.0, axlen / 60.0));
     return numtics;
 }
 //=============================================================================
@@ -445,45 +448,38 @@ GOAxis::recalculateTicks()
     xcnt = getTickCount(gc, limits[0], x1pos[1], x1pos[2], limits[1], x1pos[1], x1pos[2]);
     ycnt = getTickCount(gc, y1pos[0], limits[2], y1pos[2], y1pos[0], limits[3], y1pos[2]);
     zcnt = getTickCount(gc, z1pos[0], z1pos[1], limits[4], z1pos[0], z1pos[1], limits[5]);
-    double xStart, xStop;
-    double yStart, yStop;
-    double zStart, zStop;
-    GOTwoVectorProperty* tp = nullptr;
+    double xStart = limits[0], xStop = limits[1];
+    double yStart = limits[2], yStop = limits[3];
+    double zStart = limits[4], zStop = limits[5];
     GOLinearLogProperty* lp
         = static_cast<GOLinearLogProperty*>(findProperty(GO_X_SCALE_PROPERTY_NAME_STR));
     GOTextInterpreterProperty* textInterpreterProperty = static_cast<GOTextInterpreterProperty*>(
         findProperty(GO_TICK_LABEL_INTERPRETER_PROPERTY_NAME_STR));
+    bool xAutoLimitsAdjusted = false;
+    bool yAutoLimitsAdjusted = false;
+    bool zAutoLimitsAdjusted = false;
+    bool xLogScale = false;
+    bool yLogScale = false;
+    bool zLogScale = false;
     if (isAuto(GO_X_LIM_MODE_PROPERTY_NAME_STR)) {
-        formatAxisAuto(textInterpreterProperty->getAsEnum(), limits[0], limits[1], xcnt,
-            lp->isEqual(GO_PROPERTY_VALUE_LOG_STR), xStart, xStop, xticks, xlabels);
-        tp = static_cast<GOTwoVectorProperty*>(findProperty(GO_X_LIM_PROPERTY_NAME_STR));
-        std::vector<double> lims;
-        if (lp->isEqual(GO_PROPERTY_VALUE_LINEAR_STR)) {
-            lims.push_back(xStart);
-            lims.push_back(xStop);
-        } else {
-            lims.push_back(pow(10.0, xStart));
-            lims.push_back(pow(10.0, xStop));
+        xLogScale = lp->isEqual(GO_PROPERTY_VALUE_LOG_STR);
+        formatAxisAuto(textInterpreterProperty->getAsEnum(), limits[0], limits[1], xcnt, xLogScale,
+            xStart, xStop, xticks, xlabels);
+        if (std::isfinite(xStart) && std::isfinite(xStop) && xStop > xStart) {
+            xAutoLimitsAdjusted = true;
         }
-        tp->data(lims);
     } else {
         formatAxisManual(textInterpreterProperty->getAsEnum(), limits[0], limits[1], xcnt,
             lp->isEqual(GO_PROPERTY_VALUE_LOG_STR), xStart, xStop, xticks, xlabels);
     }
     lp = static_cast<GOLinearLogProperty*>(findProperty(GO_Y_SCALE_PROPERTY_NAME_STR));
     if (isAuto(GO_Y_LIM_MODE_PROPERTY_NAME_STR)) {
-        formatAxisAuto(textInterpreterProperty->getAsEnum(), limits[2], limits[3], ycnt,
-            lp->isEqual(GO_PROPERTY_VALUE_LOG_STR), yStart, yStop, yticks, ylabels);
-        tp = static_cast<GOTwoVectorProperty*>(findProperty(GO_Y_LIM_PROPERTY_NAME_STR));
-        std::vector<double> lims;
-        if (lp->isEqual(GO_PROPERTY_VALUE_LINEAR_STR)) {
-            lims.push_back(yStart);
-            lims.push_back(yStop);
-        } else {
-            lims.push_back(pow(10.0, yStart));
-            lims.push_back(pow(10.0, yStop));
+        yLogScale = lp->isEqual(GO_PROPERTY_VALUE_LOG_STR);
+        formatAxisAuto(textInterpreterProperty->getAsEnum(), limits[2], limits[3], ycnt, yLogScale,
+            yStart, yStop, yticks, ylabels);
+        if (std::isfinite(yStart) && std::isfinite(yStop) && yStop > yStart) {
+            yAutoLimitsAdjusted = true;
         }
-        tp->data(lims);
     } else {
         formatAxisManual(textInterpreterProperty->getAsEnum(), limits[2], limits[3], ycnt,
             lp->isEqual(GO_PROPERTY_VALUE_LOG_STR), yStart, yStop, yticks, ylabels);
@@ -491,21 +487,39 @@ GOAxis::recalculateTicks()
 
     lp = static_cast<GOLinearLogProperty*>(findProperty(GO_Z_SCALE_PROPERTY_NAME_STR));
     if (isAuto(GO_Z_LIM_MODE_PROPERTY_NAME_STR)) {
-        formatAxisAuto(textInterpreterProperty->getAsEnum(), limits[4], limits[5], zcnt,
-            lp->isEqual(GO_PROPERTY_VALUE_LOG_STR), zStart, zStop, zticks, zlabels);
-        tp = static_cast<GOTwoVectorProperty*>(findProperty(GO_Z_LIM_PROPERTY_NAME_STR));
-        std::vector<double> lims;
-        if (lp->isEqual(GO_PROPERTY_VALUE_LINEAR_STR)) {
-            lims.push_back(zStart);
-            lims.push_back(zStop);
-        } else {
-            lims.push_back(pow(10.0, zStart));
-            lims.push_back(pow(10.0, zStop));
+        zLogScale = lp->isEqual(GO_PROPERTY_VALUE_LOG_STR);
+        formatAxisAuto(textInterpreterProperty->getAsEnum(), limits[4], limits[5], zcnt, zLogScale,
+            zStart, zStop, zticks, zlabels);
+        if (std::isfinite(zStart) && std::isfinite(zStop) && zStop > zStart) {
+            zAutoLimitsAdjusted = true;
         }
-        tp->data(lims);
     } else {
         formatAxisManual(textInterpreterProperty->getAsEnum(), limits[4], limits[5], zcnt,
             lp->isEqual(GO_PROPERTY_VALUE_LOG_STR), zStart, zStop, zticks, zlabels);
+    }
+
+    // Only update limits for axes currently in auto mode.
+    // This preserves explicit user limits such as axis([..., 0, inf]).
+    if (xAutoLimitsAdjusted) {
+        if (xLogScale) {
+            setTwoVectorDefault(GO_X_LIM_PROPERTY_NAME_STR, pow(10.0, xStart), pow(10.0, xStop));
+        } else {
+            setTwoVectorDefault(GO_X_LIM_PROPERTY_NAME_STR, xStart, xStop);
+        }
+    }
+    if (yAutoLimitsAdjusted) {
+        if (yLogScale) {
+            setTwoVectorDefault(GO_Y_LIM_PROPERTY_NAME_STR, pow(10.0, yStart), pow(10.0, yStop));
+        } else {
+            setTwoVectorDefault(GO_Y_LIM_PROPERTY_NAME_STR, yStart, yStop);
+        }
+    }
+    if (zAutoLimitsAdjusted) {
+        if (zLogScale) {
+            setTwoVectorDefault(GO_Z_LIM_PROPERTY_NAME_STR, pow(10.0, zStart), pow(10.0, zStop));
+        } else {
+            setTwoVectorDefault(GO_Z_LIM_PROPERTY_NAME_STR, zStart, zStop);
+        }
     }
     GOVectorProperty* hp = nullptr;
     GOStringVectorProperty* qp = nullptr;

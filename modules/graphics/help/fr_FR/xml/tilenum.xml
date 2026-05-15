@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>tilenum</keyword>
+  <short_description>Obtenir le numéro de tuile à partir d&apos;indices ligne-colonne ou d&apos;un objet graphique.</short_description>
+  <syntax>
+    <syntax_item>n = tilenum(t, row, col)</syntax_item>
+    <syntax_item>n = tilenum(obj)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>t</param_name>
+      <param_description>Objet TiledChartLayout.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>row</param_name>
+      <param_description>Indice de ligne : entier positif ou tableau.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>col</param_name>
+      <param_description>Indice de colonne : entier positif ou tableau.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>obj</param_name>
+      <param_description>Objet graphique (axes) créé par nexttile.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>n</param_name>
+      <param_description>Numéro de tuile : entier positif, ou NaN pour les indices hors limites ou les tuiles de bord.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>tilenum(t, row, col)</b> retourne le numéro de tuile pour la ligne et la colonne données dans la disposition TiledChartLayout t.</p>
+    <p>
+      <b>tilenum(obj)</b> retourne le numéro de tuile occupée par l&apos;objet axes obj.</p>
+    <p>Retourne NaN pour les indices hors limites ou pour les axes de tuile de bord.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Obtenir le numéro de tuile par ligne et colonne</example_item_description>
+      <example_item_data><![CDATA[t = tiledlayout(2, 3);
+n = tilenum(t, 1, 2)
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="tiledlayout">tiledlayout</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="nexttile">nexttile</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="tilerowcol">tilerowcol</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.17.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

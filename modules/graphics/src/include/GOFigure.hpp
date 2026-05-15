@@ -22,6 +22,7 @@ private:
     int m_width, m_height;
     bool _resized;
     bool renderingStateInvalid = false;
+    go_handle m_currentTiledLayout = -1;
     void
     loadDefaultAlphaMap();
     void
@@ -101,6 +102,18 @@ public:
     setRenderingStateInvalid(bool invalid)
     {
         renderingStateInvalid = invalid;
+    }
+
+    go_handle
+    getCurrentTiledLayout() const
+    {
+        return m_currentTiledLayout;
+    }
+
+    void
+    setCurrentTiledLayout(go_handle h)
+    {
+        m_currentTiledLayout = h;
     }
 };
 //=============================================================================

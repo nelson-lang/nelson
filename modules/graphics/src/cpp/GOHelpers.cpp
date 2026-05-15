@@ -145,7 +145,7 @@ deleteGraphicsObject(int64 handle, bool repaintParentFigure, bool removeRefInPar
         std::vector<int64> children(hp->data());
         if (!children.empty()) {
             for (auto c : children) {
-                deleteGraphicsObject(c, false, false);
+                deleteGraphicsObject(c, false, true);
             }
             children.clear();
             hp->data(children);
@@ -159,7 +159,12 @@ deleteGraphicsObject(int64 handle, bool repaintParentFigure, bool removeRefInPar
             std::vector<int64> parentHandles(gop->data());
             if (!parentHandles.empty()) {
                 for (auto h : parentHandles) {
-                    GraphicsObject* gh = findGraphicsObject(h, false);
+                    GraphicsObject* gh = nullptr;
+                    if (h >= HANDLE_OFFSET_OBJECT) {
+                        gh = findGraphicsObject(h, false);
+                    } else if (h != HANDLE_ROOT_OBJECT && h != 0) {
+                        gh = static_cast<GraphicsObject*>(findGOFigure(h));
+                    }
                     if (gh) {
                         hp = (GOGObjectsProperty*)gh->findProperty(GO_CHILDREN_PROPERTY_NAME_STR);
                         if (hp) {

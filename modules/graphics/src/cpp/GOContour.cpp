@@ -219,9 +219,15 @@ GOContour::paintMe(RenderInterface& gc)
         gc.setLineStyle(findStringProperty(GO_LINE_STYLE_PROPERTY_NAME_STR));
         gc.lineWidth(width);
         GOAxis* parent = (GOAxis*)getParentAxis();
+        if (!parent) {
+            return;
+        }
 
         std::vector<double> xLim = parent->findVectorDoubleProperty(GO_X_LIM_PROPERTY_NAME_STR);
         std::vector<double> yLim = parent->findVectorDoubleProperty(GO_Y_LIM_PROPERTY_NAME_STR);
+        if (xLim.size() < 2 || yLim.size() < 2) {
+            return;
+        }
 
         double edgeAlpha = findScalarDoubleProperty(GO_EDGE_ALPHA_PROPERTY_NAME_STR);
         for (int i = (int)contourLines.size() - 1; i >= 0; i--) {
@@ -686,16 +692,36 @@ GOContour::generateDataArray(const std::wstring& name, bool isXcoord)
 void
 GOContour::selectColorForRendering(RenderInterface& gc, double zValue, double edgeAlpha)
 {
-    // Retrieve color map and axis information
-    std::vector<double> colorMap(
-        getParentFigure()->findVectorDoubleProperty(GO_COLOR_MAP_PROPERTY_NAME_STR));
     GOAxis* axis = getParentAxis();
+    GOFigure* figure = getParentFigure();
+    if (!axis || !figure) {
+        gc.color(std::vector<double> { 0.0, 0.0, 0.0, edgeAlpha });
+        return;
+    }
+
+    // Retrieve color map and axis information
+    std::vector<double> colorMap(figure->findVectorDoubleProperty(GO_COLOR_MAP_PROPERTY_NAME_STR));
     std::vector<double> cLim(axis->findVectorDoubleProperty(GO_C_LIM_PROPERTY_NAME_STR));
+    if (cLim.size() < 2 || colorMap.size() < 3) {
+        gc.color(std::vector<double> { 0.0, 0.0, 0.0, edgeAlpha });
+        return;
+    }
+
     double cLimMin = std::min(cLim[0], cLim[1]);
     double cLimMax = std::max(cLim[0], cLim[1]);
+    if (!(cLimMax > cLimMin)) {
+        std::vector<double> color = { colorMap[0], colorMap[1], colorMap[2], edgeAlpha };
+        gc.color(color);
+        return;
+    }
 
     // Calculate index for color selection based on zValue
     int colorMapLength = static_cast<int>(colorMap.size() / 3);
+    if (colorMapLength <= 0) {
+        gc.color(std::vector<double> { 0.0, 0.0, 0.0, edgeAlpha });
+        return;
+    }
+
     int idx = static_cast<int>((zValue - cLimMin) / (cLimMax - cLimMin) * (colorMapLength - 1));
     idx = std::min(colorMapLength - 1, std::max(0, idx));
 

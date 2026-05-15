@@ -390,8 +390,11 @@
     <ClInclude Include="..\include\GOTextInterpreterProperty.hpp" />
     <ClInclude Include="..\include\GOToolBarProperty.hpp" />
     <ClInclude Include="..\include\GOTopBottomProperty.hpp" />
+    <ClInclude Include="..\include\GOTiledChartLayout.hpp" />
+    <ClInclude Include="..\include\GOLayoutOptions.hpp" />
     <ClInclude Include="..\include\GOWindowStateProperty.hpp" />
     <ClInclude Include="..\include\IsValidGraphicsProperty.hpp" />
+    <ClInclude Include="..\include\LayoutHelpers.hpp" />
     <ClInclude Include="..\include\RGBAColorData.hpp" />
     <ClInclude Include="..\include\UIControlBuilder.hpp" />
     <ClInclude Include="..\include\GOUnitsProperty.hpp" />
@@ -478,6 +481,8 @@
     <ClCompile Include="..\cpp\GOSymbolProperty.cpp" />
     <ClCompile Include="..\cpp\GOText.cpp" />
     <ClCompile Include="..\cpp\GOTextInterpreterProperty.cpp" />
+    <ClCompile Include="..\cpp\GOTiledChartLayout.cpp" />
+    <ClCompile Include="..\cpp\GOLayoutOptions.cpp" />
     <ClCompile Include="..\cpp\GOToolBarProperty.cpp" />
     <ClCompile Include="..\cpp\GOTopBottomProperty.cpp" />
     <ClCompile Include="..\cpp\GOUIControl.cpp" />
@@ -497,6 +502,7 @@
     <ClCompile Include="..\cpp\GraphicsObject.cpp" />
     <ClCompile Include="..\cpp\GraphicsObjectDisplay.cpp" />
     <ClCompile Include="..\cpp\IsValidGraphicsProperty.cpp" />
+    <ClCompile Include="..\cpp\LayoutHelpers.cpp" />
     <ClCompile Include="..\cpp\MinMaxHelpers.cpp" />
     <ClCompile Include="..\cpp\moc_GOUIControl.cpp" />
     <ClCompile Include="..\cpp\moc_QCheckBoxWidget.cpp" />

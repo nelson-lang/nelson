@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nexttile</keyword>
+  <short_description>Créer des axes dans une disposition en mosaïque.</short_description>
+  <syntax>
+    <syntax_item>ax = nexttile</syntax_item>
+    <syntax_item>ax = nexttile(span)</syntax_item>
+    <syntax_item>ax = nexttile(tilenum)</syntax_item>
+    <syntax_item>ax = nexttile(tilenum, span)</syntax_item>
+    <syntax_item>ax = nexttile(edge)</syntax_item>
+    <syntax_item>ax = nexttile(t, ...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>t</param_name>
+      <param_description>Objet TiledChartLayout.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>tilenum</param_name>
+      <param_description>Position de la tuile : indice entier positif ou chaîne de position de bord (&apos;north&apos;, &apos;south&apos;, &apos;east&apos;, &apos;west&apos;).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>span</param_name>
+      <param_description>Étendue des axes : [r, c] où r est le nombre de lignes et c le nombre de colonnes à couvrir.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>ax</param_name>
+      <param_description>Objet graphique axes.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>nexttile</b> crée des axes dans la prochaine tuile disponible de la disposition en mosaïque courante. Si aucune disposition n&apos;existe, une est créée automatiquement.</p>
+    <p>
+      <b>nexttile(tilenum)</b> crée ou retourne les axes existants à la position de tuile spécifiée. Si la tuile sélectionnée est la tuile supérieure gauche d&apos;axes couvrant plusieurs tuiles, ces axes sont retournés. Si la tuile sélectionnée est au milieu d&apos;une étendue, les anciens axes sont remplacés.</p>
+    <p>
+      <b>nexttile(span)</b> crée des axes couvrant plusieurs tuiles, spécifiées sous la forme [lignes, colonnes], en utilisant la première région vide pouvant contenir l&apos;étendue.</p>
+    <p>
+      <b>nexttile(tilenum, span)</b> retourne les axes existants uniquement s&apos;ils occupent exactement la région de tuile demandée ; sinon les axes qui se chevauchent sont remplacés.</p>
+    <p>
+      <b>nexttile(&apos;north&apos;)</b>, <b>nexttile(&apos;south&apos;)</b>, <b>nexttile(&apos;east&apos;)</b> et <b>nexttile(&apos;west&apos;)</b> créent ou retournent des axes de bord d&apos;une tuile d&apos;épaisseur autour de la grille centrale.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Créer une disposition 2 par 2 et remplir les tuiles</example_item_description>
+      <example_item_data><![CDATA[t = tiledlayout(2, 2);
+for k = 1:4
+  ax = nexttile;
+  plot(ax, rand(1, 10));
+end
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="tiledlayout">tiledlayout</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="tilenum">tilenum</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="tilerowcol">tilerowcol</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.17.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -13,7 +13,20 @@ function varargout = xlabel(varargin)
     error(_('xlabel needs at least one argument.'));
   end
   inputArguments = convertStringToCharArgs(varargin);
-  if (isscalar(inputArguments{1}) && (isgraphics(inputArguments{1}, 'axes') || isgraphics(inputArguments{1}, 'hggroup')))
+  if (isscalar(inputArguments{1}) && isgraphics(inputArguments{1}, 'tiledlayout'))
+    t = inputArguments{1};
+    inputArguments = inputArguments(2:end);
+    h = t.XLabel;
+    set(h, 'String', inputArguments{1}, ...
+    'HorizontalAlignment', 'center', ...
+    'VerticalAlignment', 'top', ...
+    'Position', [0.5, 0, 0], ...
+    inputArguments{2:end});
+    if nargout == 1
+      varargout{1} = h;
+    end
+    return;
+  elseif (isscalar(inputArguments{1}) && (isgraphics(inputArguments{1}, 'axes') || isgraphics(inputArguments{1}, 'hggroup')))
     ax = inputArguments{1};
     inputArguments = inputArguments(2:end);
   else

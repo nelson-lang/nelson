@@ -14,6 +14,8 @@
 #include "GOPropertyValues.hpp"
 #include "GOText.hpp"
 #include "GOAxis.hpp"
+#include "GOTiledChartLayout.hpp"
+#include "GOHelpers.hpp"
 #include "GOList.hpp"
 #include "GOAlignVertProperty.hpp"
 #include "GOAlignHorizProperty.hpp"
@@ -136,14 +138,57 @@ GOText::paintMe(RenderInterface& gc)
     if (stringCheck(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR)) {
         return;
     }
+    std::vector<double> pos(findVectorDoubleProperty(GO_POSITION_PROPERTY_NAME_STR));
+    std::vector<double> mapped;
+    bool mappedInPixels = false;
     GOAxis* axis = getParentAxis();
-    if (!axis) {
-        return;
+    if (axis) {
+        mapped = axis->reMap(pos, true);
+    } else {
+        GOGObjectsProperty* parent
+            = static_cast<GOGObjectsProperty*>(findProperty(GO_PARENT_PROPERTY_NAME_STR, false));
+        if (!parent || parent->data().empty()) {
+            return;
+        }
+        GraphicsObject* parentObject = findGraphicsObject(parent->data()[0], false);
+        if (!parentObject || parentObject->getType() != GO_PROPERTY_VALUE_TILED_LAYOUT_STR) {
+            return;
+        }
+        std::vector<double> layoutPosition
+            = parentObject->findVectorDoubleProperty(GO_OUTER_POSITION_PROPERTY_NAME_STR);
+        if (layoutPosition.size() < 4 || pos.size() < 2) {
+            return;
+        }
+
+        // Convert layout outer position to pixels to avoid dependence on
+        // the current projection/viewport state (which may be an axes viewport).
+        std::wstring units = parentObject->findStringProperty(GO_UNITS_PROPERTY_NAME_STR);
+        double layoutX = layoutPosition[0];
+        double layoutY = layoutPosition[1];
+        double layoutW = layoutPosition[2];
+        double layoutH = layoutPosition[3];
+        if (units == GO_PROPERTY_VALUE_NORMALIZED_STR) {
+            GOFigure* fig = findGOFigure(parentObject->findGoProperty(GO_PARENT_PROPERTY_NAME_STR));
+            if (!fig) {
+                return;
+            }
+            layoutX *= fig->getWidth();
+            layoutY *= fig->getHeight();
+            layoutW *= fig->getWidth();
+            layoutH *= fig->getHeight();
+        }
+
+        double z = (pos.size() >= 3) ? pos[2] : 0.0;
+        mapped = { layoutX + pos[0] * layoutW, layoutY + pos[1] * layoutH, z };
+        mappedInPixels = true;
     }
     int x, y;
-    std::vector<double> pos(findVectorDoubleProperty(GO_POSITION_PROPERTY_NAME_STR));
-    std::vector<double> mapped(axis->reMap(pos, true));
-    gc.toPixels(mapped[0], mapped[1], mapped[2], x, y);
+    if (mappedInPixels) {
+        x = (int)mapped[0];
+        y = (int)mapped[1];
+    } else {
+        gc.toPixels(mapped[0], mapped[1], mapped[2], x, y);
+    }
     gc.setupDirectDraw();
     double margin(findScalarDoubleProperty(GO_MARGIN_PROPERTY_NAME_STR));
     margin = margin + 1;

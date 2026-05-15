@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>tiledlayout</keyword>
+  <short_description>Créer une disposition en mosaïque.</short_description>
+  <syntax>
+    <syntax_item>t = tiledlayout</syntax_item>
+    <syntax_item>t = tiledlayout(m, n)</syntax_item>
+    <syntax_item>t = tiledlayout(arrangement)</syntax_item>
+    <syntax_item>t = tiledlayout(parent, ...)</syntax_item>
+    <syntax_item>t = tiledlayout(..., propertyName, propertyValue)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>m</param_name>
+      <param_description>Nombre de lignes de tuiles : entier positif.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>n</param_name>
+      <param_description>Nombre de colonnes de tuiles : entier positif.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>arrangement</param_name>
+      <param_description>
+        &apos;flow&apos;, &apos;vertical&apos; ou &apos;horizontal&apos; : mode de disposition automatique.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>parent</param_name>
+      <param_description>Poignée de la figure parente.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName</param_name>
+      <param_description>Nom de la propriété : &apos;TileSpacing&apos;, &apos;Padding&apos;, &apos;TileIndexing&apos; ou autre propriété de disposition.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyValue</param_name>
+      <param_description>Valeur de la propriété correspondant au nom de la propriété.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>t</param_name>
+      <param_description>Objet graphique TiledChartLayout.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>tiledlayout</b> crée une disposition en mosaïque dans la figure courante pour afficher plusieurs tracés dans une grille.</p>
+    <p>
+      <b>tiledlayout</b> sans argument d&apos;entrée crée une disposition de type flux.</p>
+    <p>
+      <b>tiledlayout(m, n)</b> crée une disposition avec m lignes et n colonnes de tuiles.</p>
+    <p>
+      <b>tiledlayout(&apos;flow&apos;)</b> crée une disposition qui ajuste automatiquement la grille au fur et à mesure que des axes sont ajoutés. <b>tiledlayout(&apos;vertical&apos;)</b> empile les axes de haut en bas, et <b>tiledlayout(&apos;horizontal&apos;)</b> les empile de gauche à droite.</p>
+    <p>Utilisez <b>nexttile</b> pour créer des axes dans la disposition.</p>
+    <p>Propriétés :</p>
+    <table>
+      <tr>
+        <th>Propriété</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>
+          <b>GridSize</b>
+        </td>
+        <td>Dimensions de la grille [m, n]. Cette propriété ne peut être définie que lorsque la disposition est vide ; la définir manuellement change TileArrangement en &apos;fixed&apos;.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>TileArrangement</b>
+        </td>
+        <td>Disposition en lecture seule : &apos;fixed&apos;, &apos;flow&apos;, &apos;vertical&apos; ou &apos;horizontal&apos;.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>TileSpacing</b>
+        </td>
+        <td>Espacement entre les tuiles : &apos;loose&apos;, &apos;compact&apos;, &apos;tight&apos; ou &apos;none&apos;. La valeur héritée &apos;normal&apos; est acceptée comme &apos;loose&apos;.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Padding</b>
+        </td>
+        <td>Marge autour de la disposition : &apos;loose&apos;, &apos;compact&apos; ou &apos;tight&apos;. La valeur héritée &apos;normal&apos; est acceptée comme &apos;loose&apos;, et &apos;none&apos; est acceptée comme &apos;tight&apos;.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>TileIndexing</b>
+        </td>
+        <td>Ordre de numérotation des tuiles : &apos;rowmajor&apos; ou &apos;columnmajor&apos;.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Title</b>, <b>Subtitle</b>, <b>XLabel</b>, <b>YLabel</b>
+        </td>
+        <td>Objets texte appartenant à la disposition, utilisés par title, xlabel et ylabel.</td>
+      </tr>
+    </table>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Disposition en mosaïque 2 par 2</example_item_description>
+      <example_item_data><![CDATA[t = tiledlayout(2, 2);
+ax1 = nexttile;
+plot(ax1, 1:10, (1:10).^2);
+ax2 = nexttile;
+plot(ax2, 1:10, sqrt(1:10));
+t.TileSpacing = 'compact';
+]]></example_item_data>
+      <example_item_img
+        src="../../images/tiledlayout.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="nexttile">nexttile</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="tilenum">tilenum</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="tilerowcol">tilerowcol</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="subplot">subplot</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.17.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>
