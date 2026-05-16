@@ -21,7 +21,7 @@ Nelson::DebuggerGateway::dbdownBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     nargincheck(argIn, 0, 1);
     nargoutcheck(nLhs, 0, 0);
     if (!eval) {
-        Error(_W("Evaluator is null."), _W("dbdown:InvalidEvaluator"));
+        Error(_W("Evaluator is null."), L"dbdown:InvalidEvaluator");
     }
 
     if (!eval->isBreakpointActive()) {
@@ -32,7 +32,7 @@ Nelson::DebuggerGateway::dbdownBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     if (argIn.size() == 1) {
         N = argIn[0].getContentAsInteger32Scalar();
         if (N < 1) {
-            Error(_W("N must be a positive integer."), _W("dbdown:InvalidInput"));
+            Error(_W("N must be a positive integer."), L"dbdown:InvalidInput");
         }
     }
 

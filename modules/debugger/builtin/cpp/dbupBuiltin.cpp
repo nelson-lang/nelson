@@ -22,18 +22,18 @@ Nelson::DebuggerGateway::dbupBuiltin(Evaluator* eval, int nLhs, const ArrayOfVec
     nargoutcheck(nLhs, 0, 0);
 
     if (!eval) {
-        Error(_W("Evaluator is null."), _W("dbup:InvalidEvaluator"));
+        Error(_W("Evaluator is null."), L"dbup:InvalidEvaluator");
     }
 
     if (!eval->isBreakpointActive()) {
-        Error(_W("No active breakpoint."));
+        Error(_W("No active breakpoint."), L"dbup:NoActiveBreakpoint");
     }
 
     int N = 1;
     if (argIn.size() == 1) {
         N = argIn[0].getContentAsInteger32Scalar();
         if (N < 1) {
-            Error(_W("N must be a positive integer."), _W("dbup:InvalidInput"));
+            Error(_W("N must be a positive integer."), L"dbup:InvalidInput");
         }
     }
 

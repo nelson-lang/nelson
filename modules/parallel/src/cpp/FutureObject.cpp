@@ -60,9 +60,8 @@ void
 FutureObject::displayOnOneLineEmpty(Interface* io, size_t index)
 {
     std::wstring finishedDateTime = std::wstring(24, L' ');
-    std::wstring message
-        = fmt::format(_W("   {:<4d}   {:<4d}   {:<10}   {:<15}   {:<30}   {:<30}\n"), index, -1,
-            L"unavailable", finishedDateTime, L"[]", L"");
+    std::wstring message = fmt::format(L"   {:<4d}   {:<4d}   {:<10}   {:<15}   {:<30}   {:<30}\n",
+        index, -1, L"unavailable", finishedDateTime, L"[]", L"");
     io->outputMessage(message);
 }
 //=============================================================================
@@ -81,7 +80,7 @@ FutureObject::displayOnOneLine(Interface* io, size_t index)
             }
         }
         std::wstring message = fmt::format(
-            _W(L"   {:<4d}   {:<4d}   {:<10}   {:<15}   {:<30}   {:<30}\n"), index, this->getID(),
+            L"   {:<4d}   {:<4d}   {:<10}   {:<15}   {:<30}   {:<30}\n", index, this->getID(),
             this->getStateAsString(), finishedDateTime, this->functionName, errorString);
         io->outputMessage(message);
     }

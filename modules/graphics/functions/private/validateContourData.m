@@ -16,10 +16,10 @@ function validateContourData(X, Y, Z)
     error(_('Z must contain at least two different finite values.'));
   end
   if ~isempty(X)
-    validateContourCoordinate(X, size(Z, 2), size(Z), _('X'));
+    validateContourCoordinate(X, size(Z, 2), size(Z), 'X');
   end
   if ~isempty(Y)
-    validateContourCoordinate(Y, size(Z, 1), size(Z), _('Y'));
+    validateContourCoordinate(Y, size(Z, 1), size(Z), 'Y');
   end
 end
 %=============================================================================
