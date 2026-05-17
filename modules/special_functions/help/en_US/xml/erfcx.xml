@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>erfcx</keyword>
+  <short_description>Scaled complementary error function</short_description>
+  <syntax>
+    <syntax_item>R = erfcx(X)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description
+      >a real single or real double scalar, vector, matrix, or multidimensional array. Sparse and complex inputs are not supported.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>R</param_name>
+      <param_description
+      >scaled complementary error function values, returned with the same size and floating-point class as X.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>erfcx</b> computes the scaled complementary error function element by element.</p>
+    <p>The scaled complementary error function is defined as:</p>
+    <latex>erfcx(x) = e^{x^2} erfc(x)</latex>
+    <p>      Use <b>erfcx</b> instead of <b>exp(x^2) * erfc(x)</b> for large positive X to avoid underflow, overflow, or loss of accuracy.</p>
+    <p>For large positive X:</p>
+    <latex>erfcx(x) \approx \frac{1}{\sqrt{\pi}x}</latex>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Find the scaled complementary error function of a scalar.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[R = erfcx(5)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Find the scaled complementary error function of the elements of a vector.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[V = [-Inf -1 0 1 10 Inf];
+R = erfcx(V)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Find the scaled complementary error function of the elements of a matrix.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[M = [-0.5 15; 3.2 1];
+R = erfcx(M)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Avoid overflow in exp(x^2) * erfc(x).</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[x = 35;
+A = exp(x^2) * erfc(x);
+B = erfcx(x);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${special_functions}erfc">erfc</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${special_functions}erfcinv">erfcinv</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${special_functions}erf">erf</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${special_functions}erfinv">erfinv</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.17.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>erfinv</keyword>
+  <short_description>Fonction d&apos;erreur inverse</short_description>
+  <syntax>
+    <syntax_item>R = erfinv(X)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description
+      >un scalaire, vecteur, matrice ou tableau multidimensionnel réel en simple ou double précision. Les entrées creuses et complexes ne sont pas prises en charge.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>R</param_name>
+      <param_description
+      >valeurs de la fonction d&apos;erreur inverse, retournées avec la même taille et la même classe flottante que X.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>erfinv</b> calcule la fonction d&apos;erreur inverse élément par élément.</p>
+    <p>La fonction d&apos;erreur inverse est définie par :</p>
+    <latex>erfinv(erf(x)) = x</latex>
+    <p>      Les valeurs hors de l&apos;intervalle [-1, 1] retournent NaN. Les valeurs -1 et 1 retournent respectivement -Inf et Inf.</p>
+    <p>      Pour les expressions de la forme <b>erfinv(1 - x)</b>, utilisez <b>erfcinv(x)</b> pour une meilleure précision quand x est petit.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Calculer la fonction d&apos;erreur inverse d&apos;un scalaire.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[R = erfinv(0.25)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Évaluer les limites et les valeurs hors domaine.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[R = erfinv([-2 -1 1 2])]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Calculer la fonction d&apos;erreur inverse des éléments d&apos;une matrice.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[M = [0 -0.5; 0.9 -0.2];
+R = erfinv(M)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Générer des valeurs normalement distribuées à partir de valeurs uniformes dans [-1, 1].</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[x = -1 + 2 * rand(1, 10000);
+y = sqrt(2) * erfinv(x);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${special_functions}erf">erf</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${special_functions}erfcinv">erfcinv</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${special_functions}erfc">erfc</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.17.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -265,6 +265,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\BetaIncomplete.cpp" />
+    <ClCompile Include="..\cpp\ErrorFunctions.cpp" />
     <ClCompile Include="..\cpp\Gamma.cpp" />
     <ClCompile Include="..\cpp\GCD.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
@@ -273,6 +274,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\BetaIncomplete.hpp" />
+    <ClInclude Include="..\include\ErrorFunctions.hpp" />
     <ClInclude Include="..\include\Gamma.hpp" />
     <ClInclude Include="..\include\GCD.hpp" />
     <ClInclude Include="..\include\LinearInterpolation1D.hpp" />

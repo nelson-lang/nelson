@@ -10,6 +10,11 @@
 #include "NelsonGateway.hpp"
 #include "gammaBuiltin.hpp"
 #include "gammalnBuiltin.hpp"
+#include "erfBuiltin.hpp"
+#include "erfcBuiltin.hpp"
+#include "erfinvBuiltin.hpp"
+#include "erfcinvBuiltin.hpp"
+#include "erfcxBuiltin.hpp"
 #include "betaincBuiltin.hpp"
 #include "gcdBuiltin.hpp"
 #include "__interp1__Builtin.hpp"
@@ -23,6 +28,11 @@ static const nlsGateway gateway[] = {
         CPP_BUILTIN_WITH_EVALUATOR, NLS_OVERLOAD_AUTO_OFF },
     { "gamma", (ptrBuiltin)Nelson::SpecialFunctionsGateway::gammaBuiltin, 1, 1 },
     { "gammaln", (ptrBuiltin)Nelson::SpecialFunctionsGateway::gammalnBuiltin, 1, 1 },
+    { "erf", (ptrBuiltin)Nelson::SpecialFunctionsGateway::erfBuiltin, 1, 1 },
+    { "erfc", (ptrBuiltin)Nelson::SpecialFunctionsGateway::erfcBuiltin, 1, 1 },
+    { "erfinv", (ptrBuiltin)Nelson::SpecialFunctionsGateway::erfinvBuiltin, 1, 1 },
+    { "erfcinv", (ptrBuiltin)Nelson::SpecialFunctionsGateway::erfcinvBuiltin, 1, 1 },
+    { "erfcx", (ptrBuiltin)Nelson::SpecialFunctionsGateway::erfcxBuiltin, 1, 1 },
     { "betainc", (ptrBuiltin)Nelson::SpecialFunctionsGateway::betaincBuiltin, 1, 3 },
     { "__interp1__", (ptrBuiltin)Nelson::SpecialFunctionsGateway::__interp1__Builtin, 1, 3,
         CPP_BUILTIN },

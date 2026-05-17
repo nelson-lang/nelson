@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>erfc</keyword>
+  <short_description>Complementary error function</short_description>
+  <syntax>
+    <syntax_item>R = erfc(X)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description
+      >a real single or real double scalar, vector, matrix, or multidimensional array. Sparse and complex inputs are not supported.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>R</param_name>
+      <param_description
+      >complementary error function values, returned with the same size and floating-point class as X.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>erfc</b> computes the complementary error function element by element.</p>
+    <p>The complementary error function is defined as:</p>
+    <latex>erfc(x) = \frac{2}{\sqrt{\pi}}\int_x^{\infty} e^{-t^2}\,dt</latex>
+    <p>It is related to the error function by:</p>
+    <latex>erfc(x) = 1 - erf(x)</latex>
+    <p>      Use <b>erfc</b> instead of <b>1 - erf(x)</b> when <b>erf(x)</b> is close to 1, because direct subtraction can lose significant digits.</p>
+    <p>      Use <b>erfcx</b> instead of <b>exp(x^2) * erfc(x)</b> for large positive values of X.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Find the complementary error function of a scalar.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[R = erfc(0.35)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Find the complementary error function of the elements of a vector.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[V = [-0.5 0 1 0.72];
+R = erfc(V)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Find the complementary error function of the elements of a matrix.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[M = [0.29 -0.11; 3.1 -2.9];
+R = erfc(M)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Compare direct subtraction with erfc for a large positive input.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = 1 - erf(10);
+B = erfc(10);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${special_functions}erf">erf</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${special_functions}erfcinv">erfcinv</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${special_functions}erfcx">erfcx</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${special_functions}erfinv">erfinv</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.17.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>
