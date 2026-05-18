@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>erfc</keyword>
+  <short_description>Fonction d&apos;erreur complémentaire</short_description>
+  <syntax>
+    <syntax_item>R = erfc(X)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description
+      >un scalaire, vecteur, matrice ou tableau multidimensionnel réel en simple ou double précision. Les entrées creuses et complexes ne sont pas prises en charge.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>R</param_name>
+      <param_description
+      >valeurs de la fonction d&apos;erreur complémentaire, retournées avec la même taille et la même classe flottante que X.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>erfc</b> calcule la fonction d&apos;erreur complémentaire élément par élément.</p>
+    <p>La fonction d&apos;erreur complémentaire est définie par :</p>
+    <latex>erfc(x) = \frac{2}{\sqrt{\pi}}\int_x^{\infty} e^{-t^2}\,dt</latex>
+    <p>Elle est liée à la fonction d&apos;erreur par :</p>
+    <latex>erfc(x) = 1 - erf(x)</latex>
+    <p>      Utilisez <b>erfc</b> au lieu de <b>1 - erf(x)</b> quand <b>erf(x)</b> est proche de 1, car la soustraction directe peut perdre des chiffres significatifs.</p>
+    <p>      Utilisez <b>erfcx</b> au lieu de <b>exp(x^2) * erfc(x)</b> pour les grandes valeurs positives de X.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Calculer la fonction d&apos;erreur complémentaire d&apos;un scalaire.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[R = erfc(0.35)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Calculer la fonction d&apos;erreur complémentaire des éléments d&apos;un vecteur.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[V = [-0.5 0 1 0.72];
+R = erfc(V)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Calculer la fonction d&apos;erreur complémentaire des éléments d&apos;une matrice.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[M = [0.29 -0.11; 3.1 -2.9];
+R = erfc(M)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Comparer la soustraction directe avec erfc pour une grande entrée positive.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = 1 - erf(10);
+B = erfc(10);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${special_functions}erf">erf</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${special_functions}erfcinv">erfcinv</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${special_functions}erfcx">erfcx</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${special_functions}erfinv">erfinv</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.17.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

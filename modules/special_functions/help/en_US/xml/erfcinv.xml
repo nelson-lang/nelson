@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>erfcinv</keyword>
+  <short_description>Inverse complementary error function</short_description>
+  <syntax>
+    <syntax_item>R = erfcinv(X)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description
+      >a real single or real double scalar, vector, matrix, or multidimensional array. Sparse and complex inputs are not supported.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>R</param_name>
+      <param_description
+      >inverse complementary error function values, returned with the same size and floating-point class as X.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>erfcinv</b> computes the inverse complementary error function element by element.</p>
+    <p>The inverse complementary error function is defined by:</p>
+    <latex>erfc(erfcinv(x)) = x</latex>
+    <p>      Values outside the interval [0, 2] return NaN. The values 0 and 2 return Inf and -Inf, respectively.</p>
+    <p>      Use <b>erfcinv</b> instead of <b>erfinv(1 - x)</b> when x is close to zero to avoid round-off errors.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Find the inverse complementary error function of a scalar.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[R = erfcinv(0.3)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Evaluate boundary and out-of-domain values.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[V = [-10 0 0.5 1.3 2 Inf];
+R = erfcinv(V)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Find the inverse complementary error function of the elements of a matrix.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[M = [0.1 1.2; 1 0.9];
+R = erfcinv(M)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Avoid round-off from erfinv(1 - x) for very small x.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[x = 1e-100;
+A = erfinv(1 - x);
+B = erfcinv(x);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${special_functions}erfc">erfc</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${special_functions}erfinv">erfinv</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${special_functions}erf">erf</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${special_functions}erfcx">erfcx</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.17.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

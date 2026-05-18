@@ -271,6 +271,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\betaincBuiltin.cpp" />
+    <ClCompile Include="..\cpp\erfBuiltin.cpp" />
+    <ClCompile Include="..\cpp\erfcBuiltin.cpp" />
+    <ClCompile Include="..\cpp\erfcinvBuiltin.cpp" />
+    <ClCompile Include="..\cpp\erfcxBuiltin.cpp" />
+    <ClCompile Include="..\cpp\erfinvBuiltin.cpp" />
     <ClCompile Include="..\cpp\gammaBuiltin.cpp" />
     <ClCompile Include="..\cpp\gammalnBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
@@ -303,6 +308,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\betaincBuiltin.hpp" />
+    <ClInclude Include="..\include\erfBuiltin.hpp" />
+    <ClInclude Include="..\include\erfcBuiltin.hpp" />
+    <ClInclude Include="..\include\erfcinvBuiltin.hpp" />
+    <ClInclude Include="..\include\erfcxBuiltin.hpp" />
+    <ClInclude Include="..\include\erfinvBuiltin.hpp" />
     <ClInclude Include="..\include\gammaBuiltin.hpp" />
     <ClInclude Include="..\include\gammalnBuiltin.hpp" />
     <ClInclude Include="..\include\gcdBuiltin.hpp" />

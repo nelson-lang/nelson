@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>erfcx</keyword>
+  <short_description>Fonction d&apos;erreur complémentaire mise à l&apos;échelle</short_description>
+  <syntax>
+    <syntax_item>R = erfcx(X)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description
+      >un scalaire, vecteur, matrice ou tableau multidimensionnel réel en simple ou double précision. Les entrées creuses et complexes ne sont pas prises en charge.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>R</param_name>
+      <param_description
+      >valeurs de la fonction d&apos;erreur complémentaire mise à l&apos;échelle, retournées avec la même taille et la même classe flottante que X.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>erfcx</b> calcule la fonction d&apos;erreur complémentaire mise à l&apos;échelle élément par élément.</p>
+    <p>La fonction d&apos;erreur complémentaire mise à l&apos;échelle est définie par :</p>
+    <latex>erfcx(x) = e^{x^2} erfc(x)</latex>
+    <p>      Utilisez <b>erfcx</b> au lieu de <b>exp(x^2) * erfc(x)</b> pour les grandes valeurs positives de X afin d&apos;éviter les sous-dépassements, les dépassements ou la perte de précision.</p>
+    <p>Pour les grandes valeurs positives de X :</p>
+    <latex>erfcx(x) \approx \frac{1}{\sqrt{\pi}x}</latex>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Calculer la fonction d&apos;erreur complémentaire mise à l&apos;échelle d&apos;un scalaire.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[R = erfcx(5)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Calculer la fonction d&apos;erreur complémentaire mise à l&apos;échelle des éléments d&apos;un vecteur.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[V = [-Inf -1 0 1 10 Inf];
+R = erfcx(V)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Calculer la fonction d&apos;erreur complémentaire mise à l&apos;échelle des éléments d&apos;une matrice.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[M = [-0.5 15; 3.2 1];
+R = erfcx(M)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Éviter le dépassement dans exp(x^2) * erfc(x).</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[x = 35;
+A = exp(x^2) * erfc(x);
+B = erfcx(x);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${special_functions}erfc">erfc</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${special_functions}erfcinv">erfcinv</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${special_functions}erf">erf</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${special_functions}erfinv">erfinv</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.17.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>
