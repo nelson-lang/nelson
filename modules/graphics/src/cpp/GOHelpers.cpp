@@ -229,5 +229,24 @@ assignGraphicsObject(GraphicsObject* hp)
     return (objectset.assignGO(hp) + HANDLE_OFFSET_OBJECT);
 }
 //=============================================================================
+int64
+findGraphicsObjectHandle(GraphicsObject* hp)
+{
+    if (!hp) {
+        return -1;
+    }
+    int64 handle = objectset.findHandle(hp);
+    if (handle != -1) {
+        return handle + HANDLE_OFFSET_OBJECT;
+    }
+    std::map<int64, GOWindow*> figures = getFigureList();
+    for (const auto& it : figures) {
+        if (it.second && it.second->getGOFigure() == hp) {
+            return it.first;
+        }
+    }
+    return -1;
+}
+//=============================================================================
 }
 //=============================================================================

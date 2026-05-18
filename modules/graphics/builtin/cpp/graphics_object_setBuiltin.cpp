@@ -39,6 +39,16 @@ setTiledLayoutProperty(GraphicsObject* fp, const std::wstring& propname, ArrayOf
 static void
 updateParentTiledLayoutIfNeeded(GraphicsObject* fp);
 //=============================================================================
+static void
+setObjectReferenceProperty(GraphicsObject* fp, const std::wstring& propname, ArrayOf value);
+//=============================================================================
+static bool
+isReplaceableTextReferenceProperty(const std::wstring& propname);
+//=============================================================================
+static void
+deleteReplacedTextObjects(
+    const std::vector<int64>& oldHandles, const std::vector<int64>& newHandles);
+//=============================================================================
 ArrayOfVector
 graphics_object_setBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
@@ -77,7 +87,12 @@ graphics_object_setBuiltin(int nLhs, const ArrayOfVector& argIn)
                         if (!fp->isWritable(propname) && fp->haveProperty(propname)) {
                             Error(_W("Property is readable only: ") + propname);
                         }
-                        hp->set(argIn[ptr + 1]);
+                        if (isReplaceableTextReferenceProperty(propname)
+                            && dynamic_cast<GOGObjectsProperty*>(hp)) {
+                            setObjectReferenceProperty(fp, propname, argIn[ptr + 1]);
+                        } else {
+                            hp->set(argIn[ptr + 1]);
+                        }
                     }
                 } catch (const Exception& e) {
                     Error(_W("Got error for property:") + L" " + propname + L"\n" + e.what());
@@ -98,6 +113,41 @@ graphics_object_setBuiltin(int nLhs, const ArrayOfVector& argIn)
     }
 
     return ArrayOfVector();
+}
+//=============================================================================
+static bool
+isReplaceableTextReferenceProperty(const std::wstring& propname)
+{
+    return propname == GO_TITLE_PROPERTY_NAME_STR || propname == GO_SUBTITLE_PROPERTY_NAME_STR
+        || propname == GO_X_LABEL_PROPERTY_NAME_STR || propname == GO_Y_LABEL_PROPERTY_NAME_STR
+        || propname == GO_Z_LABEL_PROPERTY_NAME_STR;
+}
+//=============================================================================
+static void
+setObjectReferenceProperty(GraphicsObject* fp, const std::wstring& propname, ArrayOf value)
+{
+    GOGObjectsProperty* hp = static_cast<GOGObjectsProperty*>(fp->findProperty(propname));
+    std::vector<int64> oldHandles(hp->data());
+    hp->set(value);
+    deleteReplacedTextObjects(oldHandles, hp->data());
+}
+//=============================================================================
+static void
+deleteReplacedTextObjects(
+    const std::vector<int64>& oldHandles, const std::vector<int64>& newHandles)
+{
+    for (int64 handle : oldHandles) {
+        if (handle < HANDLE_OFFSET_OBJECT) {
+            continue;
+        }
+        if (std::find(newHandles.begin(), newHandles.end(), handle) != newHandles.end()) {
+            continue;
+        }
+        GraphicsObject* oldObject = findGraphicsObject(handle, false);
+        if (oldObject && oldObject->isType(GO_PROPERTY_VALUE_TEXT_STR)) {
+            deleteGraphicsObject(handle, false, false);
+        }
+    }
 }
 //=============================================================================
 static std::wstring
@@ -193,7 +243,12 @@ setTiledLayoutProperty(GraphicsObject* fp, const std::wstring& propname, ArrayOf
     if (!layout->isWritable(canonical)) {
         Error(_W("Property is readable only: ") + canonical);
     }
-    layout->findProperty(canonical)->set(normalizeLayoutValue(canonical, value));
+    if (isReplaceableTextReferenceProperty(canonical)
+        && dynamic_cast<GOGObjectsProperty*>(layout->findProperty(canonical))) {
+        setObjectReferenceProperty(layout, canonical, value);
+    } else {
+        layout->findProperty(canonical)->set(normalizeLayoutValue(canonical, value));
+    }
     return true;
 }
 //=============================================================================

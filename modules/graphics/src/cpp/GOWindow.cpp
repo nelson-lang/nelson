@@ -485,7 +485,10 @@ GOWindow::forceCurrentAxes(QMouseEvent* e)
     qtGetPosition(e, x, y);
     GOAxis* h = findContainingAxis(goFig, remapX(x), remapY(y));
     if (h) {
-        goFig->setGoProperty(GO_CURRENT_AXES_PROPERTY_NAME_STR, assignGraphicsObject(h));
+        int64 handle = findGraphicsObjectHandle(h);
+        if (handle != -1) {
+            goFig->setGoProperty(GO_CURRENT_AXES_PROPERTY_NAME_STR, handle);
+        }
     }
 }
 //=============================================================================

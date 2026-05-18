@@ -23,26 +23,37 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+static ArrayOf
+graphicsObjectCallbackHandle(GraphicsObject* go)
+{
+    int64 handle = findGraphicsObjectHandle(go);
+    if (handle == -1) {
+        Error(_W("Graphics object is not registered."));
+    }
+    return ArrayOf::graphicsObjectConstructor(handle);
+}
+//=============================================================================
 GraphicCallback
 GOCallbackProperty::buildGraphicCallback(GraphicsObject* go, const std::wstring& className,
     const std::wstring& EventName, const std::wstring& character, const std::wstring& key,
     const wstringVector& modifiers)
 {
     ArrayOf callbackAsArrayOf;
+    ArrayOf source = graphicsObjectCallbackHandle(go);
     if (_data.isRowVectorCharacterArray() || _data.isScalarStringArray()) {
         callbackAsArrayOf = _data;
     } else if (_data.isFunctionHandle()) {
         size_t nbElements = 3;
         ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, nbElements);
         elements[0] = _data;
-        elements[1] = ArrayOf::graphicsObjectConstructor(assignGraphicsObject(go));
+        elements[1] = source;
         wstringVector fieldnames = { L"Character", L"Modifier", L"Key", L"Source", L"EventName" };
         ArrayOfVector fieldvalues;
         fieldvalues.reserve(fieldnames.size());
         fieldvalues << ArrayOf::characterArrayConstructor(character);
         fieldvalues << ArrayOf::toCellArrayOfCharacterColumnVectors(modifiers);
         fieldvalues << ArrayOf::characterArrayConstructor(key);
-        fieldvalues << ArrayOf::graphicsObjectConstructor(assignGraphicsObject(go));
+        fieldvalues << source;
         fieldvalues << ArrayOf::characterArrayConstructor(EventName);
         elements[2] = ArrayOf::classConstructor(className, fieldnames, fieldvalues);
         callbackAsArrayOf = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, nbElements), elements);
@@ -63,17 +74,18 @@ GOCallbackProperty::buildGraphicCallback(
     GraphicsObject* go, const std::wstring& className, const std::wstring& actionName)
 {
     ArrayOf callbackAsArrayOf;
+    ArrayOf source = graphicsObjectCallbackHandle(go);
     if (_data.isRowVectorCharacterArray() || _data.isScalarStringArray()) {
         callbackAsArrayOf = _data;
     } else if (_data.isFunctionHandle()) {
         size_t nbElements = 3;
         ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, nbElements);
         elements[0] = _data;
-        elements[1] = ArrayOf::graphicsObjectConstructor(assignGraphicsObject(go));
+        elements[1] = source;
         wstringVector fieldnames = { L"Source", L"EventName" };
         ArrayOfVector fieldvalues;
         fieldvalues.reserve(2);
-        fieldvalues << ArrayOf::graphicsObjectConstructor(assignGraphicsObject(go));
+        fieldvalues << source;
         fieldvalues << ArrayOf::characterArrayConstructor(actionName);
         elements[2] = ArrayOf::classConstructor(className, fieldnames, fieldvalues);
         callbackAsArrayOf = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, nbElements), elements);
@@ -82,11 +94,11 @@ GOCallbackProperty::buildGraphicCallback(
         ArrayOf* elements
             = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, _data.getElementCount() + 3);
         elements[0] = cellElements[0];
-        elements[1] = ArrayOf::graphicsObjectConstructor(assignGraphicsObject(go));
+        elements[1] = source;
         wstringVector fieldnames = { L"Source", L"EventName" };
         ArrayOfVector fieldvalues;
         fieldvalues.reserve(2);
-        fieldvalues << ArrayOf::graphicsObjectConstructor(assignGraphicsObject(go));
+        fieldvalues << source;
         fieldvalues << ArrayOf::characterArrayConstructor(actionName);
         elements[2] = ArrayOf::classConstructor(className, fieldnames, fieldvalues);
         for (size_t k = 1; k < _data.getElementCount(); ++k) {
@@ -109,13 +121,14 @@ GraphicCallback
 GOCallbackProperty::buildGraphicCallback(GraphicsObject* go)
 {
     ArrayOf callbackAsArrayOf;
+    ArrayOf source = graphicsObjectCallbackHandle(go);
     if (_data.isRowVectorCharacterArray() || _data.isScalarStringArray()) {
         callbackAsArrayOf = _data;
     } else if (_data.isFunctionHandle()) {
         size_t nbElements = 3;
         ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, nbElements);
         elements[0] = _data;
-        elements[1] = ArrayOf::graphicsObjectConstructor(assignGraphicsObject(go));
+        elements[1] = source;
         elements[2] = ArrayOf::emptyConstructor(0, 0);
         callbackAsArrayOf = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, nbElements), elements);
     } else if (_data.isCell()) {
@@ -123,7 +136,7 @@ GOCallbackProperty::buildGraphicCallback(GraphicsObject* go)
         ArrayOf* elements
             = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, _data.getElementCount() + 3);
         elements[0] = cellElements[0];
-        elements[1] = ArrayOf::graphicsObjectConstructor(assignGraphicsObject(go));
+        elements[1] = source;
         elements[2] = ArrayOf::emptyConstructor(0, 0);
 
         for (size_t k = 1; k < _data.getElementCount(); ++k) {

@@ -37,30 +37,65 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+static bool
+isReplaceableInternalObjectReferenceProperty(const std::wstring& name)
+{
+    return name == GO_TITLE_PROPERTY_NAME_STR || name == GO_SUBTITLE_PROPERTY_NAME_STR
+        || name == GO_X_LABEL_PROPERTY_NAME_STR || name == GO_Y_LABEL_PROPERTY_NAME_STR
+        || name == GO_Z_LABEL_PROPERTY_NAME_STR || name == GO_LAYOUT_PROPERTY_NAME_STR;
+}
+//=============================================================================
+static bool
+isReplaceableInternalObject(GraphicsObject* gp)
+{
+    if (!gp) {
+        return false;
+    }
+    return gp->isType(GO_PROPERTY_VALUE_TEXT_STR) || gp->isType(L"layoutoptions");
+}
+//=============================================================================
+static void
+deleteReplacedInternalObjectReference(int64 oldHandle, int64 newHandle)
+{
+    if (oldHandle == newHandle || oldHandle < HANDLE_OFFSET_OBJECT) {
+        return;
+    }
+    GraphicsObject* oldObject = findGraphicsObject(oldHandle, false);
+    if (isReplaceableInternalObject(oldObject)) {
+        deleteGraphicsObject(oldHandle, false, false);
+    }
+}
+//=============================================================================
 GraphicsObject::GraphicsObject() { ref_count = 1; }
 //=============================================================================
 GraphicsObject::~GraphicsObject()
 {
     GOGObjectsProperty* hp
-        = static_cast<GOGObjectsProperty*>(findProperty(GO_CHILDREN_PROPERTY_NAME_STR));
-    std::vector<int64> my_children(hp->data());
-    for (indexType i = 0; i < my_children.size(); i++) {
-        int64 handle = my_children[i];
-        if (handle >= HANDLE_OFFSET_OBJECT) {
-            GraphicsObject* gp = findGraphicsObject(handle, false);
-            if (gp) {
-                gp->dereference();
-                if (gp->referenceCount() <= 0) {
-                    if (gp->findStringProperty(GO_TYPE_PROPERTY_NAME_STR)
-                        == GO_PROPERTY_VALUE_UICONTROL_STR) {
-                        ((GOUIControl*)gp)->hide();
+        = static_cast<GOGObjectsProperty*>(findProperty(GO_CHILDREN_PROPERTY_NAME_STR, false));
+    if (hp) {
+        std::vector<int64> my_children(hp->data());
+        for (indexType i = 0; i < my_children.size(); i++) {
+            int64 handle = my_children[i];
+            if (handle >= HANDLE_OFFSET_OBJECT) {
+                GraphicsObject* gp = findGraphicsObject(handle, false);
+                if (gp) {
+                    gp->dereference();
+                    if (gp->referenceCount() <= 0) {
+                        if (gp->findStringProperty(GO_TYPE_PROPERTY_NAME_STR)
+                            == GO_PROPERTY_VALUE_UICONTROL_STR) {
+                            ((GOUIControl*)gp)->hide();
+                        }
+                        freeGraphicsObject(handle);
+                        delete gp;
                     }
-                    freeGraphicsObject(handle);
-                    delete gp;
                 }
             }
         }
     }
+    for (auto& it : m_properties) {
+        delete it.second;
+    }
+    m_properties.clear();
 }
 //=============================================================================
 bool
@@ -125,9 +160,13 @@ GraphicsObject::setGoProperty(const std::wstring& name, int64 value)
 {
     GOGObjectsProperty* hp = static_cast<GOGObjectsProperty*>(findProperty(name, false));
     if (hp) {
+        int64 oldValue = hp->data().empty() ? 0 : hp->data()[0];
         std::vector<int64> newval;
         newval.push_back(value);
         hp->data(newval);
+        if (isReplaceableInternalObjectReferenceProperty(name)) {
+            deleteReplacedInternalObjectReference(oldValue, value);
+        }
     }
 }
 //=============================================================================
@@ -256,6 +295,8 @@ GraphicsObject::registerProperty(
         }
         m_properties_writable[name] = iwritable;
         m_properties_visible[name] = visible;
+    } else if (got->second != hp) {
+        delete got->second;
     }
     m_properties[name] = hp;
 }

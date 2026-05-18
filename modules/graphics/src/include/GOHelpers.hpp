@@ -59,5 +59,8 @@ isDeletedGraphicsObject(int64 handle);
 NLSGRAPHICS_IMPEXP int64
 assignGraphicsObject(GraphicsObject* hp);
 //=============================================================================
+NLSGRAPHICS_IMPEXP int64
+findGraphicsObjectHandle(GraphicsObject* hp);
+//=============================================================================
 }
 //=============================================================================

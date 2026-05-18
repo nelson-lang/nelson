@@ -15,3 +15,9 @@ h = uicontrol('Style', 'pushbutton', 'String', 'Click Me!', 'Position', [100, 10
 h.Callback = @uiinspect;
 h.DeleteFcn = @uiinspect;
 %=============================================================================
+global callbackSource;
+callbackSource = [];
+h = uicontrol('Style', 'pushbutton', 'CreateFcn', @storeCallbackSource);
+assert_isequal(callbackSource, h);
+clear global callbackSource;
+%=============================================================================
