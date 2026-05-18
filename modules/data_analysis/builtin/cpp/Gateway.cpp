@@ -22,6 +22,8 @@
 #include "conv2Builtin.hpp"
 #include "cumsumBuiltin.hpp"
 #include "cumprodBuiltin.hpp"
+#include "isbetweenBuiltin.hpp"
+#include "allbetweenBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -37,6 +39,10 @@ static const nlsGateway gateway[] = {
     { "cumsum", (ptrBuiltin)Nelson::DataAnalysisGateway::cumsumBuiltin, 1, 4 },
     { "cumprod", (ptrBuiltin)Nelson::DataAnalysisGateway::cumprodBuiltin, 1, 4 },
     { "ismissing", (ptrBuiltin)Nelson::DataAnalysisGateway::ismissingBuiltin, 1, 1 },
+    { "isbetween", (ptrBuiltin)Nelson::DataAnalysisGateway::isbetweenBuiltin, 1, -1,
+        CPP_BUILTIN_WITH_EVALUATOR, NLS_OVERLOAD_AUTO_OFF },
+    { "allbetween", (ptrBuiltin)Nelson::DataAnalysisGateway::allbetweenBuiltin, 1, -1,
+        CPP_BUILTIN_WITH_EVALUATOR, NLS_OVERLOAD_AUTO_OFF },
     { "sort", (ptrBuiltin)Nelson::DataAnalysisGateway::sortBuiltin, 2, -1 },
     { "conv2", (ptrBuiltin)Nelson::DataAnalysisGateway::conv2Builtin, 1, 4 },
     { "unique", (ptrBuiltin)Nelson::DataAnalysisGateway::uniqueBuiltin, -1, -1, CPP_BUILTIN },

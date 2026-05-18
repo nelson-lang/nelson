@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>allbetween</keyword>
+  <short_description>Determine si tous les elements sont compris entre des bornes.</short_description>
+  <syntax>
+    <syntax_item>tf = allbetween(A, lower, upper)</syntax_item>
+    <syntax_item>tf = allbetween(A, lower, upper, intervalType)</syntax_item>
+    <syntax_item>tf = allbetween(..., name, value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>tableau ou table.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>lower, upper</param_name>
+      <param_description>bornes inferieure et superieure.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>intervalType</param_name>
+      <param_description>
+        &apos;closed&apos;, &apos;open&apos;, &apos;openleft&apos;, &apos;openright&apos;, &apos;closedleft&apos; ou &apos;closedright&apos;.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>tf</param_name>
+      <param_description>scalaire logique.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>allbetween</b> renvoie true si chaque element selectionne de <b>A</b> est dans l&apos;intervalle defini par <b>lower</b> et <b>upper</b>.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[A = [2 3 4];
+allbetween(A, 2, 4)
+allbetween(A, 2, 4, 'open')]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[T = table([2; 3; 4], [10; 11; 12], 'VariableNames', {'A', 'B'});
+allbetween(T, 2, 4, 'DataVariables', 'A')
+allbetween(T, 2, 12, 'DataVariables', {'A', 'B'})]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${data_analysis}isbetween">isbetween</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.17.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

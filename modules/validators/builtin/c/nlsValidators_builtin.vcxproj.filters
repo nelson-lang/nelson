@@ -93,6 +93,9 @@
     <ClCompile Include="..\cpp\mustBeGreaterThanOrEqualBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\mustBeBetweenBuiltin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\cpp\mustBeLessThanOrEqualBuiltin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -213,6 +216,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\mustBeGreaterThanOrEqualBuiltin.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\mustBeBetweenBuiltin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\mustBeLessThanOrEqualBuiltin.hpp">

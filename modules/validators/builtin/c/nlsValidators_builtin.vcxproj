@@ -279,6 +279,7 @@
     <ClCompile Include="..\cpp\mustBeFolderBuiltin.cpp" />
     <ClCompile Include="..\cpp\mustBeGreaterThanBuiltin.cpp" />
     <ClCompile Include="..\cpp\mustBeGreaterThanOrEqualBuiltin.cpp" />
+    <ClCompile Include="..\cpp\mustBeBetweenBuiltin.cpp" />
     <ClCompile Include="..\cpp\mustBeInRangeBuiltin.cpp" />
     <ClCompile Include="..\cpp\mustBeIntegerBuiltin.cpp" />
     <ClCompile Include="..\cpp\mustBeLessThanBuiltin.cpp" />
@@ -338,6 +339,7 @@
     <ClInclude Include="..\include\mustBeFolderBuiltin.hpp" />
     <ClInclude Include="..\include\mustBeGreaterThanBuiltin.hpp" />
     <ClInclude Include="..\include\mustBeGreaterThanOrEqualBuiltin.hpp" />
+    <ClInclude Include="..\include\mustBeBetweenBuiltin.hpp" />
     <ClInclude Include="..\include\mustBeInRangeBuiltin.hpp" />
     <ClInclude Include="..\include\mustBeIntegerBuiltin.hpp" />
     <ClInclude Include="..\include\mustBeLessThanBuiltin.hpp" />

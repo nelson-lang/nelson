@@ -305,11 +305,13 @@
     <ResourceCompile Include="resources.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\cpp\allbetweenBuiltin.cpp" />
     <ClCompile Include="..\cpp\conv2Builtin.cpp" />
     <ClCompile Include="..\cpp\cumulativeFunctionBuiltinHelpers.cpp" />
     <ClCompile Include="..\cpp\cumprodBuiltin.cpp" />
     <ClCompile Include="..\cpp\cumsumBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
+    <ClCompile Include="..\cpp\isbetweenBuiltin.cpp" />
     <ClCompile Include="..\cpp\ismissingBuiltin.cpp" />
     <ClCompile Include="..\cpp\maxBuiltin.cpp" />
     <ClCompile Include="..\cpp\minBuiltin.cpp" />
@@ -320,11 +322,13 @@
     <ClCompile Include="..\cpp\uniqueBuiltin.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\allbetweenBuiltin.hpp" />
     <ClInclude Include="..\cpp\cumulativeFunctionBuiltinHelpers.hpp" />
     <ClInclude Include="..\include\conv2Builtin.hpp" />
     <ClInclude Include="..\include\cumprodBuiltin.hpp" />
     <ClInclude Include="..\include\cumsumBuiltin.hpp" />
     <ClInclude Include="..\include\ismissingBuiltin.hpp" />
+    <ClInclude Include="..\include\isbetweenBuiltin.hpp" />
     <ClInclude Include="..\include\maxBuiltin.hpp" />
     <ClInclude Include="..\include\minBuiltin.hpp" />
     <ClInclude Include="..\include\nlsData_analysis_builtin_exports.h" />

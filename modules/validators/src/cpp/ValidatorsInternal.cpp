@@ -18,6 +18,7 @@
 #include "NelsonConfiguration.hpp"
 #include "PredefinedErrorMessages.hpp"
 #include "IsValidVariableName.hpp"
+#include "IsBetween.hpp"
 #include "Operators.hpp"
 //=============================================================================
 namespace Nelson {
@@ -1009,6 +1010,19 @@ mustBeInRange(const ArrayOf& value, const ArrayOf& lower, const ArrayOf& upper,
     }
     std::wstring msg = _W("Value must be in range.");
     Error(msg, id, asCaller);
+}
+//=============================================================================
+void
+mustBeBetween(const ArrayOfVector& args, int argPosition, bool asCaller)
+{
+    Evaluator* _eval = (Evaluator*)NelsonConfiguration::getInstance()->getMainEvaluator();
+    ArrayOf result = AllBetween(_eval, args);
+    if (!result.getContentAsLogicalScalar()) {
+        std::wstring msg = invalidPositionMessage(argPosition)
+            + _W("Value must be within the range specified by lower and upper.");
+        std::wstring id = L"Nelson:validators:mustBeBetween";
+        Error(msg, id, asCaller);
+    }
 }
 //=============================================================================
 } // namespace Nelson
