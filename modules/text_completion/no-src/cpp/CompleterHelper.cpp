@@ -35,6 +35,16 @@ getPartialLineAsPath(const std::wstring& line)
 }
 //=============================================================================
 std::wstring
+getCompletionLeafPrefix(const std::wstring& completionPrefix)
+{
+    size_t lastSep = completionPrefix.find_last_of(L"/\\");
+    if (lastSep == std::wstring::npos) {
+        return completionPrefix;
+    }
+    return completionPrefix.substr(lastSep + 1);
+}
+//=============================================================================
+std::wstring
 completerLine(const std::wstring& currentLine, const std::wstring& stringToAdd,
     const std::wstring& filePattern, const std::wstring& defaultPattern, bool stringToAddIsPath)
 {

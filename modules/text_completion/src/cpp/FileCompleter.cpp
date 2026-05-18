@@ -47,6 +47,26 @@ splitpath(const StringType& prefix, StringType& path, StringType& fname)
     }
 }
 //=============================================================================
+static StringType
+pathFilename(const PathType& path)
+{
+#ifdef _MSC_VER
+    return path.filename().wstring();
+#else
+    return path.filename().string();
+#endif
+}
+//=============================================================================
+static StringType
+completionEntryFromPath(const PathType& path)
+{
+    StringType entry = pathFilename(path);
+    if (std::filesystem::is_directory(path)) {
+        entry.push_back(DIR_SEPARATOR_OTHERS);
+    }
+    return entry;
+}
+//=============================================================================
 #ifdef _MSC_VER
 wstringVector
 FileCompleter(const std::wstring& prefix)
@@ -60,6 +80,7 @@ FileCompleter(const std::wstring& prefix)
     StringType pathname;
     StringType filename;
     splitpath(prefix, pathname, filename);
+    bool prefixHasPath = !pathname.empty();
     if (pathname.empty()) {
         try {
             PathType pwd = std::filesystem::current_path();
@@ -105,41 +126,9 @@ FileCompleter(const std::wstring& prefix)
                     if (!std::regex_match(p->path().filename().wstring(), rmask)) {
                         continue;
                     }
-                    StringType file(p->path().wstring());
-                    if (file[0] == L'.'
-                        && (file[1] == DIR_SEPARATOR_OTHERS || file[1] == DIR_SEPARATOR_WINDOWS)) {
-                        file = StringType(file.begin() + 2, file.end());
-                    }
-                    PathType current = file;
-                    StringType fname = current.wstring();
-                    if (std::filesystem::is_directory(fname)) {
-                        fname = fname + L"/";
-                    }
-                    std::wstring complet;
-                    if ((*prefix.rbegin() == DIR_SEPARATOR_OTHERS)
-                        || (*prefix.rbegin() == DIR_SEPARATOR_WINDOWS)) {
-                        complet = fname.substr(prefix.size(), fname.size() - prefix.size() + 1);
-                    } else {
-                        size_t pos = StringType::npos;
-                        size_t pos1 = prefix.rfind(DIR_SEPARATOR_OTHERS);
-                        size_t pos2 = prefix.rfind(DIR_SEPARATOR_WINDOWS);
-                        if (pos1 != StringType::npos && pos2 != StringType::npos) {
-                            pos = std::max(pos1, pos2);
-                        } else {
-                            if (pos1 != StringType::npos) {
-                                pos = pos1;
-                            } else {
-                                pos = pos2;
-                            }
-                        }
-                        if (pos != StringType::npos) {
-                            complet = fname.substr(pos + 1);
-                        } else {
-                            complet = fname.substr(path.size(), fname.size() - path.size() + 1);
-                        }
-                    }
+                    std::wstring complet = completionEntryFromPath(p->path());
                     if (!complet.empty()) {
-                        if (StringHelpers::starts_with(complet, prefix)
+                        if (!prefixHasPath && StringHelpers::starts_with(complet, prefix)
                             && StringHelpers::iends_with(complet, DOT_M)) {
                             complet = complet.substr(0, complet.size() - 2);
                         }
@@ -167,6 +156,8 @@ FileCompleter(const std::wstring& prefix)
     StringType pathname;
     StringType filename;
     splitpath(wstring_to_utf8(prefix), pathname, filename);
+    bool prefixHasPath = !pathname.empty();
+    StringType prefixString = wstring_to_utf8(prefix);
     if (pathname.empty()) {
         try {
             PathType pwd = std::filesystem::current_path();
@@ -212,41 +203,9 @@ FileCompleter(const std::wstring& prefix)
                     if (!std::regex_match(p->path().filename().string(), rmask)) {
                         continue;
                     }
-                    StringType file(p->path().string());
-                    if (file[0] == '.'
-                        && (file[1] == DIR_SEPARATOR_OTHERS || file[1] == DIR_SEPARATOR_WINDOWS)) {
-                        file = std::string(file.begin() + 2, file.end());
-                    }
-                    PathType current = file;
-                    StringType fname = current.string();
-                    if (std::filesystem::is_directory(fname)) {
-                        fname = fname + "/";
-                    }
-                    StringType complet;
-                    if ((*prefix.rbegin() == DIR_SEPARATOR_OTHERS)
-                        || (*prefix.rbegin() == DIR_SEPARATOR_WINDOWS)) {
-                        complet = fname.substr(prefix.size(), fname.size() - prefix.size() + 1);
-                    } else {
-                        size_t pos = std::string::npos;
-                        size_t pos1 = prefix.rfind(DIR_SEPARATOR_OTHERS);
-                        size_t pos2 = prefix.rfind(DIR_SEPARATOR_WINDOWS);
-                        if (pos1 != std::string::npos && pos2 != std::string::npos) {
-                            pos = std::max(pos1, pos2);
-                        } else {
-                            if (pos1 != std::string::npos) {
-                                pos = pos1;
-                            } else {
-                                pos = pos2;
-                            }
-                        }
-                        if (pos != std::string::npos) {
-                            complet = fname.substr(pos + 1);
-                        } else {
-                            complet = fname.substr(path.size(), fname.size() - path.size() + 1);
-                        }
-                    }
+                    StringType complet = completionEntryFromPath(p->path());
                     if (!complet.empty()) {
-                        if (StringHelpers::starts_with(complet, wstring_to_utf8(prefix))
+                        if (!prefixHasPath && StringHelpers::starts_with(complet, prefixString)
                             && StringHelpers::iends_with(complet, DOT_M)) {
                             complet = complet.substr(0, complet.size() - 2);
                         }

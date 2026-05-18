@@ -34,6 +34,9 @@ getPartialLineAsPath(const std::wstring& line);
 NLSTEXT_COMPLETION_IMPEXP std::wstring
 getPartialLine(const std::wstring& line);
 //=============================================================================
+NLSTEXT_COMPLETION_IMPEXP std::wstring
+getCompletionLeafPrefix(const std::wstring& completionPrefix);
+//=============================================================================
 NLSTEXT_COMPLETION_IMPEXP bool
 computeCompletion(const std::wstring& line, std::wstring& completionPrefix, wstringVector& files,
     wstringVector& builtin, wstringVector& macros, wstringVector& variables, wstringVector& fields,

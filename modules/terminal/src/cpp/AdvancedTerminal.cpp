@@ -61,38 +61,29 @@ completionHook(const std::string& buffer, int& contextLen)
         return completions;
     }
 
-    std::string completionPrefixUtf8 = wstring_to_utf8(completionPrefix);
+    std::wstring replacementPrefix
+        = files.empty() ? completionPrefix : Nelson::getCompletionLeafPrefix(completionPrefix);
+    std::string completionPrefixUtf8 = wstring_to_utf8(replacementPrefix);
     contextLen = static_cast<int>(
         std::min(completionPrefixUtf8.size(), static_cast<std::size_t>(buffer.size())));
 
-    // For file completions, we need to prepend the directory path
-    // because FileCompleter returns only filenames, not full paths
-    std::wstring filePathPrefix;
-    if (!files.empty()) {
-        size_t lastSep = completionPrefix.find_last_of(L"/\\");
-        if (lastSep != std::wstring::npos) {
-            filePathPrefix = completionPrefix.substr(0, lastSep + 1);
-        }
-    }
-
     std::unordered_set<std::string> uniqueEntries;
-    auto appendCategory = [&](const Nelson::wstringVector& source, const std::wstring& prefix) {
+    auto appendCategory = [&](const Nelson::wstringVector& source) {
         for (const auto& entry : source) {
-            std::wstring fullEntry = prefix + entry;
-            std::string utf8Entry = wstring_to_utf8(fullEntry);
+            std::string utf8Entry = wstring_to_utf8(entry);
             if (uniqueEntries.insert(utf8Entry).second) {
                 completions.emplace_back(std::move(utf8Entry));
             }
         }
     };
 
-    appendCategory(files, filePathPrefix);
-    appendCategory(builtin, L"");
-    appendCategory(macros, L"");
-    appendCategory(variables, L"");
-    appendCategory(fields, L"");
-    appendCategory(properties, L"");
-    appendCategory(methods, L"");
+    appendCategory(files);
+    appendCategory(builtin);
+    appendCategory(macros);
+    appendCategory(variables);
+    appendCategory(fields);
+    appendCategory(properties);
+    appendCategory(methods);
 #else
     (void)buffer;
     contextLen = 0;
