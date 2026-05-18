@@ -29,9 +29,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >c = hann(m)</b> calcule les coefficients d&apos;une fenêtre de Hann de longueur <b
-      >m</b>.</p>
+      <b>c = hann(m)</b> calcule les coefficients d&apos;une fenêtre de Hann de longueur <b>m</b>.</p>
   </description>
   <examples>
     <example_item>

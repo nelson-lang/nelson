@@ -35,8 +35,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >dir</b> affiche la liste des fichiers et dossiers dans le répertoire courant.</p>
+      <b>dir</b> affiche la liste des fichiers et dossiers dans le répertoire courant.</p>
     <p
     >Le caractère * (joker) est supporté dans les noms de fichiers et chemins.</p>
   </description>

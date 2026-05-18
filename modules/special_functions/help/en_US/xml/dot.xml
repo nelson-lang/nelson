@@ -27,8 +27,7 @@
   </param_output>
   <description>
     <p>
-      <b>R = dot(A, B)</b> returns the scalar dot product of <b>A</b> and <b
-      >B</b>.</p>
+      <b>R = dot(A, B)</b> returns the scalar dot product of <b>A</b> and <b>B</b>.</p>
     <p>For real vectors</p>
     <latex>\mathbf{a}</latex>
     <p>and</p>

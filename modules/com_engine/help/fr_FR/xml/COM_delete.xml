@@ -16,8 +16,7 @@
   </param_input>
   <description>
     <p>
-      <b
-      >delete(h)</b> libère toutes les interfaces dérivées du serveur ou contrôle COM spécifié, puis supprime le serveur ou contrôle lui-même.</p>
+      <b>delete(h)</b> libère toutes les interfaces dérivées du serveur ou contrôle COM spécifié, puis supprime le serveur ou contrôle lui-même.</p>
     <p
     >Ceci est différent de la libération d&apos;une interface, qui libère et invalide seulement l&apos;interface particulière.</p>
     <p>N&apos;oubliez pas de nettoyer h ensuite.</p>

@@ -32,8 +32,7 @@
     <p>
       <b>helpdlg</b> crée une boîte de dialogue d&apos;aide.</p>
     <p>
-      <b
-      >h = helpdlg(text_help, title, &apos;on&apos;)</b> indique si une boîte de dialogue existante portant le même nom doit être remplacée.</p>
+      <b>h = helpdlg(text_help, title, &apos;on&apos;)</b> indique si une boîte de dialogue existante portant le même nom doit être remplacée.</p>
   </description>
   <used_function />
   <bibliography />

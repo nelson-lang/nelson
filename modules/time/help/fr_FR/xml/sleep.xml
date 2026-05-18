@@ -16,8 +16,7 @@
   </param_input>
   <description>
     <p>
-      <b
-      >sleep</b> met en pause l&apos;exécution de Nelson pendant un nombre spécifié de secondes.</p>
+      <b>sleep</b> met en pause l&apos;exécution de Nelson pendant un nombre spécifié de secondes.</p>
     <p>Une interruption CTRL-C arrête la fonction <b>sleep</b>.</p>
   </description>
   <used_function />

@@ -9,8 +9,7 @@
   </syntax>
   <description>
     <p>
-      <b
-      >clc()</b> clears the console and move the cursor to the upper left corner.</p>
+      <b>clc()</b> clears the console and move the cursor to the upper left corner.</p>
   </description>
   <bibliography />
   <examples>

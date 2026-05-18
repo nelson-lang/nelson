@@ -29,8 +29,7 @@
     <p
     >Utilize rotate mode to interactively rotate the 3-D view of the axes for data exploration. Enable or disable rotate mode and configure additional basic options using the rotate3d function.</p>
     <p>
-      <b
-      >rotate3d option</b> establishes the rotate mode for all axes within the current figure. For instance, rotate3d on activates rotate mode, while rotate3d off deactivates it.</p>
+      <b>rotate3d option</b> establishes the rotate mode for all axes within the current figure. For instance, rotate3d on activates rotate mode, while rotate3d off deactivates it.</p>
     <p />
     <p
     >When rotate mode is enabled, you can adjust the view of axes using the cursor or the keyboard:</p>

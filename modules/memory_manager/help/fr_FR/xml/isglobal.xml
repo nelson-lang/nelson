@@ -22,8 +22,7 @@
   </param_output>
   <description>
     <p>
-      <b>isglobal</b> renvoie vrai si<b
-      >variable_name</b> a été déclarée comme variable globale, et faux sinon.</p>
+      <b>isglobal</b> renvoie vrai si<b>variable_name</b> a été déclarée comme variable globale, et faux sinon.</p>
   </description>
   <used_function />
   <bibliography />

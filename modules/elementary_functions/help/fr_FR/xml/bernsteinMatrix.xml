@@ -28,8 +28,7 @@
   </param_output>
   <description>
     <p>
-      <b>B = bernsteinMatrix(n, t)</b> construit une matrice de Bernstein<b
-      >B</b> de dimensions length(t)-par-(n+1) lorsque t est un vecteur.</p>
+      <b>B = bernsteinMatrix(n, t)</b> construit une matrice de Bernstein<b>B</b> de dimensions length(t)-par-(n+1) lorsque t est un vecteur.</p>
     <p>La matrice de Bernstein est aussi appelée matrice de Bézier.</p>
     <p>Cette fonction permet de calculer les points d&apos;une courbe de Bézier.</p>
   </description>

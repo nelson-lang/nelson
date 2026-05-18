@@ -16,8 +16,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >audiosupportedformats</b> returns a structure with supported audio file formats.</p>
+      <b>audiosupportedformats</b> returns a structure with supported audio file formats.</p>
   </description>
   <used_function />
   <bibliography />

@@ -28,8 +28,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >G = gcd(A, B)</b> calcule le plus grand commun diviseur en utilisant l&apos;algorithme euclidien.</p>
+      <b>G = gcd(A, B)</b> calcule le plus grand commun diviseur en utilisant l&apos;algorithme euclidien.</p>
   </description>
   <used_function />
   <bibliography

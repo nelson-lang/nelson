@@ -34,8 +34,7 @@
     <p
     >Le mode déplacement est compatible avec divers graphiques comme les courbes, barres, histogrammes et surfaces. Ces graphiques disposent généralement d&apos;une icône de déplacement dans la barre d&apos;outils pour faciliter cette fonctionnalité.</p>
     <p>
-      <b
-      >pan option</b> configure le mode déplacement pour tous les axes de la figure courante.</p>
+      <b>pan option</b> configure le mode déplacement pour tous les axes de la figure courante.</p>
     <p
     >Une fois le mode déplacement activé, vous pouvez ajuster la vue des axes avec le curseur ou le clavier :</p>
     <p>Curseur : cliquez et faites glisser le curseur dans les axes.</p>
@@ -45,8 +44,7 @@
     <p
     >L&apos;option du mode déplacement peut être spécifiée avec l&apos;une des valeurs suivantes :</p>
     <p>
-      <b
-      >
+      <b>
         &apos;toggle&apos;
       </b> : Bascule le mode déplacement. Si le mode est désactivé, &apos;toggle&apos; revient à la dernière option utilisée parmi &apos;on&apos;, &apos;xon&apos; ou &apos;yon&apos;. Ce comportement est identique à l&apos;appel de pan sans argument.</p>
     <p>
@@ -62,8 +60,7 @@
         &apos;on&apos;
       </b> : Active le mode déplacement.</p>
     <p>
-      <b
-      >
+      <b>
         &apos;off&apos;
       </b> : Désactive le mode déplacement. Certaines interactions par défaut peuvent persister quel que soit le mode d&apos;interaction.</p>
   </description>

@@ -35,8 +35,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >padecoef(T, N)</b> calcule l&apos;approximation de Padé d&apos;ordre N pour le système à retard en temps continu représenté par le terme exponentiel exp(-T*s) et le renvoie sous la forme d&apos;une fonction de transfert.</p>
+      <b>padecoef(T, N)</b> calcule l&apos;approximation de Padé d&apos;ordre N pour le système à retard en temps continu représenté par le terme exponentiel exp(-T*s) et le renvoie sous la forme d&apos;une fonction de transfert.</p>
     <p
     >Voir http://en.wikipedia.org/wiki/Pad%C3%A9_approximant et Golub &amp; Van Loan, Matrix Computations pour les détails.</p>
   </description>

@@ -43,16 +43,13 @@
     >The function manages a local, versioned help directory under userdir()/Nelson/&lt;version&gt;/help/.</p>
     <p>Actions:</p>
     <p>
-      <b
-      >install</b>: creates and installs the local help system (calls docroot(&apos;.&apos;) and install locally). Use the optional verbose boolean to toggle output.</p>
+      <b>install</b>: creates and installs the local help system (calls docroot(&apos;.&apos;) and install locally). Use the optional verbose boolean to toggle output.</p>
     <p>
-      <b
-      >add</b>: extracts per-language .nhz help archives found in module_help_dir/help/ into the versioned help/lang/&lt;module_name&gt; directories.</p>
+      <b>add</b>: extracts per-language .nhz help archives found in module_help_dir/help/ into the versioned help/lang/&lt;module_name&gt; directories.</p>
     <p>
       <b>remove</b>: removes the module help directory for each language.</p>
     <p>
-      <b>refresh</b>, <b>uninstall</b>, <b
-      >status</b>: respectively refresh the help database, uninstall the local help system, or return whether the local help folder exists. Actions that can fail return [status, message].</p>
+      <b>refresh</b>, <b>uninstall</b>, <b>status</b>: respectively refresh the help database, uninstall the local help system, or return whether the local help folder exists. Actions that can fail return [status, message].</p>
   </description>
   <used_function />
   <bibliography />

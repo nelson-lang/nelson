@@ -22,8 +22,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >iscell</b> renvoie 1 logique (vrai) si l&apos;argument est un tableau de cellules et 0 logique (faux) sinon.</p>
+      <b>iscell</b> renvoie 1 logique (vrai) si l&apos;argument est un tableau de cellules et 0 logique (faux) sinon.</p>
   </description>
   <used_function />
   <bibliography />

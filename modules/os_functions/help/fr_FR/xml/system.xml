@@ -78,19 +78,14 @@
   </param_output>
   <description>
     <p>
-      <b
-      >system</b> envoie une chaîne au système d&apos;exploitation pour exécution. La sortie standard et les erreurs standard de la commande shell sont écrites dans le shell appelant.</p>
+      <b>system</b> envoie une chaîne au système d&apos;exploitation pour exécution. La sortie standard et les erreurs standard de la commande shell sont écrites dans le shell appelant.</p>
     <p>
-      <b
-      >[status, output] = system(command, &apos;-echo&apos;)</b> force l&apos;affichage de la sortie dans la fenêtre de commande, même si elle est également assignée à une variable.</p>
+      <b>[status, output] = system(command, &apos;-echo&apos;)</b> force l&apos;affichage de la sortie dans la fenêtre de commande, même si elle est également assignée à une variable.</p>
     <p
-    >Les fonctions de rappel (callbacks) ne peuvent pas être appelées tant que la commande <b
-      >system</b> n&apos;est pas terminée.</p>
+    >Les fonctions de rappel (callbacks) ne peuvent pas être appelées tant que la commande <b>system</b> n&apos;est pas terminée.</p>
     <p
     >Nelson convertira les caractères vers l&apos;encodage accepté par votre shell système (ANSI sur Windows par défaut, UTF-8 sur les autres systèmes).</p>
-    <p>La commande peut être interrompue avec la touche <b
-      >CTRL-C</b>. Dans ce cas, le code de retour sera 258 (WAIT_TIMEOUT) sous Windows et 134 sur les autres plateformes (128 + SIGABRT) et la<b
-      >output</b> contiendra &apos;ABORTED&apos;.</p>
+    <p>La commande peut être interrompue avec la touche <b>CTRL-C</b>. Dans ce cas, le code de retour sera 258 (WAIT_TIMEOUT) sous Windows et 134 sur les autres plateformes (128 + SIGABRT) et la<b>output</b> contiendra &apos;ABORTED&apos;.</p>
     <p>Si la valeur timeout est 0, le timeout est désactivé.</p>
   </description>
   <used_function />
@@ -127,8 +122,7 @@
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >To detach an system command, include the trailing character, &amp;, in the command argument.</example_item_description>
+      <example_item_description>To detach an system command, include the trailing character, &amp;, in the command argument.</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[[s,w] = system('notepad &');]]></example_item_data>

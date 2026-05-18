@@ -22,9 +22,7 @@
   </param_output>
   <description>
     <p>
-      <b>c = sinc(m)</b> returns an array<b
-      >c</b> whose elements are the sinc of the elements of the input: <b
-      >m</b>.</p>
+      <b>c = sinc(m)</b> returns an array<b>c</b> whose elements are the sinc of the elements of the input: <b>m</b>.</p>
     <p>The sinc function (normalized) is defined as:</p>
     <latex
     >\text{sinc}(x) = \begin{cases} \frac{\sin(\pi x)}{\pi x} &amp; \text{if } x \neq 0 \\ 1 &amp; \text{if } x = 0 \end{cases}</latex>

@@ -14,7 +14,9 @@ function updatePlot(h, event)
   scale = h.Value;
 
   % Retrieve the plot object from the slider's UserData
-  p = h.UserData;
+  callbackData = h.UserData;
+  p = callbackData{1};
+  t = callbackData{2};
 
   % Access the existing X data of the plot
   x = p.XData;
@@ -27,7 +29,7 @@ function updatePlot(h, event)
   p.YData = y;
 
   % Update the plot's title to reflect the current amplitude
-  title(['Sine Wave with Amplitude = ', num2str(scale)]);
+  t.String = ['Sine Wave with Amplitude = ', num2str(scale)];
 
   % Ensure the grid remains on after updating the plot
   grid on;

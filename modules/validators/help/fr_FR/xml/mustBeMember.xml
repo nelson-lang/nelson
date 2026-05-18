@@ -28,8 +28,7 @@
   </param_input>
   <description>
     <p>
-      <b
-      >mustBeMember</b> vérifie que la valeur est membre d&apos;un tableau ou signale une erreur.</p>
+      <b>mustBeMember</b> vérifie que la valeur est membre d&apos;un tableau ou signale une erreur.</p>
   </description>
   <used_function />
   <bibliography />

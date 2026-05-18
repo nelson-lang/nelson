@@ -27,8 +27,7 @@
   <description>
     <p>Change le répertoire de travail courant vers <b>dirname</b>.</p>
     <p>
-      <b
-      >a = cd()</b> sans argument renvoie le répertoire de travail courant.</p>
+      <b>a = cd()</b> sans argument renvoie le répertoire de travail courant.</p>
     <p>
       <b>cd()</b> sans argument affiche le répertoire de travail courant.</p>
     <p />

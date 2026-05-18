@@ -23,8 +23,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >num2bin</b> returns a char array giving the literal bit representation of a number.</p>
+      <b>num2bin</b> returns a char array giving the literal bit representation of a number.</p>
   </description>
   <used_function>C++ std::bitset</used_function>
   <bibliography>http://www.oxfordmathcenter.com/drupal7/node/43</bibliography>

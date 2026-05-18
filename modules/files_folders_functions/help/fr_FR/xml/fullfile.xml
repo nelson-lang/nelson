@@ -24,8 +24,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >R = fullfile(part1, ..., partN)</b> construit un nom de fichier complet à partir des parties fournies.</p>
+      <b>R = fullfile(part1, ..., partN)</b> construit un nom de fichier complet à partir des parties fournies.</p>
   </description>
   <used_function />
   <bibliography />

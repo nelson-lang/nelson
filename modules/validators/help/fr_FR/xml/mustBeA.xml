@@ -29,8 +29,7 @@
   </param_input>
   <description>
     <p>
-      <b
-      >mustBeA</b> vérifie que la valeur d&apos;entrée appartient à l&apos;une des classes spécifiées.</p>
+      <b>mustBeA</b> vérifie que la valeur d&apos;entrée appartient à l&apos;une des classes spécifiées.</p>
   </description>
   <used_function />
   <bibliography />

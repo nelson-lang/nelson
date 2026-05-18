@@ -17,16 +17,14 @@
   </param_output>
   <description>
     <p>
-      <b
-      >namelengthmax</b>: Nelson allows 4096 as maximum length for variables and structures field names.</p>
+      <b>namelengthmax</b>: Nelson allows 4096 as maximum length for variables and structures field names.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Working: identifier length 4096 characters</example_item_description>
+      <example_item_description>Working: identifier length 4096 characters</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[ID = ['A', char(double('0') * ones(1, namelengthmax -1 ))];
@@ -37,8 +35,7 @@ execstr(STR)
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Not Working: identifier length 4097 characters</example_item_description>
+      <example_item_description>Not Working: identifier length 4097 characters</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[ID = ['A', char(double('0') * ones(1, namelengthmax))];

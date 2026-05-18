@@ -33,8 +33,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >diag</b> retourne les éléments diagonaux d&apos;une matrice ou crée une matrice diagonale.</p>
+      <b>diag</b> retourne les éléments diagonaux d&apos;une matrice ou crée une matrice diagonale.</p>
   </description>
   <used_function />
   <bibliography />

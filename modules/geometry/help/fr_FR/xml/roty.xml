@@ -23,8 +23,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >roty</b> renvoie la matrice de transformation 3x3 correspondant à une rotation autour de l&apos;axe y.</p>
+      <b>roty</b> renvoie la matrice de transformation 3x3 correspondant à une rotation autour de l&apos;axe y.</p>
   </description>
   <used_function />
   <bibliography

@@ -29,24 +29,21 @@
   <description>
     <p>
       <b>nargout</b> returns the number of output arguments of an function.</p>
-    <p>If the last output argument of the function is <b
-      >varargout</b> the returned value is negative.</p>
+    <p>If the last output argument of the function is <b>varargout</b> the returned value is negative.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >With an macro function:</example_item_description>
+      <example_item_description>With an macro function:</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[nargout('cellstr')]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >With an builtin function:</example_item_description>
+      <example_item_description>With an builtin function:</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[nargout('cos')]]></example_item_data>

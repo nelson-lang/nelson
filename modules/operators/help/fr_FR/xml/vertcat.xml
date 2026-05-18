@@ -30,8 +30,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >R = vertcat(M1, M2, ... , MN)</b> renvoie la concaténation verticale de M1, M2, ... , MN le long de la dimension 1.</p>
+      <b>R = vertcat(M1, M2, ... , MN)</b> renvoie la concaténation verticale de M1, M2, ... , MN le long de la dimension 1.</p>
   </description>
   <used_function />
   <bibliography />

@@ -22,8 +22,7 @@
   </param_output>
   <description>
     <p>
-      <b>fliplr</b> renvoie un nouveau tableau de <b
-      >A</b> inversé de gauche à droite.</p>
+      <b>fliplr</b> renvoie un nouveau tableau de <b>A</b> inversé de gauche à droite.</p>
   </description>
   <used_function />
   <bibliography />

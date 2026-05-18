@@ -58,12 +58,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>La fonction <b
-      >sysd = c2d(sysc, Ts)</b> discrétise le modèle dynamique en temps continu <b
-      >sysc</b> en utilisant un maintien d&apos;ordre zéro sur les entrées avec un temps d&apos;échantillonnage de <b
-      >Ts</b>.</p>
-    <p>Par exemple, vous pouvez utiliser <b
-      >sysd = c2d(sysc, Ts, method)</b> pour spécifier explicitement la méthode de discrétisation.</p>
+    <p>La fonction <b>sysd = c2d(sysc, Ts)</b> discrétise le modèle dynamique en temps continu <b>sysc</b> en utilisant un maintien d&apos;ordre zéro sur les entrées avec un temps d&apos;échantillonnage de <b>Ts</b>.</p>
+    <p>Par exemple, vous pouvez utiliser <b>sysd = c2d(sysc, Ts, method)</b> pour spécifier explicitement la méthode de discrétisation.</p>
   </description>
   <examples>
     <example_item>

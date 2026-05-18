@@ -68,11 +68,9 @@
   </param_output>
   <description>
     <p>
-      <b
-      >audiodevinfo</b> retourne une structure avec les périphériques audio d&apos;entrée et de sortie disponibles.</p>
+      <b>audiodevinfo</b> retourne une structure avec les périphériques audio d&apos;entrée et de sortie disponibles.</p>
     <p>
-      <b
-      >devices = audiodevinfo(&apos;default&apos;)</b> retourne une structure avec les périphériques audio d&apos;entrée et de sortie utilisés par défaut.</p>
+      <b>devices = audiodevinfo(&apos;default&apos;)</b> retourne une structure avec les périphériques audio d&apos;entrée et de sortie utilisés par défaut.</p>
   </description>
   <used_function />
   <bibliography />

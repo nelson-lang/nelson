@@ -21,8 +21,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >cmdsep</b> returns the command separator for current operating system.</p>
+      <b>cmdsep</b> returns the command separator for current operating system.</p>
     <p
     >This function is used by Nelson to build command lines for unix and dos operating systems.</p>
   </description>

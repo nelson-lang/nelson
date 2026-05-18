@@ -22,9 +22,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >hsv = hsvd(sys)</b> calcule les valeurs singulières de Hankel (hsv) pour le système dynamique <b
-      >sys</b>.</p>
+      <b>hsv = hsvd(sys)</b> calcule les valeurs singulières de Hankel (hsv) pour le système dynamique <b>sys</b>.</p>
     <p
     >Ces valeurs singulières sont calculées dans des coordonnées d&apos;état qui équilibrent les transferts d&apos;énergie de l&apos;entrée vers l&apos;état et de l&apos;état vers la sortie.</p>
     <p

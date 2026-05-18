@@ -42,8 +42,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >R = cumprod(M)</b> renvoie le produit cumulatif des éléments du tableau M.</p>
+      <b>R = cumprod(M)</b> renvoie le produit cumulatif des éléments du tableau M.</p>
   </description>
   <used_function />
   <bibliography />

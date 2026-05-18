@@ -27,12 +27,9 @@
   </param_output>
   <description>
     <p>
-      <b
-      >C = gt(A, B)</b> returns a logical array with elements set to logical<b
-      >true</b> A is greater than B.</p>
+      <b>C = gt(A, B)</b> returns a logical array with elements set to logical<b>true</b> A is greater than B.</p>
     <p>
-      <b
-      >gt</b> compare uniquement la partie réelle des tableaux numériques.</p>
+      <b>gt</b> compare uniquement la partie réelle des tableaux numériques.</p>
   </description>
   <used_function />
   <bibliography />

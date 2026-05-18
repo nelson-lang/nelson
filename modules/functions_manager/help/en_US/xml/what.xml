@@ -20,8 +20,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >what</b> returns the list of all builtin and macro available in current Nelson&apos;s session.</p>
+      <b>what</b> returns the list of all builtin and macro available in current Nelson&apos;s session.</p>
   </description>
   <used_function />
   <bibliography />

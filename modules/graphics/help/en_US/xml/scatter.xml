@@ -25,22 +25,22 @@
     </param_input_item>
     <param_input_item>
       <param_name>sz</param_name>
-      <param_description
+      <param_description
       >Marker size: numeric scalar, vector, [] (default: 36)</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>c</param_name>
-      <param_description
+      <param_description
       >Marker color: short color name, color name, RGB triplet or vector of colormap indices</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>ax</param_name>
-      <param_description
+      <param_description
       >a scalar graphics object value: parent container, specified as a axes.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>propertyName</param_name>
-      <param_description
+      <param_description
       >a scalar string or row vector character. see help of &apos;line&apos; for property list.</param_description>
     </param_input_item>
     <param_input_item>
@@ -51,21 +51,17 @@
   <param_output>
     <param_output_item>
       <param_name>s</param_name>
-      <param_description
+      <param_description
       >a graphics object: scatter type or array of scatter.</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p>
-      <b
-      >scatter(x, y)</b> generates a scatter plot by placing circular markers at the coordinates defined by the vectors <b
-      >x</b> and<b>y</b>.</p>
-    <p>If you intend to display a single dataset, ensure that both <b
-      >x</b> and<b>y</b> are vectors of the same length.</p>
-    <p
-    >To visualize multiple datasets on a shared set of axes, you can achieve this by using a matrix for either <b
-      >x</b> or<b>y</b>, while keeping the other as a vector.</p>
-    <p
+      <b>scatter(x, y)</b> generates a scatter plot by placing circular markers at the coordinates defined by the vectors <b>x</b> and<b>y</b>.</p>
+    <p>If you intend to display a single dataset, ensure that both <b>x</b> and<b>y</b> are vectors of the same length.</p>
+    <p
+    >To visualize multiple datasets on a shared set of axes, you can achieve this by using a matrix for either <b>x</b> or<b>y</b>, while keeping the other as a vector.</p>
+    <p
     >This allows you to overlay or compare multiple datasets within the same plot.</p>
     <p />
     <p>Scatter Properties:</p>
@@ -78,8 +74,7 @@
         <td>
           <b>AlphaData</b>
         </td>
-        <td>Marker face transparency, 1 (default) or array the same size as <b
-          >XData</b>
+        <td>Marker face transparency, 1 (default) or array the same size as <b>XData</b>
         </td>
       </tr>
       <tr>
@@ -92,14 +87,14 @@
         <td>
           <b>BusyAction</b>
         </td>
-        <td
+        <td
         >Callback queuing specified as &apos;queue&apos; (default) or &apos;cancel&apos;. The property determines how Nelson handles the execution of interrupting callbacks.</td>
       </tr>
       <tr>
         <td>
           <b>CData</b>
         </td>
-        <td
+        <td
         >Marker colors: [] (default), RGB triplet, matrix of RGB triplets or vector. Marker color to use for each data series: &apos;k&apos;/&apos;black&apos; (Black), &apos;y&apos;/&apos;yellow&apos; (Yellow), &apos;m&apos;/&apos;magenta&apos; (Magenta), &apos;c&apos;/&apos;cyan&apos; (Cyan), &apos;r&apos;/&apos;red&apos; (Red), &apos;b&apos;/&apos;blue&apos; (Blue), &apos;g&apos;/&apos;green&apos; (Green)</td>
       </tr>
       <tr>
@@ -149,7 +144,7 @@
         <td>
           <b>Marker</b>
         </td>
-        <td
+        <td
         >Marker symbol: &apos;o&apos; (Circle), &apos;x&apos; (Times), &apos;+&apos; (Plus), &apos;*&apos; (Asterisk), &apos;.&apos; (Dot), &apos;s&apos; (Square), &apos;d&apos; (Diamond), &apos;v&apos; (Downward-pointing triangle), &apos;^&apos; (Upward-pointing triangle), &apos;
           &gt;
           &apos; (Left-pointing triangle), &apos;
@@ -166,10 +161,8 @@
         <td>
           <b>MarkerEdgeAlpha</b>
         </td>
-        <td
-        >Marker edge transparency: scalar in range [0,1], &apos;flat or 1                                          (default). To assign distinct transparency values to the                                          edges of each point in a plot, set the AlphaData property to                                          a vector matching the size of the <b
-          >XData</b> property and                                          set the <b
-          >MarkerEdgeAlpha</b> property to <b>
+        <td
+        >Marker edge transparency: scalar in range [0,1], &apos;flat or 1                                          (default). To assign distinct transparency values to the                                          edges of each point in a plot, set the AlphaData property to                                          a vector matching the size of the <b>XData</b> property and                                          set the <b>MarkerEdgeAlpha</b> property to <b>
             &apos;flat&apos;
           </b>.</td>
       </tr>
@@ -183,10 +176,8 @@
         <td>
           <b>MarkerFaceAlpha</b>
         </td>
-        <td
-        >Marker face transparency: scalar in range [0,1], &apos;flat or 1 (default). To assign distinct transparency values to the faces of each point in a plot, set the AlphaData property to a vector matching the size of the <b
-          >XData</b> property and set the <b>MarkerFaceAlpha</b> property to <b
-          >
+        <td
+        >Marker face transparency: scalar in range [0,1], &apos;flat or 1 (default). To assign distinct transparency values to the faces of each point in a plot, set the AlphaData property to a vector matching the size of the <b>XData</b> property and set the <b>MarkerFaceAlpha</b> property to <b>
             &apos;flat&apos;
           </b>.</td>
       </tr>
@@ -206,7 +197,7 @@
         <td>
           <b>Tag</b>
         </td>
-        <td
+        <td
         >Object identifier: character vector, string scalar or &apos;
           &apos; (default).</td>
       </tr>
@@ -260,154 +251,154 @@
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description />
-      <example_item_data
-        runnable="adv-cli"
-      ><![CDATA[
-f = figure();
-theta = linspace(0,1,600);
-x = exp(theta).*sin(110*theta);
-y = exp(theta).*cos(110*theta);
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[
+f = figure();
+theta = linspace(0,1,600);
+x = exp(theta).*sin(110*theta);
+y = exp(theta).*cos(110*theta);
 s = scatter(x,y ,'filled');]]></example_item_data>
-      <example_item_img
-        src="../../images/scatter_1.svg"
-        align="middle"
-        generate="true"
+      <example_item_img
+        src="../../images/scatter_1.svg"
+        align="middle"
+        generate="true"
       />
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description />
-      <example_item_data
-        runnable="adv-cli"
-      ><![CDATA[
-f = figure();
-x = linspace(0,3*pi,255);
-y = cos(x) + rand(1,255);
-sz = 1:255;
-c = 1:length(x);
-scatter(x, y, sz, c, 'd', 'filled')
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[
+f = figure();
+x = linspace(0,3*pi,255);
+y = cos(x) + rand(1,255);
+sz = 1:255;
+c = 1:length(x);
+scatter(x, y, sz, c, 'd', 'filled')
 ]]></example_item_data>
-      <example_item_img
-        src="../../images/scatter_2.svg"
-        align="middle"
-        generate="true"
+      <example_item_img
+        src="../../images/scatter_2.svg"
+        align="middle"
+        generate="true"
       />
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description />
-      <example_item_data
-        runnable="adv-cli"
-      ><![CDATA[
-f = figure();
-x = linspace(0, 3*pi, 255);
-y = cos(x) + rand(1, 255);
-c = linspace(1,10,length(x));
-scatter(x, y, [], c, 'filled')
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[
+f = figure();
+x = linspace(0, 3*pi, 255);
+y = cos(x) + rand(1, 255);
+c = linspace(1,10,length(x));
+scatter(x, y, [], c, 'filled')
 ]]></example_item_data>
-      <example_item_img
-        src="../../images/scatter_3.svg"
-        align="middle"
-        generate="true"
+      <example_item_img
+        src="../../images/scatter_3.svg"
+        align="middle"
+        generate="true"
       />
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description />
-      <example_item_data
-        runnable="adv-cli"
-      ><![CDATA[
-f = figure();
-theta = linspace(0,2*pi,244);
-x = sin(theta) + 0.75*rand(1,244);
-y = cos(theta) + 0.75*rand(1,244);
-sz = 45;
-scatter(x,y,sz,'MarkerEdgeColor',[0 .6 .5], 'MarkerFaceColor',[0 .6 .7],  'LineWidth',3.5)
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[
+f = figure();
+theta = linspace(0,2*pi,244);
+x = sin(theta) + 0.75*rand(1,244);
+y = cos(theta) + 0.75*rand(1,244);
+sz = 45;
+scatter(x,y,sz,'MarkerEdgeColor',[0 .6 .5], 'MarkerFaceColor',[0 .6 .7],  'LineWidth',3.5)
 ]]></example_item_data>
-      <example_item_img
-        src="../../images/scatter_4.svg"
-        align="middle"
-        generate="true"
+      <example_item_img
+        src="../../images/scatter_4.svg"
+        align="middle"
+        generate="true"
       />
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description />
-      <example_item_data
-        runnable="adv-cli"
-      ><![CDATA[
-f = figure(),
-x = linspace(0,3*pi,200);
-y = cos(x) + rand(1,200);
-% Top plot
-ax1 = subplot(2,1, 1);
-scatter(ax1,x,y)
-% Bottom plot
-ax2 = subplot(2,1, 2);
-scatter(ax2,x,y,'filled','d')
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[
+f = figure(),
+x = linspace(0,3*pi,200);
+y = cos(x) + rand(1,200);
+% Top plot
+ax1 = subplot(2,1, 1);
+scatter(ax1,x,y)
+% Bottom plot
+ax2 = subplot(2,1, 2);
+scatter(ax2,x,y,'filled','d')
 ]]></example_item_data>
-      <example_item_img
-        src="../../images/scatter_5.svg"
-        align="middle"
-        generate="true"
+      <example_item_img
+        src="../../images/scatter_5.svg"
+        align="middle"
+        generate="true"
       />
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description />
-      <example_item_data
-        runnable="adv-cli"
-      ><![CDATA[
-f = figure();
-x = rand(500,5);
-y = randn(500,5) + (5:5:25);
-s = scatter(x,y, 'filled');
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[
+f = figure();
+x = rand(500,5);
+y = randn(500,5) + (5:5:25);
+s = scatter(x,y, 'filled');
 ]]></example_item_data>
-      <example_item_img
-        src="../../images/scatter_6.svg"
-        align="middle"
-        generate="true"
+      <example_item_img
+        src="../../images/scatter_6.svg"
+        align="middle"
+        generate="true"
       />
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description />
-      <example_item_data
-        runnable="adv-cli"
-      ><![CDATA[
-f = figure();
-% Create figure
-hold on;
-% Settings
-nPoints = 10; % Number of points per marker type
-markers = {'o', '+', '*', 's', 'd', '^', 'v', '>', '<', 'p', 'h'};
-sizesMin = 20; % Minimum size
-sizesMax = 100; % Maximum size
-% X positions
-x = linspace(1, 10, nPoints);
-% Fixed color
-fixedColor = [0 0 0]; % black
-% Plot each marker type
-for m = 1:numel(markers)
-    y = m * ones(size(x)); % Constant Y for each marker type
-    sizes = linspace(sizesMin, sizesMax, nPoints); % Increasing sizes
-    % Scatter points
-    scatter(x, y, sizes, ...
-        'Marker', markers{m}, ...
-        'MarkerEdgeColor', fixedColor, ...
-        'MarkerFaceColor', 'none', ...
-        'LineWidth', 1.5);
-end
-title('Scatter Only - One Line per Marker Type with Increasing Size');
-xlabel('X Axis');
-ylabel('Marker Type Line');
-ylim([0 numel(markers)+1]);
-hold off;
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[
+f = figure();
+% Create figure
+hold on;
+% Settings
+nPoints = 10; % Number of points per marker type
+markers = {'o', '+', '*', 's', 'd', '^', 'v', '>', '<', 'p', 'h'};
+sizesMin = 20; % Minimum size
+sizesMax = 100; % Maximum size
+% X positions
+x = linspace(1, 10, nPoints);
+% Fixed color
+fixedColor = [0 0 0]; % black
+% Plot each marker type
+for m = 1:numel(markers)
+    y = m * ones(size(x)); % Constant Y for each marker type
+    sizes = linspace(sizesMin, sizesMax, nPoints); % Increasing sizes
+    % Scatter points
+    scatter(x, y, sizes, ...
+        'Marker', markers{m}, ...
+        'MarkerEdgeColor', fixedColor, ...
+        'MarkerFaceColor', 'none', ...
+        'LineWidth', 1.5);
+end
+title('Scatter Only - One Line per Marker Type with Increasing Size');
+xlabel('X Axis');
+ylabel('Marker Type Line');
+ylim([0 numel(markers)+1]);
+hold off;
 ]]></example_item_data>
-      <example_item_img
-        src="../images/scatter_7.svg"
-        align="middle"
-        generate="true"
+      <example_item_img
+        src="../images/scatter_7.svg"
+        align="middle"
+        generate="true"
       />
     </example_item>
   </examples>
@@ -429,12 +420,12 @@ hold off;
     </history_item>
     <history_item>
       <history_version>1.12.0</history_version>
-      <history_description
+      <history_description
       >color name and short color name managed.</history_description>
     </history_item>
     <history_item>
       <history_version>1.14.0</history_version>
-      <history_description
+      <history_description
       >Scatter is a graphics object with Properties.</history_description>
     </history_item>
   </history>

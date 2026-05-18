@@ -22,12 +22,8 @@
   </param_output>
   <description>
     <p>
-      <b
-      >options = detectImportOptions(filename)</b> identifies a table in a file and returns an import<b
-      >options</b> object.</p>
-    <p>You can customize this object and use it with<b>readtable</b>, <b
-      >readcell</b> or<b
-      >readmatrix</b> to control how Nelson imports data as a table, cell array, or matrix.</p>
+      <b>options = detectImportOptions(filename)</b> identifies a table in a file and returns an import<b>options</b> object.</p>
+    <p>You can customize this object and use it with<b>readtable</b>, <b>readcell</b> or<b>readmatrix</b> to control how Nelson imports data as a table, cell array, or matrix.</p>
     <p
     >The type of the returned options object depends on the file&apos;s extension.</p>
     <p />
@@ -39,24 +35,19 @@
     <p>
       <b>CommentStyle</b>: Style of comments. example: {&apos;#&apos;}</p>
     <p>
-      <b
-      >EmptyLineRule</b>: Procedure to handle empty lines. example: &apos;skip&apos;
+      <b>EmptyLineRule</b>: Procedure to handle empty lines. example: &apos;skip&apos;
     </p>
     <p>
       <b>VariableNamesLine</b>: Variable names location. example: 1</p>
     <p>
-      <b
-      >VariableNames</b>: Variable names. example: {&apos;Names&apos;
+      <b>VariableNames</b>: Variable names. example: {&apos;Names&apos;
       &apos;Age&apos;
       &apos;Height&apos;
       &apos;Weight&apos;}</p>
     <p>
       <b>RowNamesColumn</b>:  Row names location. example: 0</p>
     <p>
-      <b>DataLines</b>: Data location, <b
-      >[l1 l2]</b> Indicate the range of lines containing the data. <b
-      >l1</b> refers to the first line with data, while <b
-      >l2</b> refers to the last line. example: [2  Inf]</p>
+      <b>DataLines</b>: Data location, <b>[l1 l2]</b> Indicate the range of lines containing the data. <b>l1</b> refers to the first line with data, while <b>l2</b> refers to the last line. example: [2  Inf]</p>
   </description>
   <used_function />
   <bibliography />

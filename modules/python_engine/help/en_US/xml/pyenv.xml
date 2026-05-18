@@ -24,8 +24,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>Use <b
-      >pyenv</b> to modify the default version or execution mode of the Python interpreter, ensuring these adjustments persist across various Nelson sessions.</p>
+    <p>Use <b>pyenv</b> to modify the default version or execution mode of the Python interpreter, ensuring these adjustments persist across various Nelson sessions.</p>
     <p>The value set by<b>pyenv</b> is persistent across Nelson sessions.</p>
     <p />
     <p>Properties:</p>
@@ -38,12 +37,10 @@
     <p>
       <b>Home</b>: string: Home folder</p>
     <p>
-      <b
-      >Status</b>: Process status: &quot;NotLoaded&quot; (default), &quot;Loaded&quot;, &quot;Terminated&quot;
+      <b>Status</b>: Process status: &quot;NotLoaded&quot; (default), &quot;Loaded&quot;, &quot;Terminated&quot;
     </p>
     <p>
-      <b
-      >ExecutionMode</b>: Execution mode: &quot;InProcess&quot; (default) or &quot;OutOfProcess&quot;
+      <b>ExecutionMode</b>: Execution mode: &quot;InProcess&quot; (default) or &quot;OutOfProcess&quot;
     </p>
     <p />
     <p
@@ -63,8 +60,7 @@
     </p>
     <p>All environment variables must exist and valid to be considered.</p>
     <p />
-    <p>On Windows, the <b
-      >pyenv(&apos;Version&apos;, &apos;3.11&apos;)</b> function searches the Windows Registry for the Python version associated with the specified version. It first looks in the HKCU environment, and if not found, it searches in HKLM.</p>
+    <p>On Windows, the <b>pyenv(&apos;Version&apos;, &apos;3.11&apos;)</b> function searches the Windows Registry for the Python version associated with the specified version. It first looks in the HKCU environment, and if not found, it searches in HKLM.</p>
   </description>
   <used_function />
   <bibliography />

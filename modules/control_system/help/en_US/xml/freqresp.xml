@@ -32,11 +32,9 @@
   </param_output>
   <description>
     <p>
-      <b>freqresp</b> computes the frequency response of a dynamic system <b
-      >sys</b> at specified frequencies <b>w</b>.</p>
+      <b>freqresp</b> computes the frequency response of a dynamic system <b>sys</b> at specified frequencies <b>w</b>.</p>
     <p
-    >To acquire magnitude and phase data, along with visual representations of the frequency response, utilize the <b
-      >bode</b> function.</p>
+    >To acquire magnitude and phase data, along with visual representations of the frequency response, utilize the <b>bode</b> function.</p>
   </description>
   <examples>
     <example_item>

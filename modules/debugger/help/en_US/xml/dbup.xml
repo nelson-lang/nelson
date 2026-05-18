@@ -16,12 +16,10 @@
   </param_input>
   <description>
     <p>
-      <b
-      >dbup</b> changes the current workspace and function context to that of the
+      <b>dbup</b> changes the current workspace and function context to that of the
       calling function or script while in debug mode. This allows inspection of the
       caller workspace to understand how input arguments were produced.</p>
-    <p>      Each call to <b
-      >dbup</b> moves one level up the call stack, stopping at the base
+    <p>      Each call to <b>dbup</b> moves one level up the call stack, stopping at the base
       workspace. Execution can continue without returning to the original paused line.</p>
     <p>
       <b>dbup n</b> is equivalent to executing <b>dbup</b>

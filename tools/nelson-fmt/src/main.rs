@@ -192,31 +192,13 @@ fn format_cmake_file(path: &Path, content: &str, verbose: bool) -> String {
 }
 
 /// Format XML content.
+/// Uses basic_cleanup only: normalises line endings and trailing whitespace
+/// without restructuring the document.  The xmlformat crate was previously
+/// used here but it inserts spurious blank lines between elements and splits
+/// inline tags (e.g. <b>) across multiple lines, corrupting the Nelson help
+/// XML files.
 fn format_xml(content: &str) -> String {
-    let formatter = xmlformat::Formatter {
-        compress: false,
-        indent: 2,
-        keep_comments: true,
-        eof_newline: true,
-    };
-    match formatter.format_xml(content) {
-        Ok(s) => {
-            // Remove all trailing whitespace/newlines, then add exactly one newline
-            let trimmed = s.trim_end();
-            let mut result = String::with_capacity(trimmed.len() + 1);
-            result.push_str(trimmed);
-            result.push('\n');
-            result
-        }
-        Err(_) => {
-            // Fallback: also normalize trailing whitespace for unparseable XML
-            let trimmed = content.trim_end();
-            let mut result = String::with_capacity(trimmed.len() + 1);
-            result.push_str(trimmed);
-            result.push('\n');
-            result
-        }
-    }
+    basic_cleanup(content)
 }
 
 /// Format TOML content.
@@ -1344,5 +1326,125 @@ mod tests {
         let _result = resolve_clang_format(tmp.path(), DEFAULT_CLANG_FORMAT_MAJOR_VERSION);
         // If clang-format is on PATH, result is Some; otherwise None.
         // Either way, no panic is the key assertion.
+    }
+
+    // -----------------------------------------------------------------------
+    // format_xml
+    //
+    // format_xml now delegates to basic_cleanup.  The xmlformat crate was
+    // removed because it inserted spurious blank lines between elements and
+    // split inline tags (e.g. <b>) across multiple lines, corrupting the
+    // Nelson help XML files.
+    // -----------------------------------------------------------------------
+
+    #[test]
+    fn format_xml_preserves_well_formed_document() {
+        let input = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n\
+            <xmldoc>\n\
+            \x20 <keyword>foo</keyword>\n\
+            \x20 <description>\n\
+            \x20\x20\x20 <p><b>foo</b>: a function.</p>\n\
+            \x20 </description>\n\
+            </xmldoc>\n";
+        let result = format_xml(input);
+        assert_that(&result).is_equal_to(input.to_string());
+    }
+
+    #[test]
+    fn format_xml_does_not_split_inline_bold_tags() {
+        // xmlformat used to emit "<b\n      >text</b>"; basic_cleanup must not.
+        let input = "<p><b>SliderStep</b>: some description.</p>\n";
+        let result = format_xml(input);
+        assert_that(&result.contains("<b>SliderStep</b>")).is_true();
+        assert_that(&result.contains("<b\n")).is_false();
+    }
+
+    #[test]
+    fn format_xml_does_not_insert_blank_lines_between_elements() {
+        // xmlformat used to insert 8 blank lines between sibling elements.
+        let input = "<xmldoc>\n\
+            \x20 <a>1</a>\n\
+            \x20 <b>2</b>\n\
+            \x20 <c>3</c>\n\
+            </xmldoc>\n";
+        let result = format_xml(input);
+        // No consecutive blank lines should appear
+        assert_that(&result.contains("\n\n\n")).is_false();
+        assert_that(&result).is_equal_to(input.to_string());
+    }
+
+    #[test]
+    fn format_xml_preserves_cdata_content() {
+        let input = "<example_item_data\n\
+            \x20\x20\x20\x20\x20\x20\x20\x20runnable=\"adv-cli\"\n\
+            \x20\x20\x20\x20\x20\x20><![CDATA[\n\
+            f = figure();\n\
+            h = uicontrol(Style='checkbox');\n\
+            ]]></example_item_data>\n";
+        let result = format_xml(input);
+        assert_that(&result.contains("f = figure();")).is_true();
+        assert_that(&result.contains("h = uicontrol(Style='checkbox');")).is_true();
+        // Lines inside CDATA must stay on separate lines, not be joined
+        let f_pos = result.find("f = figure();").unwrap();
+        let h_pos = result.find("h = uicontrol").unwrap();
+        assert_that(&f_pos).is_less_than(h_pos);
+    }
+
+    #[test]
+    fn format_xml_trims_trailing_whitespace_per_line() {
+        let input = "<xmldoc>   \n\x20 <keyword>foo</keyword>   \n</xmldoc>\n";
+        let result = format_xml(input);
+        for line in result.lines() {
+            assert_that(&line.ends_with(' ')).is_false();
+        }
+    }
+
+    #[test]
+    fn format_xml_ensures_single_trailing_newline() {
+        let input = "<xmldoc>\n</xmldoc>\n\n\n";
+        let result = format_xml(input);
+        assert_that(&result.ends_with('\n')).is_true();
+        assert_that(&result.ends_with("\n\n")).is_false();
+    }
+
+    #[test]
+    fn format_xml_normalizes_crlf_to_lf() {
+        let input = "<xmldoc>\r\n\x20 <keyword>foo</keyword>\r\n</xmldoc>\r\n";
+        let result = format_xml(input);
+        assert_that(&result.contains("\r\n")).is_false();
+        assert_that(&result.ends_with('\n')).is_true();
+    }
+
+    #[test]
+    fn format_xml_is_idempotent() {
+        let input = "<xmldoc>\n\
+            \x20 <keyword>bar</keyword>\n\
+            \x20 <description>\n\
+            \x20\x20\x20 <p><b>bar</b>: a description.</p>\n\
+            \x20 </description>\n\
+            </xmldoc>\n";
+        let first = format_xml(input);
+        let second = format_xml(&first);
+        assert_that(&second).is_equal_to(first);
+    }
+
+    #[test]
+    fn process_file_formats_xml_help_file() {
+        let tmp = TempDir::new().unwrap();
+        // simulate a help/en_US/xml path so standard_file_kind returns "xml"
+        let xml_dir = tmp.path().join("help").join("en_US").join("xml");
+        fs::create_dir_all(&xml_dir).unwrap();
+        let file_path = xml_dir.join("doc.xml");
+        let input = "<xmldoc>   \n\x20 <keyword>foo</keyword>   \n</xmldoc>\n\n";
+        fs::write(&file_path, input).unwrap();
+
+        let result = process_file(&file_path, "xml", false, false);
+        assert_that(&result.is_ok()).is_true();
+
+        let content = fs::read_to_string(&file_path).unwrap();
+        // trailing spaces stripped, single trailing newline
+        assert_that(&content.contains("   ")).is_false();
+        assert_that(&content.ends_with('\n')).is_true();
+        assert_that(&content.ends_with("\n\n")).is_false();
     }
 }

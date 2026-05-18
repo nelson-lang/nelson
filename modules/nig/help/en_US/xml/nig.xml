@@ -19,14 +19,12 @@
     </param_input_item>
   </param_input>
   <description>
-    <p>With<b
-      >nig</b>, you can wrap your C/FORTRAN code into a same set, called an gateway, and use them in Nelson as Nelson builtin.</p>
+    <p>With<b>nig</b>, you can wrap your C/FORTRAN code into a same set, called an gateway, and use them in Nelson as Nelson builtin.</p>
   </description>
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >NIG_FUNCTION description</example_item_description>
+      <example_item_description>NIG_FUNCTION description</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[% Nelson Interface Generator (NIG) example

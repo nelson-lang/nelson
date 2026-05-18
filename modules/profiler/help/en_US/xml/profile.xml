@@ -30,22 +30,17 @@
   <description>
     <p>Profiling is a way to measure where Macro function spend times.</p>
     <p>
-      <b
-      >s = profile(&apos;status&apos;)</b> returns a structure with the current status of the profiler.</p>
+      <b>s = profile(&apos;status&apos;)</b> returns a structure with the current status of the profiler.</p>
     <p>
-      <b
-      >p = profile(&apos;info&apos;)</b> returns a structure with collected profiling data.</p>
+      <b>p = profile(&apos;info&apos;)</b> returns a structure with collected profiling data.</p>
     <p>
       <b>profile(&apos;on&apos;)</b> starts profiler.</p>
     <p>
-      <b
-      >profile(&apos;off&apos;)</b> stops profiler. Collected profiling data will be retrieved later with<b
-      >p = profile (&apos;info&apos;)</b>.</p>
+      <b>profile(&apos;off&apos;)</b> stops profiler. Collected profiling data will be retrieved later with<b>p = profile (&apos;info&apos;)</b>.</p>
     <p>
       <b>profile(&apos;clear&apos;)</b> clears collected profiling data.</p>
     <p>
-      <b
-      >profile(&apos;resume&apos;)</b> restarts and continue and extends collected profiling data.</p>
+      <b>profile(&apos;resume&apos;)</b> restarts and continue and extends collected profiling data.</p>
   </description>
   <used_function />
   <bibliography />

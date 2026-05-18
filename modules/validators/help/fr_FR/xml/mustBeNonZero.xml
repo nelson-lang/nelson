@@ -24,8 +24,7 @@
   </param_input>
   <description>
     <p>
-      <b
-      >mustBeNonZero</b> vérifie que la valeur n&apos;est pas zéro ou renvoie une erreur.</p>
+      <b>mustBeNonZero</b> vérifie que la valeur n&apos;est pas zéro ou renvoie une erreur.</p>
   </description>
   <used_function />
   <bibliography />

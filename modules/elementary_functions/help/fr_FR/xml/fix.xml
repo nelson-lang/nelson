@@ -21,8 +21,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >fix</b> renvoie une matrice d&apos;entiers obtenue en arrondissant chaque élément vers zéro.</p>
+      <b>fix</b> renvoie une matrice d&apos;entiers obtenue en arrondissant chaque élément vers zéro.</p>
   </description>
   <used_function />
   <bibliography />

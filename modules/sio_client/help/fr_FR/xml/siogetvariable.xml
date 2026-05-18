@@ -17,8 +17,7 @@
   </param_input>
   <description>
     <p>
-      <b
-      >siogetvariable</b> envoie la valeur d&apos;une variable vers le navigateur web.</p>
+      <b>siogetvariable</b> envoie la valeur d&apos;une variable vers le navigateur web.</p>
   </description>
   <used_function />
   <bibliography />

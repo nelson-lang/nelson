@@ -26,8 +26,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >X = dlyap(A, Q)</b> résout l&apos;équation de Lyapunov en temps discret.</p>
+      <b>X = dlyap(A, Q)</b> résout l&apos;équation de Lyapunov en temps discret.</p>
   </description>
   <examples>
     <example_item>

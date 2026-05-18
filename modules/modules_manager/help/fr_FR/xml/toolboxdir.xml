@@ -21,8 +21,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >toolboxdir</b> est une fonction d&apos;aide qui renvoie le chemin racine d&apos;un module.</p>
+      <b>toolboxdir</b> est une fonction d&apos;aide qui renvoie le chemin racine d&apos;un module.</p>
   </description>
   <used_function />
   <bibliography />

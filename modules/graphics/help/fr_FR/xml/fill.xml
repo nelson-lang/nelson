@@ -47,70 +47,51 @@
   </param_output>
   <description>
     <p>
-      <b
-      >fill(X, Y, C)</b> crée une forme polygonale 2D avec des sommets définis par les coordonnées<b
-      >X</b> et <b>Y</b>, et remplit la forme avec la couleur <b>C</b>.</p>
+      <b>fill(X, Y, C)</b> crée une forme polygonale 2D avec des sommets définis par les coordonnées<b>X</b> et <b>Y</b>, et remplit la forme avec la couleur <b>C</b>.</p>
     <p>
-      <b
-      >fill(..., PropertyName, PropertyValue, ...)</b> définit des propriétés optionnelles pour l&apos;objet fill/patch à l&apos;aide de paires nom-valeur.</p>
+      <b>fill(..., PropertyName, PropertyValue, ...)</b> définit des propriétés optionnelles pour l&apos;objet fill/patch à l&apos;aide de paires nom-valeur.</p>
     <p>
-      <b>go = fill(...)</b> retourne le handle <b
-      >go</b> de l&apos;objet patch créé.</p>
+      <b>go = fill(...)</b> retourne le handle <b>go</b> de l&apos;objet patch créé.</p>
     <p>Paires Nom-Valeur de propriétés :</p>
     <p />
     <p>
-      <b
-      >
+      <b>
         &apos;FaceColor&apos;
-      </b> : couleur de la forme remplie. FaceColor peut être une chaîne de caractères ou un vecteur RGB à 3 éléments. Par défaut : <b
-      >
+      </b> : couleur de la forme remplie. FaceColor peut être une chaîne de caractères ou un vecteur RGB à 3 éléments. Par défaut : <b>
         &apos;flat&apos;
       </b>.</p>
     <p>
-      <b
-      >
+      <b>
         &apos;EdgeColor&apos;
-      </b> : couleur des bords de la forme polygonale. EdgeColor peut être une chaîne de caractères ou un vecteur RGB à 3 éléments. Par défaut : <b
-      >
+      </b> : couleur des bords de la forme polygonale. EdgeColor peut être une chaîne de caractères ou un vecteur RGB à 3 éléments. Par défaut : <b>
         &apos;none&apos;
       </b>.</p>
     <p>
-      <b
-      >
+      <b>
         &apos;LineWidth&apos;
-      </b> : épaisseur des bords de la forme polygonale. Par défaut : <b
-      >0.5</b>.</p>
+      </b> : épaisseur des bords de la forme polygonale. Par défaut : <b>0.5</b>.</p>
     <p>
-      <b
-      >
+      <b>
         &apos;LineStyle&apos;
-      </b> : style des bords de la forme polygonale. LineStyle peut être une chaîne de caractères ou un code de style de ligne. Par défaut : <b
-      >
+      </b> : style des bords de la forme polygonale. LineStyle peut être une chaîne de caractères ou un code de style de ligne. Par défaut : <b>
         &apos;-&apos;
       </b>.</p>
     <p>
-      <b
-      >
+      <b>
         &apos;FaceAlpha&apos;
-      </b> : transparence de la forme remplie. FaceAlpha peut être un scalaire entre 0 et 1. Par défaut : <b
-      >1</b>.</p>
+      </b> : transparence de la forme remplie. FaceAlpha peut être un scalaire entre 0 et 1. Par défaut : <b>1</b>.</p>
     <p>
-      <b
-      >
+      <b>
         &apos;EdgeAlpha&apos;
-      </b> : transparence des bords de la forme polygonale. EdgeAlpha peut être un scalaire entre 0 et 1. Par défaut : <b
-      >1</b>.</p>
+      </b> : transparence des bords de la forme polygonale. EdgeAlpha peut être un scalaire entre 0 et 1. Par défaut : <b>1</b>.</p>
     <p>
       <b>
         &apos;Parent&apos;
-      </b> : handle de l&apos;objet parent pour le patch. Par défaut :<b
-      >gca()</b>.</p>
+      </b> : handle de l&apos;objet parent pour le patch. Par défaut :<b>gca()</b>.</p>
     <p>
-      <b
-      >
+      <b>
         &apos;Vertices&apos;
-      </b> : matrice des coordonnées des sommets. La matrice doit avoir la taille N×2 ou N×3, où N est le nombre de sommets. Par défaut : les coordonnées des sommets sont spécifiées par les arguments<b
-      >X</b>, <b>Y</b> et <b>Z</b> d&apos;entrée.</p>
+      </b> : matrice des coordonnées des sommets. La matrice doit avoir la taille N×2 ou N×3, où N est le nombre de sommets. Par défaut : les coordonnées des sommets sont spécifiées par les arguments<b>X</b>, <b>Y</b> et <b>Z</b> d&apos;entrée.</p>
   </description>
   <used_function />
   <bibliography />

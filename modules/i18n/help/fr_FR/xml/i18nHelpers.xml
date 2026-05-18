@@ -44,21 +44,17 @@
   </param_input>
   <description>
     <p>
-      <b
-      >i18nHelpers</b> fournit des fonctions utilitaires essentielles pour gérer les fichiers d&apos;internationalisation. Les fonctions principales incluent :</p>
-    <p>-<b
-      >
+      <b>i18nHelpers</b> fournit des fonctions utilitaires essentielles pour gérer les fichiers d&apos;internationalisation. Les fonctions principales incluent :</p>
+    <p>-<b>
         &apos;convert&apos;
       </b> : Convertit un fichier template .po/.pot en format JSON pour une manipulation simplifiée.</p>
-    <p>-<b
-      >
+    <p>-<b>
         &apos;merge&apos;
       </b> : Fusionne deux fichiers JSON de traduction. Les entrées de<code
       >jsonFile1</code>sont ajoutées à<code
       >jsonFile2</code>, et les entrées exclusives à<code
       >jsonFile2</code>sont supprimées.</p>
-    <p>-<b
-      >
+    <p>-<b>
         &apos;sort&apos;
       </b> : Trie et organise les entrées d&apos;un fichier JSON de traduction. <code
       >jsonFileA</code> et <code

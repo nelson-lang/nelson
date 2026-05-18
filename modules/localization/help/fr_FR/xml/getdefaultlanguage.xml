@@ -16,8 +16,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >getdefaultlanguage</b> renvoie la langue par défaut utilisée par Nelson.</p>
+      <b>getdefaultlanguage</b> renvoie la langue par défaut utilisée par Nelson.</p>
   </description>
   <used_function />
   <bibliography />

@@ -36,8 +36,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >convertStringsToChars</b> convertit des tableaux de chaînes en tableaux de caractères.</p>
+      <b>convertStringsToChars</b> convertit des tableaux de chaînes en tableaux de caractères.</p>
   </description>
   <used_function />
   <bibliography />

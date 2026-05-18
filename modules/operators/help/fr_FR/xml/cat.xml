@@ -35,9 +35,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >R = cat(dim, M1, M2, ... , MN)</b> renvoie la concaténation de M1, M2, ... , MN le long de la dimension <b
-      >dim</b>.</p>
+      <b>R = cat(dim, M1, M2, ... , MN)</b> renvoie la concaténation de M1, M2, ... , MN le long de la dimension <b>dim</b>.</p>
   </description>
   <used_function />
   <bibliography />

@@ -39,12 +39,10 @@
   </param_output>
   <description>
     <p>
-      <b
-      >assert_istrue</b> lève une erreur si la valeur d&apos;entrée est fausse.</p>
+      <b>assert_istrue</b> lève une erreur si la valeur d&apos;entrée est fausse.</p>
     <p
     >Cette fonction lève également une erreur si l&apos;entrée n&apos;est pas une valeur logique, garantissant la sécurité de type.</p>
-    <p>Lorsque le paramètre optionnel <b
-      >err_msg</b> est fourni, il sera utilisé comme message d&apos;erreur à la place du message par défaut en cas d&apos;échec de l&apos;assertion.</p>
+    <p>Lorsque le paramètre optionnel <b>err_msg</b> est fourni, il sera utilisé comme message d&apos;erreur à la place du message par défaut en cas d&apos;échec de l&apos;assertion.</p>
     <p
     >Cette fonction est essentielle dans les tests unitaires pour vérifier que des conditions sont vraies ou que des opérations logiques retournent le résultat vrai attendu.</p>
   </description>
@@ -53,16 +51,14 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Test qui réussit (3 égal 3 est vrai) :</example_item_description>
+      <example_item_description>Test qui réussit (3 égal 3 est vrai) :</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[assert_istrue(3 == 3)]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Test qui démontre l&apos;échec de l&apos;assertion (3 égal 4 est faux) :</example_item_description>
+      <example_item_description>Test qui démontre l&apos;échec de l&apos;assertion (3 égal 4 est faux) :</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[try
@@ -73,24 +69,21 @@ end]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Test avec une valeur fausse explicite pour montrer l&apos;échec :</example_item_description>
+      <example_item_description>Test avec une valeur fausse explicite pour montrer l&apos;échec :</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[r = assert_istrue(false)]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Utilisation des valeurs de retour pour gérer les résultats d&apos;assertion :</example_item_description>
+      <example_item_description>Utilisation des valeurs de retour pour gérer les résultats d&apos;assertion :</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[[r, msg] = assert_istrue(false)]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Test avec un message d&apos;erreur personnalisé :</example_item_description>
+      <example_item_description>Test avec un message d&apos;erreur personnalisé :</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[[r, msg] = assert_istrue(3 == 4, 'your error message.');
@@ -100,8 +93,7 @@ end]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Exemple montrant une assertion réussie avec une valeur vraie :</example_item_description>
+      <example_item_description>Exemple montrant une assertion réussie avec une valeur vraie :</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[assert_istrue(true);

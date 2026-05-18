@@ -29,8 +29,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <b
-    >count</b> computes the number of occurrences of an pattern.</description>
+    <b>count</b> computes the number of occurrences of an pattern.</description>
   <used_function />
   <bibliography />
   <examples>

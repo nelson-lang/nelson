@@ -21,8 +21,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <b
-    >issingle</b> returns a logical 1 if the argument is a single matrix and a logical 0 otherwise.</description>
+    <b>issingle</b> returns a logical 1 if the argument is a single matrix and a logical 0 otherwise.</description>
   <used_function />
   <bibliography />
   <examples>

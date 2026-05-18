@@ -32,40 +32,32 @@
       <param_name>Nom/Valeur paires</param_name>
       <param_description>options nom/valeur :<ul>
           <li>
-            <b
-            >MinPeakHeight</b>: scalaire numérique, défaut -Inf</li>
+            <b>MinPeakHeight</b>: scalaire numérique, défaut -Inf</li>
           <li>
-            <b
-            >MinPeakProminence</b>: scalaire numérique &gt;= 0, défaut 0</li>
+            <b>MinPeakProminence</b>: scalaire numérique &gt;= 0, défaut 0</li>
           <li
           >
-            <b
-            >Threshold</b>: scalaire numérique &gt;= 0 (distance verticale minimale par rapport à la ligne de base voisine), défaut 0</li>
+            <b>Threshold</b>: scalaire numérique &gt;= 0 (distance verticale minimale par rapport à la ligne de base voisine), défaut 0</li>
           <li
           >
             <b>MinPeakWidth</b>: scalaire numérique &gt;= 0, défaut 0</li>
           <li>
-            <b
-            >MaxPeakWidth</b>: scalaire numérique &gt;= 0, défaut Inf</li>
+            <b>MaxPeakWidth</b>: scalaire numérique &gt;= 0, défaut Inf</li>
           <li>
-            <b
-            >MinPeakDistance</b>: scalaire numérique &gt;= 0 (dans les mêmes unités que X), défaut 0</li>
+            <b>MinPeakDistance</b>: scalaire numérique &gt;= 0 (dans les mêmes unités que X), défaut 0</li>
           <li
           >
-            <b
-            >WidthReference</b>: &apos;halfprom&apos; (par défaut) ou &apos;halfheight&apos;
+            <b>WidthReference</b>: &apos;halfprom&apos; (par défaut) ou &apos;halfheight&apos;
           </li>
           <li
           >
             <b>SortStr</b>: &apos;none&apos; (par défaut), &apos;ascend&apos; ou &apos;descend&apos;
           </li>
           <li>
-            <b
-            >NPeaks</b>: entier positif, nombre maximum de pics à retourner (par défaut Inf)</li>
+            <b>NPeaks</b>: entier positif, nombre maximum de pics à retourner (par défaut Inf)</li>
           <li
           >
-            <b
-            >Annotate</b>: &apos;peaks&apos; (par défaut) ou &apos;extents&apos; (contrôle l&apos;annotation du tracé)</li>
+            <b>Annotate</b>: &apos;peaks&apos; (par défaut) ou &apos;extents&apos; (contrôle l&apos;annotation du tracé)</li>
         </ul>
       </param_description>
     </param_input_item>
@@ -92,8 +84,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >findpeaks</b> localise les maxima locaux (pics) dans un signal unidimensionnel Y.</p>
+      <b>findpeaks</b> localise les maxima locaux (pics) dans un signal unidimensionnel Y.</p>
     <p
     >L&apos;algorithme détecte les pics candidats, les filtre par hauteur et seuil, calcule la prominence et les largeurs, impose une séparation minimale, et retourne les sorties demandées.</p>
     <p
@@ -102,8 +93,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Trouver des pics dans un signal simple</example_item_description>
+      <example_item_description>Trouver des pics dans un signal simple</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[
@@ -114,8 +104,7 @@ findpeaks(y, t, 'MinPeakProminence', 0.3);
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Retourner les largeurs et les prominences</example_item_description>
+      <example_item_description>Retourner les largeurs et les prominences</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[

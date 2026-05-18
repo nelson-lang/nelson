@@ -34,8 +34,7 @@
   </param_output>
   <description>
     <p>Specify char buffer for Nelson output.</p>
-    <p>To turn off output buffering in C, use:<b
-      >engOutputBuffer(ep, NULL, 0);</b>
+    <p>To turn off output buffering in C, use:<b>engOutputBuffer(ep, NULL, 0);</b>
     </p>
   </description>
   <used_function />

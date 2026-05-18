@@ -35,8 +35,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Read/Write table to .nh5 file</example_item_description>
+      <example_item_description>Read/Write table to .nh5 file</example_item_description>
       <example_item_data
       ><![CDATA[% Create a sample table with sensor data
 T = table([1.5; -2.3; 4.7], [0.5; 1.1; -0.7], [-1; 2; 3], 'VariableNames', {'Voltage', 'Current', 'Resistance'});
@@ -51,8 +50,7 @@ T
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Read/Write table to text file</example_item_description>
+      <example_item_description>Read/Write table to text file</example_item_description>
       <example_item_data
       ><![CDATA[% Create a sample table with sensor data
 T = table([1.5; -2.3; 4.7], [0.5; 1.1; -0.7], [-1; 2; 3], 'VariableNames', {'Voltage', 'Current', 'Resistance'});

@@ -37,11 +37,9 @@
   </param_output>
   <description>
     <p>
-      <b
-      >assert_isequal</b> lève une erreur si la valeur calculée n&apos;est pas égale à la valeur attendue.</p>
+      <b>assert_isequal</b> lève une erreur si la valeur calculée n&apos;est pas égale à la valeur attendue.</p>
     <p
-    >Cette fonction effectue un test d&apos;égalité stricte qui vérifie le même type, les mêmes dimensions et les mêmes valeurs. Elle utilise la même logique que la fonction <b
-      >isequaln</b>.</p>
+    >Cette fonction effectue un test d&apos;égalité stricte qui vérifie le même type, les mêmes dimensions et les mêmes valeurs. Elle utilise la même logique que la fonction <b>isequaln</b>.</p>
     <p
     >Contrairement aux opérateurs d&apos;égalité standards, cette fonction gère correctement les valeurs NaN, en les considérant égales lorsque les deux valeurs contiennent NaN aux mêmes positions.</p>
     <p
@@ -54,8 +52,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Test d&apos;égalité de matrices identiques :</example_item_description>
+      <example_item_description>Test d&apos;égalité de matrices identiques :</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[A = eye(3, 3);
@@ -63,8 +60,7 @@ assert_isequal(A, A)]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Test qui démontre la détection de différence de type :</example_item_description>
+      <example_item_description>Test qui démontre la détection de différence de type :</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[A = eye(3, 3);
@@ -77,8 +73,7 @@ end]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Test de gestion de l&apos;égalité avec NaN :</example_item_description>
+      <example_item_description>Test de gestion de l&apos;égalité avec NaN :</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[A = NaN;
@@ -87,8 +82,7 @@ assert_isequal(A, B)]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Utilisation des valeurs de retour pour gérer les résultats d&apos;assertion :</example_item_description>
+      <example_item_description>Utilisation des valeurs de retour pour gérer les résultats d&apos;assertion :</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[[res, msg] = assert_isequal([1, 2, 3], [1, 2, 4]);

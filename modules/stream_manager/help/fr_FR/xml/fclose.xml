@@ -25,8 +25,7 @@
   </param_output>
   <description>
     <p>
-      <b>fclose</b> doit être utilisé pour fermer un fichier ouvert par<b
-      >fopen</b>.</p>
+      <b>fclose</b> doit être utilisé pour fermer un fichier ouvert par<b>fopen</b>.</p>
     <p>
       <b>fclose(&apos;all&apos;)</b> ferme tous les fichiers ouverts par<b>fopen</b>.</p>
   </description>

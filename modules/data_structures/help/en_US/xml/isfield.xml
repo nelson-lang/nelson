@@ -31,8 +31,7 @@
   </param_output>
   <description>
     <p>
-      <b>isfield(A)</b> returns true if <b>name</b> is a fieldname of <b
-      >S</b>.</p>
+      <b>isfield(A)</b> returns true if <b>name</b> is a fieldname of <b>S</b>.</p>
   </description>
   <used_function />
   <bibliography />

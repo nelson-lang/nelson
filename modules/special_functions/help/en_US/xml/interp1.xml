@@ -34,8 +34,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >vq = interp1(x, v, xq)</b> returns interpolated values of a 1-D function at specific query points using linear interpolation.</p>
+      <b>vq = interp1(x, v, xq)</b> returns interpolated values of a 1-D function at specific query points using linear interpolation.</p>
   </description>
   <used_function />
   <bibliography

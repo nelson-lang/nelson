@@ -40,8 +40,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >whos</b> affiche les variables courantes en mémoire ou dans un fichier .nh5 ou .mat.</p>
+      <b>whos</b> affiche les variables courantes en mémoire ou dans un fichier .nh5 ou .mat.</p>
   </description>
   <used_function />
   <bibliography />

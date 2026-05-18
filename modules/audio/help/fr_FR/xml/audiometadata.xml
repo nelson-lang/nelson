@@ -35,11 +35,9 @@
   </param_output>
   <description>
     <p>
-      <b
-      >audiometadata</b> retourne une structure avec les métadonnées d&apos;un fichier audio.</p>
+      <b>audiometadata</b> retourne une structure avec les métadonnées d&apos;un fichier audio.</p>
     <p>
-      <b
-      >audiometadata</b> gère toutes les balises disponibles dans le fichier audio.</p>
+      <b>audiometadata</b> gère toutes les balises disponibles dans le fichier audio.</p>
     <p>De nombreux formats audio sont supportés comme OGG, FLAC, WAV, RAW.</p>
   </description>
   <used_function />

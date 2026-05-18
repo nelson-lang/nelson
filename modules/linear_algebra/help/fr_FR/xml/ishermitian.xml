@@ -25,8 +25,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >ishermitian(x)</b> teste si une matrice est hermitienne ou skew-hermitienne.</p>
+      <b>ishermitian(x)</b> teste si une matrice est hermitienne ou skew-hermitienne.</p>
     <p
     >Une matrice est skew-hermitienne si la transposée conjuguée est égale à l&apos;opposé de la matrice originale.</p>
   </description>

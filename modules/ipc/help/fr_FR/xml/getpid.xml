@@ -31,11 +31,9 @@
   </param_output>
   <description>
     <p>
-      <b
-      >p = getpid()</b> renvoie l&apos;identifiant du processus Nelson courant en cours d&apos;exécution sur l&apos;ordinateur.</p>
+      <b>p = getpid()</b> renvoie l&apos;identifiant du processus Nelson courant en cours d&apos;exécution sur l&apos;ordinateur.</p>
     <p>
-      <b
-      >v = getpid(&apos;available&apos;)</b> renvoie la liste des identifiants des processus Nelson (même architecture) en cours d&apos;exécution pour l&apos;utilisateur courant.</p>
+      <b>v = getpid(&apos;available&apos;)</b> renvoie la liste des identifiants des processus Nelson (même architecture) en cours d&apos;exécution pour l&apos;utilisateur courant.</p>
     <p
     >win64 et win32 sont deux architectures différentes mais elles peuvent s&apos;exécuter en même temps.</p>
   </description>

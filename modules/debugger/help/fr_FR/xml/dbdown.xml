@@ -17,12 +17,9 @@
   </param_input>
   <description>
     <p>
-      <b
-      >dbdown</b> change le contexte de l&apos;espace de travail et de la fonction courante pour celui de la
-      fonction ou du script appelé en mode débogage. Cette commande est l&apos;opposée de<b>dbup</b> et ne peut être utilisée qu&apos;après au moins un appel à <b
-      >dbup</b>.</p>
-    <p>      Chaque appel à <b
-      >dbdown</b> descend d&apos;un niveau dans la pile d&apos;appels, s&apos;arrêtant à l&apos;espace de travail
+      <b>dbdown</b> change le contexte de l&apos;espace de travail et de la fonction courante pour celui de la
+      fonction ou du script appelé en mode débogage. Cette commande est l&apos;opposée de<b>dbup</b> et ne peut être utilisée qu&apos;après au moins un appel à <b>dbup</b>.</p>
+    <p>      Chaque appel à <b>dbdown</b> descend d&apos;un niveau dans la pile d&apos;appels, s&apos;arrêtant à l&apos;espace de travail
       et au contexte de fonction où l&apos;exécution est en pause. L&apos;exécution peut continuer
       sans revenir à la ligne en pause.</p>
     <p>

@@ -30,8 +30,7 @@
     <p>
       <b>ScreenSize</b>: Size of primary display (vector).</p>
     <p>
-      <b
-      >Tag</b>: Object identifier: string scalar, character vector, &apos;
+      <b>Tag</b>: Object identifier: string scalar, character vector, &apos;
       &apos; (default).</p>
     <p>
       <b>Type</b>: Type &apos;root&apos;.</p>

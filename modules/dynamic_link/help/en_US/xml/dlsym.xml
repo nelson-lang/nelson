@@ -37,10 +37,8 @@
   </param_output>
   <description>
     <p>
-      <b
-      >dlsym</b> retrieves the address of an exported function as an dlsym handle.</p>
-    <p>if <b
-      >symbolname</b> not found, nelson try to find symbol equivalent based on these rules and in this order:</p>
+      <b>dlsym</b> retrieves the address of an exported function as an dlsym handle.</p>
+    <p>if <b>symbolname</b> not found, nelson try to find symbol equivalent based on these rules and in this order:</p>
     <p>
       <b>_symbolname</b>
     </p>
@@ -93,16 +91,14 @@ delete(lib);
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Call C getpid function</example_item_description>
+      <example_item_description>Call C getpid function</example_item_description>
       <example_item_data
       ><![CDATA[run([modulepath('dynamic_link'), '/examples/call_c.m']);
 ]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Call fortran DASUM (blas) function</example_item_description>
+      <example_item_description>Call fortran DASUM (blas) function</example_item_description>
       <example_item_data
       ><![CDATA[run([modulepath('dynamic_link'), '/examples/call_fortran.m']);]]></example_item_data>
     </example_item>

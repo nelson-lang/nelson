@@ -27,8 +27,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >C = times(A, B)</b> effectue la multiplication élément par élément : A .* B.</p>
+      <b>C = times(A, B)</b> effectue la multiplication élément par élément : A .* B.</p>
   </description>
   <used_function />
   <bibliography />

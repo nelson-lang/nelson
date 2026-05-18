@@ -22,8 +22,7 @@
   </param_output>
   <description>
     <p>
-      <b>flipud</b> renvoie un nouveau tableau de <b
-      >A</b> inversé de haut en bas.</p>
+      <b>flipud</b> renvoie un nouveau tableau de <b>A</b> inversé de haut en bas.</p>
   </description>
   <used_function />
   <bibliography />

@@ -7,17 +7,13 @@
     <p
     >Vous pouvez affecter une fonction de rappel (callback) à une propriété de callback en utilisant l&apos;une des méthodes suivantes :</p>
     <p>
-      <b
-      >Handle de fonction</b> : Utilisez cette approche lorsque votre callback n&apos;a pas besoin d&apos;arguments supplémentaires.</p>
+      <b>Handle de fonction</b> : Utilisez cette approche lorsque votre callback n&apos;a pas besoin d&apos;arguments supplémentaires.</p>
     <p>
-      <b
-      >Cellule</b> : Idéal lorsque votre callback nécessite des arguments supplémentaires. La cellule doit inclure le handle de fonction comme premier élément, suivi des arguments d&apos;entrée.</p>
+      <b>Cellule</b> : Idéal lorsque votre callback nécessite des arguments supplémentaires. La cellule doit inclure le handle de fonction comme premier élément, suivi des arguments d&apos;entrée.</p>
     <p>
-      <b
-      >Fonction anonyme</b> : Cette méthode convient pour un code de callback simple ou si vous souhaitez réutiliser une fonction qui n&apos;est pas exclusivement utilisée comme callback.</p>
+      <b>Fonction anonyme</b> : Cette méthode convient pour un code de callback simple ou si vous souhaitez réutiliser une fonction qui n&apos;est pas exclusivement utilisée comme callback.</p>
     <p>
-      <b
-      >Vecteur de caractères ou chaîne scalaire</b> contenant des commandes.</p>
+      <b>Vecteur de caractères ou chaîne scalaire</b> contenant des commandes.</p>
     <p />
     <p
     >Nelson permet de contrôler si une fonction de callback peut être interrompue pendant son exécution. Dans certains cas, autoriser les interruptions peut être souhaitable, par exemple pour permettre à l&apos;utilisateur d&apos;arrêter une boucle d&apos;animation via un callback interrompant. Cependant, dans des scénarios où l&apos;ordre d&apos;exécution des callbacks est crucial, il peut être nécessaire d&apos;empêcher les interruptions pour garantir le comportement attendu, comme assurer la réactivité dans des applications qui réagissent aux mouvements du pointeur.</p>
@@ -29,9 +25,7 @@
     <p />
     <p
     >Dans certains cas, des commandes spécifiques dans le callback en cours invitent Nelson à traiter les callbacks en attente dans la file.</p>
-    <p>Lorsque Nelson rencontre l&apos;une de ces commandes comme <b>drawnow</b>, <b
-      >figure</b>, <b>waitfor</b> ou<b
-      >pause</b>, il évalue si une interruption doit avoir lieu.</p>
+    <p>Lorsque Nelson rencontre l&apos;une de ces commandes comme <b>drawnow</b>, <b>figure</b>, <b>waitfor</b> ou<b>pause</b>, il évalue si une interruption doit avoir lieu.</p>
     <p />
     <p
     >Pas d&apos;interruption : Si le callback en cours n&apos;inclut aucune de ces commandes, Nelson termine ce callback avant d&apos;exécuter le callback interrompant.</p>
@@ -39,41 +33,32 @@
     <p
     >Conditions d&apos;interruption : Si le callback en cours inclut l&apos;une de ces commandes, le comportement dépend de la propriété Interruptible de l&apos;objet propriétaire du callback :</p>
     <p />
-    <p>Si <b>Interruptible</b> est à<b
-      >
+    <p>Si <b>Interruptible</b> est à<b>
         &apos;on&apos;
       </b>, Nelson autorise l&apos;interruption. Le callback en cours est mis en pause, le callback interrompant est exécuté, puis Nelson reprend l&apos;exécution du callback initial.</p>
-    <p>Si <b>Interruptible</b> est à<b
-      >
+    <p>Si <b>Interruptible</b> est à<b>
         &apos;off&apos;
-      </b>, l&apos;interruption est bloquée. La propriété <b
-      >BusyAction</b> du callback interrompant détermine alors la suite :</p>
-    <p>Si <b>BusyAction</b> est <b
-      >
+      </b>, l&apos;interruption est bloquée. La propriété <b>BusyAction</b> du callback interrompant détermine alors la suite :</p>
+    <p>Si <b>BusyAction</b> est <b>
         &apos;queue&apos;
       </b>, le callback interrompant sera exécuté après la fin du callback en cours.</p>
-    <p>Si <b>BusyAction</b> est <b
-      >
+    <p>Si <b>BusyAction</b> est <b>
         &apos;cancel&apos;
       </b>, le callback interrompant est ignoré et non exécuté.</p>
     <p>Par défaut, la propriété <b>Interruptible</b> est à <b>
         &apos;on&apos;
-      </b> et <b
-      >BusyAction</b> à <b>
+      </b> et <b>BusyAction</b> à <b>
         &apos;queue&apos;
       </b>.</p>
     <p />
-    <p>À noter : certains callbacks, notamment <b>DeleteFcn</b>, <b
-      >CloseRequestFcn</b> et <b
-      >SizeChangedFcn</b>, interrompent le callback en cours quel que soit la valeur de la propriété Interruptible.</p>
+    <p>À noter : certains callbacks, notamment <b>DeleteFcn</b>, <b>CloseRequestFcn</b> et <b>SizeChangedFcn</b>, interrompent le callback en cours quel que soit la valeur de la propriété Interruptible.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Démo uicontrol Interruptible</example_item_description>
+      <example_item_description>Démo uicontrol Interruptible</example_item_description>
       <example_item_data
         runnable="adv-cli"
       ><![CDATA[

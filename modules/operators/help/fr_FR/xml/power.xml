@@ -27,8 +27,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >C = power(A, B)</b> effectue une opération de puissance élément par élément : A .^ B.</p>
+      <b>C = power(A, B)</b> effectue une opération de puissance élément par élément : A .^ B.</p>
   </description>
   <used_function />
   <bibliography />

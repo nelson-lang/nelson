@@ -30,8 +30,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >last_message = lastwarn()</b> returns a string containing the last warning message.</p>
+      <b>last_message = lastwarn()</b> returns a string containing the last warning message.</p>
     <p>
       <b>lastwarn(&apos;
         &apos;)</b> clears last warning.</p>

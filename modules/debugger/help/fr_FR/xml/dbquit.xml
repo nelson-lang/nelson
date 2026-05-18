@@ -16,8 +16,7 @@
   </param_input>
   <description>
     <p>
-      <b
-      >dbquit</b> termine le mode débogage. La fenêtre de commande revient à l&apos;invite
+      <b>dbquit</b> termine le mode débogage. La fenêtre de commande revient à l&apos;invite
       standard (<code
       >
         &gt;
@@ -27,14 +26,11 @@
       actifs.</p>
     <p>      Si le débogueur est actif dans plus d&apos;une fonction, <b>dbquit</b> quitte
       le mode débogage uniquement pour la fonction active. Les autres fonctions en pause
-      restent en mode débogage jusqu&apos;à ce que <b
-      >dbquit</b> soit appelé à nouveau.</p>
+      restent en mode débogage jusqu&apos;à ce que <b>dbquit</b> soit appelé à nouveau.</p>
     <p>      Si l&apos;exécution est en pause dans une fonction atteinte en entrant dans
-      une autre fonction, <b
-      >dbquit</b> termine le débogage pour les deux fonctions.</p>
+      une autre fonction, <b>dbquit</b> termine le débogage pour les deux fonctions.</p>
     <p>
-      <b
-      >dbquit all</b> termine le débogage pour tous les fichiers simultanément.</p>
+      <b>dbquit all</b> termine le débogage pour tous les fichiers simultanément.</p>
     <p>      Cette fonction ne peut être appelée que depuis la ligne de commande en mode débogage.</p>
   </description>
   <used_function />

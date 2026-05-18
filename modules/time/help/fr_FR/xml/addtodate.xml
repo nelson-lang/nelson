@@ -31,10 +31,7 @@
   </param_output>
   <description>
     <p>
-      <b>r = addtodate(d, q, f)</b> ajoute la quantité<b
-      >q</b> au champ de date indiqué<b
-      >f</b> d&apos;un numéro de date série scalaire <b
-      >d</b>, et renvoie le numéro de date mis à jour <b>r</b>.</p>
+      <b>r = addtodate(d, q, f)</b> ajoute la quantité<b>q</b> au champ de date indiqué<b>f</b> d&apos;un numéro de date série scalaire <b>d</b>, et renvoie le numéro de date mis à jour <b>r</b>.</p>
   </description>
   <used_function />
   <bibliography />

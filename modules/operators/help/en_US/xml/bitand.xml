@@ -34,8 +34,7 @@
   </param_output>
   <description>
     <p>
-      <b>C = bitand(A, B)</b> returns the bit-wise AND of <b>A</b> and<b
-      >B</b>.</p>
+      <b>C = bitand(A, B)</b> returns the bit-wise AND of <b>A</b> and<b>B</b>.</p>
   </description>
   <used_function />
   <bibliography />

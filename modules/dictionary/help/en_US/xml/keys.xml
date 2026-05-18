@@ -22,12 +22,9 @@
   </param_output>
   <description>
     <p>
-      <b
-      >k = keys(d)</b> retrieves an array containing the keys of the specified dictionary,<b
-      >d</b>.</p>
+      <b>k = keys(d)</b> retrieves an array containing the keys of the specified dictionary,<b>d</b>.</p>
     <p>
-      <b
-      >k = keys(d, &apos;cell&apos;)</b> optionally returns the keys as a cell array.</p>
+      <b>k = keys(d, &apos;cell&apos;)</b> optionally returns the keys as a cell array.</p>
   </description>
   <used_function />
   <bibliography />

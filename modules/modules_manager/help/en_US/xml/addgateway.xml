@@ -17,8 +17,7 @@
   <description>
     <p>
       <b>addgateway(dyn_lib_path)</b> adds dynamically builtin at runtime.</p>
-    <p>The dynamic library loaded must have at least an C entry point<b
-      >AddGateway</b>.</p>
+    <p>The dynamic library loaded must have at least an C entry point<b>AddGateway</b>.</p>
     <p>If gateway was already loaded, no error or warning will be raised.</p>
   </description>
   <used_function />
@@ -26,8 +25,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Add gateway for string module:</example_item_description>
+      <example_item_description>Add gateway for string module:</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[addgateway(modulepath('time', 'builtin'))]]></example_item_data>

@@ -47,8 +47,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >assert_isapprox</b> lève une erreur si la valeur calculée n&apos;est pas approximativement égale à la valeur attendue.</p>
+      <b>assert_isapprox</b> lève une erreur si la valeur calculée n&apos;est pas approximativement égale à la valeur attendue.</p>
     <p
     >Cette fonction compare deux nombres à virgule flottante avec une tolérance spécifiée, permettant de vérifier que deux nombres sont « approximativement » égaux lorsque l&apos;égalité exacte n&apos;est pas adaptée à cause des limitations de précision des flottants.</p>
     <p
@@ -61,16 +60,14 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Test d&apos;égalité approximative avec une tolérance de précision suffisante :</example_item_description>
+      <example_item_description>Test d&apos;égalité approximative avec une tolérance de précision suffisante :</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[assert_isapprox(1.23456, 1.23457, 1e-5)]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Test qui échoue lorsque la précision est trop stricte :</example_item_description>
+      <example_item_description>Test qui échoue lorsque la précision est trop stricte :</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[try
@@ -81,8 +78,7 @@ end]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Utilisation des valeurs de retour pour gérer les résultats d&apos;assertion :</example_item_description>
+      <example_item_description>Utilisation des valeurs de retour pour gérer les résultats d&apos;assertion :</example_item_description>
       <example_item_data
       ><![CDATA[[r, msg] = assert_isapprox(1.23456, 1.23457, 1e-6);
 assert_isfalse(r);
@@ -90,8 +86,7 @@ assert_isequal(msg, _('Assertion failed: expected and computed values are too di
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Test avec des matrices :</example_item_description>
+      <example_item_description>Test avec des matrices :</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[A = [1.0001, 2.0002; 3.0003, 4.0004];

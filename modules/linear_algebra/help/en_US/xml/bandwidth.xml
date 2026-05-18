@@ -33,8 +33,7 @@
   </param_output>
   <description>
     <p>
-      <b>[lower, upper] = bandwidth(A)</b> returns <b>lower</b> and<b
-      >upper</b> bandwidths of matrix <b>A</b>.</p>
+      <b>[lower, upper] = bandwidth(A)</b> returns <b>lower</b> and<b>upper</b> bandwidths of matrix <b>A</b>.</p>
   </description>
   <used_function />
   <bibliography />

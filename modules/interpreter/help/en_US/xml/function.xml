@@ -16,16 +16,14 @@
     <p>
       <b>function</b> opens a function definition.</p>
     <p>
-      <b
-      >endfunction</b> closes a function definition (optional, but strongly recommended).</p>
+      <b>endfunction</b> closes a function definition (optional, but strongly recommended).</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >in a file: demo_function.m</example_item_description>
+      <example_item_description>in a file: demo_function.m</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[

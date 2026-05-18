@@ -21,8 +21,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <b
-    >int2str</b> convert un tableau numérique en chaîne au format entier. Les entrées sont arrondies avant la conversion.</description>
+    <b>int2str</b> convert un tableau numérique en chaîne au format entier. Les entrées sont arrondies avant la conversion.</description>
   <used_function />
   <bibliography />
   <examples>

@@ -49,8 +49,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >randi</b> renvoie des entiers aléatoires tirés d&apos;une distribution uniforme discrète.</p>
+      <b>randi</b> renvoie des entiers aléatoires tirés d&apos;une distribution uniforme discrète.</p>
     <p>X = randi(imax) renvoie un entier scalaire aléatoire entre 1 et imax.</p>
     <p
     >X = randi(imax, n) renvoie une matrice n-par-n d&apos;entiers aléatoires entre 1 et imax.</p>

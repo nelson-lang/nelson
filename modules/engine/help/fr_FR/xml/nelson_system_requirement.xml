@@ -8,52 +8,39 @@
     <p>
       <b>Linux</b> :</p>
     <p>
-      <b
-      >Système d&apos;exploitation</b> : Ubuntu 24.04 LTS, Ubuntu 22.04 LTS, Ubuntu 20.04 LTS, Fedora, ArchLinux, NixOs</p>
+      <b>Système d&apos;exploitation</b> : Ubuntu 24.04 LTS, Ubuntu 22.04 LTS, Ubuntu 20.04 LTS, Fedora, ArchLinux, NixOs</p>
     <p>
       <b>Processeur</b> : tout processeur Intel ou AMD x86-64.</p>
     <p>
-      <b
-      >Mémoire (RAM)</b> : voir les exigences du système d&apos;exploitation (16 Go recommandés ou plus).</p>
+      <b>Mémoire (RAM)</b> : voir les exigences du système d&apos;exploitation (16 Go recommandés ou plus).</p>
     <p>
-      <b
-      >Stockage</b> : 1 Go pour l&apos;installation de tous les produits ; un SSD/NVMe est recommandé.</p>
+      <b>Stockage</b> : 1 Go pour l&apos;installation de tous les produits ; un SSD/NVMe est recommandé.</p>
     <p>
-      <b
-      >Graphisme</b> : un GPU avec accélération matérielle et support OpenGL et au moins 1 Go de mémoire est recommandé.</p>
+      <b>Graphisme</b> : un GPU avec accélération matérielle et support OpenGL et au moins 1 Go de mémoire est recommandé.</p>
     <p />
     <p>
       <b>Windows</b> :</p>
     <p>
-      <b
-      >Système d&apos;exploitation</b> : Windows 10, 11 ou Windows Server 2022.</p>
+      <b>Système d&apos;exploitation</b> : Windows 10, 11 ou Windows Server 2022.</p>
     <p>
-      <b
-      >Processeur</b> : tout processeur Intel ou AMD x86-64 avec jeu d&apos;instructions AVX2 (CPU publié à partir de 2015).</p>
+      <b>Processeur</b> : tout processeur Intel ou AMD x86-64 avec jeu d&apos;instructions AVX2 (CPU publié à partir de 2015).</p>
     <p>
-      <b
-      >Mémoire (RAM)</b> : voir les exigences du système d&apos;exploitation (16 Go recommandés ou plus).</p>
+      <b>Mémoire (RAM)</b> : voir les exigences du système d&apos;exploitation (16 Go recommandés ou plus).</p>
     <p>
-      <b
-      >Stockage</b> : 1 Go pour l&apos;installation de tous les produits ; un SSD/NVMe est recommandé.</p>
+      <b>Stockage</b> : 1 Go pour l&apos;installation de tous les produits ; un SSD/NVMe est recommandé.</p>
     <p>
-      <b
-      >Graphisme</b> : un GPU avec accélération matérielle et support OpenGL et au moins 1 Go de mémoire est recommandé.</p>
+      <b>Graphisme</b> : un GPU avec accélération matérielle et support OpenGL et au moins 1 Go de mémoire est recommandé.</p>
     <p />
     <p>
       <b>MacOs</b> :</p>
     <p>
-      <b
-      >Système d&apos;exploitation</b> : macOS Tahoe, macOS Sequoia, macOS Sonoma, macOS Ventura.</p>
+      <b>Système d&apos;exploitation</b> : macOS Tahoe, macOS Sequoia, macOS Sonoma, macOS Ventura.</p>
     <p>
-      <b
-      >Processeur</b> : tout processeur Intel supporté par Apple et tout processeur de la série M.</p>
+      <b>Processeur</b> : tout processeur Intel supporté par Apple et tout processeur de la série M.</p>
     <p>
-      <b
-      >Stockage</b> : 1 Go pour l&apos;installation de tous les produits ; un SSD/NVMe est recommandé.</p>
+      <b>Stockage</b> : 1 Go pour l&apos;installation de tous les produits ; un SSD/NVMe est recommandé.</p>
     <p>
-      <b
-      >Graphisme</b> : tout Mac capable d&apos;exécuter macOS Ventura dispose d&apos;un GPU pouvant exécuter Nelson.</p>
+      <b>Graphisme</b> : tout Mac capable d&apos;exécuter macOS Ventura dispose d&apos;un GPU pouvant exécuter Nelson.</p>
     <p />
   </description>
   <used_function />

@@ -28,8 +28,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >fftshift(X)</b> shift the zero-frequency component to the center of the spectrum.</p>
+      <b>fftshift(X)</b> shift the zero-frequency component to the center of the spectrum.</p>
   </description>
   <used_function />
   <bibliography />

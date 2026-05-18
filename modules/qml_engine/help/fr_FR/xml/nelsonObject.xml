@@ -32,8 +32,7 @@
   </param_input>
   <description>
     <p>
-      <b
-      >nelson</b> contient des méthodes utilisées comme callbacks pour appeler nelson depuis QML</p>
+      <b>nelson</b> contient des méthodes utilisées comme callbacks pour appeler nelson depuis QML</p>
   </description>
   <used_function />
   <bibliography />

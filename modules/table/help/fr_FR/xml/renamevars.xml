@@ -32,17 +32,10 @@
   </param_output>
   <description>
     <p>
-      <b
-      >TB = renamevars(TA, varsNames, newNames)</b> renomme les variables dans la table <b
-      >TA</b> telles que spécifiées par<b
-      >varsNames</b> et leur assigne les nouveaux noms fournis dans<b
-      >newNames</b>.</p>
+      <b>TB = renamevars(TA, varsNames, newNames)</b> renomme les variables dans la table <b>TA</b> telles que spécifiées par<b>varsNames</b> et leur assigne les nouveaux noms fournis dans<b>newNames</b>.</p>
     <p
-    >Vous pouvez également renommer toutes les variables d&apos;une table en assignant de nouveaux noms à sa propriété <b
-      >VariableNames</b> en utilisant <b
-      >T.Properties.VariableNames = newNames</b>.</p>
-    <p>Dans ce cas, <b
-      >newNames</b> doit être un tableau de chaînes ou un tableau de cellules de vecteurs de caractères.</p>
+    >Vous pouvez également renommer toutes les variables d&apos;une table en assignant de nouveaux noms à sa propriété <b>VariableNames</b> en utilisant <b>T.Properties.VariableNames = newNames</b>.</p>
+    <p>Dans ce cas, <b>newNames</b> doit être un tableau de chaînes ou un tableau de cellules de vecteurs de caractères.</p>
   </description>
   <used_function />
   <bibliography />

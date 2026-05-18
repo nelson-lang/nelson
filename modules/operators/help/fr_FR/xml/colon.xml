@@ -31,14 +31,12 @@
   </param_output>
   <description>
     <p>
-      <b
-      >colon</b> crée des vecteurs. C&apos;est une fonction utile pour les boucles, l&apos;extraction et l&apos;insertion.</p>
+      <b>colon</b> crée des vecteurs. C&apos;est une fonction utile pour les boucles, l&apos;extraction et l&apos;insertion.</p>
     <p>
       <b>colon(base, limit)</b> est équivalent à <b>base:limit</b>
     </p>
     <p>
-      <b>colon(base, increment, limit)</b> est équivalent à <b
-      >base:increment:limit</b>
+      <b>colon(base, increment, limit)</b> est équivalent à <b>base:increment:limit</b>
     </p>
   </description>
   <used_function />

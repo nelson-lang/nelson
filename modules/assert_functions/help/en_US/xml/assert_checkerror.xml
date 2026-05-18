@@ -51,12 +51,10 @@
   </param_output>
   <description>
     <p>
-      <b
-      >assert_checkerror</b> verifies that executing a command raises the expected error message.</p>
+      <b>assert_checkerror</b> verifies that executing a command raises the expected error message.</p>
     <p
     >If the command does not raise any error, or if it raises an error with a different message than expected, the assertion fails.</p>
-    <p>When the optional <b
-      >expected_error_identifier</b> parameter is provided, the function also checks that the error identifier matches the expected one.</p>
+    <p>When the optional <b>expected_error_identifier</b> parameter is provided, the function also checks that the error identifier matches the expected one.</p>
     <p
     >This function is particularly useful for unit testing to ensure that invalid inputs or operations properly generate the expected error conditions.</p>
   </description>
@@ -65,16 +63,14 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Test that cos function with no arguments raises the expected error:</example_item_description>
+      <example_item_description>Test that cos function with no arguments raises the expected error:</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[assert_checkerror('cos', _('Wrong number of input arguments.'));]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Example that demonstrates assertion failure with wrong expected message:</example_item_description>
+      <example_item_description>Example that demonstrates assertion failure with wrong expected message:</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[try
@@ -85,16 +81,14 @@ end]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Test with both error message and error identifier:</example_item_description>
+      <example_item_description>Test with both error message and error identifier:</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[assert_checkerror('mustBeFinite(NaN)', _('Value must be finite.'), 'Nelson:validators:mustBeFinite')]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Using return values to handle assertion results:</example_item_description>
+      <example_item_description>Using return values to handle assertion results:</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[[r, msg] = assert_checkerror('cos', _('Wrong number of input arguments.'));

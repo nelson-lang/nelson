@@ -16,8 +16,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >now()</b> renvoie la date et l&apos;heure courantes sous forme d&apos;un numéro de date série.</p>
+      <b>now()</b> renvoie la date et l&apos;heure courantes sous forme d&apos;un numéro de date série.</p>
   </description>
   <used_function />
   <bibliography />

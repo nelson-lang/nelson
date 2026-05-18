@@ -36,10 +36,8 @@
   </param_output>
   <description>
     <p>
-      <b
-      >diff_file</b> compare deux fichiers et renvoie le diff au format unified.</p>
-    <p>Si les fichiers comparés sont identiques, <b
-      >res</b> est une chaîne vide.</p>
+      <b>diff_file</b> compare deux fichiers et renvoie le diff au format unified.</p>
+    <p>Si les fichiers comparés sont identiques, <b>res</b> est une chaîne vide.</p>
   </description>
   <used_function />
   <bibliography />

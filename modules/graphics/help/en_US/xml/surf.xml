@@ -54,8 +54,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >surf</b> creates a 3D surface plot. It can be used to plot data in the form of a matrix or a function of two variables.</p>
+      <b>surf</b> creates a 3D surface plot. It can be used to plot data in the form of a matrix or a function of two variables.</p>
     <p
     >You can customize the appearance of the plot using various options such as color, lighting, and shading.</p>
     <p

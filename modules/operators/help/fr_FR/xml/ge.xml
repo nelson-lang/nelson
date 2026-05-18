@@ -26,12 +26,9 @@
   </param_output>
   <description>
     <p>
-      <b
-      >C = ge(A, B)</b> returns a logical array with elements set to logical<b
-      >true</b> A is greater than or equal to B.</p>
+      <b>C = ge(A, B)</b> returns a logical array with elements set to logical<b>true</b> A is greater than or equal to B.</p>
     <p>
-      <b
-      >ge</b> compare uniquement la partie réelle des tableaux numériques.</p>
+      <b>ge</b> compare uniquement la partie réelle des tableaux numériques.</p>
   </description>
   <used_function />
   <bibliography />

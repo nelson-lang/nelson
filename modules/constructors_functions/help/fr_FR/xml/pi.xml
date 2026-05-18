@@ -10,9 +10,7 @@
   </syntax>
   <description>
     <p>
-      <b
-      >pi</b> retourne le nombre à virgule flottante le plus proche de la valeur de <b
-      >π</b>.</p>
+      <b>pi</b> retourne le nombre à virgule flottante le plus proche de la valeur de <b>π</b>.</p>
   </description>
   <used_function />
   <bibliography />

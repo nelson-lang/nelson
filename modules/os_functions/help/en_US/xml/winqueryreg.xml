@@ -36,16 +36,12 @@
   </param_output>
   <description>
     <p>
-      <b
-      >c = winqueryreg (&apos;name&apos;, rootkey, subkey)</b> returns a cell of strings with key names in rootkey\subkey.</p>
+      <b>c = winqueryreg (&apos;name&apos;, rootkey, subkey)</b> returns a cell of strings with key names in rootkey\subkey.</p>
     <p>
-      <b
-      >v = winqueryreg (rootkey, subkey, value_name)</b> returns the value associated to value_name in rootkey\subkey.</p>
-    <p>If the value is a 32-bit integer,<b
-      >winqueryreg</b> returns the value as int32. If this value is a string, it is a string.</p>
+      <b>v = winqueryreg (rootkey, subkey, value_name)</b> returns the value associated to value_name in rootkey\subkey.</p>
+    <p>If the value is a 32-bit integer,<b>winqueryreg</b> returns the value as int32. If this value is a string, it is a string.</p>
     <p>
-      <b
-      >v = winqueryreg (rootkey, subkey)</b> returns value in rootkey\subkey that has no value name property.</p>
+      <b>v = winqueryreg (rootkey, subkey)</b> returns value in rootkey\subkey that has no value name property.</p>
     <p>Supported root keys:</p>
     <p>
       &apos;HKEY_CLASSES_ROOT&apos;, &apos;HKCR&apos;,</p>

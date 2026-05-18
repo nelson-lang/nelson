@@ -116,19 +116,14 @@
   </param_input>
   <description>
     <p>
-      <b
-      >nelson-cli</b> : terminal basique, sans GUI (pas de dépendance au framework GUI), sans historique, sans complétion (encodage ISO Latin).</p>
+      <b>nelson-cli</b> : terminal basique, sans GUI (pas de dépendance au framework GUI), sans historique, sans complétion (encodage ISO Latin).</p>
     <p>
-      <b
-      >nelson-adv-cli</b> : terminal avancé, console graphique absente, historique et complétion disponibles (support UTF-16).</p>
+      <b>nelson-adv-cli</b> : terminal avancé, console graphique absente, historique et complétion disponibles (support UTF-16).</p>
     <p>
-      <b
-      >nelson-gui</b> : console graphique, historique et complétion disponibles (support UTF-16).</p>
+      <b>nelson-gui</b> : console graphique, historique et complétion disponibles (support UTF-16).</p>
     <p />
-    <p>Si vous avez installé Nelson sur Windows, la variable d&apos;environnement<b
-      >NELSON_RUNTIME_PATH</b> sera définie.</p>
-    <p>Elle permet d&apos;appeler facilement Nelson <b
-      >
+    <p>Si vous avez installé Nelson sur Windows, la variable d&apos;environnement<b>NELSON_RUNTIME_PATH</b> sera définie.</p>
+    <p>Elle permet d&apos;appeler facilement Nelson <b>
         &quot;%NELSON_RUNTIME_PATH%\nelson.bat&quot;
       </b>.</p>
   </description>

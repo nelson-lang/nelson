@@ -32,8 +32,7 @@
     >Par défaut, Nelson n&apos;a pas de compilateur C/C++ défini par défaut sous Windows.</p>
     <p
     >Sur les autres plateformes, on suppose qu&apos;un compilateur C/C++ est disponible et l&apos;appel de cette fonction n&apos;est pas requis.</p>
-    <p>Sous Windows, appelez une fois <b
-      >configuremingw</b> si vous souhaitez utiliser MinGW comme compilateur C par défaut.</p>
+    <p>Sous Windows, appelez une fois <b>configuremingw</b> si vous souhaitez utiliser MinGW comme compilateur C par défaut.</p>
   </description>
   <used_function />
   <bibliography />

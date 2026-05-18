@@ -25,8 +25,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >s = rmfield(st, field)</b> removes the specified field from structure array.</p>
+      <b>s = rmfield(st, field)</b> removes the specified field from structure array.</p>
   </description>
   <used_function />
   <bibliography />

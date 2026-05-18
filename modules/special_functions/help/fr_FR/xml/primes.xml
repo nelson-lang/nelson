@@ -22,8 +22,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >p = primes(n)</b> retourne un vecteur ligne contenant tous les nombres premiers inférieurs ou égaux à n.</p>
+      <b>p = primes(n)</b> retourne un vecteur ligne contenant tous les nombres premiers inférieurs ou égaux à n.</p>
     <p>Le type de données de p est le même que celui de n.</p>
   </description>
   <used_function />

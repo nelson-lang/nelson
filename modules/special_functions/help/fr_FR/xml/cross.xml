@@ -27,8 +27,7 @@
   </param_output>
   <description>
     <p>
-      <b>R = cross(A, B)</b> retourne le produit vectoriel de <b>A</b> et <b
-      >B</b>.</p>
+      <b>R = cross(A, B)</b> retourne le produit vectoriel de <b>A</b> et <b>B</b>.</p>
   </description>
   <used_function />
   <bibliography>https://en.wikipedia.org/wiki/Cross_product</bibliography>

@@ -34,8 +34,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >ancestor</b> retourne le handle de l&apos;ancêtre d&apos;un objet spécifié d&apos;un type donné.</p>
+      <b>ancestor</b> retourne le handle de l&apos;ancêtre d&apos;un objet spécifié d&apos;un type donné.</p>
   </description>
   <used_function />
   <bibliography />

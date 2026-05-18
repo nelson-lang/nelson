@@ -10,15 +10,12 @@
   </syntax>
   <description>
     <p>
-      <b
-      >dbcont</b> reprend l&apos;exécution du fichier après une pause à un point d&apos;arrêt.
+      <b>dbcont</b> reprend l&apos;exécution du fichier après une pause à un point d&apos;arrêt.
       L&apos;exécution continue jusqu&apos;à ce qu&apos;un autre point d&apos;arrêt soit rencontré, qu&apos;une condition de pause soit remplie,
       qu&apos;une erreur se produise ou que l&apos;exécution se termine avec succès.</p>
-    <p>      Utilisez <b
-      >dbcont</b> pour continuer l&apos;exécution après avoir examiné les variables de l&apos;espace de travail ou débogué le code.</p>
+    <p>      Utilisez <b>dbcont</b> pour continuer l&apos;exécution après avoir examiné les variables de l&apos;espace de travail ou débogué le code.</p>
     <p>      Remarque : Si vous souhaitez modifier un fichier pendant le débogage, il est recommandé de quitter d&apos;abord
-      le mode débogage en utilisant <b
-      >dbquit</b> pour éviter un comportement inattendu.</p>
+      le mode débogage en utilisant <b>dbquit</b> pour éviter un comportement inattendu.</p>
   </description>
   <used_function />
   <bibliography />

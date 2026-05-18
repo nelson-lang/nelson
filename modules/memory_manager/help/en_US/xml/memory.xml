@@ -25,8 +25,7 @@
     <p>
       <b>memory</b> get memory information.</p>
     <p>
-      <b
-      >User Memory</b>: returns Maximum Possible Array (MaxPossibleArrayBytes), Memory Available for All Arrays (MemAvailableAllArrays), Memory Used By Nelson (MemUsedNelson).</p>
+      <b>User Memory</b>: returns Maximum Possible Array (MaxPossibleArrayBytes), Memory Available for All Arrays (MemAvailableAllArrays), Memory Used By Nelson (MemUsedNelson).</p>
     <p>
       <b>System Memory</b>:</p>
     <p>VirtualAddressSpace.Available: available swap file space</p>

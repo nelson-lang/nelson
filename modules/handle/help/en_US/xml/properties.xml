@@ -22,8 +22,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <b
-    >properties</b> returns a cell of strings with properties name.</description>
+    <b>properties</b> returns a cell of strings with properties name.</description>
   <used_function />
   <bibliography />
   <see_also>

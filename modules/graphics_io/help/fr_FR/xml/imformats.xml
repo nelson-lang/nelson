@@ -33,22 +33,17 @@
     <p>
       <b>imformats</b> renvoie la liste des formats d&apos;image pris en charge.</p>
     <p>
-      <b
-      >formats = imformats()</b> renvoie la liste des formats d&apos;image pris en charge sous la forme d&apos;un tableau de structures.</p>
+      <b>formats = imformats()</b> renvoie la liste des formats d&apos;image pris en charge sous la forme d&apos;un tableau de structures.</p>
     <p>
-      <b
-      >format = imformats(ext)</b> renvoie la structure du format d&apos;image correspondant à l&apos;extension<b
-      >ext</b>.</p>
+      <b>format = imformats(ext)</b> renvoie la structure du format d&apos;image correspondant à l&apos;extension<b>ext</b>.</p>
     <p>Chaque élément du tableau de structures contient les champs :</p>
     <ul>
       <li>
         <b>ext</b> : extension du format de fichier</li>
       <li>
-        <b
-        >isa</b> : function handle pour tester si le format est pris en charge</li>
+        <b>isa</b> : function handle pour tester si le format est pris en charge</li>
       <li>
-        <b
-        >info</b> : function handle pour obtenir des informations sur le format</li>
+        <b>info</b> : function handle pour obtenir des informations sur le format</li>
       <li>
         <b>description</b> : description du format</li>
       <li>
@@ -56,11 +51,9 @@
       <li>
         <b>write</b> : function handle pour écrire le format</li>
       <li>
-        <b
-        >alpha</b> : scalaire booléen indiquant si le format supporte la transparence</li>
+        <b>alpha</b> : scalaire booléen indiquant si le format supporte la transparence</li>
       <li>
-        <b
-        >multipage</b> : scalaire booléen indiquant si le format supporte les images multipages</li>
+        <b>multipage</b> : scalaire booléen indiquant si le format supporte les images multipages</li>
     </ul>
   </description>
   <used_function />

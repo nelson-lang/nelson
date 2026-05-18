@@ -22,8 +22,7 @@
   </param_input>
   <description>
     <p>
-      <b
-      >profsave</b> exports the profiling data into a series of HTML files.</p>
+      <b>profsave</b> exports the profiling data into a series of HTML files.</p>
     <p>The input profile_info is the structure returned by profile(&apos;info&apos;).</p>
     <p>If unspecified, <b>profsave</b> will use the current profile.</p>
   </description>

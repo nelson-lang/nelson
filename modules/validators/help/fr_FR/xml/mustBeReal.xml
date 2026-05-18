@@ -24,8 +24,7 @@
   </param_input>
   <description>
     <p>
-      <b
-      >mustBeReal</b> vérifie que la valeur est réelle ou renvoie une erreur.</p>
+      <b>mustBeReal</b> vérifie que la valeur est réelle ou renvoie une erreur.</p>
   </description>
   <used_function />
   <bibliography />

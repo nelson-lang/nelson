@@ -26,8 +26,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >C = mtimes(A, B)</b> effectue l&apos;opération de multiplication matricielle : A * B.</p>
+      <b>C = mtimes(A, B)</b> effectue l&apos;opération de multiplication matricielle : A * B.</p>
   </description>
   <used_function />
   <bibliography />

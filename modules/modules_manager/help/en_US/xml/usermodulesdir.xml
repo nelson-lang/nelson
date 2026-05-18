@@ -17,8 +17,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >usermodulesdir</b> is an helper&apos;s function to return path where users modules are saved.</p>
+      <b>usermodulesdir</b> is an helper&apos;s function to return path where users modules are saved.</p>
     <p
     >This path can be overloaded by defining NELSON_EXTERNAL_MODULES_PATH environment variable on your system.</p>
   </description>

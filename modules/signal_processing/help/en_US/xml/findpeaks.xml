@@ -32,23 +32,18 @@
       <param_name>Name/Value pairs</param_name>
       <param_description>name/value options:<ul>
           <li>
-            <b
-            >MinPeakHeight</b>: numeric scalar, default -Inf</li>
+            <b>MinPeakHeight</b>: numeric scalar, default -Inf</li>
           <li>
-            <b
-            >MinPeakProminence</b>: numeric scalar &gt;= 0, default 0</li>
+            <b>MinPeakProminence</b>: numeric scalar &gt;= 0, default 0</li>
           <li>
-            <b
-            >Threshold</b>: numeric scalar &gt;= 0 (min vertical distance from neighbor baseline), default 0</li>
+            <b>Threshold</b>: numeric scalar &gt;= 0 (min vertical distance from neighbor baseline), default 0</li>
           <li
           >
             <b>MinPeakWidth</b>: numeric scalar &gt;= 0, default 0</li>
           <li>
-            <b
-            >MaxPeakWidth</b>: numeric scalar &gt;= 0, default Inf</li>
+            <b>MaxPeakWidth</b>: numeric scalar &gt;= 0, default Inf</li>
           <li>
-            <b
-            >MinPeakDistance</b>: numeric scalar &gt;= 0 (in same units as X), default 0</li>
+            <b>MinPeakDistance</b>: numeric scalar &gt;= 0 (in same units as X), default 0</li>
           <li
           >
             <b>WidthReference</b>: &apos;halfprom&apos; (default) or &apos;halfheight&apos;
@@ -58,12 +53,10 @@
             <b>SortStr</b>: &apos;none&apos; (default), &apos;ascend&apos; or &apos;descend&apos;
           </li>
           <li>
-            <b
-            >NPeaks</b>: positive integer, maximum number of peaks to return (default Inf)</li>
+            <b>NPeaks</b>: positive integer, maximum number of peaks to return (default Inf)</li>
           <li
           >
-            <b
-            >Annotate</b>: &apos;peaks&apos; (default) or &apos;extents&apos; (controls plotting annotation)</li>
+            <b>Annotate</b>: &apos;peaks&apos; (default) or &apos;extents&apos; (controls plotting annotation)</li>
         </ul>
       </param_description>
     </param_input_item>
@@ -90,8 +83,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >findpeaks</b> locates local maxima (peaks) in a one-dimensional signal Y.</p>
+      <b>findpeaks</b> locates local maxima (peaks) in a one-dimensional signal Y.</p>
     <p
     >The algorithm detects candidate peaks, filters them by height and threshold, computes prominence and widths, enforces minimum separation, and returns the requested outputs.</p>
     <p
@@ -100,8 +92,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Find peaks in a simple signal</example_item_description>
+      <example_item_description>Find peaks in a simple signal</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[
@@ -112,8 +103,7 @@ findpeaks(y, t, 'MinPeakProminence', 0.3);
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Return widths and prominences</example_item_description>
+      <example_item_description>Return widths and prominences</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[

@@ -36,13 +36,10 @@
   </param_output>
   <description>
     <p>
-      <b>f = parfeval(bPool, fptr, n, x1, ..., xm)</b> lance la fonction <b
-      >fptr</b> pour s&apos;exécuter en arrière-plan.</p>
-    <p>backgroundPool dispose de <b
-      >NumWorkers</b> workers disponibles. Si davantage de fonctions sont programmées, les fonctions attendent qu&apos;une entrée soit disponible dans le pool.</p>
+      <b>f = parfeval(bPool, fptr, n, x1, ..., xm)</b> lance la fonction <b>fptr</b> pour s&apos;exécuter en arrière-plan.</p>
+    <p>backgroundPool dispose de <b>NumWorkers</b> workers disponibles. Si davantage de fonctions sont programmées, les fonctions attendent qu&apos;une entrée soit disponible dans le pool.</p>
     <p>
-      <b>parfeval</b> exécute la fonction <b
-      >fptr</b> sur un worker en arrière-plan.</p>
+      <b>parfeval</b> exécute la fonction <b>fptr</b> sur un worker en arrière-plan.</p>
   </description>
   <used_function />
   <bibliography />

@@ -35,8 +35,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >diff_file</b> compares two files and returns diff as unified format.</p>
+      <b>diff_file</b> compares two files and returns diff as unified format.</p>
     <p>if compared files are equals, res is an empty string.</p>
   </description>
   <used_function />

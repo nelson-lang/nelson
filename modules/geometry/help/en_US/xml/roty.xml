@@ -23,8 +23,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >roty</b> returns 3x3 transformation matrix for rotations around y-axis.</p>
+      <b>roty</b> returns 3x3 transformation matrix for rotations around y-axis.</p>
   </description>
   <used_function />
   <bibliography

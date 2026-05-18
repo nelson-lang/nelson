@@ -22,8 +22,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >n = numEntries(d)</b> récupère le nombre de paires clé-valeur stockées dans le dictionnaire.</p>
+      <b>n = numEntries(d)</b> récupère le nombre de paires clé-valeur stockées dans le dictionnaire.</p>
     <p>Si d est un dictionnaire non configuré, alors numEntries renvoie 0.</p>
   </description>
   <used_function />

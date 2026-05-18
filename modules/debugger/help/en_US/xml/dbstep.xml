@@ -20,8 +20,7 @@
   </param_input>
   <description>
     <p>
-      <b
-      >dbstep</b> executes the next executable line of the current file during debugging,
+      <b>dbstep</b> executes the next executable line of the current file during debugging,
       skipping breakpoints in functions called by that line.</p>
     <p>
       <b>dbstep in</b> steps into any function called on the current line,

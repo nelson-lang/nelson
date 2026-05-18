@@ -23,8 +23,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >R = fullfile(part1, ... , partN)</b> build full file name from parts.</p>
+      <b>R = fullfile(part1, ... , partN)</b> build full file name from parts.</p>
   </description>
   <used_function />
   <bibliography />

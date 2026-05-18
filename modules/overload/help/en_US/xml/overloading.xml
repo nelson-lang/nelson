@@ -13,16 +13,11 @@
     <p>Overloading Operators:</p>
     <p />
     <p
-    >Each built-in operator corresponds to a specific function name (e.g., the <b
-      >-</b> operator is associated with the minus.m function).</p>
+    >Each built-in operator corresponds to a specific function name (e.g., the <b>-</b> operator is associated with the minus.m function).</p>
     <p
     >You can overload any operator by creating an M-file with the appropriate name within the class directory.</p>
-    <p>For instance, if either <b>A</b> or <b>B</b> is an object of type <b
-      >classname</b>, the expression <b
-      >A - B</b> triggers a call to a function <b
-      >@classname/minus.m</b>, provided it exists.</p>
-    <p>When <b>A</b> and <b
-      >B</b> belong to different classes, Nelson employs precedence rules to determine which method to apply.</p>
+    <p>For instance, if either <b>A</b> or <b>B</b> is an object of type <b>classname</b>, the expression <b>A - B</b> triggers a call to a function <b>@classname/minus.m</b>, provided it exists.</p>
+    <p>When <b>A</b> and <b>B</b> belong to different classes, Nelson employs precedence rules to determine which method to apply.</p>
     <p />
     <p
     >The table below provides a list of function names associated with most of the Nelson operators:</p>
@@ -192,8 +187,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Overload minus operator with double</example_item_description>
+      <example_item_description>Overload minus operator with double</example_item_description>
       <example_item_data
         runnable="false"
       ><![CDATA[% save in @double directory, as minus.m

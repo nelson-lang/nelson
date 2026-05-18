@@ -22,8 +22,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >parsestring</b> analyse une chaîne et renvoie si c&apos;est un script valide, une fonction valide ou une erreur.</p>
+      <b>parsestring</b> analyse une chaîne et renvoie si c&apos;est un script valide, une fonction valide ou une erreur.</p>
   </description>
   <used_function />
   <bibliography />

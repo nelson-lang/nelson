@@ -24,8 +24,7 @@
   </param_input>
   <description>
     <p>
-      <b
-      >mustBeNonNan</b> vérifie que la valeur n&apos;est pas NaN ou renvoie une erreur.</p>
+      <b>mustBeNonNan</b> vérifie que la valeur n&apos;est pas NaN ou renvoie une erreur.</p>
   </description>
   <used_function />
   <bibliography />

@@ -75,29 +75,23 @@
     <p>Sans commit-ish, la branche master sera utilisée.</p>
     <p />
     <p>
-      <b
-      >nmm(&apos;install&apos;, filename_nmz)</b> installe un module externe précompilé.</p>
+      <b>nmm(&apos;install&apos;, filename_nmz)</b> installe un module externe précompilé.</p>
     <p />
     <p>
-      <b
-      >nmm(&apos;load&apos;, module_name)</b> charge un module installé pour la session courante.</p>
+      <b>nmm(&apos;load&apos;, module_name)</b> charge un module installé pour la session courante.</p>
     <p />
     <p>
-      <b
-      >l = nmm(&apos;autoload&apos;, module_name</b> retourne l&apos;état courant d&apos;autoload pour<b
-      >module_name</b>.</p>
+      <b>l = nmm(&apos;autoload&apos;, module_name</b> retourne l&apos;état courant d&apos;autoload pour<b>module_name</b>.</p>
     <p />
     <p>
-      <b
-      >nmm(&apos;autoload&apos;, module_name, state)</b> marque un module installé pour être chargé automatiquement au démarrage.</p>
+      <b>nmm(&apos;autoload&apos;, module_name, state)</b> marque un module installé pour être chargé automatiquement au démarrage.</p>
     <p>Par défaut, les modules sont marqués pour l&apos;autoload.</p>
     <p />
     <p>
       <b>nmm(&apos;uninstall&apos;, module_name)</b> désinstalle un module installé.</p>
     <p />
     <p>
-      <b
-      >nmm(&apos;package&apos;, module_name, destination_dir)</b> empaquette un module dans un fichier zip.</p>
+      <b>nmm(&apos;package&apos;, module_name, destination_dir)</b> empaquette un module dans un fichier zip.</p>
     <p />
   </description>
   <used_function />
@@ -105,8 +99,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Deploy module_skeleton_basic template</example_item_description>
+      <example_item_description>Deploy module_skeleton_basic template</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[if ~ismodule('module_skeleton_basic')
@@ -117,8 +110,7 @@ end]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Package easily a module</example_item_description>
+      <example_item_description>Package easily a module</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[if ~ismodule('module_skeleton_basic')

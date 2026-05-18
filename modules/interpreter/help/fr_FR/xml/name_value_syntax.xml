@@ -11,25 +11,21 @@
   </syntax>
   <description>
     <p
-    >À partir de Nelson 1.15.0, les fonctions peuvent accepter des arguments nom-valeur en utilisant la syntaxe <b
-      >nom=valeur</b>.</p>
+    >À partir de Nelson 1.15.0, les fonctions peuvent accepter des arguments nom-valeur en utilisant la syntaxe <b>nom=valeur</b>.</p>
     <p
     >La nouvelle forme est équivalente à la syntaxe traditionnelle séparée par des virgules et améliore la lisibilité lorsque plusieurs paires nom-valeur apparaissent dans un seul appel.</p>
     <p
-    >Utilisez une seule syntaxe par appel autant que possible. Si vous mélangez les deux formes, chaque argument<b
-      >nom=valeur</b> doit venir après les paires séparées par des virgules, par exemple : plot(x, y, &quot;Color&quot;, &quot;red&quot;, LineWidth=2).</p>
+    >Utilisez une seule syntaxe par appel autant que possible. Si vous mélangez les deux formes, chaque argument<b>nom=valeur</b> doit venir après les paires séparées par des virgules, par exemple : plot(x, y, &quot;Color&quot;, &quot;red&quot;, LineWidth=2).</p>
     <p
     >Inverser cet ordre, comme dans plot(x, y, Color=&quot;red&quot;, &quot;LineWidth&quot;, 2), est invalide.</p>
-    <p>Les noms utilisés avec la syntaxe <b
-      >nom=valeur</b> doivent être des identifiants Nelson valides. Pour les noms contenant des caractères tels que des tirets, continuez à les passer sous forme de paires chaîne/valeur ; par exemple : &quot;allow-empty&quot;, true.</p>
+    <p>Les noms utilisés avec la syntaxe <b>nom=valeur</b> doivent être des identifiants Nelson valides. Pour les noms contenant des caractères tels que des tirets, continuez à les passer sous forme de paires chaîne/valeur ; par exemple : &quot;allow-empty&quot;, true.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Utilisez la syntaxe nom=valeur pour une meilleure lisibilité.</example_item_description>
+      <example_item_description>Utilisez la syntaxe nom=valeur pour une meilleure lisibilité.</example_item_description>
       <example_item_data
         runnable="adv-cli"
       ><![CDATA[
@@ -41,8 +37,7 @@ title("Sine wave with custom style");
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Mélangez les syntaxes uniquement en plaçant les arguments nom=valeur en dernier.</example_item_description>
+      <example_item_description>Mélangez les syntaxes uniquement en plaçant les arguments nom=valeur en dernier.</example_item_description>
       <example_item_data
         runnable="adv-cli"
       ><![CDATA[

@@ -22,8 +22,7 @@
   </param_output>
   <description>
     <p>
-      <b>isglobal</b> returns true if <b
-      >variable_name</b> has been declared as global variable and false otherwise.</p>
+      <b>isglobal</b> returns true if <b>variable_name</b> has been declared as global variable and false otherwise.</p>
   </description>
   <used_function />
   <bibliography />

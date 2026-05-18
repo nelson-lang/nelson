@@ -22,12 +22,9 @@
   </param_output>
   <description>
     <p>
-      <b
-      >v = values(d)</b> retrieves an array containing the values of the specified dictionary,<b
-      >d</b>.</p>
+      <b>v = values(d)</b> retrieves an array containing the values of the specified dictionary,<b>d</b>.</p>
     <p>
-      <b
-      >v = values(d, &apos;cell&apos;)</b> optionally returns the values as a cell array.</p>
+      <b>v = values(d, &apos;cell&apos;)</b> optionally returns the values as a cell array.</p>
   </description>
   <used_function />
   <bibliography />

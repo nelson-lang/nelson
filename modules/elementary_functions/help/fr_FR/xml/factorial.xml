@@ -23,8 +23,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >factorial</b> calcule la fonction factorielle : le produit des entiers 1 * 2 * ... * M.</p>
+      <b>factorial</b> calcule la fonction factorielle : le produit des entiers 1 * 2 * ... * M.</p>
   </description>
   <used_function />
   <bibliography />

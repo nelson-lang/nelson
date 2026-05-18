@@ -57,26 +57,21 @@
   </param_output>
   <description>
     <p>
-      <b
-      >rms</b> returns the root mean square (RMS) value of the input array elements.</p>
+      <b>rms</b> returns the root mean square (RMS) value of the input array elements.</p>
     <p>
       <ul>
         <li>If <b>x</b> is a vector, <b>y</b> is a scalar.</li>
-        <li>If <b>x</b> is a matrix, <b
-          >y</b> is a row vector containing the RMS value for each column (default).</li>
-        <li>If <b>x</b> is a multidimensional array, <b
-          >y</b> contains the RMS values computed along the first array dimension whose size does not equal 1, unless another dimension is specified.</li>
+        <li>If <b>x</b> is a matrix, <b>y</b> is a row vector containing the RMS value for each column (default).</li>
+        <li>If <b>x</b> is a multidimensional array, <b>y</b> contains the RMS values computed along the first array dimension whose size does not equal 1, unless another dimension is specified.</li>
       </ul>
     </p>
     <p>The root mean square value of an array x is:<br />
       <latex
       >\mathrm{RMS}(x) = \sqrt{ \frac{1}{N} \sum_{n=1}^{N} |x_n|^2 }</latex>where the summation is performed along the specified dimension(s), and N is the number of elements along those dimensions.      </p>
     <p>
-      <b
-      >NaN Handling:</b> By default, NaN values are included. Use &apos;omitnan&apos; or &apos;omitmissing&apos; to ignore NaNs.      </p>
+      <b>NaN Handling:</b> By default, NaN values are included. Use &apos;omitnan&apos; or &apos;omitmissing&apos; to ignore NaNs.      </p>
     <p>
-      <b>Type Handling:</b> If <b
-      >type</b> is &apos;native&apos;, the computation and output use the same class as the input (e.g., integer input returns integer output).      </p>
+      <b>Type Handling:</b> If <b>type</b> is &apos;native&apos;, the computation and output use the same class as the input (e.g., integer input returns integer output).      </p>
   </description>
   <used_function />
   <bibliography />
@@ -95,8 +90,7 @@ y = rms(x)
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >RMS Values of Matrix Columns</example_item_description>
+      <example_item_description>RMS Values of Matrix Columns</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[
@@ -107,8 +101,7 @@ y = rms(x)
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >RMS Values of Matrix Rows</example_item_description>
+      <example_item_description>RMS Values of Matrix Rows</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[
@@ -119,8 +112,7 @@ y = rms(x,2)
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >RMS Excluding Missing Values</example_item_description>
+      <example_item_description>RMS Excluding Missing Values</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[
@@ -131,8 +123,7 @@ y = rms(x,"omitnan")
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >RMS with Integer Input and Native Output</example_item_description>
+      <example_item_description>RMS with Integer Input and Native Output</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[

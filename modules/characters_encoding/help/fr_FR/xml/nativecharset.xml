@@ -23,8 +23,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >nativecharset</b> trouve tous les jeux de caractères qui semblent cohérents avec l&apos;entrée, retournant une cellule de chaînes avec les résultats.</p>
+      <b>nativecharset</b> trouve tous les jeux de caractères qui semblent cohérents avec l&apos;entrée, retournant une cellule de chaînes avec les résultats.</p>
     <p
     >Les résultats sont ordonnés avec la meilleure correspondance de qualité en premier.</p>
     <p>Liste des jeux de caractères :<a

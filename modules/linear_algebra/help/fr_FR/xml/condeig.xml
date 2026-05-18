@@ -24,9 +24,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >C = condeig(A)</b> retourne un vecteur de nombres de condition pour les valeurs propres de <b
-      >A</b>.</p>
+      <b>C = condeig(A)</b> retourne un vecteur de nombres de condition pour les valeurs propres de <b>A</b>.</p>
   </description>
   <used_function />
   <bibliography />

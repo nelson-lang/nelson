@@ -16,10 +16,8 @@
   </param_input>
   <description>
     <p>
-      <b>qml_addimportpath</b> ajoute <b
-      >path</b> comme répertoire où le moteur recherche les modules installés dans une structure de répertoires basée sur des URL.</p>
-    <p>Le chemin nouvellement ajouté sera placé en tête de <b
-      >qml_importpathlist</b>.</p>
+      <b>qml_addimportpath</b> ajoute <b>path</b> comme répertoire où le moteur recherche les modules installés dans une structure de répertoires basée sur des URL.</p>
+    <p>Le chemin nouvellement ajouté sera placé en tête de <b>qml_importpathlist</b>.</p>
   </description>
   <used_function />
   <bibliography />

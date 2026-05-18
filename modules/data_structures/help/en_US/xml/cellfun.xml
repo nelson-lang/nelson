@@ -63,8 +63,7 @@ f = str2func('size');
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >functions to define for next example:</example_item_description>
+      <example_item_description>functions to define for next example:</example_item_description>
       <example_item_data
       ><![CDATA[function r = fun1(x, y)
 r = x > y;

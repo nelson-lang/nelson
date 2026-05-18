@@ -26,8 +26,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >rank(A)</b> returns the number of linearly independent columns in a matrix (rank of the matrix).</p>
+      <b>rank(A)</b> returns the number of linearly independent columns in a matrix (rank of the matrix).</p>
   </description>
   <used_function />
   <bibliography />

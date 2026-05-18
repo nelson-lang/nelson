@@ -29,9 +29,7 @@
   </param_output>
   <description>
     <p>
-      <b>sys = feedback(sys1, sys2)</b> génère un objet modèle,<b
-      >sys</b>, représentant l&apos;interconnexion en rétroaction négative des objets modèle <b
-      >sys1</b> et <b>sys2</b>.</p>
+      <b>sys = feedback(sys1, sys2)</b> génère un objet modèle,<b>sys</b>, représentant l&apos;interconnexion en rétroaction négative des objets modèle <b>sys1</b> et <b>sys2</b>.</p>
   </description>
   <examples>
     <example_item>

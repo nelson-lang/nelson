@@ -26,8 +26,7 @@
     <p>
       <b>memory</b> fournit des informations sur la mémoire.</p>
     <p>
-      <b
-      >Mémoire utilisateur</b> : renvoie Maximum Possible Array (MaxPossibleArrayBytes), Memory Available for All Arrays (MemAvailableAllArrays), Memory Used By Nelson (MemUsedNelson).</p>
+      <b>Mémoire utilisateur</b> : renvoie Maximum Possible Array (MaxPossibleArrayBytes), Memory Available for All Arrays (MemAvailableAllArrays), Memory Used By Nelson (MemUsedNelson).</p>
     <p>
       <b>Mémoire système</b> :</p>
     <p>VirtualAddressSpace.Available : espace d&apos;échange disponible</p>

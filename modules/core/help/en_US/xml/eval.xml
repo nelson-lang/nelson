@@ -31,8 +31,7 @@
   <description>
     <p>
       <b>eval</b> executes Nelson instructions given in a string.</p>
-    <p>Please use <b>try catch end</b> block instead than <b
-      >eval</b>, if you need to capture an error message for higher performance.</p>
+    <p>Please use <b>try catch end</b> block instead than <b>eval</b>, if you need to capture an error message for higher performance.</p>
   </description>
   <used_function />
   <bibliography />
@@ -46,8 +45,7 @@
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >This example will fail and returns an error message.</example_item_description>
+      <example_item_description>This example will fail and returns an error message.</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[C = eval('B=4')]]></example_item_data>
@@ -61,8 +59,7 @@
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >This example will not fail and return false.</example_item_description>
+      <example_item_description>This example will not fail and return false.</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[eval('error(''blabla'')', 'l = lasterror(); disp([''lasterror message: '', l.message])')]]></example_item_data>

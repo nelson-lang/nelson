@@ -28,14 +28,11 @@
   </param_output>
   <description>
     <p>
-      <b
-      >names = fieldnames(st)</b> renvoie un tableau cellulaire de chaînes contenant les noms des champs de la structure d&apos;entrée.</p>
+      <b>names = fieldnames(st)</b> renvoie un tableau cellulaire de chaînes contenant les noms des champs de la structure d&apos;entrée.</p>
     <p>
-      <b
-      >names = fieldnames(h)</b> renvoie un tableau cellulaire de chaînes contenant les noms des propriétés du handle (sans les propriétés cachées).</p>
+      <b>names = fieldnames(h)</b> renvoie un tableau cellulaire de chaînes contenant les noms des propriétés du handle (sans les propriétés cachées).</p>
     <p>
-      <b
-      >names = fieldnames(h, &apos;-full&apos;)</b> renvoie un tableau cellulaire de chaînes contenant les noms de toutes les propriétés du handle.</p>
+      <b>names = fieldnames(h, &apos;-full&apos;)</b> renvoie un tableau cellulaire de chaînes contenant les noms de toutes les propriétés du handle.</p>
   </description>
   <used_function />
   <bibliography />

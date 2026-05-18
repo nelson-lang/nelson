@@ -25,11 +25,9 @@
   </param_output>
   <description>
     <p>
-      <b
-      >loadenv(filename)</b> charge les variables d&apos;environnement à partir d&apos;un fichier .env ou texte brut en analysant une paire clé-valeur par ligne et les définit comme variables d&apos;environnement dans l&apos;environnement Nelson.</p>
+      <b>loadenv(filename)</b> charge les variables d&apos;environnement à partir d&apos;un fichier .env ou texte brut en analysant une paire clé-valeur par ligne et les définit comme variables d&apos;environnement dans l&apos;environnement Nelson.</p>
     <p>
-      <b
-      >D = loadenv(filename)</b> renvoie un dictionnaire contenant les paires clé-valeur analysées. Lorsqu&apos;un argument de sortie est spécifié, loadenv ne modifie pas l&apos;environnement Nelson.</p>
+      <b>D = loadenv(filename)</b> renvoie un dictionnaire contenant les paires clé-valeur analysées. Lorsqu&apos;un argument de sortie est spécifié, loadenv ne modifie pas l&apos;environnement Nelson.</p>
   </description>
   <used_function />
   <bibliography />

@@ -32,13 +32,9 @@
   </param_output>
   <description>
     <p>
-      <b>B = afterEach(F, fcn, n)</b> renvoie un objet AfterEachFuture <b
-      >B</b>.</p>
-    <p>La fonction<b
-      >fcn</b> est automatiquement exécutée après chaque élément du tableau Future <b
-      >F</b> lorsqu&apos;il est terminé.</p>
-    <p>Si l&apos;un des éléments de <b>F</b> rencontre une erreur, la propriété <b
-      >Error</b> de <b>B</b> contient l&apos;erreur.</p>
+      <b>B = afterEach(F, fcn, n)</b> renvoie un objet AfterEachFuture <b>B</b>.</p>
+    <p>La fonction<b>fcn</b> est automatiquement exécutée après chaque élément du tableau Future <b>F</b> lorsqu&apos;il est terminé.</p>
+    <p>Si l&apos;un des éléments de <b>F</b> rencontre une erreur, la propriété <b>Error</b> de <b>B</b> contient l&apos;erreur.</p>
   </description>
   <used_function />
   <bibliography />

@@ -31,8 +31,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >loadmat</b> charge des données depuis un fichier .mat vers l&apos;espace de travail de Nelson.</p>
+      <b>loadmat</b> charge des données depuis un fichier .mat vers l&apos;espace de travail de Nelson.</p>
   </description>
   <used_function />
   <bibliography

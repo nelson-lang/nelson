@@ -34,8 +34,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >ancestor</b> returns the handle of the specified object&apos;s ancestor of a given type.</p>
+      <b>ancestor</b> returns the handle of the specified object&apos;s ancestor of a given type.</p>
   </description>
   <used_function />
   <bibliography />

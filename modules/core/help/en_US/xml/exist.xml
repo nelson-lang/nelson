@@ -28,8 +28,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >exists</b> checks for the existence of variable, builtin, file or directory.</p>
+      <b>exists</b> checks for the existence of variable, builtin, file or directory.</p>
     <p>
       <b>exists</b> returns:</p>
     <p>

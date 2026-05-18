@@ -40,8 +40,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >randn</b> renvoie une matrice dont les éléments sont distribués normalement avec une moyenne nulle et une variance unitaire.</p>
+      <b>randn</b> renvoie une matrice dont les éléments sont distribués normalement avec une moyenne nulle et une variance unitaire.</p>
     <p>Par défaut, <b>randn</b> utilise l&apos;algorithme ziggurat.</p>
     <p>La graine (seed) peut être modifiée en utilisant <b>rng</b>.</p>
   </description>

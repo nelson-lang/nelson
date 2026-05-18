@@ -28,8 +28,7 @@
   </param_output>
   <description>
     <p>
-      <b>endsWith</b> returns <b>true</b> if <b>str</b> ends with<b
-      >pattern</b>.</p>
+      <b>endsWith</b> returns <b>true</b> if <b>str</b> ends with<b>pattern</b>.</p>
   </description>
   <used_function />
   <bibliography />

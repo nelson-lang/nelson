@@ -23,11 +23,9 @@
   </param_output>
   <description>
     <p>
-      <b
-      >bin2num</b> convertit un tableau de caractères binaires en tableau numérique.</p>
+      <b>bin2num</b> convertit un tableau de caractères binaires en tableau numérique.</p>
     <p>Remarques :</p>
-    <p>-<b
-      >num2bin</b> renvoie toujours les représentations binaires en colonne.</p>
+    <p>-<b>num2bin</b> renvoie toujours les représentations binaires en colonne.</p>
     <p>- <b>bin2num</b> et<b>num2bin</b> sont mutuellement inverses.</p>
   </description>
   <used_function>C++ std::bitset</used_function>

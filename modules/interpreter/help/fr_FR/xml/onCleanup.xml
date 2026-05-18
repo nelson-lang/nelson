@@ -25,11 +25,9 @@
   </param_output>
   <description>
     <p>
-      <b
-      >onCleanup</b> crée un objet qui exécute un handle de fonction spécifié lorsque l&apos;objet est effacé ou sort de la portée, permettant ainsi d&apos;effectuer automatiquement des tâches de nettoyage à la fin de l&apos;exécution d&apos;une fonction.</p>
+      <b>onCleanup</b> crée un objet qui exécute un handle de fonction spécifié lorsque l&apos;objet est effacé ou sort de la portée, permettant ainsi d&apos;effectuer automatiquement des tâches de nettoyage à la fin de l&apos;exécution d&apos;une fonction.</p>
     <p>
-      <b>cancel(obj)</b> ou <b
-      >obj.cancel()</b> empêche l&apos;exécution de la fonction de nettoyage.</p>
+      <b>cancel(obj)</b> ou <b>obj.cancel()</b> empêche l&apos;exécution de la fonction de nettoyage.</p>
   </description>
   <used_function />
   <bibliography />

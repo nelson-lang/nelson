@@ -27,8 +27,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >[Z, gain] = zero(sys)</b> renvoie les zéros et le gain du système SISO fourni.</p>
+      <b>[Z, gain] = zero(sys)</b> renvoie les zéros et le gain du système SISO fourni.</p>
   </description>
   <examples>
     <example_item>

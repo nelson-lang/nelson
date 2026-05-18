@@ -38,9 +38,7 @@
     <p>
       <b>num2str</b> convertit des nombres en tableau de caractères.</p>
     <p>
-      <b
-      >num2str</b> supprime les espaces en tête d&apos;un tableau de caractères. Pour un meilleur contrôle du résultat, utilisez<b
-      >sprintf</b>.</p>
+      <b>num2str</b> supprime les espaces en tête d&apos;un tableau de caractères. Pour un meilleur contrôle du résultat, utilisez<b>sprintf</b>.</p>
   </description>
   <used_function />
   <bibliography />

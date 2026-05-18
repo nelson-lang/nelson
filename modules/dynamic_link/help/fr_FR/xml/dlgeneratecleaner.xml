@@ -23,16 +23,14 @@
   </param_input>
   <description>
     <p>
-      <b
-      >dlgeneratecleaner</b> génère un fichier &apos;cleaner.m&apos; pour supprimer des fichiers.</p>
+      <b>dlgeneratecleaner</b> génère un fichier &apos;cleaner.m&apos; pour supprimer des fichiers.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >See module skeleton for example</example_item_description>
+      <example_item_description>See module skeleton for example</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[

@@ -35,8 +35,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >ifft(X)</b> computes the inverse discrete Fourier transform of X using a Fast Fourier Transform (FFT) algorithm based on FFTW library.</p>
+      <b>ifft(X)</b> computes the inverse discrete Fourier transform of X using a Fast Fourier Transform (FFT) algorithm based on FFTW library.</p>
   </description>
   <used_function />
   <bibliography />

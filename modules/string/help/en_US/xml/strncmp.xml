@@ -32,8 +32,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <b
-    >strncmp</b> compares the first n characters of two strings (case sensitive).</description>
+    <b>strncmp</b> compares the first n characters of two strings (case sensitive).</description>
   <used_function />
   <bibliography />
   <examples>

@@ -21,14 +21,12 @@
     </param_input_item>
   </param_input>
   <description>
-    <p>Avec<b
-      >nig</b>, vous pouvez encapsuler votre code C/FORTRAN dans un ensemble (gateway) et l&apos;utiliser dans Nelson comme des fonctions natives (builtin).</p>
+    <p>Avec<b>nig</b>, vous pouvez encapsuler votre code C/FORTRAN dans un ensemble (gateway) et l&apos;utiliser dans Nelson comme des fonctions natives (builtin).</p>
   </description>
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >NIG_FUNCTION description</example_item_description>
+      <example_item_description>NIG_FUNCTION description</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[% Nelson Interface Generator (NIG) exemple

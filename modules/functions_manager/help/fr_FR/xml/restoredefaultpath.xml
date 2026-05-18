@@ -10,8 +10,7 @@
   </syntax>
   <description>
     <p>
-      <b
-      >restoredefaultpath</b> restaure le chemin de recherche de Nelson à son état de démarrage.</p>
+      <b>restoredefaultpath</b> restaure le chemin de recherche de Nelson à son état de démarrage.</p>
   </description>
   <used_function />
   <bibliography />

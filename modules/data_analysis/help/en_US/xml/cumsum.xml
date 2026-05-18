@@ -40,8 +40,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >R = cumsum(M)</b> returns the cumulative sum of the array elements of M.</p>
+      <b>R = cumsum(M)</b> returns the cumulative sum of the array elements of M.</p>
   </description>
   <used_function />
   <bibliography />

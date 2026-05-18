@@ -26,11 +26,9 @@
   </param_output>
   <description>
     <p>
-      <b
-      >format(new_style)</b> modifie le format d&apos;affichage et l&apos;impression des nombres pour la session courante.</p>
+      <b>format(new_style)</b> modifie le format d&apos;affichage et l&apos;impression des nombres pour la session courante.</p>
     <p>
-      <b
-      >format(&apos;default&apos;)</b> réinitialise le format par défaut (short, loose).</p>
+      <b>format(&apos;default&apos;)</b> réinitialise le format par défaut (short, loose).</p>
     <p />
     <p>Styles pris en charge :</p>
     <p>

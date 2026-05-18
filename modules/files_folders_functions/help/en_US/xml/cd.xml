@@ -26,11 +26,9 @@
   <description>
     <p>Changes the current working directory to dirname.</p>
     <p>
-      <b
-      >a = cd()</b> without input argument returns the current working directory.</p>
+      <b>a = cd()</b> without input argument returns the current working directory.</p>
     <p>
-      <b
-      >cd()</b> without input argument displays the current working directory.</p>
+      <b>cd()</b> without input argument displays the current working directory.</p>
     <p />
   </description>
   <used_function />

@@ -7,10 +7,8 @@
     <p>
       <b>Insertion into a Table</b>
     </p>
-    <p>To insert new data into a table, use dot notation or curly braces<b
-      >{}</b> for specific element-wise insertion. You can add new rows, columns, or update existing data.</p>
-    <p>see examples: <b>Adding a New Column</b> and<b
-      >Updating an Existing Element</b>
+    <p>To insert new data into a table, use dot notation or curly braces<b>{}</b> for specific element-wise insertion. You can add new rows, columns, or update existing data.</p>
+    <p>see examples: <b>Adding a New Column</b> and<b>Updating an Existing Element</b>
     </p>
     <p />
     <p>
@@ -18,8 +16,7 @@
     </p>
     <p
     >You can extract specific rows, columns, or individual elements using indexing or by referencing variable names.</p>
-    <p>see examples: <b>Extracting Specific Columns</b> and<b
-      >Extracting Specific Rows</b>
+    <p>see examples: <b>Extracting Specific Columns</b> and<b>Extracting Specific Rows</b>
     </p>
     <p />
     <p>
@@ -49,8 +46,7 @@
     <p>
       <b>Convert variable types</b>
     </p>
-    <p>You can convert table variables by using the <b
-      >VariableTypes</b> property.</p>
+    <p>You can convert table variables by using the <b>VariableTypes</b> property.</p>
     <p>see examples: <b>VariableTypes</b> example</p>
     <p />
     <p>
@@ -73,8 +69,7 @@ T.Score = [10; 20]
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Updating an Existing Element</example_item_description>
+      <example_item_description>Updating an Existing Element</example_item_description>
       <example_item_data
       ><![CDATA[T = table([1; 2], {'A'; 'B'}, 'VariableNames', {'ID', 'Label'})
 % Insert a new column 'Score'
@@ -85,8 +80,7 @@ T{1, 'Score'} = 15
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Extracting Specific Columns</example_item_description>
+      <example_item_description>Extracting Specific Columns</example_item_description>
       <example_item_data
       ><![CDATA[T = table([1; 2], {'A'; 'B'}, 'VariableNames', {'ID', 'Label'})
 % Insert a new column 'Score'
@@ -99,8 +93,7 @@ ID_column = T.ID
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Extracting Specific Rows</example_item_description>
+      <example_item_description>Extracting Specific Rows</example_item_description>
       <example_item_data
       ><![CDATA[T = table([1; 2], {'A'; 'B'}, 'VariableNames', {'ID', 'Label'})
 % Insert a new column 'Score'
@@ -135,8 +128,7 @@ T(2, :) = [];
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Horizontal Concatenation</example_item_description>
+      <example_item_description>Horizontal Concatenation</example_item_description>
       <example_item_data
       ><![CDATA[% Create two tables with the same number of rows
 T1 = table([1; 2], {'A'; 'B'}, 'VariableNames', {'ID', 'Label'});
@@ -148,8 +140,7 @@ T_horz = [T1, T2]  % or T_horz = horzcat(T1, T2);
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Vertical Concatenation</example_item_description>
+      <example_item_description>Vertical Concatenation</example_item_description>
       <example_item_data
       ><![CDATA[T1 = table([1; 2], {'A'; 'B'}, 'VariableNames', {'ID', 'Label'});
 % Create two tables with the same column names
@@ -161,8 +152,7 @@ T_vert = [T1; T3]  % or T_vert = vertcat(T1, T3)
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Convert variable types</example_item_description>
+      <example_item_description>Convert variable types</example_item_description>
       <example_item_data
       ><![CDATA[Names = {'John'; 'Alice'; 'Bob'; 'Diana'};
 Age = [28; 34; 22; 30];

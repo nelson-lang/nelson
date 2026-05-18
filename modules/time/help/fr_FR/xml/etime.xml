@@ -28,9 +28,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >e = etime(t2, t1)</b> returns the number of seconds between two date vectors or matrices of date vectors,<b
-      >t1</b> and <b>t2</b>.</p>
+      <b>e = etime(t2, t1)</b> returns the number of seconds between two date vectors or matrices of date vectors,<b>t1</b> and <b>t2</b>.</p>
   </description>
   <used_function />
   <bibliography />

@@ -28,8 +28,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >acquirevar</b> cherche un symbole dans une portée spécifique et copie sa valeur dans la portée courante.</p>
+      <b>acquirevar</b> cherche un symbole dans une portée spécifique et copie sa valeur dans la portée courante.</p>
   </description>
   <used_function />
   <bibliography />

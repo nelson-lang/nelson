@@ -39,12 +39,10 @@
   </param_output>
   <description>
     <p>
-      <b
-      >audioplayer</b> returns an audioplayer object to play data on an output device.</p>
+      <b>audioplayer</b> returns an audioplayer object to play data on an output device.</p>
     <p>audioplayer object uses global scope and need to be deleted by user.</p>
     <p>
-      <b
-      >audioplayer</b> can play multichannels data if your sound card supports it.</p>
+      <b>audioplayer</b> can play multichannels data if your sound card supports it.</p>
     <p>
       <b>Properties of audioplayer</b>:</p>
     <table>

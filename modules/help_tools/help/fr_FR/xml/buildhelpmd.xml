@@ -22,8 +22,7 @@
   </param_input>
   <description>
     <p>
-      <b
-      >buildhelpmd</b> génère des fichiers d&apos;aide pour GitBook (markdown).</p>
+      <b>buildhelpmd</b> génère des fichiers d&apos;aide pour GitBook (markdown).</p>
   </description>
   <used_function />
   <bibliography />

@@ -23,8 +23,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >imax = intmax(classname)</b> the largest integer that can be represented in an integer type.</p>
+      <b>imax = intmax(classname)</b> the largest integer that can be represented in an integer type.</p>
     <p>Supported values for the string <b>classname</b> are:</p>
     <p>
       &apos;int8&apos;

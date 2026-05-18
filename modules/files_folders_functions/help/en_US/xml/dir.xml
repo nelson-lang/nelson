@@ -33,8 +33,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >dir</b> displays the list of files and folders in the current folder.</p>
+      <b>dir</b> displays the list of files and folders in the current folder.</p>
     <p>* (wildcard) is supported in filename and path name.</p>
   </description>
   <used_function />

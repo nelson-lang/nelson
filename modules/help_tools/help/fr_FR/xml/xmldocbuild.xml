@@ -44,8 +44,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >xmldocbuild</b> convertit des fichiers de documentation XML en HTML.</p>
+      <b>xmldocbuild</b> convertit des fichiers de documentation XML en HTML.</p>
     <p>fonction interne</p>
   </description>
   <used_function />

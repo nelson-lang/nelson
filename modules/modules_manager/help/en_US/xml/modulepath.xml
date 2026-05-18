@@ -30,18 +30,14 @@
   </param_output>
   <description>
     <p>
-      <b
-      >modulepath</b> is an helper&apos;s function to return module root path or a subdirectory.</p>
+      <b>modulepath</b> is an helper&apos;s function to return module root path or a subdirectory.</p>
     <p>
-      <b>modulepath(&apos;nelson&apos;)</b> is equivalent to <b
-      >modulepath(&apos;nelson&apos;, &apos;root&apos;)</b>
+      <b>modulepath(&apos;nelson&apos;)</b> is equivalent to <b>modulepath(&apos;nelson&apos;, &apos;root&apos;)</b>
     </p>
     <p>
-      <b
-      >modulepath(&apos;nelson&apos;, &apos;bin&apos;)</b> return path of nelson&apos;s executables.</p>
+      <b>modulepath(&apos;nelson&apos;, &apos;bin&apos;)</b> return path of nelson&apos;s executables.</p>
     <p>
-      <b
-      >modulepath(&apos;nelson&apos;, &apos;builtin&apos;)</b> returns path of nelson&apos;s dynamic libraries.</p>
+      <b>modulepath(&apos;nelson&apos;, &apos;builtin&apos;)</b> returns path of nelson&apos;s dynamic libraries.</p>
   </description>
   <used_function />
   <bibliography />

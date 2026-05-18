@@ -42,8 +42,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >R = cumsum(M)</b> renvoie la somme cumulative des éléments du tableau M.</p>
+      <b>R = cumsum(M)</b> renvoie la somme cumulative des éléments du tableau M.</p>
   </description>
   <used_function />
   <bibliography />

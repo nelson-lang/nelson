@@ -36,6 +36,9 @@ function resetPlot(h, event)
   % Reset the slider's value to the initial value stored in UserData
   sld.Value = h.UserData{3};
 
+  % Retrieve the title object from the button's UserData
+  t = h.UserData{4};
+
   % Update the plot's title to reflect the reset amplitude value
-  title(['Sine Wave with Amplitude = ', num2str(sld.Value)]);
+  t.String = ['Sine Wave with Amplitude = ', num2str(sld.Value)];
 end

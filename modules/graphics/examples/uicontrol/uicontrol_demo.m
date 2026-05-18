@@ -44,8 +44,11 @@ y = sin(x);
 % Plot the X and Y data on the axes
 p = plot(ax, x, y);
 
+% Create the title once and update its text from callbacks
+t = title(ax, ['Sine Wave with Amplitude = ', num2str(initialValue)]);
+
 % Store the plot object in the slider's UserData for later use in the callback function
-sld.UserData = p;
+sld.UserData = {p, t};
 
 % Store the plot object, slider, and initial value in the button's UserData for use in the reset callback
-btn.UserData = {p, sld, initialValue};
+btn.UserData = {p, sld, initialValue, t};

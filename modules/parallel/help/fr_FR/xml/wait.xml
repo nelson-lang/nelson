@@ -36,16 +36,11 @@
   </param_output>
   <description>
     <p>
-      <b
-      >wait(f)</b> suspend l&apos;exécution jusqu&apos;à ce que chaque élément du tableau Future <b
-      >f</b> soit terminé.</p>
+      <b>wait(f)</b> suspend l&apos;exécution jusqu&apos;à ce que chaque élément du tableau Future <b>f</b> soit terminé.</p>
     <p>
-      <b
-      >wait(f, state)</b> suspend l&apos;exécution jusqu&apos;à ce que chaque élément du tableau Future <b
-      >f</b> ait sa propriété &apos;State&apos; définie sur <i>state</i>.</p>
+      <b>wait(f, state)</b> suspend l&apos;exécution jusqu&apos;à ce que chaque élément du tableau Future <b>f</b> ait sa propriété &apos;State&apos; définie sur <i>state</i>.</p>
     <p>
-      <b
-      >tf = wait(f, state, timeout)</b> suspend l&apos;exécution pour un maximum de<i
+      <b>tf = wait(f, state, timeout)</b> suspend l&apos;exécution pour un maximum de<i
       >timeout</i>secondes.</p>
   </description>
   <used_function />

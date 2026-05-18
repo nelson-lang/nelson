@@ -21,8 +21,7 @@
   </param_output>
   <description>
     <p>
-      <b>cot</b> calcule la cotangente d&apos;un angle pour chaque élément de <b
-      >x</b>.</p>
+      <b>cot</b> calcule la cotangente d&apos;un angle pour chaque élément de <b>x</b>.</p>
   </description>
   <used_function />
   <bibliography />

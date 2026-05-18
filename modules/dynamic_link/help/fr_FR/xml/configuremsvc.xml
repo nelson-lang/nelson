@@ -24,11 +24,9 @@
     <p>Par défaut, Nelson n&apos;a pas de compilateur C/C++ défini sous Windows.</p>
     <p
     >Sur les autres plateformes, on suppose qu&apos;un compilateur C/C++ est disponible et l&apos;appel de cette fonction n&apos;est pas requis.</p>
-    <p>Sous Windows, appelez une fois <b
-      >configuremsvc</b> si vous souhaitez utiliser Visual Studio comme compilateur par défaut.</p>
+    <p>Sous Windows, appelez une fois <b>configuremsvc</b> si vous souhaitez utiliser Visual Studio comme compilateur par défaut.</p>
     <p
-    >Après chaque mise à jour de Visual Studio, il pourra être nécessaire d&apos;appeler de nouveau<b
-      >configuremsvc</b>.</p>
+    >Après chaque mise à jour de Visual Studio, il pourra être nécessaire d&apos;appeler de nouveau<b>configuremsvc</b>.</p>
   </description>
   <used_function />
   <bibliography />

@@ -27,8 +27,7 @@
   </param_output>
   <description>
     <p>
-      <b>R = dot(A, B)</b> retourne le produit scalaire de <b>A</b> et<b
-      >B</b>.</p>
+      <b>R = dot(A, B)</b> retourne le produit scalaire de <b>A</b> et<b>B</b>.</p>
     <p>Pour les vecteurs réels</p>
     <latex>\mathbf{a}</latex>
     <p>et</p>

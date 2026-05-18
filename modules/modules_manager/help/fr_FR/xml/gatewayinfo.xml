@@ -29,11 +29,9 @@
   </param_output>
   <description>
     <p>
-      <b
-      >[gateway_name, builtin_list] = gatewayinfo(dyn_lib_path)</b> récupère des informations sur une gateway.</p>
+      <b>[gateway_name, builtin_list] = gatewayinfo(dyn_lib_path)</b> récupère des informations sur une gateway.</p>
     <p
-    >La bibliothèque dynamique doit fournir au minimum un point d&apos;entrée C nommé<b
-      >GetGatewayInfo</b>.</p>
+    >La bibliothèque dynamique doit fournir au minimum un point d&apos;entrée C nommé<b>GetGatewayInfo</b>.</p>
     <p>Si le fichier n&apos;existe pas, une erreur est levée.</p>
   </description>
   <used_function />

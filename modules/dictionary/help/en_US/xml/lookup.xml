@@ -31,17 +31,14 @@
   </param_output>
   <description>
     <p>
-      <b
-      >value = lookup(d, key)</b> retrieves the value associated with the given key in dictionary d.</p>
+      <b>value = lookup(d, key)</b> retrieves the value associated with the given key in dictionary d.</p>
     <p>If the key does not exist, an error is raised.</p>
     <p>
       <b>value = lookup(d, key)</b> is equivalent to <b>value = d[key]</b>.</p>
     <p>
-      <b
-      >value = lookup(d, key, &apos;FallbackValue&apos;, fallback)</b> specifies a fallback value to return if the key is not found in d.</p>
+      <b>value = lookup(d, key, &apos;FallbackValue&apos;, fallback)</b> specifies a fallback value to return if the key is not found in d.</p>
     <p>
-      <b
-      >lookup</b> function only validates the fallback if it is needed. An error is raised only if the key is not found and no valid fallback is provided.</p>
+      <b>lookup</b> function only validates the fallback if it is needed. An error is raised only if the key is not found and no valid fallback is provided.</p>
   </description>
   <used_function />
   <bibliography />

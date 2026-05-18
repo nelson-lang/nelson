@@ -40,10 +40,8 @@
   </param_output>
   <description>
     <p>
-      <b>websave()</b> enregistre le contenu provenant du web dans<b
-      >filename</b>.</p>
-    <p>La fonction websave renvoie le chemin complet du fichier en tant que <b
-      >result_filename</b>.</p>
+      <b>websave()</b> enregistre le contenu provenant du web dans<b>filename</b>.</p>
+    <p>La fonction websave renvoie le chemin complet du fichier en tant que <b>result_filename</b>.</p>
   </description>
   <used_function />
   <bibliography />

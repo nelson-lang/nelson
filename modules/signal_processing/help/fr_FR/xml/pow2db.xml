@@ -22,8 +22,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >db = pow2db(pow)</b> renvoie les valeurs correspondantes en décibels.</p>
+      <b>db = pow2db(pow)</b> renvoie les valeurs correspondantes en décibels.</p>
   </description>
   <examples>
     <example_item>

@@ -24,10 +24,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>Utilisez <b
-      >pyenv</b> pour modifier la version par défaut ou le mode d&apos;exécution de l&apos;interpréteur Python, en veillant à ce que ces réglages persistent entre les sessions Nelson.</p>
-    <p>La valeur définie par <b
-      >pyenv</b> est persistante entre les sessions Nelson.</p>
+    <p>Utilisez <b>pyenv</b> pour modifier la version par défaut ou le mode d&apos;exécution de l&apos;interpréteur Python, en veillant à ce que ces réglages persistent entre les sessions Nelson.</p>
+    <p>La valeur définie par <b>pyenv</b> est persistante entre les sessions Nelson.</p>
     <p />
     <p>Propriétés :</p>
     <p>
@@ -39,12 +37,10 @@
     <p>
       <b>Home</b> : string : dossier home</p>
     <p>
-      <b
-      >Status</b> : statut du processus : &quot;NotLoaded&quot; (par défaut), &quot;Loaded&quot;, &quot;Terminated&quot;
+      <b>Status</b> : statut du processus : &quot;NotLoaded&quot; (par défaut), &quot;Loaded&quot;, &quot;Terminated&quot;
     </p>
     <p>
-      <b
-      >ExecutionMode</b> : mode d&apos;exécution : &quot;InProcess&quot; (par défaut) ou &quot;OutOfProcess&quot;
+      <b>ExecutionMode</b> : mode d&apos;exécution : &quot;InProcess&quot; (par défaut) ou &quot;OutOfProcess&quot;
     </p>
     <p />
     <p
@@ -65,8 +61,7 @@
     <p
     >Toutes les variables d&apos;environnement doivent exister et être valides pour être prises en compte.</p>
     <p />
-    <p>Sous Windows, la fonction<b
-      >pyenv(&apos;Version&apos;, &apos;3.11&apos;)</b> recherche dans le Registre Windows la version de Python associée à la version spécifiée. Elle recherche d&apos;abord dans HKCU, puis dans HKLM si non trouvée.</p>
+    <p>Sous Windows, la fonction<b>pyenv(&apos;Version&apos;, &apos;3.11&apos;)</b> recherche dans le Registre Windows la version de Python associée à la version spécifiée. Elle recherche d&apos;abord dans HKCU, puis dans HKLM si non trouvée.</p>
   </description>
   <used_function />
   <bibliography />

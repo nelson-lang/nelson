@@ -23,12 +23,9 @@
   </param_input>
   <description>
     <p>
-      <b
-      >editor</b> ouvre un fichier existant dans l&apos;éditeur intégré de Nelson.</p>
+      <b>editor</b> ouvre un fichier existant dans l&apos;éditeur intégré de Nelson.</p>
     <p>
-      <b
-      >editor</b> doit être considéré comme interne et il est préférable d&apos;utiliser <b
-      >edit</b>.</p>
+      <b>editor</b> doit être considéré comme interne et il est préférable d&apos;utiliser <b>edit</b>.</p>
     <p>Définir un autre éditeur de texte par défaut : (exemple avec VS Code)</p>
     <p>
       <code>editor(&apos;editor_command&apos;, &apos;code&apos;)</code>

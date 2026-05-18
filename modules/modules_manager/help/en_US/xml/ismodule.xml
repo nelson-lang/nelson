@@ -31,8 +31,7 @@
   </param_output>
   <description>
     <p>
-      <b>ismodule</b> returns <b>true</b> if module is loaded otherwise <b
-      >false</b>.</p>
+      <b>ismodule</b> returns <b>true</b> if module is loaded otherwise <b>false</b>.</p>
   </description>
   <used_function />
   <bibliography />

@@ -25,11 +25,9 @@
   </param_output>
   <description>
     <p>
-      <b
-      >loadenv(filename)</b> loads environment variables from a .env or plain text file by parsing one key-value pair per line and sets them as environment variables in the Nelson environment.</p>
+      <b>loadenv(filename)</b> loads environment variables from a .env or plain text file by parsing one key-value pair per line and sets them as environment variables in the Nelson environment.</p>
     <p>
-      <b
-      >D = loadenv(filename)</b> returns a dictionary containing the parsed key-value pairs. When an output argument is specified, loadenv does not modify the Nelson environment.</p>
+      <b>D = loadenv(filename)</b> returns a dictionary containing the parsed key-value pairs. When an output argument is specified, loadenv does not modify the Nelson environment.</p>
   </description>
   <used_function />
   <bibliography />

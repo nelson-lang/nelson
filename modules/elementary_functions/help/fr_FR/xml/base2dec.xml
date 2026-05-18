@@ -31,8 +31,7 @@
     <p>Remarques :</p>
     <p>- <b>dec2base</b> et<b>base2dec</b> sont mutuellement inverses.</p>
     <p
-    >- des valeurs sont mises en cache pour accélérer les calculs ultérieurs ; utiliser<b
-      >base2dec(&apos;
+    >- des valeurs sont mises en cache pour accélérer les calculs ultérieurs ; utiliser<b>base2dec(&apos;
         &apos;, 2)</b> pour vider le cache.</p>
   </description>
   <used_function />

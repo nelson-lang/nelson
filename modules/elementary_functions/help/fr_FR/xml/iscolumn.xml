@@ -22,9 +22,7 @@
   </param_output>
   <description>
     <p>
-      <b>iscolumn(V)</b> renvoie <b
-      >true</b> si size(V) renvoie [n, 1] avec un entier non négatif n, et <b
-      >false</b> sinon.</p>
+      <b>iscolumn(V)</b> renvoie <b>true</b> si size(V) renvoie [n, 1] avec un entier non négatif n, et <b>false</b> sinon.</p>
   </description>
   <used_function />
   <bibliography />

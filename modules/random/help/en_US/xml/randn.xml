@@ -40,8 +40,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >randn</b> returns a matrix with normally distributed random elements having zero mean and variance one.</p>
+      <b>randn</b> returns a matrix with normally distributed random elements having zero mean and variance one.</p>
     <p>By default, <b>randn</b> uses the ziggurat algorithm.</p>
     <p>seed can be modified using <b>rng</b>.</p>
   </description>

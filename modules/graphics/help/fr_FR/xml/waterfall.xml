@@ -54,11 +54,9 @@
   </param_output>
   <description>
     <p>
-      <b
-      >waterfall</b> crée un graphique en cascade, qui est un graphique en maillage avec un rideau partiel le long de la dimension y.</p>
+      <b>waterfall</b> crée un graphique en cascade, qui est un graphique en maillage avec un rideau partiel le long de la dimension y.</p>
     <p>Cela donne un effet de &apos;cascade&apos;.</p>
-    <p>La fonction prend les mêmes arguments d&apos;entrée que la fonction<b
-      >mesh</b>.</p>
+    <p>La fonction prend les mêmes arguments d&apos;entrée que la fonction<b>mesh</b>.</p>
   </description>
   <used_function />
   <bibliography />

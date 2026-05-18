@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>dbstep</keyword>
-  <short_description
+  <short_description
   >Exécuter la ligne exécutable suivante lors du débogage.</short_description>
   <syntax>
     <syntax_item>dbstep</syntax_item>
@@ -20,20 +20,17 @@
   </param_input>
   <description>
     <p>
-      <b
-      >dbstep</b> exécute la ligne exécutable suivante du fichier courant lors du débogage,
+      <b>dbstep</b> exécute la ligne exécutable suivante du fichier courant lors du débogage,
       en sautant les points d&apos;arrêt dans les fonctions appelées par cette ligne. L&apos;exécution s&apos;interrompt</p>
     <p>
       <b>dbstep in</b> entre dans toute fonction appelée sur la ligne courante,
       s&apos;interrompant à la première ligne exécutable de la fonction appelée.</p>
     <p>
-      <b
-      >dbstep out</b> termine l&apos;exécution de la fonction courante et s&apos;interrompt
+      <b>dbstep out</b> termine l&apos;exécution de la fonction courante et s&apos;interrompt
    juste après le retour à l&apos;appelant. L&apos;exécution s&apos;interrompt aux points d&apos;arrêt
       rencontrés en cours de route.</p>
     <p>
-      <b
-      >dbstep nlines</b> exécute le nombre spécifié de lignes, s&apos;interrompant à
+      <b>dbstep nlines</b> exécute le nombre spécifié de lignes, s&apos;interrompant à
       tout point d&apos;arrêt rencontré.</p>
   </description>
   <used_function />
@@ -42,43 +39,41 @@
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description>        Passer par-dessus une fonction appelée.</example_item_description>
-      <example_item_data
-      ><![CDATA[
-function n = myfile(x)
-  n = myfunction(x-1);
-end
-
-function z = myfunction(y)
-  z = 2/y;
-end
-
-dbstop in myfile
-myfile(2);
-dbstep
+      <example_item_data
+      ><![CDATA[
+function n = myfile(x)
+  n = myfunction(x-1);
+end
+function z = myfunction(y)
+  z = 2/y;
+end
+dbstop in myfile
+myfile(2);
+dbstep
 ]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description>        Entrer dans une fonction appelée.</example_item_description>
-      <example_item_data
-      ><![CDATA[
-dbstop in myfile
-myfile(2);
-dbstep in
+      <example_item_data
+      ><![CDATA[
+dbstop in myfile
+myfile(2);
+dbstep in
 ]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description>        Sortir de la fonction courante.</example_item_description>
-      <example_item_data><![CDATA[
-dbstep out
+      <example_item_data><![CDATA[
+dbstep out
 ]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description>        Exécuter plusieurs lignes en une seule commande.</example_item_description>
-      <example_item_data><![CDATA[
-dbstep 4
+      <example_item_data><![CDATA[
+dbstep 4
 ]]></example_item_data>
     </example_item>
   </examples>

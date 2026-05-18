@@ -47,8 +47,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >assert_isapprox</b> raises an error if the computed value is not approximately equal to the expected value.</p>
+      <b>assert_isapprox</b> raises an error if the computed value is not approximately equal to the expected value.</p>
     <p
     >This function compares two floating point numbers with a specified tolerance, allowing you to check that two numbers are &quot;approximately&quot; equal when exact equality is not suitable due to floating-point precision limitations.</p>
     <p
@@ -61,16 +60,14 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Test approximate equality with sufficient precision tolerance:</example_item_description>
+      <example_item_description>Test approximate equality with sufficient precision tolerance:</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[assert_isapprox(1.23456, 1.23457, 1e-5)]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Test that fails when precision is too strict:</example_item_description>
+      <example_item_description>Test that fails when precision is too strict:</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[try
@@ -81,8 +78,7 @@ end]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Using return values to handle assertion results:</example_item_description>
+      <example_item_description>Using return values to handle assertion results:</example_item_description>
       <example_item_data
       ><![CDATA[[r, msg] = assert_isapprox(1.23456, 1.23457, 1e-6);
 assert_isfalse(r);

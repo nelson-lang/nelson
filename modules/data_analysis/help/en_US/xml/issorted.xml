@@ -42,8 +42,7 @@
   </param_output>
   <description>
     <p>
-      <b>tf = issorted(A)</b> returns true if the elements of <b
-      >A</b> are sorted in ascending order, and false otherwise.</p>
+      <b>tf = issorted(A)</b> returns true if the elements of <b>A</b> are sorted in ascending order, and false otherwise.</p>
   </description>
   <examples>
     <example_item>

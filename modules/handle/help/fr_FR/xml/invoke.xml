@@ -26,11 +26,9 @@
   </param_output>
   <description>
     <p>
-      <b
-      >invoke(h)</b> renvoie une structure contenant la liste de toutes les méthodes appelables.</p>
+      <b>invoke(h)</b> renvoie une structure contenant la liste de toutes les méthodes appelables.</p>
     <p>
-      <b
-      >R = invoke(h, &apos;methodname&apos;)</b> appelle la méthode spécifiée par methodname et renvoie une valeur de sortie.</p>
+      <b>R = invoke(h, &apos;methodname&apos;)</b> appelle la méthode spécifiée par methodname et renvoie une valeur de sortie.</p>
   </description>
   <used_function />
   <bibliography />

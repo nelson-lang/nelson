@@ -24,8 +24,7 @@
     <p>
       <b>editor</b> opens an existing file in the nelson&apos;s editor.</p>
     <p>
-      <b>editor</b> must be considered as internal and <b
-      >edit</b> must be preferred.</p>
+      <b>editor</b> must be considered as internal and <b>edit</b> must be preferred.</p>
     <p>Set another text editor as default: (example with VS code)</p>
     <p>
       <code>editor(&apos;editor_command&apos;, &apos;code&apos;)</code>

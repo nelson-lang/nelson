@@ -24,8 +24,7 @@
     <p>
       <b>deblank</b> enlève les espaces en fin de chaîne.</p>
     <p>
-      <b
-      >deblank</b> ne supprime pas tous les espaces significatifs (seuls les caractères &apos; \t\n\r\f\v&apos; sont supprimés).</p>
+      <b>deblank</b> ne supprime pas tous les espaces significatifs (seuls les caractères &apos; \t\n\r\f\v&apos; sont supprimés).</p>
   </description>
   <used_function />
   <bibliography />

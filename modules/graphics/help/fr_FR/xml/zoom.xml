@@ -40,11 +40,8 @@
     <p
     >Le mode zoom est compatible avec divers graphiques tels que les graphiques en ligne, en barres, les histogrammes et les graphiques de surface. Ces graphiques disposent généralement d&apos;icônes de zoom avant et arrière sur la barre d&apos;outils pour faciliter la fonctionnalité de zoom.</p>
     <p>
-      <b
-      >zoom option</b> configure le mode zoom pour tous les axes de la figure actuelle.</p>
-    <p>Par exemple, <b>zoom(&apos;on&apos;)</b> active le mode zoom, <b
-      >zoom(&apos;xon&apos;)</b> active le mode zoom exclusivement pour la dimension x, tandis que <b
-      >zoom(&apos;off&apos;)</b> désactive complètement le mode zoom.</p>
+      <b>zoom option</b> configure le mode zoom pour tous les axes de la figure actuelle.</p>
+    <p>Par exemple, <b>zoom(&apos;on&apos;)</b> active le mode zoom, <b>zoom(&apos;xon&apos;)</b> active le mode zoom exclusivement pour la dimension x, tandis que <b>zoom(&apos;off&apos;)</b> désactive complètement le mode zoom.</p>
     <p
     >Une fois le mode zoom activé, vous pouvez ajuster la vue des axes à l&apos;aide du curseur, de la molette de défilement ou du clavier :</p>
     <p
@@ -56,8 +53,7 @@
     <p
     >L&apos;option de mode zoom peut être spécifiée en utilisant l&apos;une des valeurs suivantes :</p>
     <p>
-      <b
-      >
+      <b>
         &apos;toggle&apos;
       </b> : Bascule le mode zoom. Si le mode zoom est désactivé, &apos;toggle&apos; revient à l&apos;option de zoom la plus récemment utilisée parmi &apos;on&apos;, &apos;xon&apos; ou &apos;yon&apos;. Cette option se comporte de la même manière que l&apos;appel de zoom sans aucun argument.</p>
     <p>
@@ -73,19 +69,15 @@
         &apos;on&apos;
       </b> : Active le mode zoom.</p>
     <p>
-      <b
-      >
+      <b>
         &apos;off&apos;
       </b> : Désactive le mode zoom. Notez que certaines interactions par défaut peuvent persister indépendamment du mode d&apos;interaction.</p>
     <p>
-      <b
-      >
+      <b>
         &apos;reset&apos;
-      </b> : Établit le niveau de zoom actuel comme niveau de zoom de base. Une fois défini, des actions ultérieures comme le dézoom, le double-clic dans les axes ou le clic sur l&apos;icône <b
-      >Restaurer la vue</b> sur la barre d&apos;outils des axes ramèneront les axes à ce niveau de zoom de base.</p>
+      </b> : Établit le niveau de zoom actuel comme niveau de zoom de base. Une fois défini, des actions ultérieures comme le dézoom, le double-clic dans les axes ou le clic sur l&apos;icône <b>Restaurer la vue</b> sur la barre d&apos;outils des axes ramèneront les axes à ce niveau de zoom de base.</p>
     <p>
-      <b
-      >
+      <b>
         &apos;out&apos;
       </b> : Restaure les axes actuels à leur niveau de zoom de base.</p>
   </description>

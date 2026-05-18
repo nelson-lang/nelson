@@ -54,8 +54,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >COM_xlswrite</b> Writes Microsoft Excel spreadsheet file using COM.</p>
+      <b>COM_xlswrite</b> Writes Microsoft Excel spreadsheet file using COM.</p>
     <p>Inf is converted by Excel as 65535.</p>
   </description>
   <used_function />

@@ -59,8 +59,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >abcdchk</b> verify dimensional consistency of the matrices A, B, C, D, E.</p>
+      <b>abcdchk</b> verify dimensional consistency of the matrices A, B, C, D, E.</p>
     <p
     >It additionally adjusts the dimensions of any empty 0-by-0 matrices to ensure their alignment with the rest.</p>
   </description>

@@ -22,8 +22,7 @@
   </param_output>
   <description>
     <p>
-      <b>tf = istable(A)</b> renvoie <b>true</b> si <b
-      >A</b> est une table, et <b>false</b> sinon.</p>
+      <b>tf = istable(A)</b> renvoie <b>true</b> si <b>A</b> est une table, et <b>false</b> sinon.</p>
   </description>
   <used_function />
   <bibliography />

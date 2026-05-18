@@ -6,24 +6,19 @@
   <short_description>Description du fichier module.json</short_description>
   <description>
     <p
-    >Un fichier module.json est requis pour chaque module externe de Nelson ; il permet de le gérer facilement avec la fonction <b
-      >nmm</b>.</p>
+    >Un fichier module.json est requis pour chaque module externe de Nelson ; il permet de le gérer facilement avec la fonction <b>nmm</b>.</p>
     <p />
     <p>
-      <b
-      >module</b>: identifiant unique (nom court du module, caractères alphanumériques), exemple : &quot;module_skeleton_basic&quot;
+      <b>module</b>: identifiant unique (nom court du module, caractères alphanumériques), exemple : &quot;module_skeleton_basic&quot;
     </p>
     <p>
-      <b
-      >title</b>: nom complet du module (nom convivial), exemple : &quot;Module skeleton basic&quot;
+      <b>title</b>: nom complet du module (nom convivial), exemple : &quot;Module skeleton basic&quot;
     </p>
     <p>
-      <b
-      >summary</b>: description sur une ligne, exemple : &quot;Skeleton of a basic nelson package&quot;
+      <b>summary</b>: description sur une ligne, exemple : &quot;Skeleton of a basic nelson package&quot;
     </p>
     <p>
-      <b
-      >version</b>: numéro de version en utilisant le versionnement sémantique, exemple : &quot;1.0.0&quot;
+      <b>version</b>: numéro de version en utilisant le versionnement sémantique, exemple : &quot;1.0.0&quot;
     </p>
     <p>
       <b>platforms</b>: plateformes supportées.</p>
@@ -42,15 +37,12 @@
       &quot;glnxa64&quot; : Linux 64 bits</p>
     <p>
       &quot;glnxa32&quot; : Linux 32 bits</p>
-    <p>exemple :<b
-      >[&quot;win64&quot;, &quot;glnxa64&quot;]</b>, le module ne sera disponible que sur Windows et Linux 64 bits.</p>
+    <p>exemple :<b>[&quot;win64&quot;, &quot;glnxa64&quot;]</b>, le module ne sera disponible que sur Windows et Linux 64 bits.</p>
     <p>
-      <b
-      >nelson</b>: versions de Nelson supportées, exemple : &quot;
+      <b>nelson</b>: versions de Nelson supportées, exemple : &quot;
       &lt;2.0.0&quot; (par défaut)</p>
     <p>
-      <b
-      >builtin</b>: true si le module nécessite un compilateur C/C++, false si le module contient uniquement des macros.</p>
+      <b>builtin</b>: true si le module nécessite un compilateur C/C++, false si le module contient uniquement des macros.</p>
     <p>
       <b>author</b>: informations sur l&apos;auteur : nom, email et site web</p>
     <p>Exemple :</p>
@@ -65,20 +57,16 @@
     <p>}</p>
     <p />
     <p>
-      <b
-      >homepage</b>: page d&apos;accueil du module, exemple &quot;https://github.com/nelson-lang/module_skeleton_basic&quot;
+      <b>homepage</b>: page d&apos;accueil du module, exemple &quot;https://github.com/nelson-lang/module_skeleton_basic&quot;
     </p>
     <p>
-      <b
-      >description</b>: description complète du module, format Markdown supporté, exemple : &quot;nelson&apos;s module skeleton (macros only)&quot;
+      <b>description</b>: description complète du module, format Markdown supporté, exemple : &quot;nelson&apos;s module skeleton (macros only)&quot;
     </p>
     <p>
-      <b
-      >copyright</b>: description du copyright, exemple : &quot;Copyright © 2019-present Allan              CORNET&quot;
+      <b>copyright</b>: description du copyright, exemple : &quot;Copyright © 2019-present Allan              CORNET&quot;
     </p>
     <p>
-      <b
-      >license</b>: licence sous laquelle la boîte à outils sera publiée, exemple : &quot;BSD&quot; ou &quot;LGPLv2&quot;, ...</p>
+      <b>license</b>: licence sous laquelle la boîte à outils sera publiée, exemple : &quot;BSD&quot; ou &quot;LGPLv2&quot;, ...</p>
     <p>
       <b>keywords</b>: mots-clés décrivant votre module.</p>
     <p>Exemple :</p>
@@ -86,8 +74,7 @@
     >[&quot;interpreter&quot;, &quot;scientific-computing&quot;, &quot;programming-language&quot;, &quot;matrix-functions&quot;, &quot;skeleton&quot;]</p>
     <p />
     <p>
-      <b
-      >dependencies</b>: liste des dépendances de modules {} (par défaut) ou paires nom : url</p>
+      <b>dependencies</b>: liste des dépendances de modules {} (par défaut) ou paires nom : url</p>
     <p>{</p>
     <p>
       &quot;module_a&quot;: &quot;https://module_a.git#v1.0.0&quot;,</p>
@@ -101,8 +88,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Déployer les templates module_skeleton et module_skeleton_basic</example_item_description>
+      <example_item_description>Déployer les templates module_skeleton et module_skeleton_basic</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[if ~ismodule('module_skeleton_basic')

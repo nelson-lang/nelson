@@ -27,8 +27,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >createGUID</b> creates a Globally Unique IDentifier (GUID), , a unique 128-bit integer used for CLSIDs and interface identifiers.</p>
+      <b>createGUID</b> creates a Globally Unique IDentifier (GUID), , a unique 128-bit integer used for CLSIDs and interface identifiers.</p>
   </description>
   <used_function />
   <bibliography />

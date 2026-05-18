@@ -35,8 +35,7 @@
     <p>
       <b>replace</b> replaces strings in another.</p>
     <p>
-      <b>replace</b> and <b>strrep</b> replace strings but<b
-      >replace</b> is recommended.</p>
+      <b>replace</b> and <b>strrep</b> replace strings but<b>replace</b> is recommended.</p>
   </description>
   <used_function />
   <bibliography />

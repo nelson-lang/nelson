@@ -29,8 +29,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >v = qt_constant(constant_name)</b> renvoie la valeur d&apos;une constante Qt.</p>
+      <b>v = qt_constant(constant_name)</b> renvoie la valeur d&apos;une constante Qt.</p>
     <p
     >La famille Qt 5 permet d&apos;obtenir facilement une constante avec qml_evaluatestring(constant_name), mais ce mécanisme n&apos;est plus disponible avec Qt 6.</p>
   </description>

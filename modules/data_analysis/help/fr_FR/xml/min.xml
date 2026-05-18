@@ -66,12 +66,9 @@
   <description>
     <p>
       <b>min</b> trouve les valeurs minimales dans un tableau.</p>
-    <p>Si <b>A</b> est une matrice alors <b
-      >M = min(A)</b> est un vecteur ligne contenant la valeur minimale de chaque colonne.</p>
-    <p>Si <b>A</b> est un vecteur alors <b
-      >M = min(A)</b> renverra le minimum de <b>A</b>.</p>
-    <p>Si <b>A</b> est un nombre complexe alors <b
-      >M = min(A)</b> renverra le nombre complexe ayant la plus grande magnitude.</p>
+    <p>Si <b>A</b> est une matrice alors <b>M = min(A)</b> est un vecteur ligne contenant la valeur minimale de chaque colonne.</p>
+    <p>Si <b>A</b> est un vecteur alors <b>M = min(A)</b> renverra le minimum de <b>A</b>.</p>
+    <p>Si <b>A</b> est un nombre complexe alors <b>M = min(A)</b> renverra le nombre complexe ayant la plus grande magnitude.</p>
   </description>
   <used_function />
   <bibliography />

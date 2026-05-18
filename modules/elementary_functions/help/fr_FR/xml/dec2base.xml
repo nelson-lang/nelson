@@ -35,8 +35,7 @@
     <p>
       <b>dec2base</b> convertit un nombre décimal vers une autre base.</p>
     <p
-    >Des valeurs sont mises en cache pour accélérer les calculs ultérieurs ; utiliser<b
-      >dec2base([], 2)</b> pour vider le cache.</p>
+    >Des valeurs sont mises en cache pour accélérer les calculs ultérieurs ; utiliser<b>dec2base([], 2)</b> pour vider le cache.</p>
   </description>
   <used_function />
   <bibliography />

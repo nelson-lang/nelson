@@ -32,8 +32,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >td = tdigest(compression, X)</b> renvoie une représentation t-digest des éléments du tableau X.</p>
+      <b>td = tdigest(compression, X)</b> renvoie une représentation t-digest des éléments du tableau X.</p>
     <p
     >TDigest est une structure de données pour l&apos;accumulation en ligne précise de statistiques basées sur les rangs telles que les quantiles et les fonctions de distribution cumulées. Elle est particulièrement efficace pour les grands jeux de données et pour estimer des quantiles extrêmes. L&apos;algorithme est décrit en détail dans l&apos;article &quot;Computing Extremely Accurate Quantiles Using t-Digests&quot; de Ted Dunning et Otmar Ertl.</p>
     <p>Le t-digest est particulièrement utile pour :</p>
@@ -57,25 +56,20 @@
     <p>Méthodes disponibles :</p>
     <ul>
       <li>
-        <b
-        >percentile(p)</b> : Retourne la/les valeur(s) au(x) percentile(s) donné(s) <code
+        <b>percentile(p)</b> : Retourne la/les valeur(s) au(x) percentile(s) donné(s) <code
         >p</code> (dans [0, 100]).</li>
       <li>
-        <b
-        >quantile(q)</b> : Retourne la/les valeur(s) au(x) quantile(s) donné(s) <code
+        <b>quantile(q)</b> : Retourne la/les valeur(s) au(x) quantile(s) donné(s) <code
         >q</code> (dans [0, 1]).</li>
       <li>
-        <b
-        >+</b> : Ajoute de nouveaux points de données à l&apos;objet t-digest.</li>
+        <b>+</b> : Ajoute de nouveaux points de données à l&apos;objet t-digest.</li>
     </ul>
     <p>Propriétés :</p>
     <ul>
       <li>
-        <b
-        >compression</b> : Le facteur de compression utilisé pour créer le t-digest.</li>
+        <b>compression</b> : Le facteur de compression utilisé pour créer le t-digest.</li>
       <li>
-        <b
-        >totalWeight</b> : Le poids total de tous les centroïdes dans le t-digest.</li>
+        <b>totalWeight</b> : Le poids total de tous les centroïdes dans le t-digest.</li>
     </ul>
   </description>
   <used_function>algorithme tdigest</used_function>

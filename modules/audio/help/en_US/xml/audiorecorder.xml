@@ -40,8 +40,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >audiorecorder</b> creates an audiorecorder object for recording audio from an input device such as a microphone.</p>
+      <b>audiorecorder</b> creates an audiorecorder object for recording audio from an input device such as a microphone.</p>
     <p
     >The audiorecorder object provides properties and methods to control audio recording, including pausing, resuming, and defining callbacks.</p>
     <p>
@@ -49,14 +48,11 @@
     </p>
     <ul>
       <li>
-        <b
-        >recorder = audiorecorder()</b> creates an audiorecorder object with default properties: SampleRate = 8000, BitsPerSample = 8, NumChannels = 1.</li>
+        <b>recorder = audiorecorder()</b> creates an audiorecorder object with default properties: SampleRate = 8000, BitsPerSample = 8, NumChannels = 1.</li>
       <li>
-        <b
-        >recorder = audiorecorder(Fs, nBits, nChannels)</b> sets the sample rate, bits per sample, and number of channels.</li>
+        <b>recorder = audiorecorder(Fs, nBits, nChannels)</b> sets the sample rate, bits per sample, and number of channels.</li>
       <li>
-        <b
-        >recorder = audiorecorder(Fs, nBits, nChannels, ID)</b> sets the audio input device to the specified device identifier.</li>
+        <b>recorder = audiorecorder(Fs, nBits, nChannels, ID)</b> sets the audio input device to the specified device identifier.</li>
     </ul>
     <p>
       <b>Properties of audiorecorder:</b>
@@ -146,8 +142,7 @@
     </p>
     <ul>
       <li>
-        <b
-        >getaudiodata</b> - Store recorded audio signal in numeric array</li>
+        <b>getaudiodata</b> - Store recorded audio signal in numeric array</li>
       <li>
         <b>getplayer</b> - Create associated audioplayer object</li>
       <li>
@@ -171,8 +166,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Record Audio from Input Device</example_item_description>
+      <example_item_description>Record Audio from Input Device</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[

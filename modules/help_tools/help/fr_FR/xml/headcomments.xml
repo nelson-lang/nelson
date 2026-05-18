@@ -24,8 +24,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >head_comments</b> affiche les commentaires d&apos;en-tête d&apos;une fonction.</p>
+      <b>head_comments</b> affiche les commentaires d&apos;en-tête d&apos;une fonction.</p>
     <p>Les commentaires sont lus depuis le fichier .m associé.</p>
     <p
     >Les fonctions prédéfinies de Nelson n&apos;ont pas de commentaires d&apos;en-tête.</p>

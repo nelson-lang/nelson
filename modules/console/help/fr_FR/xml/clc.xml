@@ -9,8 +9,7 @@
   </syntax>
   <description>
     <p>
-      <b
-      >clc()</b> efface la console et déplace le curseur vers le coin supérieur gauche.</p>
+      <b>clc()</b> efface la console et déplace le curseur vers le coin supérieur gauche.</p>
   </description>
   <bibliography />
   <examples>

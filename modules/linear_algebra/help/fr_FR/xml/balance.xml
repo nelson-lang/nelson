@@ -41,8 +41,7 @@
     <p>
       <b>B = balance(A)</b> retourne la matrice équilibrée <b>B</b>.</p>
     <p>
-      <b>B = balance(A, &apos;noperm&apos;)</b> met à l&apos;échelle <b
-      >A</b> sans permuter ses lignes et colonnes.</p>
+      <b>B = balance(A, &apos;noperm&apos;)</b> met à l&apos;échelle <b>A</b> sans permuter ses lignes et colonnes.</p>
   </description>
   <used_function
   >LAPACKE_dgebal, LAPACKE_sgebal, LAPACKE_zgebal, LAPACKE_cgebal</used_function>

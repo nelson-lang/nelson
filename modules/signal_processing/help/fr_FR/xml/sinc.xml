@@ -22,9 +22,7 @@
   </param_output>
   <description>
     <p>
-      <b>c = sinc(m)</b> renvoie un tableau<b
-      >c</b> dont les éléments sont le sinc des éléments de l&apos;entrée : <b
-      >m</b>.</p>
+      <b>c = sinc(m)</b> renvoie un tableau<b>c</b> dont les éléments sont le sinc des éléments de l&apos;entrée : <b>m</b>.</p>
   </description>
   <examples>
     <example_item>

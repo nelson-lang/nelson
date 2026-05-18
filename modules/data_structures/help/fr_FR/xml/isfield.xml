@@ -31,8 +31,7 @@
   </param_output>
   <description>
     <p>
-      <b>isfield(S, name)</b> renvoie vrai si<b
-      >name</b> est un nom de champ de <b>S</b>.</p>
+      <b>isfield(S, name)</b> renvoie vrai si<b>name</b> est un nom de champ de <b>S</b>.</p>
   </description>
   <used_function />
   <bibliography />

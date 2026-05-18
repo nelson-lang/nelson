@@ -21,16 +21,14 @@
   </param_input>
   <description>
     <p>
-      <b
-      >addmodule</b> registers a new module designed by his path and short name.</p>
+      <b>addmodule</b> registers a new module designed by his path and short name.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >See module skeleton for example</example_item_description>
+      <example_item_description>See module skeleton for example</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[ismodule('module_skeleton')

@@ -26,8 +26,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >C = ctranspose(A)</b> renvoie la transposée conjuguée complexe de A.</p>
+      <b>C = ctranspose(A)</b> renvoie la transposée conjuguée complexe de A.</p>
   </description>
   <used_function />
   <bibliography />

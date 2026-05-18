@@ -30,8 +30,7 @@
   </param_input>
   <description>
     <p>
-      <b
-      >mustBeGreaterThan</b> vérifie que la valeur est supérieure à une autre valeur ou signale une erreur.</p>
+      <b>mustBeGreaterThan</b> vérifie que la valeur est supérieure à une autre valeur ou signale une erreur.</p>
   </description>
   <used_function />
   <bibliography />

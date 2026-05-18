@@ -17,8 +17,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >C = dlgetnelsonincludes()</b> returns a cell array of paths to various include directories used by Nelson modules.</p>
+      <b>C = dlgetnelsonincludes()</b> returns a cell array of paths to various include directories used by Nelson modules.</p>
     <p
     >These paths are used internally for module development and building processes.</p>
   </description>
@@ -27,8 +26,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >See module skeleton for example</example_item_description>
+      <example_item_description>See module skeleton for example</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[dlgetnelsonincludes()]]></example_item_data>

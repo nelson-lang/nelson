@@ -35,8 +35,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >ifft(X)</b> calcule la transformée de Fourier discrète inverse de X en utilisant un algorithme FFT basé sur la bibliothèque FFTW.</p>
+      <b>ifft(X)</b> calcule la transformée de Fourier discrète inverse de X en utilisant un algorithme FFT basé sur la bibliothèque FFTW.</p>
   </description>
   <used_function />
   <bibliography />

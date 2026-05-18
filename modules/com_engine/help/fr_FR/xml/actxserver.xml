@@ -28,8 +28,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >h = actxserver(progid)</b> crée un serveur COM en utilisant l&apos;identifiant progid.</p>
+      <b>h = actxserver(progid)</b> crée un serveur COM en utilisant l&apos;identifiant progid.</p>
   </description>
   <used_function />
   <bibliography />

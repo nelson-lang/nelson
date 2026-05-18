@@ -10,8 +10,7 @@
   </syntax>
   <description>
     <p>
-      <b
-      >switch</b> statement is used to selective execute code based on the value of either scalar value or a string.</p>
+      <b>switch</b> statement is used to selective execute code based on the value of either scalar value or a string.</p>
     <p>
       <b>otherwise</b> clause is optional.</p>
   </description>

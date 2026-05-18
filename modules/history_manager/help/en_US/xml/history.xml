@@ -86,8 +86,7 @@
     <p>
       <b>history()</b> displays the current Nelson history.</p>
     <p>
-      <b
-      >c = history()</b> returns the current Nelson history in a cell of strings.</p>
+      <b>c = history()</b> returns the current Nelson history in a cell of strings.</p>
     <p>
       <b>s = history(&apos;size&apos;)</b> returns history size max.</p>
     <p>
@@ -95,8 +94,7 @@
     <p>
       <b>l = history(&apos;enable_save&apos;)</b> returns the history manager state.</p>
     <p>
-      <b
-      >c = history(&apos;get&apos;)</b> returns the current Nelson history in a cell of strings.</p>
+      <b>c = history(&apos;get&apos;)</b> returns the current Nelson history in a cell of strings.</p>
     <p>
       <b>history(&apos;display&apos;)</b> displays the current Nelson history.</p>
     <p>
@@ -106,23 +104,17 @@
     <p>
       <b>history(&apos;clear&apos;)</b> clears history.</p>
     <p>
-      <b
-      >history(&apos;duplicated&apos;)</b> get state about save of consecutive duplicated commands.</p>
+      <b>history(&apos;duplicated&apos;)</b> get state about save of consecutive duplicated commands.</p>
     <p>
-      <b
-      >history(&apos;saveafter&apos;)</b> get state about save the history after nth commands.</p>
+      <b>history(&apos;saveafter&apos;)</b> get state about save the history after nth commands.</p>
     <p>
-      <b
-      >history(&apos;removeexit&apos;)</b> get state about do not save exit in history file.</p>
+      <b>history(&apos;removeexit&apos;)</b> get state about do not save exit in history file.</p>
     <p>
-      <b>history(&apos;size&apos;, new_size)</b> set history size max with<b
-      >new_size</b>.</p>
+      <b>history(&apos;size&apos;, new_size)</b> set history size max with<b>new_size</b>.</p>
     <p>
-      <b
-      >history(&apos;enable_save&apos;, true_false)</b> set the history manager state: false for &apos;off&apos;, true for &apos;on&apos;.</p>
+      <b>history(&apos;enable_save&apos;, true_false)</b> set the history manager state: false for &apos;off&apos;, true for &apos;on&apos;.</p>
     <p>
-      <b
-      >history(&apos;delete&apos;, lines)</b> deletes lines by index: a scalar value or a vector 1x2.</p>
+      <b>history(&apos;delete&apos;, lines)</b> deletes lines by index: a scalar value or a vector 1x2.</p>
     <p>
       <b>history(&apos;append&apos;, str)</b> append command to history.</p>
     <p>
@@ -132,20 +124,15 @@
     <p>
       <b>history(&apos;save&apos;, filename_history)</b> save history file</p>
     <p>
-      <b
-      >history(&apos;duplicated&apos;, true_false)</b> set state about consecutive duplicated commands. true remove duplicated.</p>
+      <b>history(&apos;duplicated&apos;, true_false)</b> set state about consecutive duplicated commands. true remove duplicated.</p>
     <p>
-      <b
-      >history(&apos;removeexit&apos;, true_false)</b> set state about do not save exit in history file.</p>
+      <b>history(&apos;removeexit&apos;, true_false)</b> set state about do not save exit in history file.</p>
     <p>
-      <b
-      >history(&apos;get&apos;, lines)</b> returns the current Nelson history in a cell of strings by index: a scalar value or a vector 1x2.</p>
+      <b>history(&apos;get&apos;, lines)</b> returns the current Nelson history in a cell of strings by index: a scalar value or a vector 1x2.</p>
     <p>
-      <b>history(&apos;saveafter&apos;, nb_commands)</b> saves the history file after<b
-      >nb_commands</b> statements are added to the file.</p>
+      <b>history(&apos;saveafter&apos;, nb_commands)</b> saves the history file after<b>nb_commands</b> statements are added to the file.</p>
     <p>
-      <b
-      >Tips</b>: You can easily share your history file in the cloud by adding few lines code in your user startup file.</p>
+      <b>Tips</b>: You can easily share your history file in the cloud by adding few lines code in your user startup file.</p>
     <p
     >If nelson launched with &apos;--nouserstartup&apos; option, history file will be not loaded at startup and not saved at exit.</p>
   </description>
@@ -154,8 +141,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Example to share your history file in OneDrive cloud</example_item_description>
+      <example_item_description>Example to share your history file in OneDrive cloud</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[OneDrivePath = getenv('OneDrive');

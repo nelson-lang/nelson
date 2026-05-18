@@ -52,11 +52,9 @@
   </param_output>
   <description>
     <p>
-      <b
-      >loglog(X, Y)</b> trace les données en utilisant une échelle logarithmique en base 10 pour l&apos;axe des x et l&apos;axe des y.          </p>
+      <b>loglog(X, Y)</b> trace les données en utilisant une échelle logarithmique en base 10 pour l&apos;axe des x et l&apos;axe des y.          </p>
     <p>
-      <b>loglog</b> utilise exactement la même syntaxe que la commande <b
-      >plot</b>.          </p>
+      <b>loglog</b> utilise exactement la même syntaxe que la commande <b>plot</b>.          </p>
   </description>
   <used_function />
   <bibliography />

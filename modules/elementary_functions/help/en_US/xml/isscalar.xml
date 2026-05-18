@@ -22,8 +22,7 @@
   </param_output>
   <description>
     <p>
-      <b>TF = isscalar(A)</b> returns logical true if <b
-      >A</b> is a scalar, meaning it is a 1-by-1 two-dimensional array.</p>
+      <b>TF = isscalar(A)</b> returns logical true if <b>A</b> is a scalar, meaning it is a 1-by-1 two-dimensional array.</p>
     <p>Otherwise, it returns logical false.</p>
   </description>
   <used_function />

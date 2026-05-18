@@ -37,8 +37,7 @@
   <description>
     <p>
       <b>audiowrite</b> écrit un fichier audio.</p>
-    <p>Plus de 26 formats de fichiers pris en charge. Voir la fonction <b
-      >audiosupportedformats</b> pour avoir tous les formats pris en charge.</p>
+    <p>Plus de 26 formats de fichiers pris en charge. Voir la fonction <b>audiosupportedformats</b> pour avoir tous les formats pris en charge.</p>
   </description>
   <used_function />
   <bibliography />

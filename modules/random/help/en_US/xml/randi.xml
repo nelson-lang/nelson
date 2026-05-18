@@ -49,8 +49,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >randi</b> returns random integers drawn from a discrete uniform distribution.</p>
+      <b>randi</b> returns random integers drawn from a discrete uniform distribution.</p>
     <p>X = randi(imax) returns a random scalar integer between 1 and imax.</p>
     <p
     >X = randi(imax, n) returns an n-by-n matrix of random integers between 1 and imax.</p>

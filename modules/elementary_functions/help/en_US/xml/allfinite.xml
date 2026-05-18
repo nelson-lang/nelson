@@ -21,8 +21,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >allfinite</b> returns a logical scalar which is true where elements of M are all finite values.</p>
+      <b>allfinite</b> returns a logical scalar which is true where elements of M are all finite values.</p>
   </description>
   <used_function />
   <bibliography />

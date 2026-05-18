@@ -19,8 +19,7 @@
     <p>
       <b>vswhere</b> permet de trouver facilement Visual Studio.</p>
     <p>
-      <b
-      >vswhere</b> est actuellement implémenté seulement sur la plateforme Windows.</p>
+      <b>vswhere</b> est actuellement implémenté seulement sur la plateforme Windows.</p>
   </description>
   <used_function />
   <bibliography>https://github.com/Microsoft/vswhere</bibliography>

@@ -73,8 +73,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >nombre simple explicite</example_item_description>
+      <example_item_description>nombre simple explicite</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[
@@ -84,8 +83,7 @@ single(3.1415)
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >nombre double implicite-explicite</example_item_description>
+      <example_item_description>nombre double implicite-explicite</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[
@@ -95,8 +93,7 @@ single(3.1415)
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >valeurs dépassant la précision maximale représentable par double</example_item_description>
+      <example_item_description>valeurs dépassant la précision maximale représentable par double</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[

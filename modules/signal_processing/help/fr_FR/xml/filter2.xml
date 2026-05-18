@@ -33,9 +33,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >Y = filter2(H, X)</b> applique un filtre à réponse impulsionnelle finie à une matrice de données X selon les coefficients de la matrice <b
-      >H</b>.</p>
+      <b>Y = filter2(H, X)</b> applique un filtre à réponse impulsionnelle finie à une matrice de données X selon les coefficients de la matrice <b>H</b>.</p>
   </description>
   <examples>
     <example_item>

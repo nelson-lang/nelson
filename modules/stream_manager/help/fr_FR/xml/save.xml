@@ -61,8 +61,7 @@
   </param_input>
   <description>
     <p>
-      <b
-      >save</b> sauvegarde les variables de l&apos;espace de travail dans un fichier .nh5 ou .mat.</p>
+      <b>save</b> sauvegarde les variables de l&apos;espace de travail dans un fichier .nh5 ou .mat.</p>
   </description>
   <examples>
     <example_item>

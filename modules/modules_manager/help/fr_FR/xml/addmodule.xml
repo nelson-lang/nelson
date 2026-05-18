@@ -21,16 +21,14 @@
   </param_input>
   <description>
     <p>
-      <b
-      >addmodule</b> enregistre un nouveau module identifié par son chemin et son nom court.</p>
+      <b>addmodule</b> enregistre un nouveau module identifié par son chemin et son nom court.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Voir le squelette de module pour un exemple</example_item_description>
+      <example_item_description>Voir le squelette de module pour un exemple</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[ismodule('module_skeleton')

@@ -28,8 +28,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >macroargs</b> retourne les variables d&apos;entrée et de sortie utilisées par la fonction.</p>
+      <b>macroargs</b> retourne les variables d&apos;entrée et de sortie utilisées par la fonction.</p>
   </description>
   <used_function />
   <bibliography />

@@ -24,8 +24,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >cellstr(A)</b> convertit en tableau cellulaire de tableaux de caractères.</p>
+      <b>cellstr(A)</b> convertit en tableau cellulaire de tableaux de caractères.</p>
   </description>
   <used_function />
   <bibliography />

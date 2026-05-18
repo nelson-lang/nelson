@@ -26,8 +26,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >C = mldivide(A, B)</b> returns the matrix left division of A and B.</p>
+      <b>C = mldivide(A, B)</b> returns the matrix left division of A and B.</p>
   </description>
   <used_function />
   <bibliography />

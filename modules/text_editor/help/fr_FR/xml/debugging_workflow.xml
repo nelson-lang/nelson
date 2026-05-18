@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>débogage</keyword>
-  <short_description
+  <short_description
   >Flux de travail de débogage pour les fichiers de code Nelson.</short_description>
   <description>
     <p>      Le débogueur Nelson fournit des outils interactifs pour diagnostiquer et corriger
@@ -33,38 +33,34 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      > Crée demo_debugger.m pour des exemples de débogage.</example_item_description>
-      <example_item_data
-        runnable="adv-cli"
-      ><![CDATA[n = 50;
-r = rand(n,1);
-plot(r)
-
-m = mean(r);
-hold on
-plot([0,n],[m,m])
-hold off
+      <example_item_description> Crée demo_debugger.m pour des exemples de débogage.</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[n = 50;
+r = rand(n,1);
+plot(r)
+m = mean(r);
+hold on
+plot([0,n],[m,m])
+hold off
 title("Mean of Random Uniform Data")]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Définissez un point d&apos;arrêt dans la fonction demo_debugger. Cliquez sur la marge gauche à côté du numéro de ligne pour basculer un point d&apos;arrêt.</example_item_description>
-      <example_item_img
-        src="../../images/set_breakpoint.png"
-        align="middle"
-        generate="false"
+      <example_item_description>Définissez un point d&apos;arrêt dans la fonction demo_debugger. Cliquez sur la marge gauche à côté du numéro de ligne pour basculer un point d&apos;arrêt.</example_item_description>
+      <example_item_img
+        src="../../images/set_breakpoint.png"
+        align="middle"
+        generate="false"
       />
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Démarrez le débogage en appelant la fonction demo_debugger depuis la ligne de commande ou le bouton &quot;Exécuter le fichier&quot;.</example_item_description>
-      <example_item_img
-        src="../../images/stop_at_breakpoint.png"
-        align="middle"
-        generate="false"
+      <example_item_description>Démarrez le débogage en appelant la fonction demo_debugger depuis la ligne de commande ou le bouton &quot;Exécuter le fichier&quot;.</example_item_description>
+      <example_item_img
+        src="../../images/stop_at_breakpoint.png"
+        align="middle"
+        generate="false"
       />
     </example_item>
   </examples>

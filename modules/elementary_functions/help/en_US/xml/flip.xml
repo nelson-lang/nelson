@@ -25,8 +25,7 @@
   </param_output>
   <description>
     <p>
-      <b>flip</b> return an new array of <b
-      >A</b> flipped about the dimension <b>dim</b>.</p>
+      <b>flip</b> return an new array of <b>A</b> flipped about the dimension <b>dim</b>.</p>
   </description>
   <used_function />
   <bibliography />

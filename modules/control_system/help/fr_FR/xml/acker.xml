@@ -31,23 +31,17 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>La fonction <b>acker</b> calcule la matrice de gain de rétroaction <b
-      >K</b> pour un système à entrée unique décrit par les matrices d&apos;espace d&apos;état <b
-      >A</b> et <b>B</b>.</p>
-    <p>Les pôles en boucle fermée du système sous la loi de rétroaction <b
-      >u = -Kx</b> sont déterminés par le vecteur spécifié <b>P</b>, où <b
-      >P</b> représente les localisations des pôles souhaitées.</p>
+    <p>La fonction <b>acker</b> calcule la matrice de gain de rétroaction <b>K</b> pour un système à entrée unique décrit par les matrices d&apos;espace d&apos;état <b>A</b> et <b>B</b>.</p>
+    <p>Les pôles en boucle fermée du système sous la loi de rétroaction <b>u = -Kx</b> sont déterminés par le vecteur spécifié <b>P</b>, où <b>P</b> représente les localisations des pôles souhaitées.</p>
     <p
-    >Les pôles en boucle fermée sont essentiellement les valeurs propres de la matrice <b
-      >A - B*K</b>, calculées comme <b>P = eig(A - B*K)</b>.</p>
+    >Les pôles en boucle fermée sont essentiellement les valeurs propres de la matrice <b>A - B*K</b>, calculées comme <b>P = eig(A - B*K)</b>.</p>
     <p />
     <p
     >Il est important de noter que cet algorithme utilise la formule d&apos;Ackermann.</p>
     <p
     >Cependant, les utilisateurs doivent être conscients que cette méthode peut ne pas être numériquement fiable, particulièrement pour les systèmes d&apos;ordre supérieur à 10 ou pour les systèmes faiblement contrôlables.</p>
     <p
-    >Si l&apos;algorithme rencontre une instabilité numérique ou si les pôles en boucle fermée dévient significativement (plus de 10%) des localisations souhaitées spécifiées dans <b
-      >P</b>, un message d&apos;avertissement est émis pour alerter l&apos;utilisateur sur les problèmes potentiels.</p>
+    >Si l&apos;algorithme rencontre une instabilité numérique ou si les pôles en boucle fermée dévient significativement (plus de 10%) des localisations souhaitées spécifiées dans <b>P</b>, un message d&apos;avertissement est émis pour alerter l&apos;utilisateur sur les problèmes potentiels.</p>
     <p
     >Les utilisateurs sont invités à faire preuve de prudence et à envisager des méthodes alternatives pour les systèmes d&apos;ordre supérieur ou faiblement contrôlables.</p>
   </description>

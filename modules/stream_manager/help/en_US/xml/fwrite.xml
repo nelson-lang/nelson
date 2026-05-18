@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>en_US</language>
   <keyword>fwrite</keyword>
-  <short_description
+  <short_description
   >Write data in binary form to the file specified by the file descriptor fid.</short_description>
   <syntax>
     <syntax_item>count = fwrite(fid, data)</syntax_item>
@@ -32,7 +32,7 @@
     </param_input_item>
     <param_input_item>
       <param_name>arch</param_name>
-      <param_description
+      <param_description
       >a string specifying the data format for the file.</param_description>
     </param_input_item>
   </param_input>
@@ -47,7 +47,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p
+    <p
     >Write data in binary form to the file specified by the file descriptor fid.</p>
     <p>characters encoding uses <b>fopen</b> parameter.</p>
     <p>supported architecture:</p>
@@ -157,10 +157,8 @@
       </table>
     </p>
     <p>if <b>fwrite</b> fails, it returns a negative value.</p>
-    <p>if <b
-      >fwrite</b> succeeds, it returns the number of elements written successfully.</p>
-    <p>if <b
-      >fwrite</b> writes characters, it returns the number of characters written successfully and not the number of elements.</p>
+    <p>if <b>fwrite</b> succeeds, it returns the number of elements written successfully.</p>
+    <p>if <b>fwrite</b> writes characters, it returns the number of characters written successfully and not the number of elements.</p>
   </description>
   <used_function />
   <bibliography />
@@ -168,34 +166,31 @@
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description />
-      <example_item_data
-        runnable="cli"
-      ><![CDATA[
-A = rand(3,1)
-
-fileID = fopen([tempdir(), 'doubledata.bin'],'w');
-fwrite(fileID, A,'double');
-fclose(fileID);
-
-fileID = fopen([tempdir(), 'doubledata.bin'],'r');
-R = fread(fileID, 'double')
-fclose(fileID);
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[
+A = rand(3,1)
+fileID = fopen([tempdir(), 'doubledata.bin'],'w');
+fwrite(fileID, A,'double');
+fclose(fileID);
+fileID = fopen([tempdir(), 'doubledata.bin'],'r');
+R = fread(fileID, 'double')
+fclose(fileID);
 ]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description />
-      <example_item_data
-      ><![CDATA[
-test_string =  'é ö ä ü è ê';
-fid = fopen([tempdir(), 'fwrite_example_char.txt'], 'w','n', 'UTF-8');
-[count, bytes] = fwrite(fid, test_string) % returns 11 and 17
-fclose(fid);
-
-% This is the number of characters written and not the number of bytes.
-% Each accented character (é, ö, ä, ü, è, ê) = 2 bytes each
-% Each space = 1 byte
-% Total bytes = 6*2 + 5*1 = 17 bytes
+      <example_item_data
+      ><![CDATA[
+test_string =  'é ö ä ü è ê';
+fid = fopen([tempdir(), 'fwrite_example_char.txt'], 'w','n', 'UTF-8');
+[count, bytes] = fwrite(fid, test_string) % returns 11 and 17
+fclose(fid);
+% This is the number of characters written and not the number of bytes.
+% Each accented character (é, ö, ä, ü, è, ê) = 2 bytes each
+% Each space = 1 byte
+% Total bytes = 6*2 + 5*1 = 17 bytes
 ]]></example_item_data>
     </example_item>
   </examples>
@@ -217,7 +212,7 @@ fclose(fid);
     </history_item>
     <history_item>
       <history_version>1.15.0</history_version>
-      <history_description
+      <history_description
       >fwrite returns the number of characters written for character data.</history_description>
     </history_item>
   </history>

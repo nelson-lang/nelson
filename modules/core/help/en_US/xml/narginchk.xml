@@ -23,17 +23,14 @@
     <p>
       <b>narginchk</b> checks the number of input arguments of an function.</p>
     <p
-    >To ensure that a minimum number of arguments is provided, while allowing an unlimited maximum number by setting <b
-      >maxArgs</b> to <b>inf</b>. For instance, use <b
-      >narginchk(2, inf)</b> to throw an error if fewer than two inputs are supplied.</p>
+    >To ensure that a minimum number of arguments is provided, while allowing an unlimited maximum number by setting <b>maxArgs</b> to <b>inf</b>. For instance, use <b>narginchk(2, inf)</b> to throw an error if fewer than two inputs are supplied.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >With an macro function:</example_item_description>
+      <example_item_description>With an macro function:</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[narginchk(1, 2)]]></example_item_data>

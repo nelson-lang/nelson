@@ -47,10 +47,8 @@
   </param_output>
   <description>
     <p>
-      <b
-      >mexCallMATLABWithTrap</b> appelle une fonction NELSON et capture l&apos;erreur.</p>
-    <p>Si une erreur est détectée,<b
-      >mexCallMATLABWithTrap</b> renvoie un mxArray (objet MException).</p>
+      <b>mexCallMATLABWithTrap</b> appelle une fonction NELSON et capture l&apos;erreur.</p>
+    <p>Si une erreur est détectée,<b>mexCallMATLABWithTrap</b> renvoie un mxArray (objet MException).</p>
   </description>
   <used_function />
   <bibliography />

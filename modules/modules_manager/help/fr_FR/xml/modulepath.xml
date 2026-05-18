@@ -30,18 +30,14 @@
   </param_output>
   <description>
     <p>
-      <b
-      >modulepath</b> est une fonction d&apos;aide qui renvoie le chemin racine d&apos;un module ou un sous-répertoire.</p>
+      <b>modulepath</b> est une fonction d&apos;aide qui renvoie le chemin racine d&apos;un module ou un sous-répertoire.</p>
     <p>
-      <b>modulepath(&apos;nelson&apos;)</b> est équivalent à <b
-      >modulepath(&apos;nelson&apos;, &apos;root&apos;)</b>
+      <b>modulepath(&apos;nelson&apos;)</b> est équivalent à <b>modulepath(&apos;nelson&apos;, &apos;root&apos;)</b>
     </p>
     <p>
-      <b
-      >modulepath(&apos;nelson&apos;, &apos;bin&apos;)</b> renvoie le chemin des exécutables de Nelson.</p>
+      <b>modulepath(&apos;nelson&apos;, &apos;bin&apos;)</b> renvoie le chemin des exécutables de Nelson.</p>
     <p>
-      <b
-      >modulepath(&apos;nelson&apos;, &apos;builtin&apos;)</b> renvoie le chemin des bibliothèques dynamiques de Nelson.</p>
+      <b>modulepath(&apos;nelson&apos;, &apos;builtin&apos;)</b> renvoie le chemin des bibliothèques dynamiques de Nelson.</p>
   </description>
   <used_function />
   <bibliography />

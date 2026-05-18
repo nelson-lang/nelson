@@ -20,18 +20,15 @@
   </param_output>
   <description>
     <p>
-      <b
-      >R = nfilename()</b> returns the name of the currently executing file.</p>
+      <b>R = nfilename()</b> returns the name of the currently executing file.</p>
     <p>
-      <b
-      >nfilename()</b> called from outside an nlf file returns an empty string.</p>
+      <b>nfilename()</b> called from outside an nlf file returns an empty string.</p>
     <p
     >With the input argument &apos;fullpathext&apos;, the string includes the directory part of the macro filename, and the filename extension.</p>
     <p
     >With the input argument &apos;fullpath&apos;, the string includes the directory part of the macro filename, but not the extension.</p>
     <p>
-      <b>mfilename</b> is an alias on <b
-      >nfilename</b> added for basic script compatibility.</p>
+      <b>mfilename</b> is an alias on <b>nfilename</b> added for basic script compatibility.</p>
   </description>
   <used_function />
   <bibliography />

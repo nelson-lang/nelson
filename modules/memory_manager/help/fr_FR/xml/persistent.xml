@@ -17,9 +17,8 @@
   </param_input>
   <description>
     <p>
-      <b>persistent</b> définit une variable identifiée par son nom<b
-      >variable_name</b> comme persistante dans une fonction.</p>
-    <p
+      <b>persistent</b> définit une variable identifiée par son nom<b>variable_name</b> comme persistante dans une fonction.</p>
+    <p
     >Avant d&apos;utiliser une variable persistante, il est nécessaire d&apos;initialiser sa valeur.</p>
   </description>
   <used_function />
@@ -28,26 +27,25 @@
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description>function to define:</example_item_description>
-      <example_item_data
-        runnable="cli"
-      ><![CDATA[function r = test_persistent_function()
- persistent calls;
- if isempty(calls)
-    calls = 0;
- end
- disp(['nb calls to test_persistent_function: ', int2str(calls)]);
- r= calls;
- calls = calls + 1;
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[function r = test_persistent_function()
+ persistent calls;
+ if isempty(calls)
+    calls = 0;
+ end
+ disp(['nb calls to test_persistent_function: ', int2str(calls)]);
+ r= calls;
+ calls = calls + 1;
 end]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >calls test_persistent_function</example_item_description>
-      <example_item_data
-      ><![CDATA[for i = 1:30
-  r = test_persistent_function();
-end
+      <example_item_description>calls test_persistent_function</example_item_description>
+      <example_item_data
+      ><![CDATA[for i = 1:30
+  r = test_persistent_function();
+end
 ]]></example_item_data>
     </example_item>
   </examples>

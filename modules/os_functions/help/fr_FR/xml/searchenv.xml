@@ -29,8 +29,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >searchenv</b> recherche un fichier en parcourant les chemins d&apos;une variable d&apos;environnement.</p>
+      <b>searchenv</b> recherche un fichier en parcourant les chemins d&apos;une variable d&apos;environnement.</p>
   </description>
   <used_function />
   <bibliography />

@@ -21,8 +21,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <b
-    >isuint32</b> renvoie 1 logique si l&apos;argument est un tableau d&apos;entiers non signés 32 bits et 0 logique sinon.      </description>
+    <b>isuint32</b> renvoie 1 logique si l&apos;argument est un tableau d&apos;entiers non signés 32 bits et 0 logique sinon.      </description>
   <used_function />
   <bibliography />
   <examples>

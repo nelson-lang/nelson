@@ -29,8 +29,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >isValidGraphicsProperty</b> vérifie si le nom de propriété existe pour une classe d&apos;objet graphique.          </p>
+      <b>isValidGraphicsProperty</b> vérifie si le nom de propriété existe pour une classe d&apos;objet graphique.          </p>
     <p
     >              Cette fonction est une aide pour vérifier les paramètres d&apos;entrée des fonctions graphiques.</p>
   </description>

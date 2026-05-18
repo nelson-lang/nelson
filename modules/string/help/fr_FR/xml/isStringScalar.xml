@@ -18,14 +18,12 @@
   <param_output>
     <param_output_item>
       <param_name>r</param_name>
-      <param_description>un booléen : vrai si <b
-        >res</b> est de type chaîne et scalaire, sinon faux.</param_description>
+      <param_description>un booléen : vrai si <b>res</b> est de type chaîne et scalaire, sinon faux.</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p>
-      <b
-      >isStringScalar</b> vérifie si l&apos;entrée est un tableau de chaînes avec un seul élément.</p>
+      <b>isStringScalar</b> vérifie si l&apos;entrée est un tableau de chaînes avec un seul élément.</p>
   </description>
   <used_function />
   <bibliography />

@@ -35,8 +35,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >isnh5file</b> vérifie si le nom de fichier correspond à un fichier .nh5 valide.</p>
+      <b>isnh5file</b> vérifie si le nom de fichier correspond à un fichier .nh5 valide.</p>
   </description>
   <used_function />
   <bibliography />

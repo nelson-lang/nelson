@@ -31,8 +31,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >jsondecode</b> convertit les noms de champs d&apos;un objet JSON en noms de champs d&apos;une structure Nelson.</p>
+      <b>jsondecode</b> convertit les noms de champs d&apos;un objet JSON en noms de champs d&apos;une structure Nelson.</p>
   </description>
   <used_function />
   <bibliography>http://www.rfc-editor.org/rfc/rfc7159.txt</bibliography>

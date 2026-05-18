@@ -24,11 +24,9 @@
   </param_output>
   <description>
     <p>
-      <b
-      >onCleanup</b> creates an object that executes a specified function handle when the object is cleared or goes out of scope, allowing for cleanup tasks to be performed automatically upon function completion.</p>
+      <b>onCleanup</b> creates an object that executes a specified function handle when the object is cleared or goes out of scope, allowing for cleanup tasks to be performed automatically upon function completion.</p>
     <p>
-      <b>cancel(obj)</b> or <b
-      >obj.cancel()</b> prevents the cleanup function from being executed.</p>
+      <b>cancel(obj)</b> or <b>obj.cancel()</b> prevents the cleanup function from being executed.</p>
   </description>
   <used_function />
   <bibliography />

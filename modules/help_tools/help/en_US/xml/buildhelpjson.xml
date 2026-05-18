@@ -9,8 +9,7 @@
   </syntax>
   <description>
     <p>
-      <b
-      >buildhelpjson</b> generates help files (in JSON format) (internal feature).</p>
+      <b>buildhelpjson</b> generates help files (in JSON format) (internal feature).</p>
   </description>
   <used_function />
   <bibliography />

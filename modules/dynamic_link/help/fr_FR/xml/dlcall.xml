@@ -27,11 +27,9 @@
   </param_output>
   <description>
     <p>
-      <b
-      >dlcall</b> appelle une fonction externe C ou Fortran chargée depuis une bibliothèque partagée.</p>
+      <b>dlcall</b> appelle une fonction externe C ou Fortran chargée depuis une bibliothèque partagée.</p>
     <p>
-      <b
-      >dlcall</b> valide les types des arguments d&apos;entrée avant l&apos;appel, en se basant sur la définition du handle dlsym.</p>
+      <b>dlcall</b> valide les types des arguments d&apos;entrée avant l&apos;appel, en se basant sur la définition du handle dlsym.</p>
   </description>
   <used_function />
   <bibliography />
@@ -53,16 +51,14 @@ delete(lib);
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Call C getpid function</example_item_description>
+      <example_item_description>Call C getpid function</example_item_description>
       <example_item_data
       ><![CDATA[run([modulepath('dynamic_link'), '/examples/call_c.m']);
 ]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Call fortran DASUM (blas) function</example_item_description>
+      <example_item_description>Call fortran DASUM (blas) function</example_item_description>
       <example_item_data
       ><![CDATA[run([modulepath('dynamic_link'), '/examples/call_fortran.m']);]]></example_item_data>
     </example_item>

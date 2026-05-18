@@ -17,8 +17,7 @@
   </param_input>
   <description>
     <p>
-      <b
-      >winopen(filename)</b> ouvre le fichier dans l&apos;application Microsoft Windows appropriée.</p>
+      <b>winopen(filename)</b> ouvre le fichier dans l&apos;application Microsoft Windows appropriée.</p>
     <p
     >La fonction winopen utilise la commande shell Windows appropriée et effectue la même action que si vous double-cliquiez sur le fichier dans l&apos;Explorateur Windows.</p>
     <p

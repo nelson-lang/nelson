@@ -24,8 +24,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >convertStringToCharArgs</b> convertit soit un tableau de cellules de valeurs de chaîne, soit un tableau de chaînes  en un tableau de cellules de vecteurs de caractères.</p>
+      <b>convertStringToCharArgs</b> convertit soit un tableau de cellules de valeurs de chaîne, soit un tableau de chaînes  en un tableau de cellules de vecteurs de caractères.</p>
     <p
     >Pour convertir un scalaire de chaîne unique en un vecteur de caractères, utilisez plutôt la fonction char.</p>
     <p
@@ -36,8 +35,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Convertir un scalaire de chaîne en un vecteur de caractères et un tableau de chaînes en une cellule de vecteurs de caractères.</example_item_description>
+      <example_item_description>Convertir un scalaire de chaîne en un vecteur de caractères et un tableau de chaînes en une cellule de vecteurs de caractères.</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[

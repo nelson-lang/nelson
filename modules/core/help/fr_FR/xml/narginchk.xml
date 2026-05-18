@@ -28,8 +28,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Avec une fonction macro :</example_item_description>
+      <example_item_description>Avec une fonction macro :</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[narginchk(1, 2)]]></example_item_data>

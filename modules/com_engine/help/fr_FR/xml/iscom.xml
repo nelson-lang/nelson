@@ -22,8 +22,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >r = iscom(h)</b> retourne vrai si le handle h est un objet COM ou Microsoft® ActiveX®. Sinon, il retourne faux.</p>
+      <b>r = iscom(h)</b> retourne vrai si le handle h est un objet COM ou Microsoft® ActiveX®. Sinon, il retourne faux.</p>
   </description>
   <used_function />
   <bibliography />

@@ -153,8 +153,7 @@ end
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Display a percent sign</example_item_description>
+      <example_item_description>Display a percent sign</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[fprintf(1, '%d%%.', 95)]]></example_item_data>

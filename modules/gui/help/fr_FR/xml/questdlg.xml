@@ -54,8 +54,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >questdlg</b> affiche une question dans une boîte de dialogue et renvoie le texte du bouton activé.</p>
+      <b>questdlg</b> affiche une question dans une boîte de dialogue et renvoie le texte du bouton activé.</p>
     <p
     >La boîte de dialogue possède trois boutons par défaut : &apos;Yes&apos;, &apos;No&apos;, &apos;Cancel&apos;, avec &apos;Yes&apos; comme valeur par défaut.</p>
   </description>

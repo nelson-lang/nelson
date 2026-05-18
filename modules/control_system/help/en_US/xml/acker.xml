@@ -31,22 +31,16 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>The function <b>acker</b> computes the feedback gain matrix <b
-      >K</b> for a single-input system described by the state-space matrices <b
-      >A</b> and <b>B</b>.</p>
-    <p>The closed-loop poles of the system under the feedback law <b
-      >u = -Kx</b> are determined by the specified vector <b>P</b>, where <b
-      >P</b> represents the desired pole locations.</p>
-    <p>The closed-loop poles are essentially the eigenvalues of the matrix <b
-      >A - B*K</b>, calculated as <b>P = eig(A - B*K)</b>.</p>
+    <p>The function <b>acker</b> computes the feedback gain matrix <b>K</b> for a single-input system described by the state-space matrices <b>A</b> and <b>B</b>.</p>
+    <p>The closed-loop poles of the system under the feedback law <b>u = -Kx</b> are determined by the specified vector <b>P</b>, where <b>P</b> represents the desired pole locations.</p>
+    <p>The closed-loop poles are essentially the eigenvalues of the matrix <b>A - B*K</b>, calculated as <b>P = eig(A - B*K)</b>.</p>
     <p />
     <p
     >It&apos;s important to note that this algorithm utilizes Ackermann&apos;s formula.</p>
     <p
     >However, users should be aware that this method may not be numerically reliable, particularly for systems of order greater than 10 or for systems that are weakly controllable.</p>
     <p
-    >If the algorithm encounters numerical instability or if the closed-loop poles deviate significantly (more than 10%) from the desired locations specified in <b
-      >P</b>, a warning message is issued to alert the user about potential issues.</p>
+    >If the algorithm encounters numerical instability or if the closed-loop poles deviate significantly (more than 10%) from the desired locations specified in <b>P</b>, a warning message is issued to alert the user about potential issues.</p>
     <p
     >Users are advised to exercise caution and consider alternative methods for higher-order or weakly controllable systems.</p>
   </description>

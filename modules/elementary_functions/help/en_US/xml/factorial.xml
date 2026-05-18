@@ -22,8 +22,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >factorial</b> computes the factorial function: the product of all integers values: 1 * 2 * ... * M</p>
+      <b>factorial</b> computes the factorial function: the product of all integers values: 1 * 2 * ... * M</p>
   </description>
   <used_function />
   <bibliography />

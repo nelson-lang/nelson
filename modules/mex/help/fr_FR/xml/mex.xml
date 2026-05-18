@@ -58,11 +58,9 @@
     <p />
     <p>MACRO C PRÉDÉFINIE :</p>
     <p>
-      <b
-      >MX_IS_NELSON</b> : la macro est définie pour détecter facilement si Nelson est utilisé dans le code C.</p>
+      <b>MX_IS_NELSON</b> : la macro est définie pour détecter facilement si Nelson est utilisé dans le code C.</p>
     <p>
-      <b
-      >MX_HAS_INTERLEAVED_COMPLEX</b> : la macro est définie si l&apos;API C MEX utilisée est &apos;-R2018a&apos;.</p>
+      <b>MX_HAS_INTERLEAVED_COMPLEX</b> : la macro est définie si l&apos;API C MEX utilisée est &apos;-R2018a&apos;.</p>
     <p />
     <p>Options prises en charge : compilation ou édition de liens.</p>
     <p>
@@ -71,11 +69,9 @@
     <p>
       <b>-D</b> L&apos;option -D définit une macro du préprocesseur C.</p>
     <p>
-      <b
-      >-U</b> L&apos;option -U annule la définition d&apos;une macro du préprocesseur C</p>
+      <b>-U</b> L&apos;option -U annule la définition d&apos;une macro du préprocesseur C</p>
     <p>
-      <b
-      >-I</b> Ajoute un chemin à la liste des dossiers recherchés pour les fichiers #include.</p>
+      <b>-I</b> Ajoute un chemin à la liste des dossiers recherchés pour les fichiers #include.</p>
     <p>
       <b>-l</b> Lie avec une bibliothèque dynamique .lib, .so ou .dylib.</p>
     <p>

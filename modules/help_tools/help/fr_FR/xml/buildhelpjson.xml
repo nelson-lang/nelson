@@ -10,8 +10,7 @@
   </syntax>
   <description>
     <p>
-      <b
-      >buildhelpjson</b> génère des fichiers d&apos;aide (au format JSON) (fonctionnalité interne).</p>
+      <b>buildhelpjson</b> génère des fichiers d&apos;aide (au format JSON) (fonctionnalité interne).</p>
   </description>
   <used_function />
   <bibliography />

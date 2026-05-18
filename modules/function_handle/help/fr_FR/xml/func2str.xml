@@ -22,9 +22,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >func_handle = str2func(str)</b> renvoie un function handle construit à partir de la chaîne <b
-      >str</b>.</p>
+      <b>func_handle = str2func(str)</b> renvoie un function handle construit à partir de la chaîne <b>str</b>.</p>
   </description>
   <used_function />
   <bibliography />

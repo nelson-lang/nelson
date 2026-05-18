@@ -33,10 +33,7 @@
   </param_output>
   <description>
     <p>
-      <b>p = polyfit(x, y, n)</b> renvoie les coefficients d&apos;un polynôme <b
-      >p(x)</b> de degré <b
-      >n</b> qui réalise le meilleur ajustement (least-squares) des données <b
-      >y</b>.</p>
+      <b>p = polyfit(x, y, n)</b> renvoie les coefficients d&apos;un polynôme <b>p(x)</b> de degré <b>n</b> qui réalise le meilleur ajustement (least-squares) des données <b>y</b>.</p>
   </description>
   <examples>
     <example_item>

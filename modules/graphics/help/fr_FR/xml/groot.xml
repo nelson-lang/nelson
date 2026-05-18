@@ -26,13 +26,11 @@
     <p>
       <b>PointerLocation</b> : Position actuelle du pointeur.</p>
     <p>
-      <b
-      >ScreenDepth</b> : Nombre de bits définissant chaque couleur de pixel.</p>
+      <b>ScreenDepth</b> : Nombre de bits définissant chaque couleur de pixel.</p>
     <p>
       <b>ScreenSize</b> : Taille de l&apos;écran principal (vecteur).</p>
     <p>
-      <b
-      >Tag</b> : Identifiant de l&apos;objet : chaîne, vecteur de caractères, &apos;
+      <b>Tag</b> : Identifiant de l&apos;objet : chaîne, vecteur de caractères, &apos;
       &apos; (par défaut).</p>
     <p>
       <b>Type</b> : Type &apos;root&apos;.</p>

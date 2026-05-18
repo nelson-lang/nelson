@@ -38,9 +38,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>La fonction <b>damp(sys)</b> fournit les fréquences naturelles (<b
-      >wn</b>) et les rapports d&apos;amortissement (<b
-      >zeta</b>) associés aux pôles du système représenté par <b>sys</b>.</p>
+    <p>La fonction <b>damp(sys)</b> fournit les fréquences naturelles (<b>wn</b>) et les rapports d&apos;amortissement (<b>zeta</b>) associés aux pôles du système représenté par <b>sys</b>.</p>
   </description>
   <examples>
     <example_item>

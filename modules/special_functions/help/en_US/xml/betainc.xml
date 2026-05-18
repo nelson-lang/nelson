@@ -38,8 +38,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >betainc</b> computes the incomplete beta function (regularized).</p>
+      <b>betainc</b> computes the incomplete beta function (regularized).</p>
     <p
     >The incomplete beta function is defined as:</p>
     <latex

@@ -52,14 +52,11 @@
   </param_output>
   <description>
     <p>
-      <b
-      >plot3(X1, Y1, Z1, ...)</b> trace une ou plusieurs courbes dans l&apos;espace tridimensionnel.          </p>
+      <b>plot3(X1, Y1, Z1, ...)</b> trace une ou plusieurs courbes dans l&apos;espace tridimensionnel.          </p>
     <p>
-      <b
-      >go = plot3(...)</b> retourne un vecteur colonne d&apos;objets graphiques de type ligne.</p>
+      <b>go = plot3(...)</b> retourne un vecteur colonne d&apos;objets graphiques de type ligne.</p>
     <p />
-    <p>Voir <b>line</b> ou<b
-      >plot</b> pour plus d&apos;informations sur les propriétés.</p>
+    <p>Voir <b>line</b> ou<b>plot</b> pour plus d&apos;informations sur les propriétés.</p>
   </description>
   <used_function />
   <bibliography />

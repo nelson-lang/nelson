@@ -22,8 +22,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >isempty</b> returns a logical true if the argument is an empty matrix.</p>
+      <b>isempty</b> returns a logical true if the argument is an empty matrix.</p>
     <p>Any one of its dimensions is zero.</p>
   </description>
   <used_function />

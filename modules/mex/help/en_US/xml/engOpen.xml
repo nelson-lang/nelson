@@ -23,20 +23,17 @@
   </param_output>
   <description>
     <p>
-      <b
-      >engOpen</b> starts a Nelson process for using Nelson as a computational engine.</p>
+      <b>engOpen</b> starts a Nelson process for using Nelson as a computational engine.</p>
     <p
     >Libraries path need to contain nelson path to find Nelson&apos;s libraries at runtime.</p>
     <p>Set the value to the path returned by the following Nelson command:</p>
     <p>
       <b>res</b> = modulepath(&apos;nelson&apos;, &apos;builtin&apos;)</p>
-    <p>on linux: export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:<b
-      >res</b>
+    <p>on linux: export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:<b>res</b>
     </p>
     <p>export PATH=$PATH:<b>res</b>
     </p>
-    <p>on macos: export DYLIB_LIBRARY_PATH=$DYLIB_LIBRARY_PATH:<b
-      >res</b>
+    <p>on macos: export DYLIB_LIBRARY_PATH=$DYLIB_LIBRARY_PATH:<b>res</b>
     </p>
     <p>export PATH=$PATH:<b>res</b>
     </p>

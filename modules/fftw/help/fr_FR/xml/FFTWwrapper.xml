@@ -43,8 +43,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >FFTWwrapper</b> est une fonction interne utilisée pour charger la bibliothèque FFTW dynamiquement.</p>
+      <b>FFTWwrapper</b> est une fonction interne utilisée pour charger la bibliothèque FFTW dynamiquement.</p>
   </description>
   <used_function />
   <bibliography />

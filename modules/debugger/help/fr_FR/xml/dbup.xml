@@ -17,12 +17,10 @@
   </param_input>
   <description>
     <p>
-      <b
-      >dbup</b>  change le contexte de l&apos;espace de travail et de la fonction courante pour celui de la
+      <b>dbup</b>  change le contexte de l&apos;espace de travail et de la fonction courante pour celui de la
       fonction ou du script appelant en mode débogage. Cela permet d&apos;inspecter l&apos;espace de travail
       de l&apos;appelant pour comprendre comment les arguments d&apos;entrée ont été produits.</p>
-    <p>      Chaque appel à <b
-      >dbup</b> monte d&apos;un niveau dans la pile d&apos;appels, s&apos;arrêtant à l&apos;espace de travail de base. L&apos;exécution peut continuer
+    <p>      Chaque appel à <b>dbup</b> monte d&apos;un niveau dans la pile d&apos;appels, s&apos;arrêtant à l&apos;espace de travail de base. L&apos;exécution peut continuer
       sans revenir à la ligne en pause de l&apos;espace de travail.</p>
     <p>
       <b>dbup n</b> est équivalent à exécuter <b>dbup</b>

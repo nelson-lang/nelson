@@ -35,8 +35,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >zip</b> compresse des fichiers et des répertoires dans une archive zip.</p>
+      <b>zip</b> compresse des fichiers et des répertoires dans une archive zip.</p>
     <p>Chaque fichier individuel doit être inférieur à 4 Go.</p>
     <p>Le nombre de fichiers spécifiés doit être inférieur à 65535.</p>
   </description>

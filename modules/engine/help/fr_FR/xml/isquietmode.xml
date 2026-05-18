@@ -16,8 +16,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >isquietmode</b> renvoie true si Nelson a été démarré avec l&apos;option --quiet et false sinon.</p>
+      <b>isquietmode</b> renvoie true si Nelson a été démarré avec l&apos;option --quiet et false sinon.</p>
   </description>
   <used_function />
   <bibliography />

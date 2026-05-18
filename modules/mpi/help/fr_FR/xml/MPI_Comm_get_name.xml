@@ -16,8 +16,7 @@
   </param_input>
   <description>
     <p>
-      <b
-      >MPI_Comm_get_name(comm)</b> renvoie le nom imprimable du communicateur.</p>
+      <b>MPI_Comm_get_name(comm)</b> renvoie le nom imprimable du communicateur.</p>
   </description>
   <used_function />
   <bibliography />

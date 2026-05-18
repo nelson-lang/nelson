@@ -27,13 +27,9 @@
   </param_output>
   <description>
     <p>
-      <b
-      >C = readcell(filename)</b> crée une cellule en important des données orientées colonne depuis un fichier texte ou tableur.</p>
+      <b>C = readcell(filename)</b> crée une cellule en important des données orientées colonne depuis un fichier texte ou tableur.</p>
     <p>
-      <b
-      >C = readcell(filename, opts)</b> crée une cellule en utilisant les paramètres définis dans l&apos;objet d&apos;options d&apos;importation<b
-      >opts</b>. L&apos;objet d&apos;options d&apos;importation permet de personnaliser la façon dont <b
-      >readcell</b> interprète le fichier, offrant un meilleur contrôle, de meilleures performances et la possibilité de réutiliser la configuration comparé à la syntaxe par défaut.</p>
+      <b>C = readcell(filename, opts)</b> crée une cellule en utilisant les paramètres définis dans l&apos;objet d&apos;options d&apos;importation<b>opts</b>. L&apos;objet d&apos;options d&apos;importation permet de personnaliser la façon dont <b>readcell</b> interprète le fichier, offrant un meilleur contrôle, de meilleures performances et la possibilité de réutiliser la configuration comparé à la syntaxe par défaut.</p>
   </description>
   <used_function />
   <bibliography />

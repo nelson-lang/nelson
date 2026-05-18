@@ -27,8 +27,7 @@
     </param_input_item>
   </param_input>
   <description>
-    <b
-    >playblocking</b> plays an audioplayer object until playback is finished.</description>
+    <b>playblocking</b> plays an audioplayer object until playback is finished.</description>
   <used_function />
   <bibliography />
   <examples>

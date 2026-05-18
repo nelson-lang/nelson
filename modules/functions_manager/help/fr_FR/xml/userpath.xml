@@ -40,8 +40,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >userpath</b> modifie ou affiche le chemin de chargement de l&apos;utilisateur.</p>
+      <b>userpath</b> modifie ou affiche le chemin de chargement de l&apos;utilisateur.</p>
     <p>Par défaut, le répertoire <b>userpath</b> dépend de la plateforme :</p>
     <p>Plateformes Windows : %USERPROFILE%/Documents/Nelson</p>
     <p>Autres plateformes : $home/Documents/Nelson</p>

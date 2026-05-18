@@ -46,9 +46,7 @@
     >- Parenthèses (T(rows, vars)) pour retourner un sous-ensemble de la table.</p>
     <p />
     <p>
-      <b
-      >T = table(var1, ..., varN)</b> crée une table à partir des variables d&apos;entrée              spécifiées <b
-      >var1,...,varN</b>.</p>
+      <b>T = table(var1, ..., varN)</b> crée une table à partir des variables d&apos;entrée              spécifiées <b>var1,...,varN</b>.</p>
     <p
     >Les variables peuvent varier en taille et en type de données, mais elles doivent toutes              avoir le même nombre de lignes.</p>
     <p
@@ -57,8 +55,7 @@
     >Sinon, la table assigne des noms par défaut au format &apos;Var1&apos;, &apos;Var2&apos;, etc., où N est le nombre total de variables.</p>
     <p />
     <p>
-      <b
-      >T = table(..., Name, Value)</b> permet de spécifier des options supplémentaires en utilisant une ou plusieurs paires nom-valeur.</p>
+      <b>T = table(..., Name, Value)</b> permet de spécifier des options supplémentaires en utilisant une ou plusieurs paires nom-valeur.</p>
     <p
     >Par exemple, vous pouvez définir des noms de variables personnalisés en utilisant la paire nom-valeur &apos;VariableNames&apos;.</p>
     <p

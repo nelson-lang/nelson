@@ -22,12 +22,9 @@
   </param_output>
   <description>
     <p>
-      <b
-      >v = values(d)</b> récupère un tableau contenant les valeurs du dictionnaire spécifié,<b
-      >d</b>.</p>
+      <b>v = values(d)</b> récupère un tableau contenant les valeurs du dictionnaire spécifié,<b>d</b>.</p>
     <p>
-      <b
-      >v = values(d, &apos;cell&apos;)</b> renvoie éventuellement les valeurs sous forme de tableau cellulaire.</p>
+      <b>v = values(d, &apos;cell&apos;)</b> renvoie éventuellement les valeurs sous forme de tableau cellulaire.</p>
   </description>
   <used_function />
   <bibliography />

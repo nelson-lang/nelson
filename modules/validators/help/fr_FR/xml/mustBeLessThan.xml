@@ -30,8 +30,7 @@
   </param_input>
   <description>
     <p>
-      <b
-      >mustBeLessThan</b> vérifie que la valeur est inférieure à une autre valeur ou signale une erreur.</p>
+      <b>mustBeLessThan</b> vérifie que la valeur est inférieure à une autre valeur ou signale une erreur.</p>
   </description>
   <used_function />
   <bibliography />

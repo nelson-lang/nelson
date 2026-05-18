@@ -22,8 +22,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >urlencode</b> replaces special characters in URLs with escape characters.</p>
+      <b>urlencode</b> replaces special characters in URLs with escape characters.</p>
     <p
     >Special characters in URLs need to be replaced with escape characters. For example, spaces should be replaced with &apos;%20&apos;.</p>
   </description>

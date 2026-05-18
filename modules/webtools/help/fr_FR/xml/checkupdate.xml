@@ -45,8 +45,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >checkupdate</b> vérifie si une nouvelle version de Nelson est disponible et ouvre une URL pour la télécharger.</p>
+      <b>checkupdate</b> vérifie si une nouvelle version de Nelson est disponible et ouvre une URL pour la télécharger.</p>
     <p
     >Cette fonction est principalement utilisée via l&apos;action de menu disponible dans la section d&apos;aide de la fenêtre principale.</p>
   </description>

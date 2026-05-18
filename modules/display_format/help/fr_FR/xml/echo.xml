@@ -35,8 +35,7 @@
   <description>
     <p>
       <b>echo(&apos;off&apos;)</b> désactive le mode echo.</p>
-    <p>Sans arguments d&apos;entrée ou de sortie, la commande <b
-      >echo</b> bascule l&apos;état d&apos;echo courant.</p>
+    <p>Sans arguments d&apos;entrée ou de sortie, la commande <b>echo</b> bascule l&apos;état d&apos;echo courant.</p>
   </description>
   <used_function />
   <bibliography />

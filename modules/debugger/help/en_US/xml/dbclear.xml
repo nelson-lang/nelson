@@ -23,17 +23,14 @@
   </param_input>
   <description>
     <p>
-      <b
-      >dbclear</b> removes breakpoints set for debugging. You can clear all breakpoints,
+      <b>dbclear</b> removes breakpoints set for debugging. You can clear all breakpoints,
       breakpoints in a specific file, breakpoints at a specific location.</p>
     <p>
-      <b
-      >dbclear all</b> removes all breakpoints in all files and for all conditions.</p>
+      <b>dbclear all</b> removes all breakpoints in all files and for all conditions.</p>
     <p>
       <b>dbclear in file</b> removes all breakpoints in the specified file.</p>
     <p>
-      <b
-      >dbclear in file at location</b> removes the breakpoint at the specified location in the file.</p>
+      <b>dbclear in file at location</b> removes the breakpoint at the specified location in the file.</p>
   </description>
   <used_function />
   <bibliography />

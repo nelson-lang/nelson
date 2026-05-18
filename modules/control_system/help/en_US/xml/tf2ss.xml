@@ -44,8 +44,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >[A, B, C, D] = tf2ss(b, a)</b> transforms a single-input transfer function, either continuous-time or discrete-time, into an equivalent state-space representation.</p>
+      <b>[A, B, C, D] = tf2ss(b, a)</b> transforms a single-input transfer function, either continuous-time or discrete-time, into an equivalent state-space representation.</p>
   </description>
   <examples>
     <example_item>

@@ -22,11 +22,8 @@
   </param_output>
   <description>
     <p>
-      <b
-      >havecompiler</b> détecte si un compilateur C/C++ est configuré pour Nelson.</p>
-    <p>Sur les plateformes Unix (Linux, MacOS),<b
-      >havecompiler</b> renvoie toujours <b>true</b> et<b
-      >unix</b> comme compilateur.</p>
+      <b>havecompiler</b> détecte si un compilateur C/C++ est configuré pour Nelson.</p>
+    <p>Sur les plateformes Unix (Linux, MacOS),<b>havecompiler</b> renvoie toujours <b>true</b> et<b>unix</b> comme compilateur.</p>
   </description>
   <used_function />
   <bibliography />

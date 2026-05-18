@@ -27,8 +27,7 @@
   </param_output>
   <description>
     <p>
-      <b>H = hadamard(n)</b> renvoie la matrice de Hadamard d&apos;ordre <b
-      >n</b>.</p>
+      <b>H = hadamard(n)</b> renvoie la matrice de Hadamard d&apos;ordre <b>n</b>.</p>
   </description>
   <used_function />
   <bibliography

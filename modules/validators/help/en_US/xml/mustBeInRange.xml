@@ -51,10 +51,8 @@
   </param_input>
   <description>
     <p>
-      <b
-      >mustBeInRange</b> checks that value is in the specified range or raise an error.</p>
-    <p>The only valid combination of the flags is<b>exclude-lower</b> with <b
-      >exclude-upper</b>.</p>
+      <b>mustBeInRange</b> checks that value is in the specified range or raise an error.</p>
+    <p>The only valid combination of the flags is<b>exclude-lower</b> with <b>exclude-upper</b>.</p>
   </description>
   <used_function />
   <bibliography />

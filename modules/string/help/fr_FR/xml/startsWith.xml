@@ -29,8 +29,7 @@
   </param_output>
   <description>
     <p>
-      <b>startsWith</b> renvoie <b>true</b> si <b>str</b> commence par<b
-      >pattern</b>.</p>
+      <b>startsWith</b> renvoie <b>true</b> si <b>str</b> commence par<b>pattern</b>.</p>
   </description>
   <used_function />
   <bibliography />

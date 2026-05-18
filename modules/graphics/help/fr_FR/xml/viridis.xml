@@ -23,8 +23,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >viridis</b> retourne la carte de couleurs avec les couleurs Viridis.</p>
+      <b>viridis</b> retourne la carte de couleurs avec les couleurs Viridis.</p>
   </description>
   <bibliography
   >Carte de couleurs créée par Stéfan van der Walt et Nathaniel Smith</bibliography>

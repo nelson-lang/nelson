@@ -50,8 +50,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>La fonction <b
-      >dlqr</b> est conçue pour minimiser une fonction de coût quadratique associée à un modèle de système d&apos;espace d&apos;état linéaire invariant dans le temps discret.</p>
+    <p>La fonction <b>dlqr</b> est conçue pour minimiser une fonction de coût quadratique associée à un modèle de système d&apos;espace d&apos;état linéaire invariant dans le temps discret.</p>
   </description>
   <examples>
     <example_item>

@@ -27,8 +27,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >isgraphics</b> vérifie si la variable est un objet graphique.          </p>
+      <b>isgraphics</b> vérifie si la variable est un objet graphique.          </p>
   </description>
   <used_function />
   <bibliography />

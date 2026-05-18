@@ -22,8 +22,7 @@
   </param_output>
   <description>
     <p>
-      <b>n = ndims(M)</b> return the number of dimension of the array<b
-      >M</b>.</p>
+      <b>n = ndims(M)</b> return the number of dimension of the array<b>M</b>.</p>
     <p>
       <b>M</b> is greater than or equal to 2.</p>
   </description>

@@ -20,8 +20,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <b
-    >int2str</b> converts an numeric array to a string with integer format. Inputs are rounded before conversion.</description>
+    <b>int2str</b> converts an numeric array to a string with integer format. Inputs are rounded before conversion.</description>
   <used_function />
   <bibliography />
   <examples>

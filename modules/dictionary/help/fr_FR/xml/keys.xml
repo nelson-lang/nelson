@@ -22,12 +22,9 @@
   </param_output>
   <description>
     <p>
-      <b
-      >k = keys(d)</b> récupère un tableau contenant les clés du dictionnaire spécifié,<b
-      >d</b>.</p>
+      <b>k = keys(d)</b> récupère un tableau contenant les clés du dictionnaire spécifié,<b>d</b>.</p>
     <p>
-      <b
-      >k = keys(d, &apos;cell&apos;)</b> renvoie éventuellement les clés sous forme de tableau cellulaire.</p>
+      <b>k = keys(d, &apos;cell&apos;)</b> renvoie éventuellement les clés sous forme de tableau cellulaire.</p>
   </description>
   <used_function />
   <bibliography />

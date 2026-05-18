@@ -21,8 +21,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <b
-    >isplaying</b> obtient des informations sur la lecture audio en cours.</description>
+    <b>isplaying</b> obtient des informations sur la lecture audio en cours.</description>
   <used_function />
   <bibliography />
   <examples>

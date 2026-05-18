@@ -27,8 +27,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >C = mrdivide(A, B)</b> retourne la division matricielle à droite de A par B.</p>
+      <b>C = mrdivide(A, B)</b> retourne la division matricielle à droite de A par B.</p>
   </description>
   <used_function />
   <bibliography />

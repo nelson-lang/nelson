@@ -22,8 +22,7 @@
   <description>
     <p>
       <b>abs</b> computes the absolute value.</p>
-    <p>If input argument is a complex number,<b
-      >abs</b> computes the complex magnitude.</p>
+    <p>If input argument is a complex number,<b>abs</b> computes the complex magnitude.</p>
   </description>
   <used_function />
   <bibliography />

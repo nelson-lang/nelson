@@ -45,11 +45,9 @@
     <p>options:</p>
     <ul>
       <li>
-        <b
-        >secure</b> (default): only a subset of markdown is supported (no raw HTML, no tables, no images, no links).</li>
+        <b>secure</b> (default): only a subset of markdown is supported (no raw HTML, no tables, no images, no links).</li>
       <li>
-        <b
-        >advanced</b>: full markdown supported (including raw HTML, tables, images, links).</li>
+        <b>advanced</b>: full markdown supported (including raw HTML, tables, images, links).</li>
     </ul>
   </description>
   <used_function />

@@ -27,19 +27,16 @@
   </param_output>
   <description>
     <p>
-      <b
-      >dbstack</b> affiche les noms de fichiers et les numéros de ligne des appels de fonctions.</p>
+      <b>dbstack</b> affiche les noms de fichiers et les numéros de ligne des appels de fonctions.</p>
     <p>
-      <b
-      >dbstack(&apos;-completenames&apos;)</b> affiche les chemins de fichiers complets.</p>
+      <b>dbstack(&apos;-completenames&apos;)</b> affiche les chemins de fichiers complets.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Creates a myfun.m and calls it.</example_item_description>
+      <example_item_description>Creates a myfun.m and calls it.</example_item_description>
       <example_item_data
       ><![CDATA[function myfun(x)
 dbstack();

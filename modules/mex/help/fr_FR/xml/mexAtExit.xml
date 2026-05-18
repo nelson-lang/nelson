@@ -27,9 +27,7 @@
     <p
     >Chaque MEX ne peut enregistrer qu&apos;une seule sous-routine de sortie active à la fois.</p>
     <p>
-      <b
-      >mexAtExit</b> enregistre une sous-routine qui sera appelée juste avant la fin de Nelson ou lorsque la commande <b
-      >clear</b> est exécutée.</p>
+      <b>mexAtExit</b> enregistre une sous-routine qui sera appelée juste avant la fin de Nelson ou lorsque la commande <b>clear</b> est exécutée.</p>
   </description>
   <used_function />
   <bibliography />

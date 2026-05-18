@@ -16,8 +16,7 @@
   </param_input>
   <description>
     <p>
-      <b>openvar(varname)</b> opens the variable named<b
-      >varname</b> in Nelson&apos;s Variable Editor for graphical inspection and editing.</p>
+      <b>openvar(varname)</b> opens the variable named<b>varname</b> in Nelson&apos;s Variable Editor for graphical inspection and editing.</p>
     <p
     >Any changes made to the variable within the editor are immediately applied to the workspace context.</p>
     <p
@@ -28,9 +27,7 @@
     <p
     >Editable Content: In structures (struct), cells (cell), and tables (table), only scalar elements can be edited.</p>
     <p
-    >Nelson provides full clipboard integration with spreadsheet applications like <b
-      >Microsoft Excel</b>, <b>LibreOffice Calc</b>, and <b
-      >OpenOffice Calc</b>.</p>
+    >Nelson provides full clipboard integration with spreadsheet applications like <b>Microsoft Excel</b>, <b>LibreOffice Calc</b>, and <b>OpenOffice Calc</b>.</p>
     <p
     >You can copy variables from the Variable Editor and paste them directly into these applications, and vice versa.</p>
     <p>

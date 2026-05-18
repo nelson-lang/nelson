@@ -32,9 +32,7 @@
   </param_output>
   <description>
     <p>
-      <b>[Uc, Tc] = rsf2csf(U, T)</b> transforms the outputs of <b
-      >[U, T] = schur(X)</b> for real matrices<b
-      >X</b> from real Schur form to complex Schur form.</p>
+      <b>[Uc, Tc] = rsf2csf(U, T)</b> transforms the outputs of <b>[U, T] = schur(X)</b> for real matrices<b>X</b> from real Schur form to complex Schur form.</p>
   </description>
   <used_function />
   <bibliography />

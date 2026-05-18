@@ -41,8 +41,7 @@
     <p>
       <b>title(&apos;text&apos;)</b> adds the title to the current axes.</p>
     <p>
-      <b
-      >Visible</b> property is inherited from the parent if not explicitly defined.</p>
+      <b>Visible</b> property is inherited from the parent if not explicitly defined.</p>
   </description>
   <used_function />
   <bibliography />

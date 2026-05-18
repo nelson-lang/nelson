@@ -32,13 +32,9 @@
   </param_output>
   <description>
     <p>
-      <b>B = afterAll(F, fcn, n)</b> returns a AfterAllFuture object<b
-      >B</b>.</p>
-    <p>Function<b
-      >fcn</b> is automatically runned after all elements in the Future array<b
-      >F</b> were finished.</p>
-    <p>If any of the elements in <b>F</b> encounters an error, the <b
-      >Error</b> property of <b>B</b> contains an error.</p>
+      <b>B = afterAll(F, fcn, n)</b> returns a AfterAllFuture object<b>B</b>.</p>
+    <p>Function<b>fcn</b> is automatically runned after all elements in the Future array<b>F</b> were finished.</p>
+    <p>If any of the elements in <b>F</b> encounters an error, the <b>Error</b> property of <b>B</b> contains an error.</p>
   </description>
   <used_function />
   <bibliography />
