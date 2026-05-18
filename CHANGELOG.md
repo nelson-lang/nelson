@@ -44,6 +44,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Added support for multi-line comments in the interpreter, editor, debugger, and headcomments.
 
+- `interp2`, `interp3`, `interpn`: interpolation functions
+
 - `regexp`, `regexpi`, `regexprep`,  `regextranslate`: regexp functions added.
 
 - [#309](https://github.com/nelson-lang/nelson/issues/309): `erf`, `erfc`, `erfcinv`, `erfcx`, `erfinv` error functions.

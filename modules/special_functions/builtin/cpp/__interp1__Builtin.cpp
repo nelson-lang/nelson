@@ -19,34 +19,61 @@ ArrayOfVector
 Nelson::SpecialFunctionsGateway::__interp1__Builtin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    nargincheck(argIn, 2, 4);
+    nargincheck(argIn, 2, 5);
     nargoutcheck(nLhs, 0, 1);
+    auto isTextArgument = [](const ArrayOf& arg) {
+        return arg.isRowVectorCharacterArray() || (arg.isStringArray() && arg.isScalar());
+    };
+    auto getTextArgument = [](const ArrayOf& arg) { return arg.getContentAsWideString(); };
+    auto isExtrapolateText = [&](const ArrayOf& arg) {
+        return isTextArgument(arg) && getTextArgument(arg) == L"extrap";
+    };
     switch (argIn.size()) {
     case 2: {
         // vq = interp1(v, xq)
         retval << LinearInterpolation1D(argIn[0], argIn[1]);
     } break;
     case 3: {
-        if (argIn[2].isRowVectorCharacterArray()
-            || (argIn[2].isStringArray() && argIn[2].isScalar())) {
-            // vq = interp1(v, xq, 'linear')
-            std::wstring methodName = argIn[2].getContentAsWideString();
-            if (methodName != L"linear") {
-                Error(_W("'linear' method expected."));
-            }
-            retval << LinearInterpolation1D(argIn[0], argIn[1]);
+        if (isTextArgument(argIn[2])) {
+            // vq = interp1(v, xq, method)
+            retval << LinearInterpolation1D(
+                argIn[0], argIn[1], getTextArgument(argIn[2]), L"default");
         } else {
             // vq = interp1(x, v, xq)
             retval << LinearInterpolation1D(argIn[0], argIn[1], argIn[2]);
         }
     } break;
     case 4: {
-        // vq = interp1(x, v, xq, 'linear')
-        std::wstring methodName = argIn[3].getContentAsWideString();
-        if (methodName != L"linear") {
-            Error(_W("'linear' method expected."));
+        if (isTextArgument(argIn[2])) {
+            // vq = interp1(v, xq, method, extrap)
+            const ArrayOf* extrapolationValue = nullptr;
+            std::wstring extrapolationMode = L"default";
+            if (isExtrapolateText(argIn[3])) {
+                extrapolationMode = L"extrap";
+            } else {
+                extrapolationMode = L"constant";
+                extrapolationValue = &argIn[3];
+            }
+            retval << LinearInterpolation1D(argIn[0], argIn[1], getTextArgument(argIn[2]),
+                extrapolationMode, extrapolationValue);
+        } else {
+            // vq = interp1(x, v, xq, method)
+            retval << LinearInterpolation1D(
+                argIn[0], argIn[1], argIn[2], getTextArgument(argIn[3]), L"default", nullptr);
         }
-        retval << LinearInterpolation1D(argIn[0], argIn[1], argIn[2]);
+    } break;
+    case 5: {
+        // vq = interp1(x, v, xq, method, extrap)
+        const ArrayOf* extrapolationValue = nullptr;
+        std::wstring extrapolationMode = L"default";
+        if (isExtrapolateText(argIn[4])) {
+            extrapolationMode = L"extrap";
+        } else {
+            extrapolationMode = L"constant";
+            extrapolationValue = &argIn[4];
+        }
+        retval << LinearInterpolation1D(argIn[0], argIn[1], argIn[2], getTextArgument(argIn[3]),
+            extrapolationMode, extrapolationValue);
     } break;
     default: {
     } break;
