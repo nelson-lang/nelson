@@ -28,6 +28,8 @@ public:
         const std::wstring& dynlibname, const std::wstring& modulename, size_t builtinPrototype,
         bool interleavedComplex,
         FunctionOverloadAutoMode builtinOverloadAutoMode = NLS_OVERLOAD_AUTO_ON);
+    bool
+    setCallerContextAccess(ptrBuiltin fptr, bool callerContextAccess);
 
     bool
     remove(const std::string& name);

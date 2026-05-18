@@ -18,3 +18,7 @@ skip_testsuite(~havecompiler())
 assert_istrue(havecompiler());
 r = removecompilerconf();
 assert_isfalse(havecompiler());
+if ispc()
+  [status, ~] = configuremsvc();
+  assert_istrue(status);
+end

@@ -199,6 +199,26 @@ SparseMatrixConstructorDynamicFunction(
 }
 //=============================================================================
 void*
+MakeSparseFromIJVDynamicFunction(NelsonType dclass, indexType rows, indexType cols, indexType nnz,
+    indexType* I, int istride, indexType* J, int jstride, const void* cp, int cpstride,
+    bool bScalarV)
+{
+    using PROC_MakeSparseFromIJV = void* (*)(NelsonType, indexType, indexType, indexType,
+        indexType*, int, indexType*, int, const void*, int, bool);
+    static PROC_MakeSparseFromIJV Eigen_makeSparseFromIJVPtr = nullptr;
+    initSparseDynamicLibrary();
+    if (!Eigen_makeSparseFromIJVPtr) {
+        Eigen_makeSparseFromIJVPtr = reinterpret_cast<PROC_MakeSparseFromIJV>(
+            get_function(nlsSparseHandleDynamicLibrary, "Eigen_makeSparseFromIJV"));
+        if (!Eigen_makeSparseFromIJVPtr) {
+            Error(_W("Sparse Function not loaded."));
+        }
+    }
+    return Eigen_makeSparseFromIJVPtr(
+        dclass, rows, cols, nnz, I, istride, J, jstride, cp, cpstride, bScalarV);
+}
+//=============================================================================
+void*
 GetSparseVectorSubsetsDynamicFunction(NelsonType dclass, indexType rows, indexType cols,
     const void* src, const indexType* indx, indexType irows, indexType icols)
 {

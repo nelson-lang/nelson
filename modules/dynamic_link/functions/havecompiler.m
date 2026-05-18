@@ -17,10 +17,15 @@ function [status, compiler] = havecompiler()
       status = false;
       compiler = '';
       if isfile(jsonfile)
-        json = jsondecode(jsonfile, '-file');
-        if isfield(json, 'COMPILER_CHOICE')
-          status = true;
-          compiler = json.COMPILER_CHOICE;
+        try
+          json = jsondecode(jsonfile, '-file');
+          if isfield(json, 'COMPILER_CHOICE')
+            status = true;
+            compiler = json.COMPILER_CHOICE;
+          end
+        catch
+          status = false;
+          compiler = '';
         end
       end
     else

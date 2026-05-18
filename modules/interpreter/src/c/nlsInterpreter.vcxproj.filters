@@ -163,12 +163,6 @@
     <ClCompile Include="..\cpp\Operators\RightDivideOperator.cpp">
       <Filter>Source Files\Operators</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\Operators\ShortCutAndOperator.cpp">
-      <Filter>Source Files\Operators</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\Operators\ShortCutOrOperator.cpp">
-      <Filter>Source Files\Operators</Filter>
-    </ClCompile>
     <ClCompile Include="..\cpp\Operators\MinusOperator.cpp">
       <Filter>Source Files\Operators</Filter>
     </ClCompile>
@@ -208,16 +202,7 @@
     <ClCompile Include="..\cpp\AbstractSyntaxTreeHelpers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\operators\FunctionHandleOperator.cpp">
-      <Filter>Source Files\Operators</Filter>
-    </ClCompile>
     <ClCompile Include="..\cpp\GraphicCallback.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\EvaluatorControlExpression.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\EvaluatorControlFlow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\EvaluatorDebug.cpp">
@@ -227,12 +212,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\EvaluatorIndexing.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\EvaluatorAssignment.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\EvaluatorFunction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\OnCleanupObjectHandle.cpp">
@@ -245,6 +224,24 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\ClearHandle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\Bytecode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\BytecodeCompiler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\BytecodeVM.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\ConstantPool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\SlotMap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\VMCallFrame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -443,6 +440,27 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\ClearHandle.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Bytecode.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\BytecodeChunk.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\BytecodeCompiler.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\BytecodeVM.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\ConstantPool.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\SlotMap.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\VMCallFrame.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -24,6 +24,7 @@ BuiltInFunctionDef::BuiltInFunctionDef(bool isOverload) : FunctionDef(isOverload
     fptr = nullptr;
     builtinPrototype = (size_t)BUILTIN_PROTOTYPE::CPP_BUILTIN;
     interleavedComplex = true;
+    callerContextAccess = false;
 }
 //=============================================================================
 BuiltInFunctionDef::~BuiltInFunctionDef() = default;

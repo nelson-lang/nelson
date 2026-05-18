@@ -10,11 +10,11 @@
 #include <unordered_map>
 #include <functional>
 #include <cstring>
-#include <Eigen/Sparse>
 #include "JuliaTypesHelpers.hpp"
 #include "JuliaObjectHandle.hpp"
 #include "characters_encoding.hpp"
 #include "JuliaHelpers.hpp"
+#include "SparseDynamicFunctions.hpp"
 #include "StringHelpers.hpp"
 //=============================================================================
 #ifdef _MSC_VER
@@ -153,30 +153,25 @@ convertSparseMatrixComplexToArrayOf(jl_value_t* value, NelsonType nelsonType, bo
     indexType nnz = jl_array_len(nzval);
     indexType colPtrLen = jl_array_len(colptr);
 
-    std::vector<Eigen::Triplet<std::complex<T>>> tripletList;
-    tripletList.reserve(nnz);
+    std::vector<indexType> I(nnz);
+    std::vector<indexType> J(nnz);
+    std::vector<doublecomplex> V(nnz);
 
     std::complex<T>* jl_data = (std::complex<T>*)jl_array_data_(nzval);
+    indexType idx = 0;
     for (indexType j = 0; j < colPtrLen - 1; j++) {
         indexType start = colPointers[j] - 1;
         indexType end = colPointers[j + 1] - 1;
         for (indexType k = start; k < end; k++) {
-            tripletList.emplace_back(rowIndices[k] - 1, j, jl_data[k]);
+            I[idx] = rowIndices[k];
+            J[idx] = j + 1;
+            V[idx] = jl_data[k];
+            idx++;
         }
     }
 
-    void* spdata = nullptr;
-    try {
-        auto* spMat = new Eigen::SparseMatrix<std::complex<T>, Eigen::ColMajor, signedIndexType>(
-            rows, cols);
-        spMat->setFromTriplets(tripletList.begin(), tripletList.end());
-        spMat->makeCompressed();
-        spdata = static_cast<void*>(spMat);
-    } catch (const std::bad_alloc&) {
-        wasConverted = false;
-        return ArrayOf();
-    }
-
+    void* spdata = MakeSparseFromIJVDynamicFunction(
+        nelsonType, rows, cols, idx, I.data(), 1, J.data(), 1, V.data(), 1, false);
     if (spdata == nullptr) {
         wasConverted = false;
         return ArrayOf();
@@ -232,29 +227,15 @@ convertSparseMatrixRealToArrayOf(jl_value_t* value, NelsonType nelsonType, bool&
         indexType start = colPointers[j] - 1;
         indexType end = colPointers[j + 1] - 1;
         for (indexType k = start; k < end; k++) {
-            I[idx] = rowIndices[k] - 1;
-            J[idx] = j;
+            I[idx] = rowIndices[k];
+            J[idx] = j + 1;
             V[idx] = values[k];
             idx++;
         }
     }
 
-    void* spdata = nullptr;
-    try {
-        std::vector<Eigen::Triplet<T>> tripletList;
-        tripletList.reserve(nnz);
-        for (indexType k = 0; k < nnz; ++k) {
-            tripletList.push_back(Eigen::Triplet<T>(I[k], J[k], V[k]));
-        }
-        auto* spMat = new Eigen::SparseMatrix<T, Eigen::ColMajor, signedIndexType>(rows, cols);
-        spMat->setFromTriplets(tripletList.begin(), tripletList.end());
-        spMat->makeCompressed();
-        spdata = static_cast<void*>(spMat);
-    } catch (const std::bad_alloc&) {
-        wasConverted = false;
-        return ArrayOf();
-    }
-
+    void* spdata = MakeSparseFromIJVDynamicFunction(
+        nelsonType, rows, cols, idx, I.data(), 1, J.data(), 1, V.data(), 1, false);
     if (spdata == nullptr) {
         wasConverted = false;
         return ArrayOf();

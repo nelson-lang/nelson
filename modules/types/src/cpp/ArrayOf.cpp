@@ -594,10 +594,12 @@ ArrayOf::ensureSingleOwner()
             }
             dp->setClassTypeName(currentClassType);
         } else {
+            indexType requestedSparseNzmax = dp->sparseNzmax;
             dp = dp->putData(dp->dataClass, dp->dimensions,
                 CopySparseMatrixDynamicFunction(
                     dp->dataClass, dp->dimensions[0], dp->dimensions[1], dp->getData()),
                 dp->sparse, dp->fieldNames);
+            dp->sparseNzmax = requestedSparseNzmax;
         }
     }
 }
@@ -1412,8 +1414,9 @@ indexType
 ArrayOf::nzmax() const
 {
     if (isSparse()) {
-        return CountNonzerosMaxDynamicFunction(
+        indexType actualNzmax = CountNonzerosMaxDynamicFunction(
             dp->dataClass, getDimensionLength(0), getDimensionLength(1), dp->getData());
+        return std::max(actualNzmax, dp->sparseNzmax);
     }
     switch (dp->dataClass) {
     case NLS_LOGICAL:
@@ -1448,6 +1451,14 @@ ArrayOf::nzmax() const
     } break;
     }
     return 0; // never here
+}
+//=============================================================================
+void
+ArrayOf::setSparseNzmax(indexType requestedNzmax)
+{
+    if (isSparse()) {
+        dp->sparseNzmax = requestedNzmax;
+    }
 }
 //=============================================================================
 indexType

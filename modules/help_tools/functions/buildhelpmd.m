@@ -102,7 +102,8 @@ function buildSummary(destinationdir, locales, modules_help_list, is_nelson_help
     if is_nelson_help
       end_summary = {'* [Changelogs](./changelogs/CHANGELOG.md)';
                      '';
-                     '    * [Changelog v1.x.x](changelogs/CHANGELOG.md)';
+                     '    * [Changelog v2.x.x](changelogs/CHANGELOG.md)';
+                     '    * [Changelog v1.x.x](changelogs/CHANGELOG-1.0.x.md)';
                      '    * [Changelog v0.7.x](changelogs/CHANGELOG-0.7.x.md)';
                      '    * [Changelog v0.6.x](changelogs/CHANGELOG-0.6.x.md)';
                      '    * [Changelog v0.5.x](changelogs/CHANGELOG-0.5.x.md)';
@@ -142,6 +143,7 @@ function helpForNelsonOnly(destinationdir)
       copyfile([dir_src, '/', src_files{k}], [dir_dst, '/', dst_files{k}]);
     end
     changelogs = {'CHANGELOG.md', ...
+    'CHANGELOG-1.0.x.md', ...
     'CHANGELOG-0.1.x.md', ...
     'CHANGELOG-0.2.x.md', ...
     'CHANGELOG-0.3.x.md', ...
@@ -163,6 +165,7 @@ function helpForNelsonOnly(destinationdir)
     end
     content = fileread([dir_dst, '/', 'README.md']);
     content = strrep(content, '(CHANGELOG.md)', '(./changelogs/CHANGELOG.md)');
+    content = strrep(content, '(CHANGELOG-1.0.x.md)', '(./changelogs/CHANGELOG-1.0.x.md)');
     content = strrep(content, '(CHANGELOG-0.7.x.md)', '(./changelogs/CHANGELOG-0.7.x.md)');
     content = strrep(content, '(CHANGELOG-0.6.x.md)', '(./changelogs/CHANGELOG-0.6.x.md)');
     content = strrep(content, '(CHANGELOG-0.5.x.md)', '(./changelogs/CHANGELOG-0.5.x.md)');

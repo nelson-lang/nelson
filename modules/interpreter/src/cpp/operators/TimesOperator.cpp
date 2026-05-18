@@ -15,20 +15,6 @@
 #include "FindCommonType.hpp"
 //=============================================================================
 namespace Nelson {
-//=============================================================================
-ArrayOf
-Evaluator::timesOperator(AbstractSyntaxTreePtr t)
-{
-    callstack.pushID(t->getContext());
-    ArrayOfVector args;
-    args.reserve(2);
-    args.push_back(expression(t->down));
-    args.push_back(expression(t->down->right));
-    ArrayOf retval = this->timesOperator(args);
-    callstack.popID();
-    return retval;
-}
-//=============================================================================
 ArrayOf
 Evaluator::timesOperator(const ArrayOfVector& args)
 {

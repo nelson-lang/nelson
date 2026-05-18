@@ -9,6 +9,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <memory>
 #include <string>
 #include "AbstractSyntaxTree.hpp"
 #include "FunctionDef.hpp"
@@ -19,6 +20,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+class BytecodeChunk;
 class MacroFunctionDef;
 //=============================================================================
 /**
@@ -45,6 +47,7 @@ public:
      */
     AbstractSyntaxTreePtr code;
     AbstractSyntaxTreePtrVector ptrAstCodeAsVector;
+    std::unique_ptr<BytecodeChunk> bytecodeChunk;
 
     /**
      * For some function files, there are multiple functions defined in
@@ -114,6 +117,12 @@ public:
     //=============================================================================
     bool
     updateCode() override;
+    //=============================================================================
+    void
+    invalidateBytecode();
+    //=============================================================================
+    bool
+    ensureBytecodeCompiled();
     //=============================================================================
     void
     setIsScript(bool _isScript)

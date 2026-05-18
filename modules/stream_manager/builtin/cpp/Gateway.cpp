@@ -10,6 +10,7 @@
 #include "FilesManager.hpp"
 #include "Interface.hpp"
 #include "NelsonGateway.hpp"
+#include "BuiltInFunctionDefManager.hpp"
 #include "NelsonConfiguration.hpp"
 #include "diaryBuiltin.hpp"
 #include "fcloseBuiltin.hpp"
@@ -75,10 +76,11 @@ initializeModule(Nelson::Evaluator* eval)
         }
         if (fm) {
             NelsonConfiguration::getInstance()->setFileManager((void*)fm);
-            return true;
         }
     }
-    return false;
+    BuiltInFunctionDefManager::getInstance()->setCallerContextAccess(
+        (ptrBuiltin)Nelson::StreamGateway::loadBuiltin, true);
+    return true;
 }
 //=============================================================================
 static bool

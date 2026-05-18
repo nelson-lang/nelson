@@ -92,7 +92,8 @@ parsePOEntry(std::vector<std::string>& lines, size_t& currentLine)
             currentLine++;
 
             // Handle multi-line msgid
-            while (currentLine < lines.size() && lines[currentLine][0] == '"') {
+            while (currentLine < lines.size() && !lines[currentLine].empty()
+                && lines[currentLine][0] == '"') {
                 entry.msgid += extractQuotedString(lines[currentLine]);
                 currentLine++;
             }
@@ -102,7 +103,8 @@ parsePOEntry(std::vector<std::string>& lines, size_t& currentLine)
             currentLine++;
 
             // Handle multi-line msgstr
-            while (currentLine < lines.size() && lines[currentLine][0] == '"') {
+            while (currentLine < lines.size() && !lines[currentLine].empty()
+                && lines[currentLine][0] == '"') {
                 entry.msgstr += extractQuotedString(lines[currentLine]);
                 currentLine++;
             }
@@ -157,9 +159,13 @@ poToJson(
     size_t currentLine = 0;
 
     while (currentLine < lines.size()) {
+        size_t previousLine = currentLine;
         POEntry entry = parsePOEntry(lines, currentLine);
         if (!entry.msgid.empty() || !entry.msgstr.empty()) {
             entries.push_back(entry);
+        }
+        if (currentLine == previousLine) {
+            currentLine++;
         }
     }
 

@@ -99,6 +99,13 @@ R = myfunction(x,y);
 REF = 111;
 assert_isequal(R, REF)
 %=============================================================================
+identity = @(x) x;
+s = 0;
+for k = 1:1000
+  s = s + identity(k);
+end
+assert_isequal(s, 500500);
+%=============================================================================
 F = @(x,y) ndgrid((-x:x/c:x),(-y:y/c:y));
 R = func2str(F);
 REF = '@(x,y) ndgrid(-x:(x/c):x,-y:(y/c):y)';

@@ -46,6 +46,7 @@ function varargout = deployhelp(varargin)
             end
             docroot('.');
             install_help(verbose);
+            status = deployhelp_status();
         case 'uninstall'
             [status, message] = uninstall_help();
         case 'status'

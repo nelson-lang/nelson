@@ -55,19 +55,5 @@ Evaluator::orOperator(const ArrayOfVector& args)
     OverloadRequired(OR_OPERATOR_STR);
     return {};
 }
-//=============================================================================
-ArrayOf
-Evaluator::orOperator(AbstractSyntaxTreePtr t)
-{
-    callstack.pushID((size_t)t->getContext());
-    ArrayOfVector args;
-    args.reserve(2);
-    args.push_back(expression(t->down));
-    args.push_back(expression(t->down->right));
-    ArrayOf retval = orOperator(args);
-    callstack.popID();
-    return retval;
-}
-//=============================================================================
 } // namespace Nelson
 //=============================================================================

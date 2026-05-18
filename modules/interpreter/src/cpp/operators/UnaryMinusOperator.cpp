@@ -14,16 +14,6 @@
 #include "OverloadRequired.hpp"
 //=============================================================================
 namespace Nelson {
-//=============================================================================
-ArrayOf
-Evaluator::uminusOperator(AbstractSyntaxTreePtr t)
-{
-    callstack.pushID((size_t)t->getContext());
-    ArrayOf retval = this->uminusOperator(expression(t->down));
-    callstack.popID();
-    return retval;
-}
-//=============================================================================
 ArrayOf
 Evaluator::uminusOperator(const ArrayOf& A)
 {

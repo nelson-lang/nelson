@@ -95,9 +95,9 @@ EvaluateScriptFile(Evaluator* eval, const std::wstring& filename, bool bChangeDi
     FileSystemWrapper::Path initialDir = FileSystemWrapper::Path::current_path();
     FileSystemWrapper::Path fileToEvaluate(filename);
     FileSystemWrapper::Path absolutePath = FileSystemWrapper::Path::absolute(fileToEvaluate);
-    if (fileToEvaluate.has_parent_path() && bChangeDirectory) {
+    if (absolutePath.has_parent_path() && bChangeDirectory) {
         bNeedToRestoreDirectory = true;
-        FileSystemWrapper::Path newDir = fileToEvaluate.parent_path();
+        FileSystemWrapper::Path newDir = absolutePath.parent_path();
         ChangeDirectory(newDir.generic_wstring(), false);
     }
     FILE* fr = filePointerWithoutShebang(absolutePath);

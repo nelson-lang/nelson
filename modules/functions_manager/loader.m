@@ -7,5 +7,5 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-addmodule([nelsonroot() '/modules/' 'functions_manager'], 'functions_manager');
+addmodule([nelsonroot(), '/modules/', 'functions_manager'], 'functions_manager');
 %=============================================================================

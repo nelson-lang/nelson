@@ -18,7 +18,6 @@
 #include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
-//=============================================================================
 ArrayOf
 SparseConstructor(indexType m, indexType n)
 {
@@ -117,46 +116,10 @@ SparseConstructor(
     const ArrayOf& I, const ArrayOf& J, const ArrayOf& V, indexType m, indexType n, indexType nnz)
 {
     ArrayOf res = SparseConstructor(I, J, V, m, n);
-    switch (res.getDataClass()) {
-    case NLS_LOGICAL: {
-        Eigen::SparseMatrix<logical, 0, signedIndexType>* spmat
-            = (Eigen::SparseMatrix<logical, 0, signedIndexType>*)res.getSparseDataPointer();
-        indexType nonZeros = (indexType)spmat->nonZeros();
-        if (nnz >= nonZeros) {
-            spmat->reserve(nnz - nonZeros);
-            spmat->finalize();
-            spmat->makeCompressed();
-        } else {
-            Error(_W("Index exceeds matrix dimensions."));
-        }
-    } break;
-    case NLS_DOUBLE: {
-        Eigen::SparseMatrix<double, 0, signedIndexType>* spmat
-            = (Eigen::SparseMatrix<double, 0, signedIndexType>*)res.getSparseDataPointer();
-        indexType nonZeros = (indexType)spmat->nonZeros();
-        if (nnz >= nonZeros) {
-            spmat->reserve(nnz - nonZeros);
-            spmat->finalize();
-            spmat->makeCompressed();
-        } else {
-            Error(_W("Index exceeds matrix dimensions."));
-        }
-    } break;
-    case NLS_DCOMPLEX: {
-        Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>* spmat
-            = (Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>*)res.getSparseDataPointer();
-        indexType nonZeros = (indexType)spmat->nonZeros();
-        if (nnz >= nonZeros) {
-            spmat->reserve(nnz - nonZeros);
-            spmat->finalize();
-            spmat->makeCompressed();
-        } else {
-            Error(_W("Index exceeds matrix dimensions."));
-        }
-    } break;
-    default: {
-    } break;
+    if (nnz < res.nnz()) {
+        Error(_W("Index exceeds matrix dimensions."));
     }
+    res.setSparseNzmax(nnz);
     return res;
 }
 //=============================================================================

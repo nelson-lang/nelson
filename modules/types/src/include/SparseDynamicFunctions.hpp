@@ -57,6 +57,11 @@ extern "C"
         NelsonType dclass, indexType rows, indexType cols, ArrayOfMatrix m);
     //=============================================================================
     NLSTYPES_IMPEXP void*
+    MakeSparseFromIJVDynamicFunction(NelsonType dclass, indexType rows, indexType cols,
+        indexType nnz, indexType* I, int istride, indexType* J, int jstride, const void* cp,
+        int cpstride, bool bScalarV);
+    //=============================================================================
+    NLSTYPES_IMPEXP void*
     GetSparseVectorSubsetsDynamicFunction(NelsonType dclass, indexType rows, indexType cols,
         const void* src, const indexType* indx, indexType irows, indexType icols);
     //=============================================================================

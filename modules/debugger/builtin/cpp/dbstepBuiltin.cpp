@@ -88,8 +88,8 @@ Nelson::DebuggerGateway::dbstepBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
         stepBp.fromLine = currentStepBreakPoint.line;
         eval->addBreakpoint(stepBp);
         eval->setState(NLS_STATE_DEBUG_STEP);
-        // Don't reset stepBreakpoint - it will be updated by onBreakpoint() when we hit the next
-        // line
+        // Don't reset stepBreakpoint - it will be updated by onBytecodeBreakpoint() when we hit
+        // the next line.
     } break;
     case Mode::Out: {
         // dbstep out: run the rest of the current function and pause just after leaving.
@@ -106,7 +106,7 @@ Nelson::DebuggerGateway::dbstepBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
         stepBp.targetDepth = static_cast<int>(eval->callstack.size()) - 1;
         eval->addBreakpoint(stepBp);
         eval->setState(NLS_STATE_DEBUG_CONTINUE);
-        // Don't reset stepBreakpoint - it will be updated by onBreakpoint() when we return
+        // Don't reset stepBreakpoint - it will be updated by onBytecodeBreakpoint() when we return.
     } break;
     case Mode::Normal: {
         if (steps == 1) {
@@ -183,7 +183,7 @@ handleNormalMultiStep(Evaluator* eval, const Breakpoint& currentStepBreakPoint, 
         eval->bpActive = false;
         eval->setState(NLS_STATE_DEBUG_CONTINUE);
     }
-    // Don't reset stepBreakpoint - it will be updated by onBreakpoint() when we hit the
-    // next line
+    // Don't reset stepBreakpoint - it will be updated by onBytecodeBreakpoint() when we hit the
+    // next line.
 }
 //=============================================================================

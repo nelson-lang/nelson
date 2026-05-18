@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "NelsonGateway.hpp"
+#include "BuiltInFunctionDefManager.hpp"
 #include "loadmatBuiltin.hpp"
 #include "savematBuiltin.hpp"
 #include "ismatfileBuiltin.hpp"
@@ -29,7 +30,15 @@ static const nlsGateway gateway[] = {
     { "ismatfile", (ptrBuiltin)Nelson::MatioGateway::ismatfileBuiltin, 1, 1 },
 };
 //=============================================================================
-NLSGATEWAYFUNC(gateway)
+static bool
+initializeMatioModule(Nelson::Evaluator* eval)
+{
+    BuiltInFunctionDefManager::getInstance()->setCallerContextAccess(
+        (ptrBuiltin)Nelson::MatioGateway::loadmatBuiltin, true);
+    return true;
+}
+//=============================================================================
+NLSGATEWAYFUNCEXTENDED(gateway, (void*)initializeMatioModule)
 //=============================================================================
 NLSGATEWAYINFO(gateway)
 //=============================================================================

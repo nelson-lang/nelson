@@ -55,6 +55,9 @@ Nelson::CoreGateway::execstrBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
         try {
             EvaluateCommand(eval, line, true);
         } catch (const Exception&) {
+            if (eval->getState() == NLS_STATE_ABORT || eval->isQuitOrForceQuitState()) {
+                throw;
+            }
             bRes = false;
         }
         retval << ArrayOf::logicalConstructor(bRes);

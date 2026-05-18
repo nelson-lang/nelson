@@ -330,18 +330,19 @@
     <ClCompile Include="..\cpp\AbstractSyntaxTreeHelpers.cpp" />
     <ClCompile Include="..\cpp\ActionMenu.cpp" />
     <ClCompile Include="..\cpp\AnonymousMacroFunctionDef.cpp" />
+    <ClCompile Include="..\cpp\Bytecode.cpp" />
+    <ClCompile Include="..\cpp\BytecodeCompiler.cpp" />
+    <ClCompile Include="..\cpp\BytecodeVM.cpp" />
     <ClCompile Include="..\cpp\CallbackBase.cpp" />
     <ClCompile Include="..\cpp\ClearHandle.cpp" />
+    <ClCompile Include="..\cpp\ConstantPool.cpp" />
     <ClCompile Include="..\cpp\DeleteOnCleanupHandleObject.cpp" />
-    <ClCompile Include="..\cpp\EvaluatorAssignment.cpp" />
-    <ClCompile Include="..\cpp\EvaluatorControlExpression.cpp" />
-    <ClCompile Include="..\cpp\EvaluatorControlFlow.cpp" />
     <ClCompile Include="..\cpp\EvaluatorDebug.cpp" />
-    <ClCompile Include="..\cpp\EvaluatorFunction.cpp" />
     <ClCompile Include="..\cpp\EvaluatorError.cpp" />
     <ClCompile Include="..\cpp\EvaluatorIndexing.cpp" />
     <ClCompile Include="..\cpp\GraphicCallback.cpp" />
     <ClCompile Include="..\cpp\OnCleanupObjectHandle.cpp" />
+    <ClCompile Include="..\cpp\SlotMap.cpp" />
     <ClCompile Include="..\cpp\TextToNumber.cpp" />
     <ClCompile Include="..\cpp\AbstractSyntaxTree.cpp" />
     <ClCompile Include="..\cpp\BuiltInFunctionDef.cpp" />
@@ -373,7 +374,6 @@
     <ClCompile Include="..\cpp\NelsonLexer.cpp" />
     <ClCompile Include="..\cpp\NelsonReadyNamedMutex.cpp" />
     <ClCompile Include="..\cpp\operators\ComplexTransposeOperator.cpp" />
-    <ClCompile Include="..\cpp\operators\FunctionHandleOperator.cpp" />
     <ClCompile Include="..\cpp\operators\MpowerOperator.cpp" />
     <ClCompile Include="..\cpp\Operators\PlusOperator.cpp" />
     <ClCompile Include="..\cpp\Operators\AndOperator.cpp" />
@@ -394,8 +394,6 @@
     <ClCompile Include="..\cpp\operators\PowerOperator.cpp" />
     <ClCompile Include="..\cpp\operators\RelationOperatorsHelpers.cpp" />
     <ClCompile Include="..\cpp\Operators\RightDivideOperator.cpp" />
-    <ClCompile Include="..\cpp\Operators\ShortCutAndOperator.cpp" />
-    <ClCompile Include="..\cpp\Operators\ShortCutOrOperator.cpp" />
     <ClCompile Include="..\cpp\Operators\MinusOperator.cpp" />
     <ClCompile Include="..\cpp\operators\SubsindexOperator.cpp" />
     <ClCompile Include="..\cpp\Operators\TimesOperator.cpp" />
@@ -411,6 +409,7 @@
     <ClCompile Include="..\cpp\Scope.cpp" />
     <ClCompile Include="..\cpp\StackEntry.cpp" />
     <ClCompile Include="..\cpp\VariablesTable.cpp" />
+    <ClCompile Include="..\cpp\VMCallFrame.cpp" />
     <ClCompile Include="..\FileWatcher\FileWatcher.cpp" />
     <ClCompile Include="..\FileWatcher\FileWatcherWin32.cpp" />
     <ClCompile Include="..\grammar\NelSonParser.cpp" />
@@ -479,6 +478,10 @@
     <ClInclude Include="..\include\AnonymousMacroFunctionDef.hpp" />
     <ClInclude Include="..\include\BuiltInFunctionDef.hpp" />
     <ClInclude Include="..\include\BuiltInFunctionDefManager.hpp" />
+    <ClInclude Include="..\include\Bytecode.hpp" />
+    <ClInclude Include="..\include\BytecodeChunk.hpp" />
+    <ClInclude Include="..\include\BytecodeCompiler.hpp" />
+    <ClInclude Include="..\include\BytecodeVM.hpp" />
     <ClInclude Include="..\include\CallbackBase.hpp" />
     <ClInclude Include="..\include\CallbackQueue.hpp" />
     <ClInclude Include="..\include\CallStack.hpp" />
@@ -486,6 +489,7 @@
     <ClInclude Include="..\include\ClearHandle.hpp" />
     <ClInclude Include="..\include\CommandQueue.hpp" />
     <ClInclude Include="..\include\Comments.hpp" />
+    <ClInclude Include="..\include\ConstantPool.hpp" />
     <ClInclude Include="..\include\Context.hpp" />
     <ClInclude Include="..\include\DeleteOnCleanupHandleObject.hpp" />
     <ClInclude Include="..\include\EvaluateBuiltinCatchRuntimeException.hpp" />
@@ -520,10 +524,12 @@
     <ClInclude Include="..\include\QueueCommon.hpp" />
     <ClInclude Include="..\include\QueueProcessing.hpp" />
     <ClInclude Include="..\include\Scope.hpp" />
+    <ClInclude Include="..\include\SlotMap.hpp" />
     <ClInclude Include="..\include\StackEntry.hpp" />
     <ClInclude Include="..\include\EventCallback.hpp" />
     <ClInclude Include="..\include\EventQueue.hpp" />
     <ClInclude Include="..\include\VariablesTable.hpp" />
+    <ClInclude Include="..\include\VMCallFrame.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\CMakeLists.txt" />

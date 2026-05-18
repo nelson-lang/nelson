@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "NelsonGateway.hpp"
+#include "BuiltInFunctionDefManager.hpp"
 #include "h5writeBuiltin.hpp"
 #include "h5writeattBuiltin.hpp"
 #include "h5readattBuiltin.hpp"
@@ -42,6 +43,8 @@ static bool
 initializeHdf5Module(Nelson::Evaluator* eval)
 {
     disableHdf5Warning();
+    BuiltInFunctionDefManager::getInstance()->setCallerContextAccess(
+        (ptrBuiltin)Nelson::Hdf5Gateway::h5loadBuiltin, true);
     return true;
 }
 //=============================================================================

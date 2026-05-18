@@ -10,6 +10,7 @@
 #ifdef _MSC_VER
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
+#include <malloc.h>
 #include <psapi.h>
 #else
 #if defined(__APPLE__) || defined(__MACH__)
@@ -69,6 +70,7 @@ double
 getTotalVirtualMemoryByNelson()
 {
     double res;
+    _heapmin();
     PROCESS_MEMORY_COUNTERS_EX pmc;
     GetProcessMemoryInfo(
         GetCurrentProcess(), reinterpret_cast<PROCESS_MEMORY_COUNTERS*>(&pmc), sizeof(pmc));
@@ -105,6 +107,7 @@ double
 getTotalPhysicalMemoryByNelson()
 {
     double res;
+    _heapmin();
     PROCESS_MEMORY_COUNTERS_EX pmc;
     GetProcessMemoryInfo(
         GetCurrentProcess(), reinterpret_cast<PROCESS_MEMORY_COUNTERS*>(&pmc), sizeof(pmc));

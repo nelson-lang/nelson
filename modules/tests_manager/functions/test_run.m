@@ -131,6 +131,17 @@ function test_cases_updated = process_test_cases(test_cases, nbWorkers, nbTotalT
         nb_spaces = max(0, 80 - length(startChars) - length(statusChars) + 1);
         fprintf(stdout, '%s%s%s%s', startChars, blanks(nb_spaces), statusChars, newline);
         displayTestCaseFail(accumulator(i))
+        ctrlCDetected = any(contains(accumulator(i).msg, _('Interrupt (ctrl-c) encountered.')));
+        ctrlCDetected = any(ctrlCDetected(:));
+        if ispc()
+          interruptedProcess = any(accumulator(i).res_cmd(:) == -1073741510);
+        else
+          interruptedProcess = any(accumulator(i).res_cmd(:) == 130);
+        end
+        interruptedProcess = any(interruptedProcess(:));
+        if interruptedProcess || ctrlCDetected
+          error(_('Test execution interrupted.'));
+        end
         if ((accumulator(i).skip) && (~isempty(accumulator(i).msg)))
           msg = sprintf('    Reason: %s\n', accumulator(i).msg);
           if length(msg) > 75

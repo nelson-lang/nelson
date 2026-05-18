@@ -14,16 +14,6 @@
 #include "OverloadRequired.hpp"
 //=============================================================================
 namespace Nelson {
-//=============================================================================
-ArrayOf
-Evaluator::uplusOperator(AbstractSyntaxTreePtr t)
-{
-    callstack.pushID((size_t)t->getContext());
-    ArrayOf retval = this->uplusOperator(expression(t->down));
-    callstack.popID();
-    return retval;
-}
-//=============================================================================
 ArrayOf
 Evaluator::uplusOperator(const ArrayOf& A)
 {

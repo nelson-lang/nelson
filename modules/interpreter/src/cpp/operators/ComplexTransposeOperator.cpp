@@ -14,16 +14,6 @@
 #include "ComplexTranspose.hpp"
 //=============================================================================
 namespace Nelson {
-//=============================================================================
-ArrayOf
-Evaluator::complexTransposeOperator(AbstractSyntaxTreePtr t)
-{
-    callstack.pushID((size_t)t->getContext());
-    ArrayOf retval = this->complexTransposeOperator(expression(t->down));
-    callstack.popID();
-    return retval;
-}
-//=============================================================================
 ArrayOf
 Evaluator::complexTransposeOperator(const ArrayOf& A)
 {

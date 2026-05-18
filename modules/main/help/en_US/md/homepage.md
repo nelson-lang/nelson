@@ -1,6 +1,6 @@
 <img src="banner_homepage.png" alt="banner" style="display:block; margin-left:auto; margin-right:auto;" />
 
-### Nelson 1.17.0.0
+### Nelson 2.0.0.0
 
 The main homepage for Nelson can be found at [https://nelson-lang.github.io/nelson-website/](https://nelson-lang.github.io/nelson-website/).
 
@@ -85,7 +85,8 @@ Originally inspired by languages like MATLAB© and GNU Octave, Nelson offers use
 
 # Changelogs
 
-- [Changelog v1.x.x](CHANGELOG.md)
+- [Changelog v2.x.x](CHANGELOG.md)
+- [Changelog v1.x.x](CHANGELOG-1.0.x.md)
 - [Changelog v0.7.x](CHANGELOG-0.7.x.md)
 - [Changelog v0.6.x](CHANGELOG-0.6.x.md)
 - [Changelog v0.5.x](CHANGELOG-0.5.x.md)

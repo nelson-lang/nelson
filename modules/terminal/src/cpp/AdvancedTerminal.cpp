@@ -94,13 +94,37 @@ completionHook(const std::string& buffer, int& contextLen)
 static void
 intHandler(int dummy = 0)
 {
+    signal(SIGINT, intHandler);
     Nelson::sigInterrupt(1);
 }
 //=============================================================================
+#ifdef _MSC_VER
+static BOOL
+CtrlHandler(DWORD fdwCtrlType)
+{
+    switch (fdwCtrlType) {
+    case CTRL_BREAK_EVENT:
+    case CTRL_C_EVENT: {
+        Nelson::sigInterrupt(1);
+    }
+        return TRUE;
+    case CTRL_SHUTDOWN_EVENT:
+    case CTRL_LOGOFF_EVENT:
+    case CTRL_CLOSE_EVENT: {
+    }
+        return FALSE;
+    }
+    return FALSE;
+}
+#endif
+//=============================================================================
 AdvancedTerminal::AdvancedTerminal() : repl(), syncedHistorySize(0)
 {
+#ifdef _MSC_VER
+    SetConsoleCtrlHandler(reinterpret_cast<PHANDLER_ROUTINE>(CtrlHandler), TRUE);
     signal(SIGINT, intHandler);
-#ifndef _MSC_VER
+#else
+    signal(SIGINT, intHandler);
     signal(SIGTSTP, intHandler);
 #endif
 #ifdef _WIN32

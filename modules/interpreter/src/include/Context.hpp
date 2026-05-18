@@ -46,6 +46,7 @@ class NLSINTERPRETER_IMPEXP Context
     std::vector<Scope*> bypassstack;
 
     size_t currentrecursiondepth;
+    size_t variablesClearedEpoch = 0;
 
 private:
     std::string
@@ -153,6 +154,16 @@ public:
      */
     void
     deleteVariable(const std::string& var);
+    void
+    notifyVariablesCleared()
+    {
+        ++variablesClearedEpoch;
+    }
+    size_t
+    getVariablesClearedEpoch() const
+    {
+        return variablesClearedEpoch;
+    }
     /**
      * Get the global scope off the top of the scope stack.
      */

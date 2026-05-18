@@ -12,6 +12,7 @@
 #endif
 //=============================================================================
 #include "NelsonGateway.hpp"
+#include "BuiltInFunctionDefManager.hpp"
 #include "acquirevarBuiltin.hpp"
 #include "assigninBuiltin.hpp"
 #include "clearBuiltin.hpp"
@@ -53,7 +54,16 @@ static const nlsGateway gateway[] = { { "clear", (ptrBuiltin)Nelson::MemoryGatew
     { "isvar", (ptrBuiltin)Nelson::MemoryGateway::isvarBuiltin, 1, -1, CPP_BUILTIN_WITH_EVALUATOR },
     { "memory", (ptrBuiltin)Nelson::MemoryGateway::memoryBuiltin, 2, 0, CPP_BUILTIN } };
 //=============================================================================
-NLSGATEWAYFUNC(gateway)
+static bool
+initializeMemoryManagerModule(Nelson::Evaluator* eval)
+{
+    auto* manager = BuiltInFunctionDefManager::getInstance();
+    manager->setCallerContextAccess((ptrBuiltin)Nelson::MemoryGateway::clearBuiltin, true);
+    manager->setCallerContextAccess((ptrBuiltin)Nelson::MemoryGateway::assigninBuiltin, true);
+    return true;
+}
+//=============================================================================
+NLSGATEWAYFUNCEXTENDED(gateway, (void*)initializeMemoryManagerModule)
 //=============================================================================
 NLSGATEWAYINFO(gateway)
 //=============================================================================

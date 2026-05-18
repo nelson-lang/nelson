@@ -9,6 +9,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <memory>
 #include <string>
 #include <vector>
 #include "AbstractSyntaxTree.hpp"
@@ -17,6 +18,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+class BytecodeChunk;
 class AnonymousMacroFunctionDef;
 //=============================================================================
 /**
@@ -28,6 +30,7 @@ class NLSINTERPRETER_IMPEXP AnonymousMacroFunctionDef : public FunctionDef
 public:
     AbstractSyntaxTreePtr code;
     AbstractSyntaxTreePtrVector ptrAstCodeAsVector;
+    std::unique_ptr<BytecodeChunk> bytecodeChunk;
     //=============================================================================
     AnonymousMacroFunctionDef(const std::string& functionHandle);
     //=============================================================================
@@ -69,6 +72,12 @@ public:
     bool
     updateCode(int nLhs);
     //=============================================================================
+    void
+    invalidateBytecode();
+    //=============================================================================
+    bool
+    ensureBytecodeCompiled(int nLhs);
+    //=============================================================================
     std::string
     getDefinition();
     //=============================================================================
@@ -91,6 +100,9 @@ public:
     {
         return isFunctionHandleOnly;
     }
+    //=============================================================================
+    bool
+    isStatelessSimpleIdentity() const;
     //=============================================================================
     std::string
     getContent()

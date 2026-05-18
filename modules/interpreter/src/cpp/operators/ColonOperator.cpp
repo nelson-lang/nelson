@@ -64,26 +64,6 @@ namespace Nelson {
 // y = 5:4
 //@>
 //!
-//=============================================================================
-ArrayOf
-Evaluator::colonOperator(AbstractSyntaxTreePtr t)
-{
-    callstack.pushID((size_t)t->getContext());
-    ArrayOf retval = this->colonOperator(
-        expression(t->down->down), expression(t->down->down->right), expression(t->down->right));
-    callstack.popID();
-    return retval;
-}
-//=============================================================================
-ArrayOf
-Evaluator::colonUnitOperator(AbstractSyntaxTreePtr t)
-{
-    callstack.pushID((size_t)t->getContext());
-    ArrayOf retval = this->colonUnitOperator(expression(t->down), expression(t->down->right));
-    callstack.popID();
-    return retval;
-}
-//=============================================================================
 ArrayOf
 Evaluator::colonUnitOperator(const ArrayOf& A, const ArrayOf& B)
 {

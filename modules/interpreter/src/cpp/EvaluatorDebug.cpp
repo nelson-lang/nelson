@@ -1,4 +1,4 @@
-﻿//=============================================================================
+//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -251,34 +251,44 @@ Evaluator::stepBreakpointExists(const Breakpoint& bp)
 }
 //=============================================================================
 bool
-Evaluator::onBreakpoint(AbstractSyntaxTreePtr t)
+Evaluator::onBytecodeBreakpoint(const std::wstring& bytecodeFilename,
+    const std::string& bytecodeFunctionName, size_t currentLine, size_t maxLine)
 {
     if (breakpoints.empty() && !bpActive) {
         return false;
     }
-    std::string currentFunctionName = context->getCurrentScope()->getName();
-    // Fast path: if we are in step-next mode and the line changed, break immediately
+
+    std::string currentFunctionName = bytecodeFunctionName;
+    if (currentFunctionName.empty() && context != nullptr
+        && context->getCurrentScope() != nullptr) {
+        currentFunctionName = context->getCurrentScope()->getName();
+    }
+
+    std::wstring filename = bytecodeFilename;
+    if (filename.empty() && context != nullptr && context->getCurrentScope() != nullptr) {
+        filename = context->getCurrentScope()->getFilename();
+    }
+    if (filename.empty()) {
+        filename = utf8_to_wstring(callstack.getLastContext());
+    }
+
+    if (maxLine == 0) {
+        maxLine = currentLine;
+    }
+
     if (bpActive && stepMode && stepBreakpoint.has_value() && stepBreakpoint->stepNext) {
         const Breakpoint& sb = *stepBreakpoint;
-        const std::wstring& sbFile = sb.filename;
-        if (!sbFile.empty() && filenamesMatch(sbFile, context->getCurrentScope()->getFilename())) {
-            const std::string& currentFunction = context->getCurrentScope()->getName();
-            // For step-over: ONLY break in the same function (no depth check to avoid confusion)
-            bool inSameFunction = !sb.functionName.empty() && sb.functionName == currentFunction;
+        if (!sb.filename.empty() && filenamesMatch(sb.filename, filename)) {
+            bool inSameFunction
+                = !sb.functionName.empty() && sb.functionName == currentFunctionName;
             bool shouldBreak = sb.stepInto || inSameFunction;
-
-            if (!shouldBreak) {
-                goto skip_fast_path;
-            }
-            size_t currentLineFast = getLinePosition(t);
-            // Skip if fromLine is 0 (uninitialized/invalid) to avoid matching line 1
-            if (sb.fromLine != 0 && currentLineFast != sb.fromLine) {
+            if (shouldBreak && sb.fromLine != 0 && currentLine != sb.fromLine) {
                 Breakpoint matched = sb;
-                matched.line = currentLineFast;
+                matched.line = currentLine;
+                matched.maxLines = maxLine;
                 matched.stepMode = false;
-                matched.stepNext = false; // disable further fast-path hits until user steps again
+                matched.stepNext = false;
                 stepBreakpoint = matched;
-                // Remove any pending step-next temporary breakpoints now that we've hit one
                 auto tmpIt = breakpoints.begin();
                 while (tmpIt != breakpoints.end()) {
                     if (tmpIt->stepMode && tmpIt->stepNext) {
@@ -291,55 +301,26 @@ Evaluator::onBreakpoint(AbstractSyntaxTreePtr t)
             }
         }
     }
-skip_fast_path:
 
-    if (breakpoints.empty() && !bpActive) {
-        return false;
-    }
-
-    size_t currentLine = getLinePosition(t);
-    size_t maxLine = getMaxLinePosition(t);
-
-    std::wstring filename;
-    filename = context->getCurrentScope()->getFilename();
-    if (filename.empty()) {
-        filename = utf8_to_wstring(callstack.getLastContext());
-    }
-
-    // Note: Step-out breakpoints are handled separately in checkStepOutAfterFunctionReturn()
-    // which is called after function calls complete, allowing us to stop at the call site.
-
-    // First: handle step-next breakpoints (break at first executed line after 'fromLine')
     for (auto it = breakpoints.begin(); it != breakpoints.end(); ++it) {
         if (!(it->stepMode && it->stepNext)) {
             continue;
         }
-
-        // Step-next should be file-scoped; optionally also stay in the same function unless
-        // stepInto
         if (!filenamesMatch(it->filename, filename)) {
             continue;
         }
-        // For step-over: ONLY break in the same function (no depth check to avoid confusion)
         bool inSameFunction = !it->functionName.empty() && it->functionName == currentFunctionName;
         bool shouldBreak = it->stepInto || inSameFunction;
-
-        if (!shouldBreak) {
-            continue;
-        }
-
-        // Break on any line different from the origin. This covers forward steps and loop backs.
-        // Skip if fromLine is 0 (uninitialized/invalid) to avoid matching line 1
-        if (it->fromLine != 0 && currentLine != it->fromLine) {
+        if (shouldBreak && it->fromLine != 0 && currentLine != it->fromLine) {
             Breakpoint matchedBp;
             matchedBp.filename = filename;
-            matchedBp.functionName = currentFunctionName; // carry current context for dbstack
+            matchedBp.functionName = currentFunctionName;
             matchedBp.line = currentLine;
             matchedBp.maxLines = maxLine;
             matchedBp.targetDepth = it->targetDepth;
             matchedBp.enabled = true;
             matchedBp.stepMode = false;
-            matchedBp.stepNext = true; // preserve step-next intent for fast path
+            matchedBp.stepNext = true;
             matchedBp.fromLine = it->fromLine;
             stepBreakpoint = matchedBp;
             breakpoints.erase(it);
@@ -347,30 +328,40 @@ skip_fast_path:
         }
     }
 
-    // Check for regular and step-in breakpoints (exact line match)
     for (auto it = breakpoints.begin(); it != breakpoints.end(); ++it) {
-        // Skip step-out breakpoints - they are handled after function returns
+        if (!(it->stepMode && it->stepOut)) {
+            continue;
+        }
+        bool leftFunction = it->functionName != currentFunctionName;
+        bool atOrBelowTargetDepth
+            = (it->targetDepth < 0) || (static_cast<int>(callstack.size()) <= it->targetDepth);
+        if (leftFunction && atOrBelowTargetDepth) {
+            Breakpoint matchedBp;
+            matchedBp.filename = filename;
+            matchedBp.functionName = currentFunctionName;
+            matchedBp.line = currentLine;
+            matchedBp.maxLines = maxLine;
+            matchedBp.enabled = true;
+            matchedBp.stepMode = false;
+            stepBreakpoint = matchedBp;
+            breakpoints.erase(it);
+            return true;
+        }
+    }
+
+    for (auto it = breakpoints.begin(); it != breakpoints.end(); ++it) {
         if (it->stepOut) {
             continue;
         }
-        bool lineMatch = it->line == currentLine;
-        if (it->stepMode) {
-            // For step breakpoints, allow triggering when currentLine has advanced past the
-            // recorded line (helps for control-flow statements where getLinePosition returns the
-            // earliest child line).
-            lineMatch = currentLine >= it->line;
-        }
-        if (filenamesMatch(it->filename, filename) && (it->functionName == currentFunctionName)
+        bool lineMatch = it->stepMode ? currentLine >= it->line : currentLine == it->line;
+        if (filenamesMatch(it->filename, filename) && it->functionName == currentFunctionName
             && lineMatch) {
-            // Store the breakpoint info
             Breakpoint matchedBp = *it;
             matchedBp.maxLines = maxLine;
-            // For step-mode breakpoints, update to the actual current line
             if (it->stepMode) {
                 matchedBp.line = currentLine;
             }
             stepBreakpoint = matchedBp;
-            // Remove step-mode breakpoints after they trigger (they are temporary)
             if (it->stepMode) {
                 breakpoints.erase(it);
             }
@@ -378,27 +369,15 @@ skip_fast_path:
         }
     }
 
-    // Try with empty function name (global scope / scripts)
     for (auto it = breakpoints.begin(); it != breakpoints.end(); ++it) {
-        // Skip step-out breakpoints
-        if (it->stepOut) {
+        if (it->stepOut || it->stepNext) {
             continue;
         }
-        // Skip stepNext breakpoints - they should have been handled above and have
-        // explicit function name filtering to prevent stepping into other functions
-        if (it->stepNext) {
-            continue;
-        }
-        bool lineMatch = it->line == currentLine;
-        if (it->stepMode) {
-            lineMatch = currentLine >= it->line;
-        }
-        if (filenamesMatch(it->filename, filename) && (it->functionName.empty()) && lineMatch) {
+        bool lineMatch = it->stepMode ? currentLine >= it->line : currentLine == it->line;
+        if (filenamesMatch(it->filename, filename) && it->functionName.empty() && lineMatch) {
             Breakpoint matchedBp = *it;
             matchedBp.maxLines = maxLine;
-            // For scripts, use empty function name in stepBreakpoint
             matchedBp.functionName = "";
-            // For step-mode breakpoints, update to the actual current line
             if (it->stepMode) {
                 matchedBp.line = currentLine;
             }
@@ -410,15 +389,10 @@ skip_fast_path:
         }
     }
 
-    // For step-into: when entering a new function, check if we should break
-    // This handles the case when we step into a called function
     for (auto it = breakpoints.begin(); it != breakpoints.end(); ++it) {
         if (it->stepMode && it->stepInto) {
-            // If we're at a different file or function than the step breakpoint,
-            // it means we've stepped into a new function
             if (!filenamesMatch(it->filename, filename)
                 || it->functionName != currentFunctionName) {
-                // We've entered a new function - break at first executable line
                 Breakpoint matchedBp;
                 matchedBp.filename = filename;
                 matchedBp.functionName = currentFunctionName;
@@ -427,64 +401,12 @@ skip_fast_path:
                 matchedBp.enabled = true;
                 matchedBp.stepMode = false;
                 stepBreakpoint = matchedBp;
-                // Remove the consumed step-into breakpoint
                 breakpoints.erase(it);
                 return true;
             }
         }
     }
 
-    return false;
-}
-//=============================================================================
-bool
-Evaluator::checkStepOutAfterFunctionReturn(AbstractSyntaxTreePtr t)
-{
-    // This method is called after a function call returns to check if we should
-    // break due to a step-out breakpoint. This allows us to stop at the call site
-    // (like MATLAB) rather than at the next statement.
-    if (breakpoints.empty()) {
-        return false;
-    }
-
-    size_t currentLine = getLinePosition(t);
-    size_t maxLine = getMaxLinePosition(t);
-
-    std::wstring filename = context->getCurrentScope()->getFilename();
-    if (filename.empty()) {
-        filename = utf8_to_wstring(callstack.getLastContext());
-    }
-
-    // Normalize filename for comparison
-    std::wstring normalizedFilename = normalizePath(filename);
-
-    std::string currentFunctionName = context->getCurrentScope()->getName();
-    int currentCallStackSize = static_cast<int>(callstack.size());
-
-    // Check for step out breakpoints AND step-next breakpoints that have returned to caller
-    for (auto it = breakpoints.begin(); it != breakpoints.end(); ++it) {
-        if (it->stepMode && it->stepOut) {
-            // Step out triggers when we've returned to the caller function
-            bool leftFunction = (it->functionName != currentFunctionName);
-            bool atOrBelowTargetDepth
-                = (it->targetDepth < 0) || (currentCallStackSize <= it->targetDepth);
-
-            if (leftFunction && atOrBelowTargetDepth) {
-                // Store breakpoint info before removing
-                Breakpoint matchedBp;
-                matchedBp.filename = filename;
-                matchedBp.functionName = currentFunctionName;
-                matchedBp.line = currentLine;
-                matchedBp.maxLines = maxLine;
-                matchedBp.enabled = true;
-                matchedBp.stepMode = false;
-                stepBreakpoint = matchedBp;
-                // Remove the consumed step-out breakpoint
-                breakpoints.erase(it);
-                return true;
-            }
-        }
-    }
     return false;
 }
 //=============================================================================

@@ -11,6 +11,8 @@
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include "AnonymousMacroFunctionDef.hpp"
+#include "BytecodeCompiler.hpp"
+#include "BytecodeVM.hpp"
 #include "StringHelpers.hpp"
 #include "Context.hpp"
 #include "ParserInterface.hpp"
@@ -23,8 +25,59 @@
 #include "i18n.hpp"
 #include "PredefinedErrorMessages.hpp"
 #include "NelsonConfiguration.hpp"
+#include "Bytecode.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+namespace {
+    //=============================================================================
+    bool
+    anonymousBytecodeCanRunWithoutScope(const BytecodeChunk& chunk)
+    {
+        for (const Instruction& ins : chunk.code) {
+            switch (ins.op) {
+            case OpCode::LOAD_GLOBAL:
+            case OpCode::STORE_GLOBAL:
+            case OpCode::LOAD_ANS:
+            case OpCode::STORE_ANS:
+            case OpCode::DELETE_LOCAL:
+            case OpCode::CALL_NAMED:
+            case OpCode::CALL_NAMED_DYNAMIC:
+            case OpCode::CALL_BUILTIN:
+            case OpCode::CALL_MACRO:
+            case OpCode::CALL_HANDLE:
+            case OpCode::CALL_HANDLE_DYNAMIC:
+            case OpCode::MAKE_FH_NAMED:
+            case OpCode::MAKE_FH_ANONYMOUS:
+            case OpCode::TRY_BEGIN:
+            case OpCode::CATCH_BEGIN:
+                return false;
+            default:
+                break;
+            }
+        }
+        return true;
+    }
+    //=============================================================================
+    bool
+    validateAnonymousInputCount(const stringVector& arguments, const ArrayOfVector& inputs)
+    {
+        if (arguments.empty()) {
+            return inputs.empty();
+        }
+        if (arguments.back() != "varargin") {
+            return inputs.size() <= arguments.size();
+        }
+        return inputs.size() >= arguments.size() - 1;
+    }
+    //=============================================================================
+    bool
+    hasAnonymousVarargin(const stringVector& arguments)
+    {
+        return !arguments.empty() && arguments.back() == "varargin";
+    }
+    //=============================================================================
+}
 //=============================================================================
 AnonymousMacroFunctionDef::AnonymousMacroFunctionDef(const std::string& functionHandle)
     : FunctionDef(false)
@@ -58,7 +111,8 @@ AnonymousMacroFunctionDef::AnonymousMacroFunctionDef(const std::string& anonymou
     std::vector<ArrayOf> filteredVariables;
     filteredVariableNames.reserve(variableNames.size());
     filteredVariables.reserve(variables.size());
-    for (size_t k = 0; k < variableNames.size(); ++k) {
+    size_t captureCount = std::min(variableNames.size(), variables.size());
+    for (size_t k = 0; k < captureCount; ++k) {
         const auto& varName = variableNames[k];
         if (filteredNames.find(varName) == filteredNames.end()) {
             filteredVariableNames.push_back(varName);
@@ -72,6 +126,7 @@ AnonymousMacroFunctionDef::AnonymousMacroFunctionDef(const std::string& anonymou
 //=============================================================================
 AnonymousMacroFunctionDef::~AnonymousMacroFunctionDef()
 {
+    bytecodeChunk.reset();
     this->anonymousContent.clear();
     this->functionHandleContent.clear();
     this->previousLhs = -1;
@@ -146,6 +201,13 @@ AnonymousMacroFunctionDef::outputArgCount()
     return -1;
 }
 //=============================================================================
+bool
+AnonymousMacroFunctionDef::isStatelessSimpleIdentity() const
+{
+    return !isFunctionHandleOnly && arguments.size() == 1 && arguments[0] != "varargin"
+        && anonymousContent == arguments[0];
+}
+//=============================================================================
 ArrayOfVector
 AnonymousMacroFunctionDef::evaluateFunction(
     Evaluator* eval, const ArrayOfVector& inputs, int nargout)
@@ -163,6 +225,13 @@ AnonymousMacroFunctionDef::evaluateFunction(
         Error(msg, id);
     }
     updateCode(nargout);
+    if (variables.empty() && !hasAnonymousVarargin(arguments)
+        && validateAnonymousInputCount(arguments, inputs)) {
+        ensureBytecodeCompiled(nargout);
+        if (bytecodeChunk != nullptr && anonymousBytecodeCanRunWithoutScope(*bytecodeChunk)) {
+            return BytecodeVM::executeFunction(eval, *bytecodeChunk, inputs, nargout);
+        }
+    }
     ArrayOfVector outputs;
     size_t minCount = 0;
     Context* context = eval->getContext();
@@ -238,7 +307,8 @@ AnonymousMacroFunctionDef::evaluateFunction(
     eval->setEchoMode(false);
     try {
         tic = Profiler::getInstance()->tic();
-        eval->block(code);
+        ensureBytecodeCompiled(nargout);
+        outputs = BytecodeVM::executeFunction(eval, *bytecodeChunk, inputs, nargout);
         eval->setEchoMode(backupEcho);
         if (tic != 0) {
             internalProfileFunction stack = computeProfileStack(eval, getName(), L"", false);
@@ -251,32 +321,6 @@ AnonymousMacroFunctionDef::evaluateFunction(
         if (state == NLS_STATE_ABORT) {
             return scalarArrayOfToArrayOfVector(ArrayOf::emptyConstructor());
         }
-        if (nargout == 0) {
-            ArrayOf a;
-            if (context->lookupVariableLocally("ans", a)) {
-                outputs.resize(1);
-                outputs[0] = a;
-            }
-        } else {
-            bool warningIssued = false;
-            outputs.resize(returnVals.size());
-            ArrayOf a;
-            for (size_t i = 0; i < returnVals.size(); i++) {
-                if (!context->lookupVariableLocally(returnVals[i], a)) {
-                    if (!warningIssued) {
-                        std::wstring message = fmt::format(
-                            _W("Function : '{0}'."), utf8_to_wstring(this->getName()));
-                        message = message + L"\n" + WARNING_OUTPUTS_NOT_ASSIGNED;
-                        Warning(message);
-                        warningIssued = true;
-                    }
-                    a = ArrayOf::emptyConstructor();
-                }
-                outputs[i] = a;
-                outputs[i].name("");
-            }
-        }
-
         context->popScope();
         eval->callstack.popDebug();
     } catch (const Exception&) {
@@ -288,6 +332,26 @@ AnonymousMacroFunctionDef::evaluateFunction(
         throw;
     }
     return outputs;
+}
+//=============================================================================
+void
+AnonymousMacroFunctionDef::invalidateBytecode()
+{
+    bytecodeChunk.reset();
+}
+//=============================================================================
+bool
+AnonymousMacroFunctionDef::ensureBytecodeCompiled(int nLhs)
+{
+    if (isFunctionHandleOnly) {
+        return false;
+    }
+    updateCode(nLhs);
+    if (bytecodeChunk != nullptr) {
+        return true;
+    }
+    bytecodeChunk = BytecodeCompiler::compileAnonymous(code, variableNames, arguments, returnVals);
+    return bytecodeChunk != nullptr;
 }
 //=============================================================================
 std::string
@@ -339,6 +403,7 @@ AnonymousMacroFunctionDef::updateCode(int nLhs)
     }
     this->previousLhs = nLhs;
     if (code != nullptr) {
+        invalidateBytecode();
         for (auto ptr : this->ptrAstCodeAsVector) {
             delete ptr;
         }
@@ -381,6 +446,7 @@ AnonymousMacroFunctionDef::updateCode(int nLhs)
         this->arguments = macroFunctionDef->arguments;
         this->setName("Anonymous");
         this->returnVals = macroFunctionDef->returnVals;
+        invalidateBytecode();
         macroFunctionDef->code = nullptr;
         delete macroFunctionDef;
         return true;

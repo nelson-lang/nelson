@@ -16,6 +16,8 @@
 #pragma clang diagnostic ignored "-Wmissing-template-arg-list-after-template-kw"
 #endif
 #include <regex>
+#include "BytecodeCompiler.hpp"
+#include "BytecodeVM.hpp"
 #ifdef _MSC_VER
 #include <Windows.h>
 #else
@@ -134,6 +136,12 @@ Evaluator::needToOverloadOperator(const ArrayOf& a)
     return ((a.getDataClass() == NLS_STRUCT_ARRAY) || (a.getDataClass() == NLS_CELL_ARRAY)
         || (a.getDataClass() == NLS_STRING_ARRAY) || a.isSparse() || a.isHandle()
         || (a.getDataClass() == NLS_CLASS_ARRAY) || (a.getDataClass() == NLS_FUNCTION_HANDLE));
+}
+//=============================================================================
+bool
+Evaluator::lookupFunction(const std::string& funcName, FunctionDefPtr& val)
+{
+    return context->lookupFunction(funcName, val);
 }
 //=============================================================================
 // Returns the context in which the evaluator operates.
@@ -281,11 +289,16 @@ Evaluator::evaluateString(const std::string& line, bool propogateException)
     AbstractSyntaxTreePtrVector astAsVector = AbstractSyntaxTree::getReferences();
     AbstractSyntaxTree::clearReferences();
     try {
-        block(tree);
+        auto chunk = BytecodeCompiler::compileScript(tree, L"");
+        BytecodeVM::executeScript(this, *chunk);
     } catch (Exception& e) {
         AbstractSyntaxTree::deleteReferences(astAsVector);
         tree = nullptr;
         setLastErrorException(e);
+        if (state == NLS_STATE_ABORT || isQuitOrForceQuitState()) {
+            callstack.popDebug();
+            throw;
+        }
         if (propogateException) {
             throw e;
         }
@@ -544,7 +557,13 @@ Evaluator::evalCLI()
                 };
                 commandLine = normalize_newlines(commandLine);
             }
-            bool evalResult = evaluateString(commandLine, false);
+            bool evalResult = false;
+            try {
+                evalResult = evaluateString(commandLine, false);
+            } catch (Exception& e) {
+                setLastErrorException(e);
+                e.printMe(io);
+            }
             while (callstack.size() > stackdepth) {
                 callstack.pop_back();
             }
@@ -768,7 +787,17 @@ Evaluator::getHandle(ArrayOf r, const std::string& fieldname, const ArrayOfVecto
     int nLhs = 1;
     argIn.push_back(r);
     argIn.push_back(ArrayOf::characterArrayConstructor(fieldname));
-    return funcDef->evaluateFunction(this, argIn, nLhs);
+    ArrayOfVector result = funcDef->evaluateFunction(this, argIn, nLhs);
+    if (!params.empty() && !result.empty()) {
+        ArrayOf value = result[0];
+        ArrayOfVector mutableParams = params;
+        if (params.size() == 1) {
+            result[0] = value.getVectorSubset(mutableParams[0]);
+        } else {
+            result[0] = value.getNDimSubset(mutableParams);
+        }
+    }
+    return result;
 }
 //=============================================================================
 // Checks if the given object has a method with the specified name.

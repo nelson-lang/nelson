@@ -29,6 +29,9 @@ runBuiltinCommon(
     try {
         bSuccess = EvaluateScriptFile(eval, filename, changeDirectory);
     } catch (Exception& e) {
+        if (eval->getState() == NLS_STATE_ABORT || eval->isQuitOrForceQuitState()) {
+            throw;
+        }
         if (errorCatch) {
             eval->setLastErrorException(e);
             bSuccess = false;

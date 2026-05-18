@@ -79,6 +79,20 @@ BuiltInFunctionDefManager::add(const std::string& name, void* fptr, int argc_in,
 }
 //=============================================================================
 bool
+BuiltInFunctionDefManager::setCallerContextAccess(ptrBuiltin fptr, bool callerContextAccess)
+{
+    bool found = false;
+    for (auto* funcDef : builtinVector) {
+        auto* builtinDef = (BuiltInFunctionDef*)funcDef;
+        if (builtinDef != nullptr && builtinDef->fptr == fptr) {
+            builtinDef->callerContextAccess = callerContextAccess;
+            found = true;
+        }
+    }
+    return found;
+}
+//=============================================================================
+bool
 BuiltInFunctionDefManager::remove(const std::string& name)
 {
     bool deleted = false;

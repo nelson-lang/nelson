@@ -52,6 +52,20 @@ function varargout = cell2mat(varargin)
     error(_('All elements of cell array must have same type.'));
   end
   
+  if (ndims(C) > 2)
+    allScalarCells = true;
+    for k = 1:numel(C)
+      if ~isscalar(C{k})
+        allScalarCells = false;
+        break
+      end
+    end
+    if allScalarCells
+      varargout{1} = reshape([C{:}], size(C));
+      return
+    end
+  end
+  
   if (ndims(C) == 2)
     varargout{1} = cell2mat2D(C);
   else

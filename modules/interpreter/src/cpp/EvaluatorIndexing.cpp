@@ -21,79 +21,116 @@
 #include "Warning.hpp"
 //=============================================================================
 namespace Nelson {
+ArrayOfVector
+Evaluator::bytecodeGetHandle(ArrayOf r, const std::string& fieldname, const ArrayOfVector& params)
+{
+    return getHandle(r, fieldname, params);
+}
+//=============================================================================
+ArrayOfVector
+Evaluator::bytecodeGetOrInvokeHandle(
+    const ArrayOf& r, const std::string& fieldname, const ArrayOfVector& params)
+{
+    if (isObjectMethod(r, fieldname)) {
+        return invokeMethod(r, fieldname, params);
+    }
+    return getHandle(r, fieldname, params);
+}
+//=============================================================================
+bool
+Evaluator::bytecodeInvokeObjectMethodIfExists(const ArrayOf& r, const std::string& methodName,
+    const ArrayOfVector& params, int nLhs, ArrayOfVector& result)
+{
+    if (!isObjectMethod(r, methodName)) {
+        return false;
+    }
+    Context* _context = this->getContext();
+    FunctionDef* funcDef = nullptr;
+    std::string currentType = r.isHandle() ? r.getHandleCategory()
+        : r.isClassType()                  ? r.getClassType()
+                                           : "";
+    if (currentType.empty()) {
+        return false;
+    }
+    std::string functionNameCurrentType = getOverloadFunctionName(currentType, "invoke");
+    if (!_context->lookupFunction(functionNameCurrentType, funcDef)) {
+        return false;
+    }
+    if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION))) {
+        Error(_W("Type function not valid."));
+    }
+    ArrayOfVector argIn;
+    argIn.push_back(r);
+    argIn.push_back(ArrayOf::characterArrayConstructor(methodName));
+    for (const ArrayOf& a : params) {
+        argIn.push_back(a);
+    }
+    result = funcDef->evaluateFunction(this, argIn, nLhs);
+    return true;
+}
+//=============================================================================
+void
+Evaluator::bytecodeSetHandle(
+    ArrayOf r, const std::string& fieldname, const ArrayOfVector& fieldvalue)
+{
+    setHandle(r, fieldname, fieldvalue);
+}
+//=============================================================================
+ArrayOfVector
+Evaluator::bytecodeExtractClass(const ArrayOf& r, const stringVector& subtypes,
+    const ArrayOfVector& subsindices, bool& haveFunction)
+{
+    return extractClass(r, subtypes, subsindices, haveFunction);
+}
 //=============================================================================
 ArrayOf
-Evaluator::simpleSubindexExpression(ArrayOf& r, AbstractSyntaxTreePtr t)
+Evaluator::bytecodeAssignClass(const ArrayOf& r, const stringVector& subtypes,
+    const ArrayOfVector& subsindices, const ArrayOf& value, bool& haveFunction)
 {
-    switch (t->opNum) {
-    case OP_PARENS: {
-        ArrayOfVector m = expressionList(t->down, r);
-        if (m.empty()) {
-            Error(ERROR_INDEX_EXPRESSION_EXPECTED);
-        }
-        if (m.size() == 1) {
-            if (r.isClassType()) {
-                Error(ERROR_NEED_OVERLOAD);
-            }
-            try {
-                return r.getVectorSubset(m[0]);
-            } catch (const Exception&) {
-                return ArrayOf::emptyConstructor();
-            }
-        }
-        try {
-            return r.getNDimSubset(m);
-        } catch (const Exception&) {
-            return ArrayOf::emptyConstructor();
+    haveFunction = false;
+    std::string currentClass = ClassName(r);
+    FunctionDef* funcDef = nullptr;
+    std::string functionName = getOverloadFunctionName(currentClass, SUBSASGN_OPERATOR_STR);
+    if (!getContext()->lookupFunction(functionName, funcDef)) {
+        functionName
+            = getOverloadFunctionName(std::string(NLS_CLASS_ARRAY_STR), SUBSASGN_OPERATOR_STR);
+        if (!getContext()->lookupFunction(functionName, funcDef)) {
+            return {};
         }
     }
-    case OP_BRACES: {
-        ArrayOfVector m = expressionList(t->down, r);
-        if (m.empty()) {
-            Error(ERROR_INDEX_EXPRESSION_EXPECTED);
-        }
-        if (m.size() == 1) {
-            try {
-                return r.getVectorContents(m[0]);
-            } catch (const Exception&) {
-                return ArrayOf::emptyConstructor();
-            }
-        }
-        try {
-            return r.getNDimContents(m);
-        } catch (const Exception&) {
-            return ArrayOf::emptyConstructor();
-        }
+    haveFunction = true;
+    if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION))) {
+        Error(_W("Type function not valid."));
     }
-    case OP_DOT: {
-        try {
-            if (r.isGraphicsObject()) {
-                ArrayOfVector params;
-                ArrayOfVector rv = getHandle(r, t->down->text, params);
-                return rv.empty() ? ArrayOf::emptyConstructor() : rv[0];
-            }
-            return r.getField(t->down->text);
-        } catch (const Exception&) {
-            return ArrayOf::emptyConstructor();
-        }
+
+    stringVector fieldnames = { "type", "subs" };
+    Dimensions dims(1, subtypes.size());
+    auto* elements = static_cast<ArrayOf*>(
+        ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, dims.getElementCount(), fieldnames, false));
+    ArrayOf substruct = ArrayOf(NLS_STRUCT_ARRAY, dims, elements, false, fieldnames);
+
+    ArrayOfVector typesVector;
+    ArrayOfVector subsVector;
+    typesVector.reserve(subtypes.size());
+    subsVector.reserve(subsindices.size());
+    for (const auto& t : subtypes) {
+        typesVector.push_back(ArrayOf::characterArrayConstructor(t));
     }
-    case OP_DOTDYN: {
-        std::string field;
-        try {
-            ArrayOf fname(expression(t->down));
-            field = fname.getContentAsCString();
-        } catch (const Exception&) {
-            Error(ERROR_DYNAMIC_FIELD_STRING_EXPECTED);
-        }
-        try {
-            return r.getField(field);
-        } catch (const Exception&) {
-            return ArrayOf::emptyConstructor();
-        }
+    for (const auto& t : subsindices) {
+        subsVector.push_back(t);
     }
-    default:
-        return ArrayOf::emptyConstructor();
-    }
+    substruct.setFieldAsList("type", typesVector);
+    substruct.setFieldAsList("subs", subsVector);
+
+    ArrayOfVector args;
+    args.push_back(r);
+    args.push_back(substruct);
+    args.push_back(value);
+
+    CallStack backupCallStack = callstack;
+    ArrayOfVector rv = funcDef->evaluateFunction(this, args, 1);
+    callstack = backupCallStack;
+    return rv.empty() ? ArrayOf::emptyConstructor() : rv[0];
 }
 //=============================================================================
 //!
@@ -277,489 +314,6 @@ Evaluator::simpleSubindexExpression(ArrayOf& r, AbstractSyntaxTreePtr t)
 // a value of pi.
 //!
 ArrayOfVector
-Evaluator::rhsExpression(AbstractSyntaxTreePtr t, int nLhs)
-{
-    ArrayOf r;
-    ArrayOfVector m;
-    ArrayOfVector rv;
-    Dimensions rhsDimensions;
-    FunctionDef* funcDef = nullptr;
-    callstack.pushID((size_t)t->getContext());
-    // Try to satisfy the rhs expression with what functions we have already
-    // loaded.
-    if (context->lookupVariable(t->text, r)) {
-        if (t->down == nullptr) {
-            callstack.popID();
-            return ArrayOfVector(r);
-        }
-        AbstractSyntaxTreePtr tt = t->down;
-        if (tt->opNum == OP_PARENS && tt->down == nullptr && tt->right != nullptr) {
-            tt = tt->right;
-            if (tt->opNum == OP_DOT) {
-                rv = ArrayOfVector(r.getField(tt->down->text));
-                callstack.popID();
-                return rv;
-            }
-        }
-    } else {
-        if (lookupFunction(t->text, funcDef)) {
-            if (funcDef->outputArgCount() == 0) {
-                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS, utf8_to_wstring(funcDef->getName()));
-            }
-            m = functionExpression(funcDef, t, 1, false);
-            callstack.popID();
-            return m;
-        }
-        /* try for method of handle */
-        if (t->down && t->down->opNum == OP_PARENS) {
-            funcDef = nullptr;
-            m = functionExpression(funcDef, t, 1, false);
-            callstack.popID();
-            return m;
-        }
-        Error(utf8_to_wstring(_("Undefined variable or function:") + " " + t->text));
-    }
-
-    t = t->down;
-    while (t != nullptr) {
-        rhsDimensions = r.getDimensions();
-        if (!rv.empty()) {
-            Error(_W("Cannot reindex an expression that returns multiple values."));
-        }
-        if (t->opNum == (OP_PARENS)) {
-            bool isFinished = false;
-            rhsExpressionParens(rhsDimensions, rv, t, r, nLhs, isFinished);
-            if (isFinished) {
-                return rv;
-            }
-        }
-        if (t->opNum == (OP_BRACES)) {
-            rhsExpressionBraces(rhsDimensions, rv, t, r, nLhs);
-        }
-        if (t->opNum == (OP_DOT)) {
-            rhsExpressionDot(rv, t, r, nLhs);
-        }
-        if (t->opNum == (OP_DOTDYN)) {
-            rhsExpressionDynDot(rv, t, r, nLhs);
-        }
-        t = t->right;
-    }
-    if (rv.empty()) {
-        if (nLhs != 0) {
-            rv.push_back(r);
-        }
-    }
-    callstack.popID();
-    return rv;
-}
-//=============================================================================
-void
-Evaluator::rhsExpressionParens(Dimensions& rhsDimensions, ArrayOfVector& rv,
-    AbstractSyntaxTreePtr& t, ArrayOf& r, int nLhs, bool& isFinished)
-{
-    isFinished = false;
-    ArrayOfVector m = expressionList(t->down, r);
-    if (rhsDimensions.getLength() > (indexType)m.size()) {
-        Dimensions nDim;
-        if (m.size() >= 2) {
-            size_t d = 0;
-            for (d = 0; d < m.size() - 1; d++) {
-                nDim[d] = rhsDimensions[d];
-            }
-            indexType L = 1;
-            for (indexType k = d; k < rhsDimensions.getLength(); k++) {
-                L = L * rhsDimensions[k];
-            }
-            nDim[d] = L;
-            r.reshape(nDim);
-            rhsDimensions = r.getDimensions();
-            m = expressionList(t->down, r);
-        }
-    }
-    if (r.isFunctionHandle()) {
-        if (t->right != nullptr && t->right->opNum != OP_PARENS) {
-            Error(_("Invalid indexing."));
-        }
-        std::string extractionFunctionName
-            = getOverloadFunctionName(NLS_FUNCTION_HANDLE_STR, SUBSREF_OPERATOR_STR);
-        FunctionDef* funcDef = nullptr;
-        if (lookupFunction(extractionFunctionName, funcDef)) {
-            CallStack backupCallStack = this->callstack;
-            ArrayOfVector paramsIn(m);
-            paramsIn.push_front(r);
-            rv = funcDef->evaluateFunction(this, paramsIn, nLhs);
-            callstack = backupCallStack;
-            callstack.popID();
-            isFinished = true;
-            return;
-        }
-    }
-    if (m.size() == 0) {
-        if (t->right == nullptr) {
-            callstack.popID();
-            rv = ArrayOfVector(r);
-            isFinished = true;
-            return;
-        }
-        Error(_W("index expected."));
-
-    } else if (m.size() == 1) {
-        if (r.isClassType()) {
-            stringVector substype;
-            substype.push_back("()");
-            ArrayOfVector subsindices;
-            ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, m.size() + 1);
-            ArrayOf cell = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, m.size()), elements);
-            for (size_t k = 0; k < m.size(); k++) {
-                elements[k] = m[k];
-            }
-            subsindices.push_back(cell);
-
-            bool haveFunction;
-            ArrayOfVector rr = extractClass(r, substype, subsindices, haveFunction);
-            if (haveFunction) {
-                r = rr[0];
-            } else {
-                r = r.getVectorSubset(m[0]);
-            }
-        } else {
-            r = r.getVectorSubset(m[0]);
-        }
-    } else {
-        if (r.isClassType()) {
-            stringVector substype;
-            ArrayOfVector subsindices;
-            substype.push_back("()");
-            ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, m.size() + 1);
-            ArrayOf cell = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, m.size()), elements);
-            for (size_t k = 0; k < m.size(); k++) {
-                elements[k] = m[k];
-            }
-            subsindices.push_back(cell);
-
-            bool haveFunction;
-            ArrayOfVector rr = extractClass(r, substype, subsindices, haveFunction);
-            if (haveFunction) {
-                r = rr[0];
-            } else {
-                r = r.getNDimSubset(m);
-            }
-        } else {
-            r = r.getNDimSubset(m);
-        }
-    }
-}
-//=============================================================================
-void
-Evaluator::rhsExpressionBraces(
-    Dimensions& rhsDimensions, ArrayOfVector& rv, AbstractSyntaxTreePtr& t, ArrayOf& r, int nLhs)
-{
-    ArrayOfVector m = expressionList(t->down, r);
-    if (rhsDimensions.getLength() > (indexType)m.size()) {
-        Dimensions nDim;
-        if (m.size() >= 2) {
-            size_t d = 0;
-            for (d = 0; d < m.size() - 1; d++) {
-                nDim[d] = rhsDimensions[d];
-            }
-            indexType L = 1;
-            for (indexType k = d; k < rhsDimensions.getLength(); k++) {
-                L = L * rhsDimensions[k];
-            }
-            nDim[d] = L;
-            r.reshape(nDim);
-            rhsDimensions = r.getDimensions();
-            m = expressionList(t->down, r);
-        }
-    }
-    if (m.size() == 0) {
-        Error(ERROR_INDEX_EXPRESSION_EXPECTED);
-    } else if (m.size() == 1) {
-        if (r.isClassType()) {
-            stringVector substype;
-            ArrayOfVector subsindices;
-            substype.push_back("{}");
-            ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, m.size() + 1);
-            ArrayOf cell = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, m.size()), elements);
-            for (size_t k = 0; k < m.size(); k++) {
-                elements[k] = m[k];
-            }
-            subsindices.push_back(cell);
-
-            bool haveFunction;
-            ArrayOfVector rr = extractClass(r, substype, subsindices, haveFunction);
-            if (haveFunction) {
-                rv = rr[0];
-            } else {
-                rv = r.getVectorContentsAsList(m[0]);
-            }
-        } else {
-            rv = r.getVectorContentsAsList(m[0]);
-        }
-    } else {
-        if (r.isClassType()) {
-            stringVector substype;
-            ArrayOfVector subsindices;
-            substype.push_back("{}");
-            ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, m.size() + 1);
-            ArrayOf cell = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, m.size()), elements);
-            for (size_t k = 0; k < m.size(); k++) {
-                elements[k] = m[k];
-            }
-            subsindices.push_back(cell);
-
-            bool haveFunction;
-            ArrayOfVector rr = extractClass(r, substype, subsindices, haveFunction);
-            if (haveFunction) {
-                rv = rr[0];
-            } else {
-                rv = r.getNDimContentsAsList(m);
-            }
-        } else {
-            rv = r.getNDimContentsAsList(m);
-        }
-    }
-
-    if (rv.size() == 1) {
-        r = rv[0];
-        rv = ArrayOfVector();
-    } else if (rv.size() == 0) {
-        r = ArrayOf::emptyConstructor();
-
-        if (nLhs == 1) {
-            Error(ERROR_EMPTY_EXPRESSION);
-        }
-    }
-}
-//=============================================================================
-void
-Evaluator::rhsExpressionDot(ArrayOfVector& rv, AbstractSyntaxTreePtr& t, ArrayOf& r, int nLhs)
-{
-    std::string fieldname = t->down->text;
-
-    if (r.isClassType()) {
-        stringVector substype;
-        ArrayOfVector subsindices;
-        substype.push_back(".");
-        subsindices.push_back(ArrayOf::characterArrayConstructor(fieldname));
-        if (t->right != nullptr) {
-            if (t->right->opNum == OP_DOT) {
-                substype.push_back(".");
-                if (t->right->down && !t->right->down->text.empty()) {
-                    subsindices.push_back(ArrayOf::characterArrayConstructor(t->right->down->text));
-                }
-            } else if (t->right->opNum == OP_BRACES) {
-                substype.push_back("{}");
-            } else if (t->right->opNum == OP_PARENS) {
-                substype.push_back("()");
-            }
-            ArrayOfVector childrendIndices = expressionList(t->right->down, r);
-            ArrayOf* elements
-                = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, childrendIndices.size());
-            ArrayOf cell
-                = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, childrendIndices.size()), elements);
-            for (size_t k = 0; k < childrendIndices.size(); k++) {
-                elements[k] = childrendIndices[k];
-            }
-            subsindices.push_back(cell);
-            t = t->right;
-        }
-        bool haveFunction;
-        rv = extractClass(r, substype, subsindices, haveFunction);
-        if (!haveFunction) {
-            rv = r.getFieldAsList(fieldname);
-        }
-    } else if (r.isHandle() || r.isGraphicsObject()) {
-        ArrayOfVector params;
-        logical isValidMethod = false;
-        try {
-            isValidMethod = isObjectMethod(r, fieldname);
-        } catch (const Exception&) {
-            if (r.isHandle()) {
-                Error(_("Please define: ")
-                    + getOverloadFunctionName(r.getHandleCategory(), "ismethod"));
-            }
-            isValidMethod = false;
-        }
-        if (isValidMethod != 0U) {
-            if (t->right != nullptr) {
-                params = expressionList(t->right->down, r);
-                t = t->right;
-            }
-        }
-        if (isValidMethod) {
-            rv = invokeMethod(r, fieldname, params);
-        } else {
-            rv = getHandle(r, fieldname, params);
-        }
-
-    } else {
-        rv = r.getFieldAsList(fieldname);
-    }
-    if (rv.size() == 1) {
-        r = rv[0];
-        rv = ArrayOfVector();
-    } else if (rv.size() == 0) {
-        r = ArrayOf::emptyConstructor();
-        rv = ArrayOfVector();
-    }
-}
-//=============================================================================
-void
-Evaluator::rhsExpressionDynDot(ArrayOfVector& rv, AbstractSyntaxTreePtr& t, ArrayOf& r, int nLhs)
-{
-    std::string field;
-    try {
-        ArrayOf fname(expression(t->down));
-        field = fname.getContentAsCString();
-    } catch (const Exception&) {
-        Error(ERROR_DYNAMIC_FIELD_STRING_EXPECTED);
-    }
-    if (r.isClassType()) {
-        ArrayOfVector v;
-
-        stringVector substype;
-        ArrayOfVector subsindices;
-        substype.push_back(".");
-        subsindices.push_back(ArrayOf::characterArrayConstructor(field));
-
-        bool haveFunction;
-        rv = extractClass(r, substype, subsindices, haveFunction);
-        if (!haveFunction) {
-            rv = r.getFieldAsList(field);
-        }
-    } else if (r.isHandle()) {
-        ArrayOfVector v;
-        rv = getHandle(r, field, v);
-    } else {
-        rv = r.getFieldAsList(field);
-    }
-    if (rv.size() <= 1) {
-        r = rv[0];
-        rv = ArrayOfVector();
-    }
-}
-//=============================================================================
-ArrayOf
-Evaluator::rhsExpressionSimple(AbstractSyntaxTreePtr t)
-{
-    ArrayOf r;
-    ArrayOfVector m;
-    bool isVar = false;
-    bool isFun = false;
-    FunctionDef* funcDef = nullptr;
-    callstack.pushID((size_t)t->getContext());
-    // Try to satisfy the rhs expression with what functions we have already
-    // loaded.
-    isVar = context->lookupVariable(t->text, r);
-    if (isVar && (t->down == nullptr)) {
-        callstack.popID();
-        return r;
-    }
-    if (!isVar) {
-        isFun = lookupFunction(t->text, funcDef);
-    }
-    if (!isVar && isFun && funcDef != nullptr) {
-        m = functionExpression(funcDef, t, 1, false);
-        if (m.empty()) {
-            callstack.popID();
-            return ArrayOf::emptyConstructor();
-        }
-        callstack.popID();
-        return m[0];
-    }
-    if (!isVar) {
-        Error(utf8_to_wstring(_("Undefined variable:") + " " + t->text));
-    }
-    if (!isFun) {
-        Error(utf8_to_wstring(_("Undefined function:") + " " + t->text));
-    }
-    callstack.popID();
-    return r;
-}
-//=============================================================================
-indexType
-Evaluator::countLeftHandSides(AbstractSyntaxTreePtr t)
-{
-    ArrayOf lhs;
-    if (t == nullptr) {
-        Error(_W("Syntax error."));
-    }
-    if (!context->lookupVariable(t->text, lhs)) {
-        lhs = ArrayOf::emptyConstructor();
-    }
-    AbstractSyntaxTreePtr s = t->down;
-    if (s == nullptr) {
-        return 1;
-    }
-    callstack.pushID((size_t)s->getContext());
-    while (s->right != nullptr) {
-        if (!lhs.isEmpty()) {
-            lhs = simpleSubindexExpression(lhs, s);
-        }
-        s = s->right;
-    }
-    // We are down to the last subindexing expression...
-    // We have to special case this one
-    Dimensions rhsDimensions(lhs.getDimensions());
-    ArrayOfVector m;
-    if (s->opNum == (OP_PARENS)) {
-        m = expressionList(s->down, lhs);
-        if (m.size() == 0) {
-            Error(ERROR_INDEX_EXPRESSION_EXPECTED);
-        }
-        if (m.size() == 1) {
-            // m[0] should have only one element...
-            m[0].toOrdinalType();
-            if (m[0].getElementCount() > 1) {
-                Error(ERROR_PARENTHETICAL_EXPRESSION);
-            }
-            callstack.popID();
-            return (m[0].getElementCount());
-        }
-        size_t i = 0;
-        indexType outputCount = 1;
-        while (i < m.size()) {
-            m[i].toOrdinalType();
-            outputCount *= m[i].getElementCount();
-            i++;
-        }
-        if (outputCount > 1) {
-            Error(ERROR_PARENTHETICAL_EXPRESSION);
-        }
-        callstack.popID();
-        return (outputCount);
-    }
-    if (s->opNum == (OP_BRACES)) {
-        m = expressionList(s->down, lhs);
-        if (m.size() == 0) {
-            Error(ERROR_INDEX_EXPRESSION_EXPECTED);
-        }
-        if (m.size() == 1) {
-            // m[0] should have only one element...
-            m[0].toOrdinalType();
-            callstack.popID();
-            return (m[0].getElementCount());
-        }
-        size_t i = 0;
-        indexType outputCount = 1;
-        while (i < m.size()) {
-            m[i].toOrdinalType();
-            outputCount *= m[i].getElementCount();
-            i++;
-        }
-        callstack.popID();
-        return (outputCount);
-    }
-    if (s->opNum == (OP_DOT)) {
-        callstack.popID();
-        return lhs.getElementCount();
-    }
-    callstack.popID();
-    return static_cast<indexType>(1);
-}
-//=============================================================================
-ArrayOfVector
 Evaluator::extractClass(const ArrayOf& r, const stringVector& subtypes,
     const ArrayOfVector& subsindices, bool& haveFunction)
 {
@@ -812,6 +366,12 @@ Evaluator::extractClass(const ArrayOf& r, const stringVector& subtypes,
         return rv;
     }
     return {};
+}
+//=============================================================================
+ArrayOf
+Evaluator::bytecodeEndReference(const ArrayOf& v, indexType index, size_t count)
+{
+    return EndReference(v, index, count);
 }
 //=============================================================================
 ArrayOf

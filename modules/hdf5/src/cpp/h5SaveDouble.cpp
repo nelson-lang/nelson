@@ -275,7 +275,7 @@ h5SaveSparseDoubleMatrix(hid_t fid, const std::string& location, const std::stri
     }
 
     bSuccess = h5SaveUint64Attribute(
-        fid, rootPath, NELSON_SPARSE_NZMAX_STR, (uint64)spmat->data().allocatedSize());
+        fid, rootPath, NELSON_SPARSE_NZMAX_STR, (uint64)VariableValue.nzmax());
     if (!bSuccess) {
         return false;
     }

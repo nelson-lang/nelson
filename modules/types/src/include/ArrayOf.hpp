@@ -1259,6 +1259,8 @@ public:
      */
     [[nodiscard]] indexType
     nzmax() const;
+    void
+    setSparseNzmax(indexType requestedNzmax);
 
     /*
      * number of elements

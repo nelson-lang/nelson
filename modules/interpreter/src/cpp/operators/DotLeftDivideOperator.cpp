@@ -16,20 +16,6 @@
 #include "FindCommonType.hpp"
 //=============================================================================
 namespace Nelson {
-//=============================================================================
-ArrayOf
-Evaluator::dotLeftDivideOperator(AbstractSyntaxTreePtr t)
-{
-    callstack.pushID((size_t)t->getContext());
-    ArrayOfVector args;
-    args.reserve(2);
-    args.push_back(expression(t->down));
-    args.push_back(expression(t->down->right));
-    ArrayOf retval = this->dotLeftDivideOperator(args);
-    callstack.popID();
-    return retval;
-}
-//=============================================================================
 ArrayOf
 Evaluator::dotLeftDivideOperator(const ArrayOfVector& args)
 {

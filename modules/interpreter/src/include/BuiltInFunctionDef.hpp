@@ -12,6 +12,7 @@
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
 #include "FunctionDef.hpp"
+#include "NelsonGateway.hpp"
 #include "nlsInterpreter_exports.h"
 //=============================================================================
 namespace Nelson {
@@ -50,6 +51,7 @@ public:
      * MEX before 2018 version uses separated complex representation
      */
     bool interleavedComplex;
+    bool callerContextAccess;
     //=============================================================================
     /**
      * Default constructor.
@@ -99,6 +101,18 @@ public:
     updateCode() override
     {
         return false;
+    }
+    //=============================================================================
+    bool
+    mustSyncCallerContext() const
+    {
+        return builtinPrototype == CPP_BUILTIN_WITH_EVALUATOR || callerContextAccess;
+    }
+    //=============================================================================
+    bool
+    mustRefreshCallerContext() const
+    {
+        return callerContextAccess;
     }
     //=============================================================================
 };

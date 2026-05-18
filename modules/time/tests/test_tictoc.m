@@ -24,3 +24,8 @@ sleep(5)
 t = toc();
 assert_isapprox(t, 10, 1e-1);
 %=============================================================================
+tic();
+msg = evalc('toc()');
+assert_istrue(contains(msg, _('Elapsed time is')));
+assert_istrue(contains(msg, _('seconds.')));
+%=============================================================================

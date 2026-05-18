@@ -16,6 +16,7 @@
 #include "GOPropertyNames.hpp"
 #include "GOAxis.hpp"
 #include "GOGObjectsProperty.hpp"
+#include "RefreshFigure.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 namespace Nelson::GraphicsGateway {
@@ -42,7 +43,7 @@ is2DBuiltin(int nLhs, const ArrayOfVector& argIn)
             if (parent > HANDLE_ROOT_OBJECT && parent < HANDLE_OFFSET_OBJECT) {
                 GOFigure* fig = findGOFigure(parent);
                 if (fig) {
-                    fig->repaint();
+                    refreshFigure(fig);
                 }
             }
         }

@@ -12,6 +12,7 @@
 #endif
 //=============================================================================
 #include "NelsonGateway.hpp"
+#include "BuiltInFunctionDefManager.hpp"
 #include "quitBuiltin.hpp"
 #include "bannerBuiltin.hpp"
 #include "evalBuiltin.hpp"
@@ -81,6 +82,12 @@ NLSGATEWAYNAME()
 static bool
 initializeCoreModule(Nelson::Evaluator* eval)
 {
+    auto* manager = BuiltInFunctionDefManager::getInstance();
+    manager->setCallerContextAccess((ptrBuiltin)Nelson::CoreGateway::runBuiltin, true);
+    manager->setCallerContextAccess((ptrBuiltin)Nelson::CoreGateway::execstrBuiltin, true);
+    manager->setCallerContextAccess((ptrBuiltin)Nelson::CoreGateway::evalBuiltin, true);
+    manager->setCallerContextAccess((ptrBuiltin)Nelson::CoreGateway::evalcBuiltin, true);
+    manager->setCallerContextAccess((ptrBuiltin)Nelson::CoreGateway::evalinBuiltin, true);
     return true;
 }
 //=============================================================================

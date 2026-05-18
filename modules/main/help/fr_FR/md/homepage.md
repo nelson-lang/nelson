@@ -1,6 +1,6 @@
 <img src="banner_homepage.png" alt="banner" style="display:block; margin-left:auto; margin-right:auto;" />
 
-### Nelson 1.17.0.0
+### Nelson 2.0.0.0
 
 La page d'accueil principale de Nelson se trouve à [https://nelson-lang.github.io/nelson-website/](https://nelson-lang.github.io/nelson-website/).
 
@@ -85,7 +85,8 @@ Initialement inspiré par des langages comme MATLAB© et GNU Octave, Nelson offr
 
 # Journal des modifications
 
-- [Journal des modifications v1.x.x](CHANGELOG.md)
+- [Journal des modifications v2.x.x](CHANGELOG.md)
+- [Journal des modifications v1.x.x](CHANGELOG-1.x.x.md)
 - [Journal des modifications v0.7.x](CHANGELOG-0.7.x.md)
 - [Journal des modifications v0.6.x](CHANGELOG-0.6.x.md)
 - [Journal des modifications v0.5.x](CHANGELOG-0.5.x.md)

@@ -14,7 +14,10 @@
 #define FMT_HEADER_ONLY
 #include <fmt/format.h>
 #include <fmt/xchar.h>
+#include <algorithm>
 #include <regex>
+#include "BytecodeCompiler.hpp"
+#include "BytecodeVM.hpp"
 #include "MacroFunctionDef.hpp"
 #include "Context.hpp"
 #include "FileParser.hpp"
@@ -34,6 +37,44 @@
 #include "OnCleanupObjectHandle.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+namespace {
+    //=============================================================================
+    bool
+    bytecodeNeedsContextScope(const BytecodeChunk& chunk)
+    {
+        if (chunk.isScript) {
+            return true;
+        }
+        for (const Instruction& ins : chunk.code) {
+            switch (ins.op) {
+            case OpCode::LOAD_GLOBAL:
+            case OpCode::STORE_GLOBAL:
+            case OpCode::LOAD_ANS:
+            case OpCode::STORE_ANS:
+            case OpCode::DELETE_LOCAL:
+            case OpCode::CALL_BUILTIN:
+            case OpCode::CALL_MACRO:
+            case OpCode::CALL_HANDLE:
+            case OpCode::MAKE_FH_NAMED:
+            case OpCode::MAKE_FH_ANONYMOUS:
+            case OpCode::TRY_BEGIN:
+            case OpCode::CATCH_BEGIN:
+                return true;
+            case OpCode::CALL_NAMED:
+                if (ins.A >= chunk.names.size() || chunk.names[ins.A] != chunk.functionName
+                    || chunk.selfFunction == nullptr || chunk.selfFunction->isOverload()) {
+                    return true;
+                }
+                break;
+            default:
+                break;
+            }
+        }
+        return false;
+    }
+    //=============================================================================
+}
 //=============================================================================
 MacroFunctionDef::MacroFunctionDef() : FunctionDef(false)
 {
@@ -60,6 +101,7 @@ MacroFunctionDef::MacroFunctionDef(const std::wstring& filename, bool withWatche
 //=============================================================================
 MacroFunctionDef::~MacroFunctionDef()
 {
+    bytecodeChunk.reset();
     if (nextFunction != nullptr) {
         delete nextFunction;
         nextFunction = nullptr;
@@ -149,8 +191,9 @@ MacroFunctionDef::evaluateMFunction(Evaluator* eval, const ArrayOfVector& inputs
     static thread_local int recursionDepth = 0;
     RecursionGuard rg(recursionDepth);
 
-    if (eval->withOverload && inputs.size() > 0 && !this->isOverload()
-        && this->overloadAutoMode == NLS_OVERLOAD_AUTO_ON) {
+    if (eval->withOverload && inputs.size() > 0
+        && (inputs[0].isClassType() || inputs[0].isHandle() || inputs[0].isFunctionHandle())
+        && !this->isOverload() && this->overloadAutoMode == NLS_OVERLOAD_AUTO_ON) {
         bool wasFound = false;
         ArrayOfVector res = callOverloadedFunction(eval,
             NelsonConfiguration::getInstance()->getOverloadLevelCompatibility(), nargout, inputs,
@@ -161,6 +204,45 @@ MacroFunctionDef::evaluateMFunction(Evaluator* eval, const ArrayOfVector& inputs
     }
 
     ArrayOfVector outputs;
+    ensureBytecodeCompiled();
+    if (bytecodeChunk != nullptr && !bytecodeNeedsContextScope(*bytecodeChunk)) {
+        std::string filenameUtf8 = wstring_to_utf8(this->getFilename());
+        eval->callstack.pushDebug(filenameUtf8, this->getName());
+        uint64 tic = 0;
+        try {
+            if (recursionDepth == 1) {
+                tic = Profiler::getInstance()->tic();
+            }
+            outputs = BytecodeVM::executeFunction(eval, *bytecodeChunk, inputs, nargout);
+            if (recursionDepth == 1 && tic != 0) {
+                internalProfileFunction stack
+                    = computeProfileStack(eval, getCompleteName(), this->getFilename(), false);
+                Profiler::getInstance()->toc(tic, stack);
+            }
+            State state(eval->getState());
+            if (state < NLS_STATE_QUIT) {
+                eval->resetState();
+            }
+            eval->callstack.popDebug();
+            if (state == NLS_STATE_ABORT || state == NLS_STATE_QUIT
+                || state == NLS_STATE_FORCE_QUIT) {
+                return scalarArrayOfToArrayOfVector(ArrayOf::emptyConstructor());
+            }
+        } catch (const Exception&) {
+            if (recursionDepth == 1 && tic != 0) {
+                internalProfileFunction stack
+                    = computeProfileStack(eval, getCompleteName(), this->getFilename(), false);
+                Profiler::getInstance()->toc(tic, stack);
+            }
+            eval->callstack.popDebug();
+            throw;
+        }
+        for (size_t k = 0; k < outputs.size(); ++k) {
+            outputs[k].name("");
+        }
+        return outputs;
+    }
+
     Context* context = eval->getContext();
     context->pushScope(this->getName(), this->getFilename());
 
@@ -176,14 +258,29 @@ MacroFunctionDef::evaluateMFunction(Evaluator* eval, const ArrayOfVector& inputs
             insertLocalFunctions(context);
         }
         setInputArgumentNames(context, inputs);
-        bindInputs(context, inputs);
+        if (inputArgCount() != -1) {
+            if (inputs.size() > arguments.size()) {
+                Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+            }
+            context->getCurrentScope()->setNargIn(
+                static_cast<int>(std::min(inputs.size(), arguments.size())));
+        } else {
+            size_t explicitCount = arguments.size();
+            if (!arguments.empty() && arguments.back() == "varargin") {
+                --explicitCount;
+            }
+            if (inputs.size() < explicitCount) {
+                Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+            }
+            context->getCurrentScope()->setNargIn(static_cast<int>(inputs.size()));
+        }
         context->getCurrentScope()->setNargOut(nargout);
 
         // Only profile the outermost frame of a recursive chain to reduce overhead.
         if (recursionDepth == 1) {
             tic = Profiler::getInstance()->tic();
         }
-        eval->block(code);
+        outputs = BytecodeVM::executeFunction(eval, *bytecodeChunk, inputs, nargout);
         if (recursionDepth == 1 && tic != 0) {
             internalProfileFunction stack
                 = computeProfileStack(eval, getCompleteName(), this->getFilename(), false);
@@ -204,8 +301,6 @@ MacroFunctionDef::evaluateMFunction(Evaluator* eval, const ArrayOfVector& inputs
             eval->callstack.popDebug();
             return scalarArrayOfToArrayOfVector(ArrayOf::emptyConstructor());
         }
-
-        outputs = prepareOutputs(context, nargout);
 
         if (!cleanupTasks.empty()) {
             onCleanup(eval);
@@ -262,7 +357,10 @@ MacroFunctionDef::evaluateMScript(Evaluator* eval, const ArrayOfVector& inputs, 
         if (recursionDepthScript == 1) {
             tic = Profiler::getInstance()->tic();
         }
-        eval->block(code);
+        if (code != nullptr && !code->isEmpty() && code->down != nullptr) {
+            ensureBytecodeCompiled();
+            BytecodeVM::executeScript(eval, *bytecodeChunk);
+        }
         if (recursionDepthScript == 1 && tic != 0) {
             internalProfileFunction stack
                 = computeProfileStack(eval, getCompleteName(), this->getFilename(), false);
@@ -311,6 +409,33 @@ MacroFunctionDef::evaluateFunction(Evaluator* eval, const ArrayOfVector& inputs,
     }
     --evaluateFunctionDepth;
     return result;
+}
+//=============================================================================
+void
+MacroFunctionDef::invalidateBytecode()
+{
+    bytecodeChunk.reset();
+}
+//=============================================================================
+bool
+MacroFunctionDef::ensureBytecodeCompiled()
+{
+    if (bytecodeChunk != nullptr) {
+        return false;
+    }
+    if (code == nullptr && !isScript) {
+        return false;
+    }
+    if (isScript) {
+        bytecodeChunk = BytecodeCompiler::compileScript(code, getFilename());
+    } else {
+        bytecodeChunk = BytecodeCompiler::compileFunction(
+            code, getName(), getFilename(), arguments, returnVals);
+    }
+    if (bytecodeChunk != nullptr) {
+        bytecodeChunk->selfFunction = this;
+    }
+    return bytecodeChunk != nullptr;
 }
 //=============================================================================
 std::string
@@ -374,6 +499,7 @@ MacroFunctionDef::updateCode()
     if (!this->getIsScript()) {
         validateFunctionNamesAndFilename();
     }
+    invalidateBytecode();
     return true;
 }
 //=============================================================================
@@ -522,6 +648,7 @@ MacroFunctionDef::prepareOutputs(Context* context, int nargout)
 void
 MacroFunctionDef::resetCodeStorage()
 {
+    invalidateBytecode();
     if (code != nullptr) {
         for (auto ptr : this->ptrAstCodeAsVector) {
             delete ptr;

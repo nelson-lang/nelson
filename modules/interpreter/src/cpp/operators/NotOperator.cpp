@@ -14,16 +14,6 @@
 #include "OverloadRequired.hpp"
 //=============================================================================
 namespace Nelson {
-//=============================================================================
-ArrayOf
-Evaluator::notOperator(AbstractSyntaxTreePtr t)
-{
-    callstack.pushID((size_t)t->getContext());
-    ArrayOf retval = this->notOperator(expression(t->down));
-    callstack.popID();
-    return retval;
-}
-//=============================================================================
 ArrayOf
 Evaluator::notOperator(const ArrayOf& A)
 {

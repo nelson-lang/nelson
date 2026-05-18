@@ -117,6 +117,9 @@ EvaluateCommand(Evaluator* eval, int nLhs, const std::wstring& command,
                 context->restoreBypassedScopes();
             } catch (const Exception&) {
                 context->restoreBypassedScopes();
+                if (eval->getState() == NLS_STATE_ABORT || eval->isQuitOrForceQuitState()) {
+                    throw;
+                }
                 eval->evaluateString(catchCommand, false);
             }
         } else {
@@ -130,6 +133,9 @@ EvaluateCommand(Evaluator* eval, int nLhs, const std::wstring& command,
                 context->restoreBypassedScopes();
             } catch (const Exception&) {
                 context->restoreBypassedScopes();
+                if (eval->getState() == NLS_STATE_ABORT || eval->isQuitOrForceQuitState()) {
+                    throw;
+                }
                 eval->evaluateString(preparedCatchCommand, false);
                 retval = retrieveVariablesReturned(eval, nLhs);
             }
@@ -186,6 +192,12 @@ EvaluateConsoleCommand(
         setPrintInterface(io);
         delete tempIO;
     } catch (const Exception&) {
+        if (eval->getState() == NLS_STATE_ABORT || eval->isQuitOrForceQuitState()) {
+            eval->setInterface(io);
+            setPrintInterface(io);
+            delete tempIO;
+            throw;
+        }
         if (!catchCommand.empty()) {
             try {
                 retval = EvaluateCommand(eval, nbOutput, catchCommand, L"");
@@ -235,6 +247,12 @@ EvaluateConsoleCommandToString(Evaluator* eval, const std::wstring& command, std
         delete tempIO;
         success = true;
     } catch (Exception& e) {
+        if (eval->getState() == NLS_STATE_ABORT || eval->isQuitOrForceQuitState()) {
+            eval->setInterface(io);
+            setPrintInterface(io);
+            delete tempIO;
+            throw;
+        }
         e.printMe(tempIO);
         result = tempIO->getOutputBuffer();
         eval->setInterface(io);

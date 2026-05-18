@@ -24,15 +24,29 @@ IsEmptyScriptFile(const std::wstring& filename)
 #endif
     if (fr != nullptr) {
         int ch;
+        bool atLineStart = true;
         while (ch = getc(fr)) {
             if (ch == EOF) {
                 break;
             }
-            bool isCharManaged = (ch == ' ') || (ch == '\r') || (ch == '\n');
+            if (ch == '\r' || ch == '\n') {
+                atLineStart = true;
+                continue;
+            }
+            bool isCharManaged = (ch == ' ') || (ch == '\t');
+            if (isCharManaged) {
+                continue;
+            }
+            if (atLineStart && ch == '%') {
+                while ((ch = getc(fr)) != EOF && ch != '\n') { }
+                atLineStart = true;
+                continue;
+            }
             if (!isCharManaged) {
                 fclose(fr);
                 return false;
             }
+            atLineStart = false;
         }
         fclose(fr);
     }

@@ -23,6 +23,7 @@ Data::Data(NelsonType aClass, const Dimensions& dims, void* s, bool sparseflag, 
     , dimensions(dims)
     , fieldNames(std::move(fields))
     , dataClass(aClass)
+    , sparseNzmax(0)
     , isInline(false)
 {
     sparse = sparseflag;
@@ -30,7 +31,7 @@ Data::Data(NelsonType aClass, const Dimensions& dims, void* s, bool sparseflag, 
 }
 //=============================================================================
 Data::Data(NelsonType aClass, const Dimensions& dims, const void* scalarData, size_t dataSize)
-    : owners(1), dimensions(dims), dataClass(aClass), sparse(false), isInline(true)
+    : owners(1), dimensions(dims), dataClass(aClass), sparse(false), sparseNzmax(0), isInline(true)
 {
     std::memcpy(inlineBuffer, scalarData, dataSize);
     cp = inlineBuffer;
@@ -58,6 +59,7 @@ Data::putData(
         dimensions = dims;
         fieldNames = fields;
         sparse = sparseflag;
+        sparseNzmax = 0;
         owners = 1;
         refreshDimensionCache();
         return this;

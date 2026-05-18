@@ -40,6 +40,12 @@ private:
      */
     bool sparse;
     /**
+     * Requested sparse capacity, used to preserve nzmax independently of
+     * Eigen's
+     * internal allocation after ArrayOf copies.
+     */
+    indexType sparseNzmax;
+    /**
      * Flag indicating if data is stored in the inline buffer
      * (small buffer optimization for scalars).
      */

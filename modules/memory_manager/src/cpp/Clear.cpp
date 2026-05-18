@@ -31,7 +31,11 @@ ClearVariable(Evaluator* eval, const std::string& variable)
         globalScope->deleteVariable(variable);
     }
     ClearHandle(eval, currentScope, variable);
-    return currentScope->deleteVariable(variable);
+    bool deleted = currentScope->deleteVariable(variable);
+    if (deleted) {
+        eval->getContext()->notifyVariablesCleared();
+    }
+    return deleted;
 }
 //=============================================================================
 bool

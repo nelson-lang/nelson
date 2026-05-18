@@ -17,8 +17,8 @@ if(POLICY CMP0167)
   cmake_policy(SET CMP0167 OLD)
 endif()
 # ==============================================================================
-set(Nelson_VERSION_MAJOR_DEFAULT 1)
-set(Nelson_VERSION_MINOR_DEFAULT 17)
+set(Nelson_VERSION_MAJOR_DEFAULT 2)
+set(Nelson_VERSION_MINOR_DEFAULT 0)
 set(Nelson_VERSION_MAINTENANCE_DEFAULT 0)
 set(Nelson_VERSION_BUILD_DEFAULT 0)
 # ==============================================================================
@@ -668,6 +668,7 @@ install(
         ${CMAKE_SOURCE_DIR}/CHANGELOG-0.5.x.md
         ${CMAKE_SOURCE_DIR}/CHANGELOG-0.6.x.md
         ${CMAKE_SOURCE_DIR}/CHANGELOG-0.7.x.md
+        ${CMAKE_SOURCE_DIR}/CHANGELOG-1.0.x.md
         ${CMAKE_SOURCE_DIR}/CONTRIBUTORS.md
         ${CMAKE_SOURCE_DIR}/README.md
         ${CMAKE_SOURCE_DIR}/THIRDPARTY.md
