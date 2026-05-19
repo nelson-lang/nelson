@@ -70,8 +70,11 @@ GraphicsObject::GraphicsObject() { ref_count = 1; }
 //=============================================================================
 GraphicsObject::~GraphicsObject()
 {
-    GOGObjectsProperty* hp
-        = static_cast<GOGObjectsProperty*>(findProperty(GO_CHILDREN_PROPERTY_NAME_STR, false));
+    GOGObjectsProperty* hp = nullptr;
+    auto childrenIt = m_properties.find(GO_CHILDREN_PROPERTY_NAME_STR);
+    if (childrenIt != m_properties.end()) {
+        hp = static_cast<GOGObjectsProperty*>(childrenIt->second);
+    }
     if (hp) {
         std::vector<int64> my_children(hp->data());
         for (indexType i = 0; i < my_children.size(); i++) {
