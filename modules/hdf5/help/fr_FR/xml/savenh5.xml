@@ -38,8 +38,7 @@
   </param_input>
   <description>
     <p>
-      <b
-      >savenh5</b> enregistre des variables de l&apos;espace de travail dans un fichier .nh5.</p>
+      <b>savenh5</b> enregistre des variables de l&apos;espace de travail dans un fichier .nh5.</p>
     <p>Le fichier .nh5 utilise un conteneur HDF5.</p>
   </description>
   <used_function />

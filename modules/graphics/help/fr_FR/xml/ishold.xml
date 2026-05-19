@@ -23,8 +23,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >tf = ishold(ax)</b> retourne l&apos;état du mode hold de l&apos;objet axes spécifié.          </p>
+      <b>tf = ishold(ax)</b> retourne l&apos;état du mode hold de l&apos;objet axes spécifié.          </p>
   </description>
   <used_function />
   <bibliography />

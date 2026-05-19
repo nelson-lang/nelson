@@ -16,8 +16,7 @@
   </param_input>
   <description>
     <p>
-      <b
-      >cancelAll(fevalQueue)</b> arrête tous les éléments en cours d&apos;exécution ou en file d&apos;attente du pool d&apos;arrière-plan.</p>
+      <b>cancelAll(fevalQueue)</b> arrête tous les éléments en cours d&apos;exécution ou en file d&apos;attente du pool d&apos;arrière-plan.</p>
   </description>
   <used_function />
   <bibliography />

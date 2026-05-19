@@ -58,20 +58,10 @@
   </param_output>
   <description>
     <p>
-      <b
-      >ctrbf(A, B, C)</b> décompose le système d&apos;espace d&apos;état donné, défini par les matrices <b
-      >A</b>, <b>B</b> et <b>C</b>, en forme escalier de contrôlabilité.</p>
-    <p>Cela produit les matrices transformées <b>Abar</b>,<b>Bbar</b> et <b
-      >Cbar</b>, ainsi qu&apos;une matrice de transformation de similarité <b
-      >T</b> et un vecteur <b>k</b>.</p>
-    <p>La longueur du vecteur <b
-      >k</b> est égale à l&apos;ordre du système représenté par <b
-      >A</b>, et chaque entrée dans <b
-      >k</b> désigne le nombre d&apos;états contrôlables factorisés à chaque étape du calcul de la matrice de transformation.</p>
-    <p>Les éléments non nuls dans <b
-      >k</b> indiquent le nombre d&apos;itérations requises pour le calcul de <b
-      >T</b> , et la somme de <b>k</b> correspond au nombre d&apos;états dans <b
-      >Ac</b>, la portion contrôlable de <b>Abar</b>.</p>
+      <b>ctrbf(A, B, C)</b> décompose le système d&apos;espace d&apos;état donné, défini par les matrices <b>A</b>, <b>B</b> et <b>C</b>, en forme escalier de contrôlabilité.</p>
+    <p>Cela produit les matrices transformées <b>Abar</b>,<b>Bbar</b> et <b>Cbar</b>, ainsi qu&apos;une matrice de transformation de similarité <b>T</b> et un vecteur <b>k</b>.</p>
+    <p>La longueur du vecteur <b>k</b> est égale à l&apos;ordre du système représenté par <b>A</b>, et chaque entrée dans <b>k</b> désigne le nombre d&apos;états contrôlables factorisés à chaque étape du calcul de la matrice de transformation.</p>
+    <p>Les éléments non nuls dans <b>k</b> indiquent le nombre d&apos;itérations requises pour le calcul de <b>T</b> , et la somme de <b>k</b> correspond au nombre d&apos;états dans <b>Ac</b>, la portion contrôlable de <b>Abar</b>.</p>
   </description>
   <examples>
     <example_item>

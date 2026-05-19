@@ -51,12 +51,10 @@
   </param_output>
   <description>
     <p>
-      <b
-      >assert_checkerror</b> vérifie que l&apos;exécution d&apos;une commande lève le message d&apos;erreur attendu.</p>
+      <b>assert_checkerror</b> vérifie que l&apos;exécution d&apos;une commande lève le message d&apos;erreur attendu.</p>
     <p
     >Si la commande ne lève aucune erreur, ou si elle lève une erreur avec un message différent de celui attendu, l&apos;assertion échoue.</p>
-    <p>Lorsque le paramètre optionnel <b
-      >expected_error_identifier</b> est fourni, la fonction vérifie également que l&apos;identifiant d&apos;erreur correspond à celui attendu.</p>
+    <p>Lorsque le paramètre optionnel <b>expected_error_identifier</b> est fourni, la fonction vérifie également que l&apos;identifiant d&apos;erreur correspond à celui attendu.</p>
     <p
     >Cette fonction est particulièrement utile pour les tests unitaires afin de s&apos;assurer que les entrées ou opérations non valides génèrent correctement les conditions d&apos;erreur attendues.</p>
   </description>
@@ -65,16 +63,14 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Teste que la fonction cos sans arguments lève l&apos;erreur attendue :</example_item_description>
+      <example_item_description>Teste que la fonction cos sans arguments lève l&apos;erreur attendue :</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[assert_checkerror('cos', _('Wrong number of input arguments.'));]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Exemple qui démontre l&apos;échec d&apos;assertion avec un mauvais message attendu :</example_item_description>
+      <example_item_description>Exemple qui démontre l&apos;échec d&apos;assertion avec un mauvais message attendu :</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[try
@@ -85,16 +81,14 @@ end]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Test avec à la fois le message d&apos;erreur et l&apos;identifiant d&apos;erreur :</example_item_description>
+      <example_item_description>Test avec à la fois le message d&apos;erreur et l&apos;identifiant d&apos;erreur :</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[assert_checkerror('mustBeFinite(NaN)', _('Value must be finite.'), 'Nelson:validators:mustBeFinite')]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Utilisation des valeurs de retour pour gérer les résultats d&apos;assertion :</example_item_description>
+      <example_item_description>Utilisation des valeurs de retour pour gérer les résultats d&apos;assertion :</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[[r, msg] = assert_checkerror('cos', _('Wrong number of input arguments.'));

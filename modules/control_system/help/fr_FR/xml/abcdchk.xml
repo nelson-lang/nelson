@@ -59,8 +59,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >abcdchk</b> vérifie la cohérence dimensionnelle des matrices A, B, C, D, E.</p>
+      <b>abcdchk</b> vérifie la cohérence dimensionnelle des matrices A, B, C, D, E.</p>
     <p
     >Elle ajuste également les dimensions de toute matrice vide 0-par-0 pour assurer leur alignement avec le reste.</p>
   </description>

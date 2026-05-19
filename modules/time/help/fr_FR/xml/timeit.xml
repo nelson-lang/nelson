@@ -35,13 +35,9 @@
   </param_output>
   <description>
     <p>
-      <b
-      >t = timeit(f)</b> mesure le temps nécessaire à l&apos;exécution de la fonction indiquée par le handle de fonction<b
-      >f</b>.</p>
-    <p>Pour obtenir une mesure robuste,<b
-      >timeit</b> appelle la fonction plusieurs fois et renvoie la médiane des mesures.</p>
-    <p>Si la fonction est rapide,<b
-      >timeit</b> pourra appeler la fonction de nombreuses fois.</p>
+      <b>t = timeit(f)</b> mesure le temps nécessaire à l&apos;exécution de la fonction indiquée par le handle de fonction<b>f</b>.</p>
+    <p>Pour obtenir une mesure robuste,<b>timeit</b> appelle la fonction plusieurs fois et renvoie la médiane des mesures.</p>
+    <p>Si la fonction est rapide,<b>timeit</b> pourra appeler la fonction de nombreuses fois.</p>
   </description>
   <used_function />
   <bibliography />

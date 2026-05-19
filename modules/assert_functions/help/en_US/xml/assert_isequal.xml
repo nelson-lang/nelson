@@ -37,11 +37,9 @@
   </param_output>
   <description>
     <p>
-      <b
-      >assert_isequal</b> raises an error if the computed value is not equal to the expected value.</p>
+      <b>assert_isequal</b> raises an error if the computed value is not equal to the expected value.</p>
     <p
-    >This function performs strict equality testing that checks for same type, same dimensions, and same values comparisons. It uses the same logic as the <b
-      >isequaln</b> function.</p>
+    >This function performs strict equality testing that checks for same type, same dimensions, and same values comparisons. It uses the same logic as the <b>isequaln</b> function.</p>
     <p
     >Unlike standard equality operators, this function properly handles NaN values, considering them equal when both values contain NaN in the same positions.</p>
     <p
@@ -54,8 +52,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Test equality of identical matrices:</example_item_description>
+      <example_item_description>Test equality of identical matrices:</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[A = eye(3, 3);
@@ -63,8 +60,7 @@ assert_isequal(A, A)]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Test that demonstrates type mismatch detection:</example_item_description>
+      <example_item_description>Test that demonstrates type mismatch detection:</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[A = eye(3, 3);
@@ -77,8 +73,7 @@ end]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Test NaN equality handling:</example_item_description>
+      <example_item_description>Test NaN equality handling:</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[A = NaN;
@@ -87,8 +82,7 @@ assert_isequal(A, B)]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Using return values to handle assertion results:</example_item_description>
+      <example_item_description>Using return values to handle assertion results:</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[[res, msg] = assert_isequal([1, 2, 3], [1, 2, 4]);

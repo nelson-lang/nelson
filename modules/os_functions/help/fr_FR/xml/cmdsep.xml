@@ -21,8 +21,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >cmdsep</b> retourne le séparateur de commande pour le système d&apos;exploitation courant.</p>
+      <b>cmdsep</b> retourne le séparateur de commande pour le système d&apos;exploitation courant.</p>
     <p
     >Cette fonction est utilisée par Nelson pour construire des lignes de commande pour les systèmes Unix et DOS.</p>
   </description>

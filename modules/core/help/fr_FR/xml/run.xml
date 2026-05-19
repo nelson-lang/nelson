@@ -44,8 +44,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Creates two .m in temp directory to use as example:</example_item_description>
+      <example_item_description>Creates two .m in temp directory to use as example:</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[fd = fopen([tempdir(), 'example_run_ok.m'], 'wt');
@@ -62,29 +61,25 @@ fclose(fd);
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >run a script without error.</example_item_description>
+      <example_item_description>run a script without error.</example_item_description>
       <example_item_data
       ><![CDATA[run([tempdir(), 'example_run_ok.m']);]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >run a script and catch error (no error).</example_item_description>
+      <example_item_description>run a script and catch error (no error).</example_item_description>
       <example_item_data
       ><![CDATA[bsuccess = run([tempdir(), 'example_run_ok.m'], 'errcatch')]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >run a script and catch error (with error).</example_item_description>
+      <example_item_description>run a script and catch error (with error).</example_item_description>
       <example_item_data
       ><![CDATA[bsuccess = run([tempdir(), 'example_run_not_ok.m'], 'errcatch')]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >run a script and no catch error.</example_item_description>
+      <example_item_description>run a script and no catch error.</example_item_description>
       <example_item_data
       ><![CDATA[run([tempdir(), 'example_run_not_ok.m'], 'nocatch');]]></example_item_data>
     </example_item>

@@ -48,45 +48,31 @@
   </param_output>
   <description>
     <p>
-      <b
-      >lst = rng(&apos;enginelist&apos;)</b> renvoie la liste des générateurs de nombres aléatoires disponibles.</p>
+      <b>lst = rng(&apos;enginelist&apos;)</b> renvoie la liste des générateurs de nombres aléatoires disponibles.</p>
     <p>
-      <b
-      >rng(&apos;default&apos;)</b> remet les paramètres du générateur de nombres aléatoires aux valeurs par défaut.</p>
+      <b>rng(&apos;default&apos;)</b> remet les paramètres du générateur de nombres aléatoires aux valeurs par défaut.</p>
     <p>
-      <b
-      >s = rng(&apos;default&apos;)</b> remet les paramètres du générateur de nombres aléatoires aux valeurs par défaut et renvoie le générateur précédent sous forme de structure.</p>
+      <b>s = rng(&apos;default&apos;)</b> remet les paramètres du générateur de nombres aléatoires aux valeurs par défaut et renvoie le générateur précédent sous forme de structure.</p>
     <p>
-      <b
-      >rng(&apos;shuffle&apos;)</b> remet les paramètres du générateur de nombres aléatoires aux valeurs par défaut.</p>
+      <b>rng(&apos;shuffle&apos;)</b> remet les paramètres du générateur de nombres aléatoires aux valeurs par défaut.</p>
     <p>
-      <b
-      >s = rng(&apos;shuffle&apos;)</b> initialise la graine du générateur de nombres aléatoires en fonction de l&apos;heure courante et renvoie le générateur précédent sous forme de structure.          </p>
+      <b>s = rng(&apos;shuffle&apos;)</b> initialise la graine du générateur de nombres aléatoires en fonction de l&apos;heure courante et renvoie le générateur précédent sous forme de structure.          </p>
     <p>
-      <b
-      >rng(seed)</b> initialise la graine du générateur de nombres aléatoires en utilisant l&apos;entier non négatif.</p>
+      <b>rng(seed)</b> initialise la graine du générateur de nombres aléatoires en utilisant l&apos;entier non négatif.</p>
     <p>
-      <b
-      >s = rng(seed)</b> initialise la graine du générateur de nombres aléatoires en utilisant l&apos;entier non négatif et renvoie le générateur précédent sous forme de structure.          </p>
+      <b>s = rng(seed)</b> initialise la graine du générateur de nombres aléatoires en utilisant l&apos;entier non négatif et renvoie le générateur précédent sous forme de structure.          </p>
     <p>
-      <b
-      >rng(seed, generator)</b> initialise la graine du générateur de nombres aléatoires en utilisant l&apos;entier non négatif et spécifie également le type de générateur utilisé.</p>
+      <b>rng(seed, generator)</b> initialise la graine du générateur de nombres aléatoires en utilisant l&apos;entier non négatif et spécifie également le type de générateur utilisé.</p>
     <p>
-      <b
-      >s = rng(seed, generator)</b> initialise la graine du générateur de nombres aléatoires en utilisant l&apos;entier non négatif, spécifie le type de générateur utilisé et renvoie le générateur précédent sous forme de structure.          </p>
+      <b>s = rng(seed, generator)</b> initialise la graine du générateur de nombres aléatoires en utilisant l&apos;entier non négatif, spécifie le type de générateur utilisé et renvoie le générateur précédent sous forme de structure.          </p>
     <p>
-      <b
-      >rng(&apos;shuffle&apos;, generator)</b> initialise la graine du générateur de nombres aléatoires en fonction de l&apos;heure courante et spécifie également le type de générateur utilisé.</p>
+      <b>rng(&apos;shuffle&apos;, generator)</b> initialise la graine du générateur de nombres aléatoires en fonction de l&apos;heure courante et spécifie également le type de générateur utilisé.</p>
     <p>
-      <b
-      >s = rng(&apos;shuffle&apos;, generator)</b> initialise la graine du générateur de nombres aléatoires en fonction de l&apos;heure courante, spécifie également le type de générateur utilisé et renvoie le générateur précédent sous forme de structure.          </p>
+      <b>s = rng(&apos;shuffle&apos;, generator)</b> initialise la graine du générateur de nombres aléatoires en fonction de l&apos;heure courante, spécifie également le type de générateur utilisé et renvoie le générateur précédent sous forme de structure.          </p>
     <p>
-      <b
-      >s = rng</b> renvoie le générateur courant sous forme de structure.          </p>
+      <b>s = rng</b> renvoie le générateur courant sous forme de structure.          </p>
     <p>
-      <b
-      >rng(s)</b> restaure les paramètres du générateur de nombres aléatoires à partir d&apos;une structure précédente renvoyée par<b
-      >s = rng</b>.</p>
+      <b>rng(s)</b> restaure les paramètres du générateur de nombres aléatoires à partir d&apos;une structure précédente renvoyée par<b>s = rng</b>.</p>
     <p />
     <p>Générateurs disponibles :</p>
     <table>

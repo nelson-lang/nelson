@@ -56,37 +56,19 @@
   </param_output>
   <description>
     <p>
-      <b
-      >dateAsString = datestr(dateVector)</b> convertit des vecteurs date en texte représentant les dates et heures correspondantes. Elle renvoie un tableau de caractères avec<b
-      >m</b> lignes, où <b>m</b> est le nombre de vecteurs date dans<b
-      >dateVector</b>.</p>
+      <b>dateAsString = datestr(dateVector)</b> convertit des vecteurs date en texte représentant les dates et heures correspondantes. Elle renvoie un tableau de caractères avec<b>m</b> lignes, où <b>m</b> est le nombre de vecteurs date dans<b>dateVector</b>.</p>
     <p>
-      <b
-      >dateAsString = datestr(dateNumber)</b> convertit des numéros de date série en texte représentant des dates et heures. La sortie est un tableau de caractères avec<b
-      >m</b> lignes, où <b>m</b> est le nombre de numéros de date dans<b
-      >dateNumber</b>.</p>
+      <b>dateAsString = datestr(dateNumber)</b> convertit des numéros de date série en texte représentant des dates et heures. La sortie est un tableau de caractères avec<b>m</b> lignes, où <b>m</b> est le nombre de numéros de date dans<b>dateNumber</b>.</p>
     <p>
-      <b
-      >dateAsString = datestr(..., formatOut)</b> permet de spécifier le format du texte de sortie via<b
-      >formatOut</b>. Vous pouvez utiliser cette option avec n&apos;importe quel des types d&apos;entrée précédents.</p>
+      <b>dateAsString = datestr(..., formatOut)</b> permet de spécifier le format du texte de sortie via<b>formatOut</b>. Vous pouvez utiliser cette option avec n&apos;importe quel des types d&apos;entrée précédents.</p>
     <p>
-      <b
-      >dateAsString = datestr(dateAsStringIn)</b> convertit la chaîne d&apos;entrée <b
-      >dateAsStringIn</b> en un texte au format jour-mois-année heure:minute:seconde. Toutes les dates dans <b
-      >dateAsStringIn</b> doivent suivre le même format.</p>
+      <b>dateAsString = datestr(dateAsStringIn)</b> convertit la chaîne d&apos;entrée <b>dateAsStringIn</b> en un texte au format jour-mois-année heure:minute:seconde. Toutes les dates dans <b>dateAsStringIn</b> doivent suivre le même format.</p>
     <p>
-      <b
-      >dateAsString = datestr(dateAsStringIn, formatOut, pivotYear)</b> convertit <b
-      >dateAsStringIn</b> au format spécifié par <b
-      >formatOut</b>, en utilisant éventuellement <b
-      >pivotYear</b> pour interpréter les années sur deux chiffres.</p>
+      <b>dateAsString = datestr(dateAsStringIn, formatOut, pivotYear)</b> convertit <b>dateAsStringIn</b> au format spécifié par <b>formatOut</b>, en utilisant éventuellement <b>pivotYear</b> pour interpréter les années sur deux chiffres.</p>
     <p>
-      <b
-      >dateAsString = datestr(..., &apos;local&apos;)</b> renvoie la date dans la langue du paramètre régional système courant. Si <b
-      >
+      <b>dateAsString = datestr(..., &apos;local&apos;)</b> renvoie la date dans la langue du paramètre régional système courant. Si <b>
         &apos;local&apos;
-      </b> est omis, la langue par défaut est l&apos;anglais américain. L&apos;option <b
-      >
+      </b> est omis, la langue par défaut est l&apos;anglais américain. L&apos;option <b>
         &apos;local&apos;
       </b> peut être utilisée avec toutes les syntaxes précédentes et doit être le dernier argument.</p>
     <p />
@@ -120,8 +102,7 @@
     <p>
       <b>HH:MM PM</b> 3:35 PM</p>
     <p />
-    <p>Si le format n&apos;est pas spécifié, le format par défaut est<b
-      >dd-mmm-yyyy</b>.</p>
+    <p>Si le format n&apos;est pas spécifié, le format par défaut est<b>dd-mmm-yyyy</b>.</p>
     <p />
     <p
     >Si un format est spécifié et qu&apos;il n&apos;utilise pas un format prédéfini, le format doit être indiqué comme un vecteur de caractères ou un scalaire string composé d&apos;identifiants symboliques.</p>

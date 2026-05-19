@@ -23,15 +23,13 @@
     </param_input_item>
     <param_input_item>
       <param_name>b</param_name>
-      <param_description>        tableau de structures précédemment renvoyé par <b
-        >dbstatus</b>, contenant
+      <param_description>        tableau de structures précédemment renvoyé par <b>dbstatus</b>, contenant
         les points d&apos;arrêt sauvegardés à restaurer.</param_description>
     </param_input_item>
   </param_input>
   <description>
     <p>
-      <b
-      >dbstop</b> définit des points d&apos;arrêt dans les programmes pour le débogage interactif.
+      <b>dbstop</b> définit des points d&apos;arrêt dans les programmes pour le débogage interactif.
       Lorsque l&apos;exécution atteint un point d&apos;arrêt, l&apos;exécution est suspendue et l&apos;interpréteur
       entre en mode débogage.</p>
     <p>      Les points d&apos;arrêt peuvent être définis dans des fichiers spécifiques ou à des emplacements spécifiques.</p>

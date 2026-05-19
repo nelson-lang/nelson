@@ -43,8 +43,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >R = mean(M)</b> renvoie la moyenne (valeur moyenne) des éléments du tableau M.          </p>
+      <b>R = mean(M)</b> renvoie la moyenne (valeur moyenne) des éléments du tableau M.          </p>
     <p>La moyenne arithmétique d&apos;un ensemble de valeurs</p>
     <latex>x_1, x_2, \ldots, x_n</latex>
     <p>est définie comme :</p>

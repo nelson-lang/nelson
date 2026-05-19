@@ -79,8 +79,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >dlgeneratemake</b> génère un makefile adapté à votre environnement pour construire des bibliothèques partagées.</p>
+      <b>dlgeneratemake</b> génère un makefile adapté à votre environnement pour construire des bibliothèques partagées.</p>
     <p>Nelson s&apos;appuie sur <b>CMake</b> pour cette tâche.</p>
   </description>
   <used_function />
@@ -88,8 +87,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >See module skeleton for example</example_item_description>
+      <example_item_description>See module skeleton for example</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[[status, message] = dlgeneratemake(currentpath, ...

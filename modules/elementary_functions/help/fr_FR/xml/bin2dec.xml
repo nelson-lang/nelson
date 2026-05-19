@@ -24,8 +24,7 @@
   <description>
     <p>
       <b>bin2dec</b> convertit un nombre en base 2 en décimal.</p>
-    <p>Remarque : <b>bin2dec</b> et<b
-      >dec2bin</b> sont des opérations réciproques.</p>
+    <p>Remarque : <b>bin2dec</b> et<b>dec2bin</b> sont des opérations réciproques.</p>
   </description>
   <used_function />
   <bibliography />

@@ -32,22 +32,15 @@
   </param_output>
   <description>
     <p>
-      <b>C = unique(A)</b> returns the unique elements of array <b
-      >A</b> in sorted order.</p>
+      <b>C = unique(A)</b> returns the unique elements of array <b>A</b> in sorted order.</p>
     <p>
-      <b>C = unique(A, &apos;rows&apos;)</b> considers each row of <b
-      >A</b> as a unique entity and returns the unique rows in sorted order.</p>
+      <b>C = unique(A, &apos;rows&apos;)</b> considers each row of <b>A</b> as a unique entity and returns the unique rows in sorted order.</p>
     <p>Note that the &apos;rows&apos; option does not support cell arrays.</p>
     <p>
-      <b
-      >[C, ia, ic] = unique(...)</b> extends any of the previous syntaxes to also return index vectors <b
-      >ia</b> and <b>ic</b>.</p>
-    <p>For a vector <b>A</b>, the relationships are <b>C = A(ia)</b> and <b
-      >A = C(ic)</b>.</p>
-    <p>For a matrix or array <b>A</b>, the relationships are <b
-      >C = A(ia)</b> and <b>A(:) = C(ic)</b>.</p>
-    <p>If the &apos;rows&apos; option is used, the relationships are <b
-      >C = A(ia, :)</b> and <b>A = C(ic, :)</b>.</p>
+      <b>[C, ia, ic] = unique(...)</b> extends any of the previous syntaxes to also return index vectors <b>ia</b> and <b>ic</b>.</p>
+    <p>For a vector <b>A</b>, the relationships are <b>C = A(ia)</b> and <b>A = C(ic)</b>.</p>
+    <p>For a matrix or array <b>A</b>, the relationships are <b>C = A(ia)</b> and <b>A(:) = C(ic)</b>.</p>
+    <p>If the &apos;rows&apos; option is used, the relationships are <b>C = A(ia, :)</b> and <b>A = C(ic, :)</b>.</p>
   </description>
   <used_function>std::sort, std::unique (stl)</used_function>
   <bibliography />

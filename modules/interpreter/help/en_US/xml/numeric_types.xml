@@ -72,8 +72,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >explicit single number</example_item_description>
+      <example_item_description>explicit single number</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[
@@ -83,8 +82,7 @@ single(3.1415)
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >implicit-explicit double number</example_item_description>
+      <example_item_description>implicit-explicit double number</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[
@@ -94,8 +92,7 @@ single(3.1415)
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >values exceed maximum precision representable by double</example_item_description>
+      <example_item_description>values exceed maximum precision representable by double</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[

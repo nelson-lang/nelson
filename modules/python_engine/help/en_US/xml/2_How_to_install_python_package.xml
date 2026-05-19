@@ -27,22 +27,19 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Get info from the pyenv environment:</example_item_description>
+      <example_item_description>Get info from the pyenv environment:</example_item_description>
       <example_item_data><![CDATA[pe = pyenv]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Construct the command to install the package:</example_item_description>
+      <example_item_description>Construct the command to install the package:</example_item_description>
       <example_item_data
       ><![CDATA[package_to_install = "scipy";
 command_to_install = '"' + pe.Executable +  '"' + " -m pip install " + package_to_install;]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Construct the command to install the package:</example_item_description>
+      <example_item_description>Construct the command to install the package:</example_item_description>
       <example_item_data
       ><![CDATA[[status, msg] = system(command_to_install);]]></example_item_data>
     </example_item>

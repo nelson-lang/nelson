@@ -28,8 +28,7 @@
   </param_input>
   <description>
     <p>
-      <b
-      >mustBeMember</b> checks that value is member of an array or issue error.</p>
+      <b>mustBeMember</b> checks that value is member of an array or issue error.</p>
   </description>
   <used_function />
   <bibliography />

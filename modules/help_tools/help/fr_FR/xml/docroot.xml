@@ -18,19 +18,14 @@
   </param_input>
   <description>
     <p>
-      <b
-      >docroot</b> récupère ou met à jour le répertoire racine de l&apos;aide de Nelson.</p>
-    <p>Lorsqu&apos;il est appelé sans argument, <b
-      >docroot</b> renvoie le répertoire racine actuel de l&apos;aide de Nelson. Par défaut, il renvoie l&apos;URL du site d&apos;aide utilisé par Nelson.</p>
-    <p>Lorsque appelé avec un argument,<b
-      >docroot</b> met à jour le répertoire racine de l&apos;aide de Nelson.</p>
+      <b>docroot</b> récupère ou met à jour le répertoire racine de l&apos;aide de Nelson.</p>
+    <p>Lorsqu&apos;il est appelé sans argument, <b>docroot</b> renvoie le répertoire racine actuel de l&apos;aide de Nelson. Par défaut, il renvoie l&apos;URL du site d&apos;aide utilisé par Nelson.</p>
+    <p>Lorsque appelé avec un argument,<b>docroot</b> met à jour le répertoire racine de l&apos;aide de Nelson.</p>
     <p>
-      <b
-      >docroot(&apos;
+      <b>docroot(&apos;
         &apos;)</b> réinitialise le répertoire racine de l&apos;aide de Nelson à la valeur par défaut.</p>
     <p>
-      <b
-      >docroot(&apos;.&apos;)</b> utilise les fichiers d&apos;aide locaux et le navigateur local (restaure le comportement avant la v1.11.0).</p>
+      <b>docroot(&apos;.&apos;)</b> utilise les fichiers d&apos;aide locaux et le navigateur local (restaure le comportement avant la v1.11.0).</p>
   </description>
   <used_function />
   <bibliography />

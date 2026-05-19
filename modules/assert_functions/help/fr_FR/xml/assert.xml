@@ -42,8 +42,7 @@
       <b>assert</b> lève une erreur si la valeur d&apos;entrée est fausse.</p>
     <p
     >Cette fonction lève également une erreur si l&apos;entrée n&apos;est pas une valeur logique, garantissant la sécurité de type.</p>
-    <p>Lorsque le paramètre optionnel <b
-      >err_msg</b> est fourni, il sera utilisé comme message d&apos;erreur à la place du message par défaut en cas d&apos;échec de l&apos;assertion.</p>
+    <p>Lorsque le paramètre optionnel <b>err_msg</b> est fourni, il sera utilisé comme message d&apos;erreur à la place du message par défaut en cas d&apos;échec de l&apos;assertion.</p>
     <p
     >C&apos;est la fonction d&apos;assertion fondamentale qui sert de base pour tester des conditions dans les programmes et les tests unitaires.</p>
   </description>
@@ -52,8 +51,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Test d&apos;échec d&apos;assertion avec un message d&apos;erreur personnalisé :</example_item_description>
+      <example_item_description>Test d&apos;échec d&apos;assertion avec un message d&apos;erreur personnalisé :</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[try
@@ -64,8 +62,7 @@ end]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Test d&apos;assertion réussie :</example_item_description>
+      <example_item_description>Test d&apos;assertion réussie :</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[assert(5 > 3);
@@ -73,8 +70,7 @@ disp('Assertion passed: 5 is greater than 3')]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Utilisation des valeurs de retour pour gérer les résultats d&apos;assertion :</example_item_description>
+      <example_item_description>Utilisation des valeurs de retour pour gérer les résultats d&apos;assertion :</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[[r, msg] = assert(false, 'This condition is false');
@@ -84,8 +80,7 @@ end]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Assertion basique sans message personnalisé :</example_item_description>
+      <example_item_description>Assertion basique sans message personnalisé :</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[x = 10;

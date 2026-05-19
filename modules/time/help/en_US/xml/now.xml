@@ -16,8 +16,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >now()</b> returns the current date and time as a serial date number.</p>
+      <b>now()</b> returns the current date and time as a serial date number.</p>
   </description>
   <used_function />
   <bibliography />

@@ -22,8 +22,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >nzmax</b> returns the amount of storage allocated for nonzero elements.</p>
+      <b>nzmax</b> returns the amount of storage allocated for nonzero elements.</p>
   </description>
   <used_function />
   <bibliography />

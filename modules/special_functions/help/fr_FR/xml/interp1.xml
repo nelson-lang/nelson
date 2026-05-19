@@ -35,8 +35,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >vq = interp1(x, v, xq)</b> retourne les valeurs interpolées d&apos;une fonction 1-D à des points de requête spécifiques en utilisant l&apos;interpolation linéaire.</p>
+      <b>vq = interp1(x, v, xq)</b> retourne les valeurs interpolées d&apos;une fonction 1-D à des points de requête spécifiques en utilisant l&apos;interpolation linéaire.</p>
   </description>
   <used_function />
   <bibliography

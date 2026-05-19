@@ -17,8 +17,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >C = dlgetnelsonlibraries()</b> renvoie un tableau de cellules contenant les chemins des répertoires de bibliothèques utilisés par les modules Nelson.</p>
+      <b>C = dlgetnelsonlibraries()</b> renvoie un tableau de cellules contenant les chemins des répertoires de bibliothèques utilisés par les modules Nelson.</p>
     <p
     >Ces chemins sont utilisés en interne pour le développement des modules et les processus de compilation.</p>
   </description>
@@ -27,8 +26,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >See module skeleton for example</example_item_description>
+      <example_item_description>See module skeleton for example</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[dlgetnelsonlibraries()]]></example_item_data>

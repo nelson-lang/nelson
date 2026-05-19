@@ -27,8 +27,7 @@
   </param_input>
   <description>
     <p>
-      <b
-      >csvwrite</b> écrit une matrice numérique dans un fichier au format CSV (valeurs séparées par des virgules).</p>
+      <b>csvwrite</b> écrit une matrice numérique dans un fichier au format CSV (valeurs séparées par des virgules).</p>
   </description>
   <used_function />
   <bibliography />

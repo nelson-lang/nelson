@@ -58,8 +58,7 @@
   </param_input>
   <description>
     <p>
-      <b
-      >savemat</b> enregistre les variables de l&apos;espace de travail dans un fichier .mat.</p>
+      <b>savemat</b> enregistre les variables de l&apos;espace de travail dans un fichier .mat.</p>
     <p
     >Les types de données de Nelson sont convertis en équivalents compatibles avec les fichiers Mat.</p>
   </description>

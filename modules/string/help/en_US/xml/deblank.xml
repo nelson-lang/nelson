@@ -25,8 +25,7 @@
     <p>
       <b>deblank</b> removes trailing whitespace.</p>
     <p>
-      <b
-      >deblank</b> does not remove all significant whitespace (only characters &apos; \t\n\r\f\v&apos; removed).</p>
+      <b>deblank</b> does not remove all significant whitespace (only characters &apos; \t\n\r\f\v&apos; removed).</p>
   </description>
   <used_function />
   <bibliography />

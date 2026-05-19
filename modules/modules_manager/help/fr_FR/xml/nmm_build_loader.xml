@@ -22,16 +22,14 @@
   </param_input>
   <description>
     <p>
-      <b
-      >nmm_build_loader</b> génère le fichier loader.m principal d&apos;un module externe.</p>
+      <b>nmm_build_loader</b> génère le fichier loader.m principal d&apos;un module externe.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >See module skeleton for example</example_item_description>
+      <example_item_description>See module skeleton for example</example_item_description>
       <example_item_data
         runnable="false"
       ><![CDATA[% see builder.m]]></example_item_data>

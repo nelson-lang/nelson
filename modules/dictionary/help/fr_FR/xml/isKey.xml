@@ -23,12 +23,9 @@
   </param_output>
   <description>
     <p>
-      <b
-      >tf = isKey(d, key)</b> renvoie true logique si la clé spécifiée existe dans le dictionnaire configuré, et false logique si elle n&apos;existe pas.</p>
-    <p>Si <b>d</b> est un dictionnaire non configuré, <b
-      >isKey</b> lève une erreur.</p>
-    <p>Si <b
-      >key</b> est un tableau de plusieurs clés, alors tf est un tableau logique de la même taille.</p>
+      <b>tf = isKey(d, key)</b> renvoie true logique si la clé spécifiée existe dans le dictionnaire configuré, et false logique si elle n&apos;existe pas.</p>
+    <p>Si <b>d</b> est un dictionnaire non configuré, <b>isKey</b> lève une erreur.</p>
+    <p>Si <b>key</b> est un tableau de plusieurs clés, alors tf est un tableau logique de la même taille.</p>
   </description>
   <used_function />
   <bibliography />

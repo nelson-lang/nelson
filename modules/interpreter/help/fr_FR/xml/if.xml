@@ -9,8 +9,7 @@
     >if conditional_expression_1, statements_1, elseif conditional_expression_2, statements_2, else statements_N end</syntax_item>
   </syntax>
   <description>
-    <p>Les instructions <b>if</b> et<b
-      >else</b> forment une structure de contrôle pour l&apos;exécution conditionnelle.</p>
+    <p>Les instructions <b>if</b> et<b>else</b> forment une structure de contrôle pour l&apos;exécution conditionnelle.</p>
   </description>
   <used_function />
   <bibliography />

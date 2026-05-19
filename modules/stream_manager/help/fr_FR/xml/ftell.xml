@@ -23,8 +23,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >ftell</b> retourne le décalage de l&apos;octet courant par rapport au début du fichier associé au flux nommé fid.</p>
+      <b>ftell</b> retourne le décalage de l&apos;octet courant par rapport au début du fichier associé au flux nommé fid.</p>
   </description>
   <used_function />
   <bibliography />

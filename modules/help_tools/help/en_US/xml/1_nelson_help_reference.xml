@@ -73,18 +73,15 @@
       <li>
         <b>`&lt;code&gt;`</b> — inline code rendering.</li>
       <li>
-        <b
-        >`&lt;a href=&quot;...&quot;
+        <b>`&lt;a href=&quot;...&quot;
           &gt;`</b> — external links (rendered as HTML anchors).</li>
       <li>
-        <b
-        >`&lt;link linkend=&quot;...&quot;
+        <b>`&lt;link linkend=&quot;...&quot;
           &gt;`</b> — internal cross reference. If linkend contains a module in braces<code
         >{module}name</code>it becomes<code
         >../module/name.html</code>, otherwise<code>name.html</code>.</li>
       <li>
-        <b
-        >`&lt;latex&gt;`</b> — math expressions; rendered as MathJax display math by the XSLT template (wrapped with<code
+        <b>`&lt;latex&gt;`</b> — math expressions; rendered as MathJax display math by the XSLT template (wrapped with<code
         >`$$...$$`</code>).</li>
       <li>
         <b>`&lt;img src=&quot;...&quot;/&gt;`</b> — images. XSLT calls<code
@@ -131,8 +128,7 @@
   </description>
   <examples>
     <example_item>
-      <example_item_description
-      >Minimal runnable example</example_item_description>
+      <example_item_description>Minimal runnable example</example_item_description>
       <example_item_data
         language="matlab"
         runnable="cli"
@@ -158,8 +154,7 @@ disp(info);
 ]]></example_item_data>
     </example_item>
     <example_item>
-      <example_item_description
-      >Example with image output</example_item_description>
+      <example_item_description>Example with image output</example_item_description>
       <example_item_data
         language="matlab"
       ><![CDATA[

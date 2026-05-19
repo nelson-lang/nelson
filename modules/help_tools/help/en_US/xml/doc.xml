@@ -19,8 +19,7 @@
     <p>
       <b>doc</b> launches help browser.</p>
     <p>
-      <b
-      >doc(&apos;function_name&apos;)</b> displays the help about function designed by &apos;function_name&apos;.</p>
+      <b>doc(&apos;function_name&apos;)</b> displays the help about function designed by &apos;function_name&apos;.</p>
   </description>
   <used_function />
   <bibliography />

@@ -25,8 +25,7 @@
   </param_input>
   <description>
     <p>
-      <b
-      >mustBeFile</b> vérifie que le chemin d&apos;entrée correspond à un fichier ou renvoie une erreur.</p>
+      <b>mustBeFile</b> vérifie que le chemin d&apos;entrée correspond à un fichier ou renvoie une erreur.</p>
   </description>
   <used_function />
   <bibliography />

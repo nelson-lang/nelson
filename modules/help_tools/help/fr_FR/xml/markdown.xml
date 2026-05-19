@@ -46,11 +46,9 @@
     <p>Options :</p>
     <ul>
       <li>
-        <b
-        >secure</b> (par défaut) : seul un sous-ensemble de Markdown est pris en charge (pas de HTML brut, pas de tableaux, pas d&apos;images, pas de liens).</li>
+        <b>secure</b> (par défaut) : seul un sous-ensemble de Markdown est pris en charge (pas de HTML brut, pas de tableaux, pas d&apos;images, pas de liens).</li>
       <li>
-        <b
-        >advanced</b> : Markdown complet pris en charge (y compris HTML brut, tableaux, images, liens).</li>
+        <b>advanced</b> : Markdown complet pris en charge (y compris HTML brut, tableaux, images, liens).</li>
     </ul>
   </description>
   <used_function />

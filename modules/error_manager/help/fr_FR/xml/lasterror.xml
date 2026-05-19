@@ -18,8 +18,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >l = lasterror()</b> renvoie une structure contenant le dernier message d&apos;erreur et les informations associées.</p>
+      <b>l = lasterror()</b> renvoie une structure contenant le dernier message d&apos;erreur et les informations associées.</p>
     <p>
       <b>lasterror(&apos;reset&apos;)</b> efface la dernière erreur.</p>
     <p>

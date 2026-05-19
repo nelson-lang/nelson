@@ -34,8 +34,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >renameStructField</b> renomme les noms de champs d&apos;un struct ou d&apos;un tableau de structs.</p>
+      <b>renameStructField</b> renomme les noms de champs d&apos;un struct ou d&apos;un tableau de structs.</p>
     <p
     >Il prend en charge le renommage de tous les noms de champs simultanément ou le renommage de champs sélectionnés individuellement.</p>
   </description>

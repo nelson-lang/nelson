@@ -29,8 +29,7 @@
     <p>
       <b>tril</b> computes Lower Triangular Portions of Matrix.</p>
     <p>
-      <b
-      >R = tril(M, k)</b> returns the elements on and above the kth diagonal of M.</p>
+      <b>R = tril(M, k)</b> returns the elements on and above the kth diagonal of M.</p>
   </description>
   <used_function />
   <bibliography />

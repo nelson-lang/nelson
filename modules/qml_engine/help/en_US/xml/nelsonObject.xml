@@ -32,8 +32,7 @@
   </param_input>
   <description>
     <p>
-      <b
-      >nelson</b> object contains some methods used as callback to call nelson from QML</p>
+      <b>nelson</b> object contains some methods used as callback to call nelson from QML</p>
   </description>
   <used_function />
   <bibliography />

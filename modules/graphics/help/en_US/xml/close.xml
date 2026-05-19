@@ -41,8 +41,7 @@
     <p>
       <b>close(ID)</b> closes the figure specified by figure ID.</p>
     <p>
-      <b
-      >close(GO)</b> closes the figure specified by figure graphics object.</p>
+      <b>close(GO)</b> closes the figure specified by figure graphics object.</p>
     <p>
       <b>close(&apos;all&apos;)</b> closes all figures.</p>
   </description>

@@ -28,8 +28,7 @@
   </param_input>
   <description>
     <p>
-      <b>dlgeneratemexgateway</b> generates a C MEX gateway used by<b
-      >mex</b> (internal function).</p>
+      <b>dlgeneratemexgateway</b> generates a C MEX gateway used by<b>mex</b> (internal function).</p>
   </description>
   <used_function />
   <bibliography />

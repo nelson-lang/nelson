@@ -27,8 +27,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >C = mldivide(A, B)</b> retourne la division matricielle gauche de A et B.</p>
+      <b>C = mldivide(A, B)</b> retourne la division matricielle gauche de A et B.</p>
   </description>
   <used_function />
   <bibliography />

@@ -41,10 +41,8 @@
     <p>
       <b>audioread</b> lit un fichier audio.</p>
     <p
-    >Formats supportés : &apos;wav&apos;, &apos;ogg&apos;, &apos;flac&apos;, &apos;mp3&apos;, &apos;caf&apos;, &apos;au&apos;, &apos;aiff&apos;. Voir la fonction <b
-      >audiosupportedformats</b> pour tous les formats supportés.</p>
-    <p>Si <b
-      >type</b> est &apos;native&apos;, les données audio dépendent du format du fichier (single, double, entiers).</p>
+    >Formats supportés : &apos;wav&apos;, &apos;ogg&apos;, &apos;flac&apos;, &apos;mp3&apos;, &apos;caf&apos;, &apos;au&apos;, &apos;aiff&apos;. Voir la fonction <b>audiosupportedformats</b> pour tous les formats supportés.</p>
+    <p>Si <b>type</b> est &apos;native&apos;, les données audio dépendent du format du fichier (single, double, entiers).</p>
   </description>
   <used_function />
   <bibliography />

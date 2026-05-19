@@ -33,8 +33,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Creates demo_debugger.m for debugging examples.</example_item_description>
+      <example_item_description>Creates demo_debugger.m for debugging examples.</example_item_description>
       <example_item_data
         runnable="adv-cli"
       ><![CDATA[n = 50;
@@ -49,8 +48,7 @@ title("Mean of Random Uniform Data")]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Set a breakpoint in the demo_debugger function. click on the left margin next to the line number to toggle a breakpoint.</example_item_description>
+      <example_item_description>Set a breakpoint in the demo_debugger function. click on the left margin next to the line number to toggle a breakpoint.</example_item_description>
       <example_item_img
         src="../../images/set_breakpoint.png"
         align="middle"
@@ -59,8 +57,7 @@ title("Mean of Random Uniform Data")]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Start debugging by calling the demo_debugger function from the command line or &quot;Run file&quot; button.</example_item_description>
+      <example_item_description>Start debugging by calling the demo_debugger function from the command line or &quot;Run file&quot; button.</example_item_description>
       <example_item_img
         src="../../images/stop_at_breakpoint.png"
         align="middle"

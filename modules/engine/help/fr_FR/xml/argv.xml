@@ -17,8 +17,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >argv()</b> renvoie un tableau de cellules contenant les arguments de la ligne de commande de Nelson.</p>
+      <b>argv()</b> renvoie un tableau de cellules contenant les arguments de la ligne de commande de Nelson.</p>
     <p
     >Le premier élément du tableau retourné contient le chemin de l&apos;exécutable lancé.</p>
   </description>

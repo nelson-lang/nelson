@@ -22,8 +22,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >isint32</b> renvoie 1 logique si l&apos;argument est un tableau d&apos;entiers signés 32 bits et 0 logique sinon.</p>
+      <b>isint32</b> renvoie 1 logique si l&apos;argument est un tableau d&apos;entiers signés 32 bits et 0 logique sinon.</p>
   </description>
   <used_function />
   <bibliography />

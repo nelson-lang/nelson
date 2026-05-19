@@ -32,8 +32,7 @@
   </param_input>
   <description>
     <p>
-      <b
-      >filewrite</b> enregistre un tableau de caractères, une cellule de chaînes ou un tableau de chaînes dans un fichier.</p>
+      <b>filewrite</b> enregistre un tableau de caractères, une cellule de chaînes ou un tableau de chaînes dans un fichier.</p>
     <p>Par défaut, le fichier est enregistré en UTF-8 (sans BOM).</p>
   </description>
   <used_function />

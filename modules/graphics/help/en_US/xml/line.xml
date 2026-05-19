@@ -40,8 +40,7 @@
   </param_output>
   <description>
     <p>
-      <b>line(x, y)</b> creates a line in the current axes with vectors<b
-      >x</b> and <b>y</b>.</p>
+      <b>line(x, y)</b> creates a line in the current axes with vectors<b>x</b> and <b>y</b>.</p>
     <p>
       <b>line(x, y, z)</b> creates a line in three-dimensional coordinates.</p>
     <p>Properties:</p>
@@ -49,20 +48,16 @@
     <p>
       <b>Children</b> [] (currently not used).</p>
     <p>
-      <b
-      >Color</b> Line color: RGB triplet, [0, 0, 0] or hexadecimal color code.</p>
+      <b>Color</b> Line color: RGB triplet, [0, 0, 0] or hexadecimal color code.</p>
     <p>
-      <b
-      >DisplayName</b> Legend label: character vector or string scalar, &apos;
+      <b>DisplayName</b> Legend label: character vector or string scalar, &apos;
       &apos; (default).</p>
     <p>
-      <b
-      >LineStyle</b> Line style: &apos;--&apos;, &apos;:&apos;, &apos;-.&apos;, &apos;none&apos; or &apos;-&apos; (default).</p>
+      <b>LineStyle</b> Line style: &apos;--&apos;, &apos;:&apos;, &apos;-.&apos;, &apos;none&apos; or &apos;-&apos; (default).</p>
     <p>
       <b>LineWidth</b> Line width: scalar positive value.</p>
     <p>
-      <b
-      >Marker</b> Marker symbol: &apos;o&apos; (circle), &apos;+&apos; (Plus sign), &apos;*&apos; (asterik), &apos;.&apos; (point), &apos;x&apos; (cross), &apos;_&apos; (horizontal line) , &apos;|&apos; (vertical line), &apos;square&apos;, &apos;diamond&apos;, &apos;^&apos; (Upward-pointing triangle), &apos;v&apos; (Downward-pointing triangle), &apos;
+      <b>Marker</b> Marker symbol: &apos;o&apos; (circle), &apos;+&apos; (Plus sign), &apos;*&apos; (asterik), &apos;.&apos; (point), &apos;x&apos; (cross), &apos;_&apos; (horizontal line) , &apos;|&apos; (vertical line), &apos;square&apos;, &apos;diamond&apos;, &apos;^&apos; (Upward-pointing triangle), &apos;v&apos; (Downward-pointing triangle), &apos;
       &gt;
       &apos; (Right-pointing triangle), &apos;
       &lt;
@@ -76,8 +71,7 @@
     <p>
       <b>Parent</b> Parent: axes graphics object.</p>
     <p>
-      <b
-      >Tag</b> Object identifier: string scalar, character vector, &apos;
+      <b>Tag</b> Object identifier: string scalar, character vector, &apos;
       &apos; (default).</p>
     <p>
       <b>Type</b> Type of graphics object: &apos;line&apos;
@@ -93,11 +87,9 @@
     <p>
       <b>ZData</b> z values: vector, [] (default).</p>
     <p>
-      <b
-      >CreateFcn</b> Callback (function handle, string or cell) called when object is created. Set this property on an existing component has no effect.</p>
+      <b>CreateFcn</b> Callback (function handle, string or cell) called when object is created. Set this property on an existing component has no effect.</p>
     <p>
-      <b
-      >DeleteFcn</b> Callback (function handle, string or cell) called when object is deleted.</p>
+      <b>DeleteFcn</b> Callback (function handle, string or cell) called when object is deleted.</p>
     <p />
     <p>
       <b>BeingDeleted</b> Flag indicating that the object is being deleted.</p>

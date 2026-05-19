@@ -32,8 +32,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >st = cell2struct(ce, fields)</b> crée un struct à partir d&apos;un tableau cellulaire.</p>
+      <b>st = cell2struct(ce, fields)</b> crée un struct à partir d&apos;un tableau cellulaire.</p>
   </description>
   <used_function />
   <bibliography />

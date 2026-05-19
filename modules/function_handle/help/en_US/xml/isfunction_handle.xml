@@ -22,8 +22,7 @@
   </param_output>
   <description>
     <p>
-      <b>l = isfunction_handle(func_handle)</b> checks if <b
-      >func_handle</b> is a function handle. Returning <b>true</b> if it is.</p>
+      <b>l = isfunction_handle(func_handle)</b> checks if <b>func_handle</b> is a function handle. Returning <b>true</b> if it is.</p>
   </description>
   <used_function />
   <bibliography />

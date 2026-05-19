@@ -38,24 +38,21 @@
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Cet exemple échouera et renverra un message d&apos;erreur.</example_item_description>
+      <example_item_description>Cet exemple échouera et renverra un message d&apos;erreur.</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[execstr('b = yyyy')]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Cet exemple échouera et renverra un message d&apos;erreur.</example_item_description>
+      <example_item_description>Cet exemple échouera et renverra un message d&apos;erreur.</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[execstr('b = yyyy', 'nocatch')]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Cet exemple ne échouera pas et renverra faux.</example_item_description>
+      <example_item_description>Cet exemple ne échouera pas et renverra faux.</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[r = execstr('b = yyyy', 'errcatch')]]></example_item_data>

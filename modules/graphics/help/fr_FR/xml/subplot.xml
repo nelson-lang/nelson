@@ -40,8 +40,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >subplot(n, m, p)</b> divise la figure courante en une grille à deux dimensions.</p>
+      <b>subplot(n, m, p)</b> divise la figure courante en une grille à deux dimensions.</p>
     <p>Chacune des cases peut contenir un graphique quelconque.</p>
   </description>
   <used_function />

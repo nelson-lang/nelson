@@ -22,8 +22,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >n = numEntries(d)</b> retrieves the number of key-value pairs stored in the dictionary.</p>
+      <b>n = numEntries(d)</b> retrieves the number of key-value pairs stored in the dictionary.</p>
     <p>If d is an unconfigured dictionary, then numEntries returns 0.</p>
   </description>
   <used_function />

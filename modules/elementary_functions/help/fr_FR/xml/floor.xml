@@ -21,8 +21,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >floor</b> renvoie une matrice d&apos;entiers obtenue en arrondissant chaque élément vers le bas.</p>
+      <b>floor</b> renvoie une matrice d&apos;entiers obtenue en arrondissant chaque élément vers le bas.</p>
   </description>
   <used_function />
   <bibliography />

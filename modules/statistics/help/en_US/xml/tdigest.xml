@@ -32,8 +32,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >td = tdigest(compression, X)</b> returns a t-digest representation of the array elements of X.</p>
+      <b>td = tdigest(compression, X)</b> returns a t-digest representation of the array elements of X.</p>
     <p
     >TDigest is a data structure for accurate on-line accumulation of rank-based statistics such as quantiles and cumulative distribution functions. It is particularly effective for large data sets and for estimating extreme quantiles. The algorithm is described in detail in the paper &quot;Computing Extremely Accurate Quantiles Using t-Digests&quot; by Ted Dunning and Otmar Ertl.</p>
     <p>The t-digest is particularly useful for:</p>
@@ -55,12 +54,10 @@
     <p>Methods available:</p>
     <ul>
       <li>
-        <b
-        >percentile(p)</b>: Returns the value(s) at the given percentile(s) <code
+        <b>percentile(p)</b>: Returns the value(s) at the given percentile(s) <code
         >p</code> (in [0, 100]).</li>
       <li>
-        <b
-        >quantile(q)</b>: Returns the value(s) at the given quantile(s) <code
+        <b>quantile(q)</b>: Returns the value(s) at the given quantile(s) <code
         >q</code> (in [0, 1]).</li>
       <li>
         <b>+</b>: Adds new data points to the t-digest object.</li>
@@ -68,11 +65,9 @@
     <p>Properties:</p>
     <ul>
       <li>
-        <b
-        >compression</b>: The compression factor used to create the t-digest.</li>
+        <b>compression</b>: The compression factor used to create the t-digest.</li>
       <li>
-        <b
-        >totalWeight</b>: The total weight of all the centroids in the t-digest.</li>
+        <b>totalWeight</b>: The total weight of all the centroids in the t-digest.</li>
     </ul>
   </description>
   <used_function>tdigest algorithm</used_function>

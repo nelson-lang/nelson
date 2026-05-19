@@ -21,8 +21,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >isfinite</b> returns a logical array which is true where elements of M are finite values.</p>
+      <b>isfinite</b> returns a logical array which is true where elements of M are finite values.</p>
   </description>
   <used_function />
   <bibliography />

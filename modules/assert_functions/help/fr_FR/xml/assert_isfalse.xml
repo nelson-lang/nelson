@@ -39,12 +39,10 @@
   </param_output>
   <description>
     <p>
-      <b
-      >assert_isfalse</b> lève une erreur si la valeur d&apos;entrée est vraie.</p>
+      <b>assert_isfalse</b> lève une erreur si la valeur d&apos;entrée est vraie.</p>
     <p
     >Cette fonction lève également une erreur si l&apos;entrée n&apos;est pas une valeur logique, garantissant la sécurité de type.</p>
-    <p>Lorsque le paramètre optionnel <b
-      >err_msg</b> est fourni, il sera utilisé comme message d&apos;erreur à la place du message par défaut en cas d&apos;échec de l&apos;assertion.</p>
+    <p>Lorsque le paramètre optionnel <b>err_msg</b> est fourni, il sera utilisé comme message d&apos;erreur à la place du message par défaut en cas d&apos;échec de l&apos;assertion.</p>
     <p
     >Cette fonction est utile dans les tests unitaires pour vérifier que des conditions sont fausses ou que des opérations logiques retournent le résultat faux attendu.</p>
   </description>
@@ -53,40 +51,35 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Test qui démontre l&apos;échec de l&apos;assertion (3 n&apos;est pas égal à 4) :</example_item_description>
+      <example_item_description>Test qui démontre l&apos;échec de l&apos;assertion (3 n&apos;est pas égal à 4) :</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[assert_isfalse(3 ~= 4)]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Test qui réussit (3 égal 4 est faux) :</example_item_description>
+      <example_item_description>Test qui réussit (3 égal 4 est faux) :</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[assert_isfalse(3 == 4)]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Test avec une valeur fausse explicite :</example_item_description>
+      <example_item_description>Test avec une valeur fausse explicite :</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[r = assert_isfalse(false)]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Utilisation des valeurs de retour pour gérer les résultats d&apos;assertion :</example_item_description>
+      <example_item_description>Utilisation des valeurs de retour pour gérer les résultats d&apos;assertion :</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[[r, msg] = assert_isfalse(false)]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Test avec un message d&apos;erreur personnalisé :</example_item_description>
+      <example_item_description>Test avec un message d&apos;erreur personnalisé :</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[[r, msg] = assert_isfalse(3 == 3, 'your error message.');
@@ -96,8 +89,7 @@ end]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Exemple montrant la gestion d&apos;erreur lors de l&apos;échec de l&apos;assertion :</example_item_description>
+      <example_item_description>Exemple montrant la gestion d&apos;erreur lors de l&apos;échec de l&apos;assertion :</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[try

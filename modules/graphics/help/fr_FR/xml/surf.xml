@@ -54,8 +54,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >surf</b> crée un tracé de surface 3D. Il peut être utilisé pour tracer des données sous forme de matrice ou de fonction de deux variables. </p>
+      <b>surf</b> crée un tracé de surface 3D. Il peut être utilisé pour tracer des données sous forme de matrice ou de fonction de deux variables. </p>
     <p
     >Vous pouvez personnaliser l&apos;apparence du tracé en utilisant diverses options telles que la couleur, l&apos;éclairage et l&apos;ombrage.</p>
     <p

@@ -29,8 +29,7 @@
   </param_input>
   <description>
     <p>
-      <b
-      >h5create</b> creates a data set and specify its extent dimensions, datatype and chunk size.</p>
+      <b>h5create</b> creates a data set and specify its extent dimensions, datatype and chunk size.</p>
     <p>Name-Values pair supported:</p>
     <p>Name: Datatype (Nelson® datatypes).</p>
     <p

@@ -84,8 +84,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >ipc</b> permet d&apos;exécuter, récupérer et envoyer des variables entre plusieurs processus Nelson.</p>
+      <b>ipc</b> permet d&apos;exécuter, récupérer et envoyer des variables entre plusieurs processus Nelson.</p>
     <p
     >Tous les types Nelson sérialisables sont pris en charge. Les types non pris en charge seront remplacés par une matrice vide et un avertissement.</p>
     <p>LIMITATION :</p>

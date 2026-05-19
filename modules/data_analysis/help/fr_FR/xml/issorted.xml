@@ -43,8 +43,7 @@
   </param_output>
   <description>
     <p>
-      <b>tf = issorted(A)</b> renvoie vrai si les éléments de <b
-      >A</b> sont triés par ordre croissant, et faux sinon.</p>
+      <b>tf = issorted(A)</b> renvoie vrai si les éléments de <b>A</b> sont triés par ordre croissant, et faux sinon.</p>
   </description>
   <examples>
     <example_item>

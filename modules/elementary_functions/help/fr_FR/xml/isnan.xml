@@ -21,8 +21,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >isnan</b> returns a logical array which is true where elements of M are &quot;Not a Number&quot; values.</p>
+      <b>isnan</b> returns a logical array which is true where elements of M are &quot;Not a Number&quot; values.</p>
   </description>
   <used_function />
   <bibliography />

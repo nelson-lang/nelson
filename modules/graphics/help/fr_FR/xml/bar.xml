@@ -54,8 +54,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >bar(X, Y)</b> crée un diagramme en barres à partir de deux ensembles de vecteurs X-Y.</p>
+      <b>bar(X, Y)</b> crée un diagramme en barres à partir de deux ensembles de vecteurs X-Y.</p>
     <p
     >Lorsqu&apos;un seul argument est fourni (Y), il est interprété comme un vecteur de valeurs Y, et les abscisses X sont générées comme une séquence de 1 au nombre d&apos;éléments du vecteur Y.</p>
     <p>Vous pouvez éventuellement spécifier la largeur des barres.</p>

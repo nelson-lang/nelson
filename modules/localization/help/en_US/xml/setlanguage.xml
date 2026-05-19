@@ -16,8 +16,7 @@
   </param_input>
   <description>
     <p>
-      <b
-      >setlanguage</b> changes the language used by Nelson and saves this changes for subsequent runs of Nelson.</p>
+      <b>setlanguage</b> changes the language used by Nelson and saves this changes for subsequent runs of Nelson.</p>
   </description>
   <used_function />
   <bibliography />

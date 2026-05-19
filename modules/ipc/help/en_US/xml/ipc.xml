@@ -82,8 +82,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >ipc</b> allows to execute, get, put variables between multiple nelson&apos;s process.</p>
+      <b>ipc</b> allows to execute, get, put variables between multiple nelson&apos;s process.</p>
     <p
     >All serializable nelson&apos;s types are supported. Unsupported types will be replaced by an empty matrix and a warning.</p>
     <p>LIMITATION:</p>

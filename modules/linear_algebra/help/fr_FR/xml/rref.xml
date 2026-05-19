@@ -37,11 +37,9 @@
   </param_output>
   <description>
     <p>
-      <b>R = rref(A)</b> retourne la forme échelonnée réduite par lignes de <b
-      >A</b>.</p>
+      <b>R = rref(A)</b> retourne la forme échelonnée réduite par lignes de <b>A</b>.</p>
     <p>
-      <b>[R, p] = rref(A)</b> retourne également les pivots non nuls <b
-      >p</b>.</p>
+      <b>[R, p] = rref(A)</b> retourne également les pivots non nuls <b>p</b>.</p>
   </description>
   <used_function />
   <bibliography

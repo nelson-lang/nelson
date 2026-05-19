@@ -21,9 +21,7 @@
   </param_output>
   <description>
     <p>
-      <b>isrow(V)</b> returns logical<b
-      >true</b> if size(V) returns [1, n] with a nonnegative integer value n, and logical<b
-      >false</b> otherwise.</p>
+      <b>isrow(V)</b> returns logical<b>true</b> if size(V) returns [1, n] with a nonnegative integer value n, and logical<b>false</b> otherwise.</p>
   </description>
   <used_function />
   <bibliography />

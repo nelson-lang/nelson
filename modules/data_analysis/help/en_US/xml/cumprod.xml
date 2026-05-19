@@ -41,8 +41,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >R = cumprod(M)</b> returns the cumulative product of the array elements of M.</p>
+      <b>R = cumprod(M)</b> returns the cumulative product of the array elements of M.</p>
   </description>
   <used_function />
   <bibliography />

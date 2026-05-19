@@ -27,8 +27,7 @@
   </param_input>
   <description>
     <p>
-      <b>spy(S)</b> trace le motif de parcimonie de la matrice creuse <b
-      >S</b>.</p>
+      <b>spy(S)</b> trace le motif de parcimonie de la matrice creuse <b>S</b>.</p>
   </description>
   <used_function />
   <bibliography />

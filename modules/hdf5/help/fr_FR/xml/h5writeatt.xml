@@ -36,8 +36,7 @@
   </param_input>
   <description>
     <p>
-      <b>h5writeatt</b> écrit l&apos;attribut nommé<b>attname</b> avec la valeur <b
-      >attvalue</b> dans le fichier HDF5.</p>
+      <b>h5writeatt</b> écrit l&apos;attribut nommé<b>attname</b> avec la valeur <b>attvalue</b> dans le fichier HDF5.</p>
   </description>
   <used_function />
   <bibliography />

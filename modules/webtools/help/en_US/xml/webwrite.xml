@@ -61,8 +61,7 @@ R = webwrite(url, data);
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Connect to your NetAtmo Weather station (oAuth2 connection)</example_item_description>
+      <example_item_description>Connect to your NetAtmo Weather station (oAuth2 connection)</example_item_description>
       <example_item_data
         runnable="false"
       ><![CDATA[

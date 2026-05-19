@@ -22,8 +22,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >isreal</b> returns a logical true if all imaginary part is a zero array.</p>
+      <b>isreal</b> returns a logical true if all imaginary part is a zero array.</p>
   </description>
   <used_function />
   <bibliography />

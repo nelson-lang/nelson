@@ -25,8 +25,7 @@
   </param_input>
   <description>
     <p>
-      <b
-      >mustBeSparse</b> vérifie que la valeur est une matrice creuse (sparse) ou renvoie une erreur.</p>
+      <b>mustBeSparse</b> vérifie que la valeur est une matrice creuse (sparse) ou renvoie une erreur.</p>
   </description>
   <used_function />
   <bibliography />

@@ -53,11 +53,9 @@
   </param_output>
   <description>
     <p>
-      <b
-      >semilogy(X, Y)</b> trace des données en utilisant une échelle logarithmique en base 10 pour l&apos;axe y et une échelle normale (linéaire) pour l&apos;axe x.</p>
+      <b>semilogy(X, Y)</b> trace des données en utilisant une échelle logarithmique en base 10 pour l&apos;axe y et une échelle normale (linéaire) pour l&apos;axe x.</p>
     <p>
-      <b>semilogy</b> utilise exactement la même syntaxe que la commande <b
-      >plot</b>.</p>
+      <b>semilogy</b> utilise exactement la même syntaxe que la commande <b>plot</b>.</p>
   </description>
   <used_function />
   <bibliography />

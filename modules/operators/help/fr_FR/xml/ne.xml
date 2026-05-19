@@ -28,8 +28,7 @@
     <p>
       <b>C = ne(A, B)</b> effectue l&apos;opération d&apos;inégalité : A ~= B.</p>
     <p>
-      <b
-      >ne</b> compare les parties réelle et imaginaire des tableaux numériques.</p>
+      <b>ne</b> compare les parties réelle et imaginaire des tableaux numériques.</p>
   </description>
   <used_function />
   <bibliography />

@@ -24,8 +24,7 @@
     </param_input_item>
   </param_input>
   <description>
-    <b
-    >smartindent</b> indents code to make reading statements such as while loops easier.</description>
+    <b>smartindent</b> indents code to make reading statements such as while loops easier.</description>
   <used_function />
   <bibliography />
   <see_also>

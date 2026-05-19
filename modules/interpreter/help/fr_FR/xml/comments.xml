@@ -15,9 +15,7 @@
   <description>
     <p>      Les commentaires sont utilisés pour décrire le code et améliorer la lisibilité.
       Ils sont ignorés lors de l&apos;exécution.</p>
-    <p>      Nelson prend en charge les commentaires sur une seule ligne en utilisant le caractère <b
-      >%</b>      et les commentaires de bloc en utilisant les délimiteurs <b>%{</b> et <b
-      >%}</b>.</p>
+    <p>      Nelson prend en charge les commentaires sur une seule ligne en utilisant le caractère <b>%</b>      et les commentaires de bloc en utilisant les délimiteurs <b>%{</b> et <b>%}</b>.</p>
     <p>      Les délimiteurs de commentaires de bloc doivent apparaître seuls sur leurs lignes respectives.
       Tout texte entre eux est traité comme un commentaire.</p>
     <p>      Les commentaires multilignes sont pris en charge par l&apos;interpréteur, l&apos;éditeur,

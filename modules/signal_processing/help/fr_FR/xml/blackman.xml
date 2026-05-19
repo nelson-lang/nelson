@@ -29,9 +29,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >c = blackman(m)</b> calcule les coefficients d&apos;une fenêtre de Blackman de longueur <b
-      >m</b>.</p>
+      <b>c = blackman(m)</b> calcule les coefficients d&apos;une fenêtre de Blackman de longueur <b>m</b>.</p>
   </description>
   <examples>
     <example_item>

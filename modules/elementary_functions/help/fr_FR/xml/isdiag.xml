@@ -21,8 +21,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >isdiag</b> renvoie un scalaire booléen si la matrice est diagonale.</p>
+      <b>isdiag</b> renvoie un scalaire booléen si la matrice est diagonale.</p>
   </description>
   <used_function />
   <bibliography />

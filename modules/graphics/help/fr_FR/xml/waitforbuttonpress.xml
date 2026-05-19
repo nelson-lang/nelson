@@ -17,8 +17,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >w = waitforbuttonpress()</b> met en pause l&apos;exécution du code jusqu&apos;à ce que l&apos;utilisateur interagisse avec la figure actuelle en cliquant sur un bouton de la souris ou en appuyant sur une touche.          </p>
+      <b>w = waitforbuttonpress()</b> met en pause l&apos;exécution du code jusqu&apos;à ce que l&apos;utilisateur interagisse avec la figure actuelle en cliquant sur un bouton de la souris ou en appuyant sur une touche.          </p>
   </description>
   <used_function />
   <bibliography />

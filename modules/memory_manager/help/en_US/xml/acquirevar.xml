@@ -28,8 +28,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >acquirevar</b> search a symbol in a specific scope and copy the value in current scope.</p>
+      <b>acquirevar</b> search a symbol in a specific scope and copy the value in current scope.</p>
   </description>
   <used_function />
   <bibliography />

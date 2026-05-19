@@ -32,12 +32,10 @@
     <p>
       <b>jsonencode</b> convertit une variable Nelson en texte JSON.</p>
     <p>
-      <b
-      >jsonencode</b> ne supporte pas les nombres complexes, les tableaux creux (sparse), les handles de fonction et d&apos;autres handles.</p>
+      <b>jsonencode</b> ne supporte pas les nombres complexes, les tableaux creux (sparse), les handles de fonction et d&apos;autres handles.</p>
     <p>
       <b>jsonencode</b> peut être surchargé pour gérer vos propres types.</p>
-    <p>Par défaut, <b
-      >jsonencode</b> convertit les valeurs Inf en la chaîne &quot;Inf&quot; et les valeurs NaN en &apos;null&apos;.</p>
+    <p>Par défaut, <b>jsonencode</b> convertit les valeurs Inf en la chaîne &quot;Inf&quot; et les valeurs NaN en &apos;null&apos;.</p>
     <p
     >Attention : la forme d&apos;une matrice et le type de données ne sont pas toujours préservés.</p>
   </description>

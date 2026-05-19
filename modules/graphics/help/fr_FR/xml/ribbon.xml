@@ -38,14 +38,11 @@
   </param_output>
   <description>
     <p>
-      <b
-      >ribbon(Z)</b> trace un graphique en ruban 3D basé sur la matrice Z, avec les valeurs de Y définissant l&apos;axe des ordonnées du graphique.          </p>
+      <b>ribbon(Z)</b> trace un graphique en ruban 3D basé sur la matrice Z, avec les valeurs de Y définissant l&apos;axe des ordonnées du graphique.          </p>
     <p>
-      <b
-      >ribbon(Y, Z)</b> trace un graphique en ruban 3D basé sur la matrice Y, avec les valeurs de Z définissant l&apos;axe des z du graphique.</p>
+      <b>ribbon(Y, Z)</b> trace un graphique en ruban 3D basé sur la matrice Y, avec les valeurs de Z définissant l&apos;axe des z du graphique.</p>
     <p>
-      <b
-      >s = ribbon(...)</b> retourne un vecteur d&apos;objets surface.          </p>
+      <b>s = ribbon(...)</b> retourne un vecteur d&apos;objets surface.          </p>
     <p>Remarque : Y et Z doivent avoir la même taille.</p>
   </description>
   <used_function />

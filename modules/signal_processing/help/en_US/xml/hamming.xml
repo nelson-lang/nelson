@@ -28,9 +28,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >c = hamming(m)</b> computes coefficients of a Hamming window of length<b
-      >m</b>.</p>
+      <b>c = hamming(m)</b> computes coefficients of a Hamming window of length<b>m</b>.</p>
   </description>
   <examples>
     <example_item>

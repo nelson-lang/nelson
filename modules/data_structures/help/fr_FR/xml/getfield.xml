@@ -27,8 +27,7 @@
   </param_output>
   <description>
     <p>
-      <b>value = getfield(st, field)</b> renvoie la valeur du champ nommé <b
-      >field</b> d&apos;une structure.</p>
+      <b>value = getfield(st, field)</b> renvoie la valeur du champ nommé <b>field</b> d&apos;une structure.</p>
   </description>
   <used_function />
   <bibliography />

@@ -33,8 +33,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >diag</b> returns diagonal elements of matrix or create diagonal matrix.</p>
+      <b>diag</b> returns diagonal elements of matrix or create diagonal matrix.</p>
   </description>
   <used_function />
   <bibliography />

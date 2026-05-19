@@ -24,10 +24,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>Utilisez<b
-      >jlenv</b> pour modifier la version par défaut ou le mode d&apos;exécution de l&apos;interpréteur Julia, en veillant à ce que ces ajustements persistent entre les différentes sessions Nelson.</p>
-    <p>La valeur définie par<b
-      >jlenv</b> est persistante entre les sessions Nelson.</p>
+    <p>Utilisez<b>jlenv</b> pour modifier la version par défaut ou le mode d&apos;exécution de l&apos;interpréteur Julia, en veillant à ce que ces ajustements persistent entre les différentes sessions Nelson.</p>
+    <p>La valeur définie par<b>jlenv</b> est persistante entre les sessions Nelson.</p>
     <p />
     <p>Properties:</p>
     <p>
@@ -39,12 +37,10 @@
     <p>
       <b>Home</b>: string: Home folder</p>
     <p>
-      <b
-      >Status</b>: Process status: &quot;NotLoaded&quot; (default), &quot;Loaded&quot;, &quot;Terminated&quot;
+      <b>Status</b>: Process status: &quot;NotLoaded&quot; (default), &quot;Loaded&quot;, &quot;Terminated&quot;
     </p>
     <p>
-      <b
-      >ExecutionMode</b>: Execution mode: &quot;InProcess&quot; (default) or &quot;OutOfProcess&quot;
+      <b>ExecutionMode</b>: Execution mode: &quot;InProcess&quot; (default) or &quot;OutOfProcess&quot;
     </p>
     <p />
     <p
@@ -78,8 +74,7 @@
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Définir le chemin de l&apos;exécutable Julia</example_item_description>
+      <example_item_description>Définir le chemin de l&apos;exécutable Julia</example_item_description>
       <example_item_data
         runnable="false"
       ><![CDATA[jlenv('Version', ''C:\WindowsTools\Julia-1.11.6\bin\julia.exe'')]]></example_item_data>

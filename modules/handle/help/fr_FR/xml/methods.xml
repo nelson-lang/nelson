@@ -21,8 +21,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <b
-    >methods</b> renvoie un tableau de chaînes contenant les noms des méthodes.</description>
+    <b>methods</b> renvoie un tableau de chaînes contenant les noms des méthodes.</description>
   <used_function />
   <bibliography />
   <see_also>

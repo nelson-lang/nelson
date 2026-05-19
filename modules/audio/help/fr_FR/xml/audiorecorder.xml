@@ -40,8 +40,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >audiorecorder</b> crée un objet audiorecorder pour enregistrer de l&apos;audio à partir d&apos;un périphérique d&apos;entrée tel qu&apos;un microphone.</p>
+      <b>audiorecorder</b> crée un objet audiorecorder pour enregistrer de l&apos;audio à partir d&apos;un périphérique d&apos;entrée tel qu&apos;un microphone.</p>
     <p
     >L&apos;objet audiorecorder fournit des propriétés et des méthodes pour contrôler l&apos;enregistrement audio, y compris la mise en pause, la reprise et la définition de rappels.</p>
     <p>
@@ -49,14 +48,11 @@
     </p>
     <ul>
       <li>
-        <b
-        >recorder = audiorecorder()</b> crée un objet audiorecorder avec les propriétés par défaut : SampleRate = 8000, BitsPerSample = 8, NumChannels = 1.</li>
+        <b>recorder = audiorecorder()</b> crée un objet audiorecorder avec les propriétés par défaut : SampleRate = 8000, BitsPerSample = 8, NumChannels = 1.</li>
       <li>
-        <b
-        >recorder = audiorecorder(Fs, nBits, nChannels)</b> définit la fréquence d&apos;échantillonnage, le nombre de bits par échantillon et le nombre de canaux.</li>
+        <b>recorder = audiorecorder(Fs, nBits, nChannels)</b> définit la fréquence d&apos;échantillonnage, le nombre de bits par échantillon et le nombre de canaux.</li>
       <li>
-        <b
-        >recorder = audiorecorder(Fs, nBits, nChannels, ID)</b> définit le périphérique d&apos;entrée audio à l&apos;identifiant spécifié.</li>
+        <b>recorder = audiorecorder(Fs, nBits, nChannels, ID)</b> définit le périphérique d&apos;entrée audio à l&apos;identifiant spécifié.</li>
     </ul>
     <p>
       <b>Propriétés de audiorecorder :</b>
@@ -147,8 +143,7 @@
     </p>
     <ul>
       <li>
-        <b
-        >getaudiodata</b> - Stocker le signal audio enregistré dans un tableau numérique</li>
+        <b>getaudiodata</b> - Stocker le signal audio enregistré dans un tableau numérique</li>
       <li>
         <b>getplayer</b> - Créer un objet audioplayer associé</li>
       <li>
@@ -160,11 +155,9 @@
       <li>
         <b>record</b> - Enregistrer l&apos;audio dans l&apos;objet audiorecorder</li>
       <li>
-        <b
-        >recordblocking</b> - Enregistrer l&apos;audio et bloquer jusqu&apos;à la fin</li>
+        <b>recordblocking</b> - Enregistrer l&apos;audio et bloquer jusqu&apos;à la fin</li>
       <li>
-        <b
-        >resume</b> - Reprendre l&apos;enregistrement à partir de l&apos;état en pause</li>
+        <b>resume</b> - Reprendre l&apos;enregistrement à partir de l&apos;état en pause</li>
       <li>
         <b>stop</b> - Arrêter l&apos;enregistrement</li>
     </ul>
@@ -174,8 +167,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Enregistrer l&apos;audio à partir du périphérique d&apos;entrée</example_item_description>
+      <example_item_description>Enregistrer l&apos;audio à partir du périphérique d&apos;entrée</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[

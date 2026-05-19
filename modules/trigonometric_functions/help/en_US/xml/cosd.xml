@@ -22,8 +22,7 @@
   </param_output>
   <description>
     <p>
-      <b>cosd</b> computes the cosine in degree for each element of <b
-      >x</b>.</p>
+      <b>cosd</b> computes the cosine in degree for each element of <b>x</b>.</p>
   </description>
   <used_function />
   <bibliography />

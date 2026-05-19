@@ -30,8 +30,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >R = horzcat(M1, M2, ... , MN)</b> returns the horizontal concatenation of M1, M2, ... , MN along the dimension 2.</p>
+      <b>R = horzcat(M1, M2, ... , MN)</b> returns the horizontal concatenation of M1, M2, ... , MN along the dimension 2.</p>
   </description>
   <used_function />
   <bibliography />

@@ -24,8 +24,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >isStringScalar</b> checks if input is string array with one element.</p>
+      <b>isStringScalar</b> checks if input is string array with one element.</p>
   </description>
   <used_function />
   <bibliography />

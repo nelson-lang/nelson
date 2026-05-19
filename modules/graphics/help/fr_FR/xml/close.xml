@@ -42,8 +42,7 @@
     <p>
       <b>close(ID)</b> ferme la figure spécifiée par l&apos;identifiant.</p>
     <p>
-      <b
-      >close(GO)</b> ferme la figure spécifiée par l&apos;objet graphique de la figure.</p>
+      <b>close(GO)</b> ferme la figure spécifiée par l&apos;objet graphique de la figure.</p>
     <p>
       <b>close(&apos;all&apos;)</b> ferme toutes les figures.</p>
   </description>

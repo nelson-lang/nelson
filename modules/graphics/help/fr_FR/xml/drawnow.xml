@@ -10,8 +10,7 @@
   </syntax>
   <description>
     <p>
-      <b
-      >drawnow</b> vide la file d&apos;attente des événements et met à jour la fenêtre de la figure.</p>
+      <b>drawnow</b> vide la file d&apos;attente des événements et met à jour la fenêtre de la figure.</p>
   </description>
   <used_function />
   <bibliography />

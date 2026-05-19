@@ -17,8 +17,7 @@
   <description>
     <p>
       <b>ca = gca()</b> retourne l&apos;objet axes graphique courant.</p>
-    <p>Si aucun axes n&apos;existe, <b
-      >gca()</b> crée un axes et retourne son objet graphique.</p>
+    <p>Si aucun axes n&apos;existe, <b>gca()</b> crée un axes et retourne son objet graphique.</p>
   </description>
   <used_function />
   <bibliography />

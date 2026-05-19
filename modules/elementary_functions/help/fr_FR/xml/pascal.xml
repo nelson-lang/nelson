@@ -35,8 +35,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >pascal</b> génère une matrice du triangle de Pascal de taille N x N.</p>
+      <b>pascal</b> génère une matrice du triangle de Pascal de taille N x N.</p>
   </description>
   <used_function />
   <bibliography />

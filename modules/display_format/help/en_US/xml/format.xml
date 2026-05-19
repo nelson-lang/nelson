@@ -25,8 +25,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >format(new_style)</b> changes the display format and number printing of the current session.</p>
+      <b>format(new_style)</b> changes the display format and number printing of the current session.</p>
     <p>
       <b>format(&apos;default&apos;)</b> will reset to default format (short, loose).</p>
     <p />

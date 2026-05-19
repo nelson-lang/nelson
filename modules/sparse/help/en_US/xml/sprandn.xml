@@ -31,27 +31,23 @@
   </param_output>
   <description>
     <p>
-      <b
-      >R = sprandn(S)</b> creates a sparse matrix that has the same sparsity pattern as the matrix S, but with normally distributed random entries.</p>
+      <b>R = sprandn(S)</b> creates a sparse matrix that has the same sparsity pattern as the matrix S, but with normally distributed random entries.</p>
     <p>
-      <b
-      >R = sprandn(m,n,density)</b> creates a random m-by-n sparse matrix with approximately density*m*n normally distributed nonzero entries for density in the interval [0,1].</p>
+      <b>R = sprandn(m,n,density)</b> creates a random m-by-n sparse matrix with approximately density*m*n normally distributed nonzero entries for density in the interval [0,1].</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >sprandn with matrix pattern</example_item_description>
+      <example_item_description>sprandn with matrix pattern</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[S = [1 0 0; 0 1 0; 0 0 1]; R = sprandn(S)]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >sprandn with size and density</example_item_description>
+      <example_item_description>sprandn with size and density</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[R = sprandn(5, 5, 0.2)]]></example_item_data>

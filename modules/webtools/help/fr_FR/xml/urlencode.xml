@@ -22,8 +22,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >urlencode</b> remplace les caractères spéciaux dans une URL par leurs séquences d&apos;échappement.</p>
+      <b>urlencode</b> remplace les caractères spéciaux dans une URL par leurs séquences d&apos;échappement.</p>
     <p>Par exemple, les espaces doivent être remplacés par &apos;%20&apos;.</p>
   </description>
   <used_function />

@@ -30,8 +30,7 @@
       <b>execstr(str, &apos;nocatch&apos;)</b> is equivalent to <b>execstr(str)</b>
     </p>
     <p>
-      <b>execstr</b> can be used as alternative to <b
-      >try ... catch ... end</b> block.</p>
+      <b>execstr</b> can be used as alternative to <b>try ... catch ... end</b> block.</p>
   </description>
   <used_function />
   <bibliography />
@@ -45,24 +44,21 @@
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >This example will fail and returns an error message.</example_item_description>
+      <example_item_description>This example will fail and returns an error message.</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[execstr('b = yyyy')]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >This example will fail and returns an error message.</example_item_description>
+      <example_item_description>This example will fail and returns an error message.</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[execstr('b = yyyy', 'nocatch')]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >This example will not fail and return false.</example_item_description>
+      <example_item_description>This example will not fail and return false.</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[r = execstr('b = yyyy', 'errcatch')]]></example_item_data>

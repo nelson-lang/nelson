@@ -22,8 +22,7 @@
   </param_output>
   <description>
     <p>
-      <b>tan</b> calcule la tangente en radians pour chaque élément de <b
-      >x</b>.</p>
+      <b>tan</b> calcule la tangente en radians pour chaque élément de <b>x</b>.</p>
     <p>La fonction tangente est définie comme :</p>
     <latex
     >\tan(x) = \frac{\sin(x)}{\cos(x)} = \frac{e^{ix} - e^{-ix}}{i(e^{ix} + e^{-ix})}</latex>

@@ -27,9 +27,7 @@
   </param_output>
   <description>
     <p>
-      <b>tf = isbanded(A, lower, upper)</b> returns<b>true</b> if matrix <b
-      >A</b> is within the specified lower bandwidth,<b
-      >lower</b>, and upper bandwidth, <b>upper</b>.</p>
+      <b>tf = isbanded(A, lower, upper)</b> returns<b>true</b> if matrix <b>A</b> is within the specified lower bandwidth,<b>lower</b>, and upper bandwidth, <b>upper</b>.</p>
   </description>
   <used_function />
   <bibliography />

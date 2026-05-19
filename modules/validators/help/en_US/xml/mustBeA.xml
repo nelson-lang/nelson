@@ -29,8 +29,7 @@
   </param_input>
   <description>
     <p>
-      <b
-      >mustBeA</b> checks that input value comes from one of specified classes.</p>
+      <b>mustBeA</b> checks that input value comes from one of specified classes.</p>
   </description>
   <used_function />
   <bibliography />

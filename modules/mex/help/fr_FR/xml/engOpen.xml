@@ -24,8 +24,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >engOpen</b> démarre un processus Nelson afin d&apos;utiliser Nelson comme moteur de calcul.</p>
+      <b>engOpen</b> démarre un processus Nelson afin d&apos;utiliser Nelson comme moteur de calcul.</p>
     <p
     >Le chemin des bibliothèques doit contenir le chemin de Nelson pour trouver les bibliothèques de Nelson à l&apos;exécution.</p>
     <p

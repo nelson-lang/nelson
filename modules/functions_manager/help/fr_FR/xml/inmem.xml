@@ -32,8 +32,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >inmem</b> retourne un tableau de cellules des noms des fonctions et mex actuellement chargés.</p>
+      <b>inmem</b> retourne un tableau de cellules des noms des fonctions et mex actuellement chargés.</p>
   </description>
   <used_function />
   <bibliography />

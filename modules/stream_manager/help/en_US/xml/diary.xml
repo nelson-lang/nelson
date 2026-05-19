@@ -38,30 +38,23 @@
   </param_output>
   <description>
     <p>
-      <b
-      >diary</b> creates a log of keyboard input and the resulting text output.</p>
+      <b>diary</b> creates a log of keyboard input and the resulting text output.</p>
     <p>
       <b>diary</b> toggles diary mode on and off.</p>
     <p>
       <b>diary(&apos;off&apos;)</b> stops recording the session in the diary file.</p>
     <p>
-      <b
-      >diary(&apos;on&apos;)</b> starts recording a session in a file called &apos;diary&apos; in the current working directory.</p>
+      <b>diary(&apos;on&apos;)</b> starts recording a session in a file called &apos;diary&apos; in the current working directory.</p>
     <p>
-      <b
-      >diary(&apos;set&apos;, &apos;Diary&apos;, onoff)</b> allows to start or stop the diary.</p>
+      <b>diary(&apos;set&apos;, &apos;Diary&apos;, onoff)</b> allows to start or stop the diary.</p>
     <p>
-      <b
-      >onoff = diary(&apos;get&apos;, &apos;Diary&apos;)</b> returns the state &apos;on&apos; or &apos;off&apos; of the diary.</p>
+      <b>onoff = diary(&apos;get&apos;, &apos;Diary&apos;)</b> returns the state &apos;on&apos; or &apos;off&apos; of the diary.</p>
     <p>
-      <b
-      >diary(filename)</b> records the session in the file named filename.</p>
+      <b>diary(filename)</b> records the session in the file named filename.</p>
     <p>
-      <b
-      >filename = diary(&apos;get&apos;, &apos;DiaryFile&apos;)</b> returns filename used as diary.</p>
+      <b>filename = diary(&apos;get&apos;, &apos;DiaryFile&apos;)</b> returns filename used as diary.</p>
     <p>
-      <b
-      >diary(&apos;set&apos;, &apos;DiaryFile&apos;, filename))</b> set the filename for the diary.</p>
+      <b>diary(&apos;set&apos;, &apos;DiaryFile&apos;, filename))</b> set the filename for the diary.</p>
   </description>
   <used_function />
   <bibliography />

@@ -23,12 +23,9 @@
   </param_output>
   <description>
     <p>
-      <b
-      >loadcompilerconf</b> returns true if compiler was previously configured with<b
-      >configuremsvc</b> or <b>configuremingw</b>.</p>
+      <b>loadcompilerconf</b> returns true if compiler was previously configured with<b>configuremsvc</b> or <b>configuremingw</b>.</p>
     <p>
-      <b
-      >loadcompilerconf</b> returns always false on others platforms and &apos;unix&apos; as compiler.</p>
+      <b>loadcompilerconf</b> returns always false on others platforms and &apos;unix&apos; as compiler.</p>
     <p>
       <b>loadcompilerconf</b> is called at Nelson&apos;s startup.</p>
   </description>

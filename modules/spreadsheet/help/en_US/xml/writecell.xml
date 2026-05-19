@@ -144,8 +144,7 @@
     </table>
     <p />
     <p>
-      <b
-      >QuoteStrings</b>: Controls text quoting behavior (Only applicable for delimited text files).</p>
+      <b>QuoteStrings</b>: Controls text quoting behavior (Only applicable for delimited text files).</p>
     <p>
       <b>
         &apos;QuoteStrings&apos;, option</b>
@@ -153,8 +152,7 @@
     <p>with <b>options</b>
     </p>
     <p>
-      <b
-      >
+      <b>
         &apos;minimal&apos;
       </b> (default) Quotes only text containing delimiters, line endings, or quotes.</p>
     <p>

@@ -17,8 +17,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >getavailablelanguages</b> renvoie la liste des langues actuellement prises en charge dans Nelson.</p>
+      <b>getavailablelanguages</b> renvoie la liste des langues actuellement prises en charge dans Nelson.</p>
   </description>
   <used_function />
   <bibliography />

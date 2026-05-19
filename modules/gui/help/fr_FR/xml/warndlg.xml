@@ -33,8 +33,7 @@
     <p>
       <b>warndlg</b> crée une boîte de dialogue d&apos;avertissement.</p>
     <p>
-      <b
-      >h = warndlg(text_warning, title, &apos;on&apos;)</b> spécifie si une boîte de dialogue existante portant le même nom doit être remplacée.</p>
+      <b>h = warndlg(text_warning, title, &apos;on&apos;)</b> spécifie si une boîte de dialogue existante portant le même nom doit être remplacée.</p>
   </description>
   <used_function />
   <bibliography />

@@ -20,8 +20,7 @@
   </param_input>
   <description>
     <p>
-      <b
-      >xmlprettyprint</b> formate un fichier XML pour qu&apos;il soit lisible par un humain.</p>
+      <b>xmlprettyprint</b> formate un fichier XML pour qu&apos;il soit lisible par un humain.</p>
   </description>
   <used_function />
   <bibliography />

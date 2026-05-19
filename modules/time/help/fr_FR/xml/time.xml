@@ -24,8 +24,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >time</b> renvoie le temps courant en secondes ou en nanosecondes depuis l&apos;époque (epoch).</p>
+      <b>time</b> renvoie le temps courant en secondes ou en nanosecondes depuis l&apos;époque (epoch).</p>
     <p
     >L&apos;époque est référencée à 00:00:00 UTC (Temps Universel Coordonné) du 1er janvier 1970.</p>
   </description>

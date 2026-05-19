@@ -24,15 +24,11 @@
   </param_output>
   <description>
     <p>
-      <b
-      >getenv</b> retourne la valeur d&apos;une variable d&apos;environnement si elle existe.</p>
+      <b>getenv</b> retourne la valeur d&apos;une variable d&apos;environnement si elle existe.</p>
     <p>Si la variable d&apos;environnement n&apos;existe pas, elle renverra &apos;
       &apos;.</p>
-    <p>Si<b
-      >env_name</b> est une cellule non scalaire de vecteurs de caractères ou un tableau de chaînes, alors<b
-      >s</b> a les mêmes dimensions et le même type que <b>env_name</b>.</p>
-    <p>Si <b>env_name</b> est une chaîne scalaire, alors<b
-      >s</b> est un vecteur de caractères.</p>
+    <p>Si<b>env_name</b> est une cellule non scalaire de vecteurs de caractères ou un tableau de chaînes, alors<b>s</b> a les mêmes dimensions et le même type que <b>env_name</b>.</p>
+    <p>Si <b>env_name</b> est une chaîne scalaire, alors<b>s</b> est un vecteur de caractères.</p>
   </description>
   <used_function />
   <bibliography />

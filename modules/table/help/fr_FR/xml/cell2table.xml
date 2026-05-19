@@ -22,19 +22,13 @@
   </param_output>
   <description>
     <p>
-      <b
-      >T = cell2table(C)</b> convertit le contenu d&apos;un tableau de cellules m-by-n <b
-      >C</b> en une table m-by-n.</p>
+      <b>T = cell2table(C)</b> convertit le contenu d&apos;un tableau de cellules m-by-n <b>C</b> en une table m-by-n.</p>
     <p
     >Chaque colonne du tableau de cellules d&apos;entrée devient les données d&apos;une variable correspondante dans la table de sortie.</p>
-    <p>Pour générer des noms de variables dans la table de sortie, <b
-      >cell2table</b> ajoute les numéros de colonne au nom du tableau d&apos;entrée.</p>
-    <p>Si le tableau d&apos;entrée n&apos;a pas de nom,<b
-      >cell2table</b> attribue des noms de variables par défaut au format<b
-      >
+    <p>Pour générer des noms de variables dans la table de sortie, <b>cell2table</b> ajoute les numéros de colonne au nom du tableau d&apos;entrée.</p>
+    <p>Si le tableau d&apos;entrée n&apos;a pas de nom,<b>cell2table</b> attribue des noms de variables par défaut au format<b>
         &quot;Var1&quot;, &quot;Var2&quot;, ... , &quot;VarN&quot;
-      </b>, où<b
-      >N</b> est le nombre de colonnes dans le tableau de cellules.</p>
+      </b>, où<b>N</b> est le nombre de colonnes dans le tableau de cellules.</p>
   </description>
   <used_function />
   <bibliography />

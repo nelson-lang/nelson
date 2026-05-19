@@ -27,11 +27,8 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>Si <b>A</b> est une matrice carrée, <b
-      >p = poly(A)</b> calcule un vecteur ligne de n+1 éléments correspondant aux coefficients du polynôme caractéristique.</p>
-    <p>Si <b>r</b> est un vecteur, <b
-      >p = poly(r)</b> calcule un vecteur ligne contenant les coefficients du polynôme dont les racines sont les éléments de <b
-      >r</b>.</p>
+    <p>Si <b>A</b> est une matrice carrée, <b>p = poly(A)</b> calcule un vecteur ligne de n+1 éléments correspondant aux coefficients du polynôme caractéristique.</p>
+    <p>Si <b>r</b> est un vecteur, <b>p = poly(r)</b> calcule un vecteur ligne contenant les coefficients du polynôme dont les racines sont les éléments de <b>r</b>.</p>
   </description>
   <examples>
     <example_item>

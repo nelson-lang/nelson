@@ -53,12 +53,10 @@
     <p>
       <b>plot(X, Y)</b> plots line defined by <b>X</b> versus<b>Y</b> pair.</p>
     <p>
-      <b
-      >go = plot(...)</b> returns a column vector of line graphics objects.</p>
+      <b>go = plot(...)</b> returns a column vector of line graphics objects.</p>
     <p />
     <p>
-      <b
-      >LineSpec</b> is a string used to change the characteristics of the line and is composed of three optional parts in any order:</p>
+      <b>LineSpec</b> is a string used to change the characteristics of the line and is composed of three optional parts in any order:</p>
     <p />
     <p>The SymbolSpec specifies the symbol to be drawn at each data point:</p>
     <table>
@@ -272,8 +270,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Default abscissae using indices:</example_item_description>
+      <example_item_description>Default abscissae using indices:</example_item_description>
       <example_item_data
         runnable="adv-cli"
       ><![CDATA[f = figure()
@@ -286,8 +283,7 @@ plot(sin(0:0.1:2*pi))]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Using explicit abscissae:</example_item_description>
+      <example_item_description>Using explicit abscissae:</example_item_description>
       <example_item_data
       ><![CDATA[f = figure()
 x = [0:0.1:2*pi]';
@@ -300,8 +296,7 @@ plot(x, sin(x))]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Multiple curves with shared abscissae:</example_item_description>
+      <example_item_description>Multiple curves with shared abscissae:</example_item_description>
       <example_item_data
       ><![CDATA[f = figure()
 x = [0:0.1:2*pi]';
@@ -314,8 +309,7 @@ plot(x, [cos(x), cos(2*x), cos(3*x)])]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Color and Size of Markers:</example_item_description>
+      <example_item_description>Color and Size of Markers:</example_item_description>
       <example_item_data
       ><![CDATA[f = figure();
 x = -pi:pi/10:pi;
@@ -329,8 +323,7 @@ plot(x ,y, '--rs', LineWidth=2, MarkerEdgeColor='k', MarkerFaceColor='g', Marker
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Adding Title and Axis Labels:</example_item_description>
+      <example_item_description>Adding Title and Axis Labels:</example_item_description>
       <example_item_data
       ><![CDATA[f = figure();
 x = linspace(0, 10, 150);

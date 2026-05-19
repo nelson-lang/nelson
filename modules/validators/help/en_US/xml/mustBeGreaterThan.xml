@@ -29,8 +29,7 @@
   </param_input>
   <description>
     <p>
-      <b
-      >mustBeGreaterThan</b> checks that value is greater than another value or issue error.</p>
+      <b>mustBeGreaterThan</b> checks that value is greater than another value or issue error.</p>
   </description>
   <used_function />
   <bibliography />

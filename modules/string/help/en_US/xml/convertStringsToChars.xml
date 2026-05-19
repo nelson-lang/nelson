@@ -35,8 +35,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >convertStringsToChars</b> converts string arrays to character arrays.</p>
+      <b>convertStringsToChars</b> converts string arrays to character arrays.</p>
   </description>
   <used_function />
   <bibliography />

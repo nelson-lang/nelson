@@ -27,8 +27,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <b
-    >r = isprop(h, propertyname)</b> retourne vrai si le nom spécifié est une propriété de l&apos;objet COM h. Sinon, il retourne faux.</description>
+    <b>r = isprop(h, propertyname)</b> retourne vrai si le nom spécifié est une propriété de l&apos;objet COM h. Sinon, il retourne faux.</description>
   <used_function />
   <bibliography />
   <examples>

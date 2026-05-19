@@ -27,8 +27,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >rank(A)</b> retourne le nombre de colonnes linéairement indépendantes d&apos;une matrice (rang de la matrice).</p>
+      <b>rank(A)</b> retourne le nombre de colonnes linéairement indépendantes d&apos;une matrice (rang de la matrice).</p>
   </description>
   <used_function />
   <bibliography />

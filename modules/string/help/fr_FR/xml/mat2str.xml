@@ -30,8 +30,7 @@
     <p>
       <b>mat2str</b> convertit une matrice en chaîne.</p>
     <p
-    >Cette chaîne peut être utilisée pour reconstruire la matrice d&apos;origine avec la fonction <b
-      >execstr</b>.</p>
+    >Cette chaîne peut être utilisée pour reconstruire la matrice d&apos;origine avec la fonction <b>execstr</b>.</p>
   </description>
   <used_function />
   <bibliography />

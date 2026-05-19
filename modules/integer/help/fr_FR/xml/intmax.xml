@@ -23,8 +23,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >imax = intmax(classname)</b> le plus grand entier pouvant être représenté pour un type entier.</p>
+      <b>imax = intmax(classname)</b> le plus grand entier pouvant être représenté pour un type entier.</p>
     <p>Les valeurs prises en charge pour la chaîne <b>classname</b> sont :</p>
     <p>
       &apos;int8&apos;

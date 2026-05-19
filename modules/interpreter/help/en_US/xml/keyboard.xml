@@ -10,8 +10,7 @@
   </syntax>
   <description>
     <p>
-      <b
-      >keyboard</b> stops script execution and enter in debug mode. prompt is modified and displays debug level.</p>
+      <b>keyboard</b> stops script execution and enter in debug mode. prompt is modified and displays debug level.</p>
   </description>
   <used_function />
   <bibliography />

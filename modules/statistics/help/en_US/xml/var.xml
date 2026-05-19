@@ -21,8 +21,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >V = var(M)</b> returns the variance of the elements of M along the first array dimension whose size does not equal 1.</p>
+      <b>V = var(M)</b> returns the variance of the elements of M along the first array dimension whose size does not equal 1.</p>
   </description>
   <used_function />
   <bibliography />

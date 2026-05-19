@@ -23,8 +23,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >T = struct2table(S)</b> transforme un tableau de structures en une table, où chaque champ de la structure d&apos;entrée est représenté comme une variable dans la table résultante.</p>
+      <b>T = struct2table(S)</b> transforme un tableau de structures en une table, où chaque champ de la structure d&apos;entrée est représenté comme une variable dans la table résultante.</p>
     <p
     >Si l&apos;entrée est une structure scalaire contenant 𝑛 champs, chacun avec 𝑚 lignes, la sortie sera une table 𝑚×𝑛.</p>
     <p

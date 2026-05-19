@@ -24,8 +24,7 @@
   </param_input>
   <description>
     <p>
-      <b
-      >mustBeNumericOrLogical</b> vérifie que la valeur est numérique ou logique ou renvoie une erreur.</p>
+      <b>mustBeNumericOrLogical</b> vérifie que la valeur est numérique ou logique ou renvoie une erreur.</p>
   </description>
   <used_function />
   <bibliography />

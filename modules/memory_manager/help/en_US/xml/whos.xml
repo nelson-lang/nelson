@@ -40,8 +40,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >whos</b> displays current variable names in memory or in .nh5 or .mat file.</p>
+      <b>whos</b> displays current variable names in memory or in .nh5 or .mat file.</p>
   </description>
   <used_function />
   <bibliography />

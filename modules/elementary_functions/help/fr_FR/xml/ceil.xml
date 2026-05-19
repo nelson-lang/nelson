@@ -21,8 +21,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >ceil</b> renvoie une matrice d&apos;entiers ou complexes dont les éléments sont arrondis vers le haut.</p>
+      <b>ceil</b> renvoie une matrice d&apos;entiers ou complexes dont les éléments sont arrondis vers le haut.</p>
   </description>
   <used_function />
   <bibliography />

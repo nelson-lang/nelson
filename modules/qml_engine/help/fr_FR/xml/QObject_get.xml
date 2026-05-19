@@ -27,8 +27,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >R = get(h, property_name)</b> renvoie la valeur de la propriété demandée.</p>
+      <b>R = get(h, property_name)</b> renvoie la valeur de la propriété demandée.</p>
   </description>
   <used_function />
   <bibliography />

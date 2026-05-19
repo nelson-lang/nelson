@@ -16,8 +16,7 @@
   </param_input>
   <description>
     <p>
-      <b
-      >delete(h)</b> supprime de la mémoire les objets handle référencés par h.</p>
+      <b>delete(h)</b> supprime de la mémoire les objets handle référencés par h.</p>
     <p
     >Une fois supprimées, toutes les références aux objets contenus dans h deviennent invalides.</p>
     <p>Pour supprimer les variables handle, utilisez la fonction<link

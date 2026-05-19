@@ -24,8 +24,7 @@
   </param_output>
   <description>
     <p>
-      <b>isdir(dirname)</b> renvoie <b>true</b> si<b
-      >dirname</b> est un répertoire.</p>
+      <b>isdir(dirname)</b> renvoie <b>true</b> si<b>dirname</b> est un répertoire.</p>
     <p>
       <b>isdir</b> et <b>isfolder</b> sont équivalentes.</p>
   </description>

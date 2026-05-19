@@ -30,8 +30,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >jsondecode</b> converts JSON object field names to Nelson structure field names</p>
+      <b>jsondecode</b> converts JSON object field names to Nelson structure field names</p>
   </description>
   <used_function />
   <bibliography>http://www.rfc-editor.org/rfc/rfc7159.txt</bibliography>

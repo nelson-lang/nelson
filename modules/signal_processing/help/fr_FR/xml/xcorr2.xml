@@ -27,9 +27,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >xcorr2(A, B)</b> calcule la corrélation croisée entre deux matrices, <b
-      >A</b> et <b>B</b>, en deux dimensions, sans mise à l&apos;échelle.</p>
+      <b>xcorr2(A, B)</b> calcule la corrélation croisée entre deux matrices, <b>A</b> et <b>B</b>, en deux dimensions, sans mise à l&apos;échelle.</p>
   </description>
   <examples>
     <example_item>

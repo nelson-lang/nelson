@@ -59,9 +59,7 @@
   <description>
     <p>
       <b>fopen</b> ouvre un fichier dans Nelson.</p>
-    <p>Les fonctions <b>fprintf</b>, <b>fgetl</b>, <b>fgets</b>,<b
-      >fread</b> et<b
-      >fwrite</b> utilisent l&apos;encodage des caractères défini pour les opérations de lecture/écriture suivantes.</p>
+    <p>Les fonctions <b>fprintf</b>, <b>fgetl</b>, <b>fgets</b>,<b>fread</b> et<b>fwrite</b> utilisent l&apos;encodage des caractères défini pour les opérations de lecture/écriture suivantes.</p>
   </description>
   <used_function />
   <bibliography />
@@ -83,8 +81,7 @@ status = fclose(fd)
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >encodage des caractères</example_item_description>
+      <example_item_description>encodage des caractères</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[

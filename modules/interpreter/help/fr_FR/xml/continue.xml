@@ -8,11 +8,8 @@
     <syntax_item>continue</syntax_item>
   </syntax>
   <description>
-    <p>              L&apos;instruction<b
-      >continue</b> peut être utilisée à l&apos;intérieur d&apos;une boucle <b
-      >for</b> ou <b>while</b>.</p>
-    <p>L&apos;instruction <b
-      >continue</b> est utilisée pour transférer le contrôle à l&apos;itération suivante d&apos;une boucle.</p>
+    <p>              L&apos;instruction<b>continue</b> peut être utilisée à l&apos;intérieur d&apos;une boucle <b>for</b> ou <b>while</b>.</p>
+    <p>L&apos;instruction <b>continue</b> est utilisée pour transférer le contrôle à l&apos;itération suivante d&apos;une boucle.</p>
   </description>
   <used_function />
   <bibliography />

@@ -22,8 +22,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <b
-    >methods</b> retourne une cellule de chaînes avec les noms des méthodes.</description>
+    <b>methods</b> retourne une cellule de chaînes avec les noms des méthodes.</description>
   <used_function />
   <bibliography />
   <examples>

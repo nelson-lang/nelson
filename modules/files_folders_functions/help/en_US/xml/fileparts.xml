@@ -36,8 +36,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >[p ,f, e] = fileparts(fullpath)</b> splits in its three parts: path, filename, extension including the dot.</p>
+      <b>[p ,f, e] = fileparts(fullpath)</b> splits in its three parts: path, filename, extension including the dot.</p>
   </description>
   <used_function />
   <bibliography />

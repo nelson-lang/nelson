@@ -28,8 +28,7 @@
   </param_input>
   <description>
     <p>
-      <b
-      >mustBeVector</b> vérifie que la valeur est un vecteur ou renvoie une erreur.</p>
+      <b>mustBeVector</b> vérifie que la valeur est un vecteur ou renvoie une erreur.</p>
   </description>
   <used_function />
   <bibliography />

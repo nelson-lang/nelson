@@ -22,8 +22,7 @@
   </param_input>
   <description>
     <p>
-      <b>writetable(T)</b> écrit la table <b
-      >T</b> dans un fichier texte délimité par des virgules.</p>
+      <b>writetable(T)</b> écrit la table <b>T</b> dans un fichier texte délimité par des virgules.</p>
     <p
     >Le nom de fichier est dérivé du nom de la variable de la table dans l&apos;espace de travail, avec l&apos;extension<code
       >.txt</code>ajoutée.</p>
@@ -33,14 +32,11 @@
     <p>Formats de sortie pris en charge :</p>
     <ul>
       <li>
-        <b>Text files:</b> Each variable in<b
-        >T</b> becomes a column, and variable names serve as column headers in the first line.</li>
+        <b>Text files:</b> Each variable in<b>T</b> becomes a column, and variable names serve as column headers in the first line.</li>
       <li>
-        <b>Fichiers XML :</b> chaque variable de <b
-        >T</b> devient un nœud XML, les noms de variables servant de noms d&apos;éléments.</li>
+        <b>Fichiers XML :</b> chaque variable de <b>T</b> devient un nœud XML, les noms de variables servant de noms d&apos;éléments.</li>
     </ul>
-    <p>Pour préciser explicitement le nom du fichier, utilisez <b
-      >writetable(T, filename)</b>. Le format de fichier est déterminé par l&apos;extension :</p>
+    <p>Pour préciser explicitement le nom du fichier, utilisez <b>writetable(T, filename)</b>. Le format de fichier est déterminé par l&apos;extension :</p>
     <ul>
       <li>
         <b>.txt</b>, <b>.dat</b>,<b>.csv</b> : fichiers texte délimités.</li>
@@ -48,12 +44,10 @@
         <b>.xml</b> : fichiers XML.</li>
     </ul>
     <p>
-      <b>Additional options:</b> Use <b
-      >writetable(..., Name, Value)</b> for customization:</p>
+      <b>Additional options:</b> Use <b>writetable(..., Name, Value)</b> for customization:</p>
     <ul>
       <li>
-        <b
-        >WriteRowNames :</b> inclure les noms de ligne dans le fichier de sortie (par défaut :<code
+        <b>WriteRowNames :</b> inclure les noms de ligne dans le fichier de sortie (par défaut :<code
         >false</code>).</li>
       <li>
         <b>FileType :</b> spécifier le format de fichier (<code
@@ -63,8 +57,7 @@
           &apos;xml&apos;
         </code>).</li>
       <li>
-        <b
-        >WriteVariableNames :</b> inclure les noms de variables comme en-têtes de colonne dans les fichiers texte (par défaut :<code
+        <b>WriteVariableNames :</b> inclure les noms de variables comme en-têtes de colonne dans les fichiers texte (par défaut :<code
         >true</code>).</li>
       <li>
         <b>WriteMode :</b> spécifier le mode d&apos;écriture (<code
@@ -74,16 +67,14 @@
           &apos;append&apos;
         </code>).</li>
       <li>
-        <b
-        >Delimiter :</b> définir le délimiteur de champ pour les fichiers texte (<code
+        <b>Delimiter :</b> définir le délimiteur de champ pour les fichiers texte (<code
         >
           &apos;,&apos;
         </code>, <code>
           &apos;\t&apos;
         </code>, etc.).</li>
       <li>
-        <b
-        >QuoteStrings :</b> contrôler la façon dont le texte est cité dans les fichiers texte (<code
+        <b>QuoteStrings :</b> contrôler la façon dont le texte est cité dans les fichiers texte (<code
         >
           &apos;minimal&apos;
         </code>, <code>
@@ -92,20 +83,17 @@
           &apos;none&apos;
         </code>).</li>
       <li>
-        <b
-        >AttributeSuffix :</b> spécifier le suffixe d&apos;attribut pour les fichiers XML (par défaut :<code
+        <b>AttributeSuffix :</b> spécifier le suffixe d&apos;attribut pour les fichiers XML (par défaut :<code
         >
           &apos;Attribute&apos;
         </code>).</li>
       <li>
-        <b
-        >RowNodeName :</b> spécifier le nom du nœud de ligne XML (par défaut :<code
+        <b>RowNodeName :</b> spécifier le nom du nœud de ligne XML (par défaut :<code
         >
           &apos;row&apos;
         </code>).</li>
       <li>
-        <b
-        >TableNodeName :</b> spécifier le nom du nœud racine XML (par défaut :<code
+        <b>TableNodeName :</b> spécifier le nom du nœud racine XML (par défaut :<code
         >
           &apos;table&apos;
         </code>).</li>
@@ -114,8 +102,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Examples demonstrating various usages of <b
-        >writetable</b>.</example_item_description>
+      <example_item_description>Examples demonstrating various usages of <b>writetable</b>.</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[T = table([1; 2; 3], {'A'; 'B'; 'C'}, [10.5; 20.7; 30.2], 'VariableNames', {'ID', 'Name', 'Value'});

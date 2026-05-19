@@ -33,16 +33,14 @@
   </param_output>
   <description>
     <p>
-      <b
-      >B = subsasgn(A, S, B)</b> assigne une valeur à un élément d&apos;une cellule ou d&apos;une matrice.</p>
+      <b>B = subsasgn(A, S, B)</b> assigne une valeur à un élément d&apos;une cellule ou d&apos;une matrice.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Indexation par parenthèses</example_item_description>
+      <example_item_description>Indexation par parenthèses</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[R1 = {1, 'GoodBye', [1, 2;3, 4]};

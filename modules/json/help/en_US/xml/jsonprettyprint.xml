@@ -22,8 +22,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >jsonprettyprint</b> formats a JSON text string to be human readable.</p>
+      <b>jsonprettyprint</b> formats a JSON text string to be human readable.</p>
   </description>
   <used_function />
   <bibliography />

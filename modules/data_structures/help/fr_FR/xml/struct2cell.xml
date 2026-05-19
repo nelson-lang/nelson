@@ -22,8 +22,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >ce = struct2cell(st)</b> renvoie un nouveau tableau cellulaire à partir de la structure.</p>
+      <b>ce = struct2cell(st)</b> renvoie un nouveau tableau cellulaire à partir de la structure.</p>
   </description>
   <used_function />
   <bibliography />

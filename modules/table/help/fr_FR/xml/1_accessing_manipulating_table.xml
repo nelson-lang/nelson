@@ -8,10 +8,8 @@
       <b>Insertion dans une table</b>
     </p>
     <p
-    >Pour insérer de nouvelles données dans une table, utilisez la notation par point ou les accolades<b
-      >{}</b> pour une insertion élément par élément. Vous pouvez ajouter de nouvelles lignes, colonnes ou mettre à jour des données existantes.</p>
-    <p>voir exemples : <b>Ajout d&apos;une nouvelle colonne</b> et <b
-      >Mise à jour d&apos;un élément existant</b>
+    >Pour insérer de nouvelles données dans une table, utilisez la notation par point ou les accolades<b>{}</b> pour une insertion élément par élément. Vous pouvez ajouter de nouvelles lignes, colonnes ou mettre à jour des données existantes.</p>
+    <p>voir exemples : <b>Ajout d&apos;une nouvelle colonne</b> et <b>Mise à jour d&apos;un élément existant</b>
     </p>
     <p />
     <p>
@@ -19,8 +17,7 @@
     </p>
     <p
     >Vous pouvez extraire des lignes, colonnes ou éléments individuels en utilisant l&apos;indexation ou en référant les noms de variables.</p>
-    <p>voir exemples : <b>Extraction de colonnes spécifiques</b> et <b
-      >Extraction de lignes spécifiques</b>
+    <p>voir exemples : <b>Extraction de colonnes spécifiques</b> et <b>Extraction de lignes spécifiques</b>
     </p>
     <p />
     <p>
@@ -28,8 +25,7 @@
     </p>
     <p
     >Dans Nelson, vous pouvez supprimer des lignes, colonnes ou éléments spécifiques d&apos;une table en utilisant l&apos;indexation ou la fonction removevars. Les lignes ou colonnes peuvent être supprimées en définissant les indices sur des crochets vides [].</p>
-    <p>voir exemples : <b>Suppression de lignes</b> et <b
-      >Suppression de colonnes</b>
+    <p>voir exemples : <b>Suppression de lignes</b> et <b>Suppression de colonnes</b>
     </p>
     <p />
     <p>
@@ -52,8 +48,7 @@
       <b>Conversion des types de variables</b>
     </p>
     <p
-    >Vous pouvez convertir les variables d&apos;une table en utilisant la propriété<b
-      >VariableTypes</b>.</p>
+    >Vous pouvez convertir les variables d&apos;une table en utilisant la propriété<b>VariableTypes</b>.</p>
     <p>voir exemples : exemple <b>VariableTypes</b>
     </p>
     <p />
@@ -77,8 +72,7 @@ T.Score = [10; 20]
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Updating an Existing Element</example_item_description>
+      <example_item_description>Updating an Existing Element</example_item_description>
       <example_item_data
       ><![CDATA[T = table([1; 2], {'A'; 'B'}, 'VariableNames', {'ID', 'Label'})
 % Insert a new column 'Score'
@@ -89,8 +83,7 @@ T{1, 'Score'} = 15
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Extracting Specific Columns</example_item_description>
+      <example_item_description>Extracting Specific Columns</example_item_description>
       <example_item_data
       ><![CDATA[T = table([1; 2], {'A'; 'B'}, 'VariableNames', {'ID', 'Label'})
 % Insert a new column 'Score'
@@ -103,8 +96,7 @@ ID_column = T.ID
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Extracting Specific Rows</example_item_description>
+      <example_item_description>Extracting Specific Rows</example_item_description>
       <example_item_data
       ><![CDATA[T = table([1; 2], {'A'; 'B'}, 'VariableNames', {'ID', 'Label'})
 % Insert a new column 'Score'
@@ -139,8 +131,7 @@ T(2, :) = [];
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Horizontal Concatenation</example_item_description>
+      <example_item_description>Horizontal Concatenation</example_item_description>
       <example_item_data
       ><![CDATA[% Create two tables with the same number of rows
 T1 = table([1; 2], {'A'; 'B'}, 'VariableNames', {'ID', 'Label'});
@@ -152,8 +143,7 @@ T_horz = [T1, T2]  % or T_horz = horzcat(T1, T2);
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Vertical Concatenation</example_item_description>
+      <example_item_description>Vertical Concatenation</example_item_description>
       <example_item_data
       ><![CDATA[T1 = table([1; 2], {'A'; 'B'}, 'VariableNames', {'ID', 'Label'});
 % Create two tables with the same column names
@@ -165,8 +155,7 @@ T_vert = [T1; T3]  % or T_vert = vertcat(T1, T3)
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Convert variable types</example_item_description>
+      <example_item_description>Convert variable types</example_item_description>
       <example_item_data
       ><![CDATA[Names = {'John'; 'Alice'; 'Bob'; 'Diana'};
 Age = [28; 34; 22; 30];

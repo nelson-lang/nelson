@@ -34,10 +34,8 @@
   </param_output>
   <description>
     <p>
-      <b
-      >hggroup</b> crée un objet hggroup comme enfant des axes courants et retourne son handle, h.</p>
-    <p>L&apos;objet <b
-      >hggroup</b> est utilisé pour regrouper des objets graphiques, tels que des lignes, des patches et du texte, afin qu&apos;ils puissent être manipulés ensemble.</p>
+      <b>hggroup</b> crée un objet hggroup comme enfant des axes courants et retourne son handle, h.</p>
+    <p>L&apos;objet <b>hggroup</b> est utilisé pour regrouper des objets graphiques, tels que des lignes, des patches et du texte, afin qu&apos;ils puissent être manipulés ensemble.</p>
   </description>
   <used_function />
   <bibliography />

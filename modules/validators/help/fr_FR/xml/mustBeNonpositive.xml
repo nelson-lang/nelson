@@ -25,8 +25,7 @@
   </param_input>
   <description>
     <p>
-      <b
-      >mustBeNonpositive</b> vérifie que la valeur est non positive ou renvoie une erreur.</p>
+      <b>mustBeNonpositive</b> vérifie que la valeur est non positive ou renvoie une erreur.</p>
   </description>
   <used_function />
   <bibliography />

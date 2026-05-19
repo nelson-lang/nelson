@@ -75,18 +75,15 @@
       <li>
         <b>`&lt;code&gt;`</b> - rendu de code en ligne.</li>
       <li>
-        <b
-        >`&lt;a href=&quot;...&quot;
+        <b>`&lt;a href=&quot;...&quot;
           &gt;`</b> - liens externes (rendus en tant qu&apos;ancres HTML).</li>
       <li>
-        <b
-        >`&lt;link linkend=&quot;...&quot;
+        <b>`&lt;link linkend=&quot;...&quot;
           &gt;`</b> - référence croisée interne. Si linkend contient un module entre accolades<code
         >{module}name</code>, il devient<code
         >../module/name.html</code>, sinon<code>name.html</code>.</li>
       <li>
-        <b
-        >`&lt;latex&gt;`</b> - expressions mathématiques ; rendues en tant que mathématiques d&apos;affichage MathJax par le modèle XSLT (enveloppées avec <code
+        <b>`&lt;latex&gt;`</b> - expressions mathématiques ; rendues en tant que mathématiques d&apos;affichage MathJax par le modèle XSLT (enveloppées avec <code
         >`$$...$$`</code>).</li>
       <li>
         <b>`&lt;img src=&quot;...&quot;/&gt;`</b> - images. Le XSLT appelle <code
@@ -137,8 +134,7 @@
   </description>
   <examples>
     <example_item>
-      <example_item_description
-      >Exemple minimal exécutable</example_item_description>
+      <example_item_description>Exemple minimal exécutable</example_item_description>
       <example_item_data
         language="matlab"
         runnable="cli"
@@ -164,8 +160,7 @@ disp(info);
 ]]></example_item_data>
     </example_item>
     <example_item>
-      <example_item_description
-      >Exemple avec sortie d&apos;image</example_item_description>
+      <example_item_description>Exemple avec sortie d&apos;image</example_item_description>
       <example_item_data
         language="matlab"
       ><![CDATA[

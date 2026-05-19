@@ -15,7 +15,7 @@
     </param_input_item>
     <param_input_item>
       <param_name>Name, Value</param_name>
-      <param_description
+      <param_description
       >Name-Value Pair Arguments, Name: &apos;NumericFormat&apos; or &apos;LineSpacing&apos;.</param_description>
     </param_input_item>
   </param_input>
@@ -27,8 +27,7 @@
   </param_output>
   <description>
     <p>
-      <b>str = formattedDisplayText(V)</b> returns the display output of <b
-      >V</b> as a string.</p>
+      <b>str = formattedDisplayText(V)</b> returns the display output of <b>V</b> as a string.</p>
     <p>The string contains equivalent to <b>disp(V)</b>.</p>
   </description>
   <used_function />
@@ -37,13 +36,13 @@
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description />
-      <example_item_data
-        runnable="cli"
-      ><![CDATA[R = eye(3, 3)
-str = formattedDisplayText(R)
-R = rand(3, 3);
-disp(R)
-str = formattedDisplayText(R)
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[R = eye(3, 3)
+str = formattedDisplayText(R)
+R = rand(3, 3);
+disp(R)
+str = formattedDisplayText(R)
 str = formattedDisplayText(R, 'NumericFormat', 'bank', 'LineSpacing', 'compact')]]></example_item_data>
     </example_item>
   </examples>

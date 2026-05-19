@@ -17,16 +17,13 @@
     <param_input_item>
       <param_name>C</param_name>
       <param_description>
-        <p>Contour matrix returned by <b>contour</b>, <b>contourf</b>, or<b
-          >contour3</b>. If you pass a contour object <b>h</b>, you may pass<b
-          >[]</b> for <b>C</b>.</p>
+        <p>Contour matrix returned by <b>contour</b>, <b>contourf</b>, or<b>contour3</b>. If you pass a contour object <b>h</b>, you may pass<b>[]</b> for <b>C</b>.</p>
       </param_description>
     </param_input_item>
     <param_input_item>
       <param_name>h</param_name>
       <param_description>
-        <p>Contour object handle returned by <b>contour</b> /<b>contourf</b> /<b
-          >contour3</b>. When provided, labeling uses information attached to the contour object (levels and contour matrix).</p>
+        <p>Contour object handle returned by <b>contour</b> /<b>contourf</b> /<b>contour3</b>. When provided, labeling uses information attached to the contour object (levels and contour matrix).</p>
       </param_description>
     </param_input_item>
     <param_input_item>
@@ -41,36 +38,29 @@
     <param_output_item>
       <param_name>t</param_name>
       <param_description>
-        <p>Text objects created by <b>clabel</b>. The <b
-          >String</b> properties contain the contour values displayed.</p>
+        <p>Text objects created by <b>clabel</b>. The <b>String</b> properties contain the contour values displayed.</p>
       </param_description>
     </param_output_item>
     <param_output_item>
       <param_name>tl</param_name>
       <param_description>
-        <p>Text and line objects created when upright markers are used (for<b
-          >clabel(C)</b>-style usage).</p>
+        <p>Text and line objects created when upright markers are used (for<b>clabel(C)</b>-style usage).</p>
       </param_description>
     </param_output_item>
   </param_output>
   <description>
     <p>The <b>clabel</b> function inserts labels into contour plots:</p>
     <ul>
-      <li>Provide a contour matrix <b>C</b> and contour object<b
-        >h</b> to label rotated text along contour lines.</li>
-      <li>Provide only<b
-        >C</b> to add upright labels and &apos;+&apos; markers at contour locations.</li>
-      <li>Pass a vector of levels<b
-        >v</b> to label only specific contour values.</li>
+      <li>Provide a contour matrix <b>C</b> and contour object<b>h</b> to label rotated text along contour lines.</li>
+      <li>Provide only<b>C</b> to add upright labels and &apos;+&apos; markers at contour locations.</li>
+      <li>Pass a vector of levels<b>v</b> to label only specific contour values.</li>
       <li
-      >Use Name,Value pairs to control text appearance (a subset of Text properties, plus<b
-        >LabelSpacing</b>).</li>
+      >Use Name,Value pairs to control text appearance (a subset of Text properties, plus<b>LabelSpacing</b>).</li>
     </ul>
   </description>
   <examples>
     <example_item>
-      <example_item_description
-      >Label contour plot levels (basic).</example_item_description>
+      <example_item_description>Label contour plot levels (basic).</example_item_description>
       <example_item_data
         runnable="adv-cli"
         language="matlab"
@@ -85,8 +75,7 @@ clabel(C,h)]]></example_item_data>
       />
     </example_item>
     <example_item>
-      <example_item_description
-      >Label specific contour levels.</example_item_description>
+      <example_item_description>Label specific contour levels.</example_item_description>
       <example_item_data
         runnable="adv-cli"
         language="matlab"
@@ -102,8 +91,7 @@ clabel(C,h,v)]]></example_item_data>
       />
     </example_item>
     <example_item>
-      <example_item_description
-      >Set contour label properties with Name,Value pairs.</example_item_description>
+      <example_item_description>Set contour label properties with Name,Value pairs.</example_item_description>
       <example_item_data
         runnable="adv-cli"
         language="matlab"
@@ -118,8 +106,7 @@ clabel(C,h,'FontSize',15,'Color','red')]]></example_item_data>
       />
     </example_item>
     <example_item>
-      <example_item_description
-      >Label using only the contour matrix (upright labels).</example_item_description>
+      <example_item_description>Label using only the contour matrix (upright labels).</example_item_description>
       <example_item_data
         runnable="adv-cli"
         language="matlab"

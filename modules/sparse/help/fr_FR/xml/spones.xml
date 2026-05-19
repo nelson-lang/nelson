@@ -22,9 +22,7 @@
   </param_output>
   <description>
     <p>
-      <b>s = spones(S)</b> retourne une matrice <b
-      >s</b> avec la même structure de sparsité que <b
-      >S</b>, mais avec des uns dans les positions non nulles.</p>
+      <b>s = spones(S)</b> retourne une matrice <b>s</b> avec la même structure de sparsité que <b>S</b>, mais avec des uns dans les positions non nulles.</p>
   </description>
   <used_function />
   <bibliography />

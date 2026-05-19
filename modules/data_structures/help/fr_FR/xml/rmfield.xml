@@ -26,8 +26,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >s = rmfield(st, field)</b> supprime le(s) champ(s) spécifié(s) du tableau de structures.</p>
+      <b>s = rmfield(st, field)</b> supprime le(s) champ(s) spécifié(s) du tableau de structures.</p>
   </description>
   <used_function />
   <bibliography />

@@ -39,8 +39,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >axes</b> crée des axes dans la figure courante et les définit comme axes courants.</p>
+      <b>axes</b> crée des axes dans la figure courante et les définit comme axes courants.</p>
     <p>
       <b>axes(cax)</b> rend les axes courants.</p>
     <p>Un clic sur un axe le rend automatiquement courant.</p>

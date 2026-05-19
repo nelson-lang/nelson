@@ -28,8 +28,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >unzip</b> extracts archived contents. Timestamps and attributes are preserved for each file.</p>
+      <b>unzip</b> extracts archived contents. Timestamps and attributes are preserved for each file.</p>
   </description>
   <used_function />
   <bibliography />

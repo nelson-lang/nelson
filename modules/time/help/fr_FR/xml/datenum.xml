@@ -44,14 +44,11 @@
   </param_output>
   <description>
     <p>
-      <b
-      >d = datenum()</b> renvoie le numéro de date série correspondant à la date courante.</p>
+      <b>d = datenum()</b> renvoie le numéro de date série correspondant à la date courante.</p>
     <p>
-      <b
-      >d = datenum(datevec)</b> convertit un vecteur date en numéro de date série.</p>
+      <b>d = datenum(datevec)</b> convertit un vecteur date en numéro de date série.</p>
     <p>
-      <b>d = datenum(datestr)</b> et<b
-      >d = datenum(datestr, format)</b> convertissent une chaîne en numéro de date série.</p>
+      <b>d = datenum(datestr)</b> et<b>d = datenum(datestr, format)</b> convertissent une chaîne en numéro de date série.</p>
     <p />
     <p>Formats de date/heure pris en charge :</p>
     <p>
@@ -83,8 +80,7 @@
     <p>
       <b>HH:MM PM</b> 3:35 PM</p>
     <p />
-    <p>Si le format n&apos;est pas spécifié, le format par défaut est <b
-      >dd-mmm-yyyy</b>.</p>
+    <p>Si le format n&apos;est pas spécifié, le format par défaut est <b>dd-mmm-yyyy</b>.</p>
     <p />
     <p
     >Si un format est spécifié et qu&apos;il n&apos;utilise pas un format prédéfini, le format doit être indiqué comme un vecteur de caractères ou un scalaire string composé d&apos;identifiants symboliques.</p>

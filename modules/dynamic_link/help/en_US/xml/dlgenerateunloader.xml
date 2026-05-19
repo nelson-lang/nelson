@@ -22,16 +22,14 @@
   </param_input>
   <description>
     <p>
-      <b
-      >dlgenerateunloader</b> generates a &apos;unloader.m&apos; unload external dynamic libraries.</p>
+      <b>dlgenerateunloader</b> generates a &apos;unloader.m&apos; unload external dynamic libraries.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >See module skeleton for example</example_item_description>
+      <example_item_description>See module skeleton for example</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[

@@ -25,8 +25,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >C = mod(A, B)</b> computes the modulo of A and B, i.e : A - B .* floor (A ./ B).</p>
+      <b>C = mod(A, B)</b> computes the modulo of A and B, i.e : A - B .* floor (A ./ B).</p>
     <p>This function manages also negative values.</p>
   </description>
   <used_function />

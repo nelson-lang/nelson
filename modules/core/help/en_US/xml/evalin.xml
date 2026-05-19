@@ -28,8 +28,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >eval</b> executes Nelson instructions given in a string in &apos;base&apos; or &apos;caller&apos; scope.</p>
+      <b>eval</b> executes Nelson instructions given in a string in &apos;base&apos; or &apos;caller&apos; scope.</p>
   </description>
   <used_function />
   <bibliography />

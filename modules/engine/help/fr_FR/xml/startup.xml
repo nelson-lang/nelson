@@ -7,18 +7,14 @@
   >Script de démarrage défini par l&apos;utilisateur pour Nelson.</short_description>
   <description>
     <p>
-      <b
-      >startup.m</b> dans Nelson permet d&apos;initialiser des commandes spécifiées par l&apos;utilisateur au démarrage de Nelson.</p>
-    <p>Il exécute tout fichier nommé <b
-      >startup.m</b> qui se trouve dans le chemin de recherche.</p>
-    <p>Pour utiliser cette fonctionnalité, créez un fichier nommé <b
-      >startup.m</b> dans le dossier userpath, qui fait partie du chemin de recherche de Nelson.</p>
+      <b>startup.m</b> dans Nelson permet d&apos;initialiser des commandes spécifiées par l&apos;utilisateur au démarrage de Nelson.</p>
+    <p>Il exécute tout fichier nommé <b>startup.m</b> qui se trouve dans le chemin de recherche.</p>
+    <p>Pour utiliser cette fonctionnalité, créez un fichier nommé <b>startup.m</b> dans le dossier userpath, qui fait partie du chemin de recherche de Nelson.</p>
     <p
     >Insérez dans ce fichier les commandes que vous souhaitez voir exécutées au démarrage de Nelson.</p>
     <p
     >Cela peut inclure la définition de constantes physiques, des valeurs par défaut pour les propriétés graphiques, l&apos;ajout de facteurs de conversion, ou la pré-définition d&apos;autres éléments souhaités dans votre espace de travail.</p>
-    <p>La personnalisation du fichier <b
-      >startup.m</b> vous permet d&apos;établir un environnement adapté à chaque lancement de Nelson.</p>
+    <p>La personnalisation du fichier <b>startup.m</b> vous permet d&apos;établir un environnement adapté à chaque lancement de Nelson.</p>
   </description>
   <used_function />
   <bibliography />

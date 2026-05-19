@@ -35,16 +35,11 @@
   </param_output>
   <description>
     <p>
-      <b>F = im2frame(RGB)</b> convertit l&apos;image en vraies couleurs <b
-      >RGB</b> en une image de film <b>F</b>.          </p>
+      <b>F = im2frame(RGB)</b> convertit l&apos;image en vraies couleurs <b>RGB</b> en une image de film <b>F</b>.          </p>
     <p>
-      <b>F = im2frame(X, map)</b> convertit l&apos;image indexée <b
-      >X</b> ainsi que sa palette de couleurs <b>map</b> en une image de film<b
-      >F</b>.</p>
+      <b>F = im2frame(X, map)</b> convertit l&apos;image indexée <b>X</b> ainsi que sa palette de couleurs <b>map</b> en une image de film<b>F</b>.</p>
     <p>
-      <b>F = im2frame(X)</b> convertit l&apos;image indexée <b
-      >X</b> en une image de film <b
-      >F</b>, en utilisant la palette de couleurs courante.          </p>
+      <b>F = im2frame(X)</b> convertit l&apos;image indexée <b>X</b> en une image de film <b>F</b>, en utilisant la palette de couleurs courante.          </p>
   </description>
   <used_function />
   <bibliography />

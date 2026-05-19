@@ -50,8 +50,7 @@
     <p>
       <b>
         &apos;MissingPlacement&apos;
-      </b> - Placement of missing values: <b
-      >
+      </b> - Placement of missing values: <b>
         &apos;auto&apos;
       </b> (default), <b>
         &apos;first&apos;
@@ -61,8 +60,7 @@
     <p>
       <b>
         &apos;ComparisonMethod&apos;
-      </b> - Element comparison method: <b
-      >
+      </b> - Element comparison method: <b>
         &apos;auto&apos;
       </b> (default), <b>
         &apos;real&apos;

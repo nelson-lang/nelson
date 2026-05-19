@@ -25,12 +25,9 @@
   </param_output>
   <description>
     <p>
-      <b
-      >C = le(A, B)</b> renvoie un tableau logique avec des éléments égaux à<b
-      >true</b> lorsque A est inférieur ou égal à B.</p>
+      <b>C = le(A, B)</b> renvoie un tableau logique avec des éléments égaux à<b>true</b> lorsque A est inférieur ou égal à B.</p>
     <p>
-      <b
-      >le</b> compare uniquement la partie réelle des tableaux numériques.</p>
+      <b>le</b> compare uniquement la partie réelle des tableaux numériques.</p>
   </description>
   <used_function />
   <bibliography />

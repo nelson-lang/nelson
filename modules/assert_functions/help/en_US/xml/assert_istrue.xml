@@ -42,8 +42,7 @@
       <b>assert_istrue</b> raises an error if the input value is false.</p>
     <p
     >This function also raises an error if the input is not a logical value, ensuring type safety.</p>
-    <p>When the optional <b
-      >err_msg</b> parameter is provided, it will be used as the error message instead of the default message when the assertion fails.</p>
+    <p>When the optional <b>err_msg</b> parameter is provided, it will be used as the error message instead of the default message when the assertion fails.</p>
     <p
     >This function is essential in unit testing to verify that conditions are true or that logical operations return the expected true result.</p>
   </description>
@@ -52,16 +51,14 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Test that passes (3 equals 3 is true):</example_item_description>
+      <example_item_description>Test that passes (3 equals 3 is true):</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[assert_istrue(3 == 3)]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Test that demonstrates assertion failure (3 equals 4 is false):</example_item_description>
+      <example_item_description>Test that demonstrates assertion failure (3 equals 4 is false):</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[try
@@ -72,24 +69,21 @@ end]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Test with explicit false value to show failure:</example_item_description>
+      <example_item_description>Test with explicit false value to show failure:</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[r = assert_istrue(false)]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Using return values to handle assertion results:</example_item_description>
+      <example_item_description>Using return values to handle assertion results:</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[[r, msg] = assert_istrue(false)]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Test with custom error message:</example_item_description>
+      <example_item_description>Test with custom error message:</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[[r, msg] = assert_istrue(3 == 4, 'your error message.');
@@ -99,8 +93,7 @@ end]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Example showing successful assertion with true value:</example_item_description>
+      <example_item_description>Example showing successful assertion with true value:</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[assert_istrue(true);

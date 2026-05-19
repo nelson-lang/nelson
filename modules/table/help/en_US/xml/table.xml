@@ -43,9 +43,7 @@
     <p>- Parentheses (T(rows, vars)) to return a subset of the table.</p>
     <p />
     <p>
-      <b
-      >T = table(var1, ..., varN)</b> creates a table from the specified input variables<b
-      >var1,...,varN</b>.</p>
+      <b>T = table(var1, ..., varN)</b> creates a table from the specified input variables<b>var1,...,varN</b>.</p>
     <p
     >The variables can vary in size and data type, but they must all have the same number of rows.</p>
     <p
@@ -54,8 +52,7 @@
     >Otherwise, the table assigns default names in the format &apos;Var1&apos;, &apos;Var2&apos;, and so on, where N is the total number of variables.</p>
     <p />
     <p>
-      <b
-      >T = table(..., Name, Value)</b> allows you to specify additional options using one or more name-value pair arguments.</p>
+      <b>T = table(..., Name, Value)</b> allows you to specify additional options using one or more name-value pair arguments.</p>
     <p
     >For instance, you can set custom variable names by using the &apos;VariableNames&apos; name-value pair.</p>
     <p

@@ -40,8 +40,7 @@
   <description>
     <p>
       <b>title(&apos;text&apos;)</b> ajoute un titre aux axes actuels.</p>
-    <p>La propriété<b
-      >Visible</b> est héritée du parent si elle n&apos;est pas explicitement définie.          </p>
+    <p>La propriété<b>Visible</b> est héritée du parent si elle n&apos;est pas explicitement définie.          </p>
   </description>
   <used_function />
   <bibliography />

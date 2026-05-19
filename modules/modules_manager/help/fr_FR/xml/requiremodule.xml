@@ -16,8 +16,7 @@
   </param_input>
   <description>
     <p>
-      <b
-      >requiremodule</b> renvoie une erreur si le module demandé n&apos;est pas chargé.</p>
+      <b>requiremodule</b> renvoie une erreur si le module demandé n&apos;est pas chargé.</p>
     <p
     >Cette fonction est utile pour vérifier une dépendance sur un autre module.</p>
   </description>
@@ -26,8 +25,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >See module skeleton for example</example_item_description>
+      <example_item_description>See module skeleton for example</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[ismodule('module_skeleton')

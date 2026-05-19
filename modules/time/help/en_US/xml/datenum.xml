@@ -51,14 +51,11 @@
   </param_output>
   <description>
     <p>
-      <b
-      >d = datenum()</b> returns the serial date number corresponding to current date.</p>
+      <b>d = datenum()</b> returns the serial date number corresponding to current date.</p>
     <p>
-      <b
-      >d = datenum(datevec)</b> converts date vector to serial date number.</p>
+      <b>d = datenum(datevec)</b> converts date vector to serial date number.</p>
     <p>
-      <b>d = datenum(datestr)</b> and<b
-      >d = datenum(datestr, format)</b> converts string to serial date number.</p>
+      <b>d = datenum(datestr)</b> and<b>d = datenum(datestr, format)</b> converts string to serial date number.</p>
     <p />
     <p>Supported format conversion:</p>
     <p>

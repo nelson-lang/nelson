@@ -35,8 +35,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >normpdf</b> calcule la fonction de densité de probabilité de la loi normale (gaussienne).</p>
+      <b>normpdf</b> calcule la fonction de densité de probabilité de la loi normale (gaussienne).</p>
     <p>La formule générale pour la densité de la loi normale est :</p>
     <latex
     >f(x|\mu,\sigma^2) = \frac{1}{\sigma\sqrt{2\pi}} e^{-\frac{(x-\mu)^2}{2\sigma^2}}</latex>

@@ -24,8 +24,7 @@
   <description>
     <p>
       <b>hex2dec</b> convertit un nombre en base 16 en décimal.</p>
-    <p>Remarque : <b>hex2dec</b> et<b
-      >dec2hex</b> sont des opérations réciproques.</p>
+    <p>Remarque : <b>hex2dec</b> et<b>dec2hex</b> sont des opérations réciproques.</p>
   </description>
   <used_function />
   <bibliography />

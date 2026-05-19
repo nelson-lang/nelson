@@ -36,9 +36,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >ind2sub</b> convertit des indices linéaires en indices de sous-scripts pour un tableau de taille <b
-      >S</b>.</p>
+      <b>ind2sub</b> convertit des indices linéaires en indices de sous-scripts pour un tableau de taille <b>S</b>.</p>
   </description>
   <used_function />
   <bibliography />

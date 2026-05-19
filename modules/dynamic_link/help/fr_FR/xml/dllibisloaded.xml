@@ -30,8 +30,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >dllibisloaded</b> indique si une bibliothèque partagée est déjà chargée.</p>
+      <b>dllibisloaded</b> indique si une bibliothèque partagée est déjà chargée.</p>
   </description>
   <used_function />
   <bibliography />

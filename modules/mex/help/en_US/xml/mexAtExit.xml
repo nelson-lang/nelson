@@ -26,9 +26,7 @@
   <description>
     <p>Each MEX can register only one active exit subroutine at a time.</p>
     <p>
-      <b
-      >mexAtExit</b> registers a subroutine to be called just when Nelson is finished or<b
-      >clear</b> is called.</p>
+      <b>mexAtExit</b> registers a subroutine to be called just when Nelson is finished or<b>clear</b> is called.</p>
   </description>
   <used_function />
   <bibliography />

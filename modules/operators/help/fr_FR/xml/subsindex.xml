@@ -15,8 +15,7 @@
     </param_input_item>
   </param_input>
   <description>
-    <p>Si <b>O</b> est un objet alors <b
-      >subsindex</b> est la méthode de surcharge qui permet de convertir cet objet en un vecteur d&apos;indexation valide.</p>
+    <p>Si <b>O</b> est un objet alors <b>subsindex</b> est la méthode de surcharge qui permet de convertir cet objet en un vecteur d&apos;indexation valide.</p>
   </description>
   <used_function />
   <bibliography />

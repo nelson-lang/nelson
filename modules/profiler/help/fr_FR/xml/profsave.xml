@@ -23,10 +23,8 @@
   </param_input>
   <description>
     <p>
-      <b
-      >profsave</b> exporte les données de profiling en une série de fichiers HTML.</p>
-    <p>L&apos;argument <b
-      >profile_info</b> est la structure renvoyée par profile(&apos;info&apos;).</p>
+      <b>profsave</b> exporte les données de profiling en une série de fichiers HTML.</p>
+    <p>L&apos;argument <b>profile_info</b> est la structure renvoyée par profile(&apos;info&apos;).</p>
     <p>Si non précisé, <b>profsave</b> utilisera le profil courant.</p>
   </description>
   <used_function />

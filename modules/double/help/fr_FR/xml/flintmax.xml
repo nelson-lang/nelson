@@ -25,8 +25,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >flintmax</b> renvoie le plus grand entier consécutif représentable au format virgule flottante.</p>
+      <b>flintmax</b> renvoie le plus grand entier consécutif représentable au format virgule flottante.</p>
   </description>
   <used_function />
   <bibliography />

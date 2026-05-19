@@ -11,8 +11,7 @@
     <param_input_item>
       <param_name>recorder</param_name>
       <param_description
-      >audiorecorder object: audio recorder object created by <b
-        >audiorecorder</b>.</param_description>
+      >audiorecorder object: audio recorder object created by <b>audiorecorder</b>.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -24,17 +23,14 @@
   </param_output>
   <description>
     <p>
-      <b
-      >isrecording(recorder)</b> determines if recording is in progress for the specified <b
-      >audiorecorder</b> object.      </p>
+      <b>isrecording(recorder)</b> determines if recording is in progress for the specified <b>audiorecorder</b> object.      </p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Control Audio Recording and Playback</example_item_description>
+      <example_item_description>Control Audio Recording and Playback</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[

@@ -26,17 +26,14 @@
   </param_output>
   <description>
     <p>
-      <b
-      >B = subsref(A, S)</b> est invoqué lors de l&apos;utilisation de la syntaxe <b
-      >A(i)</b>, <b>A{i}</b> ou <b>A.i</b> avec un objet <b>A</b>.</p>
+      <b>B = subsref(A, S)</b> est invoqué lors de l&apos;utilisation de la syntaxe <b>A(i)</b>, <b>A{i}</b> ou <b>A.i</b> avec un objet <b>A</b>.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Indexation par parenthèses</example_item_description>
+      <example_item_description>Indexation par parenthèses</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[A = magic(5);
@@ -46,8 +43,7 @@ R = subsref(A, S)]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Indexation par accolades</example_item_description>
+      <example_item_description>Indexation par accolades</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[C = {"one", 2, 'three'};

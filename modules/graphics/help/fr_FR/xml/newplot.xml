@@ -24,8 +24,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >newplot</b> prépare une figure et des axes pour les commandes graphiques.          </p>
+      <b>newplot</b> prépare une figure et des axes pour les commandes graphiques.          </p>
   </description>
   <used_function />
   <bibliography />

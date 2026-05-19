@@ -24,8 +24,7 @@
   </param_input>
   <description>
     <p>
-      <b
-      >eps</b> retourne la précision machine 2^(-52) pour double et 2^(-23) pour single.</p>
+      <b>eps</b> retourne la précision machine 2^(-52) pour double et 2^(-23) pour single.</p>
     <p>eps(Inf), eps(-Inf) et eps(NaN) retournent NaN.</p>
   </description>
   <used_function />

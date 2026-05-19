@@ -38,31 +38,23 @@
   </param_output>
   <description>
     <p>
-      <b
-      >diary</b> crée un journal des entrées clavier et du texte de sortie résultant.</p>
+      <b>diary</b> crée un journal des entrées clavier et du texte de sortie résultant.</p>
     <p>
       <b>diary</b> active ou désactive le mode journal.</p>
     <p>
-      <b
-      >diary(&apos;off&apos;)</b> arrête l&apos;enregistrement de la session dans le fichier journal.</p>
+      <b>diary(&apos;off&apos;)</b> arrête l&apos;enregistrement de la session dans le fichier journal.</p>
     <p>
-      <b
-      >diary(&apos;on&apos;)</b> commence l&apos;enregistrement d&apos;une session dans un fichier nommé &apos;diary&apos; dans le répertoire de travail courant.</p>
+      <b>diary(&apos;on&apos;)</b> commence l&apos;enregistrement d&apos;une session dans un fichier nommé &apos;diary&apos; dans le répertoire de travail courant.</p>
     <p>
-      <b
-      >diary(&apos;set&apos;, &apos;Diary&apos;, onoff)</b> permet de démarrer ou d&apos;arrêter le journal.</p>
+      <b>diary(&apos;set&apos;, &apos;Diary&apos;, onoff)</b> permet de démarrer ou d&apos;arrêter le journal.</p>
     <p>
-      <b
-      >onoff = diary(&apos;get&apos;, &apos;Diary&apos;)</b> renvoie l&apos;état &apos;on&apos; ou &apos;off&apos; du journal.</p>
+      <b>onoff = diary(&apos;get&apos;, &apos;Diary&apos;)</b> renvoie l&apos;état &apos;on&apos; ou &apos;off&apos; du journal.</p>
     <p>
-      <b
-      >diary(filename)</b> enregistre la session dans le fichier nommé filename.</p>
+      <b>diary(filename)</b> enregistre la session dans le fichier nommé filename.</p>
     <p>
-      <b
-      >filename = diary(&apos;get&apos;, &apos;DiaryFile&apos;)</b> renvoie le nom de fichier utilisé pour le journal.</p>
+      <b>filename = diary(&apos;get&apos;, &apos;DiaryFile&apos;)</b> renvoie le nom de fichier utilisé pour le journal.</p>
     <p>
-      <b
-      >diary(&apos;set&apos;, &apos;DiaryFile&apos;, filename))</b> définit le nom de fichier pour le journal.</p>
+      <b>diary(&apos;set&apos;, &apos;DiaryFile&apos;, filename))</b> définit le nom de fichier pour le journal.</p>
   </description>
   <used_function />
   <bibliography />

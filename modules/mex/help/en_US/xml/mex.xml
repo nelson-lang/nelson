@@ -57,11 +57,9 @@
     <p />
     <p>PREDEFINED C MACRO:</p>
     <p>
-      <b
-      >MX_IS_NELSON</b> macro is defined to easily detect if Nelson is used in C code.</p>
+      <b>MX_IS_NELSON</b> macro is defined to easily detect if Nelson is used in C code.</p>
     <p>
-      <b
-      >MX_HAS_INTERLEAVED_COMPLEX</b> macro is defined if C MEX API used is &apos;-R2018a&apos;.</p>
+      <b>MX_HAS_INTERLEAVED_COMPLEX</b> macro is defined if C MEX API used is &apos;-R2018a&apos;.</p>
     <p />
     <p>Supported options: compilation or link.</p>
     <p>
@@ -72,8 +70,7 @@
     <p>
       <b>-U</b> The -U option undefines C preprocessor macro</p>
     <p>
-      <b
-      >-I</b> Adds pathname to the list of folders to search for #include files.</p>
+      <b>-I</b> Adds pathname to the list of folders to search for #include files.</p>
     <p>
       <b>-l</b> Links with dynamic object library .lib, .so or .dylib.</p>
     <p>

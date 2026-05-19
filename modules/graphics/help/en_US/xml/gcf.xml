@@ -17,8 +17,7 @@
   <description>
     <p>
       <b>cf = gcf()</b> returns the current figure graphics object.</p>
-    <p>If a figure does not exist,<b
-      >gcf()</b> creates a figure and returns its graphics object.</p>
+    <p>If a figure does not exist,<b>gcf()</b> creates a figure and returns its graphics object.</p>
   </description>
   <used_function />
   <bibliography />

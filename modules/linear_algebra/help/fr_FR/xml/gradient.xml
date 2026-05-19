@@ -36,17 +36,14 @@
   </param_output>
   <description>
     <p>
-      <b
-      >gradient(F)</b> calcule le gradient numérique unidimensionnel du vecteur ou de la matrice F.</p>
+      <b>gradient(F)</b> calcule le gradient numérique unidimensionnel du vecteur ou de la matrice F.</p>
     <p
     >La sortie FX représente les différences dans la direction x (horizontale), correspondant à ∂F/∂x.</p>
     <p>Elle suppose que l&apos;espacement entre les points est 1.</p>
     <p>
-      <b
-      >gradient(F, h)</b> permet de spécifier un espacement uniforme h entre les points dans chaque direction.</p>
+      <b>gradient(F, h)</b> permet de spécifier un espacement uniforme h entre les points dans chaque direction.</p>
     <p
-    >Cet espacement uniforme peut également être spécifié individuellement pour chaque dimension de F en utilisant <b
-      >gradient(F, hx, hy, ..., hN)</b>.</p>
+    >Cet espacement uniforme peut également être spécifié individuellement pour chaque dimension de F en utilisant <b>gradient(F, hx, hy, ..., hN)</b>.</p>
   </description>
   <used_function />
   <bibliography />

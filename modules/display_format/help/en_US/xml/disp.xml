@@ -17,8 +17,7 @@
     <p>
       <b>disp(V)</b> displays the value of the variable <b>V</b>.</p>
     <p>
-      <b>disp</b> uses current<b
-      >format</b> setting to display numeric values.</p>
+      <b>disp</b> uses current<b>format</b> setting to display numeric values.</p>
   </description>
   <used_function />
   <bibliography />
@@ -44,8 +43,7 @@
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >disp always ends with a newline.</example_item_description>
+      <example_item_description>disp always ends with a newline.</example_item_description>
       <example_item_data runnable="cli"><![CDATA[disp('')]]></example_item_data>
     </example_item>
   </examples>

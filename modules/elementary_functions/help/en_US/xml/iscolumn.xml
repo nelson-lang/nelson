@@ -22,9 +22,7 @@
   </param_output>
   <description>
     <p>
-      <b>iscolumn(V)</b> returns logical<b
-      >true</b> if size(V) returns [n, 1] with a nonnegative integer value n, and logical<b
-      >false</b> otherwise.</p>
+      <b>iscolumn(V)</b> returns logical<b>true</b> if size(V) returns [n, 1] with a nonnegative integer value n, and logical<b>false</b> otherwise.</p>
   </description>
   <used_function />
   <bibliography />

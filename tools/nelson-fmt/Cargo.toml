@@ -23,7 +23,6 @@ serde_json = { workspace = true }
 rust-yaml = "0.0.5"
 walkdir = { workspace = true }
 anyhow = { workspace = true }
-xmlformat = "1.2.1"
 toml_edit = "*"
 rayon = "1"
 

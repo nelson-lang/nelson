@@ -22,8 +22,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >ce = namedargs2cell(st)</b> renvoie un tableau cellulaire contenant des paires nom-valeur.</p>
+      <b>ce = namedargs2cell(st)</b> renvoie un tableau cellulaire contenant des paires nom-valeur.</p>
   </description>
   <used_function />
   <bibliography />

@@ -22,12 +22,8 @@
   </param_output>
   <description>
     <p>
-      <b
-      >options = detectImportOptions(filename)</b> identifie une table dans un fichier et renvoie un objet d&apos;options d&apos;importation <b
-      >options</b>.</p>
-    <p>Vous pouvez personnaliser cet objet et l&apos;utiliser avec<b
-      >readtable</b>, <b>readcell</b> ou<b
-      >readmatrix</b> pour contrôler la façon dont Nelson importe les données en tant que table, cellule ou matrice.</p>
+      <b>options = detectImportOptions(filename)</b> identifie une table dans un fichier et renvoie un objet d&apos;options d&apos;importation <b>options</b>.</p>
+    <p>Vous pouvez personnaliser cet objet et l&apos;utiliser avec<b>readtable</b>, <b>readcell</b> ou<b>readmatrix</b> pour contrôler la façon dont Nelson importe les données en tant que table, cellule ou matrice.</p>
     <p>Le type de l&apos;objet options renvoyé dépend de l&apos;extension du fichier.</p>
     <p />
     <p>Propriétés :</p>
@@ -38,25 +34,19 @@
     <p>
       <b>CommentStyle</b> : style des commentaires. exemple : {&apos;#&apos;}</p>
     <p>
-      <b
-      >EmptyLineRule</b> : procédure de gestion des lignes vides. exemple : &apos;skip&apos;
+      <b>EmptyLineRule</b> : procédure de gestion des lignes vides. exemple : &apos;skip&apos;
     </p>
     <p>
-      <b
-      >VariableNamesLine</b> : emplacement des noms de variables. exemple : 1</p>
+      <b>VariableNamesLine</b> : emplacement des noms de variables. exemple : 1</p>
     <p>
-      <b
-      >VariableNames</b> : noms des variables. exemple : {&apos;Names&apos;
+      <b>VariableNames</b> : noms des variables. exemple : {&apos;Names&apos;
       &apos;Age&apos;
       &apos;Height&apos;
       &apos;Weight&apos;}</p>
     <p>
       <b>RowNamesColumn</b> : emplacement des noms de ligne. exemple : 0</p>
     <p>
-      <b>DataLines</b> : emplacement des données,<b
-      >[l1 l2]</b> indique la plage de lignes contenant les données.<b
-      >l1</b> fait référence à la première ligne avec données, tandis que <b
-      >l2</b> fait référence à la dernière ligne. exemple : [2 Inf]</p>
+      <b>DataLines</b> : emplacement des données,<b>[l1 l2]</b> indique la plage de lignes contenant les données.<b>l1</b> fait référence à la première ligne avec données, tandis que <b>l2</b> fait référence à la dernière ligne. exemple : [2 Inf]</p>
   </description>
   <used_function />
   <bibliography />

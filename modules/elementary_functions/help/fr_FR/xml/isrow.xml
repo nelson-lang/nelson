@@ -22,9 +22,7 @@
   </param_output>
   <description>
     <p>
-      <b>isrow(V)</b> renvoie <b
-      >true</b> si size(V) renvoie [1, n] avec un entier non négatif n, et <b
-      >false</b> sinon.</p>
+      <b>isrow(V)</b> renvoie <b>true</b> si size(V) renvoie [1, n] avec un entier non négatif n, et <b>false</b> sinon.</p>
   </description>
   <used_function />
   <bibliography />

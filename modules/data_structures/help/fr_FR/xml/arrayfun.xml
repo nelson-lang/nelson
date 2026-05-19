@@ -38,28 +38,21 @@
   </param_output>
   <description>
     <p>
-      <b>arrayfun(func, A)</b> applique la fonction<b
-      >func</b> à chaque élément du tableau<b
-      >A</b>, et renvoie le résultat dans <b>B</b> avec la même taille que <b
-      >A</b>.</p>
+      <b>arrayfun(func, A)</b> applique la fonction<b>func</b> à chaque élément du tableau<b>A</b>, et renvoie le résultat dans <b>B</b> avec la même taille que <b>A</b>.</p>
     <p>
-      <b>arrayfun(func, A1, ..., An)</b> applique <b
-      >func</b> aux éléments correspondants des tableaux d&apos;entrée. Tous les tableaux doivent avoir la même taille.</p>
+      <b>arrayfun(func, A1, ..., An)</b> applique <b>func</b> aux éléments correspondants des tableaux d&apos;entrée. Tous les tableaux doivent avoir la même taille.</p>
     <p>Utilisez l&apos;option <b>
         &apos;UniformOutput&apos;
-      </b> à<b
-      >false</b> pour autoriser des valeurs de sortie qui ne peuvent pas être concaténées dans un seul tableau. Dans ce cas, le résultat est un tableau cellulaire.</p>
+      </b> à<b>false</b> pour autoriser des valeurs de sortie qui ne peuvent pas être concaténées dans un seul tableau. Dans ce cas, le résultat est un tableau cellulaire.</p>
     <p>
-      <b
-      >[B1, ..., Bm] = arrayfun(...)</b> capture plusieurs sorties de la fonction appliquée.</p>
+      <b>[B1, ..., Bm] = arrayfun(...)</b> capture plusieurs sorties de la fonction appliquée.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Apply mean to structure field</example_item_description>
+      <example_item_description>Apply mean to structure field</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[
@@ -71,8 +64,7 @@ means = arrayfun(@(x) mean(x.f1), S);
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Return multiple outputs from function</example_item_description>
+      <example_item_description>Return multiple outputs from function</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[
@@ -82,8 +74,7 @@ f = @(x) deal(x, x^2);
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Return variable-sized outputs in a cell array</example_item_description>
+      <example_item_description>Return variable-sized outputs in a cell array</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[

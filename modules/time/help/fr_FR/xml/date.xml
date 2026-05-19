@@ -17,9 +17,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >d = date()</b> renvoie la date courante sous forme de vecteur de caractères au format<b
-      >dd-MMM-yyyy</b>.</p>
+      <b>d = date()</b> renvoie la date courante sous forme de vecteur de caractères au format<b>dd-MMM-yyyy</b>.</p>
   </description>
   <used_function />
   <bibliography />

@@ -33,8 +33,7 @@
   </param_output>
   <description>
     <p>
-      <b>C = bitor(A, B)</b> returns the bit-wise OR of <b>A</b> and <b
-      >B</b>.</p>
+      <b>C = bitor(A, B)</b> returns the bit-wise OR of <b>A</b> and <b>B</b>.</p>
   </description>
   <used_function />
   <bibliography />

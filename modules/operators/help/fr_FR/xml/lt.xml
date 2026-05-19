@@ -26,12 +26,9 @@
   </param_output>
   <description>
     <p>
-      <b
-      >C = lt(A, B)</b> renvoie un tableau logique avec des éléments égaux à<b
-      >true</b> lorsque A est inférieur à B.</p>
+      <b>C = lt(A, B)</b> renvoie un tableau logique avec des éléments égaux à<b>true</b> lorsque A est inférieur à B.</p>
     <p>
-      <b
-      >lt</b> compare uniquement la partie réelle des tableaux numériques.</p>
+      <b>lt</b> compare uniquement la partie réelle des tableaux numériques.</p>
   </description>
   <used_function />
   <bibliography />

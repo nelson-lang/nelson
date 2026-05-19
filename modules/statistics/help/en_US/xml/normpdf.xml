@@ -34,8 +34,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >normpdf</b> computes the probability density function of the normal (Gaussian) distribution.</p>
+      <b>normpdf</b> computes the probability density function of the normal (Gaussian) distribution.</p>
     <p>The general formula for the normal distribution PDF is:</p>
     <latex
     >f(x|\mu,\sigma^2) = \frac{1}{\sigma\sqrt{2\pi}} e^{-\frac{(x-\mu)^2}{2\sigma^2}}</latex>

@@ -35,8 +35,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >builtin</b> calls the base built-in described by its name or function handle and input arguments.</p>
+      <b>builtin</b> calls the base built-in described by its name or function handle and input arguments.</p>
   </description>
   <used_function />
   <bibliography />

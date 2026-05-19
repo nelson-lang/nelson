@@ -68,10 +68,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >[kalmf, L, P] = kalman(sys, Q, R, N)</b> génère un filtre de Kalman en utilisant le modèle de plante fourni <b
-      >sys</b> et les matrices de covariance du bruit <b>Q</b>, <b>R</b>, et <b
-      >N</b>.</p>
+      <b>[kalmf, L, P] = kalman(sys, Q, R, N)</b> génère un filtre de Kalman en utilisant le modèle de plante fourni <b>sys</b> et les matrices de covariance du bruit <b>Q</b>, <b>R</b>, et <b>N</b>.</p>
     <p
     >La fonction calcule un filtre de Kalman adapté pour une utilisation dans un estimateur de Kalman, comme montré dans le diagramme correspondant.</p>
   </description>

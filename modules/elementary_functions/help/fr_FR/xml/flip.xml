@@ -25,8 +25,7 @@
   </param_output>
   <description>
     <p>
-      <b>flip</b> renvoie un nouveau tableau de <b
-      >A</b> inversé selon la dimension <b>dim</b>.</p>
+      <b>flip</b> renvoie un nouveau tableau de <b>A</b> inversé selon la dimension <b>dim</b>.</p>
   </description>
   <used_function />
   <bibliography />

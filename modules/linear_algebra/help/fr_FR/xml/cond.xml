@@ -27,11 +27,9 @@
   </param_output>
   <description>
     <p>
-      <b
-      >c = cond(A)</b> retourne le nombre de condition en norme 2 pour l&apos;inversion.</p>
+      <b>c = cond(A)</b> retourne le nombre de condition en norme 2 pour l&apos;inversion.</p>
     <p>
-      <b
-      >c = cond(A, p)</b> retourne le nombre de condition en norme p, où p peut être 1, 2, Inf ou &apos;fro&apos;.</p>
+      <b>c = cond(A, p)</b> retourne le nombre de condition en norme p, où p peut être 1, 2, Inf ou &apos;fro&apos;.</p>
   </description>
   <used_function />
   <bibliography />

@@ -35,8 +35,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >any</b> renvoie vrai si au moins un élément d&apos;une matrice satisfait une condition.</p>
+      <b>any</b> renvoie vrai si au moins un élément d&apos;une matrice satisfait une condition.</p>
   </description>
   <used_function />
   <bibliography />

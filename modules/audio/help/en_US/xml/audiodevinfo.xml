@@ -64,11 +64,9 @@
   </param_output>
   <description>
     <p>
-      <b
-      >audiodevinfo</b> returns a structure with available audio input and output devices.</p>
+      <b>audiodevinfo</b> returns a structure with available audio input and output devices.</p>
     <p>
-      <b
-      >devices = audiodevinfo(&apos;default&apos;)</b> returns a structure with default used audio input and output devices.</p>
+      <b>devices = audiodevinfo(&apos;default&apos;)</b> returns a structure with default used audio input and output devices.</p>
   </description>
   <used_function />
   <bibliography />

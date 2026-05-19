@@ -36,8 +36,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >builtin</b> appelle la fonction intégrée de base décrite par son nom ou handle de fonction et arguments d&apos;entrée.</p>
+      <b>builtin</b> appelle la fonction intégrée de base décrite par son nom ou handle de fonction et arguments d&apos;entrée.</p>
   </description>
   <used_function />
   <bibliography />

@@ -38,8 +38,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >betainc</b> calcule la fonction bêta incomplète (régularisée).          </p>
+      <b>betainc</b> calcule la fonction bêta incomplète (régularisée).          </p>
     <p
     >La fonction bêta incomplète est définie comme suit :</p>
     <latex

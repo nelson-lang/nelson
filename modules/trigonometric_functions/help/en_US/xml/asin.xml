@@ -22,8 +22,7 @@
   </param_output>
   <description>
     <p>
-      <b>asin</b> computes the inverse sine in radians for each element of <b
-      >x</b>.</p>
+      <b>asin</b> computes the inverse sine in radians for each element of <b>x</b>.</p>
   </description>
   <used_function />
   <bibliography />

@@ -46,19 +46,15 @@
   <description>
     <p>
       <b>jlrunfile(filename)</b> exécute un fichier Julia.</p>
-    <p>Comme la fonction <b
-      >jlrun</b>, les variables générées dans l&apos;espace Julia via<b
-      >jlrunfile</b> sont persistantes.</p>
-    <p>Le code <b
-      >outvars = jlrunfile(file, outputs, jlName1, jlValue2, ..., jlNameN, jlValueN)</b> exécute le fichier avec un ou plusieurs arguments nom-valeur.</p>
+    <p>Comme la fonction <b>jlrun</b>, les variables générées dans l&apos;espace Julia via<b>jlrunfile</b> sont persistantes.</p>
+    <p>Le code <b>outvars = jlrunfile(file, outputs, jlName1, jlValue2, ..., jlNameN, jlValueN)</b> exécute le fichier avec un ou plusieurs arguments nom-valeur.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>Python</example_item_type>
-      <example_item_description
-      >jlrunfile_example_1.jl</example_item_description>
+      <example_item_description>jlrunfile_example_1.jl</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[content = "hello Nelson"

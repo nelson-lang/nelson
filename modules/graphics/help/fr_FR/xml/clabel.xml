@@ -17,17 +17,13 @@
     <param_input_item>
       <param_name>C</param_name>
       <param_description>
-        <p>Matrice Contour retournée par <b>contour</b>, <b>contourf</b>, ou<b
-          >contour3</b>. Si vous passez un objet contour<b
-          >h</b>, vous pouvez passer <b>[]</b> pour <b>C</b>.</p>
+        <p>Matrice Contour retournée par <b>contour</b>, <b>contourf</b>, ou<b>contour3</b>. Si vous passez un objet contour<b>h</b>, vous pouvez passer <b>[]</b> pour <b>C</b>.</p>
       </param_description>
     </param_input_item>
     <param_input_item>
       <param_name>h</param_name>
       <param_description>
-        <p>Handle d&apos;objet contour retourné par <b>contour</b> / <b
-          >contourf</b> / <b
-          >contour3</b>. Lorsqu&apos;il est fourni, l&apos;étiquetage utilise les informations attachées à l&apos;objet contour (niveaux et matrice de contour).</p>
+        <p>Handle d&apos;objet contour retourné par <b>contour</b> / <b>contourf</b> / <b>contour3</b>. Lorsqu&apos;il est fourni, l&apos;étiquetage utilise les informations attachées à l&apos;objet contour (niveaux et matrice de contour).</p>
       </param_description>
     </param_input_item>
     <param_input_item>
@@ -42,38 +38,30 @@
     <param_output_item>
       <param_name>t</param_name>
       <param_description>
-        <p>Objets Text créés par <b>clabel</b>. Les propriétés <b
-          >String</b> contiennent les valeurs de contour affichées.</p>
+        <p>Objets Text créés par <b>clabel</b>. Les propriétés <b>String</b> contiennent les valeurs de contour affichées.</p>
       </param_description>
     </param_output_item>
     <param_output_item>
       <param_name>tl</param_name>
       <param_description>
         <p
-        >Objets Text et ligne créés lorsque des marqueurs droits sont utilisés (pour l&apos;utilisation de style <b
-          >clabel(C)</b>).</p>
+        >Objets Text et ligne créés lorsque des marqueurs droits sont utilisés (pour l&apos;utilisation de style <b>clabel(C)</b>).</p>
       </param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p>La fonction<b
-      >clabel</b> insère des étiquettes dans les graphiques de contours :</p>
+    <p>La fonction<b>clabel</b> insère des étiquettes dans les graphiques de contours :</p>
     <ul>
-      <li>Fournir une matrice de contour <b>C</b> et un objet de contour<b
-        >h</b> pour étiqueter le texte tourné le long des lignes de contour.</li>
-      <li>Fournir uniquement<b
-        >C</b> pour ajouter des étiquettes droites et des marqueurs &apos;+&apos; aux emplacements de contour.</li>
-      <li>Passer un vecteur de niveaux<b
-        >v</b> pour étiqueter uniquement des valeurs de contour spécifiques.</li>
+      <li>Fournir une matrice de contour <b>C</b> et un objet de contour<b>h</b> pour étiqueter le texte tourné le long des lignes de contour.</li>
+      <li>Fournir uniquement<b>C</b> pour ajouter des étiquettes droites et des marqueurs &apos;+&apos; aux emplacements de contour.</li>
+      <li>Passer un vecteur de niveaux<b>v</b> pour étiqueter uniquement des valeurs de contour spécifiques.</li>
       <li
-      >Utiliser des paires Name,Value pour contrôler l&apos;apparence du texte (un sous-ensemble des propriétés Text, plus <b
-        >LabelSpacing</b>).</li>
+      >Utiliser des paires Name,Value pour contrôler l&apos;apparence du texte (un sous-ensemble des propriétés Text, plus <b>LabelSpacing</b>).</li>
     </ul>
   </description>
   <examples>
     <example_item>
-      <example_item_description
-      >Étiqueter les niveaux de contour (de base).</example_item_description>
+      <example_item_description>Étiqueter les niveaux de contour (de base).</example_item_description>
       <example_item_data
         runnable="adv-cli"
         language="matlab"
@@ -88,8 +76,7 @@ clabel(C,h)]]></example_item_data>
       />
     </example_item>
     <example_item>
-      <example_item_description
-      >Étiqueter des niveaux de contour spécifiques.</example_item_description>
+      <example_item_description>Étiqueter des niveaux de contour spécifiques.</example_item_description>
       <example_item_data
         runnable="adv-cli"
         language="matlab"
@@ -105,8 +92,7 @@ clabel(C,h,v)]]></example_item_data>
       />
     </example_item>
     <example_item>
-      <example_item_description
-      >Définir les propriétés des étiquettes de contour avec des paires Name,Value.</example_item_description>
+      <example_item_description>Définir les propriétés des étiquettes de contour avec des paires Name,Value.</example_item_description>
       <example_item_data
         runnable="adv-cli"
         language="matlab"
@@ -121,8 +107,7 @@ clabel(C,h,'FontSize',15,'Color','red')]]></example_item_data>
       />
     </example_item>
     <example_item>
-      <example_item_description
-      >Étiqueter en utilisant uniquement la matrice de contour (étiquettes droites).</example_item_description>
+      <example_item_description>Étiqueter en utilisant uniquement la matrice de contour (étiquettes droites).</example_item_description>
       <example_item_data
         runnable="adv-cli"
         language="matlab"

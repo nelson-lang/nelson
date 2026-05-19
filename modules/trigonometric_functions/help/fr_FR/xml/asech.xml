@@ -21,9 +21,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <b
-    >asech</b> calcule la sécante hyperbolique inverse de l&apos;argument en radians pour chaque élément de <b
-    >x</b>.</description>
+    <b>asech</b> calcule la sécante hyperbolique inverse de l&apos;argument en radians pour chaque élément de <b>x</b>.</description>
   <used_function />
   <bibliography />
   <examples>

@@ -29,9 +29,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >J = strjust(str, side)</b> returns the text that is justified on the side specified by<b
-      >side</b>.</p>
+      <b>J = strjust(str, side)</b> returns the text that is justified on the side specified by<b>side</b>.</p>
   </description>
   <used_function />
   <bibliography />

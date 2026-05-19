@@ -23,8 +23,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >dllibinfo</b> returns list of available symbols in an shared library.</p>
+      <b>dllibinfo</b> returns list of available symbols in an shared library.</p>
   </description>
   <used_function />
   <bibliography />

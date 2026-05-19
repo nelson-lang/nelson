@@ -9,9 +9,7 @@
   </syntax>
   <description>
     <p>
-      <b
-      >while</b> loop executes a set of statements as long as a the test condition remains<b
-      >true</b>.</p>
+      <b>while</b> loop executes a set of statements as long as a the test condition remains<b>true</b>.</p>
   </description>
   <used_function />
   <bibliography />

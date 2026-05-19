@@ -35,8 +35,7 @@
   <description>
     <p>
       <b>echo(&apos;off&apos;)</b> disable echo mode.</p>
-    <p>Without input and output arguments,<b
-      >echo</b> toggles the current echo state.</p>
+    <p>Without input and output arguments,<b>echo</b> toggles the current echo state.</p>
   </description>
   <used_function />
   <bibliography />

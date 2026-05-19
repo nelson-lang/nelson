@@ -15,8 +15,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >argv()</b> returns a cell array of strings containing the arguments of the Nelson command line.</p>
+      <b>argv()</b> returns a cell array of strings containing the arguments of the Nelson command line.</p>
     <p
     >The first element of the cell returned contains the path of the launched executable.</p>
   </description>

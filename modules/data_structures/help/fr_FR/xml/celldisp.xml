@@ -21,8 +21,7 @@
   </param_input>
   <description>
     <p>
-      <b
-      >celldisp</b> affiche récursivement le contenu d&apos;un tableau cellulaire.</p>
+      <b>celldisp</b> affiche récursivement le contenu d&apos;un tableau cellulaire.</p>
   </description>
   <used_function />
   <bibliography />

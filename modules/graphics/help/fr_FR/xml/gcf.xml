@@ -17,8 +17,7 @@
   <description>
     <p>
       <b>cf = gcf()</b> retourne l&apos;objet figure graphique courant.</p>
-    <p>Si aucune figure n&apos;existe, <b
-      >gcf()</b> crée une figure et retourne son objet graphique.</p>
+    <p>Si aucune figure n&apos;existe, <b>gcf()</b> crée une figure et retourne son objet graphique.</p>
   </description>
   <used_function />
   <bibliography />

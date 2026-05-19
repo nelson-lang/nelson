@@ -31,8 +31,7 @@
   <description>
     <p>
       <b>C = A &amp;
-        &amp; B</b> performs a logical<b
-      >AND</b> operation, the second operand is evaluated only when the result is not fully determined by the first operand.</p>
+        &amp; B</b> performs a logical<b>AND</b> operation, the second operand is evaluated only when the result is not fully determined by the first operand.</p>
   </description>
   <used_function />
   <bibliography />

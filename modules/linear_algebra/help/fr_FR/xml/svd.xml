@@ -40,8 +40,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >svd</b> calcule la décomposition en valeurs singulières d&apos;une matrice.          </p>
+      <b>svd</b> calcule la décomposition en valeurs singulières d&apos;une matrice.          </p>
     <p>Pour une matrice</p>
     <latex>M</latex>
     <p>de taille</p>

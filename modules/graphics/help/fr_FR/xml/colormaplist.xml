@@ -17,9 +17,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >colormaplist</b> retourne les palettes de couleurs disponibles sous forme de tableau de chaînes<b
-      >m</b>-par-<b>1</b>.</p>
+      <b>colormaplist</b> retourne les palettes de couleurs disponibles sous forme de tableau de chaînes<b>m</b>-par-<b>1</b>.</p>
   </description>
   <used_function />
   <bibliography />

@@ -23,8 +23,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >test_makeref</b> crée un fichier &apos;.ref&apos; à partir d&apos;un fichier de test.</p>
+      <b>test_makeref</b> crée un fichier &apos;.ref&apos; à partir d&apos;un fichier de test.</p>
     <p>Le fichier de test doit contenir la balise &lt;--CHECK REF--&gt;.</p>
   </description>
   <used_function />

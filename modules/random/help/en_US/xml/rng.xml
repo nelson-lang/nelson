@@ -49,44 +49,31 @@
   </param_output>
   <description>
     <p>
-      <b
-      >lst = rng(&apos;enginelist&apos;)</b> returns the list of available random number generator.</p>
+      <b>lst = rng(&apos;enginelist&apos;)</b> returns the list of available random number generator.</p>
     <p>
-      <b
-      >rng(&apos;default&apos;)</b> puts the settings of the random number generator to default values.</p>
+      <b>rng(&apos;default&apos;)</b> puts the settings of the random number generator to default values.</p>
     <p>
-      <b
-      >s = rng(&apos;default&apos;)</b> puts the settings of the random number generator to default values.</p>
+      <b>s = rng(&apos;default&apos;)</b> puts the settings of the random number generator to default values.</p>
     <p>
-      <b
-      >rng(&apos;shuffle&apos;)</b> puts the settings of the random number generator to default values and returns previous generator as an struct.</p>
+      <b>rng(&apos;shuffle&apos;)</b> puts the settings of the random number generator to default values and returns previous generator as an struct.</p>
     <p>
-      <b
-      >s = rng(&apos;shuffle&apos;)</b> seeds the random number generator based on the current time.</p>
+      <b>s = rng(&apos;shuffle&apos;)</b> seeds the random number generator based on the current time.</p>
     <p>
-      <b
-      >rng(seed)</b> seeds the random number generator using the nonnegative integer.</p>
+      <b>rng(seed)</b> seeds the random number generator using the nonnegative integer.</p>
     <p>
-      <b
-      >s = rng(seed)</b> seeds the random number generator using the nonnegative integer and returns previous generator as an struct.</p>
+      <b>s = rng(seed)</b> seeds the random number generator using the nonnegative integer and returns previous generator as an struct.</p>
     <p>
-      <b
-      >rng(seed, generator)</b> seeds the random number generator using the nonnegative integer and specify also the type of generator used.</p>
+      <b>rng(seed, generator)</b> seeds the random number generator using the nonnegative integer and specify also the type of generator used.</p>
     <p>
-      <b
-      >s = rng(seed, generator)</b> seeds the random number generator using the nonnegative integer and specify also the type of generator used and returns previous generator as an struct.</p>
+      <b>s = rng(seed, generator)</b> seeds the random number generator using the nonnegative integer and specify also the type of generator used and returns previous generator as an struct.</p>
     <p>
-      <b
-      >rng(&apos;shuffle&apos;, generator)</b> seeds the random number generator based on the current time and specify also the type of generator used.</p>
+      <b>rng(&apos;shuffle&apos;, generator)</b> seeds the random number generator based on the current time and specify also the type of generator used.</p>
     <p>
-      <b
-      >s = rng(&apos;shuffle&apos;, generator)</b> seeds the random number generator based on the current time,specify also the type of generator used and returns previous generator as an struct.</p>
+      <b>s = rng(&apos;shuffle&apos;, generator)</b> seeds the random number generator based on the current time,specify also the type of generator used and returns previous generator as an struct.</p>
     <p>
       <b>s = rng</b> returns current generator as an struct.</p>
     <p>
-      <b
-      >rng(s)</b> restores the settings of the random number generator using a previous struct returned by<b
-      >s = rng</b>.</p>
+      <b>rng(s)</b> restores the settings of the random number generator using a previous struct returned by<b>s = rng</b>.</p>
     <p />
     <p>Available generators are:</p>
     <table>

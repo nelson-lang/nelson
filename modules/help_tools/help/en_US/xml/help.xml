@@ -23,8 +23,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >help(&apos;function_name&apos;)</b> displays the help text for the functionality specified.</p>
+      <b>help(&apos;function_name&apos;)</b> displays the help text for the functionality specified.</p>
   </description>
   <used_function />
   <bibliography />

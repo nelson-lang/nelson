@@ -44,10 +44,8 @@
   </param_input>
   <description>
     <p>
-      <b
-      >i18nHelpers</b> provides essential utility functions for managing internationalization files. The main functions include:</p>
-    <p>-<b
-      >
+      <b>i18nHelpers</b> provides essential utility functions for managing internationalization files. The main functions include:</p>
+    <p>-<b>
         &apos;convert&apos;
       </b>: Converts a .po/.pot translation template file into JSON format for easier manipulation.</p>
     <p>-<b>
@@ -56,8 +54,7 @@
       >jsonFile1</code>are added to<code
       >jsonFile2</code>, and entries exclusive to<code
       >jsonFile2</code>are removed.</p>
-    <p>-<b
-      >
+    <p>-<b>
         &apos;sort&apos;
       </b>: Sorts and organizes entries in a JSON translation file.<code
       >jsonFileA</code>and<code

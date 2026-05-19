@@ -34,8 +34,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >imread</b> lit les données d&apos;image du fichier donné et les charge dans une matrice.</p>
+      <b>imread</b> lit les données d&apos;image du fichier donné et les charge dans une matrice.</p>
     <p />
     <table style="width:100%">
       <tr>

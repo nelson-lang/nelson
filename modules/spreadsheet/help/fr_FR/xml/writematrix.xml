@@ -26,14 +26,11 @@
   </param_input>
   <description>
     <p>
-      <b
-      >writematrix</b> écrit une matrice numérique dans un fichier au format CSV.</p>
+      <b>writematrix</b> écrit une matrice numérique dans un fichier au format CSV.</p>
     <p>
-      <b
-      >writematrix</b> ne prend pas en charge les matrices creuses (sparse).</p>
+      <b>writematrix</b> ne prend pas en charge les matrices creuses (sparse).</p>
     <p>
-      <b
-      >writematrix</b> formate les données numériques en utilisant le format long G.</p>
+      <b>writematrix</b> formate les données numériques en utilisant le format long G.</p>
     <p />
     <p>Arguments Nom-Valeur disponibles</p>
     <p />
@@ -150,8 +147,7 @@
     </table>
     <p />
     <p>
-      <b
-      >QuoteStrings</b> : contrôle le comportement de citation des textes (applicable uniquement aux fichiers texte délimités).</p>
+      <b>QuoteStrings</b> : contrôle le comportement de citation des textes (applicable uniquement aux fichiers texte délimités).</p>
     <p>
       <b>
         &apos;QuoteStrings&apos;, option</b>
@@ -159,8 +155,7 @@
     <p>with <b>options</b>
     </p>
     <p>
-      <b
-      >
+      <b>
         &apos;minimal&apos;
       </b> (par défaut) : cite uniquement les textes contenant des délimiteurs, des fins de ligne ou des guillemets.</p>
     <p>

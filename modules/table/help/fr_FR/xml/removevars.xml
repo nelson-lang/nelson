@@ -26,14 +26,10 @@
   </param_output>
   <description>
     <p>
-      <b
-      >TB = removevars(TA, varsNames)</b> supprime les variables spécifiées par <b
-      >varsNames</b> de la table <b
-      >TA</b> et stocke les variables restantes dans <b>T2</b>.</p>
+      <b>TB = removevars(TA, varsNames)</b> supprime les variables spécifiées par <b>varsNames</b> de la table <b>TA</b> et stocke les variables restantes dans <b>T2</b>.</p>
     <p
     >Vous pouvez spécifier les variables par nom, position ou en utilisant des indices logiques.</p>
-    <p>Vous pouvez également supprimer des variables d&apos;une table en utilisant<b
-      >T(:, varsNames) = []</b>.</p>
+    <p>Vous pouvez également supprimer des variables d&apos;une table en utilisant<b>T(:, varsNames) = []</b>.</p>
   </description>
   <used_function />
   <bibliography />

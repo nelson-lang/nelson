@@ -29,8 +29,7 @@
     <p>
       <b>c = cond(A)</b> returns the 2-norm condition number for inversion.</p>
     <p>
-      <b
-      >c = cond(A, p)</b> returns the p-norm condition number, where p can be 1, 2, Inf, or &apos;fro&apos;.</p>
+      <b>c = cond(A, p)</b> returns the p-norm condition number, where p can be 1, 2, Inf, or &apos;fro&apos;.</p>
   </description>
   <used_function />
   <bibliography />

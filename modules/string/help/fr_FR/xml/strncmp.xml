@@ -33,8 +33,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <b
-    >strncmp</b> compare les n premiers caractères de deux chaînes (sensible à la casse).</description>
+    <b>strncmp</b> compare les n premiers caractères de deux chaînes (sensible à la casse).</description>
   <used_function />
   <bibliography />
   <examples>

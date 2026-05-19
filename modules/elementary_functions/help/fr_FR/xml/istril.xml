@@ -22,8 +22,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >istril</b> renvoie un scalaire booléen si la matrice est triangulaire inférieure.</p>
+      <b>istril</b> renvoie un scalaire booléen si la matrice est triangulaire inférieure.</p>
   </description>
   <used_function />
   <bibliography />

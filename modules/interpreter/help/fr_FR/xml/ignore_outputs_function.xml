@@ -8,8 +8,7 @@
     <syntax_item>[~, A, ~] = svd(B)</syntax_item>
   </syntax>
   <description>
-    <p>              La syntaxe <b
-      >tilde</b> permet d&apos;ignorer des sorties spécifiques de fonctions qui renvoient plusieurs valeurs. En utilisant le symbole tilde (~) dans la liste des sorties, vous pouvez indiquer quelles sorties vous ne souhaitez pas capturer.</p>
+    <p>              La syntaxe <b>tilde</b> permet d&apos;ignorer des sorties spécifiques de fonctions qui renvoient plusieurs valeurs. En utilisant le symbole tilde (~) dans la liste des sorties, vous pouvez indiquer quelles sorties vous ne souhaitez pas capturer.</p>
     <p
     >Cela est particulièrement utile lorsque vous ne vous intéressez qu&apos;à certains résultats d&apos;une fonction et que vous souhaitez éviter des affectations de variables inutiles.</p>
     <p
@@ -20,8 +19,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >in a file: demo_function.m</example_item_description>
+      <example_item_description>in a file: demo_function.m</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[

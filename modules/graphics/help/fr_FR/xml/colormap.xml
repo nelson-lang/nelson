@@ -31,8 +31,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >colormap</b> permet d&apos;afficher et de définir la palette de couleurs utilisée dans un graphique.</p>
+      <b>colormap</b> permet d&apos;afficher et de définir la palette de couleurs utilisée dans un graphique.</p>
   </description>
   <used_function />
   <bibliography />

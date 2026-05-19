@@ -28,8 +28,7 @@
   </param_output>
   <description>
     <p>
-      <b>startsWith</b> returns <b>true</b> if <b>str</b> starts with<b
-      >pattern</b>.</p>
+      <b>startsWith</b> returns <b>true</b> if <b>str</b> starts with<b>pattern</b>.</p>
   </description>
   <used_function />
   <bibliography />

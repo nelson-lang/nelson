@@ -31,8 +31,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >loadnh5</b> charge des données d&apos;un fichier .nh5 dans l&apos;espace de travail de Nelson.</p>
+      <b>loadnh5</b> charge des données d&apos;un fichier .nh5 dans l&apos;espace de travail de Nelson.</p>
     <p>Le fichier .nh5 utilise un conteneur HDF5.</p>
   </description>
   <used_function />

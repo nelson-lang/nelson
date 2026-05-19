@@ -22,8 +22,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >trace(x)</b> computes the trace of x, the sum of the elements along the main diagonal.</p>
+      <b>trace(x)</b> computes the trace of x, the sum of the elements along the main diagonal.</p>
   </description>
   <used_function />
   <bibliography />

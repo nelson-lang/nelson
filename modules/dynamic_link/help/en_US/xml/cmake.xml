@@ -27,8 +27,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >cmake</b> used internally to generate makefile used to build C/C++ code.</p>
+      <b>cmake</b> used internally to generate makefile used to build C/C++ code.</p>
     <p>
       <b>cmake</b> used by <b>dlgeneratemake</b>.</p>
   </description>

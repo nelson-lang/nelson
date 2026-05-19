@@ -26,11 +26,8 @@
   </param_output>
   <description>
     <p>
-      <b>tf = keyMatch(A, B)</b> returns <b>true</b> if arrays<b>A</b> and<b
-      >B</b> have identical classes, properties, dimensions, and values, and returns<b
-      >false</b> otherwise.</p>
-    <p>For custom classes, overloading<b
-      >keyMatch</b> may be necessary to ensure accurate equivalence.</p>
+      <b>tf = keyMatch(A, B)</b> returns <b>true</b> if arrays<b>A</b> and<b>B</b> have identical classes, properties, dimensions, and values, and returns<b>false</b> otherwise.</p>
+    <p>For custom classes, overloading<b>keyMatch</b> may be necessary to ensure accurate equivalence.</p>
   </description>
   <used_function />
   <bibliography />

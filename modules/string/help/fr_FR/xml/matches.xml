@@ -29,8 +29,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <b
-    >matches</b> détermine si le motif correspond aux chaînes.</description>
+    <b>matches</b> détermine si le motif correspond aux chaînes.</description>
   <used_function />
   <bibliography />
   <examples>

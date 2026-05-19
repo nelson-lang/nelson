@@ -60,8 +60,7 @@
     <p>L&apos;équation caractéristique est :</p>
     <latex>\det(A - \lambda I) = 0</latex>
     <p>
-      <b
-      >eig(A, B)</b> retourne les valeurs propres généralisées et vecteurs propres où :          </p>
+      <b>eig(A, B)</b> retourne les valeurs propres généralisées et vecteurs propres où :          </p>
     <latex>A\mathbf{v} = \lambda B\mathbf{v}</latex>
   </description>
   <used_function />

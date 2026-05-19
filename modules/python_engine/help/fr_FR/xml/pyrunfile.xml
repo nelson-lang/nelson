@@ -47,23 +47,17 @@
   <description>
     <p>
       <b>pyrunfile(filename)</b> exécute un fichier Python.</p>
-    <p>Contrairement à la fonction <b
-      >pyrun</b>, les variables générées dans l&apos;espace Python par<b
-      >pyrunfile</b> ne persistent pas. Ainsi, les appels suivants à<b
-      >pyrunfile</b> ne pourront pas accéder à ces variables.</p>
-    <p>Le code <b
-      >outvars = pyrunfile(file, outputs, pyName1, pyValue2, ..., pyNameN, pyValueN)</b> exécute le code avec une ou plusieurs paires nom-valeur en entrée.</p>
+    <p>Contrairement à la fonction <b>pyrun</b>, les variables générées dans l&apos;espace Python par<b>pyrunfile</b> ne persistent pas. Ainsi, les appels suivants à<b>pyrunfile</b> ne pourront pas accéder à ces variables.</p>
+    <p>Le code <b>outvars = pyrunfile(file, outputs, pyName1, pyValue2, ..., pyNameN, pyValueN)</b> exécute le code avec une ou plusieurs paires nom-valeur en entrée.</p>
     <p>Limitation connue :</p>
-    <p>Les fonctions <b>pyrun</b> et<b
-      >pyrunfile</b> ne prennent pas en charge les classes contenant des variables locales initialisées par d&apos;autres variables locales via des méthodes. Dans ce cas, il est conseillé de créer un module et d&apos;y accéder.</p>
+    <p>Les fonctions <b>pyrun</b> et<b>pyrunfile</b> ne prennent pas en charge les classes contenant des variables locales initialisées par d&apos;autres variables locales via des méthodes. Dans ce cas, il est conseillé de créer un module et d&apos;y accéder.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>Python</example_item_type>
-      <example_item_description
-      >pyrunfile_example_1.py</example_item_description>
+      <example_item_description>pyrunfile_example_1.py</example_item_description>
       <example_item_data
       ><![CDATA[content = "hello Nelson"
 print(content)]]></example_item_data>
@@ -76,8 +70,7 @@ print(content)]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>Python</example_item_type>
-      <example_item_description
-      >pyrunfile_example_2.py</example_item_description>
+      <example_item_description>pyrunfile_example_2.py</example_item_description>
       <example_item_data
       ><![CDATA[import sys
 print('greetings from:')
@@ -87,15 +80,13 @@ for arg in sys.argv[0:]:
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >pyrunfile from Nelson with arguments</example_item_description>
+      <example_item_description>pyrunfile from Nelson with arguments</example_item_description>
       <example_item_data
       ><![CDATA[pyrunfile('pyrunfile_example_2.py "Hello" "world"')]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>Python</example_item_type>
-      <example_item_description
-      >pyrunfile_example_3.py</example_item_description>
+      <example_item_description>pyrunfile_example_3.py</example_item_description>
       <example_item_data
       ><![CDATA[def minus(a,c):
     b = a-c
@@ -106,8 +97,7 @@ z = minus(x, y)
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >pyrunfile from Nelson with values from Nelson</example_item_description>
+      <example_item_description>pyrunfile from Nelson with values from Nelson</example_item_description>
       <example_item_data
       ><![CDATA[pyrunfile('pyrunfile_example_3.py', 'x', 5, 'y', 3)]]></example_item_data>
     </example_item>

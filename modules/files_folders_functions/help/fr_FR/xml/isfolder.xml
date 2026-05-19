@@ -24,8 +24,7 @@
   </param_output>
   <description>
     <p>
-      <b>isfolder(dirname)</b> renvoie <b>true</b> si<b
-      >dirname</b> est un répertoire.</p>
+      <b>isfolder(dirname)</b> renvoie <b>true</b> si<b>dirname</b> est un répertoire.</p>
   </description>
   <used_function />
   <bibliography />

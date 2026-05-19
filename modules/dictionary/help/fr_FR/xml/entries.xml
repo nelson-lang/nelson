@@ -27,14 +27,11 @@
   </param_output>
   <description>
     <p>
-      <b
-      >E = entries(d)</b> récupère une table contenant les paires clé-valeur du dictionnaire donné,<b
-      >d</b>.</p>
+      <b>E = entries(d)</b> récupère une table contenant les paires clé-valeur du dictionnaire donné,<b>d</b>.</p>
     <p>
       <b>E = entries(d)</b> actuellement non implémenté.</p>
     <p>
-      <b
-      >E = entries(d, format)</b> spécifie le format de sortie comme une table ou une structure. Par exemple, entries(d, &quot;struct&quot;) renvoie une structure contenant les paires clé-valeur de d. Cette option est utile pour les types de données non compatibles avec les tables.</p>
+      <b>E = entries(d, format)</b> spécifie le format de sortie comme une table ou une structure. Par exemple, entries(d, &quot;struct&quot;) renvoie une structure contenant les paires clé-valeur de d. Cette option est utile pour les types de données non compatibles avec les tables.</p>
   </description>
   <used_function />
   <bibliography />

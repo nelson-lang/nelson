@@ -17,8 +17,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >l = lasterror()</b> returns a structure containing the last error message and information as an struct.</p>
+      <b>l = lasterror()</b> returns a structure containing the last error message and information as an struct.</p>
     <p>
       <b>lasterror(&apos;reset&apos;)</b> clears last error.</p>
     <p>

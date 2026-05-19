@@ -65,8 +65,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >test_run</b> function searchs &apos;test_*.m&apos;, &apos;bug_*.m&apos;, and &apos;bench_*.m&apos; files, executes them, and displays a report about success or failures.</p>
+      <b>test_run</b> function searchs &apos;test_*.m&apos;, &apos;bug_*.m&apos;, and &apos;bench_*.m&apos; files, executes them, and displays a report about success or failures.</p>
     <p
     >Each test or bench is executed in a separated process using the &apos;unix&apos; command.</p>
     <p
@@ -76,49 +75,39 @@
     >Some special tags can be inserted in the .m files to help the processing of the corresponding test.</p>
     <p>These tags are expected to be found in Nelson comments:</p>
     <p>
-      <b
-      >
+      <b>
         &lt;--NOT FIXED--&gt;
       </b> This test is skipped because it is a reported bug, but it is not yet fixed.</p>
     <p>
-      <b
-      >
+      <b>
         &lt;--INTERACTIVE TEST--&gt;
       </b> This test is skipped because it is interactive test.</p>
     <p>
-      <b
-      >
+      <b>
         &lt;--CLI MODE--&gt;
       </b> This test will be executed by nelson-cli executable (default).</p>
     <p>
-      <b
-      >
+      <b>
         &lt;--ADV-CLI MODE--&gt;
       </b> This test will be executed by nelson-adv-cli executable.</p>
     <p>
-      <b
-      >
+      <b>
         &lt;--GUI MODE--&gt;
       </b> This test will be executed by nelson-gui executable.</p>
     <p>
-      <b
-      >
+      <b>
         &lt;--CHECK REF--&gt;
-      </b> This test will compare .ref available in same directory with output generated. see <b
-      >test_makeref</b> to generate .ref file.</p>
+      </b> This test will compare .ref available in same directory with output generated. see <b>test_makeref</b> to generate .ref file.</p>
     <p>
-      <b
-      >
+      <b>
         &lt;--ENGLISH IMPOSED--&gt;
       </b> This test will be executed with the en_US language.</p>
     <p>
-      <b
-      >
+      <b>
         &lt;--WINDOWS ONLY--&gt;
       </b> This test will be executed only on Windows.</p>
     <p>
-      <b
-      >
+      <b>
         &lt;--MACOS ONLY--&gt;
       </b> This test will be executed only on Macos.</p>
     <p>
@@ -126,18 +115,15 @@
         &lt;--UNIX ONLY--&gt;
       </b> This test will be executed only on Unix.</p>
     <p>
-      <b
-      >
+      <b>
         &lt;--WITH DISPLAY--&gt;
       </b> This test will be executed only if a display output is available.</p>
     <p>
-      <b
-      >
+      <b>
         &lt;--RELEASE ONLY--&gt;
       </b> This test will be executed only if nelson is an release (not in debug mode).</p>
     <p>
-      <b
-      >
+      <b>
         &lt;--EXCEL REQUIRED--&gt;
       </b> This test will be executed only if excel is detected (on Windows).</p>
     <p>
@@ -145,70 +131,56 @@
         &lt;--MPI MODE--&gt;
       </b> This test will be executed in MPI mode.</p>
     <p>
-      <b
-      >
+      <b>
         &lt;--AUDIO INPUT REQUIRED--&gt;
       </b> This test will be executed if an audio input is available.</p>
     <p>
-      <b
-      >
+      <b>
         &lt;--AUDIO OUTPUT REQUIRED--&gt;
       </b> This test will be executed if an audio output is available.</p>
     <p>
-      <b
-      >
+      <b>
         &lt;--C/C++ COMPILER REQUIRED--&gt;
       </b> This test will be executed if an C/C++ compiler is available.</p>
     <p>
-      <b
-      >
+      <b>
         &lt;--INDEX 64 BIT REQUIRED--&gt;
       </b> This test will be executed if 64 bit index is available.</p>
     <p>
-      <b
-      >
+      <b>
         &lt;--NO USER MODULES--&gt;
       </b> This test will be executed without load user modules.</p>
     <p>
-      <b
-      >
+      <b>
         &lt;--IPC REQUIRED--&gt;
       </b> This test will be executed if IPC is available.</p>
     <p>
-      <b
-      >
+      <b>
         &lt;--SEQUENTIAL TEST REQUIRED--&gt;
       </b> This test will be executed sequentialy (1 worker).</p>
     <p>
-      <b
-      >
+      <b>
         &lt;--NATIVE ARCHITECTURE TEST REQUIRED--&gt;
       </b> This test will be executed if application&apos;s build and architecture are same.</p>
     <p>
-      <b
-      >
+      <b>
         &lt;--FILE WATCHER REQUIRED--&gt;
       </b>This test will be executed if file watcher is available.</p>
     <p>
-      <b
-      >
+      <b>
         &lt;--PYTHON ENVIRONMENT REQUIRED--&gt;
       </b> This test will be executed if python environment is available and configured.</p>
     <p>
-      <b
-      >
+      <b>
         &lt;--JULIA ENVIRONMENT REQUIRED--&gt;
       </b> This test will be executed if julia environment is available and configured.</p>
     <p />
-    <p>Test can also skipped dynamically using <b
-      >skip_testsuite</b> function.</p>
+    <p>Test can also skipped dynamically using <b>skip_testsuite</b> function.</p>
     <p
     >To avoid to block the application, tests have an execution timer of 2 minutes and the benchs have a timer of 6 minutes.</p>
     <p>
-      <b
-      >test_run</b> uses n th workers to execute and speed up tests executions.</p>
-    <p>Tests with <b
-      >
+      <b>test_run</b> uses n th workers to execute and speed up tests executions.</p>
+    <p>Tests with <b>
         &lt;--SEQUENTIAL TEST REQUIRED--&gt;
       </b> are evaluated last.</p>
     <p>Benchs are evaluated sequentialy.</p>

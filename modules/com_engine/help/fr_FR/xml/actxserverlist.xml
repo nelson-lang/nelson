@@ -16,8 +16,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >l = actxserverlist()</b> retourne la liste des serveurs disponibles.</p>
+      <b>l = actxserverlist()</b> retourne la liste des serveurs disponibles.</p>
   </description>
   <used_function />
   <bibliography />

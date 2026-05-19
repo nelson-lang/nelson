@@ -42,8 +42,7 @@
   </param_output>
   <description>
     <p>
-      <b>weekday</b> renvoie le jour de la semaine sous forme numérique dans<b
-      >number</b> et sous forme textuelle dans <b>name</b>.</p>
+      <b>weekday</b> renvoie le jour de la semaine sous forme numérique dans<b>number</b> et sous forme textuelle dans <b>name</b>.</p>
   </description>
   <used_function />
   <bibliography />

@@ -24,9 +24,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >translated_string = gettext(your_string)</b> gets the translation of a string<b
-      >your_string</b> to the current locale in the Nelson domain.</p>
+      <b>translated_string = gettext(your_string)</b> gets the translation of a string<b>your_string</b> to the current locale in the Nelson domain.</p>
     <p>
       <b>_(your_string)</b> is an alias of <b>gettext(your_string)</b>.</p>
   </description>

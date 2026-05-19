@@ -35,8 +35,7 @@
   </param_output>
   <description>
     <p>
-      <b>fseek</b> déplace le pointeur de fichier à l&apos;emplacement <b
-      >offset</b> dans le fichier <b>fid</b>.</p>
+      <b>fseek</b> déplace le pointeur de fichier à l&apos;emplacement <b>offset</b> dans le fichier <b>fid</b>.</p>
     <p>origin peut prendre comme valeurs :</p>
     <p>
       &apos;bof&apos; ou -1 : début du fichier.</p>
@@ -45,10 +44,7 @@
     <p>
       &apos;eof&apos; ou 1 : fin du fichier.</p>
     <p>
-      <b>offset</b> peut être l&apos;une des variables prédéfinies<b
-      >SEEK_CUR</b> (position courante, ou 0),<b
-      >SEEK_SET</b> (début, ou -1), ou<b
-      >SEEK_END</b> (fin du fichier, ou 1).</p>
+      <b>offset</b> peut être l&apos;une des variables prédéfinies<b>SEEK_CUR</b> (position courante, ou 0),<b>SEEK_SET</b> (début, ou -1), ou<b>SEEK_END</b> (fin du fichier, ou 1).</p>
   </description>
   <used_function />
   <bibliography />

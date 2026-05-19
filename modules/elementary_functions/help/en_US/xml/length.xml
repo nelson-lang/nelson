@@ -21,10 +21,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>For matrix or N-dimensional array,<b
-      >length</b> returns the number of elements along the largest dimension. For empty object, <b
-      >length</b> returns 0. For scalar,<b>length</b> returns 1. For a vector,<b
-      >length</b> returns the number of elements.</p>
+    <p>For matrix or N-dimensional array,<b>length</b> returns the number of elements along the largest dimension. For empty object, <b>length</b> returns 0. For scalar,<b>length</b> returns 1. For a vector,<b>length</b> returns the number of elements.</p>
   </description>
   <used_function />
   <bibliography />

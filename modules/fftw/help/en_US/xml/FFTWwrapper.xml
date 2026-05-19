@@ -40,8 +40,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >FFTWwrapper</b> is an internal builtin used to load FFTW library dynamically.</p>
+      <b>FFTWwrapper</b> is an internal builtin used to load FFTW library dynamically.</p>
   </description>
   <used_function />
   <bibliography />

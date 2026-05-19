@@ -21,8 +21,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >V = var(M)</b> renvoie la variance des éléments de M le long de la première dimension du tableau dont la taille n&apos;est pas égale à 1.</p>
+      <b>V = var(M)</b> renvoie la variance des éléments de M le long de la première dimension du tableau dont la taille n&apos;est pas égale à 1.</p>
   </description>
   <used_function />
   <bibliography />

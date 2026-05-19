@@ -82,8 +82,7 @@
     <p />
     <p>Tips:</p>
     <p />
-    <p>If you have this error:<b
-      >callback returned unsupported credentials type</b> , checks your ~/.gitconfig file.</p>
+    <p>If you have this error:<b>callback returned unsupported credentials type</b> , checks your ~/.gitconfig file.</p>
     <p>You don&apos;t have some  ssh or https redirection.</p>
     <p>Remove entries:</p>
     <p>[url &quot;git@github.com:&quot;]</p>

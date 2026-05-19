@@ -36,18 +36,13 @@
   </param_output>
   <description>
     <p>
-      <b
-      >pyrun(code)</b> exécute les instructions Python contenues dans la chaîne code au sein de l&apos;interpréteur Python.</p>
-    <p>Les variables générées par <b
-      >pyrun</b> restent persistantes, permettant leur réutilisation dans des appels <b
-      >pyrun</b> ultérieurs.</p>
+      <b>pyrun(code)</b> exécute les instructions Python contenues dans la chaîne code au sein de l&apos;interpréteur Python.</p>
+    <p>Les variables générées par <b>pyrun</b> restent persistantes, permettant leur réutilisation dans des appels <b>pyrun</b> ultérieurs.</p>
     <p>
-      <b
-      >outvars = pyrun(code, outputs)</b> : les variables Python spécifiées dans outputs sont renvoyées à Nelson.</p>
+      <b>outvars = pyrun(code, outputs)</b> : les variables Python spécifiées dans outputs sont renvoyées à Nelson.</p>
     <p>Les valeurs de ces variables sont capturées dans <b>outvars</b>.</p>
     <p>
-      <b>outvars = pyrun(code, outputs, pyName, pyValue)</b> : le <b
-      >code</b> est exécuté avec des noms/valeurs d&apos;entrée et de sortie fournis depuis Nelson via des paires nom-valeur.</p>
+      <b>outvars = pyrun(code, outputs, pyName, pyValue)</b> : le <b>code</b> est exécuté avec des noms/valeurs d&apos;entrée et de sortie fournis depuis Nelson via des paires nom-valeur.</p>
   </description>
   <used_function />
   <bibliography />
@@ -76,8 +71,7 @@ r = pyrun('d = a + c', 'd')]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Python code object representing a script generated through the built-in compile function in Python</example_item_description>
+      <example_item_description>Python code object representing a script generated through the built-in compile function in Python</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[PYCODE = pyrun('X = compile(''Y = 3'', ''test'', ''exec'')', 'X')

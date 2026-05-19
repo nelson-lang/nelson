@@ -37,8 +37,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >xmlchecker</b> is a tool to check that a xml file is valid against a xsd file.</p>
+      <b>xmlchecker</b> is a tool to check that a xml file is valid against a xsd file.</p>
   </description>
   <used_function />
   <bibliography />

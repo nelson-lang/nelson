@@ -71,34 +71,25 @@
   </param_output>
   <description>
     <p>
-      <b
-      >pbaspect</b> controls the relative lengths of the x, y, and z axes in the plot box.</p>
+      <b>pbaspect</b> controls the relative lengths of the x, y, and z axes in the plot box.</p>
     <p>
-      <b
-      >pbaspect(ratio)</b> sets the plot box aspect ratio for the current axes. <b
-      >ratio</b> is a three-element vector of positive values. For example, [3 1 1] means the x-axis is three times as long as the y- and z-axes.</p>
+      <b>pbaspect(ratio)</b> sets the plot box aspect ratio for the current axes. <b>ratio</b> is a three-element vector of positive values. For example, [3 1 1] means the x-axis is three times as long as the y- and z-axes.</p>
     <p>
-      <b
-      >pb = pbaspect()</b> returns the current plot box aspect ratio as a three-element vector.</p>
+      <b>pb = pbaspect()</b> returns the current plot box aspect ratio as a three-element vector.</p>
     <p>
-      <b
-      >pbaspect(&apos;auto&apos;)</b> sets the plot box aspect ratio mode to automatic, enabling the axes to choose the ratio.</p>
+      <b>pbaspect(&apos;auto&apos;)</b> sets the plot box aspect ratio mode to automatic, enabling the axes to choose the ratio.</p>
     <p>
-      <b
-      >pbaspect(&apos;manual&apos;)</b> sets the mode to manual and uses the ratio stored in the axes.</p>
+      <b>pbaspect(&apos;manual&apos;)</b> sets the mode to manual and uses the ratio stored in the axes.</p>
     <p>
-      <b
-      >m = pbaspect(&apos;mode&apos;)</b> returns the current mode, either &apos;auto&apos; or &apos;manual&apos;.</p>
+      <b>m = pbaspect(&apos;mode&apos;)</b> returns the current mode, either &apos;auto&apos; or &apos;manual&apos;.</p>
     <p>
-      <b>pbaspect(ax, ...)</b> operates on the axes specified by <b
-      >ax</b> instead of the current axes.</p>
+      <b>pbaspect(ax, ...)</b> operates on the axes specified by <b>ax</b> instead of the current axes.</p>
     <p
     >Setting the plot box aspect ratio disables the stretch-to-fill behavior of the axes.</p>
   </description>
   <examples>
     <example_item>
-      <example_item_description
-      >Use equal axis lengths</example_item_description>
+      <example_item_description>Use equal axis lengths</example_item_description>
       <example_item_data
         runnable="adv-cli"
       ><![CDATA[
@@ -114,8 +105,7 @@ pbaspect([1 1 1])
       />
     </example_item>
     <example_item>
-      <example_item_description
-      >Use different axis lengths</example_item_description>
+      <example_item_description>Use different axis lengths</example_item_description>
       <example_item_data
         runnable="adv-cli"
       ><![CDATA[
@@ -132,8 +122,7 @@ disp(pbaspect('mode'))
       />
     </example_item>
     <example_item>
-      <example_item_description
-      >Revert back to default plot box aspect ratio</example_item_description>
+      <example_item_description>Revert back to default plot box aspect ratio</example_item_description>
       <example_item_data
         runnable="adv-cli"
       ><![CDATA[
@@ -151,8 +140,7 @@ pbaspect('auto')
       />
     </example_item>
     <example_item>
-      <example_item_description
-      >Query plot box aspect ratio</example_item_description>
+      <example_item_description>Query plot box aspect ratio</example_item_description>
       <example_item_data
         runnable="adv-cli"
       ><![CDATA[
@@ -169,8 +157,7 @@ disp(pb)
       />
     </example_item>
     <example_item>
-      <example_item_description
-      >Set plot box aspect ratio for specific axes object</example_item_description>
+      <example_item_description>Set plot box aspect ratio for specific axes object</example_item_description>
       <example_item_data
         runnable="adv-cli"
       ><![CDATA[

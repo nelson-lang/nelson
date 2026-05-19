@@ -42,8 +42,7 @@
       <b>assert</b> raises an error if the input value is false.</p>
     <p
     >This function also raises an error if the input is not a logical value, ensuring type safety.</p>
-    <p>When the optional <b
-      >err_msg</b> parameter is provided, it will be used as the error message instead of the default message when the assertion fails.</p>
+    <p>When the optional <b>err_msg</b> parameter is provided, it will be used as the error message instead of the default message when the assertion fails.</p>
     <p
     >This is the fundamental assertion function that forms the basis for testing conditions in programs and unit tests.</p>
   </description>
@@ -52,8 +51,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Test assertion failure with custom error message:</example_item_description>
+      <example_item_description>Test assertion failure with custom error message:</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[try
@@ -64,8 +62,7 @@ end]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Test successful assertion:</example_item_description>
+      <example_item_description>Test successful assertion:</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[assert(5 > 3);
@@ -73,8 +70,7 @@ disp('Assertion passed: 5 is greater than 3')]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Using return values to handle assertion results:</example_item_description>
+      <example_item_description>Using return values to handle assertion results:</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[[r, msg] = assert(false, 'This condition is false');
@@ -84,8 +80,7 @@ end]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Basic assertion without custom message:</example_item_description>
+      <example_item_description>Basic assertion without custom message:</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[x = 10;

@@ -32,8 +32,7 @@
   </param_input>
   <description>
     <p>
-      <b
-      >filewrite</b> saves a character array, cell of string or string array to a file.</p>
+      <b>filewrite</b> saves a character array, cell of string or string array to a file.</p>
     <p>file saved uses by default UTF-8 (NO-BOM) encoding.</p>
   </description>
   <used_function />

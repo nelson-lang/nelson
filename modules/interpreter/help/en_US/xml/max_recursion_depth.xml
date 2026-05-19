@@ -27,8 +27,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >max_recursion_depth</b> specifies the recursion depth max to prevent Nelson from recursing infinitely.</p>
+      <b>max_recursion_depth</b> specifies the recursion depth max to prevent Nelson from recursing infinitely.</p>
   </description>
   <used_function />
   <bibliography />

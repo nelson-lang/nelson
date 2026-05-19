@@ -16,8 +16,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >terminal_size()</b> retourne un vecteur avec la taille de la fenêtre du terminal en caractères (lignes et colonnes).</p>
+      <b>terminal_size()</b> retourne un vecteur avec la taille de la fenêtre du terminal en caractères (lignes et colonnes).</p>
   </description>
   <bibliography />
   <examples>

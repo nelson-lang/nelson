@@ -23,12 +23,9 @@
   </param_output>
   <description>
     <p>
-      <b
-      >loadcompilerconf</b> renvoie true si un compilateur a été configuré auparavant avec<b
-      >configuremsvc</b> ou <b>configuremingw</b>.</p>
+      <b>loadcompilerconf</b> renvoie true si un compilateur a été configuré auparavant avec<b>configuremsvc</b> ou <b>configuremingw</b>.</p>
     <p>
-      <b
-      >loadcompilerconf</b> renvoie toujours false sur les autres plateformes et &apos;unix&apos; comme compilateur.</p>
+      <b>loadcompilerconf</b> renvoie toujours false sur les autres plateformes et &apos;unix&apos; comme compilateur.</p>
     <p>
       <b>loadcompilerconf</b> est appelé au démarrage de Nelson.</p>
   </description>

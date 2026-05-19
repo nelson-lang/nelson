@@ -66,12 +66,9 @@
   <description>
     <p>
       <b>max</b> trouve les valeurs maximales dans un tableau.</p>
-    <p>Si <b>A</b> est une matrice alors <b
-      >M = max(A)</b> est un vecteur ligne contenant la valeur maximale de chaque colonne.</p>
-    <p>Si <b>A</b> est un vecteur alors <b
-      >M = max(A)</b> renverra le maximum de <b>A</b>.</p>
-    <p>Si <b>A</b> est un nombre complexe alors <b
-      >M = max(A)</b> renverra le nombre complexe ayant la plus grande magnitude.</p>
+    <p>Si <b>A</b> est une matrice alors <b>M = max(A)</b> est un vecteur ligne contenant la valeur maximale de chaque colonne.</p>
+    <p>Si <b>A</b> est un vecteur alors <b>M = max(A)</b> renverra le maximum de <b>A</b>.</p>
+    <p>Si <b>A</b> est un nombre complexe alors <b>M = max(A)</b> renverra le nombre complexe ayant la plus grande magnitude.</p>
   </description>
   <used_function />
   <bibliography />

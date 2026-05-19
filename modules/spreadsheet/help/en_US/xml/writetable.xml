@@ -22,8 +22,7 @@
   </param_input>
   <description>
     <p>
-      <b>writetable(T)</b> writes the table <b
-      >T</b> to a comma-delimited text file.</p>
+      <b>writetable(T)</b> writes the table <b>T</b> to a comma-delimited text file.</p>
     <p
     >The file name is derived from the table&apos;s workspace variable name, with the <code
       >.txt</code> extension appended.</p>
@@ -33,14 +32,11 @@
     <p>Output formats supported:</p>
     <ul>
       <li>
-        <b>Text files:</b> Each variable in <b
-        >T</b> becomes a column, and variable names serve as column headers in the first line.</li>
+        <b>Text files:</b> Each variable in <b>T</b> becomes a column, and variable names serve as column headers in the first line.</li>
       <li>
-        <b>XML files:</b> Each variable in <b
-        >T</b> becomes an XML node, with variable names as element node names.</li>
+        <b>XML files:</b> Each variable in <b>T</b> becomes an XML node, with variable names as element node names.</li>
     </ul>
-    <p>To specify the file name explicitly, use <b
-      >writetable(T, filename)</b>. The file format is determined by the file extension:</p>
+    <p>To specify the file name explicitly, use <b>writetable(T, filename)</b>. The file format is determined by the file extension:</p>
     <ul>
       <li>
         <b>.txt</b>, <b>.dat</b>, <b>.csv</b>: Delimited text files.</li>
@@ -48,12 +44,10 @@
         <b>.xml</b>: XML files.</li>
     </ul>
     <p>
-      <b>Additional options:</b> Use <b
-      >writetable(..., Name, Value)</b> for customization:</p>
+      <b>Additional options:</b> Use <b>writetable(..., Name, Value)</b> for customization:</p>
     <ul>
       <li>
-        <b
-        >WriteRowNames:</b> Include row names in the output file (default: <code
+        <b>WriteRowNames:</b> Include row names in the output file (default: <code
         >false</code>).</li>
       <li>
         <b>FileType:</b> Specify file format (<code>
@@ -63,8 +57,7 @@
           &apos;xml&apos;
         </code>).</li>
       <li>
-        <b
-        >WriteVariableNames:</b> Include variable names as column headings in text files (default: <code
+        <b>WriteVariableNames:</b> Include variable names as column headings in text files (default: <code
         >true</code>).</li>
       <li>
         <b>WriteMode:</b> Specify writing mode (<code
@@ -90,8 +83,7 @@
           &apos;none&apos;
         </code>).</li>
       <li>
-        <b
-        >AttributeSuffix:</b> Specify attribute suffix for XML files (default: <code
+        <b>AttributeSuffix:</b> Specify attribute suffix for XML files (default: <code
         >
           &apos;Attribute&apos;
         </code>).</li>
@@ -110,8 +102,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>Examples demonstrating various usages of <b
-        >writetable</b>.</example_item_description>
+      <example_item_description>Examples demonstrating various usages of <b>writetable</b>.</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[T = table([1; 2; 3], {'A'; 'B'; 'C'}, [10.5; 20.7; 30.2], 'VariableNames', {'ID', 'Name', 'Value'});

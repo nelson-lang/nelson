@@ -10,8 +10,7 @@
   </syntax>
   <description>
     <p>
-      <b
-      >keyboard</b> arrête l&apos;exécution du script et entre en mode débogage. L&apos;invite est modifiée et affiche le niveau de débogage.</p>
+      <b>keyboard</b> arrête l&apos;exécution du script et entre en mode débogage. L&apos;invite est modifiée et affiche le niveau de débogage.</p>
   </description>
   <used_function />
   <bibliography />

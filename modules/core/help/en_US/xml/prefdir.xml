@@ -16,8 +16,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >pref_path = prefdir()</b> returns the preferences directory used by Nelson.</p>
+      <b>pref_path = prefdir()</b> returns the preferences directory used by Nelson.</p>
   </description>
   <used_function />
   <bibliography />

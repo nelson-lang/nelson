@@ -26,8 +26,7 @@
     </param_input_item>
   </param_input>
   <description>
-    <b
-    >smartindent</b> indente le code pour faciliter la lecture d&apos;instructions telles que les boucles while.</description>
+    <b>smartindent</b> indente le code pour faciliter la lecture d&apos;instructions telles que les boucles while.</description>
   <used_function />
   <bibliography />
   <see_also>

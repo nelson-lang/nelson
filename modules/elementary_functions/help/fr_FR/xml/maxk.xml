@@ -40,14 +40,8 @@
   </param_output>
   <description>
     <p>
-      <b>maxk</b> retourne les k plus grands éléments du tableau <b
-      >A</b>. Lorsque A est un vecteur, le résultat est les k plus grandes valeurs de A.              Lorsque A est une matrice, <b
-      >maxk</b> opère le long de la dimension spécifiée (ou la première dimension non singleton par défaut) et retourne les k plus grands éléments pour chaque tranche le long de cette dimension.          </p>
-    <p>              Si <b
-      >k</b> est plus grand que le nombre d&apos;éléments disponibles le long de la dimension d&apos;opération, tous les éléments sont retournés (triés par ordre décroissant).              Lorsqu&apos;il est appelé comme <b
-      >[B, I] = maxk(A, k)</b>,<b
-      >I</b> contient les indices des éléments retournés par rapport à <b
-      >A</b>.</p>
+      <b>maxk</b> retourne les k plus grands éléments du tableau <b>A</b>. Lorsque A est un vecteur, le résultat est les k plus grandes valeurs de A.              Lorsque A est une matrice, <b>maxk</b> opère le long de la dimension spécifiée (ou la première dimension non singleton par défaut) et retourne les k plus grands éléments pour chaque tranche le long de cette dimension.          </p>
+    <p>              Si <b>k</b> est plus grand que le nombre d&apos;éléments disponibles le long de la dimension d&apos;opération, tous les éléments sont retournés (triés par ordre décroissant).              Lorsqu&apos;il est appelé comme <b>[B, I] = maxk(A, k)</b>,<b>I</b> contient les indices des éléments retournés par rapport à <b>A</b>.</p>
   </description>
   <used_function />
   <bibliography />
@@ -65,8 +59,7 @@ B = maxk(A, 2)   % returns [5 4]
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Exemple de matrice (le long des colonnes)</example_item_description>
+      <example_item_description>Exemple de matrice (le long des colonnes)</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[

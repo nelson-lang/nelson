@@ -15,8 +15,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >v = qt_version()</b> renvoie le numéro de version de Qt à l&apos;exécution sous forme de chaîne (par exemple, &quot;5.15.2&quot;).</p>
+      <b>v = qt_version()</b> renvoie le numéro de version de Qt à l&apos;exécution sous forme de chaîne (par exemple, &quot;5.15.2&quot;).</p>
   </description>
   <used_function />
   <bibliography />

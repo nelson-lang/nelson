@@ -32,8 +32,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >B = subsasgn(A, S, B)</b> assigns a value to an element of a cell or matrix.</p>
+      <b>B = subsasgn(A, S, B)</b> assigns a value to an element of a cell or matrix.</p>
   </description>
   <used_function />
   <bibliography />

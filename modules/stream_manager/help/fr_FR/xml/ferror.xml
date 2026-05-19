@@ -32,8 +32,7 @@
     <p>
       <b>ferror</b> interroge le statut d&apos;erreur d&apos;un fichier.</p>
     <p>
-      <b
-      >ferror(fid, &apos;clear&apos;)</b> efface l&apos;indicateur d&apos;erreur pour le fichier spécifié.</p>
+      <b>ferror(fid, &apos;clear&apos;)</b> efface l&apos;indicateur d&apos;erreur pour le fichier spécifié.</p>
     <p
     >Pour plus d&apos;informations sur le message retourné, consultez le manuel de la bibliothèque d&apos;exécution C.</p>
   </description>

@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>Opérateurs Python</keyword>
-  <short_description
+  <short_description
   >La représentation des opérateurs Python dans Nelson.</short_description>
   <description>
     <p>Nelson facilite l&apos;utilisation des opérateurs surchargés suivants :</p>
@@ -82,10 +82,8 @@
     </table>
     <p />
     <p>
-      <b
-      >isequal</b> builtin est également surchargée pour gérer les types Python.</p>
-    <p>Pour les types numpy, <b>isequal</b> appelle <b
-      >numpy.array_equal</b> depuis Python.</p>
+      <b>isequal</b> builtin est également surchargée pour gérer les types Python.</p>
+    <p>Pour les types numpy, <b>isequal</b> appelle <b>numpy.array_equal</b> depuis Python.</p>
     <p>D&apos;autres opérateurs Python ne sont pas encore pris en charge.</p>
   </description>
   <used_function />
@@ -94,11 +92,11 @@
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description />
-      <example_item_data
-      ><![CDATA[pyrun('import numpy as np')
-R = pyrun('R = np.asarray(A)', "R", 'A', magic(3))
-R_A = R + R
-R_B = R * 2
+      <example_item_data
+      ><![CDATA[pyrun('import numpy as np')
+R = pyrun('R = np.asarray(A)', "R", 'A', magic(3))
+R_A = R + R
+R_B = R * 2
 isequal(R_A, R_B)]]></example_item_data>
     </example_item>
   </examples>

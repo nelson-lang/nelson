@@ -21,8 +21,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >floor</b> returns an integer matrix made of nearest rounded down integers.</p>
+      <b>floor</b> returns an integer matrix made of nearest rounded down integers.</p>
   </description>
   <used_function />
   <bibliography />

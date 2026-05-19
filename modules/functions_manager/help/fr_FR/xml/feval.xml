@@ -34,8 +34,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >feval</b> appelle la fonction de base ou la fonction intégrée décrite par son nom ou handle de fonction et arguments d&apos;entrée.</p>
+      <b>feval</b> appelle la fonction de base ou la fonction intégrée décrite par son nom ou handle de fonction et arguments d&apos;entrée.</p>
   </description>
   <used_function />
   <bibliography />

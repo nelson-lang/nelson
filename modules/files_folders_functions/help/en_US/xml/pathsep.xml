@@ -16,8 +16,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <b
-    >pathsep</b> returns &apos;;&apos; on Windows and &apos;:&apos; on others platforms.</description>
+    <b>pathsep</b> returns &apos;;&apos; on Windows and &apos;:&apos; on others platforms.</description>
   <used_function />
   <bibliography />
   <examples>

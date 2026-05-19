@@ -52,8 +52,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >imagesc</b> affiche les données C sous forme d&apos;image. Cette image est colorée à l&apos;aide de la palette de couleurs de la figure courante.</p>
+      <b>imagesc</b> affiche les données C sous forme d&apos;image. Cette image est colorée à l&apos;aide de la palette de couleurs de la figure courante.</p>
     <p>Propriétés :</p>
     <table>
       <tr>

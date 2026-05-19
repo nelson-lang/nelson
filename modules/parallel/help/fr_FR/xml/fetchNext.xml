@@ -17,8 +17,7 @@
     <param_input_item>
       <param_name>timeout</param_name>
       <param_description>durée en secondes : attend au maximum <i
-        >timeout</i> secondes qu&apos;un résultat dans<b
-        >f</b> devienne disponible.</param_description>
+        >timeout</i> secondes qu&apos;un résultat dans<b>f</b> devienne disponible.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -34,10 +33,7 @@
   </param_output>
   <description>
     <p>
-      <b>[idx, y1, ... , ym] = fetchNext(f)</b> récupère l&apos;indice <b
-      >idx</b> du nouvel objet <b>FevalFuture</b> lisible dans le tableau <b
-      >f</b> qui est terminé, ainsi que <b
-      >m</b> résultats de ce FevalFuture en tant que <b>Y1, ... , Ym</b>.</p>
+      <b>[idx, y1, ... , ym] = fetchNext(f)</b> récupère l&apos;indice <b>idx</b> du nouvel objet <b>FevalFuture</b> lisible dans le tableau <b>f</b> qui est terminé, ainsi que <b>m</b> résultats de ce FevalFuture en tant que <b>Y1, ... , Ym</b>.</p>
     <p />
   </description>
   <used_function />

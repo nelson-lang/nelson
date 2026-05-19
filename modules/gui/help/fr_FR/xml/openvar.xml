@@ -17,8 +17,7 @@
   </param_input>
   <description>
     <p>
-      <b>openvar(varname)</b> ouvre la variable nommée <b
-      >varname</b> dans l&apos;éditeur de variables de Nelson pour inspection et édition graphique.</p>
+      <b>openvar(varname)</b> ouvre la variable nommée <b>varname</b> dans l&apos;éditeur de variables de Nelson pour inspection et édition graphique.</p>
     <p
     >Toutes les modifications effectuées dans l&apos;éditeur sont appliquées immédiatement dans le workspace.</p>
     <p
@@ -29,9 +28,7 @@
     <p
     >Contenu éditable : dans les structures (struct), cellules (cell) et tables (table), seuls les éléments scalaires sont éditables.</p>
     <p
-    >Nelson offre une intégration complète du presse-papiers avec des tableurs tels que <b
-      >Microsoft Excel</b>, <b>LibreOffice Calc</b> et <b
-      >OpenOffice Calc</b>.</p>
+    >Nelson offre une intégration complète du presse-papiers avec des tableurs tels que <b>Microsoft Excel</b>, <b>LibreOffice Calc</b> et <b>OpenOffice Calc</b>.</p>
     <p
     >Vous pouvez copier des variables depuis l&apos;éditeur de variables et les coller directement dans ces applications, et inversement.</p>
     <p>

@@ -22,8 +22,7 @@
   </param_output>
   <description>
     <p>
-      <b>iscellstr(A)</b> returns true if <b
-      >A</b> is a cell of strings or an empty cell).</p>
+      <b>iscellstr(A)</b> returns true if <b>A</b> is a cell of strings or an empty cell).</p>
   </description>
   <used_function />
   <bibliography />

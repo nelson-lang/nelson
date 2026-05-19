@@ -22,8 +22,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >allfinite</b> renvoie un scalaire logique valant vrai si tous les éléments de M sont des valeurs finies.</p>
+      <b>allfinite</b> renvoie un scalaire logique valant vrai si tous les éléments de M sont des valeurs finies.</p>
   </description>
   <used_function />
   <bibliography />

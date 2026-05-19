@@ -25,8 +25,7 @@
   </param_input>
   <description>
     <p>
-      <b
-      >mustBeText</b> vérifie que la valeur est un texte ou renvoie une erreur.</p>
+      <b>mustBeText</b> vérifie que la valeur est un texte ou renvoie une erreur.</p>
   </description>
   <used_function />
   <bibliography />

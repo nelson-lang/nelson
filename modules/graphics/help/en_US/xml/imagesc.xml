@@ -52,8 +52,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >imagessc</b> displays C data as an image. This image is colormapped using the colormap for the current figure.</p>
+      <b>imagessc</b> displays C data as an image. This image is colormapped using the colormap for the current figure.</p>
     <p>Properties:</p>
     <table>
       <tr>

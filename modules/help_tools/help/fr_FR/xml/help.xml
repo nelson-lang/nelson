@@ -26,8 +26,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >help(&apos;function_name&apos;)</b> affiche le texte d&apos;aide pour la fonctionnalité spécifiée.</p>
+      <b>help(&apos;function_name&apos;)</b> affiche le texte d&apos;aide pour la fonctionnalité spécifiée.</p>
   </description>
   <used_function />
   <bibliography />

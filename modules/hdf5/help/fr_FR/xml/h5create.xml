@@ -29,8 +29,7 @@
   </param_input>
   <description>
     <p>
-      <b
-      >h5create</b> crée un jeu de données et spécifie ses dimensions, son type de données et la taille des chunks.</p>
+      <b>h5create</b> crée un jeu de données et spécifie ses dimensions, son type de données et la taille des chunks.</p>
     <p>Name-Values pair supported:</p>
     <p>Name: Datatype (Nelson® datatypes).</p>
     <p

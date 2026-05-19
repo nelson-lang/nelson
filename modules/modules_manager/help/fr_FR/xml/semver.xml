@@ -26,12 +26,9 @@
   </param_output>
   <description>
     <p>
-      <b
-      >semver</b> compare une chaîne de version à une version simple ou à une plage de versions.</p>
-    <p>Si une plage de versions est utilisée,<b
-      >r</b> retourne 0 (non satisfaite) ou 1 (satisfaite).</p>
-    <p>Si une version simple est utilisée, une valeur de comparaison<b
-      >r</b> est renvoyée : -1 (inférieur), 0 (égal) ou 1 (supérieur).</p>
+      <b>semver</b> compare une chaîne de version à une version simple ou à une plage de versions.</p>
+    <p>Si une plage de versions est utilisée,<b>r</b> retourne 0 (non satisfaite) ou 1 (satisfaite).</p>
+    <p>Si une version simple est utilisée, une valeur de comparaison<b>r</b> est renvoyée : -1 (inférieur), 0 (égal) ou 1 (supérieur).</p>
     <p>Opérateurs de plage supportés :</p>
     <p>
       <b>=</b> - Égalité</p>

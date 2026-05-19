@@ -28,8 +28,7 @@
   </param_output>
   <description>
     <p>
-      <b>contains</b> returns <b>true</b> if <b>str</b> contains<b
-      >pattern</b>.</p>
+      <b>contains</b> returns <b>true</b> if <b>str</b> contains<b>pattern</b>.</p>
   </description>
   <used_function />
   <bibliography />

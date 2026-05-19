@@ -27,8 +27,7 @@
   </param_output>
   <description>
     <p>
-      <b>K = kron(A, B)</b> computes the Kronecker tensor product of matrices<b
-      >A</b> and <b>B</b>.</p>
+      <b>K = kron(A, B)</b> computes the Kronecker tensor product of matrices<b>A</b> and <b>B</b>.</p>
     <p>For matrices</p>
     <latex>A</latex>
     <p>of size</p>

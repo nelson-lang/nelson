@@ -66,8 +66,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>La fonction <b
-      >imresize</b> redimensionne une image selon un facteur d&apos;échelle ou une taille de sortie spécifiée. Elle prend en charge les images en niveaux de gris, RGB, binaires, ainsi que les images indexées avec colormap.</p>
+    <p>La fonction <b>imresize</b> redimensionne une image selon un facteur d&apos;échelle ou une taille de sortie spécifiée. Elle prend en charge les images en niveaux de gris, RGB, binaires, ainsi que les images indexées avec colormap.</p>
     <p
     >Pour les images numériques et logiques, la méthode d&apos;interpolation par défaut est &apos;bicubic&apos;.</p>
     <p

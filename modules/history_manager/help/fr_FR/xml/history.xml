@@ -85,20 +85,15 @@
     <p>
       <b>history()</b> affiche l&apos;historique actuel de Nelson.</p>
     <p>
-      <b
-      >c = history()</b> renvoie l&apos;historique actuel de Nelson sous forme d&apos;un tableau (cell) de chaînes.</p>
+      <b>c = history()</b> renvoie l&apos;historique actuel de Nelson sous forme d&apos;un tableau (cell) de chaînes.</p>
     <p>
-      <b
-      >s = history(&apos;size&apos;)</b> renvoie la taille maximale de l&apos;historique.</p>
+      <b>s = history(&apos;size&apos;)</b> renvoie la taille maximale de l&apos;historique.</p>
     <p>
-      <b
-      >f = history(&apos;filename&apos;)</b> renvoie le nom de fichier de l&apos;historique.</p>
+      <b>f = history(&apos;filename&apos;)</b> renvoie le nom de fichier de l&apos;historique.</p>
     <p>
-      <b
-      >l = history(&apos;enable_save&apos;)</b> renvoie l&apos;état du gestionnaire d&apos;historique.</p>
+      <b>l = history(&apos;enable_save&apos;)</b> renvoie l&apos;état du gestionnaire d&apos;historique.</p>
     <p>
-      <b
-      >c = history(&apos;get&apos;)</b> renvoie l&apos;historique actuel de Nelson sous forme d&apos;un tableau (cell) de chaînes.</p>
+      <b>c = history(&apos;get&apos;)</b> renvoie l&apos;historique actuel de Nelson sous forme d&apos;un tableau (cell) de chaînes.</p>
     <p>
       <b>history(&apos;display&apos;)</b> affiche l&apos;historique actuel de Nelson.</p>
     <p>
@@ -108,51 +103,35 @@
     <p>
       <b>history(&apos;clear&apos;)</b> efface l&apos;historique.</p>
     <p>
-      <b
-      >history(&apos;duplicated&apos;)</b> obtient l&apos;état concernant la sauvegarde des commandes consécutives dupliquées.</p>
+      <b>history(&apos;duplicated&apos;)</b> obtient l&apos;état concernant la sauvegarde des commandes consécutives dupliquées.</p>
     <p>
-      <b
-      >history(&apos;saveafter&apos;)</b> obtient l&apos;état concernant la sauvegarde de l&apos;historique après N commandes.</p>
+      <b>history(&apos;saveafter&apos;)</b> obtient l&apos;état concernant la sauvegarde de l&apos;historique après N commandes.</p>
     <p>
-      <b
-      >history(&apos;removeexit&apos;)</b> obtient l&apos;état concernant la non-enregistrement des sorties dans le fichier d&apos;historique.</p>
+      <b>history(&apos;removeexit&apos;)</b> obtient l&apos;état concernant la non-enregistrement des sorties dans le fichier d&apos;historique.</p>
     <p>
-      <b
-      >history(&apos;size&apos;, new_size)</b> définit la taille maximale de l&apos;historique avec<b
-      >new_size</b>.</p>
+      <b>history(&apos;size&apos;, new_size)</b> définit la taille maximale de l&apos;historique avec<b>new_size</b>.</p>
     <p>
-      <b
-      >history(&apos;enable_save&apos;, true_false)</b> définit l&apos;état du gestionnaire d&apos;historique : false pour &apos;off&apos;, true pour &apos;on&apos;.</p>
+      <b>history(&apos;enable_save&apos;, true_false)</b> définit l&apos;état du gestionnaire d&apos;historique : false pour &apos;off&apos;, true pour &apos;on&apos;.</p>
     <p>
-      <b
-      >history(&apos;delete&apos;, lines)</b> supprime des lignes par index : un scalaire ou un vecteur 1x2.</p>
+      <b>history(&apos;delete&apos;, lines)</b> supprime des lignes par index : un scalaire ou un vecteur 1x2.</p>
     <p>
       <b>history(&apos;append&apos;, str)</b> ajoute une commande à l&apos;historique.</p>
     <p>
-      <b
-      >history(&apos;filename&apos;, name)</b> définit le nom de fichier de l&apos;historique.</p>
+      <b>history(&apos;filename&apos;, name)</b> définit le nom de fichier de l&apos;historique.</p>
     <p>
-      <b
-      >history(&apos;load&apos;, filename_history)</b> charge un fichier d&apos;historique.</p>
+      <b>history(&apos;load&apos;, filename_history)</b> charge un fichier d&apos;historique.</p>
     <p>
-      <b
-      >history(&apos;save&apos;, filename_history)</b> enregistre un fichier d&apos;historique.</p>
+      <b>history(&apos;save&apos;, filename_history)</b> enregistre un fichier d&apos;historique.</p>
     <p>
-      <b
-      >history(&apos;duplicated&apos;, true_false)</b> définit l&apos;état concernant les commandes consécutives dupliquées : true supprime les doublons.</p>
+      <b>history(&apos;duplicated&apos;, true_false)</b> définit l&apos;état concernant les commandes consécutives dupliquées : true supprime les doublons.</p>
     <p>
-      <b
-      >history(&apos;removeexit&apos;, true_false)</b> définit l&apos;état concernant la non-enregistrement des sorties dans le fichier d&apos;historique.</p>
+      <b>history(&apos;removeexit&apos;, true_false)</b> définit l&apos;état concernant la non-enregistrement des sorties dans le fichier d&apos;historique.</p>
     <p>
-      <b
-      >history(&apos;get&apos;, lines)</b> renvoie l&apos;historique actuel de Nelson sous forme d&apos;un tableau (cell) de chaînes par index : un scalaire ou un vecteur 1x2.</p>
+      <b>history(&apos;get&apos;, lines)</b> renvoie l&apos;historique actuel de Nelson sous forme d&apos;un tableau (cell) de chaînes par index : un scalaire ou un vecteur 1x2.</p>
     <p>
-      <b
-      >history(&apos;saveafter&apos;, nb_commands)</b> enregistre le fichier d&apos;historique après que <b
-      >nb_commands</b> instructions aient été ajoutées au fichier.</p>
+      <b>history(&apos;saveafter&apos;, nb_commands)</b> enregistre le fichier d&apos;historique après que <b>nb_commands</b> instructions aient été ajoutées au fichier.</p>
     <p>
-      <b
-      >Astuces</b> : vous pouvez facilement partager votre fichier d&apos;historique dans le cloud en ajoutant quelques lignes de code dans votre fichier de démarrage utilisateur.</p>
+      <b>Astuces</b> : vous pouvez facilement partager votre fichier d&apos;historique dans le cloud en ajoutant quelques lignes de code dans votre fichier de démarrage utilisateur.</p>
     <p
     >Si Nelson est lancé avec l&apos;option &apos;--nouserstartup&apos;, le fichier d&apos;historique ne sera pas chargé au démarrage et ne sera pas enregistré à la fermeture.</p>
   </description>
@@ -161,8 +140,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Example to share your history file in OneDrive cloud</example_item_description>
+      <example_item_description>Example to share your history file in OneDrive cloud</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[OneDrivePath = getenv('OneDrive');

@@ -14,8 +14,7 @@
     </param_input_item>
   </param_input>
   <description>
-    <p>If <b>O</b> is an object then<b
-      >subsindex</b> is the overloading method that allows to convert this object to a valid indexing vector.</p>
+    <p>If <b>O</b> is an object then<b>subsindex</b> is the overloading method that allows to convert this object to a valid indexing vector.</p>
   </description>
   <used_function />
   <bibliography />

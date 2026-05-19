@@ -79,8 +79,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >dlgeneratemake</b> generates a makefile adapted to your system environment for building shared libraries.</p>
+      <b>dlgeneratemake</b> generates a makefile adapted to your system environment for building shared libraries.</p>
     <p>Thanks to <b>CMake</b> to help Nelson in this task.</p>
   </description>
   <used_function />
@@ -88,8 +87,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >See module skeleton for example</example_item_description>
+      <example_item_description>See module skeleton for example</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[[status, message] = dlgeneratemake(currentpath, ...

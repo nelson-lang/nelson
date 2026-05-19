@@ -24,8 +24,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >convertStringToCharArgs</b> converts either a cell array of string values or a string array into a cell array of character vectors.</p>
+      <b>convertStringToCharArgs</b> converts either a cell array of string values or a string array into a cell array of character vectors.</p>
     <p
     >To convert a single string scalar to a character vector, use the char function instead.</p>
     <p
@@ -36,8 +35,7 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Convert a string scalar to a char vector and a string array to a cell of char vectors.</example_item_description>
+      <example_item_description>Convert a string scalar to a char vector and a string array to a cell of char vectors.</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[

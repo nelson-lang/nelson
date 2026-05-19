@@ -44,8 +44,7 @@
     <p>
       <b>msgbox</b> creates an message dialog box.</p>
     <p>
-      <b
-      >h = msgbox(message, title, &apos;on&apos;)</b> specifies whether to replace an existing dialog box having the same name.</p>
+      <b>h = msgbox(message, title, &apos;on&apos;)</b> specifies whether to replace an existing dialog box having the same name.</p>
   </description>
   <used_function />
   <bibliography />

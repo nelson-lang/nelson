@@ -32,8 +32,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >last_message = lastwarn()</b> renvoie une chaîne contenant le dernier message d&apos;avertissement.</p>
+      <b>last_message = lastwarn()</b> renvoie une chaîne contenant le dernier message d&apos;avertissement.</p>
     <p>
       <b>lastwarn(&apos;
         &apos;)</b> efface le dernier avertissement.</p>

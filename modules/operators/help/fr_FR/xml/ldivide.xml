@@ -26,8 +26,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >C = ldivide(A, B)</b> retourne la division élément par élément A .\ B.</p>
+      <b>C = ldivide(A, B)</b> retourne la division élément par élément A .\ B.</p>
   </description>
   <used_function />
   <bibliography />

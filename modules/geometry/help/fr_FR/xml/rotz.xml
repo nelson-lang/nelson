@@ -23,8 +23,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >rotz</b> renvoie la matrice de transformation 3x3 correspondant à une rotation autour de l&apos;axe z.</p>
+      <b>rotz</b> renvoie la matrice de transformation 3x3 correspondant à une rotation autour de l&apos;axe z.</p>
   </description>
   <used_function />
   <bibliography

@@ -35,8 +35,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >webread()</b> lit du contenu depuis le web et le charge dans une variable Nelson.</p>
+      <b>webread()</b> lit du contenu depuis le web et le charge dans une variable Nelson.</p>
   </description>
   <used_function />
   <bibliography />
@@ -60,8 +59,7 @@ res = webread(url,weboptions('ContentType','json'));
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Use function_handle with weboptions and webread</example_item_description>
+      <example_item_description>Use function_handle with weboptions and webread</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[edit([modulepath('webtools'),'/examples/webread_demo_2.m'])
@@ -69,8 +67,7 @@ res = webread(url,weboptions('ContentType','json'));
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description
-      >Read data from National Agricultural Statistics Service</example_item_description>
+      <example_item_description>Read data from National Agricultural Statistics Service</example_item_description>
       <example_item_data
         runnable="cli"
       ><![CDATA[edit([modulepath('webtools'),'/examples/webread_demo_3.m'])

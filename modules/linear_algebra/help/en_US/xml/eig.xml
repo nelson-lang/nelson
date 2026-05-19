@@ -60,8 +60,7 @@
     <p>The characteristic equation is:</p>
     <latex>\det(A - \lambda I) = 0</latex>
     <p>
-      <b
-      >eig(A, B)</b> returns the generalized eigenvalues and eigenvectors where:</p>
+      <b>eig(A, B)</b> returns the generalized eigenvalues and eigenvectors where:</p>
     <latex>A\mathbf{v} = \lambda B\mathbf{v}</latex>
   </description>
   <used_function />

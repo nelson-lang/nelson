@@ -19,8 +19,7 @@
     <p>
       <b>doc</b> lance le navigateur d&apos;aide.</p>
     <p>
-      <b
-      >doc(&apos;function_name&apos;)</b> affiche l&apos;aide de la fonction indiquée par &apos;function_name&apos;.</p>
+      <b>doc(&apos;function_name&apos;)</b> affiche l&apos;aide de la fonction indiquée par &apos;function_name&apos;.</p>
   </description>
   <used_function />
   <bibliography />

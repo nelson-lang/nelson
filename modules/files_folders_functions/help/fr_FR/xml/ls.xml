@@ -30,8 +30,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >ls</b> appelle la commande de liste de répertoire native du système d&apos;exploitation - les options disponibles varient selon le système.</p>
+      <b>ls</b> appelle la commande de liste de répertoire native du système d&apos;exploitation - les options disponibles varient selon le système.</p>
   </description>
   <used_function />
   <bibliography />

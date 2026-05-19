@@ -59,8 +59,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >ylim</b> obtient ou définit les limites de l&apos;axe des y pour le tracé actuel.</p>
+      <b>ylim</b> obtient ou définit les limites de l&apos;axe des y pour le tracé actuel.</p>
   </description>
   <used_function />
   <bibliography />

@@ -53,8 +53,7 @@
   </param_input>
   <description>
     <p>
-      <b
-      >dlmwrite</b> écrit une matrice numérique dans un fichier au format ASCII.</p>
+      <b>dlmwrite</b> écrit une matrice numérique dans un fichier au format ASCII.</p>
   </description>
   <used_function />
   <bibliography />

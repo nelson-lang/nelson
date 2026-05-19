@@ -34,8 +34,7 @@
     <p>
       <b>cast</b> converts variable to a different data type.</p>
     <p>
-      <b
-      >R = cast(V, &apos;like&apos;, W)</b> converts varible V to sparsity and same data type than W.</p>
+      <b>R = cast(V, &apos;like&apos;, W)</b> converts varible V to sparsity and same data type than W.</p>
   </description>
   <used_function />
   <bibliography />

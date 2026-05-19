@@ -25,8 +25,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >db = remove(da, key)</b> supprime l&apos;entrée associée à la clé du dictionnaire da.</p>
+      <b>db = remove(da, key)</b> supprime l&apos;entrée associée à la clé du dictionnaire da.</p>
     <p>
       <b>d = remove(d, key)</b> équivaut à <b>d[key] = []</b>.</p>
   </description>

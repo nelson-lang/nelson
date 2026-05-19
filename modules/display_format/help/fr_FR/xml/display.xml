@@ -24,8 +24,7 @@
   <description>
     <p>
       <b>display(V)</b> affiche des informations sur la variable <b>V</b>.</p>
-    <p>Nelson appelle la fonction<b
-      >display</b> chaque fois qu&apos;un objet est référencé dans une instruction non terminée par un point-virgule.</p>
+    <p>Nelson appelle la fonction<b>display</b> chaque fois qu&apos;un objet est référencé dans une instruction non terminée par un point-virgule.</p>
   </description>
   <used_function />
   <bibliography />

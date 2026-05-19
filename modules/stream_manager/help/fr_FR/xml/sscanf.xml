@@ -21,8 +21,7 @@
     <param_input_item>
       <param_name>format</param_name>
       <param_description
-      >une chaîne décrivant le format utilisé par la fonction ; voir<b
-        >fscanf</b> pour les formats supportés.</param_description>
+      >une chaîne décrivant le format utilisé par la fonction ; voir<b>fscanf</b> pour les formats supportés.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>sizeR</param_name>

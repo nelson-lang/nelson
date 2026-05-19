@@ -59,8 +59,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >zlim</b> obtient ou définit les limites de l&apos;axe des z pour le tracé actuel.</p>
+      <b>zlim</b> obtient ou définit les limites de l&apos;axe des z pour le tracé actuel.</p>
   </description>
   <used_function />
   <bibliography />

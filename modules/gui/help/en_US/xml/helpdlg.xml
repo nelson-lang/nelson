@@ -32,8 +32,7 @@
     <p>
       <b>errordlg</b> creates an help dialog box.</p>
     <p>
-      <b
-      >h = helpdlg(text_help, title, &apos;on&apos;)</b> specifies whether to replace an existing dialog box having the same name.</p>
+      <b>h = helpdlg(text_help, title, &apos;on&apos;)</b> specifies whether to replace an existing dialog box having the same name.</p>
   </description>
   <used_function />
   <bibliography />

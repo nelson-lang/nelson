@@ -23,8 +23,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <b
-    >fieldnames</b> retourne une cellule de chaînes de caractères avec les noms des propriétés.</description>
+    <b>fieldnames</b> retourne une cellule de chaînes de caractères avec les noms des propriétés.</description>
   <used_function />
   <bibliography />
   <examples>

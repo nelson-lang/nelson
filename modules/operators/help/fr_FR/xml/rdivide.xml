@@ -26,8 +26,7 @@
   </param_output>
   <description>
     <p>
-      <b
-      >C = rdivide(A, B)</b> effectue la division élément par élément à droite : A ./ B.</p>
+      <b>C = rdivide(A, B)</b> effectue la division élément par élément à droite : A ./ B.</p>
   </description>
   <used_function />
   <bibliography />
