@@ -110,6 +110,11 @@ clearByName(Evaluator* eval, const std::string& name)
         Error(_W("A valid variable name expected."));
     }
     Context* ctxt = eval->getContext();
+    FunctionDefPtr func = nullptr;
+    if (FunctionsInMemory::getInstance()->find(name, func) && func != nullptr
+        && func->type() == NLS_MACRO_FUNCTION) {
+        ClearPersistentVariable(eval, name);
+    }
     if (ctxt->isVariable(name)) {
         if (ctxt->isLockedVariable(name)) {
             Warning(_("variable is locked:") + name);

@@ -22,7 +22,9 @@ else()
   nelson_module_sources_from_glob(
     TEXT_EDITOR_SRC
     DIRS
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp)
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp
+    EXCLUDE
+    "moc_.*\\.cpp$")
 endif()
 
 add_library(${module_library_name} ${TEXT_EDITOR_SRC})

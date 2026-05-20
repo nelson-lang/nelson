@@ -27,10 +27,15 @@ Nelson::InterpreterGateway::parsestringBuiltin(
     } else {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
     }
+    ParserContext parserContext;
     ParserState parserState = ParseError;
     Exception previousException(eval->getLastErrorException());
     try {
-        parserState = parseString(eval->lexerContext, command + "\n");
+        parserContext = parseStringResult(eval->lexerContext, command + "\n");
+        parserState = parserContext.state();
+        if (parserState == ParseError) {
+            eval->setLastErrorException(previousException);
+        }
     } catch (const Exception&) {
         parserState = ParseError;
         eval->setLastErrorException(previousException);
@@ -40,8 +45,7 @@ Nelson::InterpreterGateway::parsestringBuiltin(
         retval << ArrayOf::characterArrayConstructor("script");
     } break;
     case FuncDef: {
-        MacroFunctionDef* cp = getParsedFunctionDef();
-        if (cp) {
+        if (parserContext.macroFunctionDef != nullptr) {
             retval << ArrayOf::characterArrayConstructor("function");
         } else {
             retval << ArrayOf::characterArrayConstructor("script");

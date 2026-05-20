@@ -26,6 +26,7 @@
 #include "EventQueue.hpp"
 #include "Exception.hpp"
 #include "FunctionDef.hpp"
+#include "IsValidVariableName.hpp"
 #include "MacroFunctionDef.hpp"
 #include "MException.hpp"
 #include "NelsonConfiguration.hpp"
@@ -168,6 +169,33 @@ namespace {
         return ArrayOf(NLS_LOGICAL, dim, data, false);
     }
     //=============================================================================
+    void
+    declareGlobalVariable(Context* context, const std::string& name)
+    {
+        if (!IsValidVariableName(name)) {
+            Error(_W("Argument must contain a valid variable name."));
+        }
+        if (context->isLockedVariable(name)) {
+            Error(_W("variable is locked."));
+        }
+        context->addGlobalVariable(name);
+    }
+    //=============================================================================
+    void
+    declarePersistentVariable(Context* context, const std::string& name, bool isScriptChunk)
+    {
+        if (isScriptChunk || context->getCurrentScope()->getName() == "base") {
+            Error(_W("A 'persistent' declaration is only allowed in a script file function."));
+        }
+        if (!IsValidVariableName(name)) {
+            Error(_W("Argument must contain a valid variable name."));
+        }
+        if (context->isLockedVariable(name)) {
+            Error(_W("variable is locked."));
+        }
+        context->addPersistentVariable(name);
+    }
+    //=============================================================================
     bool
     isNoOutputSentinel(const ArrayOf& value)
     {
@@ -243,6 +271,7 @@ namespace {
     expandCommaLists(const ArrayOfVector& args)
     {
         ArrayOfVector expanded;
+        expanded.reserve(args.size());
         for (const auto& arg : args) {
             if (isCommaListSentinel(arg)) {
                 expanded += commaListValues(arg);
@@ -471,6 +500,33 @@ namespace {
         return true;
     }
     //=============================================================================
+    bool
+    tryAssignDoubleScalar2DDirect(
+        ArrayOf& base, const ArrayOf& rowIndex, const ArrayOf& colIndex, const ArrayOf& value)
+    {
+        if (base.getDataClass() != NLS_DOUBLE || base.isSparse() || !rowIndex.isScalar()
+            || !colIndex.isScalar() || !value.isScalar()) {
+            return false;
+        }
+        indexType row = 0;
+        indexType col = 0;
+        double scalar = 0.0;
+        try {
+            row = static_cast<indexType>(rowIndex.getContentAsInteger64Scalar());
+            col = static_cast<indexType>(colIndex.getContentAsInteger64Scalar());
+            scalar = value.getContentAsDoubleScalar();
+        } catch (const Exception&) {
+            return false;
+        }
+        if (row < 1 || col < 1 || row > base.getDimensionLength(0)
+            || col > base.getDimensionLength(1)) {
+            return false;
+        }
+        indexType offset = (row - 1) + (col - 1) * base.getDimensionLength(0);
+        static_cast<double*>(base.getReadWriteDataPointer())[offset] = scalar;
+        return true;
+    }
+    //=============================================================================
     ArrayOf
     constantAsArray(const ConstantValue& value)
     {
@@ -635,16 +691,147 @@ namespace {
         return ArrayOf::functionHandleConstructor(handle);
     }
     //=============================================================================
+    void
+    collectCurrentFrameAndScopeVariables(Evaluator* eval, VMCallFrame& frame,
+        stringVector& variableNames, std::vector<ArrayOf>& variables)
+    {
+        auto addCapture = [&](const std::string& name, const ArrayOf& value) {
+            if (name.empty()
+                || std::find(variableNames.begin(), variableNames.end(), name)
+                    != variableNames.end()) {
+                return;
+            }
+            variableNames.push_back(name);
+            variables.push_back(value);
+        };
+
+        size_t localCount = std::min(frame.chunk->localNames.size(), frame.locals.size());
+        for (size_t k = 0; k < localCount; ++k) {
+            if (frame.chunk->localNames[k].empty()) {
+                continue;
+            }
+            addCapture(frame.chunk->localNames[k], frame.locals[k]);
+        }
+
+        Scope* scope = eval->getContext()->getCurrentScope();
+        if (scope != nullptr) {
+            stringVector scopeNames;
+            scope->getVariablesList(false, scopeNames);
+            for (const std::string& name : scopeNames) {
+                ArrayOf value;
+                if (scope->lookupVariable(name, value)) {
+                    addCapture(name, value);
+                }
+            }
+        }
+    }
+    //=============================================================================
+    void
+    syncNestedFunctionHandlesInFrame(const BytecodeChunk& chunk, VMCallFrame& frame)
+    {
+        if (!chunk.mayCreateNamedFunctionHandle) {
+            return;
+        }
+        std::vector<AnonymousMacroFunctionDef*> nestedHandles;
+        const size_t localCount = std::min(frame.locals.size(), chunk.localNames.size());
+        nestedHandles.reserve(2);
+        for (size_t k = 0; k < localCount; ++k) {
+            if (frame.locals[k].getDataClass() != NLS_FUNCTION_HANDLE) {
+                continue;
+            }
+            function_handle fh = frame.locals[k].getContentAsFunctionHandle();
+            if (fh.anonymousHandle == nullptr) {
+                continue;
+            }
+            auto* functionDef = reinterpret_cast<AnonymousMacroFunctionDef*>(fh.anonymousHandle);
+            if (functionDef != nullptr && functionDef->isBoundNestedFunctionHandle()) {
+                nestedHandles.push_back(functionDef);
+            }
+        }
+        if (nestedHandles.empty()) {
+            return;
+        }
+
+        stringVector names;
+        std::vector<ArrayOf> values;
+        names.reserve(localCount);
+        values.reserve(localCount);
+        for (size_t k = 0; k < localCount; ++k) {
+            if (chunk.localNames[k].empty()) {
+                continue;
+            }
+            names.push_back(chunk.localNames[k]);
+            values.push_back(frame.locals[k]);
+        }
+
+        for (auto* functionDef : nestedHandles) {
+            functionDef->syncCapturedVariables(names, values);
+        }
+    }
+    //=============================================================================
+    ArrayOf
+    makeNamedHandle(Evaluator* eval, VMCallFrame& frame, const std::string& name)
+    {
+        FunctionDef* localFunctionDef = nullptr;
+        Scope* currentScope = eval->getContext()->getCurrentScope();
+        if (currentScope != nullptr && currentScope->lookupFunction(name, localFunctionDef)
+            && localFunctionDef != nullptr && localFunctionDef->type() == NLS_MACRO_FUNCTION) {
+            auto* macroDef = dynamic_cast<MacroFunctionDef*>(localFunctionDef);
+            if (macroDef != nullptr && macroDef->nestedFunction) {
+                stringVector variableNames;
+                std::vector<ArrayOf> variables;
+                collectCurrentFrameAndScopeVariables(eval, frame, variableNames, variables);
+                AnonymousMacroFunctionDef* functionDef = nullptr;
+                try {
+                    functionDef
+                        = new AnonymousMacroFunctionDef(name, macroDef, variableNames, variables);
+                } catch (std::bad_alloc&) {
+                    functionDef = nullptr;
+                } catch (const Exception&) {
+                    delete functionDef;
+                    functionDef = nullptr;
+                }
+                if (functionDef == nullptr) {
+                    Error(_("A valid function name expected."),
+                        "Nelson:dispatcher:invalidFunctionName");
+                }
+                function_handle handle;
+                handle.anonymousHandle = reinterpret_cast<nelson_handle*>(functionDef);
+                return ArrayOf::functionHandleConstructor(handle);
+            }
+        }
+
+        AnonymousMacroFunctionDef* functionDef = nullptr;
+        try {
+            functionDef = new AnonymousMacroFunctionDef(name);
+        } catch (std::bad_alloc&) {
+            functionDef = nullptr;
+        } catch (const Exception&) {
+            delete functionDef;
+            functionDef = nullptr;
+        }
+        if (functionDef == nullptr) {
+            Error(_("A valid function name expected."), "Nelson:dispatcher:invalidFunctionName");
+        }
+        function_handle handle;
+        handle.anonymousHandle = reinterpret_cast<nelson_handle*>(functionDef);
+        return ArrayOf::functionHandleConstructor(handle);
+    }
+    //=============================================================================
     template <typename Operation>
     ArrayOf
     profiledArrayOperation(Evaluator* eval, const std::string& name, Operation operation)
     {
-        uint64 tic = Profiler::getInstance()->tic();
+        Profiler* profiler = Profiler::getInstance();
+        if (!profiler->isOn()) {
+            return operation();
+        }
+        uint64 tic = profiler->tic();
         ArrayOf result = operation();
         if (tic != 0U && !name.empty()) {
             internalProfileFunction stack = computeProfileStack(
                 eval, name, utf8_to_wstring(eval->callstack.getLastContext()));
-            Profiler::getInstance()->toc(tic, stack);
+            profiler->toc(tic, stack);
         }
         return result;
     }
@@ -653,12 +840,17 @@ namespace {
     void
     profiledVoidOperation(Evaluator* eval, const std::string& name, Operation operation)
     {
-        uint64 tic = Profiler::getInstance()->tic();
+        Profiler* profiler = Profiler::getInstance();
+        if (!profiler->isOn()) {
+            operation();
+            return;
+        }
+        uint64 tic = profiler->tic();
         operation();
         if (tic != 0U && !name.empty()) {
             internalProfileFunction stack = computeProfileStack(
                 eval, name, utf8_to_wstring(eval->callstack.getLastContext()));
-            Profiler::getInstance()->toc(tic, stack);
+            profiler->toc(tic, stack);
         }
     }
     //=============================================================================
@@ -1141,15 +1333,17 @@ namespace {
 
         uint32_t statementBoundaryCounter = 0;
         auto processStatementBoundaryQueues = [&]() {
-            if (eval->haveEventsLoop() && ((++statementBoundaryCounter & 63U) == 0)) {
-                ProcessEventsDynamicFunctionWithoutWait();
-            }
-            if (!eval->commandQueue.isEmpty()) {
-                syncAssignedLocalsToContext();
-                std::wstring command;
-                eval->commandQueue.get(command);
-                eval->evaluateString(command);
-                refreshLocalsFromContext();
+            if ((++statementBoundaryCounter & 63U) == 0) {
+                if (eval->haveEventsLoop()) {
+                    ProcessEventsDynamicFunctionWithoutWait();
+                }
+                if (!eval->commandQueue.isEmpty()) {
+                    syncAssignedLocalsToContext();
+                    std::wstring command;
+                    eval->commandQueue.get(command);
+                    eval->evaluateString(command);
+                    refreshLocalsFromContext();
+                }
             }
         };
 
@@ -1205,6 +1399,10 @@ namespace {
             if (funcDef->type() == NLS_MACRO_FUNCTION) {
                 auto* macroDef = dynamic_cast<MacroFunctionDef*>(funcDef);
                 if (macroDef == nullptr || macroDef->getIsScript()) {
+                    return true;
+                }
+                if (macroDef->nestedFunction) {
+                    cache.emplace(funcDef, true);
                     return true;
                 }
                 if (!visiting.insert(funcDef).second) {
@@ -1310,22 +1508,29 @@ namespace {
             }
         };
         bool hasStatementContext = false;
+        size_t currentStatementContextId = 0;
         auto clearStatementContext = [&]() {
             if (hasStatementContext) {
                 eval->callstack.popID();
                 hasStatementContext = false;
+                currentStatementContextId = 0;
             }
         };
         auto setStatementContext = [&](const Instruction& statementInstruction) {
-            clearStatementContext();
             if (statementInstruction.A >= chunk.spans.size()) {
+                clearStatementContext();
                 return;
             }
             const SourceSpan& span = chunk.spans[statementInstruction.A];
             size_t contextId
                 = static_cast<size_t>((static_cast<uint32_t>(span.col) << 16) | span.line);
+            if (hasStatementContext && currentStatementContextId == contextId) {
+                return;
+            }
+            clearStatementContext();
             eval->callstack.pushID(contextId);
             hasStatementContext = true;
+            currentStatementContextId = contextId;
         };
         while (pc < chunk.code.size()) {
             const Instruction& ins = chunk.code[pc++];
@@ -1362,28 +1567,24 @@ namespace {
                     if (ins.A >= chunk.names.size()) {
                         Error(_W("BytecodeVM: name index out of range."));
                     }
-                    AnonymousMacroFunctionDef* functionDef = nullptr;
-                    try {
-                        functionDef = new AnonymousMacroFunctionDef(chunk.names[ins.A]);
-                    } catch (std::bad_alloc&) {
-                        functionDef = nullptr;
-                    } catch (const Exception&) {
-                        delete functionDef;
-                        functionDef = nullptr;
-                    }
-                    if (functionDef == nullptr) {
-                        Error(_("A valid function name expected."),
-                            "Nelson:dispatcher:invalidFunctionName");
-                    }
-                    function_handle handle;
-                    handle.anonymousHandle = reinterpret_cast<nelson_handle*>(functionDef);
-                    stack.push_back(ArrayOf::functionHandleConstructor(handle));
+                    stack.push_back(makeNamedHandle(eval, frame, chunk.names[ins.A]));
                 } break;
                 case OpCode::MAKE_FH_ANONYMOUS: {
                     const auto& content = std::get<std::string>(chunk.constants.get(ins.A));
                     const auto& argsPayload = std::get<std::string>(chunk.constants.get(ins.B));
                     stack.push_back(makeAnonymousHandle(
                         eval, frame, content, splitAnonymousArguments(argsPayload)));
+                } break;
+                case OpCode::DECLARE_GLOBAL:
+                case OpCode::DECLARE_PERSISTENT: {
+                    if (ins.A >= chunk.names.size()) {
+                        Error(_W("BytecodeVM: name index out of range."));
+                    }
+                    if (ins.op == OpCode::DECLARE_GLOBAL) {
+                        declareGlobalVariable(context, chunk.names[ins.A]);
+                    } else {
+                        declarePersistentVariable(context, chunk.names[ins.A], chunk.isScript);
+                    }
                 } break;
                 case OpCode::LOAD_LOCAL:
                     if (ins.A >= frame.locals.size()) {
@@ -2503,8 +2704,25 @@ namespace {
                         Error(_W("BytecodeVM: local slot out of range."));
                     }
                     profiledVoidOperation(eval, SUBSASGN_OPERATOR_STR, [&]() {
-                        ArrayOfVector indices = expandCommaLists(popVector(ins.B));
-                        ArrayOf value = pop();
+                        ArrayOfVector indices;
+                        ArrayOf value;
+                        if (ins.B == 2) {
+                            ArrayOf colIndex = pop();
+                            ArrayOf rowIndex = pop();
+                            value = pop();
+                            ArrayOf& base = frame.locals[ins.A];
+                            if (tryAssignDoubleScalar2DDirect(base, rowIndex, colIndex, value)) {
+                                markRuntimeAssigned(frame, ins.A);
+                                return;
+                            }
+                            indices.reserve(2);
+                            indices.push_back(rowIndex);
+                            indices.push_back(colIndex);
+                            indices = expandCommaLists(indices);
+                        } else {
+                            indices = expandCommaLists(popVector(ins.B));
+                            value = pop();
+                        }
                         if (indices.empty()) {
                             Error(_W("Index expression expected."));
                         }
@@ -3169,7 +3387,12 @@ BytecodeVM::executeFunction(
         releaseFrameBuffer(frame, frameBuffer);
         throw;
     }
+    syncNestedFunctionHandlesInFrame(chunk, frame);
     ArrayOfVector outputs = prepareFunctionOutputsFromFrame(eval, chunk, frame, nLhs);
+    auto* macroDef = dynamic_cast<MacroFunctionDef*>(chunk.selfFunction);
+    if (macroDef != nullptr && macroDef->nestedFunction) {
+        syncLocalsToContext(eval, chunk, frame);
+    }
     releaseFrameBuffer(frame, frameBuffer);
     return outputs;
 }

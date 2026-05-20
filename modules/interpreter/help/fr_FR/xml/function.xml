@@ -3,20 +3,25 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>function</keyword>
-  <keyword_alias>endfunction</keyword_alias>
-  <short_description>déclaration de fonction.</short_description>
+  <short_description>d&#233;claration de fonction.</short_description>
   <syntax>
-    <syntax_item
-    >function [out_1,...,out_M,varargout] = fname(in_1, ... , in_N, varargin)</syntax_item>
+    <syntax_item>function [out_1,...,out_M,varargout] = fname(in_1, ... , in_N, varargin)</syntax_item>
     <syntax_item>function fname(in_1, ... , in_N, varargin)</syntax_item>
     <syntax_item>function [out_1,...,out_M,varargout] = fname()</syntax_item>
     <syntax_item>function fname()</syntax_item>
+    <syntax_item>function nestedFunction(...), statements, end</syntax_item>
+    <syntax_item>instructions de script, function localFunction(...), statements, end</syntax_item>
   </syntax>
   <description>
     <p>
-      <b>function</b> ouvre une définition de fonction.</p>
+      <b>function</b> ouvre une d&#233;finition de fonction.</p>
     <p>
-      <b>endfunction</b> ferme une définition de fonction (optionnel, mais fortement recommandé).</p>
+      <b>end</b> ferme une d&#233;finition de fonction. L&apos;ancien mot-cl&#233;
+      <b>endfunction</b> n&apos;est pas support&#233;.</p>
+    <p>Un fichier fonction simple peut se terminer en fin de fichier, mais <b>end</b> est requis pour fermer sans ambigu&#239;t&#233; les fonctions imbriqu&#233;es, les fonctions locales et les blocs.</p>
+    <p>Un fichier fonction peut contenir des fonctions locales apr&#232;s la fonction principale. Un fichier script peut contenir des instructions de script suivies de fonctions locales finales.</p>
+    <p>Dans un script, les fonctions locales doivent &#234;tre plac&#233;es apr&#232;s toutes les instructions du script. Nelson rejette les instructions de script apr&#232;s des fonctions locales et rejette les fonctions locales d&#233;clar&#233;es dans des contextes ouverts comme <b>if</b>, <b>for</b>, <b>while</b>, <b>switch</b> et <b>try</b>.</p>
+    <p>Les fonctions imbriqu&#233;es sont support&#233;es dans les corps de fonctions parentes. Elles peuvent lire et modifier les variables de l&apos;espace de travail de la fonction parente, et les handles vers des fonctions imbriqu&#233;es conservent leur &#233;tat captur&#233;.</p>
   </description>
   <used_function />
   <bibliography />
@@ -24,12 +29,35 @@
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description>dans un fichier : demo_function.m</example_item_description>
-      <example_item_data
-        runnable="cli"
-      ><![CDATA[
+      <example_item_data runnable="cli"><![CDATA[
 function r = demo_function(a, b)
   r = a + b;
-endfunction
+end
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Fonction imbriqu&#233;e partageant une variable parente.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[
+function y = nested_demo(x)
+  scale = 2;
+  y = inner(x);
+
+  function r = inner(v)
+    r = v * scale;
+  end
+end
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Script avec fonctions locales finales.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[
+x = local_add_one(41);
+
+function y = local_add_one(v)
+  y = v + 1;
+end
 ]]></example_item_data>
     </example_item>
   </examples>
@@ -37,11 +65,21 @@ endfunction
     <see_also_item>
       <link linkend="${functions_manager}addpath">addpath</link>
     </see_also_item>
+    <see_also_item>
+      <link linkend="${interpreter}arguments">arguments</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${interpreter}temporary_result_indexing">indexation de resultat temporaire</link>
+    </see_also_item>
   </see_also>
   <history>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>fonctions imbriquées, fonctions locales finales dans les scripts, blocs de validation d&apos;arguments, arguments nom-valeur et indexation de résultat temporaire</history_description>
     </history_item>
   </history>
   <authors>

@@ -22,8 +22,7 @@ static const std::unordered_map<int, std::string> keywords = { { NLS_KEYWORD_BRE
     { NLS_KEYWORD_FUNCTION, "function" }, { NLS_KEYWORD_IF, "if" },
     { NLS_KEYWORD_KEYBOARD, "keyboard" }, { NLS_KEYWORD_OTHERWISE, "otherwise" },
     { NLS_KEYWORD_ABORT, "abort" }, { NLS_KEYWORD_RETURN, "return" },
-    { NLS_KEYWORD_SWITCH, "switch" }, { NLS_KEYWORD_TRY, "try" }, { NLS_KEYWORD_WHILE, "while" },
-    { NLS_KEYWORD_ENDFUNCTION, "endfunction" } };
+    { NLS_KEYWORD_SWITCH, "switch" }, { NLS_KEYWORD_TRY, "try" }, { NLS_KEYWORD_WHILE, "while" } };
 //=============================================================================
 // Map of binary operators to their string representations
 static const std::unordered_map<int, std::string> binaryOperators
@@ -59,6 +58,8 @@ static std::string
 formatFunctionCall(AbstractSyntaxTreePtr node, bool firstLevel);
 static std::string
 formatRange(AbstractSyntaxTreePtr node, bool firstLevel);
+static std::string
+formatPostfix(AbstractSyntaxTreePtr node, bool firstLevel);
 //=============================================================================
 std::string
 AbstractSyntaxTree::toString(bool firstLevel)
@@ -196,6 +197,10 @@ AbstractSyntaxTree::toString(bool firstLevel)
             if (down) {
                 result = "@" + down->toString(false);
             }
+        } break;
+
+        case OP_POSTFIX: {
+            result = formatPostfix(down, firstLevel);
         } break;
 
         case OP_SCALL: {
@@ -374,6 +379,21 @@ formatRange(AbstractSyntaxTreePtr node, bool firstLevel)
         current = current->right;
     }
 
+    return result;
+}
+//=============================================================================
+static std::string
+formatPostfix(AbstractSyntaxTreePtr node, bool firstLevel)
+{
+    if (node == nullptr) {
+        return "";
+    }
+    std::string result = "(" + node->toString(firstLevel) + ")";
+    AbstractSyntaxTreePtr suffix = node->right;
+    while (suffix != nullptr) {
+        result += suffix->toString(false);
+        suffix = suffix->right;
+    }
     return result;
 }
 //=============================================================================

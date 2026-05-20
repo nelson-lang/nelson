@@ -115,6 +115,8 @@ enum class OpCode : uint8_t
     DISPLAY_ANS,
     MAKE_FH_NAMED,
     MAKE_FH_ANONYMOUS,
+    DECLARE_GLOBAL,
+    DECLARE_PERSISTENT,
     RETURN,
     ABORT,
     QUIT,

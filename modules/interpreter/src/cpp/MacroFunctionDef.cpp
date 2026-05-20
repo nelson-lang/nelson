@@ -79,6 +79,7 @@ namespace {
 MacroFunctionDef::MacroFunctionDef() : FunctionDef(false)
 {
     this->localFunction = false;
+    this->nestedFunction = false;
     this->nextFunction = nullptr;
     this->prevFunction = nullptr;
     this->code = nullptr;
@@ -91,6 +92,7 @@ MacroFunctionDef::MacroFunctionDef(const std::wstring& filename, bool withWatche
     : FunctionDef(isOverload)
 {
     this->localFunction = false;
+    this->nestedFunction = false;
     this->nextFunction = nullptr;
     this->prevFunction = nullptr;
     this->code = nullptr;
@@ -109,6 +111,7 @@ MacroFunctionDef::~MacroFunctionDef()
     AbstractSyntaxTree::deleteReferences(ptrAstCodeAsVector);
     code = nullptr;
     localFunction = false;
+    nestedFunction = false;
     isScript = false;
     withWatcher = false;
 }
@@ -207,14 +210,15 @@ MacroFunctionDef::evaluateMFunction(Evaluator* eval, const ArrayOfVector& inputs
     ensureBytecodeCompiled();
     if (bytecodeChunk != nullptr && !bytecodeNeedsContextScope(*bytecodeChunk)) {
         std::string filenameUtf8 = wstring_to_utf8(this->getFilename());
-        eval->callstack.pushDebug(filenameUtf8, this->getName());
+        eval->callstack.pushDebug(filenameUtf8, getCompleteName());
         uint64 tic = 0;
+        const bool profileThisCall = (recursionDepth == 1) || this->localFunction;
         try {
-            if (recursionDepth == 1) {
+            if (profileThisCall) {
                 tic = Profiler::getInstance()->tic();
             }
             outputs = BytecodeVM::executeFunction(eval, *bytecodeChunk, inputs, nargout);
-            if (recursionDepth == 1 && tic != 0) {
+            if (profileThisCall && tic != 0) {
                 internalProfileFunction stack
                     = computeProfileStack(eval, getCompleteName(), this->getFilename(), false);
                 Profiler::getInstance()->toc(tic, stack);
@@ -229,7 +233,7 @@ MacroFunctionDef::evaluateMFunction(Evaluator* eval, const ArrayOfVector& inputs
                 return scalarArrayOfToArrayOfVector(ArrayOf::emptyConstructor());
             }
         } catch (const Exception&) {
-            if (recursionDepth == 1 && tic != 0) {
+            if (profileThisCall && tic != 0) {
                 internalProfileFunction stack
                     = computeProfileStack(eval, getCompleteName(), this->getFilename(), false);
                 Profiler::getInstance()->toc(tic, stack);
@@ -244,18 +248,32 @@ MacroFunctionDef::evaluateMFunction(Evaluator* eval, const ArrayOfVector& inputs
     }
 
     Context* context = eval->getContext();
+    Scope* callerScope = this->nestedFunction ? context->getCurrentScope() : nullptr;
+    stringVector callerVariableNames;
+    if (callerScope != nullptr) {
+        callerScope->getVariablesList(false, callerVariableNames);
+    }
     context->pushScope(this->getName(), this->getFilename());
 
     std::string filenameUtf8 = wstring_to_utf8(this->getFilename());
-    eval->callstack.pushDebug(filenameUtf8, this->getName());
+    eval->callstack.pushDebug(filenameUtf8, getCompleteName());
 
     uint64 tic = 0;
+    const bool profileThisCall = (recursionDepth == 1) || this->localFunction;
     try {
         // Only insert local functions on first entry (they don't change during recursion).
         if (recursionDepth == 1) {
             insertLocalFunctions(context);
         } else if (this->nextFunction != nullptr || this->prevFunction != nullptr) {
             insertLocalFunctions(context);
+        }
+        if (callerScope != nullptr) {
+            for (const auto& name : callerVariableNames) {
+                ArrayOf value;
+                if (callerScope->lookupVariable(name, value)) {
+                    context->insertVariableLocally(name, value);
+                }
+            }
         }
         setInputArgumentNames(context, inputs);
         if (inputArgCount() != -1) {
@@ -277,11 +295,11 @@ MacroFunctionDef::evaluateMFunction(Evaluator* eval, const ArrayOfVector& inputs
         context->getCurrentScope()->setNargOut(nargout);
 
         // Only profile the outermost frame of a recursive chain to reduce overhead.
-        if (recursionDepth == 1) {
+        if (profileThisCall) {
             tic = Profiler::getInstance()->tic();
         }
         outputs = BytecodeVM::executeFunction(eval, *bytecodeChunk, inputs, nargout);
-        if (recursionDepth == 1 && tic != 0) {
+        if (profileThisCall && tic != 0) {
             internalProfileFunction stack
                 = computeProfileStack(eval, getCompleteName(), this->getFilename(), false);
             Profiler::getInstance()->toc(tic, stack);
@@ -305,13 +323,21 @@ MacroFunctionDef::evaluateMFunction(Evaluator* eval, const ArrayOfVector& inputs
         if (!cleanupTasks.empty()) {
             onCleanup(eval);
         }
+        if (callerScope != nullptr) {
+            for (const auto& name : callerVariableNames) {
+                ArrayOf value;
+                if (context->lookupVariableLocally(name, value)) {
+                    callerScope->insertVariable(name, value);
+                }
+            }
+        }
         context->popScope();
         eval->callstack.popDebug();
     } catch (const Exception&) {
         if (!cleanupTasks.empty()) {
             onCleanup(eval);
         }
-        if (recursionDepth == 1 && tic != 0) {
+        if (profileThisCall && tic != 0) {
             internalProfileFunction stack
                 = computeProfileStack(eval, getCompleteName(), this->getFilename(), false);
             Profiler::getInstance()->toc(tic, stack);
@@ -354,6 +380,9 @@ MacroFunctionDef::evaluateMScript(Evaluator* eval, const ArrayOfVector& inputs, 
 
     uint64 tic = 0;
     try {
+        if (this->nextFunction != nullptr) {
+            insertLocalFunctions(context);
+        }
         if (recursionDepthScript == 1) {
             tic = Profiler::getInstance()->tic();
         }
@@ -442,13 +471,31 @@ std::string
 MacroFunctionDef::getCompleteName()
 {
     if (this->localFunction) {
+        MacroFunctionDef* root = this;
+        while (root->prevFunction != nullptr) {
+            root = root->prevFunction;
+        }
+        if (!this->nestedFunction && !root->getIsScript()) {
+            return this->getName();
+        }
+        std::vector<std::string> names;
+        names.push_back(this->getName());
         MacroFunctionDef* pF = this->prevFunction;
         while (pF != nullptr) {
-            if (!pF->localFunction) {
-                return pF->getName() + ">" + this->getName();
+            names.push_back(pF->getName());
+            if (!pF->nestedFunction && !pF->getIsScript()) {
+                break;
             }
             pF = pF->prevFunction;
         }
+        std::string completeName;
+        for (auto it = names.rbegin(); it != names.rend(); ++it) {
+            if (!completeName.empty()) {
+                completeName += ">";
+            }
+            completeName += *it;
+        }
+        return completeName;
     }
     return this->getName();
 }
@@ -761,6 +808,7 @@ MacroFunctionDef::assignParsedResult(ParserState pstate)
             this->code = macroFunctionDef->code;
             this->arguments = macroFunctionDef->arguments;
             this->localFunction = macroFunctionDef->localFunction;
+            this->nestedFunction = macroFunctionDef->nestedFunction;
             this->nextFunction = macroFunctionDef->nextFunction;
             this->prevFunction = macroFunctionDef->prevFunction;
             this->returnVals = macroFunctionDef->returnVals;
@@ -771,8 +819,18 @@ MacroFunctionDef::assignParsedResult(ParserState pstate)
         this->code = getParsedScriptBlock();
         this->arguments.clear();
         this->localFunction = false;
-        this->nextFunction = nullptr;
+        this->nestedFunction = false;
+        this->nextFunction = getParsedFunctionDef();
         this->prevFunction = nullptr;
+        MacroFunctionDef* previousFunction = this;
+        MacroFunctionDef* local = this->nextFunction;
+        while (local != nullptr) {
+            local->localFunction = true;
+            local->prevFunction = previousFunction;
+            local->setFilename(this->getFilename());
+            previousFunction = local;
+            local = local->nextFunction;
+        }
         this->returnVals.clear();
         this->setIsScript(true);
         FileSystemWrapper::Path pathFunction(this->getFilename());

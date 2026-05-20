@@ -212,6 +212,10 @@ opCodeName(OpCode op)
         return "MAKE_FH_NAMED";
     case OpCode::MAKE_FH_ANONYMOUS:
         return "MAKE_FH_ANONYMOUS";
+    case OpCode::DECLARE_GLOBAL:
+        return "DECLARE_GLOBAL";
+    case OpCode::DECLARE_PERSISTENT:
+        return "DECLARE_PERSISTENT";
     case OpCode::RETURN:
         return "RETURN";
     case OpCode::ABORT:
@@ -243,6 +247,9 @@ opCodeName(OpCode op)
 uint32_t
 BytecodeChunk::emit(OpCode op, uint8_t flags, uint16_t A, uint16_t B, uint16_t C)
 {
+    if (op == OpCode::MAKE_FH_NAMED) {
+        mayCreateNamedFunctionHandle = true;
+    }
     code.push_back(Instruction { op, flags, A, B, C });
     return static_cast<uint32_t>(code.size() - 1);
 }

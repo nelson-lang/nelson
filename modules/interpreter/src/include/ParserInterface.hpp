@@ -18,6 +18,28 @@
 #include "LexerContext.hpp"
 //=============================================================================
 namespace Nelson {
+struct ParserDiagnostic
+{
+    std::string message;
+    std::string filename;
+    int line = 0;
+    int column = 0;
+};
+
+struct ParserContext
+{
+    AbstractSyntaxTreePtr ast = nullptr;
+    MacroFunctionDef* macroFunctionDef = nullptr;
+    ParserState parserState = FuncDef;
+    ParserDiagnostic diagnostic;
+
+    ParserState
+    state() const
+    {
+        return parserState;
+    }
+};
+
 /**
  * Reset the parser to its default state.
  */
@@ -43,10 +65,14 @@ parseState();
  */
 NLSINTERPRETER_IMPEXP ParserState
 parseString(LexerContext& lexerContext, const std::string& txt);
+NLSINTERPRETER_IMPEXP ParserContext
+parseStringResult(LexerContext& lexerContext, const std::string& txt);
 /**
  * Parse the given file (with the given filename).
  */
 NLSINTERPRETER_IMPEXP ParserState
 parseFile(LexerContext& lexerContext, FILE* /*fp*/, const std::string& /*fname*/);
+NLSINTERPRETER_IMPEXP ParserContext
+parseFileResult(LexerContext& lexerContext, FILE* /*fp*/, const std::string& /*fname*/);
 } // namespace Nelson
 //=============================================================================

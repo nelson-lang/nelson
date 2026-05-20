@@ -7,15 +7,82 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <algorithm>
 #include "StringHelpers.hpp"
 #include "ClearGlobal.hpp"
 #include "HandleManager.hpp"
 #include "MacroFunctionDef.hpp"
+#include "BytecodeChunk.hpp"
 #include "characters_encoding.hpp"
 #include "FunctionsInMemory.hpp"
 #include "OverloadName.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+static void
+appendUniqueName(stringVector& names, const std::string& name)
+{
+    if (std::find(names.begin(), names.end(), name) == names.end()) {
+        names.push_back(name);
+    }
+}
+//=============================================================================
+static void
+collectAstPersistentVariables(AbstractSyntaxTreePtr node, stringVector& names)
+{
+    if (node == nullptr) {
+        return;
+    }
+    if (node->type == non_terminal && node->opNum == OP_SCALL && node->down != nullptr
+        && node->down->text == "persistent") {
+        AbstractSyntaxTreePtr arg = node->down->right;
+        while (arg != nullptr) {
+            if (arg->type == id_node && !arg->text.empty()) {
+                appendUniqueName(names, arg->text);
+            }
+            arg = arg->right;
+        }
+    }
+    collectAstPersistentVariables(node->down, names);
+    collectAstPersistentVariables(node->right, names);
+}
+//=============================================================================
+static stringVector
+collectPersistentVariableNames(MacroFunctionDef* macroFunction)
+{
+    stringVector names;
+    if (macroFunction == nullptr) {
+        return names;
+    }
+    collectAstPersistentVariables(macroFunction->code, names);
+    if (macroFunction->ensureBytecodeCompiled() && macroFunction->bytecodeChunk != nullptr) {
+        for (const Instruction& ins : macroFunction->bytecodeChunk->code) {
+            if (ins.op != OpCode::DECLARE_PERSISTENT) {
+                continue;
+            }
+            if (ins.A >= macroFunction->bytecodeChunk->names.size()) {
+                continue;
+            }
+            appendUniqueName(names, macroFunction->bytecodeChunk->names[ins.A]);
+        }
+    }
+    return names;
+}
+//=============================================================================
+static bool
+clearBytecodePersistentVariables(Evaluator* eval, MacroFunctionDef* macroFunction)
+{
+    bool res = false;
+    if (eval == nullptr || macroFunction == nullptr) {
+        return res;
+    }
+    const std::string prefix = "_" + macroFunction->getName() + "_";
+    Scope* globalScope = eval->getContext()->getGlobalScope();
+    for (const std::string& name : collectPersistentVariableNames(macroFunction)) {
+        res = globalScope->deleteVariable(prefix + name) || res;
+    }
+    return res;
+}
 //=============================================================================
 static bool
 callClearHandle(Evaluator* eval, Scope* scope, const std::string& variable)
@@ -119,6 +186,8 @@ ClearPersistentVariable(Evaluator* eval, const std::string& variable)
 
     if (FunctionsInMemory::getInstance()->find(variable, func)) {
         if (func->type() == NLS_MACRO_FUNCTION) {
+            auto* macroFunction = static_cast<MacroFunctionDef*>(func);
+            res = clearBytecodePersistentVariables(eval, macroFunction) || res;
             stringVector allVariableNames;
             eval->getContext()->getGlobalScope()->getVariablesList(true, allVariableNames);
             for (const std::string& name : allVariableNames) {

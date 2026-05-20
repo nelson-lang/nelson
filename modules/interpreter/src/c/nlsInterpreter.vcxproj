@@ -371,7 +371,6 @@
     <ClCompile Include="..\cpp\LocalFunctionsTable.cpp" />
     <ClCompile Include="..\cpp\MacroFunctionDef.cpp" />
     <ClCompile Include="..\cpp\MexFunctionDef.cpp" />
-    <ClCompile Include="..\cpp\NelsonLexer.cpp" />
     <ClCompile Include="..\cpp\NelsonReadyNamedMutex.cpp" />
     <ClCompile Include="..\cpp\operators\ComplexTransposeOperator.cpp" />
     <ClCompile Include="..\cpp\operators\MpowerOperator.cpp" />
@@ -412,7 +411,9 @@
     <ClCompile Include="..\cpp\VMCallFrame.cpp" />
     <ClCompile Include="..\FileWatcher\FileWatcher.cpp" />
     <ClCompile Include="..\FileWatcher\FileWatcherWin32.cpp" />
-    <ClCompile Include="..\grammar\NelSonParser.cpp" />
+    <ClCompile Include="..\grammar\NelsonLexer.cpp" />
+    <ClCompile Include="..\grammar\NelSonParserCpp.cpp" />
+    <ClCompile Include="..\grammar\NelSonParserCppYylval.cpp" />
     <ClCompile Include="..\grammar\NelsonParserHelpers.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
   </ItemGroup>
@@ -421,7 +422,8 @@
     <None Include="..\..\etc\startup.m" />
     <None Include="..\..\loader.m" />
     <None Include="..\..\module.iss" />
-    <None Include="..\grammar\NelSonParser.yxx" />
+    <None Include="..\grammar\NelsonLexer.lxx" />
+    <None Include="..\grammar\NelSonParserCpp.yxx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\characters_encoding\src\c\nlsCharacters_encoding.vcxproj">
@@ -471,7 +473,8 @@
     <ClInclude Include="..\cpp\TextToNumber.hpp" />
     <ClInclude Include="..\cpp\CallMexBuiltin.hpp" />
     <ClInclude Include="..\cpp\operators\RelationOperatorsHelpers.hpp" />
-    <ClInclude Include="..\grammar\NelSonParser.h" />
+    <ClInclude Include="..\grammar\NelSonParserCpp.hpp" />
+    <ClInclude Include="..\grammar\NelsonParserTokens.hpp" />
     <ClInclude Include="..\grammar\NelsonParserHelpers.hpp" />
     <ClInclude Include="..\include\ActionMenu.hpp" />
     <ClInclude Include="..\include\AbstractSyntaxTree.hpp" />

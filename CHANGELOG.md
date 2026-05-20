@@ -11,11 +11,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Added a bytecode virtual machine execution path for Nelson scripts, functions, and anonymous functions.
 - Added bytecode VM coverage for recursive functions, indexing/extraction and insertion, `arguments` blocks, ignored outputs (`~`), `varargin`, and `varargout`.
+- Added thread-safe parser execution using per-parse parser and lexer context objects.
+- Added Flex C++ lexer and Bison C++ parser generated sources as the default committed parser/lexer path.
+- Added parser support for nested functions, trailing local functions in scripts, EOF-terminated simple function files, and temporary result indexing such as `f().Field`, `f()(1)`, and `f(){1}`.
+- Added parser/lexer regression coverage for multiline comments, continuations, transpose disambiguation, virtual commas, command shortcuts, name-value syntax, `arguments` blocks, `global` and `persistent` declarations, nested closures, debugger/profiler integration.
 
 ### Changed
 
 - Improved interpreter performance for loops, recursive calls, and anonymous function dispatch.
 - Improved Ctrl+C responsiveness in interpreted loops by polling interrupts at bytecode statement boundaries and loop backedges.
+- Improved syntax compatibility in the parser/lexer by requiring `end` instead of `endfunction`, rejecting Nelson-only slash keyword call syntax, rejecting invalid command-style `global` and `persistent` declaration operands, and reporting filename/function-name mismatches as parser errors.
+- Improved parser behavior for command-form builtins with no returned values, so display-only commands such as `dir` keep display semantics instead of forcing an output value.
+- Improved parser/lexer documentation and help files for function syntax, nested functions, script local functions, and temporary result indexing.
 
 ## Previous changelog
 

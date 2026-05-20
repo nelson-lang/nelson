@@ -3,15 +3,12 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <module_name>interpreter</module_name>
-  <chapter>Fonctions de l&apos;interpréteur</chapter>
+  <chapter>Fonctions de l&apos;interpr&#233;teur</chapter>
   <chapter_description>
-    <p
-    >Le module Fonctions de l&apos;interpréteur fournit les constructions de langage de base et les mécanismes de contrôle qui définissent le flux d&apos;exécution dans Nelson.</p>
-    <p
-    >Il inclut des éléments essentiels tels que les boucles, les branchements conditionnels, la gestion des erreurs et les déclarations de fonctions.</p>
-    <p
-    >Le module propose également des outils pour analyser le code, travailler avec les mots-clés et gérer les limites de récursion.</p>
-    <p
-    >Ensemble, ces fonctionnalités établissent la syntaxe et la sémantique fondamentales du langage Nelson, permettant aux utilisateurs d&apos;écrire des programmes structurés, dynamiques et fiables.</p>
+    <p>Le module Fonctions de l&apos;interpr&#233;teur fournit les constructions de langage de base et les m&#233;canismes de contr&#244;le qui d&#233;finissent le flux d&apos;ex&#233;cution dans Nelson.</p>
+    <p>Il inclut des &#233;l&#233;ments essentiels tels que les boucles, les branchements conditionnels, la gestion des erreurs et les d&#233;clarations de fonctions.</p>
+    <p>Le module propose &#233;galement des outils pour analyser le code, travailler avec les mots-cl&#233;s et g&#233;rer les limites de r&#233;cursion.</p>
+    <p>Ensemble, ces fonctionnalit&#233;s &#233;tablissent la syntaxe et la s&#233;mantique fondamentales du langage Nelson, permettant aux utilisateurs d&apos;
+      &#233;crire des programmes structur&#233;s, dynamiques et fiables.</p>
   </chapter_description>
 </xmldoc>

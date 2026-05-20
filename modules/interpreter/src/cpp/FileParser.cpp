@@ -12,7 +12,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static std::wstring wfilename;
+static thread_local std::wstring wfilename;
 //=============================================================================
 void
 setParserFilename(const std::string& filename)

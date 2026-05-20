@@ -16,6 +16,7 @@
 #include <string>
 #include <map>
 #include <cstdint>
+#include <atomic>
 #include "nlsNelson_manager_exports.h"
 //=============================================================================
 namespace Nelson {
@@ -292,6 +293,7 @@ private:
      * Pending control-C
      */
     std::map<size_t, bool> InterruptPending;
+    std::atomic_bool mainInterruptPending { false };
     //=============================================================================
     /**
      * Current numeric format

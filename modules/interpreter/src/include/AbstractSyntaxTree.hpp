@@ -93,7 +93,8 @@ enum OP_TYPE
     OP_KEYWORD,
     OP_DOTDYN,
     OP_FUNCTION_HANDLE_ANONYMOUS,
-    OP_FUNCTION_HANDLE_NAMED
+    OP_FUNCTION_HANDLE_NAMED,
+    OP_POSTFIX
 
 };
 //=============================================================================

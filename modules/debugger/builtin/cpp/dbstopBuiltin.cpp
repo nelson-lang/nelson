@@ -7,6 +7,10 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#ifdef _MSC_VER
+#define _CRT_SECURE_NO_WARNINGS /* _wfopen */
+#endif
+//=============================================================================
 #include "dbstopBuiltin.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "FileSystemWrapper.hpp"
@@ -16,6 +20,7 @@
 #include "ParserInterface.hpp"
 #include "StringHelpers.hpp"
 #include "PathFunctionIndexerManager.hpp"
+#include <cstdio>
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -23,9 +28,11 @@ static size_t
 parsePositionArgument(const ArrayOfVector& argIn);
 static void
 dbstopInAt(Evaluator* eval, const std::wstring& functioOrFilename, size_t position,
-    std::wstring& errorMessage);
+    bool explicitPosition, std::wstring& errorMessage);
 static void
 applyBreakpointStruct(Evaluator* eval, const ArrayOf& bpStruct, std::wstring& errorMessage);
+static size_t
+firstExecutableLineInFunction(const std::wstring& filename, const std::string& functionName);
 //=============================================================================
 ArrayOfVector
 Nelson::DebuggerGateway::dbstopBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
@@ -56,7 +63,7 @@ Nelson::DebuggerGateway::dbstopBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     size_t position = parsePositionArgument(argIn);
     std::wstring target = argIn[1].getContentAsWideString();
 
-    dbstopInAt(eval, target, position, errorMessage);
+    dbstopInAt(eval, target, position, argIn.size() == 4, errorMessage);
     if (!errorMessage.empty()) {
         Error(errorMessage);
     }
@@ -93,7 +100,7 @@ parsePositionArgument(const ArrayOfVector& argIn)
 //=============================================================================
 void
 dbstopInAt(Evaluator* eval, const std::wstring& functioOrFilename, size_t position,
-    std::wstring& errorMessage)
+    bool explicitPosition, std::wstring& errorMessage)
 {
     bool isSimpleQuoted = StringHelpers::starts_with(functioOrFilename, L"'")
         && StringHelpers::ends_with(functioOrFilename, L"'");
@@ -101,7 +108,7 @@ dbstopInAt(Evaluator* eval, const std::wstring& functioOrFilename, size_t positi
         && StringHelpers::ends_with(functioOrFilename, L"\"");
     if (isSimpleQuoted || isDoubleQuoted) {
         std::wstring unquotedFilename = functioOrFilename.substr(1, functioOrFilename.size() - 2);
-        dbstopInAt(eval, unquotedFilename, position, errorMessage);
+        dbstopInAt(eval, unquotedFilename, position, explicitPosition, errorMessage);
         return;
     }
 
@@ -152,6 +159,15 @@ dbstopInAt(Evaluator* eval, const std::wstring& functioOrFilename, size_t positi
 
         breakpoint.filename = funcDef->getFilename();
         breakpoint.functionName = asSubFunctionName;
+        if (!explicitPosition && targetFunc->code != nullptr) {
+            const size_t firstExecutable
+                = firstExecutableLineInFunction(funcDef->getFilename(), asSubFunctionName);
+            if (firstExecutable > 0) {
+                breakpoint.line = firstExecutable;
+                eval->addBreakpoint(breakpoint);
+                return;
+            }
+        }
     } else {
         // Simple case: just function or file name
         FunctionDef* funcDef = nullptr;
@@ -217,11 +233,56 @@ applyBreakpointStruct(Evaluator* eval, const ArrayOf& bpStruct, std::wstring& er
         }
 
         for (auto line : lineArray.getContentAsIndexVector()) {
-            dbstopInAt(eval, files[i].getContentAsWideString(), (size_t)line, errorMessage);
+            dbstopInAt(eval, files[i].getContentAsWideString(), (size_t)line, true, errorMessage);
             if (!errorMessage.empty()) {
                 return;
             }
         }
     }
+}
+//=============================================================================
+size_t
+firstExecutableLineInFunction(const std::wstring& filename, const std::string& functionName)
+{
+    if (filename.empty() || functionName.empty()) {
+        return 0;
+    }
+    FILE* fp = nullptr;
+#ifdef _MSC_VER
+    fp = _wfopen(filename.c_str(), L"rb");
+#else
+    fp = fopen(wstring_to_utf8(filename).c_str(), "rb");
+#endif
+    if (fp == nullptr) {
+        return 0;
+    }
+    size_t currentLine = 1;
+    bool inTargetFunction = false;
+    char buffer[4096];
+    while (fgets(buffer, sizeof(buffer), fp) != nullptr) {
+        std::string line(buffer);
+        while (!line.empty() && (line.back() == '\n' || line.back() == '\r')) {
+            line.pop_back();
+        }
+        size_t first = 0;
+        while (first < line.size() && (line[first] == ' ' || line[first] == '\t')) {
+            first++;
+        }
+        if (first < line.size() && line[first] != '%') {
+            std::string trimmed = line.substr(first);
+            if (!inTargetFunction) {
+                if (StringHelpers::starts_with(trimmed, "function")
+                    && trimmed.find(functionName) != std::string::npos) {
+                    inTargetFunction = true;
+                }
+            } else {
+                fclose(fp);
+                return currentLine;
+            }
+        }
+        currentLine++;
+    }
+    fclose(fp);
+    return 0;
 }
 //=============================================================================

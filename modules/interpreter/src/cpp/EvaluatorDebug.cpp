@@ -585,7 +585,7 @@ getArgumentsBlockLines(const std::wstring& sourceFilePath)
                 blockLines.insert(lineNum); // the "arguments" keyword line itself
             }
         } else {
-            if (trimmed == "end" || trimmed == "endfunction") {
+            if (trimmed == "end") {
                 blockLines.insert(lineNum); // the "end" line
                 inArgBlock = false;
             } else {

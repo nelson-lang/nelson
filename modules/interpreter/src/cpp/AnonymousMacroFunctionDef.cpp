@@ -26,6 +26,7 @@
 #include "PredefinedErrorMessages.hpp"
 #include "NelsonConfiguration.hpp"
 #include "Bytecode.hpp"
+#include "MacroFunctionDef.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -84,6 +85,7 @@ AnonymousMacroFunctionDef::AnonymousMacroFunctionDef(const std::string& function
 {
     this->code = nullptr;
     this->isFunctionHandleOnly = true;
+    this->boundFunction = nullptr;
     this->functionHandleContent = functionHandle;
     if (!functionHandle.empty()) {
         StringHelpers::trim_left(functionHandleContent);
@@ -96,6 +98,16 @@ AnonymousMacroFunctionDef::AnonymousMacroFunctionDef(const std::string& function
     arguments.clear();
 }
 //=============================================================================
+AnonymousMacroFunctionDef::AnonymousMacroFunctionDef(const std::string& functionHandle,
+    FunctionDef* boundFunction, const stringVector& variableNames,
+    const std::vector<ArrayOf>& variables)
+    : AnonymousMacroFunctionDef(functionHandle)
+{
+    this->boundFunction = boundFunction;
+    this->variableNames = variableNames;
+    this->variables = variables;
+}
+//=============================================================================
 AnonymousMacroFunctionDef::AnonymousMacroFunctionDef(const std::string& anonymousContent,
     const stringVector& arguments, const stringVector& variableNames,
     const std::vector<ArrayOf>& variables)
@@ -103,6 +115,7 @@ AnonymousMacroFunctionDef::AnonymousMacroFunctionDef(const std::string& anonymou
 {
     this->code = nullptr;
     this->isFunctionHandleOnly = false;
+    this->boundFunction = nullptr;
     this->anonymousContent = anonymousContent;
     this->arguments = arguments;
 
@@ -132,6 +145,7 @@ AnonymousMacroFunctionDef::~AnonymousMacroFunctionDef()
     this->previousLhs = -1;
     this->code = nullptr;
     this->isFunctionHandleOnly = false;
+    this->boundFunction = nullptr;
     this->arguments.clear();
     this->variableNames.clear();
     this->variables.clear();
@@ -166,6 +180,36 @@ std::vector<ArrayOf>
 AnonymousMacroFunctionDef::getVariables()
 {
     return variables;
+}
+//=============================================================================
+bool
+AnonymousMacroFunctionDef::isBoundNestedFunctionHandle() const
+{
+    if (!isFunctionHandleOnly || boundFunction == nullptr
+        || boundFunction->type() != NLS_MACRO_FUNCTION) {
+        return false;
+    }
+    auto* macroDef = dynamic_cast<MacroFunctionDef*>(boundFunction);
+    return macroDef != nullptr && macroDef->nestedFunction;
+}
+//=============================================================================
+void
+AnonymousMacroFunctionDef::syncCapturedVariables(
+    const stringVector& names, const std::vector<ArrayOf>& values)
+{
+    if (!isBoundNestedFunctionHandle()) {
+        return;
+    }
+    for (size_t k = 0; k < variableNames.size(); ++k) {
+        auto it = std::find(names.begin(), names.end(), variableNames[k]);
+        if (it == names.end()) {
+            continue;
+        }
+        size_t sourceIndex = static_cast<size_t>(std::distance(names.begin(), it));
+        if (sourceIndex < values.size()) {
+            variables[k] = values[sourceIndex];
+        }
+    }
 }
 //=============================================================================
 int
@@ -213,9 +257,33 @@ AnonymousMacroFunctionDef::evaluateFunction(
     Evaluator* eval, const ArrayOfVector& inputs, int nargout)
 {
     if (isFunctionHandleOnly) {
-        FunctionDef* funcDef = nullptr;
-        eval->lookupFunction(functionHandleContent, funcDef);
+        FunctionDef* funcDef = boundFunction;
+        if (funcDef == nullptr) {
+            eval->lookupFunction(functionHandleContent, funcDef);
+        }
         if (funcDef) {
+            if (boundFunction != nullptr && funcDef->type() == NLS_MACRO_FUNCTION) {
+                Context* context = eval->getContext();
+                context->pushScope(functionHandleContent);
+                try {
+                    for (size_t k = 0; k < variableNames.size() && k < variables.size(); ++k) {
+                        context->insertVariableLocally(variableNames[k], variables[k]);
+                    }
+                    ArrayOfVector outputs = funcDef->evaluateFunction(eval, inputs, nargout);
+                    Scope* closureScope = context->getCurrentScope();
+                    for (size_t k = 0; k < variableNames.size() && k < variables.size(); ++k) {
+                        ArrayOf value;
+                        if (closureScope->lookupVariable(variableNames[k], value)) {
+                            variables[k] = value;
+                        }
+                    }
+                    context->popScope();
+                    return outputs;
+                } catch (const Exception&) {
+                    context->popScope();
+                    throw;
+                }
+            }
             return funcDef->evaluateFunction(eval, inputs, nargout);
         }
         std::string msg = functionHandleContent.empty()

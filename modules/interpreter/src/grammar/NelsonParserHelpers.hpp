@@ -13,6 +13,7 @@
 #include "MacroFunctionDef.hpp"
 #include "AbstractSyntaxTree.hpp"
 #include "LexerContext.hpp"
+#include "ParserInterface.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -26,8 +27,14 @@ decodeline(const ParseRHS& val);
 int
 yyxpt(const std::string& xStr, const ParseRHS& val);
 //=============================================================================
+int
+yyxpt(const std::string& xStr);
+//=============================================================================
+int
+callyyparse(LexerContext& lexerContext, ParserContext& parserContext);
+//=============================================================================
 void
-callyyparse(LexerContext& lexerContext);
+setParserDiagnostic(const std::string& message, int line, int column);
 //=============================================================================
 void
 setParsedScriptBlock(AbstractSyntaxTreePtr ast);

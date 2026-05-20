@@ -22,6 +22,7 @@ NelsonConfiguration* NelsonConfiguration::m_pInstance = nullptr;
 NelsonConfiguration::NelsonConfiguration()
 {
     InterruptPending.clear();
+    mainInterruptPending.store(false, std::memory_order_relaxed);
     currentOverloadLevelCompatibility = NLS_OVERLOAD_ALL_TYPES;
     currentNumericFormatDisplay = NLS_NUMERIC_FORMAT_SHORT;
     currentLineSpacingDisplay = NLS_LINE_SPACING_LOOSE;
@@ -73,6 +74,9 @@ NelsonConfiguration::destroy()
 bool
 NelsonConfiguration::getInterruptPending(size_t evaluatorID)
 {
+    if (evaluatorID == 0) {
+        return mainInterruptPending.load(std::memory_order_relaxed);
+    }
     if (InterruptPending.find(evaluatorID) == InterruptPending.end()) {
         return false;
     }
@@ -83,6 +87,10 @@ bool
 NelsonConfiguration::setInterruptPending(bool bInterruptPending, size_t evaluatorID)
 {
     bool bPrevious = getInterruptPending(evaluatorID);
+    if (evaluatorID == 0) {
+        mainInterruptPending.store(bInterruptPending, std::memory_order_relaxed);
+        return bPrevious;
+    }
     InterruptPending[evaluatorID] = bInterruptPending;
     return bPrevious;
 }

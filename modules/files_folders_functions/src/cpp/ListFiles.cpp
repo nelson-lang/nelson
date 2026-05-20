@@ -262,26 +262,33 @@ ListFiles(const std::wstring& directory, bool bSubdirectories)
     if (!res.empty() && !bSubdirectories) {
         struct
         {
-            bool
-            operator()(FileInfo a, FileInfo b)
+            int
+            rank(FileInfo info) const
             {
-                return static_cast<int>(a.isDir()) > static_cast<int>(b.isDir());
+                const std::wstring name = info.getName();
+                if (name == L".") {
+                    return 0;
+                }
+                if (name == L"..") {
+                    return 1;
+                }
+                return 2;
             }
-        } customIsDirLess;
-        if (!res.empty()) {
-            parallelSort(res.begin(), res.end(), customIsDirLess);
-        }
-        struct
-        {
             bool
             operator()(FileInfo a, FileInfo b)
             {
+                int rankA = rank(a);
+                int rankB = rank(b);
+                if (rankA != rankB) {
+                    return rankA < rankB;
+                }
+                if (a.isDir() != b.isDir()) {
+                    return a.isDir() > b.isDir();
+                }
                 return a.getName() < b.getName();
             }
-        } customFilenameLess;
-        if (!res.empty()) {
-            parallelSort(res.begin(), res.end(), customFilenameLess);
-        }
+        } customFileInfoLess;
+        parallelSort(res.begin(), res.end(), customFileInfoLess);
     }
     return res;
 }
@@ -373,26 +380,33 @@ ListFiles(const std::wstring& _directory, bool bSubdirectories)
     if (!res.empty() && !bSubdirectories) {
         struct
         {
-            bool
-            operator()(FileInfo a, FileInfo b)
+            int
+            rank(FileInfo info) const
             {
-                return static_cast<int>(a.isDir()) > static_cast<int>(b.isDir());
+                const std::wstring name = info.getName();
+                if (name == L".") {
+                    return 0;
+                }
+                if (name == L"..") {
+                    return 1;
+                }
+                return 2;
             }
-        } customIsDirLess;
-        if (!res.empty()) {
-            parallelSort(res.begin(), res.end(), customIsDirLess);
-        }
-        struct
-        {
             bool
             operator()(FileInfo a, FileInfo b)
             {
+                int rankA = rank(a);
+                int rankB = rank(b);
+                if (rankA != rankB) {
+                    return rankA < rankB;
+                }
+                if (a.isDir() != b.isDir()) {
+                    return a.isDir() > b.isDir();
+                }
                 return a.getName() < b.getName();
             }
-        } customFilenameLess;
-        if (!res.empty()) {
-            parallelSort(res.begin(), res.end(), customFilenameLess);
-        }
+        } customFileInfoLess;
+        parallelSort(res.begin(), res.end(), customFileInfoLess);
     }
     return res;
 }

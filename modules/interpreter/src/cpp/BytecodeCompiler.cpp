@@ -385,7 +385,7 @@ namespace {
             }
             if (node->opNum == OP_RHS && node->down != nullptr && node->down->down != nullptr
                 && !isDefinitelyAssignedLocal(node->down->text)) {
-                if (printIt && isIndexExpression(node->down->down)) {
+                if (printIt && shouldDisplayIndexedRhs(node->down)) {
                     compileNamedCallOrIndex(node->down, 1, true);
                     emit(OpCode::DUP);
                     push();
@@ -423,7 +423,6 @@ namespace {
                     compileContinue();
                     return;
                 case NLS_KEYWORD_RETURN:
-                case NLS_KEYWORD_ENDFUNCTION:
                     emit(OpCode::RETURN);
                     return;
                 case NLS_KEYWORD_ABORT:
@@ -961,6 +960,17 @@ namespace {
             if (tryCompileFastLocalClear(node)) {
                 return;
             }
+            if (node->text == "global" || node->text == "persistent") {
+                OpCode declareOp
+                    = node->text == "global" ? OpCode::DECLARE_GLOBAL : OpCode::DECLARE_PERSISTENT;
+                AbstractSyntaxTreePtr arg = node->right;
+                while (arg != nullptr) {
+                    emit(declareOp, 0, nameIndex(arg->text));
+                    slots_.forceGlobal(arg->text);
+                    arg = arg->right;
+                }
+                return;
+            }
             uint16_t nargs = 0;
             AbstractSyntaxTreePtr arg = node->right;
             while (arg != nullptr) {
@@ -989,13 +999,6 @@ namespace {
                             emit(OpCode::DELETE_LOCAL, 0, slot->index);
                         }
                     }
-                    arg = arg->right;
-                }
-            }
-            if (node->text == "global" || node->text == "persistent") {
-                arg = node->right;
-                while (arg != nullptr) {
-                    slots_.forceGlobal(arg->text);
                     arg = arg->right;
                 }
             }
@@ -1368,6 +1371,9 @@ namespace {
             case OP_FUNCTION_HANDLE_ANONYMOUS:
                 compileAnonymousFunctionHandle(node);
                 return;
+            case OP_POSTFIX:
+                compilePostfixExpr(node);
+                return;
             case OP_PLUS:
             case OP_SUBTRACT:
             case OP_TIMES:
@@ -1405,6 +1411,44 @@ namespace {
                 return;
             default:
                 unsupported(node, "operator expression");
+            }
+        }
+
+        void
+        compilePostfixExpr(AbstractSyntaxTreePtr node)
+        {
+            if (node == nullptr || node->down == nullptr) {
+                unsupported(node, "postfix expression");
+            }
+            AbstractSyntaxTreePtr base = node->down;
+            AbstractSyntaxTreePtr sub = base->right;
+            if (sub == nullptr) {
+                compileExpr(base);
+                return;
+            }
+            compileExpr(base);
+            while (sub != nullptr) {
+                uint8_t flags = 0;
+                if (sub->opNum == OP_PARENS && sub->right != nullptr) {
+                    flags |= INST_FLAG_INDEX_ONLY;
+                }
+                if (sub->opNum == OP_DOT && sub->right != nullptr
+                    && sub->right->opNum == OP_PARENS) {
+                    uint16_t nargs = 0;
+                    AbstractSyntaxTreePtr arg = sub->right->down;
+                    while (arg != nullptr) {
+                        compileIndexExpr(arg, nargs, nargs, countPeers(sub->right->down));
+                        ++nargs;
+                        arg = arg->right;
+                    }
+                    emit(OpCode::SUBIDX_DOT, flags, nargs,
+                        chunk_.constants.addName(sub->down->text), 1);
+                    pop(nargs);
+                    sub = sub->right->right;
+                    continue;
+                }
+                compileSubindex(sub, flags);
+                sub = sub->right;
             }
         }
 
@@ -1655,6 +1699,19 @@ namespace {
                 return true;
             }
             return sub->opNum == OP_PARENS && containsAllIndex(sub->down);
+        }
+
+        bool
+        shouldDisplayIndexedRhs(AbstractSyntaxTreePtr ident)
+        {
+            if (ident == nullptr || ident->down == nullptr) {
+                return false;
+            }
+            AbstractSyntaxTreePtr sub = ident->down;
+            if (isIndexExpression(sub)) {
+                return true;
+            }
+            return sub->opNum == OP_PARENS && sub->right != nullptr && !containsAllIndex(sub->down);
         }
 
         void

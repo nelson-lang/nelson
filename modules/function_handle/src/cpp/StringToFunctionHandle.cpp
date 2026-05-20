@@ -14,6 +14,7 @@
 #include "characters_encoding.hpp"
 #include "IsValidVariableName.hpp"
 #include "AnonymousMacroFunctionDef.hpp"
+#include "MacroFunctionDef.hpp"
 #include "StringHelpers.hpp"
 #include "ParserInterface.hpp"
 //=============================================================================
@@ -25,7 +26,8 @@ static void
 getVariablesFromCurrentScope(
     Evaluator* eval, stringVector& variableNames, std::vector<ArrayOf>& variables);
 static void
-createFunctionHandleNamed(const std::string& name, function_handle& functionHandle);
+createFunctionHandleNamed(
+    Evaluator* eval, const std::string& name, function_handle& functionHandle);
 static void
 createFunctionHandleAnonymous(const std::string& name, const stringVector& arguments,
     Evaluator* eval, function_handle& functionHandle);
@@ -66,7 +68,7 @@ StringToFunctionHandle(Evaluator* eval, const std::string& functionName)
                 Error(_("A valid function handle expected."),
                     "Nelson:dispatcher:invalidFunctionName");
             }
-            createFunctionHandleNamed(content, functionHandle);
+            createFunctionHandleNamed(eval, content, functionHandle);
         } else if (t->opNum == OP_FUNCTION_HANDLE_ANONYMOUS) {
             AbstractSyntaxTreePtr code = nullptr;
             stringVector arguments;
@@ -100,7 +102,7 @@ StringToFunctionHandle(Evaluator* eval, const std::string& functionName)
                     "Nelson:dispatcher:invalidFunctionName");
             }
             if (isValidNelsonFunctionName(content)) {
-                createFunctionHandleNamed(content, functionHandle);
+                createFunctionHandleNamed(eval, content, functionHandle);
             } else {
                 stringVector arguments;
                 createFunctionHandleAnonymous(content, arguments, eval, functionHandle);
@@ -164,8 +166,36 @@ getVariablesFromCurrentScope(
 }
 //=============================================================================
 void
-createFunctionHandleNamed(const std::string& name, function_handle& functionHandle)
+createFunctionHandleNamed(Evaluator* eval, const std::string& name, function_handle& functionHandle)
 {
+    FunctionDef* localFunctionDef = nullptr;
+    if (eval != nullptr && eval->getContext() != nullptr
+        && eval->getContext()->getCurrentScope() != nullptr
+        && eval->getContext()->getCurrentScope()->lookupFunction(name, localFunctionDef)
+        && localFunctionDef != nullptr && localFunctionDef->type() == NLS_MACRO_FUNCTION) {
+        auto* macroDef = dynamic_cast<MacroFunctionDef*>(localFunctionDef);
+        if (macroDef != nullptr && macroDef->nestedFunction) {
+            stringVector variableNames;
+            std::vector<ArrayOf> variables;
+            getVariablesFromCurrentScope(eval, variableNames, variables);
+            AnonymousMacroFunctionDef* nestedHandle = nullptr;
+            try {
+                nestedHandle
+                    = new AnonymousMacroFunctionDef(name, macroDef, variableNames, variables);
+            } catch (std::bad_alloc&) {
+                nestedHandle = nullptr;
+            } catch (Exception&) {
+                delete nestedHandle;
+                nestedHandle = nullptr;
+            }
+            if (nestedHandle) {
+                functionHandle.anonymousHandle = reinterpret_cast<nelson_handle*>(nestedHandle);
+                return;
+            }
+            Error(_("A valid function name expected."), "Nelson:dispatcher:invalidFunctionName");
+        }
+    }
+
     AnonymousMacroFunctionDef* cp = nullptr;
     try {
         cp = new AnonymousMacroFunctionDef(name);

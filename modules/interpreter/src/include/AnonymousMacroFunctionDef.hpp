@@ -34,6 +34,9 @@ public:
     //=============================================================================
     AnonymousMacroFunctionDef(const std::string& functionHandle);
     //=============================================================================
+    AnonymousMacroFunctionDef(const std::string& functionHandle, FunctionDef* boundFunction,
+        const stringVector& variableNames, const std::vector<ArrayOf>& variables);
+    //=============================================================================
     AnonymousMacroFunctionDef(const std::string& anonymousContent, const stringVector& arguments,
         const stringVector& variableNames, const std::vector<ArrayOf>& variables);
     //=============================================================================
@@ -102,6 +105,12 @@ public:
     }
     //=============================================================================
     bool
+    isBoundNestedFunctionHandle() const;
+    //=============================================================================
+    void
+    syncCapturedVariables(const stringVector& names, const std::vector<ArrayOf>& values);
+    //=============================================================================
+    bool
     isStatelessSimpleIdentity() const;
     //=============================================================================
     std::string
@@ -125,6 +134,7 @@ public:
 
 private:
     bool isFunctionHandleOnly = false;
+    FunctionDef* boundFunction = nullptr;
     std::string anonymousContent;
     std::string functionHandleContent;
     stringVector variableNames;

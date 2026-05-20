@@ -49,9 +49,6 @@
     <ClCompile Include="..\cpp\MacroFunctionDef.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\NelsonLexer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\cpp\ParseFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -73,7 +70,10 @@
     <ClCompile Include="..\cpp\VariablesTable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\grammar\NelSonParser.cpp">
+    <ClCompile Include="..\grammar\NelSonParserCpp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\grammar\NelSonParserCppYylval.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\ProfilerHelpers.cpp">
@@ -244,10 +244,16 @@
     <ClCompile Include="..\cpp\VMCallFrame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\grammar\NelsonLexer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\module.iss" />
-    <None Include="..\grammar\NelSonParser.yxx">
+    <None Include="..\grammar\NelsonLexer.lxx">
+      <Filter>Grammar</Filter>
+    </None>
+    <None Include="..\grammar\NelSonParserCpp.yxx">
       <Filter>Grammar</Filter>
     </None>
     <None Include="..\..\loader.m" />
@@ -367,7 +373,10 @@
     <ClInclude Include="..\include\VariablesTable.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\grammar\NelSonParser.h">
+    <ClInclude Include="..\grammar\NelSonParserCpp.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\grammar\NelsonParserTokens.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\ProfilerHelpers.hpp">

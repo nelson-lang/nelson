@@ -51,15 +51,14 @@ function varargout = c2d(varargin)
   if nargin > 3 
     if ~strcmp(method, 'P')
       error(_("Wrong value for #3 argument: 'prewarp' method expected."));
-      end
-      w0 = varargin{4};
-      mustBeNumeric(w0, 4);
-      if ~isscalar(w0)
-        error(_('Wrong size for input argument #4: scalar expected.'));
-      end
-      mustBePositive(w0, 4);
-      mustBeFinite(w0, 4);
     end
+    w0 = varargin{4};
+    mustBeNumeric(w0, 4);
+    if ~isscalar(w0)
+      error(_('Wrong size for input argument #4: scalar expected.'));
+    end
+    mustBePositive(w0, 4);
+    mustBeFinite(w0, 4);
   end    
   
   if nargin == 4

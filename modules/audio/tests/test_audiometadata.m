@@ -8,6 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <--RELEASE ONLY-->
+% <--SEQUENTIAL TEST REQUIRED-->
 %=============================================================================
 assert_isequal(nargin('audiometadata'), -1);
 assert_isequal(nargout('audiometadata'), 1);

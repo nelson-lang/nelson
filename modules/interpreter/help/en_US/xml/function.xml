@@ -3,20 +3,24 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>en_US</language>
   <keyword>function</keyword>
-  <keyword_alias>endfunction</keyword_alias>
   <short_description>function declaration.</short_description>
   <syntax>
-    <syntax_item
-    >function [out_1,...,out_M,varargout] = fname(in_1, ... , in_N, varargin)</syntax_item>
+    <syntax_item>function [out_1,...,out_M,varargout] = fname(in_1, ... , in_N, varargin)</syntax_item>
     <syntax_item>function fname(in_1, ... , in_N, varargin)</syntax_item>
     <syntax_item>function [out_1,...,out_M,varargout] = fname()</syntax_item>
     <syntax_item>function fname()</syntax_item>
+    <syntax_item>function nestedFunction(...), statements, end</syntax_item>
+    <syntax_item>script statements, function localFunction(...), statements, end</syntax_item>
   </syntax>
   <description>
     <p>
       <b>function</b> opens a function definition.</p>
     <p>
-      <b>endfunction</b> closes a function definition (optional, but strongly recommended).</p>
+      <b>end</b> closes a function definition. The legacy <b>endfunction</b> keyword is not supported.</p>
+    <p>Function files may end at end-of-file for simple function bodies, but explicit <b>end</b> is required to close nested functions, local functions, and block constructs unambiguously.</p>
+    <p>Function files can contain local functions after the main function. Script files can contain executable script statements followed by trailing local functions.</p>
+    <p>Local functions in scripts must be placed after all script statements. Nelson rejects script statements after local functions and rejects local functions declared inside open statement contexts such as <b>if</b>, <b>for</b>, <b>while</b>, <b>switch</b>, and <b>try</b>.</p>
+    <p>Nested functions are supported inside parent function bodies. Nested functions can read and update variables from their parent function workspace, and handles to nested functions keep their captured state.</p>
   </description>
   <used_function />
   <bibliography />
@@ -24,18 +28,47 @@
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description>in a file: demo_function.m</example_item_description>
-      <example_item_data
-        runnable="cli"
-      ><![CDATA[
+      <example_item_data runnable="cli"><![CDATA[
 function r = demo_function(a, b)
   r = a + b;
-endfunction
+end
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Nested function sharing a parent variable.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[
+function y = nested_demo(x)
+  scale = 2;
+  y = inner(x);
+
+  function r = inner(v)
+    r = v * scale;
+  end
+end
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Script with trailing local functions.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[
+x = local_add_one(41);
+
+function y = local_add_one(v)
+  y = v + 1;
+end
 ]]></example_item_data>
     </example_item>
   </examples>
   <see_also>
     <see_also_item>
       <link linkend="${functions_manager}addpath">addpath</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${interpreter}arguments">arguments</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${interpreter}temporary_result_indexing">temporary result indexing</link>
     </see_also_item>
   </see_also>
   <history>

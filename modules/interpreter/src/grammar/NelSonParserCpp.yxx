@@ -1,5 +1,16 @@
+%require "3.2"
+%language "C++"
+%skeleton "lalr1.cc"
+%defines
+%define api.namespace {Nelson}
+%define api.parser.class {NelSonParser}
+%define api.value.type {ParseRHS}
 %parse-param { LexerContext &lexerContext }
+%parse-param { ParserContext &parserContext }
 %lex-param { LexerContext &lexerContext }
+%code requires {
+#include "NelsonParserHelpers.hpp"
+}
 %{
 // clang-format off
 //=============================================================================
@@ -12,31 +23,32 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 // clang-format off
-//bison -L C -k -o NelSonParser.cpp NelSonParser.yxx
+// Generated C++ parser output is committed as NelSonParserCpp.cpp/.hpp.
 //=============================================================================
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include <mutex>
 #include "NelsonParserHelpers.hpp"
 #include "AbstractSyntaxTree.hpp"
 #include "i18n.hpp"
 #include "LexerContext.hpp"
+#include "ParserInterface.hpp"
 //=============================================================================
 #if defined(__GNUC__)
 #pragma GCC diagnostic ignored "-Wfree-nonheap-object"
 #endif
 //=============================================================================
-#define YYSTYPE ParseRHS
 //=============================================================================
-extern int yylex(Nelson::LexerContext &lexerContext);
+extern int yylex(Nelson::LexerContext& lexerContext);
+extern thread_local Nelson::ParseRHS yylval;
+namespace Nelson {
+  static int yylex(ParseRHS* semanticValue, LexerContext& lexerContext);
+}
 extern int yydebug;
 //=============================================================================
-static std::mutex parseMutex;
-//=============================================================================
 namespace Nelson {
-  void yyerror(Nelson::LexerContext &lexerContext, const char *s) {
-     return;
+  void yyerror(Nelson::LexerContext& lexerContext, Nelson::ParserContext& parserContext, const char* s) {
+    return;
   }
 }
 //=============================================================================
@@ -77,7 +89,7 @@ using namespace Nelson;
 program:
   statementList { setParsedScriptBlock($1.v.p);}
   | functionDefList |
-  | error {yyxpt(_("statement list or function definition"),$1);}
+  | error {yyxpt(_("statement list or function definition"));}
   ;
 
 functionDef:
@@ -201,14 +213,15 @@ statementType:
   | returnStatement
   | specialSyntaxStatement
   | ABORT
-  | endfunctionStatement
+  | functionTerminatorStatement
   ;
 
-endfunctionStatement:
-  ENDFUNCTION;
+functionTerminatorStatement:
+  ENDFUNCTION {$$.v.p = AbstractSyntaxTree::createNode(reserved_node, NLS_KEYWORD_RETURN, $1.v.i);};
 
 specialSyntaxStatement:
-  IDENT NUMERIC {$$.v.p = AbstractSyntaxTree::createNode(OP_SCALL,$1.v.p,$2.v.p,$1.v.p->getContext());} 
+  SPECIALCALL {$$.v.p = AbstractSyntaxTree::createNode(OP_SCALL,$1.v.p,$1.v.p->getContext());}
+  | IDENT NUMERIC {$$.v.p = AbstractSyntaxTree::createNode(OP_SCALL,$1.v.p,$2.v.p,$1.v.p->getContext());} 
   | STRING STRING {$$.v.p = AbstractSyntaxTree::createNode(OP_SCALL,$1.v.p,$2.v.p,$1.v.p->getContext());}
   | CHARACTER CHARACTER {$$.v.p = AbstractSyntaxTree::createNode(OP_SCALL,$1.v.p,$2.v.p,$1.v.p->getContext());}
   | IDENT STRING {$$.v.p = AbstractSyntaxTree::createNode(OP_SCALL,$1.v.p,$2.v.p,$1.v.p->getContext());}
@@ -331,7 +344,7 @@ forIndexExpression:
   | '(' IDENT error {yyxpt(_("equals operator after loop index"),$2);} 
   | '(' error {yyxpt(_("identifier that is the loop variable"),$1);} 
   | IDENT '=' error {yyxpt(_("indexing expression"),$2);} 
-  | error {yyxpt(_("identifier or assignment (id = expr) after 'for' "),$1);}
+  | error {yyxpt(_("identifier or assignment (id = expr) after 'for' "));}
   ;
 
 whileStatement:
@@ -469,13 +482,15 @@ expr:
   | '-' expr %prec NEG {$$.v.p = AbstractSyntaxTree::createNode(OP_UMINUS,$2.v.p,$1.v.i);}
   | '+' expr %prec POS {$$.v.p = AbstractSyntaxTree::createNode(OP_UPLUS, $2.v.p, $1.v.i);}
   | '~' expr %prec NOT {$$.v.p = AbstractSyntaxTree::createNode(OP_NOT,$2.v.p,$1.v.i);}
-  | '~' error %prec NOT {yyxpt(_("an expression after logical not"),$2);}
+  | '~' error %prec NOT {yyxpt(_("an expression after logical not"),$1);}
   | expr '^' expr  {$$.v.p = AbstractSyntaxTree::createNode(OP_MPOWER,$1.v.p,$3.v.p,$2.v.i);}
   | expr '^' error  {yyxpt(_("an expression after '^'"),$2);}
   | expr DOTPOWER expr {$$.v.p = AbstractSyntaxTree::createNode(OP_POWER,$1.v.p,$3.v.p,$2.v.i);}
   | expr DOTPOWER error {yyxpt(_("an expression after '.^'"),$2);}
   | expr '\''          {$$.v.p = AbstractSyntaxTree::createNode(OP_TRANSPOSE,$1.v.p,$2.v.i);}
   | expr DOTTRANSPOSE  {$$.v.p = AbstractSyntaxTree::createNode(OP_DOT_TRANSPOSE,$1.v.p,$2.v.i);}
+  | parenExpr postfixRefList {$$.v.p = AbstractSyntaxTree::createNode(OP_POSTFIX,$1.v.p,$2.v.p,$1.v.p->getContext());}
+  | postfixableLiteral postfixRefList {$$.v.p = AbstractSyntaxTree::createNode(OP_POSTFIX,$1.v.p,$2.v.p,$1.v.p->getContext());}
   | parenExpr
   ;
 
@@ -492,7 +507,7 @@ terminal:
 	NUMERIC
   | CHARACTER
   | STRING
-  | MAGICEND
+  | MAGICEND {$$.v.p = AbstractSyntaxTree::createNode(reserved_node, NLS_KEYWORD_END, $1.v.i);}
   | anonymousFunction
   | symbRefList {$$.v.p = AbstractSyntaxTree::createNode(OP_RHS,$1.v.p,$1.v.p->getContext());}
   | '[' matrixDef ']' {$$.v.p = $2.v.p;}
@@ -509,9 +524,29 @@ terminal:
 	| '{' error {yyxpt(_("a cell-array definition followed by a right brace"),$1);}
   ;
 
+postfixableLiteral:
+  CHARACTER
+  | STRING
+  | '[' matrixDef ']' {$$.v.p = $2.v.p;}
+  | '[' rowSeperator matrixDef ']' {$$.v.p = $3.v.p;}
+  | '[' matrixDef rowSeperator ']' {$$.v.p = $2.v.p;}
+  | '[' rowSeperator matrixDef rowSeperator ']' {$$.v.p = $3.v.p;}
+	| '[' ']' {$$.v.p = AbstractSyntaxTree::createNode(OP_EMPTY,NULL,$1.v.i);}
+  | '{' cellDef '}' {$$.v.p = $2.v.p;}
+  | '{' rowSeperator cellDef '}' {$$.v.p = $3.v.p;}
+  | '{' cellDef rowSeperator '}' {$$.v.p = $2.v.p;}
+  | '{' rowSeperator cellDef rowSeperator '}' {$$.v.p = $3.v.p;}
+	| '{' '}' {$$.v.p = AbstractSyntaxTree::createNode(OP_EMPTY_CELL,NULL,$1.v.i);}
+  ;
+
 symbRefList:
   IDENT
   | symbRefList symbRef {$$.v.p = $1.v.p; $$.v.p->addChild($2.v.p);}
+  ;
+
+postfixRefList:
+  symbRef
+  | postfixRefList symbRef {$$.v.p = $1.v.p; $$.v.p->addPeer($2.v.p);}
   ;
 
 symbRef:
@@ -527,10 +562,10 @@ symbRef:
 indexElement:
   expr
   | ':' {$$.v.p = AbstractSyntaxTree::createNode(OP_ALL,NULL,$1.v.i);}
-  | '/' IDENT '=' expr {$$.v.p = AbstractSyntaxTree::createNode(OP_KEYWORD,$2.v.p,$4.v.p,$1.v.i);}
-  | '/' IDENT '=' error {yyxpt(_("expecting expression after '=' in keyword assignment"),$3);}
-  | '/' IDENT {$$.v.p = AbstractSyntaxTree::createNode(OP_KEYWORD,$2.v.p,$1.v.i);}
-  | '/' error {yyxpt(_("expecting keyword identifier after '/' in keyword assignment"),$1);}
+  | '/' IDENT '=' expr {yyxpt(_("slash keyword arguments are not supported"),$1);}
+  | '/' IDENT '=' error {yyxpt(_("slash keyword arguments are not supported"),$1);}
+  | '/' IDENT {yyxpt(_("slash keyword arguments are not supported"),$1);}
+  | '/' error {yyxpt(_("slash keyword arguments are not supported"),$1);}
   ;
 
 indexList:
@@ -571,9 +606,24 @@ parenExpr:
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-  void callyyparse(LexerContext &lexerContext) {
-    std::scoped_lock<std::mutex> lock{parseMutex};
-    yyparse(lexerContext);
+  int callyyparse(LexerContext& lexerContext, ParserContext& parserContext) {
+    NelSonParser parser(lexerContext, parserContext);
+    return parser.parse();
+  }
+
+  static int yylex(ParseRHS* semanticValue, Nelson::LexerContext& lexerContext) {
+    int token = ::yylex(lexerContext);
+    if (token > 0) {
+      *semanticValue = ::yylval;
+    }
+    return token;
+  }
+
+  void NelSonParser::error(const std::string& message) {
+    const int column = lexerContext.linestart == nullptr
+        ? 0
+        : static_cast<int>(lexerContext.datap - lexerContext.linestart + 1);
+    setParserDiagnostic(message, lexerContext.lineNumber + 1, column);
   }
 //=============================================================================
 }

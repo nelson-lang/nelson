@@ -41,7 +41,6 @@ const unsigned int NLS_KEYWORD_RETURN = 13;
 const unsigned int NLS_KEYWORD_SWITCH = 14;
 const unsigned int NLS_KEYWORD_TRY = 15;
 const unsigned int NLS_KEYWORD_WHILE = 16;
-const unsigned int NLS_KEYWORD_ENDFUNCTION = 17;
 
 /**
  * Each reserved word structure has three attributes,
@@ -55,7 +54,7 @@ struct keywordStruct
     int ordinal;
 };
 //=============================================================================
-#define KEYWORDCOUNT 19
+#define KEYWORDCOUNT 18
 extern keywordStruct keyWord[KEYWORDCOUNT];
 //=============================================================================
 /**

@@ -116,13 +116,7 @@ catch
 end
 assert_istrue(contains(M.message, 'positive'));
 %=============================================================================
-M = [];
-try
-  arguments_edge_nv_cross_reference();
-catch
-  M = lasterror();
-end
-assert_istrue(~isempty(M.message));
+assert_isequal(arguments_edge_nv_cross_reference(), 2);
 %=============================================================================
 M = [];
 try

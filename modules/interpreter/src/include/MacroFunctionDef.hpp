@@ -65,6 +65,7 @@ public:
      * linked list.
      */
     bool localFunction;
+    bool nestedFunction;
     /**
      * constructors.
      */

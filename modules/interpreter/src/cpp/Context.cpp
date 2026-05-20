@@ -21,6 +21,7 @@
 #include "Error.hpp"
 #include "PredefinedErrorMessages.hpp"
 #include "HandleManager.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -254,10 +255,14 @@ Context::addPersistentVariable(const std::string& var)
 {
     Scope* back = scopestack.back();
     Scope* front = scopestack.front();
+    if (back->isVariableGlobal(var)) {
+        Error(_W("A variable cannot be both global and persistent."));
+    }
     // Delete local variables with this name
     back->deleteVariable(var);
-    // Delete global variables with this name
-    front->deleteVariable(var);
+    // A persistent declaration shadows a same-scope global declaration, but it
+    // must not delete a same-named global variable owned by another scope.
+    back->deleteGlobalVariablePointer(var);
     back->addPersistentVariablePointer(var);
     // Check and create if needed in one lookup
     std::string mangledName = back->getMangledName(var);
@@ -272,6 +277,9 @@ Context::addGlobalVariable(const std::string& var)
 {
     Scope* back = scopestack.back();
     Scope* front = scopestack.front();
+    if (back->isVariablePersistent(var)) {
+        Error(_W("A variable cannot be both global and persistent."));
+    }
     // Delete local variables with this name
     back->deleteVariable(var);
     // Delete global persistent variables with this name

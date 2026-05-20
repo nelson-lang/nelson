@@ -472,8 +472,7 @@ findEndfunctionDefinitonLine(const stringVector& functionContent, int start)
 {
     for (size_t k = (size_t)start + 1; k < functionContent.size(); ++k) {
         std::string line = StringHelpers::trim_copy(functionContent[k]);
-        if (StringHelpers::starts_with(line, "endfunction")
-            || StringHelpers::starts_with(line, "function")) {
+        if (StringHelpers::starts_with(line, "function")) {
             return (int)k;
         }
     }
@@ -563,8 +562,7 @@ isKeyWordWithMaybeComments(std::string key)
     } else {
         cleanKey = key;
     }
-    return cleanKey == "endfunction" || cleanKey == "try" || cleanKey == "catch"
-        || cleanKey == "else" || cleanKey == "end"
+    return cleanKey == "try" || cleanKey == "catch" || cleanKey == "else" || cleanKey == "end"
         || StringHelpers::starts_with(cleanKey, "function ")
         || StringHelpers::starts_with(cleanKey, "case ")
         || StringHelpers::starts_with(cleanKey, "otherwise ")

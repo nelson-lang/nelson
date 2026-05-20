@@ -41,6 +41,7 @@ enum LexingStates
 //=============================================================================
 struct LexerContext
 {
+    std::string textbufferStorage;
     char* textbuffer = nullptr;
     char* datap = nullptr;
     char* linestart = nullptr;

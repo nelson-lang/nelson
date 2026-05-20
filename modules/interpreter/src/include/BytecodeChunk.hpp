@@ -27,6 +27,7 @@ public:
     std::string functionName;
     FunctionDef* selfFunction = nullptr;
     bool isScript = false;
+    bool mayCreateNamedFunctionHandle = false;
 
     std::vector<Instruction> code;
     ConstantPool constants;
