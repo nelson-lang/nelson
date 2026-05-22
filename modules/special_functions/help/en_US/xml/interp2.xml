@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>interp2</keyword>
+  <short_description>Interpolation for 2-D gridded data in meshgrid format</short_description>
+  <syntax>
+    <syntax_item>Vq = interp2(X, Y, V, Xq, Yq)</syntax_item>
+    <syntax_item>Vq = interp2(V, Xq, Yq)</syntax_item>
+    <syntax_item>Vq = interp2(V)</syntax_item>
+    <syntax_item>Vq = interp2(V, k)</syntax_item>
+    <syntax_item>Vq = interp2(..., method)</syntax_item>
+    <syntax_item>Vq = interp2(..., method, extrapval)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X, Y</param_name>
+      <param_description>Sample grid points: vectors or meshgrid arrays.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>V</param_name>
+      <param_description>Sample values: real or complex matrix.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Xq, Yq</param_name>
+      <param_description>Query points.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>method</param_name>
+      <param_description>
+        &apos;linear&apos;, &apos;nearest&apos;, &apos;cubic&apos;, &apos;makima&apos;, or &apos;spline&apos;.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>extrapval</param_name>
+      <param_description>Scalar value returned outside the grid domain.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>Vq</param_name>
+      <param_description>Interpolated values. For mixed-orientation query vectors, rows follow Yq and columns follow Xq.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>interp2</b> interpolates 2-D gridded data using meshgrid conventions. The default grid is X=1:size(V,2), Y=1:size(V,1).</p>
+    <p>
+      <b>interp2(V)</b> refines the default grid once. <b>interp2(V,k)</b> inserts 2^k-1 interpolated points between samples in each dimension; k=0 returns V.</p>
+    <p>Grid vectors must be strictly monotonic. Complex values are interpolated by real and imaginary parts separately. Without extrapval, out-of-domain queries return NaN for linear, nearest, and cubic methods; makima and spline extrapolate by default.</p>
+    <p>The cubic-family N-D methods use a native tensor-product four-point stencil, with linear fallback on dimensions that have fewer than four samples.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data><![CDATA[V = [1 2; 3 4];
+interp2(V, 1.5, 1.5)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data><![CDATA[V = [1 2; 3 4];
+Vq = interp2(V, 1)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data><![CDATA[V = [1 2; 3 4];
+Vq = interp2(V, 0, 1.5, 'linear', -1)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data><![CDATA[[X,Y] = meshgrid(-3:3);
+V = peaks(X,Y);
+[Xq,Yq] = meshgrid(-3:0.5:3);
+Vq = interp2(X,Y,V,Xq,Yq,'linear');]]></example_item_data>
+    </example_item>
+  </examples>
+  <used_function />
+  <see_also>
+    <see_also_item>
+      <link linkend="${special_functions}interp1">interp1</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${special_functions}interp3">interp3</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${special_functions}interpn">interpn</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${elementary_functions}meshgrid">meshgrid</link>
+    </see_also_item>
+  </see_also>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -3,12 +3,15 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>en_US</language>
   <keyword>interp1</keyword>
-  <short_description>Linear 1-D data interpolation</short_description>
+  <short_description>1-D data interpolation</short_description>
   <syntax>
     <syntax_item>vq = interp1(x, v, xq)</syntax_item>
-    <syntax_item>vq = interp1(x, v, xq, &apos;linear&apos;)</syntax_item>
+    <syntax_item>vq = interp1(x, v, xq, method)</syntax_item>
+    <syntax_item>vq = interp1(x, v, xq, method, extrapolation)</syntax_item>
     <syntax_item>vq = interp1(v, xq)</syntax_item>
-    <syntax_item>vq = interp1(v, xq, &apos;linear&apos;)</syntax_item>
+    <syntax_item>vq = interp1(v, xq, method)</syntax_item>
+    <syntax_item>vq = interp1(v, xq, method, extrapolation)</syntax_item>
+    <syntax_item>pp = interp1(x, v, method, &apos;pp&apos;)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -24,6 +27,15 @@
       <param_description
       >Query points: scalar, vector, matrix.</param_description>
     </param_input_item>
+    <param_input_item>
+      <param_name>method</param_name>
+      <param_description>Interpolation method: &apos;linear&apos;, &apos;nearest&apos;, &apos;next&apos;, &apos;previous&apos;, &apos;pchip&apos;, &apos;cubic&apos;, &apos;makima&apos;, or &apos;spline&apos;.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>extrapolation</param_name>
+      <param_description>
+        &apos;extrap&apos; or a scalar value.</param_description>
+    </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
@@ -34,7 +46,11 @@
   </param_output>
   <description>
     <p>
-      <b>vq = interp1(x, v, xq)</b> returns interpolated values of a 1-D function at specific query points using linear interpolation.</p>
+      <b>vq = interp1(x, v, xq)</b> returns interpolated values of a 1-D function at specific query points. The default method is linear interpolation.
+    </p>
+    <p>
+      <b>pp = interp1(x, v, method, &apos;pp&apos;)</b> returns a piecewise polynomial structure that can be evaluated with <b>ppval</b>.
+    </p>
   </description>
   <used_function />
   <bibliography
@@ -58,6 +74,20 @@ legend('v','vq');]]></example_item_data>
       />
     </example_item>
   </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${special_functions}interp2">interp2</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${special_functions}interp3">interp3</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${special_functions}interpn">interpn</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${polynomial_functions}ppval">ppval</link>
+    </see_also_item>
+  </see_also>
   <history>
     <history_item>
       <history_version>1.0.0</history_version>

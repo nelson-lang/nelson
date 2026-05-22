@@ -83,8 +83,7 @@ QtTerminalCompleter::complete(const QString& prefix)
         line, completionPrefix, files, builtin, macros, variables, fields, properties, methods);
 
     if (showpopup) {
-        std::wstring replacementPrefix
-            = files.empty() ? completionPrefix : std::wstring();
+        std::wstring replacementPrefix = files.empty() ? completionPrefix : std::wstring();
         updateModel(
             replacementPrefix, files, builtin, macros, variables, fields, properties, methods);
 

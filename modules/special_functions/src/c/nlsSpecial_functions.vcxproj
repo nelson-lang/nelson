@@ -269,6 +269,7 @@
     <ClCompile Include="..\cpp\Gamma.cpp" />
     <ClCompile Include="..\cpp\GCD.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
+    <ClCompile Include="..\cpp\InterpolationND.cpp" />
     <ClCompile Include="..\cpp\LinearInterpolation1D.cpp" />
     <ClCompile Include="..\cpp\LogarithmGamma.cpp" />
   </ItemGroup>
@@ -277,6 +278,7 @@
     <ClInclude Include="..\include\ErrorFunctions.hpp" />
     <ClInclude Include="..\include\Gamma.hpp" />
     <ClInclude Include="..\include\GCD.hpp" />
+    <ClInclude Include="..\include\InterpolationND.hpp" />
     <ClInclude Include="..\include\LinearInterpolation1D.hpp" />
     <ClInclude Include="..\include\LogarithmGamma.hpp" />
   </ItemGroup>

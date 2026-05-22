@@ -7,15 +7,23 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function varargout = interp1(varargin)
-  narginchk(2, 5);
-  nargoutchk(0, 1);
+function [args, method, extrapMode, extrapValue] = interp_parse_tail(args, allowPchip)
+  method = 'linear';
+  extrapMode = 'default';
+  extrapValue = NaN;
 
-  [x, v, xq, method, extrapMode, extrapValue, returnPP] = interp_parse1(varargin{:});
-  if returnPP
-    varargout{1} = interp1_pp(x, v, method);
-  else
-    varargout{1} = interp1_eval(x, v, xq, method, extrapMode, extrapValue);
+  if numel(args) >= 2
+    tail = args{end};
+    if isnumeric(tail) && isscalar(tail) && interp_is_text(args{end - 1})
+      extrapMode = 'constant';
+      extrapValue = tail;
+      args(end) = [];
+    end
+  end
+
+  if numel(args) >= 1 && interp_is_text(args{end})
+    method = interp_method(args{end}, allowPchip, false);
+    args(end) = [];
   end
 end
 %=============================================================================

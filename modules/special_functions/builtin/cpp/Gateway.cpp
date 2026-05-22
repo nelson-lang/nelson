@@ -18,6 +18,7 @@
 #include "betaincBuiltin.hpp"
 #include "gcdBuiltin.hpp"
 #include "__interp1__Builtin.hpp"
+#include "__interpn__Builtin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -34,7 +35,9 @@ static const nlsGateway gateway[] = {
     { "erfcinv", (ptrBuiltin)Nelson::SpecialFunctionsGateway::erfcinvBuiltin, 1, 1 },
     { "erfcx", (ptrBuiltin)Nelson::SpecialFunctionsGateway::erfcxBuiltin, 1, 1 },
     { "betainc", (ptrBuiltin)Nelson::SpecialFunctionsGateway::betaincBuiltin, 1, 3 },
-    { "__interp1__", (ptrBuiltin)Nelson::SpecialFunctionsGateway::__interp1__Builtin, 1, 3,
+    { "__interp1__", (ptrBuiltin)Nelson::SpecialFunctionsGateway::__interp1__Builtin, 1, 5,
+        CPP_BUILTIN },
+    { "__interpn__", (ptrBuiltin)Nelson::SpecialFunctionsGateway::__interpn__Builtin, 1, -1,
         CPP_BUILTIN },
 };
 //=============================================================================

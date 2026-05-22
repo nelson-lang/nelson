@@ -280,14 +280,14 @@ function [prominences, prominenceBaseY, leftBasePosX, rightBasePosX, leftBaseVal
     end
     if leftHigher == -1
       leftValley = min(signal(1:idx));
-      leftPos = 1 + find(signal(1:idx) == leftValley,1,'last');
+      leftPos = find(signal(1:idx) == leftValley,1,'last');
       leftBaseValY(kk) = leftValley;
       leftBasePosX(kk) = xVals(leftPos);
     else
       window = leftHigher:idx;
-      [mv, ~] = min(signal(window));
+      [mv, localMinIdx] = min(signal(window));
       leftBaseValY(kk) = mv;
-      leftBasePosX(kk) = interp1(signal(window), xVals(window), mv, 'linear');
+      leftBasePosX(kk) = xVals(window(localMinIdx));
     end
     if rightHigher == -1
       rightValley = min(signal(idx:end));
@@ -296,9 +296,9 @@ function [prominences, prominenceBaseY, leftBasePosX, rightBasePosX, leftBaseVal
       rightBasePosX(kk) = xVals(rightPos);
     else
       window = idx:rightHigher;
-      [mv,~] = min(signal(window));
+      [mv, localMinIdx] = min(signal(window));
       rightBaseValY(kk) = mv;
-      rightBasePosX(kk) = interp1(signal(window), xVals(window), mv, 'linear');
+      rightBasePosX(kk) = xVals(window(localMinIdx));
     end
     prominenceBaseY(kk) = max(leftBaseValY(kk), rightBaseValY(kk));
     prominences(kk) = pkY - prominenceBaseY(kk);

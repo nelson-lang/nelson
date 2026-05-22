@@ -7,15 +7,24 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function varargout = interp1(varargin)
-  narginchk(2, 5);
-  nargoutchk(0, 1);
-
-  [x, v, xq, method, extrapMode, extrapValue, returnPP] = interp_parse1(varargin{:});
-  if returnPP
-    varargout{1} = interp1_pp(x, v, method);
-  else
-    varargout{1} = interp1_eval(x, v, xq, method, extrapMode, extrapValue);
+function method = interp_method(value, allowPchip, allowPreviousNext)
+  if ~interp_is_text(value)
+    error(_('Interpolation method expected.'));
+  end
+  method = convertStringsToChars(value);
+  if strcmp(method, 'v5cubic')
+    method = 'cubic';
+  end
+  allowed = {'linear', 'nearest', 'cubic', 'makima', 'spline'};
+  if allowPchip
+    allowed{end + 1} = 'pchip';
+  end
+  if allowPreviousNext
+    allowed{end + 1} = 'previous';
+    allowed{end + 1} = 'next';
+  end
+  if ~any(strcmp(method, allowed))
+    error(_('Unknown interpolation method.'));
   end
 end
 %=============================================================================

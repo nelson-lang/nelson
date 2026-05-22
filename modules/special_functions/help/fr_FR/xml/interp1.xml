@@ -3,62 +3,82 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>interp1</keyword>
-  <short_description>Interpolation linéaire de données 1-D</short_description>
+  <short_description>Interpolation de donnees 1-D</short_description>
   <syntax>
     <syntax_item>vq = interp1(x, v, xq)</syntax_item>
-    <syntax_item>vq = interp1(x, v, xq, &apos;linear&apos;)</syntax_item>
+    <syntax_item>vq = interp1(x, v, xq, method)</syntax_item>
+    <syntax_item>vq = interp1(x, v, xq, method, extrapolation)</syntax_item>
     <syntax_item>vq = interp1(v, xq)</syntax_item>
-    <syntax_item>vq = interp1(v, xq, &apos;linear&apos;)</syntax_item>
+    <syntax_item>vq = interp1(v, xq, method)</syntax_item>
+    <syntax_item>vq = interp1(v, xq, method, extrapolation)</syntax_item>
+    <syntax_item>pp = interp1(x, v, method, &apos;pp&apos;)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>x</param_name>
-      <param_description>Points d&apos;échantillonnage : vecteur.</param_description>
+      <param_description>Points d&apos;echantillonnage : vecteur.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>v</param_name>
-      <param_description
-      >Valeurs d&apos;échantillonnage : vecteur, matrice.</param_description>
+      <param_description>Valeurs d&apos;echantillonnage : vecteur, matrice ou tableau.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>xq</param_name>
-      <param_description
-      >Points de requête : scalaire, vecteur, matrice.</param_description>
+      <param_description>Points de requete : scalaire, vecteur, matrice ou tableau.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>method</param_name>
+      <param_description>Methode : &apos;linear&apos;, &apos;nearest&apos;, &apos;next&apos;, &apos;previous&apos;, &apos;pchip&apos;, &apos;cubic&apos;, &apos;makima&apos; ou &apos;spline&apos;.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>extrapolation</param_name>
+      <param_description>
+        &apos;extrap&apos; ou valeur scalaire.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>vq</param_name>
-      <param_description
-      >Valeurs interpolées : scalaire, vecteur, matrice.</param_description>
+      <param_description>Valeurs interpolees.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>pp</param_name>
+      <param_description>Structure polynomiale par morceaux.</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p>
-      <b>vq = interp1(x, v, xq)</b> retourne les valeurs interpolées d&apos;une fonction 1-D à des points de requête spécifiques en utilisant l&apos;interpolation linéaire.</p>
+      <b>interp1</b> retourne les valeurs interpolees d&apos;une fonction 1-D. La methode par defaut est &apos;linear&apos;.
+    </p>
+    <p>
+      <b>pp = interp1(x, v, method, &apos;pp&apos;)</b> retourne une structure polynomiale par morceaux evaluable avec <b>ppval</b>.
+    </p>
   </description>
   <used_function />
-  <bibliography
-  >de Boor, C., A Practical Guide to Splines, Springer-Verlag, 1978.</bibliography>
+  <bibliography>de Boor, C., A Practical Guide to Splines, Springer-Verlag, 1978.</bibliography>
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description />
-      <example_item_data
-        runnable="adv-cli"
-      ><![CDATA[f = figure();
-v = [0  1.41  2  1.41  0  -1.41  -2  -1.41 0];
+      <example_item_data><![CDATA[v = [0 1.41 2 1.41 0 -1.41 -2 -1.41 0];
 xq = 1.5:8.5;
-vq = interp1(v,xq);
-plot(1:9, v, 'o', xq, vq, '*');
-legend('v','vq');]]></example_item_data>
-      <example_item_img
-        src="../../images/interp1.svg"
-        align="middle"
-        generate="true"
-      />
+vq = interp1(v, xq);]]></example_item_data>
     </example_item>
   </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${special_functions}interp2">interp2</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${special_functions}interp3">interp3</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${special_functions}interpn">interpn</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${polynomial_functions}ppval">ppval</link>
+    </see_also_item>
+  </see_also>
   <history>
     <history_item>
       <history_version>1.0.0</history_version>

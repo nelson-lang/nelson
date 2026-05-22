@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>interpn</keyword>
+  <short_description>Interpolation de donnees grillees N-D au format ndgrid</short_description>
+  <syntax>
+    <syntax_item>Vq = interpn(X1, X2, ..., Xn, V, Xq1, Xq2, ..., Xqn)</syntax_item>
+    <syntax_item>Vq = interpn(V, Xq1, Xq2, ..., Xqn)</syntax_item>
+    <syntax_item>Vq = interpn(V)</syntax_item>
+    <syntax_item>Vq = interpn(V, k)</syntax_item>
+    <syntax_item>Vq = interpn(..., method)</syntax_item>
+    <syntax_item>Vq = interpn(..., method, extrapval)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X1, ..., Xn</param_name>
+      <param_description>Points de grille : vecteurs ou tableaux ndgrid.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>V</param_name>
+      <param_description>Valeurs : tableau reel ou complexe. Les dimensions supplementaires representent plusieurs jeux de donnees sur la meme grille.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Xq1, ..., Xqn</param_name>
+      <param_description>Points de requete.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>method</param_name>
+      <param_description>
+        &apos;linear&apos;, &apos;nearest&apos;, &apos;pchip&apos;, &apos;cubic&apos;, &apos;makima&apos; ou &apos;spline&apos;. PCHIP est reserve au 1-D.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>Vq</param_name>
+      <param_description>Valeurs interpolees.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>interpn</b> interpole des donnees grillees N-D avec les conventions ndgrid. La grille par defaut est 1:size(V,i) dans chaque dimension.</p>
+    <p>Les methodes cubiques utilisent un stencil natif tensoriel a quatre points, avec repli lineaire sur les dimensions qui ont moins de quatre echantillons. PCHIP reste reserve a la syntaxe interpn 1-D.</p>
+    <p>
+      <b>interpn(V)</b> et <b>interpn(V,k)</b> raffinent la grille par defaut. Les tableaux de requete de meme taille sont traites comme des points disperses; des vecteurs d&apos;orientations mixtes definissent une grille complete.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data><![CDATA[V = [1 2; 3 4];
+Vq = interpn(V, 1.5, 1.5)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data><![CDATA[x = [10 20];
+y = [1 3];
+[X,Y] = ndgrid(x, y);
+V = [1 2; 3 4];
+Vq = interpn(X, Y, V, 15, 2)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data><![CDATA[V = [1 2; 3 4];
+Vq = interpn(V, 1)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data><![CDATA[V = reshape(1:16, [2 2 2 2]);
+Vq = interpn(V, 1.5, 1.5, 1.5, 1.5)]]></example_item_data>
+    </example_item>
+  </examples>
+  <used_function />
+  <see_also>
+    <see_also_item>
+      <link linkend="${special_functions}interp1">interp1</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${special_functions}interp2">interp2</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${special_functions}interp3">interp3</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${elementary_functions}ndgrid">ndgrid</link>
+    </see_also_item>
+  </see_also>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>
