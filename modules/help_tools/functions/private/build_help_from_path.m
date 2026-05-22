@@ -20,6 +20,12 @@ function build_help_from_path(module, module_path, lang, dirdest, package)
       destination_path = [dirdest, '/', module];
       chapter_dest_xml = [destination_path, '/help_toc_summary.xml'];
       if ( package || ~isdir(destination_path) || need_to_be_generated(src, chapter_dest_xml));
+        if isdir(destination_path)
+          [res, msg] = rmdir(destination_path, 's');
+          if ~res
+            error(msg);
+          end
+        end
         mkdir(destination_path);
         [status, msg] = xmldoctohtml(src, destination_path, module, true);
         if ~status

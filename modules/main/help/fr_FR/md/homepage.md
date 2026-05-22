@@ -1,6 +1,6 @@
 <img src="banner_homepage.png" alt="banner" style="display:block; margin-left:auto; margin-right:auto;" />
 
-### Nelson 1.16.0.0
+### Nelson 1.17.0.0
 
 La page d'accueil principale de Nelson se trouve à [https://nelson-lang.github.io/nelson-website/](https://nelson-lang.github.io/nelson-website/).
 

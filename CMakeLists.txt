@@ -18,7 +18,7 @@ if(POLICY CMP0167)
 endif()
 # ==============================================================================
 set(Nelson_VERSION_MAJOR_DEFAULT 1)
-set(Nelson_VERSION_MINOR_DEFAULT 16)
+set(Nelson_VERSION_MINOR_DEFAULT 17)
 set(Nelson_VERSION_MAINTENANCE_DEFAULT 0)
 set(Nelson_VERSION_BUILD_DEFAULT 0)
 # ==============================================================================

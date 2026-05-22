@@ -23,8 +23,8 @@ assert_istrue(status, msg);
 assert_istrue(isfile([destination_html, '/plots/surf.html']));
 assert_istrue(isfile([destination_html, '/plots/advanced/mesh.html']));
 assert_istrue(isfile([destination_html, '/rootplot.html']));
-assert_istrue(isfile([destination_html, '/surf.html']));
-assert_istrue(isfile([destination_html, '/mesh.html']));
+assert_isfalse(isfile([destination_html, '/surf.html']));
+assert_isfalse(isfile([destination_html, '/mesh.html']));
 toc = fileread([destination_html, '/help_toc_summary.xml']);
 assert_istrue(contains(toc, 'link="plots/surf.html"'));
 assert_istrue(contains(toc, 'link="plots/advanced/mesh.html"'));
@@ -38,8 +38,6 @@ assert_istrue(contains(surf_html, 'href="../highlight.css"'));
 mesh_html = fileread([destination_html, '/plots/advanced/mesh.html']);
 assert_istrue(contains(mesh_html, 'href="../../index.html"'));
 assert_istrue(contains(mesh_html, 'href="../../highlight.css"'));
-alias_html = fileread([destination_html, '/surf.html']);
-assert_istrue(contains(alias_html, 'plots/surf.html'));
 %=============================================================================
 destination_md = [tempdir(), 'test_xmldoc_nested_md'];
 if isdir(destination_md)
@@ -50,7 +48,8 @@ assert_istrue(xmldoctomd(source, destination_md, 'nested_help', true));
 assert_istrue(isfile([destination_md, '/plots/surf.md']));
 assert_istrue(isfile([destination_md, '/plots/advanced/mesh.md']));
 assert_istrue(isfile([destination_md, '/rootplot.md']));
-assert_istrue(isfile([destination_md, '/surf.md']));
+assert_isfalse(isfile([destination_md, '/surf.md']));
+assert_isfalse(isfile([destination_md, '/mesh.md']));
 summary = fileread([destination_md, '/SUMMARY.md']);
 assert_istrue(contains(summary, 'plots/surf.md'));
 assert_isfalse(contains(summary, '](surf.md)'));
@@ -81,6 +80,7 @@ end
 mkdir(destination_collision);
 [status, msg] = xmldocbuild([modulepath('help_tools', 'root'), '/tests/xml_nested_alias_collision'], ...
   destination_collision, 'nested_help', 'html', true);
-assert_isfalse(status);
-assert_istrue(contains(msg, 'alias collision'));
+assert_istrue(status, msg);
+assert_istrue(isfile([destination_collision, '/foo.html']));
+assert_istrue(isfile([destination_collision, '/plots/foo.html']));
 %=============================================================================
