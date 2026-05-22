@@ -38,6 +38,16 @@ splitpath(const std::wstring& prefix, std::wstring& path, std::wstring& fname)
     }
 }
 //=============================================================================
+static std::wstring
+completionEntryFromPath(const std::filesystem::path& path)
+{
+    std::wstring entry = path.filename().wstring();
+    if (std::filesystem::is_directory(path)) {
+        entry.push_back(DIR_SEPARATOR_OTHERS);
+    }
+    return entry;
+}
+//=============================================================================
 wstringVector
 FileCompleter(const std::wstring& prefix)
 {
@@ -48,6 +58,7 @@ FileCompleter(const std::wstring& prefix)
         std::wstring pathname;
         std::wstring filename;
         splitpath(prefix, pathname, filename);
+        bool prefixHasPath = !pathname.empty();
         if (pathname.empty()) {
             try {
                 std::filesystem::path pwd = std::filesystem::current_path();
@@ -94,38 +105,12 @@ FileCompleter(const std::wstring& prefix)
                         if (!std::regex_match(p->path().filename().wstring(), rmask)) {
                             continue;
                         }
-                        std::wstring file(p->path().wstring());
-                        if (file[0] == L'.' && (file[1] == L'/' || file[1] == L'\\')) {
-                            file = std::wstring(file.begin() + 2, file.end());
-                        }
-                        std::filesystem::path current = file;
-                        std::wstring fname = current.wstring();
-                        if (std::filesystem::is_directory(fname)) {
-                            fname = fname + L"/";
-                        }
-                        std::wstring complet;
-                        if ((*prefix.rbegin() == L'/') || (*prefix.rbegin() == L'\\')) {
-                            complet = fname.substr(prefix.size(), fname.size() - prefix.size() + 1);
-                        } else {
-                            size_t pos = std::wstring::npos;
-                            size_t pos1 = prefix.rfind(L'/');
-                            size_t pos2 = prefix.rfind(L'\\');
-                            if (pos1 != std::wstring::npos && pos2 != std::wstring::npos) {
-                                pos = std::max(pos1, pos2);
-                            } else {
-                                if (pos1 != std::wstring::npos) {
-                                    pos = pos1;
-                                } else {
-                                    pos = pos2;
-                                }
-                            }
-                            if (pos != std::wstring::npos) {
-                                complet = fname.substr(pos + 1);
-                            } else {
-                                complet = fname.substr(path.size(), fname.size() - path.size() + 1);
-                            }
-                        }
+                        std::wstring complet = completionEntryFromPath(p->path());
                         if (!complet.empty()) {
+                            if (!prefixHasPath && StringHelpers::starts_with(complet, prefix)
+                                && StringHelpers::iends_with(complet, L".m")) {
+                                complet = complet.substr(0, complet.size() - 2);
+                            }
                             res.push_back(complet);
                         }
                     }
@@ -159,6 +144,16 @@ splitpath(const std::string& prefix, std::string& path, std::string& fname)
     }
 }
 //=============================================================================
+static std::string
+completionEntryFromPath(const std::filesystem::path& path)
+{
+    std::string entry = path.filename().string();
+    if (std::filesystem::is_directory(path)) {
+        entry.push_back(DIR_SEPARATOR_OTHERS);
+    }
+    return entry;
+}
+//=============================================================================
 wstringVector
 FileCompleter(const std::wstring& prefix)
 {
@@ -168,7 +163,9 @@ FileCompleter(const std::wstring& prefix)
         std::string filespec;
         std::string pathname;
         std::string filename;
-        splitpath(wstring_to_utf8(prefix), pathname, filename);
+        std::string prefixString = wstring_to_utf8(prefix);
+        splitpath(prefixString, pathname, filename);
+        bool prefixHasPath = !pathname.empty();
         if (pathname.empty()) {
             try {
                 std::filesystem::path pwd = std::filesystem::current_path();
@@ -214,38 +211,12 @@ FileCompleter(const std::wstring& prefix)
                         if (!std::regex_match(p->path().filename().string(), rmask)) {
                             continue;
                         }
-                        std::string file(p->path().string());
-                        if (file[0] == L'.' && (file[1] == L'/' || file[1] == L'\\')) {
-                            file = std::string(file.begin() + 2, file.end());
-                        }
-                        std::filesystem::path current = file;
-                        std::string fname = current.string();
-                        if (std::filesystem::is_directory(fname)) {
-                            fname = fname + "/";
-                        }
-                        std::string complet;
-                        if ((*prefix.rbegin() == '/') || (*prefix.rbegin() == '\\')) {
-                            complet = fname.substr(prefix.size(), fname.size() - prefix.size() + 1);
-                        } else {
-                            size_t pos = std::string::npos;
-                            size_t pos1 = prefix.rfind('/');
-                            size_t pos2 = prefix.rfind('\\');
-                            if (pos1 != std::string::npos && pos2 != std::string::npos) {
-                                pos = std::max(pos1, pos2);
-                            } else {
-                                if (pos1 != std::string::npos) {
-                                    pos = pos1;
-                                } else {
-                                    pos = pos2;
-                                }
-                            }
-                            if (pos != std::string::npos) {
-                                complet = fname.substr(pos + 1);
-                            } else {
-                                complet = fname.substr(path.size(), fname.size() - path.size() + 1);
-                            }
-                        }
+                        std::string complet = completionEntryFromPath(p->path());
                         if (!complet.empty()) {
+                            if (!prefixHasPath && StringHelpers::starts_with(complet, prefixString)
+                                && StringHelpers::iends_with(complet, ".m")) {
+                                complet = complet.substr(0, complet.size() - 2);
+                            }
                             res.push_back(utf8_to_wstring(complet));
                         }
                     }

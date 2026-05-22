@@ -83,8 +83,10 @@ QtTerminalCompleter::complete(const QString& prefix)
         line, completionPrefix, files, builtin, macros, variables, fields, properties, methods);
 
     if (showpopup) {
+        std::wstring replacementPrefix
+            = files.empty() ? completionPrefix : std::wstring();
         updateModel(
-            completionPrefix, files, builtin, macros, variables, fields, properties, methods);
+            replacementPrefix, files, builtin, macros, variables, fields, properties, methods);
 
         QAbstractItemView* popup = m_qCompleter->popup();
         QAbstractItemModel* model = m_qCompleter->completionModel();
