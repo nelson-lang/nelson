@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>isbetween</keyword>
+  <short_description>Determine array elements between lower and upper bounds.</short_description>
+  <syntax>
+    <syntax_item>TF = isbetween(A, lower, upper)</syntax_item>
+    <syntax_item>TF = isbetween(A, lower, upper, intervalType)</syntax_item>
+    <syntax_item>TF = isbetween(..., name, value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>array or table.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>lower, upper</param_name>
+      <param_description>lower and upper bounds.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>intervalType</param_name>
+      <param_description>
+        &apos;closed&apos;, &apos;open&apos;, &apos;openleft&apos;, &apos;openright&apos;, &apos;closedleft&apos;, or &apos;closedright&apos;.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>name, value</param_name>
+      <param_description>For table inputs, supports &apos;DataVariables&apos; and &apos;OutputFormat&apos;.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>TF</param_name>
+      <param_description>logical array or logical table.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>isbetween</b> returns true where <b>A</b> is inside the interval defined by <b>lower</b> and <b>upper</b>. The default interval is closed.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[A = [1 2 3 4 5];
+isbetween(A, 2, 4)
+isbetween(A, 2, 4, 'open')]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[T = table([1; 2; 3], [4; 5; 6], 'VariableNames', {'A', 'B'});
+isbetween(T, 2, 5)
+isbetween(T, 2, 5, 'DataVariables', 'B', 'OutputFormat', 'tabular')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${data_analysis}allbetween">allbetween</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.17.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

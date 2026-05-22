@@ -23,6 +23,7 @@ target_include_directories(
   PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include>
          $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
   PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/cpp
+          ${CMAKE_CURRENT_SOURCE_DIR}/../data_analysis/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
@@ -38,7 +39,8 @@ target_include_directories(
 
 target_link_libraries(
   ${module_library_name}
-  PRIVATE nlsCommons
+  PRIVATE nlsData_analysis
+          nlsCommons
           nlsError_manager
           nlsNelson_manager
           nlsI18n

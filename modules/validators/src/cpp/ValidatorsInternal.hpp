@@ -118,6 +118,9 @@ mustBeInRange(const ArrayOf& value, const ArrayOf& lower, const ArrayOf& upper,
     bool asCaller = false);
 //=============================================================================
 NLSVALIDATORS_IMPEXP void
+mustBeBetween(const ArrayOfVector& args, int argPosition, bool asCaller = false);
+//=============================================================================
+NLSVALIDATORS_IMPEXP void
 mustBeRow(const ArrayOf& arg, int argPosition, bool asCaller = false);
 //=============================================================================
 NLSVALIDATORS_IMPEXP void

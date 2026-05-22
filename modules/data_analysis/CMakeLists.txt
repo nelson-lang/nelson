@@ -40,6 +40,7 @@ target_link_libraries(
   PRIVATE nlsError_manager
           nlsNelson_manager
           nlsOperators
+          nlsInterpreter
           nlsI18n
           nlsTypes
           ${OpenMP_CXX_LIBRARIES})
@@ -75,6 +76,7 @@ target_link_libraries(
   PRIVATE ${module_library_name}
           nlsCommons
           nlsError_manager
+          nlsInterpreter
           nlsNelson_manager
           nlsI18n
           nlsInterpreter

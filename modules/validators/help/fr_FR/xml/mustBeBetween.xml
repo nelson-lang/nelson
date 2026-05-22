@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>mustBeBetween</keyword>
+  <short_description>Valide que tous les elements sont compris dans une plage specifiee.</short_description>
+  <syntax>
+    <syntax_item>mustBeBetween(A, lower, upper)</syntax_item>
+    <syntax_item>mustBeBetween(A, lower, upper, intervalType)</syntax_item>
+    <syntax_item>mustBeBetween(..., name, value)</syntax_item>
+    <syntax_item>mustBeBetween(..., argPosition)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>tableau ou table a valider.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>lower, upper</param_name>
+      <param_description>bornes inferieure et superieure.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>intervalType</param_name>
+      <param_description>
+        &apos;closed&apos;, &apos;open&apos;, &apos;openleft&apos;, &apos;openright&apos;, &apos;closedleft&apos; ou &apos;closedright&apos;.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>name, value</param_name>
+      <param_description>Pour les tables, prend en charge &apos;DataVariables&apos;.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>argPosition</param_name>
+      <param_description>entier positif optionnel : position de l&apos;argument d&apos;entree.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p>
+      <b>mustBeBetween</b> leve une erreur si un element selectionne de <b>A</b> est en dehors de l&apos;intervalle defini par <b>lower</b> et <b>upper</b>. L&apos;intervalle par defaut est ferme.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[mustBeBetween([3 4 5], 0, 5)
+mustBeBetween([3 4], 0, 5, 'open')]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[T = table([2; 3; 4], [10; 11; 12], 'VariableNames', {'A', 'B'});
+mustBeBetween(T, 2, 4, 'DataVariables', 'A')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${data_analysis}allbetween">allbetween</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${data_analysis}isbetween">isbetween</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${validators}mustBeInRange">mustBeInRange</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.17.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

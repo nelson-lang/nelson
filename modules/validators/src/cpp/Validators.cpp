@@ -249,5 +249,12 @@ mustBeInRange(const ArrayOfVector& args, const ArrayOf& upper, const ArrayOf& lo
     mustBeInRange(args[argPosition], upper, lower, boundflag1, boundflag2, argPosition + 1);
 }
 //=============================================================================
+void
+mustBeBetween(const ArrayOfVector& args, int argPosition)
+{
+    checkArgumentPosition(args, argPosition);
+    mustBeBetween(args, argPosition + 1, false);
+}
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

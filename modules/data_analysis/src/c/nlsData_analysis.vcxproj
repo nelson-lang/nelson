@@ -285,6 +285,7 @@
     <ClCompile Include="..\cpp\Convolution2D.cpp" />
     <ClCompile Include="..\cpp\CumProd.cpp" />
     <ClCompile Include="..\cpp\CumSum.cpp" />
+    <ClCompile Include="..\cpp\IsBetween.cpp" />
     <ClCompile Include="..\cpp\IsMissing.cpp" />
     <ClCompile Include="..\cpp\Maximum.cpp" />
     <ClCompile Include="..\cpp\Minimum.cpp" />
@@ -319,6 +320,7 @@
     <ClInclude Include="..\include\Convolution2D.hpp" />
     <ClInclude Include="..\include\CumProd.hpp" />
     <ClInclude Include="..\include\CumSum.hpp" />
+    <ClInclude Include="..\include\IsBetween.hpp" />
     <ClInclude Include="..\include\IsMissing.hpp" />
     <ClInclude Include="..\include\Maximum.hpp" />
     <ClInclude Include="..\include\Minimum.hpp" />
@@ -334,6 +336,9 @@
     </ProjectReference>
     <ProjectReference Include="..\..\..\i18n\src\c\nlsI18n.vcxproj">
       <Project>{eca1e952-8391-4e71-9a91-0e7fd2854320}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\interpreter\src\c\nlsInterpreter.vcxproj">
+      <Project>{17135b09-bc25-448e-9750-c09a87fde6f8}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\nelson_manager\src\c\nlsNelson_manager.vcxproj">
       <Project>{e467b14f-0d56-4237-b649-eb5572b5e731}</Project>

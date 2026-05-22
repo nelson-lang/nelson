@@ -48,6 +48,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - [#309](https://github.com/nelson-lang/nelson/issues/309): `erf`, `erfc`, `erfcinv`, `erfcx`, `erfinv` error functions.
 
+- [#1289](https://github.com/nelson-lang/nelson/issues/1289): `isbetween`, `allbetween`, `mustBeBetween` functions.
+
 - `tiledlayout`, `nexttile`, `tilenum`, `tilerowcol` layout management.
 
 - [#813](https://github.com/nelson-lang/nelson/issues/813): `findobj` Find graphics objects with specific properties.
