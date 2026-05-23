@@ -82,6 +82,17 @@ ext_remove_module_prefix(xmlXPathParserContextPtr ctxt, int nargs)
 }
 //=============================================================================
 static void
+setCopyImageError(xmlXPathParserContextPtr ctxt, const std::string& message)
+{
+    if (ctxt && ctxt->context && ctxt->context->doc) {
+        xmlNodePtr root = xmlDocGetRootElement(ctxt->context->doc);
+        if (root) {
+            xmlSetProp(root, BAD_CAST "copy_img_error", BAD_CAST message.c_str());
+        }
+    }
+}
+//=============================================================================
+static void
 ext_copy_img(xmlXPathParserContextPtr ctxt, int nargs)
 {
     if (nargs != 1) {
@@ -124,11 +135,27 @@ ext_copy_img(xmlXPathParserContextPtr ctxt, int nargs)
     std::string newFileName = srcPath.stem().string() + srcPath.extension().string();
     std::filesystem::path destPath = std::filesystem::path(outputDir) / newFileName;
 
-    try {
-        std::filesystem::copy_file(
-            srcPath, destPath, std::filesystem::copy_options::overwrite_existing);
-    } catch (const std::exception&) {
+    std::error_code ec;
+    if (!std::filesystem::is_regular_file(srcPath, ec)) {
+        setCopyImageError(ctxt,
+            "Cannot copy help image: source file does not exist: " + srcPath.generic_string()
+                + " referenced from " + xmlfilename);
+        xmlXPathReturnEmptyString(ctxt);
+        xmlFree(srcAttr);
+        return;
     }
+
+    std::filesystem::copy_file(
+        srcPath, destPath, std::filesystem::copy_options::overwrite_existing, ec);
+    if (ec) {
+        setCopyImageError(ctxt,
+            "Cannot copy help image: " + srcPath.generic_string() + " to "
+                + destPath.generic_string() + ": " + ec.message());
+        xmlXPathReturnEmptyString(ctxt);
+        xmlFree(srcAttr);
+        return;
+    }
+
     std::string newSrc = "./" + newFileName;
     xmlXPathReturnString(ctxt, xmlStrdup(reinterpret_cast<const xmlChar*>(newSrc.c_str())));
     xmlFree(srcAttr);
@@ -245,6 +272,19 @@ XmlTransform(const std::wstring& xmlfile, const std::wstring& xslfile,
         } else {
             errorMessage = _W("Error applying XSLT stylesheet.");
         }
+        return false;
+    }
+
+    xmlChar* copyImageError = xmlGetProp(xmlDocGetRootElement(doc), BAD_CAST "copy_img_error");
+    if (copyImageError) {
+        errorMessage = utf8_to_wstring(reinterpret_cast<const char*>(copyImageError));
+        xmlFree(copyImageError);
+        if (style) {
+            xsltFreeStylesheet(style);
+            style = nullptr;
+        }
+        xmlFreeDoc(result);
+        xmlFreeDoc(doc);
         return false;
     }
 

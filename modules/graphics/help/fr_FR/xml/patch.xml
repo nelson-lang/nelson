@@ -213,7 +213,7 @@ patch(x+1,y+2,z,'yellow','FaceAlpha',0.3)]]></example_item_data>
       <link linkend="${graphics}surf">surf</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${graphics}colormap">colormap</link>
+      <link linkend="${graphics}colormap/colormap">colormap</link>
     </see_also_item>
   </see_also>
   <history>

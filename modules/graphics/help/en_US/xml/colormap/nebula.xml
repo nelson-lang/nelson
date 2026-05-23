@@ -49,7 +49,7 @@ title(['Nebula Colormap with ', num2str(n), ' Colors']);]]></example_item_data>
   </examples>
   <see_also>
     <see_also_item>
-      <link linkend="${graphics}colormap">colormap</link>
+      <link linkend="${graphics}colormap/colormap">colormap</link>
     </see_also_item>
   </see_also>
   <history>

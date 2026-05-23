@@ -199,7 +199,7 @@ image();]]></example_item_data>
       <link linkend="${graphics}imagesc">imagesc</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${graphics}colormap">colormap</link>
+      <link linkend="${graphics}colormap/colormap">colormap</link>
     </see_also_item>
   </see_also>
   <history>

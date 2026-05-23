@@ -68,7 +68,7 @@ edit uicontrol_demo_interruptible
 uicontrol_demo_interruptible
 ]]></example_item_data>
       <example_item_img
-        src="../../images/uicontrol_6.png"
+        src="../images/uicontrol_6.png"
         align="middle"
         generate="false"
       />
