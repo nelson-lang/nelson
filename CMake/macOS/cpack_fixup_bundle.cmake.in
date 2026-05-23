@@ -28,10 +28,12 @@ if(IS_DIRECTORY "${APP_BUNDLE_DIR}")
     DESTINATION "${_contents_dir}")
   # Icon → Contents/Resources/
   set(_nelson_icns "@CMAKE_BINARY_DIR@/Nelson.icns")
-  if(EXISTS "${_nelson_icns}")
-    file(COPY "${_nelson_icns}"
-      DESTINATION "${_contents_dir}/Resources")
+  if(NOT EXISTS "${_nelson_icns}")
+    message(FATAL_ERROR
+      "CPack fixup: required icon not found: ${_nelson_icns}")
   endif()
+  file(COPY "${_nelson_icns}"
+    DESTINATION "${_contents_dir}/Resources")
 
   message(STATUS "CPack fixup: running bundle fixup on ${APP_BUNDLE_DIR}")
   include("@CMAKE_SOURCE_DIR@/CMake/macOS/fixup_bundle.cmake")
