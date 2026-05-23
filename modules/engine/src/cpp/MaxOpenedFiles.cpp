@@ -7,7 +7,8 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#if defined(__APPLE__) || defined(__MACH__)
+#if (defined(__APPLE__) || defined(__MACH__)) && !defined(_WIN32)
+#define NELSON_SET_MAX_OPENED_FILES
 #define _DARWIN_UNLIMITED_STREAMS
 #include <sys/resource.h>
 #endif
@@ -18,7 +19,7 @@ namespace Nelson {
 bool
 setMaxOpenedFiles()
 {
-#if defined(__APPLE__) || defined(__MACH__)
+#if defined(NELSON_SET_MAX_OPENED_FILES)
     // Set maximum number of open file descriptors
     struct rlimit maxfds, newfds;
     // Due to bugs in OS X (<rdar://problem/2941095>, <rdar://problem/3342704>,
