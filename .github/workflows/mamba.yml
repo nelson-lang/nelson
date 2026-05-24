@@ -23,7 +23,7 @@ jobs:
           - os: macos-14
             architecture: arm64
             env_file: environment-macos-dev.yml
-            extra_cmake_flags: "-DFORCE_LIBGFORTRAN_LINK=ON"
+            extra_cmake_flags: "-DCMAKE_OSX_ARCHITECTURES=arm64 -DFORCE_LIBGFORTRAN_LINK=ON"
             make_args: ""
             extra_test_env: ""
 
