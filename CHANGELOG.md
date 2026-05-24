@@ -16,13 +16,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Improved error messages for invalid function arguments
 
 - Debugger Support
-
   - Full breakpoint management with commands: `dbstop`, `dbstep`, `dbcont`, `dbquit`, `dbclear`, `dbdown`, `dbup`, `dbstatus`.
   - Support for setting breakpoints at specific files, functions, and lines.
   - Conditional breakpoints and hit-count breakpoints (if applicable).
 
 - Interactive Debugging in Text Editor
-
   - Real-time feedback on breakpoints directly within the editor.
   - Inline variable inspection while stepping through code.
   - Highlighting of the current execution line.
@@ -31,14 +29,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Step Into: move into function calls.
   - Step Over: execute functions without entering them.
   - Continue: resume execution until the next breakpoint.
-- Stack Inspection & Variable Evaluation
 
+- Stack Inspection & Variable Evaluation
   - Examine the call stack during debugging with `dbup` and `dbdown`.
   - Evaluate and modify variables in the current workspace.
   - Inspect function arguments and local variables.
 
 - Enhanced Debugging Experience
-
   - Integration with the command-line interface and editor interface.
   - Improved visibility of function contexts and nested calls.
 
@@ -71,6 +68,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Full CMake configuration and build system for Visual Studio  (x64, Win32, ARM64).
 
 - Ubuntu 26.04 ready.
+
+- Fedora 44 ready.
 
 ### Changed
 

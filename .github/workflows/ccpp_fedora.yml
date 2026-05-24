@@ -8,9 +8,9 @@ on:
 
 jobs:
   Fedora:
-    name: Fedora 43
+    name: Fedora 44
     runs-on: ubuntu-latest
-    container: fedora:43
+    container: fedora:44
     timeout-minutes: 90
 
     steps:
