@@ -7,7 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function help(varargin)
+function varargout = help(varargin)
     % HELP Display help about Nelson macros and built-in functions.
     %
     %   HELP keyword
@@ -19,21 +19,20 @@ function help(varargin)
     %       help('plot')
     %       txt = help('plot')
     %   See also ismacro, isbuiltin, getlanguage, nelsonroot, jsondecode, terminal_size.    
+    varargout = {};
     if nargin == 0
         fprintf([_('Type help ''help'' for more information.'), '\n']);
         return
     end
     keyword = varargin{1};
-    if ~(ismacro(keyword) || isbuiltin(keyword))
-        warning([_('No help available for "%s".'), '\n'], keyword);
-        if nargout > 0
-            varargout{1} = '';
-        end
-        return
-    end
     json = [nelsonroot(), filesep(), 'modules', filesep(), 'help_tools', filesep(), 'help', filesep(), 'nelson_help_', getlanguage(), '.json'];
-
     if ~isfile(json)
+        if ~(ismacro(keyword) || isbuiltin(keyword))
+            if nargout > 0
+                varargout{1} = '';
+            end
+            return
+        end
         msg = sprintf(_('Help file not found: "%s".'), json);
         warning(msg);
         if nargout > 0
@@ -50,41 +49,48 @@ function help(varargin)
         end
         return
     end
-    if ~isfield(helpData, keyword)
-        if ismacro(keyword)
-            ce = headcomments(keyword);
-            if isempty(ce)
-                msg = sprintf(_('No help available for macro "%s".'), keyword);
-                warning(msg);
-                if nargout > 0
-                    varargout{1} = '';
-                end
-                return
-            end
-            if nargout == 0
-                for l = ce(:)'
-                    fprintf([l{1}, newline()]);
-                end
-            else
-                varargout{1} = join(ce, newline());
-            end
-            return
+    if isfield(helpData, keyword)
+        [r, c] = terminal_size();
+        txt  = formatStruct(helpData.(keyword), c - 4);
+        if nargout == 0
+            fprintf(txt);
         else
-            msg = sprintf(_('Help not found for "%s".'), keyword);
+            varargout{1} = txt;
+        end
+        return
+    end
+    if ~(ismacro(keyword) || isbuiltin(keyword))
+        if nargout > 0
+            varargout{1} = '';
+        end
+        return
+    end
+    if ismacro(keyword)
+        ce = headcomments(keyword);
+        if isempty(ce)
+            msg = sprintf(_('No help available for macro "%s".'), keyword);
             warning(msg);
             if nargout > 0
                 varargout{1} = '';
             end
             return
         end
-    end
-    [r, c] = terminal_size();
-    txt  = formatStruct(helpData.(keyword), c - 4);
-    if nargout == 0
-        fprintf(txt);
+        if nargout == 0
+            for l = ce(:)'
+                fprintf([l{1}, newline()]);
+            end
+        else
+            varargout{1} = join(ce, newline());
+        end
+        return
     else
-        varargout{1} = txt;
-    end 
+        msg = sprintf(_('Help not found for "%s".'), keyword);
+        warning(msg);
+        if nargout > 0
+            varargout{1} = '';
+        end
+        return
+    end
 end
 %=============================================================================
 function txt = formatStruct(st, maxLineLength)
