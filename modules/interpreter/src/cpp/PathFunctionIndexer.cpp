@@ -88,15 +88,24 @@ PathFunctionIndexer::startFileWatcher()
 #if WITH_FILE_WATCHER
     if (NelsonConfiguration::getInstance()->isFileWatcherEnabled() && withWatcher && !fileWatcher
         && !updateFileWatcherListener) {
-        FW::FileWatcher* _fileWatcher = new FW::FileWatcher();
-        UpdateListener* _updateListener = new UpdateListener();
-        fileWatcher = (void*)(_fileWatcher);
-        updateFileWatcherListener = (void*)(_updateListener);
+        FW::FileWatcher* _fileWatcher = nullptr;
+        UpdateListener* _updateListener = nullptr;
+        try {
+            _fileWatcher = new FW::FileWatcher();
+            _updateListener = new UpdateListener();
 #if _MSC_VER
-        watcherID = _fileWatcher->addWatch(_path, _updateListener, false);
+            watcherID = _fileWatcher->addWatch(_path, _updateListener, false);
 #else
-        watcherID = _fileWatcher->addWatch(wstring_to_utf8(_path), _updateListener, false);
+            watcherID = _fileWatcher->addWatch(wstring_to_utf8(_path), _updateListener, false);
 #endif
+            fileWatcher = (void*)(_fileWatcher);
+            updateFileWatcherListener = (void*)(_updateListener);
+        } catch (const FW::Exception&) {
+            delete _fileWatcher;
+            delete _updateListener;
+            NelsonConfiguration::getInstance()->disableFileWatcher();
+            watcherID = 0;
+        }
     }
 #endif
 }

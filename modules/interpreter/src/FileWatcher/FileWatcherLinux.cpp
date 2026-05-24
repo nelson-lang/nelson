@@ -69,6 +69,10 @@ FileWatcherLinux::~FileWatcherLinux()
         delete iter->second;
     }
     mWatches.clear();
+    if (mFD >= 0) {
+        close(mFD);
+        mFD = -1;
+    }
 }
 
 //--------

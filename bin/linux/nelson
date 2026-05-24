@@ -97,5 +97,5 @@ else
   export LD_LIBRARY_PATH="$SCRIPT_DIRECTORY:$LD_LIBRARY_PATH"
 fi
 #==============================================================================
-$SCRIPT_DIRECTORY/nelson$NELSON_MODE-exec "$@" 
+exec "$SCRIPT_DIRECTORY/nelson$NELSON_MODE-exec" "$@"
 #==============================================================================

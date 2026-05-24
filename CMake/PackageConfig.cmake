@@ -144,6 +144,148 @@ if(UNIX)
       set(CPACK_PACKAGE_FILE_NAME
         "nelson-Ubuntu-${UBUNTU_VERSION}-${TARGET_TRIPLE}-v${CPACK_PACKAGE_VERSION}"
       )
+      if(UBUNTU_VERSION VERSION_EQUAL "26.04")
+        set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE "amd64")
+        set(CPACK_DEBIAN_PACKAGE_RECOMMENDS "cmake")
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "libfftw3-bin, libfftw3-double3, libfftw3-single3"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, hdf5-tools"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, qt6-documentation-tools"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, qt6-declarative-dev"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, qml6-module-qtquick"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, qml6-module-qtquick-templates"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, qml6-module-qtquick-controls"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, qml6-module-qtquick-window"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, qml6-module-qtquick-dialogs"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, qml6-module-qtqml-workerscript"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, qml6-module-qtquick-layouts"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libasound2t64 (>= 1.0.16)"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libboost-chrono1.90.0 (>= 1.90.0)"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libboost-serialization1.90.0 (>= 1.90.0)"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libboost-thread1.90.0 (>= 1.90.0)"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libc6 (>= 2.43)"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libcurl4t64 (>= 7.16.2)"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libffi8 (>= 3.4)"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libgcc-s1 (>= 4.0)"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libgif7 (>= 5.1)"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libgit2-1.9 (>= 1.9.0)"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libgomp1 (>= 4.2.1)"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libhdf5-310 (>= 1.14.3)"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libicu78 (>= 78.1-1~)"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libjack-jackd2-0 (>= 1.9.10+20150825) | libjack-0.125"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, liblapacke (>= 3.12.1)"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libmatio14 (>= 1.5.30)"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libopenblas0"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libopenmpi40 (>= 5.0.10)"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libpcre2-32-0 (>= 10.22)"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libportaudio2 (>= 19+svn20101113)"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libqt6core6t64 (>= 6.10.2)"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libqt6gui6 (>= 6.9.1)"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libqt6printsupport6 (>= 6.1.2)"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libqt6qml6 (>= 6.6.0)"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libqt6quick6 (>= 6.6.0)"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libqt6svg6 (>= 6.6.0)"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libqt6widgets6 (>= 6.3.0)"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libsndfile1 (>= 1.0.20)"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libstdc++6 (>= 14)"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libtag2 (>= 2.0)"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libtbb12 (>= 2021.4.0)"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libtiff6 (>= 4.0.3)"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libxml2-16 (>= 2.14.1)"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libxslt1.1 (>= 1.1.25)"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, zlib1g (>= 1:1.1.4)"
+        )
+      endif()
       if(UBUNTU_VERSION VERSION_EQUAL "24.04")
         set(CPACK_DEBIAN_PACKAGE_RECOMMENDS "cmake")
         # NOTE: libfftw3-bin, libfftw3-double3, libfftw3-single3 are separate deps
@@ -451,6 +593,11 @@ if(UNIX)
       endif()
 
       if(NOT
+        UBUNTU_VERSION
+        VERSION_EQUAL
+        "26.04"
+        AND
+        NOT
         UBUNTU_VERSION
         VERSION_EQUAL
         "24.04"

@@ -70,6 +70,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Full CMake configuration and build system for Visual Studio  (x64, Win32, ARM64).
 
+- Ubuntu 26.04 ready.
+
 ### Changed
 
 - Reduced interpreter overhead in tight loops.

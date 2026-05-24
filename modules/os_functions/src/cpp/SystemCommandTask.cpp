@@ -17,6 +17,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <signal.h>
+#include <errno.h>
 #endif
 #include "SystemCommandTask.hpp"
 #include <thread>
@@ -319,6 +320,8 @@ SystemCommandTask::executeAttachedProcess(const std::wstring& cmd,
     }
     if (pid == 0) {
         // child process
+        // Run the command in its own process group so timeout/abort can kill the whole tree.
+        setpgid(0, 0);
         // open files
         // Always redirect stdin to /dev/null to avoid child blocking on interactive input.
         FILE* in = fopen("/dev/null", "r");
@@ -419,7 +422,10 @@ SystemCommandTask::monitorChildProcess(PROCESS_CHILD& childProcess, uint64 timeo
     if (_terminate) {
         _duration = this->getDuration();
         _exitCode = exitCodeAbort();
+        // Kill the whole process group first, then ensure the direct child is gone and reaped.
+        kill(-childProcess.pid, SIGKILL);
         kill(childProcess.pid, SIGKILL);
+        while (waitpid(childProcess.pid, &status, 0) == -1 && errno == EINTR) { }
     }
 #endif
 }
