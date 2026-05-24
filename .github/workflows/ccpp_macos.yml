@@ -45,7 +45,7 @@ jobs:
       - name: Configure
         run: |
           export HDF5_DIR=$HOMEBREW_PREFIX/opt/hdf5
-          just config "-DCMAKE_BUILD_TYPE=Release ${{ matrix.config.extra_config }} -G \"Unix Makefiles\" ."
+          just config "-DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_ARCHITECTURES=${{ matrix.config.arch }} ${{ matrix.config.extra_config }} -G \"Unix Makefiles\" ."
 
       - name: Build
         run: just build

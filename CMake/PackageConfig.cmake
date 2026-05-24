@@ -488,3 +488,6 @@ else()
 endif()
 # ==============================================================================
 include(CPack)
+if(APPLE AND TARGET package AND TARGET nelson_icns)
+  add_dependencies(package nelson_icns)
+endif()

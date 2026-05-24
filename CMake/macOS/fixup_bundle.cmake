@@ -321,7 +321,7 @@ foreach(_shadow IN LISTS _system_shadow_libs)
   file(GLOB _fw_all_shadow "${FRAMEWORKS_DIR}/*.dylib")
   # Also include Qt frameworks
   file(GLOB_RECURSE _fw_frameworks_shadow
-    "${FRAMEWORKS_DIR}/*.framework/Versions/*/Qt*"
+    "${FRAMEWORKS_DIR}/*.framework/Versions/*/*"
   )
   list(APPEND _fw_all_shadow ${_fw_frameworks_shadow})
   foreach(_fw_s IN LISTS _fw_all_shadow)
@@ -345,7 +345,7 @@ endforeach()
 file(GLOB_RECURSE _all_files
   "${CONTENTS_DIR}/MacOS/*"
   "${CONTENTS_DIR}/Frameworks/*.dylib"
-  "${CONTENTS_DIR}/Frameworks/*.framework/Versions/*/lib*"
+  "${CONTENTS_DIR}/Frameworks/*.framework/Versions/*/*"
   "${RESOURCES_DIR}/bin/*"
   "${RESOURCES_DIR}/lib/*.dylib"
   "${RESOURCES_DIR}/lib/Nelson/*.dylib"
@@ -377,7 +377,6 @@ message(STATUS "Found ${_n_macho} Mach-O files in bundle")
 set(_system_prefixes
   "/usr/lib/"
   "/System/"
-  "/Library/Frameworks/"
 )
 
 # Already-bundled paths:
@@ -398,11 +397,28 @@ function(_is_system_lib _path _result)
   set(${_result} ${_sys} PARENT_SCOPE)
 endfunction()
 
+function(_framework_name_from_path _path _result)
+  set(_fw_name "")
+  if("${_path}" MATCHES "/([^/]+\\.framework)/")
+    set(_fw_name "${CMAKE_MATCH_1}")
+  endif()
+  set(${_result} "${_fw_name}" PARENT_SCOPE)
+endfunction()
+
+function(_framework_bundle_path _path _result)
+  set(_fw_path "")
+  if("${_path}" MATCHES "^(.+/[^/]+\\.framework)/")
+    set(_fw_path "${CMAKE_MATCH_1}")
+  endif()
+  set(${_result} "${_fw_path}" PARENT_SCOPE)
+endfunction()
+
 # ---- Build a set of library names already inside the bundle ----
 # Libraries already installed under Resources/ (e.g. libnls*.dylib) must NOT
 # be copied a second time into Frameworks/.  Collect their names so we can
 # skip them in the dependency scan.
 set(_bundled_lib_names "")
+set(_bundled_framework_names "")
 file(GLOB _existing_nlib "${NELSON_LIB_DIR}/*.dylib")
 foreach(_el IN LISTS _existing_nlib)
   if(NOT IS_SYMLINK "${_el}")
@@ -417,11 +433,20 @@ foreach(_el IN LISTS _existing_fw)
     list(APPEND _bundled_lib_names "${_elname}")
   endif()
 endforeach()
+file(GLOB _existing_frameworks "${FRAMEWORKS_DIR}/*.framework")
+foreach(_efw IN LISTS _existing_frameworks)
+  if(IS_DIRECTORY "${_efw}")
+    get_filename_component(_efw_name "${_efw}" NAME)
+    list(APPEND _bundled_framework_names "${_efw_name}")
+  endif()
+endforeach()
 list(REMOVE_DUPLICATES _bundled_lib_names)
+list(REMOVE_DUPLICATES _bundled_framework_names)
 list(LENGTH _bundled_lib_names _n_existing)
 message(STATUS "Libraries already in bundle: ${_n_existing}")
 
 set(_deps_to_bundle "")
+set(_frameworks_to_bundle "")
 
 foreach(_bin IN LISTS _macho_files)
   execute_process(
@@ -443,6 +468,26 @@ foreach(_bin IN LISTS _macho_files)
         if(_already_idx EQUAL -1)
           list(APPEND _deps_to_bundle "${_dep}")
         endif()
+      endif()
+    elseif(_line MATCHES "^\t?(/[^ ]+\\.framework/[^ ]+)")
+      set(_fw_dep "${CMAKE_MATCH_1}")
+      _is_system_lib("${_fw_dep}" _fw_dep_sys)
+      _framework_name_from_path("${_fw_dep}" _fw_name)
+      _framework_bundle_path("${_fw_dep}" _fw_bundle)
+      list(FIND _bundled_framework_names "${_fw_name}" _fw_already_idx)
+      if(NOT
+        _fw_dep_sys
+        AND
+        _fw_bundle
+        AND
+        IS_DIRECTORY
+        "${_fw_bundle}"
+        AND
+        _fw_already_idx
+        EQUAL
+        -1
+      )
+        list(APPEND _frameworks_to_bundle "${_fw_bundle}")
       endif()
     endif()
   endforeach()
@@ -507,6 +552,31 @@ foreach(_fwlib IN LISTS _fw_dylibs)
         )
           list(APPEND _deps_to_bundle "${_fw_dep}")
         endif()
+      endif()
+      # ---- @loader_path references ----
+    elseif(_fw_line MATCHES "^\t?(/[^ ]+\\.framework/[^ ]+)")
+      set(_fw_dep "${CMAKE_MATCH_1}")
+      _is_system_lib("${_fw_dep}" _fw_dep_sys)
+      _framework_name_from_path("${_fw_dep}" _fw_name)
+      _framework_bundle_path("${_fw_dep}" _fw_bundle)
+      list(FIND _bundled_framework_names "${_fw_name}" _fw_already_idx)
+      if(NOT
+        _fw_dep_sys
+        AND
+        _fw_bundle
+        AND
+        IS_DIRECTORY
+        "${_fw_bundle}"
+        AND
+        NOT
+        EXISTS
+        "${FRAMEWORKS_DIR}/${_fw_name}"
+        AND
+        _fw_already_idx
+        EQUAL
+        -1
+      )
+        list(APPEND _frameworks_to_bundle "${_fw_bundle}")
       endif()
       # ---- @loader_path references ----
     elseif(_fw_line MATCHES "^\t?@loader_path/([^ ]+\\.dylib)")
@@ -584,6 +654,84 @@ foreach(_fwlib IN LISTS _fw_dylibs)
     endif()
   endforeach()
 endforeach()
+
+list(REMOVE_DUPLICATES _frameworks_to_bundle)
+foreach(_framework IN LISTS _frameworks_to_bundle)
+  get_filename_component(_fw_name "${_framework}" NAME)
+  if(NOT EXISTS "${FRAMEWORKS_DIR}/${_fw_name}")
+    message(STATUS "  Bundling framework: ${_fw_name}")
+    file(COPY "${_framework}" DESTINATION "${FRAMEWORKS_DIR}")
+    list(APPEND _bundled_framework_names "${_fw_name}")
+  endif()
+endforeach()
+list(REMOVE_DUPLICATES _bundled_framework_names)
+
+file(GLOB_RECURSE _bundled_framework_files
+  "${FRAMEWORKS_DIR}/*.framework/Versions/*/*"
+)
+foreach(_fw_bin IN LISTS _bundled_framework_files)
+  if(IS_SYMLINK "${_fw_bin}")
+    continue()
+  endif()
+  execute_process(
+    COMMAND file -b "${_fw_bin}"
+    OUTPUT_VARIABLE _fw_bin_type
+    OUTPUT_STRIP_TRAILING_WHITESPACE ERROR_QUIET
+  )
+  if(NOT _fw_bin_type MATCHES "Mach-O")
+    continue()
+  endif()
+
+  execute_process(
+    COMMAND otool -L "${_fw_bin}"
+    OUTPUT_VARIABLE _fw_bin_otool
+    OUTPUT_STRIP_TRAILING_WHITESPACE ERROR_QUIET
+  )
+  string(REPLACE "\n" ";" _fw_bin_lines "${_fw_bin_otool}")
+  foreach(_fw_bin_line IN LISTS _fw_bin_lines)
+    string(STRIP "${_fw_bin_line}" _fw_bin_line)
+    if(_fw_bin_line MATCHES "^\t?(/[^ ]+\\.dylib)")
+      set(_fw_bin_dep "${CMAKE_MATCH_1}")
+      _is_system_lib("${_fw_bin_dep}" _fw_bin_sys)
+      if(NOT _fw_bin_sys AND EXISTS "${_fw_bin_dep}")
+        get_filename_component(_fw_bin_dep_name "${_fw_bin_dep}" NAME)
+        list(FIND _bundled_lib_names "${_fw_bin_dep_name}" _fw_bin_already_idx)
+        if(NOT
+          EXISTS
+          "${FRAMEWORKS_DIR}/${_fw_bin_dep_name}"
+          AND
+          _fw_bin_already_idx
+          EQUAL
+          -1
+        )
+          list(APPEND _deps_to_bundle "${_fw_bin_dep}")
+        endif()
+      endif()
+    elseif(_fw_bin_line MATCHES "^\t?(/[^ ]+\\.framework/[^ ]+)")
+      set(_fw_bin_fw_dep "${CMAKE_MATCH_1}")
+      _is_system_lib("${_fw_bin_fw_dep}" _fw_bin_fw_sys)
+      _framework_name_from_path("${_fw_bin_fw_dep}" _fw_bin_fw_name)
+      _framework_bundle_path("${_fw_bin_fw_dep}" _fw_bin_fw_bundle)
+      if(NOT
+        _fw_bin_fw_sys
+        AND
+        _fw_bin_fw_bundle
+        AND
+        IS_DIRECTORY
+        "${_fw_bin_fw_bundle}"
+        AND
+        NOT
+        EXISTS
+        "${FRAMEWORKS_DIR}/${_fw_bin_fw_name}"
+      )
+        message(STATUS "  Bundling framework: ${_fw_bin_fw_name}")
+        file(COPY "${_fw_bin_fw_bundle}" DESTINATION "${FRAMEWORKS_DIR}")
+        list(APPEND _bundled_framework_names "${_fw_bin_fw_name}")
+      endif()
+    endif()
+  endforeach()
+endforeach()
+list(REMOVE_DUPLICATES _bundled_framework_names)
 
 list(REMOVE_DUPLICATES _deps_to_bundle)
 list(LENGTH _deps_to_bundle _n_deps)
@@ -693,6 +841,28 @@ while(_deps_to_bundle AND _iteration LESS _max_iterations)
             endif()
           endif()
           # ---- @loader_path references (resolve relative to original source dir) ----
+        elseif(_sub_line MATCHES "^\t?(/[^ ]+\\.framework/[^ ]+)")
+          set(_sub_fw_dep "${CMAKE_MATCH_1}")
+          _is_system_lib("${_sub_fw_dep}" _sub_fw_sys)
+          _framework_name_from_path("${_sub_fw_dep}" _sub_fw_name)
+          _framework_bundle_path("${_sub_fw_dep}" _sub_fw_bundle)
+          if(NOT
+            _sub_fw_sys
+            AND
+            _sub_fw_bundle
+            AND
+            IS_DIRECTORY
+            "${_sub_fw_bundle}"
+            AND
+            NOT
+            EXISTS
+            "${FRAMEWORKS_DIR}/${_sub_fw_name}"
+          )
+            message(STATUS "    Bundling framework: ${_sub_fw_name}")
+            file(COPY "${_sub_fw_bundle}" DESTINATION "${FRAMEWORKS_DIR}")
+            list(APPEND _bundled_framework_names "${_sub_fw_name}")
+          endif()
+          # ---- @loader_path references (resolve relative to original source dir) ----
         elseif(_sub_line MATCHES "^\t?@loader_path/([^ ]+\\.dylib)")
           set(_lp_name "${CMAKE_MATCH_1}")
           list(FIND _bundled_lib_names "${_lp_name}" _lp_already_idx)
@@ -751,7 +921,7 @@ endwhile()
 file(GLOB_RECURSE _all_macho_final
   "${CONTENTS_DIR}/MacOS/*"
   "${CONTENTS_DIR}/Frameworks/*.dylib"
-  "${CONTENTS_DIR}/Frameworks/*.framework/Versions/*/Qt*"
+  "${CONTENTS_DIR}/Frameworks/*.framework/Versions/*/*"
   "${CONTENTS_DIR}/PlugIns/*/*.dylib"
   "${RESOURCES_DIR}/bin/*"
   "${RESOURCES_DIR}/lib/*.dylib"
@@ -811,6 +981,16 @@ foreach(_bin IN LISTS _all_macho_final)
         COMMAND install_name_tool -id "${_new_id}" "${_bin}"
         ERROR_QUIET
       )
+    elseif(_current_id MATCHES "^[^@].*\\.framework/(Versions/[^ ]+)")
+      set(_framework_rel_path "${CMAKE_MATCH_1}")
+      _framework_name_from_path("${_current_id}" _fw_name)
+      if(_fw_name AND EXISTS "${FRAMEWORKS_DIR}/${_fw_name}")
+        execute_process(
+          COMMAND install_name_tool -id
+            "@rpath/${_fw_name}/${_framework_rel_path}" "${_bin}"
+          ERROR_QUIET
+        )
+      endif()
     endif()
   endif()
 
@@ -889,6 +1069,18 @@ foreach(_bin IN LISTS _all_macho_final)
         endif()
       endif()
       # @loader_path/name.dylib → @rpath/name.dylib (when lib is in Frameworks/)
+    elseif(_ref_line MATCHES "^\t?(/[^ ]+\\.framework/(Versions/[^ ]+))")
+      set(_old_path "${CMAKE_MATCH_1}")
+      set(_framework_rel_path "${CMAKE_MATCH_2}")
+      _framework_name_from_path("${_old_path}" _fw_name)
+      _is_system_lib("${_old_path}" _ref_sys)
+      if(NOT _ref_sys AND EXISTS "${FRAMEWORKS_DIR}/${_fw_name}")
+        execute_process(
+          COMMAND install_name_tool -change "${_old_path}"
+            "@rpath/${_fw_name}/${_framework_rel_path}" "${_bin}"
+          ERROR_QUIET
+        )
+      endif()
     elseif(_ref_line MATCHES "^\t?(@loader_path/([^ /]+\\.dylib))")
       set(_old_path "${CMAKE_MATCH_1}")
       set(_lib_name "${CMAKE_MATCH_2}")
@@ -904,6 +1096,20 @@ foreach(_bin IN LISTS _all_macho_final)
       # macdeployqt writes these, but they only work when the exe is in
       # Contents/MacOS/.  Nelson executables live in Contents/Resources/bin/
       # so we must use @rpath instead (rpaths are already set above).
+    elseif(_ref_line
+      MATCHES
+      "^\t?(@loader_path/([^ ]+\\.framework/(Versions/[^ ]+)))"
+    )
+      set(_old_path "${CMAKE_MATCH_1}")
+      set(_rel_path "${CMAKE_MATCH_2}")
+      string(REGEX REPLACE "^\\.\\./Frameworks/" "" _rel_path "${_rel_path}")
+      if(EXISTS "${FRAMEWORKS_DIR}/${_rel_path}")
+        execute_process(
+          COMMAND install_name_tool -change "${_old_path}" "@rpath/${_rel_path}"
+            "${_bin}"
+          ERROR_QUIET
+        )
+      endif()
     elseif(_ref_line MATCHES "^\t?(@executable_path/\\.\\./Frameworks/([^ ]+))")
       set(_old_path "${CMAKE_MATCH_1}")
       set(_rel_path

@@ -33,7 +33,7 @@ jobs:
       - name: Install Nix
         uses: cachix/install-nix-action@v31
       - name: Configure
-        run: nix develop --command just config
+        run: nix develop --command just config ${{ runner.os == 'macOS' && '-DCMAKE_OSX_ARCHITECTURES=arm64' || '' }}
       - name: Build
         run: nix develop --command just build
       - name: Get module skeleton
