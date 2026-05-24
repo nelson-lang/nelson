@@ -182,15 +182,55 @@ injectNewlineIntoInput()
 #endif
 }
 //=============================================================================
+#ifdef _WIN32
+static bool
+isConsoleHandle(HANDLE handle)
+{
+    if (handle == nullptr || handle == INVALID_HANDLE_VALUE) {
+        return false;
+    }
+    DWORD mode = 0;
+    return GetConsoleMode(handle, &mode) != 0;
+}
+//=============================================================================
+static void
+writePipeOrFile(HANDLE handle, const std::string& msg)
+{
+    if (msg.empty()) {
+        return;
+    }
+    DWORD totalWritten = 0;
+    DWORD remaining = static_cast<DWORD>(msg.size());
+    const char* data = msg.data();
+    while (remaining > 0) {
+        DWORD written = 0;
+        if (!WriteFile(handle, data + totalWritten, remaining, &written, nullptr) || written == 0) {
+            return;
+        }
+        totalWritten += written;
+        remaining -= written;
+    }
+    if (GetFileType(handle) == FILE_TYPE_DISK) {
+        FlushFileBuffers(handle);
+    }
+}
+//=============================================================================
+#endif
+//=============================================================================
 static void
 writeStdoutUtf8(const std::string& msg)
 {
 #ifdef _WIN32
     HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
     if (handle != nullptr && handle != INVALID_HANDLE_VALUE) {
-        std::wstring wide = utf8_to_wstring(msg);
-        DWORD written = 0;
-        WriteConsoleW(handle, wide.c_str(), static_cast<DWORD>(wide.size()), &written, nullptr);
+        if (isConsoleHandle(handle)) {
+            std::wstring wide = utf8_to_wstring(msg);
+            DWORD written = 0;
+            WriteConsoleW(handle, wide.c_str(), static_cast<DWORD>(wide.size()), &written, nullptr);
+        } else {
+            writePipeOrFile(handle, msg);
+        }
+        std::cout.flush();
         return;
     }
 #endif
@@ -204,9 +244,14 @@ writeStderrUtf8(const std::string& msg)
 #ifdef _WIN32
     HANDLE handle = GetStdHandle(STD_ERROR_HANDLE);
     if (handle != nullptr && handle != INVALID_HANDLE_VALUE) {
-        std::wstring wide = utf8_to_wstring(msg);
-        DWORD written = 0;
-        WriteConsoleW(handle, wide.c_str(), static_cast<DWORD>(wide.size()), &written, nullptr);
+        if (isConsoleHandle(handle)) {
+            std::wstring wide = utf8_to_wstring(msg);
+            DWORD written = 0;
+            WriteConsoleW(handle, wide.c_str(), static_cast<DWORD>(wide.size()), &written, nullptr);
+        } else {
+            writePipeOrFile(handle, msg);
+        }
+        std::cerr.flush();
         return;
     }
 #endif

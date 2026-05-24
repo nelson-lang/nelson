@@ -8,8 +8,19 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <--ADV-CLI MODE-->
+% <--ENGLISH IMPOSED-->
+%=============================================================================
+help_json = [modulepath('help_tools'), '/help/nelson_help_', getlanguage(), '.json'];
+skip_testsuite(~isfile(help_json), ['Help JSON index is missing: ', help_json]);
 %=============================================================================
 help;
 help('help');
 help help
+txt = help('help');
+assert_istrue(ischar(txt));
+assert_istrue(contains(txt, 'help function_name'));
+assert_istrue(contains(txt, 'help(''function_name'')'));
+txt = help('nelson_missing_help_entry');
+assert_istrue(ischar(txt));
+assert_istrue(isempty(txt));
 %=============================================================================
