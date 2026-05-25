@@ -479,6 +479,26 @@ else()
     find_package(OpenBLAS)
     find_package(BLAS)
     find_package(LAPACK)
+    if(NOT BLAS_FOUND)
+      find_library(
+        NELSON_BLAS_LIBRARY
+        NAMES blas
+        PATHS /lib /lib64 /usr/lib /usr/lib64 /usr/local/lib /usr/local/lib64)
+      if(NELSON_BLAS_LIBRARY)
+        set(BLAS_FOUND TRUE)
+        set(BLAS_LIBRARIES "${NELSON_BLAS_LIBRARY}")
+      endif()
+    endif()
+    if(NOT LAPACK_FOUND)
+      find_library(
+        NELSON_LAPACK_LIBRARY
+        NAMES lapack
+        PATHS /lib /lib64 /usr/lib /usr/lib64 /usr/local/lib /usr/local/lib64)
+      if(NELSON_LAPACK_LIBRARY)
+        set(LAPACK_FOUND TRUE)
+        set(LAPACK_LIBRARIES "${NELSON_LAPACK_LIBRARY}")
+      endif()
+    endif()
     find_package(LAPACKE)
     if(OpenBLAS_FOUND)
       if(CMAKE_SYSTEM_NAME
