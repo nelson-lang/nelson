@@ -15,3 +15,11 @@ f(1) = parfeval(b, p, 0, 1);
 f(2) = parfeval(b, p, 0, 1);
 assert_isequal(size(f), [1 2]);
 %=============================================================================
+clear f;
+for k = 1:6
+  f(k) = parfeval(b, p, 0, 1);
+end
+assert_isequal(size(f), [1 6]);
+assert_istrue(all(isvalid(f)));
+delete(f);
+%=============================================================================

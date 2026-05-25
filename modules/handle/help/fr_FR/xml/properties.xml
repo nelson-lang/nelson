@@ -3,37 +3,76 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>properties</keyword>
-  <short_description
-  >Renvoie les noms des propriétés d&apos;un objet handle.</short_description>
+  <short_description>Renvoie les noms des proprietes publiques d&apos;un objet ou d&apos;une classe.</short_description>
   <syntax>
     <syntax_item>properties(h)</syntax_item>
     <syntax_item>c = properties(h)</syntax_item>
+    <syntax_item>c = properties(obj)</syntax_item>
+    <syntax_item>c = properties(className)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>h</param_name>
       <param_description>un objet handle</param_description>
     </param_input_item>
+    <param_input_item>
+      <param_name>obj</param_name>
+      <param_description>un objet classdef</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>className</param_name>
+      <param_description>un nom de classe sous forme de chaine, y compris les noms qualifies par paquet</param_description>
+    </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>c</param_name>
-      <param_description>un tableau (cell) de chaînes</param_description>
+      <param_description>un tableau (cell) de chaines</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <b>properties</b> renvoie un tableau de chaînes contenant les noms des propriétés.</description>
+    <p>
+      <b>properties</b> renvoie un tableau de chaines contenant les noms des proprietes publiques.</p>
+    <p>Pour les classes classdef, les proprietes privees, protegees et limitees par liste d&apos;acces ne sont pas listees. Les proprietes constantes peuvent etre lues avec <b>ClassName.PropertyName</b>.</p>
+    <p>Pour les tableaux d&apos;objets classdef, <b>properties</b> renvoie les proprietes publiques de la classe des elements.</p>
+    <p>Les proprietes dependantes et les evenements automatiques de proprietes observables sont analyses comme attributs, mais le dispatch MATLAB des methodes get/set et les notifications automatiques restent limites.</p>
+  </description>
   <used_function />
   <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Lister les proprietes publiques d&apos;un tableau d&apos;objets classdef.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[clear classes
+d = [tempdir(), 'nelson_help_properties/'];
+mkdir(d);
+filewrite([d, '/NelsonHelpPropertiesPoint.m'], ["classdef NelsonHelpPropertiesPoint"; "  properties"; "    X = 0"; "  end"; "end"]);
+addpath(d);
+a = NelsonHelpPropertiesPoint();
+b = NelsonHelpPropertiesPoint();
+p = properties([a, b])]]></example_item_data>
+    </example_item>
+  </examples>
   <see_also>
     <see_also_item>
       <link linkend="${handle}isprop">isprop</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${interpreter}classdef">classdef</link>
     </see_also_item>
   </see_also>
   <history>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>support des noms de classe classdef ajoute</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>support des tableaux d&apos;objets classdef ajoute</history_description>
     </history_item>
   </history>
   <authors>

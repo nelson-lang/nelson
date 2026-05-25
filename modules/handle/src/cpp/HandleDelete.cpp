@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "HandleDelete.hpp"
+#include "ClassdefHandleObject.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
 #include "characters_encoding.hpp"
@@ -16,6 +17,9 @@
 #include "OverloadName.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+#define HANDLE_DELETE_EVENT_OBJECT_BEING_DESTROYED "ObjectBeingDestroyed"
+#define HANDLE_DELETE_FUNCTION "delete"
 //=============================================================================
 void
 HandleDelete(Evaluator* eval, const ArrayOf& A)
@@ -28,11 +32,12 @@ HandleDelete(Evaluator* eval, const ArrayOf& A)
             nelson_handle hl = qp[k];
             HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
             if (hlObj != nullptr) {
-                bool doOverload = false;
                 std::string handleTypeName = hlObj->getCategory();
+                auto* classdefObject = dynamic_cast<ClassdefHandleObject*>(hlObj);
+                bool doOverload = false;
                 if (!handleTypeName.empty()) {
                     std::string functionNameClearHandle
-                        = getOverloadFunctionName(handleTypeName, "delete");
+                        = getOverloadFunctionName(handleTypeName, HANDLE_DELETE_FUNCTION);
                     Context* context = eval->getContext();
                     FunctionDef* funcDef = nullptr;
                     if (context->lookupFunction(functionNameClearHandle, funcDef)) {
@@ -40,26 +45,41 @@ HandleDelete(Evaluator* eval, const ArrayOf& A)
                             || (funcDef->type() == NLS_MACRO_FUNCTION)) {
                             int nLhs = 0;
                             ArrayOfVector argIn;
-                            nelson_handle* ptrObject = static_cast<nelson_handle*>(
-                                ArrayOf::allocateArrayOf(NLS_HANDLE, 1, stringVector(), false));
-                            Dimensions dims(1, 1);
-                            ptrObject[0] = hl;
-                            argIn.push_back(ArrayOf(NLS_HANDLE, dims, (void*)ptrObject));
+                            argIn.push_back(ArrayOf::handleConstructor(hl));
                             funcDef->evaluateFunction(eval, argIn, nLhs);
                             doOverload = true;
                         }
                     }
                 }
+                if (classdefObject != nullptr && doOverload) {
+                    continue;
+                }
+                if (classdefObject != nullptr) {
+                    classdefObject->notifyEvent(eval, hl,
+                        HANDLE_DELETE_EVENT_OBJECT_BEING_DESTROYED, ArrayOf::emptyConstructor());
+                    hlObj = HandleManager::getInstance()->getPointer(hl);
+                    if (hlObj == nullptr) {
+                        continue;
+                    }
+                }
                 if (!doOverload) {
                     std::string msg;
                     if (handleTypeName.empty()) {
-                        msg = "delete " + _("not defined.");
+                        msg = std::string(HANDLE_DELETE_FUNCTION) + " " + _("not defined.");
                     } else {
                         std::string overloadName
-                            = getOverloadFunctionName(handleTypeName, "delete");
+                            = getOverloadFunctionName(handleTypeName, HANDLE_DELETE_FUNCTION);
                         msg = overloadName + " " + _("not defined.");
                     }
                     Error(msg);
+                }
+            }
+            HandleGenericObject* liveObject = HandleManager::getInstance()->getPointer(hl);
+            if (liveObject != nullptr) {
+                auto* classdefObject = dynamic_cast<ClassdefHandleObject*>(liveObject);
+                if (classdefObject != nullptr) {
+                    classdefObject->deleteListeners();
+                    delete classdefObject;
                 }
             }
             HandleManager::getInstance()->removeHandle(hl);

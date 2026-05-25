@@ -8,7 +8,16 @@
   <syntax>
     <syntax_item>clear</syntax_item>
     <syntax_item>clear variable_name</syntax_item>
-    <syntax_item>clear -scope scope_name</syntax_item>
+    <syntax_item>clear global</syntax_item>
+    <syntax_item>clear all</syntax_item>
+    <syntax_item>clear mex</syntax_item>
+    <syntax_item>clear variables</syntax_item>
+    <syntax_item>clear functions</syntax_item>
+    <syntax_item>clear classes</syntax_item>
+    <syntax_item>clear function_name</syntax_item>
+    <syntax_item>clear mexfunction_name</syntax_item>
+    <syntax_item>clear variable_name_1 ... variable_name_N</syntax_item>
+    <syntax_item>clear global variable_name</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -39,6 +48,11 @@
       >clears cache of macros functions and associated persistent variables.</param_description>
     </param_input_item>
     <param_input_item>
+      <param_name>classes</param_name>
+      <param_description
+      >efface les metadonnees classdef et le cache des methodes de classe generees.</param_description>
+    </param_input_item>
+    <param_input_item>
       <param_name>function_name</param_name>
       <param_description
       >clears persistent variables of a function.</param_description>
@@ -53,6 +67,8 @@
     <p
     >Supprime des variables de l&apos;espace de travail courant ou d&apos;une portée spécifiée. Sans argument, supprime toutes les variables de l&apos;espace de travail courant.</p>
     <p>À utiliser avec prudence : cette opération ne peut pas être annulée.</p>
+    <p>
+      <b>clear classes</b> recharge les definitions classdef depuis le disque lors de la prochaine utilisation.</p>
   </description>
   <used_function />
   <bibliography />
@@ -66,7 +82,21 @@
 who
 clear A
 who
-A]]></example_item_data>
+exist('A', 'var')]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Recharger une definition classdef depuis le disque.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[clear classes
+d = [tempdir(), 'nelson_help_clear_classdef_fr/'];
+mkdir(d);
+file = [d, '/NelsonHelpClearReloadFr.m'];
+filewrite(file, ["classdef NelsonHelpClearReloadFr"; "  properties (Constant)"; "    Version = 1"; "  end"; "end"]);
+addpath(d);
+NelsonHelpClearReloadFr.Version
+filewrite(file, ["classdef NelsonHelpClearReloadFr"; "  properties (Constant)"; "    Version = 2"; "  end"; "end"]);
+clear classes
+NelsonHelpClearReloadFr.Version]]></example_item_data>
     </example_item>
   </examples>
   <see_also>

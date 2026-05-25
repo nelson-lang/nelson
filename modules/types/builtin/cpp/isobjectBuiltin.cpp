@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "isobjectBuiltin.hpp"
+#include "ClassdefParser.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -19,6 +20,10 @@ Nelson::TypeGateway::isobjectBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 1, 1);
     bool bRes = (argIn[0].getDataClass() == NLS_CLASS_ARRAY);
+    if (!bRes && argIn[0].isHandle()) {
+        std::string className = argIn[0].getHandleClassName();
+        bRes = ClassdefDefinitionManager::getInstance()->loadClass(className);
+    }
     retval << ArrayOf::logicalConstructor(bRes);
     return retval;
 }

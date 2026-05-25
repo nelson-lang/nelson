@@ -3,12 +3,11 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>fieldnames</keyword>
-  <short_description
-  >Renvoie les noms de champs d&apos;une structure ou d&apos;un handle.</short_description>
+  <short_description>Renvoie les noms des champs d&apos;une structure ou les proprietes publiques classdef.</short_description>
   <syntax>
     <syntax_item>names = fieldnames(st)</syntax_item>
-    <syntax_item>names = fieldnames(h)</syntax_item>
-    <syntax_item>names = fieldnames(h, &apos;-full&apos;)</syntax_item>
+    <syntax_item>names = fieldnames(obj)</syntax_item>
+    <syntax_item>names = fieldnames(objArray)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -16,44 +15,61 @@
       <param_description>une structure</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>h</param_name>
-      <param_description>un objet handle</param_description>
+      <param_name>obj</param_name>
+      <param_description>un objet classdef ou un objet handle</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>objArray</param_name>
+      <param_description>un tableau d&apos;objets classdef ou de handles</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>names</param_name>
-      <param_description>un tableau cellulaire de chaînes</param_description>
+      <param_description>un tableau (cell) de chaines</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p>
-      <b>names = fieldnames(st)</b> renvoie un tableau cellulaire de chaînes contenant les noms des champs de la structure d&apos;entrée.</p>
-    <p>
-      <b>names = fieldnames(h)</b> renvoie un tableau cellulaire de chaînes contenant les noms des propriétés du handle (sans les propriétés cachées).</p>
-    <p>
-      <b>names = fieldnames(h, &apos;-full&apos;)</b> renvoie un tableau cellulaire de chaînes contenant les noms de toutes les propriétés du handle.</p>
+      <b>fieldnames(st)</b> renvoie un tableau de chaines contenant les noms des champs de la structure d&apos;entree.</p>
+    <p>Pour les objets classdef, <b>fieldnames(obj)</b> renvoie les memes noms de proprietes publiques que <b>properties(obj)</b>.</p>
+    <p>Pour les tableaux d&apos;objets classdef, les noms renvoyes sont les proprietes publiques de la classe des elements.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description />
-      <example_item_data
-        runnable="cli"
-      ><![CDATA[fieldnames(dir())]]></example_item_data>
+      <example_item_description>Lister les noms des proprietes publiques d&apos;un tableau d&apos;objets classdef.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[clear classes
+d = [tempdir(), 'nelson_help_fieldnames/'];
+mkdir(d);
+filewrite([d, '/NelsonHelpFieldPoint.m'], ["classdef NelsonHelpFieldPoint"; "  properties"; "    X = 0"; "    Y = 0"; "  end"; "end"]);
+addpath(d);
+a = NelsonHelpFieldPoint();
+b = NelsonHelpFieldPoint();
+names = fieldnames([a, b])]]></example_item_data>
     </example_item>
   </examples>
   <see_also>
     <see_also_item>
       <link linkend="${data_structures}getfield">getfield</link>
     </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}properties">properties</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${interpreter}classdef">classdef</link>
+    </see_also_item>
   </see_also>
   <history>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>support des objets classdef ajoute</history_description>
     </history_item>
   </history>
   <authors>

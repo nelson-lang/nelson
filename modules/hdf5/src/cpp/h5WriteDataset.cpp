@@ -18,9 +18,34 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "characters_encoding.hpp"
+#include "h5SaveVariable.hpp"
 #include "h5WriteHelpers.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+static bool
+isNelsonObjectDataset(const ArrayOf& data)
+{
+    return data.isClassType() || data.isHandle();
+}
+//=============================================================================
+static bool
+splitH5Location(const std::wstring& location, std::string& parentLocation, std::string& name)
+{
+    std::string h5path = wstring_to_utf8(location);
+    if (h5path.empty() || h5path == "/" || h5path.back() == '/') {
+        return false;
+    }
+    size_t separator = h5path.find_last_of('/');
+    if (separator == std::string::npos) {
+        parentLocation = "/";
+        name = h5path;
+    } else {
+        parentLocation = separator == 0 ? "/" : h5path.substr(0, separator);
+        name = h5path.substr(separator + 1);
+    }
+    return !name.empty();
+}
 //=============================================================================
 void
 h5WriteDataset(const std::wstring& filename, const std::wstring& location, ArrayOf& data)
@@ -57,6 +82,20 @@ h5WriteDataset(const std::wstring& filename, const std::wstring& location, Array
     herr_t status;
     if (exists) {
         status = H5Ldelete(h5obj, wstring_to_utf8(location).c_str(), H5P_DEFAULT);
+    }
+    if (isNelsonObjectDataset(data)) {
+        std::string parentLocation;
+        std::string name;
+        if (!splitH5Location(location, parentLocation, name)) {
+            H5Fclose(h5obj);
+            Error(_W("Valid location expected."));
+        }
+        if (!h5SaveVariable(h5obj, parentLocation, name, data, true)) {
+            H5Fclose(h5obj);
+            Error(_W("Cannot write data set."));
+        }
+        H5Fclose(h5obj);
+        return;
     }
     hid_t dspace_id = H5I_INVALID_HID;
     hid_t type_id = H5I_INVALID_HID;

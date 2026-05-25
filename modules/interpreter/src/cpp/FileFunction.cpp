@@ -16,6 +16,16 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+static std::wstring
+leafAfterLast(const std::wstring& value, wchar_t separator)
+{
+    size_t pos = value.find_last_of(separator);
+    if (pos == std::wstring::npos || pos + 1 >= value.size()) {
+        return value;
+    }
+    return value.substr(pos + 1);
+}
+//=============================================================================
 FileFunction::FileFunction(const std::wstring& directory, const std::wstring& objectName,
     const std::wstring& name, bool ismex, bool withWatcher, bool isOverload, bool isPrivate)
     : _withWatcher(withWatcher)
@@ -33,19 +43,22 @@ FileFunction::buildFullFilename(const std::wstring& directory, const std::wstrin
 {
     const std::wstring extension = ismex ? L"." + getMexExtension() : L".m";
     std::wstring path = directory + L"/";
+    const std::wstring objectLeaf = leafAfterLast(objectName, L'.');
+    std::wstring functionLeaf = leafAfterLast(name, L'/');
+    functionLeaf = leafAfterLast(functionLeaf, L'.');
 
     if (isPrivate) {
         // Private function - stored under directory/@objectName/
         if (!objectName.empty()) {
-            path += L"@" + objectName + L"/";
+            path += L"@" + objectLeaf + L"/";
         }
-        path += name + extension;
+        path += functionLeaf + extension;
     } else {
         // Public function
-        if (!objectName.empty() && objectName == name) {
-            path += L"@" + objectName + L"/";
+        if (!objectName.empty()) {
+            path += L"@" + objectLeaf + L"/";
         }
-        path += name + extension;
+        path += functionLeaf + extension;
     }
     return path;
 }

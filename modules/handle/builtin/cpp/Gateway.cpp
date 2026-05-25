@@ -10,12 +10,16 @@
 #include "NelsonGateway.hpp"
 #include "OverloadName.hpp"
 //=============================================================================
+#include "classdefHandleBuiltin.hpp"
 #include "deleteBuiltin.hpp"
+#include "enumerationBuiltin.hpp"
+#include "eventsBuiltin.hpp"
 #include "getBuiltin.hpp"
 #include "invokeBuiltin.hpp"
 #include "ismethodBuiltin.hpp"
 #include "ispropBuiltin.hpp"
 #include "isvalidBuiltin.hpp"
+#include "metaclassBuiltin.hpp"
 #include "methodsBuiltin.hpp"
 #include "cancelBuiltin.hpp"
 #include "propertiesBuiltin.hpp"
@@ -42,6 +46,23 @@ using namespace Nelson;
 const std::wstring gatewayName = L"handle";
 //=============================================================================
 static const nlsGateway gateway[] = {
+    { "__classdef_handle__", (ptrBuiltin)Nelson::HandleGateway::classdefHandleBuiltin, 1, 1 },
+    { "__classdef_handle_get__", (ptrBuiltin)Nelson::HandleGateway::classdefHandleGetBuiltin, 1, 2,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "__classdef_handle_set__", (ptrBuiltin)Nelson::HandleGateway::classdefHandleSetBuiltin, 0, 3,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "__classdef_handle_isvalid__",
+        (ptrBuiltin)Nelson::HandleGateway::classdefHandleIsValidBuiltin, 1, 1 },
+    { "__classdef_handle_struct__", (ptrBuiltin)Nelson::HandleGateway::classdefHandleStructBuiltin,
+        1, 1 },
+    { "__classdef_handle_delete__", (ptrBuiltin)Nelson::HandleGateway::classdefHandleDeleteBuiltin,
+        0, 1 },
+    { "addlistener", (ptrBuiltin)Nelson::HandleGateway::classdefAddListenerBuiltin, 1, 4,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "listener", (ptrBuiltin)Nelson::HandleGateway::classdefAddListenerBuiltin, 1, 4,
+        CPP_BUILTIN_WITH_EVALUATOR },
+    { "notify", (ptrBuiltin)Nelson::HandleGateway::classdefNotifyBuiltin, 0, 3,
+        CPP_BUILTIN_WITH_EVALUATOR },
     { "delete", (ptrBuiltin)Nelson::HandleGateway::deleteBuiltin, 0, 1 },
     { "get", (ptrBuiltin)Nelson::HandleGateway::getBuiltin, 1, 1 },
     { "set", (ptrBuiltin)Nelson::HandleGateway::setBuiltin, 1, 1 },
@@ -52,6 +73,9 @@ static const nlsGateway gateway[] = {
     { "isprop", (ptrBuiltin)Nelson::HandleGateway::ispropBuiltin, 1, 2 },
     { "ismethod", (ptrBuiltin)Nelson::HandleGateway::ismethodBuiltin, 1, 2 },
     { "cancel", (ptrBuiltin)Nelson::HandleGateway::cancelBuiltin, 0, 1 },
+    { "enumeration", (ptrBuiltin)Nelson::HandleGateway::enumerationBuiltin, 1, 1 },
+    { "events", (ptrBuiltin)Nelson::HandleGateway::eventsBuiltin, 1, 1 },
+    { "metaclass", (ptrBuiltin)Nelson::HandleGateway::metaclassBuiltin, 1, 1 },
     //=============================================================================
     { OVERLOAD_FUNCTION_NAME(NLS_HANDLE_STR, "vertcat"),
         (ptrBuiltin)Nelson::HandleGateway::handle_vertcatBuiltin, 1, 2, CPP_BUILTIN,
@@ -106,6 +130,12 @@ static const nlsGateway gateway[] = {
         NLS_OVERLOAD_AUTO_OFF },
     { OVERLOAD_FUNCTION_NAME(NLS_HANDLE_STR, "properties"),
         (ptrBuiltin)Nelson::HandleGateway::handle_propertiesBuiltin, 1, 1, CPP_BUILTIN,
+        NLS_OVERLOAD_AUTO_OFF },
+    { OVERLOAD_FUNCTION_NAME("event.listener", "delete"),
+        (ptrBuiltin)Nelson::HandleGateway::classdefListenerDeleteBuiltin, 0, 1, CPP_BUILTIN,
+        NLS_OVERLOAD_AUTO_OFF },
+    { OVERLOAD_FUNCTION_NAME("event.listener", "isvalid"),
+        (ptrBuiltin)Nelson::HandleGateway::classdefListenerIsValidBuiltin, 1, 1, CPP_BUILTIN,
         NLS_OVERLOAD_AUTO_OFF },
 };
 //=============================================================================

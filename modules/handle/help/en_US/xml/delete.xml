@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>en_US</language>
   <keyword>delete</keyword>
-  <short_description>delete handle objects.</short_description>
+  <short_description>Delete handle objects.</short_description>
   <syntax>
     <syntax_item>delete(h)</syntax_item>
   </syntax>
@@ -17,6 +17,8 @@
     <p>
       <b>delete(h)</b> removes from memory the handle objects referenced by h.</p>
     <p>When deleted, any references to the objects in h become invalid.</p>
+    <p>For classdef handle objects, <b>delete</b> calls the class destructor method when it exists and notifies <b>ObjectBeingDestroyed</b> before the object becomes invalid.</p>
+    <p>For handle arrays, each valid element is deleted.</p>
     <p>To remove the handle variables, use the clear function.</p>
     <p>See clear function about how to force delete with clear function.</p>
   </description>
@@ -25,30 +27,39 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description />
-      <example_item_data
-        runnable="adv-cli"
-      ><![CDATA[f = figure();
-ax = gca();
-img = image();
-hold on
-P = plot(magic(5));
-children1 = ax.Children;
-delete(img);
-size(children1)
-children2 = ax.Children;
-size(children2)]]></example_item_data>
+      <example_item_description>Delete a classdef handle array.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[clear classes
+d = [tempdir(), 'nelson_help_delete/'];
+mkdir(d);
+filewrite([d, '/NelsonHelpDeleteCounter.m'], ["classdef NelsonHelpDeleteCounter < handle"; "  properties"; "    Count = 0"; "  end"; "end"]);
+addpath(d);
+a = NelsonHelpDeleteCounter();
+b = NelsonHelpDeleteCounter();
+h = [a, b];
+delete(h);
+isvalid(a)
+isvalid(b)]]></example_item_data>
     </example_item>
   </examples>
   <see_also>
     <see_also_item>
       <link linkend="${memory_manager}clear">clear</link>
     </see_also_item>
+    <see_also_item>
+      <link linkend="${interpreter}classdef">classdef</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}addlistener">addlistener</link>
+    </see_also_item>
   </see_also>
   <history>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>classdef handle destructor and handle array behavior documented</history_description>
     </history_item>
   </history>
   <authors>

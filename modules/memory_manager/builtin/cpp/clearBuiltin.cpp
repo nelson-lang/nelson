@@ -67,6 +67,8 @@ Nelson::MemoryGateway::clearBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
             } else if (arg1 == L"functions") {
                 ClearMacroCache(eval);
                 ClearAllPersistentVariables(eval);
+            } else if (arg1 == L"classes") {
+                ClearMacroCache(eval);
             } else if (arg1 == L"mex") {
                 if (FunctionsInMemory::getInstance()->deleteAllMexFunctions()) {
                     mexFreeAllRegisteredPointer();

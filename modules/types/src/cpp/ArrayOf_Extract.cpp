@@ -21,6 +21,15 @@ namespace Nelson {
 //=============================================================================
 // Get functions
 //=============================================================================
+static ArrayOf
+preserveClassType(const ArrayOf& source, ArrayOf result)
+{
+    if (source.isClassType() && result.isClassType()) {
+        result.setClassType(source.getClassType());
+    }
+    return result;
+}
+//=============================================================================
 /**
  * returns value as an array = A(index)
  * simple extraction (fast used 'for' loop)
@@ -49,6 +58,7 @@ ArrayOf::getValueAtIndex(uint64 index)
         copyElements(ndx, qp, 0, 1);
         res = ArrayOf(dp->dataClass, retdims, qp, dp->sparse, dp->fieldNames);
     }
+    res = preserveClassType(*this, res);
     if (res.isComplex()) {
         return decomplexify(res);
     }
@@ -81,7 +91,8 @@ ArrayOf::getVectorSubset(ArrayOf& index)
                     return getValueAtIndex(0);
                 }
                 Dimensions dims(0, 0);
-                return ArrayOf(dp->dataClass, dims, nullptr, isSparse(), dp->fieldNames);
+                return preserveClassType(
+                    *this, ArrayOf(dp->dataClass, dims, nullptr, isSparse(), dp->fieldNames));
             }
             double idx = (double)index.getContentAsInteger64Scalar();
             auto iidx = static_cast<int64>(idx);
@@ -97,15 +108,16 @@ ArrayOf::getVectorSubset(ArrayOf& index)
             // Q = ones(3,0)
             // Q(eye(2,0))
             // Q(eye(0,2))
-            return ArrayOf(
-                dp->dataClass, index.dp->dimensions, nullptr, isSparse(), dp->fieldNames);
+            return preserveClassType(*this,
+                ArrayOf(dp->dataClass, index.dp->dimensions, nullptr, isSparse(), dp->fieldNames));
         }
         if (index.isEmpty()) {
             // Q = 1:10
             // Q(eye(2,0))
             // Q(eye(0,2))
             Dimensions dims(1, 0);
-            return ArrayOf(dp->dataClass, dims, nullptr, isSparse(), dp->fieldNames);
+            return preserveClassType(
+                *this, ArrayOf(dp->dataClass, dims, nullptr, isSparse(), dp->fieldNames));
         }
         index.toOrdinalType();
         Dimensions retdims(index.dp->dimensions);
@@ -145,6 +157,7 @@ ArrayOf::getVectorSubset(ArrayOf& index)
             copyElements(ndx, qp, i, 1);
         }
         ArrayOf res = ArrayOf(dp->dataClass, retdims, qp, dp->sparse, dp->fieldNames);
+        res = preserveClassType(*this, res);
         if (res.isComplex()) {
             return decomplexify(res);
         }
@@ -196,7 +209,8 @@ ArrayOf::getNDimSubset(ArrayOfVector& index)
             }
         }
         if (bEmpty) {
-            return ArrayOf::emptyConstructor(dimsDest, isSparse());
+            return preserveClassType(
+                *this, ArrayOf(dp->dataClass, dimsDest, nullptr, isSparse(), dp->fieldNames));
         }
         // Set up data pointers
         indx = new_with_exception<constIndexPtr>(L, false);
@@ -211,7 +225,8 @@ ArrayOf::getNDimSubset(ArrayOfVector& index)
             if (dimsDest.getMax() > thisDims.getMax()) {
                 Error(_W("Index exceeds dimensions."));
             }
-            return ArrayOf::emptyConstructor(outDims, false);
+            return preserveClassType(
+                *this, ArrayOf(dp->dataClass, outDims, nullptr, false, dp->fieldNames));
         }
         if (isSparse()) {
             if (L > 2) {
@@ -255,6 +270,7 @@ ArrayOf::getNDimSubset(ArrayOfVector& index)
         outDims.simplify();
         ArrayOf res;
         res = ArrayOf(dp->dataClass, outDims, qp, dp->sparse, dp->fieldNames);
+        res = preserveClassType(*this, res);
         if (res.isComplex()) {
             return decomplexify(res);
         }

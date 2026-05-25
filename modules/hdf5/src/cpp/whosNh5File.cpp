@@ -22,6 +22,12 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 //=============================================================================
+#define WHOS_HEADER_ATTRIBUTES "Attributes"
+#define WHOS_HEADER_BYTES "Bytes"
+#define WHOS_HEADER_CLASS "Class"
+#define WHOS_HEADER_NAME "Name"
+#define WHOS_HEADER_SIZE "Size"
+//=============================================================================
 namespace Nelson {
 //=============================================================================
 static ArrayOf
@@ -83,10 +89,10 @@ whosNh5File(Interface* io, const std::wstring& filename, const wstringVector& na
     std::vector<logical> _sparse;
     std::vector<logical> _complex;
     std::vector<logical> _persistent;
-    size_t nbSpaceName = _("Name").size();
-    size_t nbSpaceSize = _("Size").size();
-    size_t nbSpaceBytes = _("Bytes").size();
-    size_t nbSpaceClass = _("Class").size();
+    size_t nbSpaceName = _(WHOS_HEADER_NAME).size();
+    size_t nbSpaceSize = _(WHOS_HEADER_SIZE).size();
+    size_t nbSpaceBytes = _(WHOS_HEADER_BYTES).size();
+    size_t nbSpaceClass = _(WHOS_HEADER_CLASS).size();
 
     _names.reserve(variablesNamesToRead.size());
     _size.reserve(variablesNamesToRead.size());
@@ -203,14 +209,15 @@ whosNh5File(Interface* io, const std::wstring& filename, const wstringVector& na
     } else {
         if (_names.size()) {
             std::stringstream ssLine;
-            ssLine << "  " << std::left << std::setfill(' ') << std::setw(nbSpaceName) << _("Name");
+            ssLine << "  " << std::left << std::setfill(' ') << std::setw(nbSpaceName)
+                   << _(WHOS_HEADER_NAME);
             ssLine << "      " << std::left << std::setfill(' ') << std::setw(nbSpaceSize)
-                   << _("Size");
+                   << _(WHOS_HEADER_SIZE);
             ssLine << "            " << std::right << std::setfill(' ') << std::setw(nbSpaceBytes)
-                   << _("Bytes");
+                   << _(WHOS_HEADER_BYTES);
             ssLine << "  " << std::left << std::setfill(' ') << std::setw(nbSpaceClass)
-                   << _("Class");
-            ssLine << "  " << _("Attributes");
+                   << _(WHOS_HEADER_CLASS);
+            ssLine << "  " << _(WHOS_HEADER_ATTRIBUTES);
             ssLine << std::endl;
             ssLine << std::endl;
             io->outputMessage(ssLine.str());

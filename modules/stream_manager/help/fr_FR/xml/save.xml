@@ -61,7 +61,9 @@
   </param_input>
   <description>
     <p>
-      <b>save</b> sauvegarde les variables de l&apos;espace de travail dans un fichier .nh5 ou .mat.</p>
+      <b
+      >save</b> sauvegarde les variables de l&apos;espace de travail dans un fichier .nh5 ou .mat.</p>
+    <p>Les objets classdef valeur et les objets handle classdef peuvent etre sauvegardes si leur definition de classe est disponible dans le chemin lors du chargement du fichier.</p>
   </description>
   <examples>
     <example_item>
@@ -118,6 +120,25 @@ save([tempdir(), 'example_save_no_compression.mat'], 'C', '-nocompression')
 with_compression = dir([tempdir(), 'example_save_with_compression.mat'])
 no_compression = dir([tempdir(), 'example_save_no_compression.mat'])]]></example_item_data>
     </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Sauvegarder et charger un objet classdef.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[clear classes
+d = [tempdir(), 'nelson_help_save_classdef/'];
+mkdir(d);
+filewrite([d, '/NelsonHelpSavePoint.m'], ["classdef NelsonHelpSavePoint"; "  properties"; "    X = 0"; "    Y = 0"; "  end"; "end"]);
+addpath(d);
+point = NelsonHelpSavePoint();
+point.X = 5;
+point.Y = 6;
+filename = [tempdir(), 'nelson_help_save_classdef.nh5'];
+save(filename, 'point');
+clear point;
+clear classes;
+loaded = load(filename);
+className = class(loaded.point)
+coordinates = [loaded.point.X, loaded.point.Y]]]></example_item_data>
+    </example_item>
   </examples>
   <see_also>
     <see_also_item>
@@ -134,6 +155,10 @@ no_compression = dir([tempdir(), 'example_save_no_compression.mat'])]]></example
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>comportement de sauvegarde des objets classdef documente</history_description>
     </history_item>
   </history>
   <authors>

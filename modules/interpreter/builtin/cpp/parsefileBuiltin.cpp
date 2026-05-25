@@ -38,6 +38,9 @@ Nelson::InterpreterGateway::parsefileBuiltin(Evaluator* eval, int nLhs, const Ar
     case FuncDef: {
         retval << ArrayOf::characterArrayConstructor("function");
     } break;
+    case ClassDef: {
+        retval << ArrayOf::characterArrayConstructor("classdef");
+    } break;
     default: {
         retval << ArrayOf::characterArrayConstructor("error");
     } break;

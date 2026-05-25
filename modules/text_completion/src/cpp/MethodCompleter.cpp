@@ -14,6 +14,8 @@
 #include "characters_encoding.hpp"
 #include "StringHelpers.hpp"
 #include "EvaluateCommand.hpp"
+#include "ClassdefParser.hpp"
+#include "CompleterHelper.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -21,7 +23,7 @@ wstringVector
 MethodCompleter(const std::wstring& prefix)
 {
     wstringVector res;
-    auto* eval = static_cast<Evaluator*>(NelsonConfiguration::getInstance()->getMainEvaluator());
+    auto* eval = getCompletionEvaluator();
     if (!eval) {
         return res;
     }
@@ -35,45 +37,56 @@ MethodCompleter(const std::wstring& prefix)
 
     std::string variable = utf8prefix.substr(0, lastDotPos);
     std::string postfix = utf8prefix.substr(lastDotPos + 1);
-    size_t lastCharacterIndex = variable.find_last_of(" ([{,;");
-
-    if (lastCharacterIndex != std::string::npos) {
-        variable = variable.substr(lastCharacterIndex + 1);
-    }
+    variable = getLookupSymbolFromCompletionExpression(variable);
 
     Exception lastError = eval->getLastErrorException();
 
     try {
-        ArrayOfVector variableArray
-            = EvaluateCommand(eval, 1, utf8_to_wstring(variable), std::wstring());
-        if (variableArray.size() != 1) {
+        auto* classdefManager = ClassdefDefinitionManager::getInstance();
+        if (classdefManager->loadClass(variable)) {
+            stringVector methodNames = classdefManager->methods(variable);
+            for (const auto& name : methodNames) {
+                if (name != variable && StringHelpers::starts_with(name, postfix)) {
+                    res.push_back(utf8_to_wstring(name));
+                }
+            }
             return res;
         }
 
-        if (variableArray[0].isGraphicsObject() || variableArray[0].isClassType()
-            || variableArray[0].isHandle()) {
+        ArrayOf variableValue;
+        if (!lookupCompletionVariable(context, variable, variableValue)) {
+            ArrayOfVector variableArray
+                = EvaluateCommand(eval, 1, utf8_to_wstring(variable), std::wstring());
+            if (variableArray.size() != 1) {
+                return res;
+            }
+            variableValue = variableArray[0];
+        }
+
+        stringVector methodNames;
+        std::string className;
+        if (variableValue.isClassType()) {
+            className = variableValue.getClassType();
+        } else if (variableValue.isHandle()) {
+            className = variableValue.getHandleClassName();
+        }
+        if (!className.empty() && classdefManager->loadClass(className)) {
+            methodNames = classdefManager->methods(className);
+        } else if (variableValue.isGraphicsObject() || variableValue.isHandle()) {
             ArrayOfVector methodsArray = EvaluateCommand(
                 eval, 1, utf8_to_wstring("methods(" + variable + ")"), std::wstring());
-            stringVector methodNames;
-
             if (methodsArray.size() == 1) {
                 methodNames = methodsArray[0].getContentAsCStringVector();
             }
-
-            std::string className;
-            if (variableArray[0].isClassType()) {
-                className = variableArray[0].getClassType();
+            if (variableValue.isHandle()) {
+                className = variableValue.getHandleCategory();
             }
+        }
 
-            if (variableArray[0].isHandle()) {
-                className = variableArray[0].getHandleCategory();
-            }
-            for (const auto& name : methodNames) {
-
-                if (StringHelpers::starts_with(name, postfix)) {
-                    if (name != className) {
-                        res.push_back(utf8_to_wstring(name));
-                    }
+        for (const auto& name : methodNames) {
+            if (StringHelpers::starts_with(name, postfix)) {
+                if (name != className) {
+                    res.push_back(utf8_to_wstring(name));
                 }
             }
         }

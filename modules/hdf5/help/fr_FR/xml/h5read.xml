@@ -26,7 +26,9 @@
   </param_output>
   <description>
     <p>
-      <b>h5read</b> lit le jeu de données situé à<b>location</b> dans le fichier HDF5.</p>
+      <b>h5read</b> lit le jeu de données situé à<b
+      >location</b> dans le fichier HDF5.</p>
+    <p>      Si <b>location</b> identifie un groupe objet Nelson, <b>h5read</b> reconstruit l&apos;objet de classe historique ou l&apos;objet classdef valeur/handle stocké.</p>
   </description>
   <used_function />
   <bibliography />
@@ -40,6 +42,20 @@
 double_data = [h5_directory, '/h5ex_t_float.h5'];
 R = h5read(double_data,'/DS1')]]></example_item_data>
     </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[h5filename = [tempdir(), 'doc_h5read_class.h5'];
+if isfile(h5filename) rmfile(h5filename) end
+obj = class(struct('r', 3, 'i', 4), 'DocH5Class');
+h5write(h5filename, '/obj', obj);
+R = h5read(h5filename, '/obj');
+class(R)
+R.r
+R.i]]></example_item_data>
+    </example_item>
   </examples>
   <see_also>
     <see_also_item>
@@ -50,6 +66,10 @@ R = h5read(double_data,'/DS1')]]></example_item_data>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>Les objets de classe Nelson peuvent être reconstruits depuis les métadonnées objet.</history_description>
     </history_item>
   </history>
   <authors>

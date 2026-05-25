@@ -48,6 +48,7 @@ public:
     AbstractSyntaxTreePtr code;
     AbstractSyntaxTreePtrVector ptrAstCodeAsVector;
     std::unique_ptr<BytecodeChunk> bytecodeChunk;
+    std::string classdefOwnerClassName;
 
     /**
      * For some function files, there are multiple functions defined in

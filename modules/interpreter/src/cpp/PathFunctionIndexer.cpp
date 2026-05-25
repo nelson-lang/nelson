@@ -230,9 +230,18 @@ getFunctionName(const std::wstring& objectName, const std::wstring& name)
     return L"@" + objectName + L"/" + name;
 }
 //=============================================================================
+inline std::wstring
+qualifiedPackageName(const std::wstring& packagePrefix, const std::wstring& name)
+{
+    if (packagePrefix.empty()) {
+        return name;
+    }
+    return packagePrefix + L"." + name;
+}
+//=============================================================================
 void
-PathFunctionIndexer::rehash(
-    const std::wstring& pathToScan, const std::wstring& prefix, bool isPrivate)
+PathFunctionIndexer::rehash(const std::wstring& pathToScan, const std::wstring& prefix,
+    bool isPrivate, const std::wstring& packagePrefix)
 {
     try {
         const FileSystemWrapper::Path path(pathToScan);
@@ -248,6 +257,7 @@ PathFunctionIndexer::rehash(
         std::wstring objectName;
         if (prefix.length() > 1) {
             objectName = prefix.substr(1); // More efficient than erase
+            objectName = qualifiedPackageName(packagePrefix, objectName);
         }
 
         nfs::directory_iterator end_iter;
@@ -258,9 +268,15 @@ PathFunctionIndexer::rehash(
                 const std::wstring stemDirectory = current.stem().wstring();
                 if (!stemDirectory.empty()) {
                     if (stemDirectory[0] == OVERLOAD_SYMBOL_CHAR) {
-                        rehash(current.generic_wstring(), stemDirectory, false);
+                        rehash(current.generic_wstring(), stemDirectory, false, packagePrefix);
+                    } else if (stemDirectory[0] == L'+') {
+                        const std::wstring packageName = stemDirectory.substr(1);
+                        if (isSupportedFuncFilename(packageName)) {
+                            rehash(current.generic_wstring(), L"", false,
+                                qualifiedPackageName(packagePrefix, packageName));
+                        }
                     } else if (stemDirectory == privateDir) {
-                        rehash(current.generic_wstring(), L"", true);
+                        rehash(current.generic_wstring(), L"", true, packagePrefix);
                     }
                 }
                 continue;
@@ -274,9 +290,12 @@ PathFunctionIndexer::rehash(
                 continue;
             }
 
-            const std::wstring stemName = current.stem().generic_wstring();
+            std::wstring stemName = current.stem().generic_wstring();
             if (!isSupportedFuncFilename(stemName)) {
                 continue;
+            }
+            if (prefix.empty()) {
+                stemName = qualifiedPackageName(packagePrefix, stemName);
             }
 
             const std::wstring name = getFunctionName(objectName, stemName);

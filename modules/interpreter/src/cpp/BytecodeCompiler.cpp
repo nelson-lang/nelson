@@ -8,8 +8,10 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <algorithm>
+#include <cctype>
 #include <stdexcept>
 #include "BytecodeCompiler.hpp"
+#include "ClassdefParser.hpp"
 #include "Error.hpp"
 #include "Keywords.hpp"
 #include "LexerContext.hpp"
@@ -43,6 +45,23 @@ namespace {
             span.line = 1;
         }
         return span;
+    }
+    //=============================================================================
+    std::string
+    classNameLeaf(const std::string& className)
+    {
+        size_t pos = className.find_last_of('.');
+        if (pos == std::string::npos || pos + 1 >= className.size()) {
+            return className;
+        }
+        return className.substr(pos + 1);
+    }
+    //=============================================================================
+    bool
+    looksLikeRuntimeClassdefReference(const std::string& className)
+    {
+        std::string leaf = classNameLeaf(className);
+        return !leaf.empty() && std::isupper(static_cast<unsigned char>(leaf.front())) != 0;
     }
     //=============================================================================
     OpCode
@@ -741,30 +760,42 @@ namespace {
                 || (chunk_.isScript && !slot->everAssigned);
             if (useContextBase) {
                 if (lhs->down->right != nullptr) {
-                    if (slot.has_value() && slot->kind != SlotKind::Global
-                        && !(chunk_.isScript && !slot->everAssigned)) {
-                        compileChainedIndexedAssign(lhs, *slot, printIt);
+                    if (slot.has_value() && slot->kind != SlotKind::Global) {
+                        compileChainedIndexedAssign(lhs, *slot, printIt, true);
                     } else {
                         compileChainedIndexedAssign(lhs, std::nullopt, printIt);
                     }
                     return;
                 }
-                emit(OpCode::LOAD_GLOBAL, INST_FLAG_ALLOW_UNDEFINED, nameIndex(lhs->text));
+                if (slot.has_value() && slot->kind != SlotKind::Global) {
+                    emit(OpCode::LOAD_LOCAL, INST_FLAG_ALLOW_UNDEFINED, slot->index);
+                } else {
+                    emit(OpCode::LOAD_GLOBAL, INST_FLAG_ALLOW_UNDEFINED, nameIndex(lhs->text));
+                }
                 push();
                 compileExpr(rhs);
                 compileStackValueAssign(lhs->down);
-                emit(OpCode::STORE_GLOBAL, 0, nameIndex(lhs->text));
+                if (slot.has_value() && slot->kind != SlotKind::Global) {
+                    emit(OpCode::ASSIGN, printIt ? INST_FLAG_PRINT : 0, slot->index);
+                    slots_.markAssigned(lhs->text);
+                } else {
+                    emit(OpCode::STORE_GLOBAL, 0, nameIndex(lhs->text));
+                }
                 pop();
                 if (printIt) {
-                    emit(OpCode::LOAD_GLOBAL, 0, nameIndex(lhs->text));
-                    push();
-                    emit(OpCode::DUP);
-                    push();
-                    emit(OpCode::STORE_ANS);
-                    pop();
-                    emit(OpCode::DISPLAY_ANS);
-                    emit(OpCode::POP);
-                    pop();
+                    if (slot.has_value() && slot->kind != SlotKind::Global) {
+                        emit(OpCode::DISPLAY, 0, slot->index, nameIndex(lhs->text));
+                    } else {
+                        emit(OpCode::LOAD_GLOBAL, 0, nameIndex(lhs->text));
+                        push();
+                        emit(OpCode::DUP);
+                        push();
+                        emit(OpCode::STORE_ANS);
+                        pop();
+                        emit(OpCode::DISPLAY_ANS);
+                        emit(OpCode::POP);
+                        pop();
+                    }
                 }
                 return;
             }
@@ -805,14 +836,16 @@ namespace {
         }
 
         void
-        compileChainedIndexedAssign(AbstractSyntaxTreePtr lhs, const SlotInfo& slot, bool printIt)
+        compileChainedIndexedAssign(AbstractSyntaxTreePtr lhs, const SlotInfo& slot, bool printIt,
+            bool loadContextBase = false)
         {
-            compileChainedIndexedAssign(lhs, std::optional<SlotInfo>(slot), printIt);
+            compileChainedIndexedAssign(
+                lhs, std::optional<SlotInfo>(slot), printIt, loadContextBase);
         }
 
         void
-        compileChainedIndexedAssign(
-            AbstractSyntaxTreePtr lhs, const std::optional<SlotInfo>& slot, bool printIt)
+        compileChainedIndexedAssign(AbstractSyntaxTreePtr lhs, const std::optional<SlotInfo>& slot,
+            bool printIt, bool loadContextBase = false)
         {
             std::vector<AbstractSyntaxTreePtr> parents;
             AbstractSyntaxTreePtr sub = lhs->down;
@@ -829,7 +862,7 @@ namespace {
                 unsupported(lhs, "chained indexed assignment final");
             }
 
-            if (slot.has_value() && !slot->everAssigned && parents.size() == 1
+            if (slot.has_value() && !loadContextBase && !slot->everAssigned && parents.size() == 1
                 && (parents[0]->opNum == OP_PARENS || parents[0]->opNum == OP_BRACES)
                 && (sub->opNum == OP_DOT || sub->opNum == OP_DOTDYN)) {
                 emit(OpCode::LOAD_EMPTY);
@@ -1508,6 +1541,22 @@ namespace {
             return false;
         }
 
+        AbstractSyntaxTreePtr
+        indexedIdentifier(AbstractSyntaxTreePtr node) const
+        {
+            if (node == nullptr) {
+                return nullptr;
+            }
+            if (node->type == id_node && node->down != nullptr) {
+                return node;
+            }
+            if (node->type == non_terminal && node->opNum == OP_RHS && node->down != nullptr
+                && node->down->type == id_node && node->down->down != nullptr) {
+                return node->down;
+            }
+            return nullptr;
+        }
+
         void
         compileNamedCallOrIndex(AbstractSyntaxTreePtr ident, int nout, bool outputOptional = false,
             bool commaList = false)
@@ -1562,6 +1611,160 @@ namespace {
                 push();
                 sub = sub->right;
                 firstSubindex = false;
+            } else if (!definitelyLocal && sub->opNum == OP_DOT && sub->down != nullptr
+                && sub->down->type == id_node) {
+                const std::string memberName = sub->down->text;
+                std::string classdefFunctionName;
+                const std::string packageClassName = ident->text + "." + memberName;
+                if (sub->right != nullptr && sub->right->opNum == OP_PARENS
+                    && sub->right->right == nullptr
+                    && ClassdefDefinitionManager::getInstance()->loadClass(packageClassName)) {
+                    uint16_t nargs = 0;
+                    AbstractSyntaxTreePtr arg = sub->right->down;
+                    while (arg != nullptr) {
+                        compileCallArgument(arg);
+                        ++nargs;
+                        arg = arg->right;
+                    }
+                    emit(OpCode::CALL_NAMED, outputOptional ? INST_FLAG_PRINT : 0,
+                        nameIndex(packageClassName), nargs, static_cast<uint16_t>(nout));
+                    pop(nargs);
+                    if (nout > 0) {
+                        push();
+                    }
+                    return;
+                }
+                if (sub->right != nullptr && sub->right->opNum == OP_DOT
+                    && sub->right->down != nullptr && sub->right->down->type == id_node) {
+                    const std::string packageMemberName = sub->right->down->text;
+                    if (sub->right->right != nullptr && sub->right->right->opNum == OP_PARENS
+                        && sub->right->right->right == nullptr
+                        && ClassdefDefinitionManager::getInstance()->resolveStaticMethodFunction(
+                            packageClassName, packageMemberName, classdefFunctionName,
+                            chunk_.classdefAccessClassName)) {
+                        uint16_t nargs = 0;
+                        AbstractSyntaxTreePtr arg = sub->right->right->down;
+                        while (arg != nullptr) {
+                            compileCallArgument(arg);
+                            ++nargs;
+                            arg = arg->right;
+                        }
+                        emit(OpCode::CALL_NAMED, outputOptional ? INST_FLAG_PRINT : 0,
+                            nameIndex(classdefFunctionName), nargs, static_cast<uint16_t>(nout));
+                        pop(nargs);
+                        if (nout > 0) {
+                            push();
+                        }
+                        return;
+                    }
+                    if (sub->right->right != nullptr && sub->right->right->opNum == OP_PARENS
+                        && sub->right->right->right == nullptr
+                        && looksLikeRuntimeClassdefReference(packageClassName)) {
+                        uint16_t nargs = 0;
+                        AbstractSyntaxTreePtr arg = sub->right->right->down;
+                        while (arg != nullptr) {
+                            compileCallArgument(arg);
+                            ++nargs;
+                            arg = arg->right;
+                        }
+                        emit(OpCode::CALL_CLASSDEF_MEMBER,
+                            (outputOptional ? INST_FLAG_PRINT : 0) | INST_FLAG_INDEX_ONLY,
+                            chunk_.constants.addName(packageClassName + "." + packageMemberName),
+                            nargs, static_cast<uint16_t>(nout));
+                        pop(nargs);
+                        if (nout > 0) {
+                            push();
+                        }
+                        return;
+                    }
+                    if (sub->right->right == nullptr && nout > 0) {
+                        bool resolvedPackageClassMember
+                            = ClassdefDefinitionManager::getInstance()
+                                  ->resolveConstantPropertyFunction(packageClassName,
+                                      packageMemberName, classdefFunctionName,
+                                      chunk_.classdefAccessClassName)
+                            || ClassdefDefinitionManager::getInstance()
+                                   ->resolveEnumerationMemberFunction(
+                                       packageClassName, packageMemberName, classdefFunctionName);
+                        if (resolvedPackageClassMember) {
+                            emit(OpCode::CALL_NAMED, outputOptional ? INST_FLAG_PRINT : 0,
+                                nameIndex(classdefFunctionName), 0, static_cast<uint16_t>(nout));
+                            push();
+                            return;
+                        }
+                        if (looksLikeRuntimeClassdefReference(packageClassName)) {
+                            emit(OpCode::CALL_CLASSDEF_MEMBER, outputOptional ? INST_FLAG_PRINT : 0,
+                                chunk_.constants.addName(
+                                    packageClassName + "." + packageMemberName),
+                                0, static_cast<uint16_t>(nout));
+                            push();
+                            return;
+                        }
+                    }
+                }
+                if (sub->right != nullptr && sub->right->opNum == OP_PARENS
+                    && sub->right->right == nullptr
+                    && ClassdefDefinitionManager::getInstance()->resolveStaticMethodFunction(
+                        ident->text, memberName, classdefFunctionName,
+                        chunk_.classdefAccessClassName)) {
+                    uint16_t nargs = 0;
+                    AbstractSyntaxTreePtr arg = sub->right->down;
+                    while (arg != nullptr) {
+                        compileCallArgument(arg);
+                        ++nargs;
+                        arg = arg->right;
+                    }
+                    emit(OpCode::CALL_NAMED, outputOptional ? INST_FLAG_PRINT : 0,
+                        nameIndex(classdefFunctionName), nargs, static_cast<uint16_t>(nout));
+                    pop(nargs);
+                    if (nout > 0) {
+                        push();
+                    }
+                    return;
+                }
+                if (sub->right != nullptr && sub->right->opNum == OP_PARENS
+                    && sub->right->right == nullptr
+                    && looksLikeRuntimeClassdefReference(ident->text)) {
+                    uint16_t nargs = 0;
+                    AbstractSyntaxTreePtr arg = sub->right->down;
+                    while (arg != nullptr) {
+                        compileCallArgument(arg);
+                        ++nargs;
+                        arg = arg->right;
+                    }
+                    emit(OpCode::CALL_CLASSDEF_MEMBER,
+                        (outputOptional ? INST_FLAG_PRINT : 0) | INST_FLAG_INDEX_ONLY,
+                        chunk_.constants.addName(ident->text + "." + memberName), nargs,
+                        static_cast<uint16_t>(nout));
+                    pop(nargs);
+                    if (nout > 0) {
+                        push();
+                    }
+                    return;
+                }
+                if (sub->right == nullptr && nout > 0) {
+                    bool resolvedClassMember
+                        = ClassdefDefinitionManager::getInstance()->resolveConstantPropertyFunction(
+                              ident->text, memberName, classdefFunctionName,
+                              chunk_.classdefAccessClassName)
+                        || ClassdefDefinitionManager::getInstance()
+                               ->resolveEnumerationMemberFunction(
+                                   ident->text, memberName, classdefFunctionName);
+                    if (resolvedClassMember) {
+                        emit(OpCode::CALL_NAMED, outputOptional ? INST_FLAG_PRINT : 0,
+                            nameIndex(classdefFunctionName), 0, static_cast<uint16_t>(nout));
+                        push();
+                        return;
+                    }
+                    if (looksLikeRuntimeClassdefReference(ident->text)) {
+                        emit(OpCode::CALL_CLASSDEF_MEMBER, outputOptional ? INST_FLAG_PRINT : 0,
+                            chunk_.constants.addName(ident->text + "." + memberName), 0,
+                            static_cast<uint16_t>(nout));
+                        push();
+                        return;
+                    }
+                }
+                compileVarLoad(ident);
             } else {
                 compileVarLoad(ident);
             }
@@ -1726,10 +1929,8 @@ namespace {
                 uint16_t ncols = countPeers(row->down);
                 AbstractSyntaxTreePtr value = row->down;
                 while (value != nullptr) {
-                    if (value->type == non_terminal && value->opNum == OP_RHS
-                        && value->down != nullptr && value->down->type == id_node
-                        && value->down->down != nullptr) {
-                        compileNamedCallOrIndex(value->down, 1, false, true);
+                    if (AbstractSyntaxTreePtr ident = indexedIdentifier(value)) {
+                        compileNamedCallOrIndex(ident, 1, false, true);
                     } else {
                         compileExpr(value);
                     }
@@ -1768,10 +1969,8 @@ namespace {
                 }
                 AbstractSyntaxTreePtr value = row->down;
                 while (value != nullptr) {
-                    if (value->type == non_terminal && value->opNum == OP_RHS
-                        && value->down != nullptr && value->down->type == id_node
-                        && value->down->down != nullptr) {
-                        compileNamedCallOrIndex(value->down, 1, false, true);
+                    if (AbstractSyntaxTreePtr ident = indexedIdentifier(value)) {
+                        compileNamedCallOrIndex(ident, 1, false, true);
                     } else {
                         compileExpr(value);
                     }
@@ -1881,10 +2080,12 @@ namespace {
     std::unique_ptr<BytecodeChunk>
     makeChunk(const std::string& functionName, const std::wstring& sourcePath, bool isScript,
         const stringVector& argNames, const stringVector& retNames,
-        const stringVector& capturedNames = stringVector())
+        const stringVector& capturedNames = stringVector(),
+        const std::string& classdefAccessClassName = std::string())
     {
         auto chunk = std::make_unique<BytecodeChunk>();
         chunk->functionName = functionName;
+        chunk->classdefAccessClassName = classdefAccessClassName;
         chunk->sourcePath = sourcePath;
         chunk->isScript = isScript;
         chunk->argNames = argNames;
@@ -1919,9 +2120,11 @@ namespace {
 //=============================================================================
 std::unique_ptr<BytecodeChunk>
 BytecodeCompiler::compileFunction(AbstractSyntaxTreePtr body, const std::string& functionName,
-    const std::wstring& sourcePath, const stringVector& argNames, const stringVector& retNames)
+    const std::wstring& sourcePath, const stringVector& argNames, const stringVector& retNames,
+    const std::string& classdefAccessClassName)
 {
-    auto chunk = makeChunk(functionName, sourcePath, false, argNames, retNames);
+    auto chunk = makeChunk(
+        functionName, sourcePath, false, argNames, retNames, {}, classdefAccessClassName);
     compileInto(*chunk, body);
     return chunk;
 }

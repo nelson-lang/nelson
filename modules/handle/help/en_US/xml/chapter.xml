@@ -11,5 +11,6 @@
     >Handle objects are lightweight references to larger data structures, enabling efficient memory management and data sharing between different parts of a program.</p>
     <p
     >This module includes functions for creating, copying, and destroying handle objects, as well as for managing their lifetimes and ensuring proper cleanup.</p>
+    <p>It also includes classdef reflection, event, and listener helpers.</p>
   </chapter_description>
 </xmldoc>

@@ -22,7 +22,8 @@ class NLSINTERPRETER_IMPEXP BytecodeCompiler
 public:
     static std::unique_ptr<BytecodeChunk>
     compileFunction(AbstractSyntaxTreePtr body, const std::string& functionName,
-        const std::wstring& sourcePath, const stringVector& argNames, const stringVector& retNames);
+        const std::wstring& sourcePath, const stringVector& argNames, const stringVector& retNames,
+        const std::string& classdefAccessClassName = std::string());
 
     static std::unique_ptr<BytecodeChunk>
     compileScript(AbstractSyntaxTreePtr body, const std::wstring& sourcePath);

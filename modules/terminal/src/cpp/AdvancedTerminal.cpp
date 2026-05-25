@@ -61,29 +61,38 @@ completionHook(const std::string& buffer, int& contextLen)
         return completions;
     }
 
-    std::wstring replacementPrefix
-        = files.empty() ? completionPrefix : Nelson::getCompletionLeafPrefix(completionPrefix);
-    std::string completionPrefixUtf8 = wstring_to_utf8(replacementPrefix);
+    std::string completionPrefixUtf8 = wstring_to_utf8(completionPrefix);
     contextLen = static_cast<int>(
         std::min(completionPrefixUtf8.size(), static_cast<std::size_t>(buffer.size())));
 
+    // For file completions, we need to prepend the directory path
+    // because FileCompleter returns only filenames, not full paths
+    std::wstring filePathPrefix;
+    if (!files.empty()) {
+        size_t lastSep = completionPrefix.find_last_of(L"/\\");
+        if (lastSep != std::wstring::npos) {
+            filePathPrefix = completionPrefix.substr(0, lastSep + 1);
+        }
+    }
+
     std::unordered_set<std::string> uniqueEntries;
-    auto appendCategory = [&](const Nelson::wstringVector& source) {
+    auto appendCategory = [&](const Nelson::wstringVector& source, const std::wstring& prefix) {
         for (const auto& entry : source) {
-            std::string utf8Entry = wstring_to_utf8(entry);
+            std::wstring fullEntry = prefix + entry;
+            std::string utf8Entry = wstring_to_utf8(fullEntry);
             if (uniqueEntries.insert(utf8Entry).second) {
                 completions.emplace_back(std::move(utf8Entry));
             }
         }
     };
 
-    appendCategory(files);
-    appendCategory(builtin);
-    appendCategory(macros);
-    appendCategory(variables);
-    appendCategory(fields);
-    appendCategory(properties);
-    appendCategory(methods);
+    appendCategory(files, filePathPrefix);
+    appendCategory(builtin, L"");
+    appendCategory(macros, L"");
+    appendCategory(variables, L"");
+    appendCategory(fields, L"");
+    appendCategory(properties, L"");
+    appendCategory(methods, L"");
 #else
     (void)buffer;
     contextLen = 0;
@@ -206,55 +215,15 @@ injectNewlineIntoInput()
 #endif
 }
 //=============================================================================
-#ifdef _WIN32
-static bool
-isConsoleHandle(HANDLE handle)
-{
-    if (handle == nullptr || handle == INVALID_HANDLE_VALUE) {
-        return false;
-    }
-    DWORD mode = 0;
-    return GetConsoleMode(handle, &mode) != 0;
-}
-//=============================================================================
-static void
-writePipeOrFile(HANDLE handle, const std::string& msg)
-{
-    if (msg.empty()) {
-        return;
-    }
-    DWORD totalWritten = 0;
-    DWORD remaining = static_cast<DWORD>(msg.size());
-    const char* data = msg.data();
-    while (remaining > 0) {
-        DWORD written = 0;
-        if (!WriteFile(handle, data + totalWritten, remaining, &written, nullptr) || written == 0) {
-            return;
-        }
-        totalWritten += written;
-        remaining -= written;
-    }
-    if (GetFileType(handle) == FILE_TYPE_DISK) {
-        FlushFileBuffers(handle);
-    }
-}
-//=============================================================================
-#endif
-//=============================================================================
 static void
 writeStdoutUtf8(const std::string& msg)
 {
 #ifdef _WIN32
     HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
     if (handle != nullptr && handle != INVALID_HANDLE_VALUE) {
-        if (isConsoleHandle(handle)) {
-            std::wstring wide = utf8_to_wstring(msg);
-            DWORD written = 0;
-            WriteConsoleW(handle, wide.c_str(), static_cast<DWORD>(wide.size()), &written, nullptr);
-        } else {
-            writePipeOrFile(handle, msg);
-        }
-        std::cout.flush();
+        std::wstring wide = utf8_to_wstring(msg);
+        DWORD written = 0;
+        WriteConsoleW(handle, wide.c_str(), static_cast<DWORD>(wide.size()), &written, nullptr);
         return;
     }
 #endif
@@ -268,14 +237,9 @@ writeStderrUtf8(const std::string& msg)
 #ifdef _WIN32
     HANDLE handle = GetStdHandle(STD_ERROR_HANDLE);
     if (handle != nullptr && handle != INVALID_HANDLE_VALUE) {
-        if (isConsoleHandle(handle)) {
-            std::wstring wide = utf8_to_wstring(msg);
-            DWORD written = 0;
-            WriteConsoleW(handle, wide.c_str(), static_cast<DWORD>(wide.size()), &written, nullptr);
-        } else {
-            writePipeOrFile(handle, msg);
-        }
-        std::cerr.flush();
+        std::wstring wide = utf8_to_wstring(msg);
+        DWORD written = 0;
+        WriteConsoleW(handle, wide.c_str(), static_cast<DWORD>(wide.size()), &written, nullptr);
         return;
     }
 #endif

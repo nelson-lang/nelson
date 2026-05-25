@@ -80,3 +80,24 @@ profile('show');
 profile('show', 'nfl');
 profile('show', 'nfl', 3);
 %=============================================================================
+classdefpath = [modulepath('interpreter', 'tests'), '/classdef'];
+addpath(classdefpath);
+profile('clear');
+profile('on');
+pnt = ClassdefPoint(3, 4);
+value = pnt.magnitude();
+origin = ClassdefPoint.origin();
+profile('off');
+classdefProfile = profile('info', 'line');
+profile('clear');
+classdefFile = [classdefpath, '/ClassdefPoint.m'];
+classdefProfileFiles = {classdefProfile.Filename};
+classdefProfileNames = {classdefProfile.FunctionName};
+classdefProfileLines = [classdefProfile.LinePosition];
+classdefProfileMatches = strcmp(classdefProfileFiles, classdefFile);
+assert_istrue(any(classdefProfileMatches & strcmp(classdefProfileNames, 'nargin') & classdefProfileLines == 18));
+assert_istrue(any(classdefProfileMatches & strcmp(classdefProfileNames, 'sqrt') & classdefProfileLines == 25));
+assert_istrue(any(classdefProfileMatches & strcmp(classdefProfileNames, 'subsasgn') & classdefProfileLines == 36));
+assert_isequal(value, 5);
+assert_isequal(origin.X, 0);
+%=============================================================================

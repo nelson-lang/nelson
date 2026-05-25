@@ -334,6 +334,8 @@
     <ClCompile Include="..\cpp\BytecodeCompiler.cpp" />
     <ClCompile Include="..\cpp\BytecodeVM.cpp" />
     <ClCompile Include="..\cpp\CallbackBase.cpp" />
+    <ClCompile Include="..\cpp\ClassdefHandleObject.cpp" />
+    <ClCompile Include="..\cpp\ClassdefParser.cpp" />
     <ClCompile Include="..\cpp\ClearHandle.cpp" />
     <ClCompile Include="..\cpp\ConstantPool.cpp" />
     <ClCompile Include="..\cpp\DeleteOnCleanupHandleObject.cpp" />
@@ -488,6 +490,8 @@
     <ClInclude Include="..\include\CallbackBase.hpp" />
     <ClInclude Include="..\include\CallbackQueue.hpp" />
     <ClInclude Include="..\include\CallStack.hpp" />
+    <ClInclude Include="..\include\ClassdefHandleObject.hpp" />
+    <ClInclude Include="..\include\ClassdefParser.hpp" />
     <ClInclude Include="..\include\CheckIfWhileCondition.hpp" />
     <ClInclude Include="..\include\ClearHandle.hpp" />
     <ClInclude Include="..\include\CommandQueue.hpp" />

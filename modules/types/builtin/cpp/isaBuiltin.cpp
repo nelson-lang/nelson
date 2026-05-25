@@ -9,6 +9,7 @@
 //=============================================================================
 #include "isaBuiltin.hpp"
 #include "ClassName.hpp"
+#include "ClassdefParser.hpp"
 #include "Error.hpp"
 #include "HandleGenericObject.hpp"
 #include "characters_encoding.hpp"
@@ -41,10 +42,12 @@ Nelson::TypeGateway::isaBuiltin(int nLhs, const ArrayOfVector& argIn)
         bool res = false;
         if (param1.getDataClass() == NLS_HANDLE) {
             res = (classnameExpected == NLS_HANDLE_STR)
-                || (param1.getHandleClassName() == classnameExpected);
+                || ClassdefDefinitionManager::getInstance()->isA(
+                    param1.getHandleClassName(), classnameExpected);
         } else if (param1.getDataClass() == NLS_CLASS_ARRAY) {
             res = (classnameExpected == NLS_CLASS_ARRAY_STR)
-                || (param1.getClassType() == classnameExpected);
+                || ClassdefDefinitionManager::getInstance()->isA(
+                    param1.getClassType(), classnameExpected);
         } else {
             std::string currentClassName;
             ClassName(param1, currentClassName);

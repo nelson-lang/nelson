@@ -418,6 +418,29 @@ MacroFunctionDef::evaluateMScript(Evaluator* eval, const ArrayOfVector& inputs, 
 ArrayOfVector
 MacroFunctionDef::evaluateFunction(Evaluator* eval, const ArrayOfVector& inputs, int nargout)
 {
+    struct ClassdefAccessGuard
+    {
+        Evaluator* eval = nullptr;
+        bool active = false;
+        ClassdefAccessGuard(Evaluator* evaluator, const std::string& className) : eval(evaluator)
+        {
+            active = eval != nullptr && !className.empty();
+            if (active) {
+                eval->pushClassdefAccessContext(className);
+            }
+        }
+        ~ClassdefAccessGuard()
+        {
+            if (active) {
+                eval->popClassdefAccessContext();
+            }
+        }
+        ClassdefAccessGuard(const ClassdefAccessGuard&) = delete;
+        ClassdefAccessGuard&
+        operator=(const ClassdefAccessGuard&)
+            = delete;
+    };
+    ClassdefAccessGuard classdefGuard(eval, classdefOwnerClassName);
     // Skip lock/updateCode on recursive calls � code cannot change mid-recursion.
     static thread_local int evaluateFunctionDepth = 0;
     if (evaluateFunctionDepth == 0) {
@@ -459,7 +482,7 @@ MacroFunctionDef::ensureBytecodeCompiled()
         bytecodeChunk = BytecodeCompiler::compileScript(code, getFilename());
     } else {
         bytecodeChunk = BytecodeCompiler::compileFunction(
-            code, getName(), getFilename(), arguments, returnVals);
+            code, getName(), getFilename(), arguments, returnVals, classdefOwnerClassName);
     }
     if (bytecodeChunk != nullptr) {
         bytecodeChunk->selfFunction = this;

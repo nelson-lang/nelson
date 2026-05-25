@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>classdef</keyword>
+  <short_description>Class definition</short_description>
+  <syntax>
+    <syntax_item>classdef ClassName</syntax_item>
+    <syntax_item>classdef ClassName &lt; SuperClass</syntax_item>
+    <syntax_item>classdef ClassName &lt; handle</syntax_item>
+  </syntax>
+  <description>
+    <p>
+      <b>classdef</b> defines a value or handle class in an M-file.</p>
+    <p>Nelson supports class properties, methods, events, enumerations with constructor arguments, constants, inheritance, separate method files in <b>@ClassName</b> folders, and package classes in <b>+package</b> folders.</p>
+    <p>Method attributes include <b>Abstract</b>, <b>Access</b>, <b>Hidden</b>, <b>Sealed</b>, and <b>Static</b>. Property attributes include <b>Access</b>, <b>GetAccess</b>, <b>SetAccess</b>, <b>Constant</b>, <b>Dependent</b>, <b>GetObservable</b>, and <b>SetObservable</b>.</p>
+    <p>Classdef methods can access private members of their own class and protected members of superclasses. Public members are returned by <b>methods</b> and <b>properties</b>.</p>
+    <p>Classdef objects work with Nelson save/load, debugger, profiler, and completion support.</p>
+    <p>Current limitations: advanced MATLAB object-array behavior is not complete yet.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Value class</example_item_description>
+      <example_item_data runnable="false"><![CDATA[d = [tempdir(), 'nelson_help_classdef/'];
+mkdir(d);
+filewrite([d, '/NelsonHelpPoint.m'], ["classdef NelsonHelpPoint"; "  properties"; "    X = 0"; "    Y = 0"; "  end"; "  methods"; "    function obj = NelsonHelpPoint(x, y)"; "      if nargin > 0"; "        obj.X = x;"; "        obj.Y = y;"; "      end"; "    end"; "  end"; "end"]);
+addpath(d);
+p = NelsonHelpPoint(3, 4);
+p.X]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${types}class">class</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${types}isa">isa</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}methods">methods</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}properties">properties</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}events">events</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}metaclass">metaclass</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>classdef compatibility added</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

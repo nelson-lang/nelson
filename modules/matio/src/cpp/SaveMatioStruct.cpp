@@ -9,6 +9,7 @@
 //=============================================================================
 #include "SaveMatioStruct.hpp"
 #include "SaveMatioVariable.hpp"
+#include "ClassdefParser.hpp"
 #include "matioHelpers.hpp"
 //=============================================================================
 namespace Nelson {
@@ -23,8 +24,19 @@ SaveMatioStruct(const std::string& variableName, const ArrayOf& variableValue, m
         return nullptr;
     }
     stringVector fieldnames = variableValue.getFieldNames();
-    size_t nbFielnames = fieldnames.size();
-    indexType nbStructElements = nbFielnames * variableDims.getElementCount() + 1;
+    stringVector savedFieldnames = fieldnames;
+    bool isClassdefObject = false;
+    std::string className;
+    if (variableValue.isClassType()) {
+        className = variableValue.getClassType();
+        isClassdefObject = ClassdefDefinitionManager::getInstance()->loadClass(className);
+        if (isClassdefObject) {
+            savedFieldnames.push_back(CLASSDEF_SERIALIZATION_NAME_FIELD);
+            savedFieldnames.push_back(CLASSDEF_SERIALIZATION_HANDLE_FIELD);
+        }
+    }
+    size_t nbFieldnames = savedFieldnames.size();
+    indexType nbStructElements = nbFieldnames * variableDims.getElementCount() + 1;
     matvar_t** structElements = nullptr;
     try {
         structElements = new matvar_t*[nbStructElements];
@@ -38,10 +50,18 @@ SaveMatioStruct(const std::string& variableName, const ArrayOf& variableValue, m
     auto* elements = (ArrayOf*)variableValue.getDataPointer();
     indexType elementCount = variableDims.getElementCount();
     for (indexType i = 0; i < elementCount; ++i) {
-        for (indexType j = 0; j < static_cast<indexType>(nbFielnames); ++j) {
-            ArrayOf element = elements[i * nbFielnames + j];
-            structElements[i * nbFielnames + j]
-                = SaveMatioVariable(fieldnames[j], element, matVersion);
+        for (indexType j = 0; j < static_cast<indexType>(nbFieldnames); ++j) {
+            ArrayOf element;
+            const std::string& fieldname = savedFieldnames[j];
+            if (isClassdefObject && fieldname == CLASSDEF_SERIALIZATION_NAME_FIELD) {
+                element = ArrayOf::characterArrayConstructor(className);
+            } else if (isClassdefObject && fieldname == CLASSDEF_SERIALIZATION_HANDLE_FIELD) {
+                element = ArrayOf::logicalConstructor(false);
+            } else {
+                element = elements[i * fieldnames.size() + j];
+            }
+            structElements[i * nbFieldnames + j]
+                = SaveMatioVariable(fieldname, element, matVersion);
         }
     }
     matvar_t* matVariable = Mat_VarCreate(

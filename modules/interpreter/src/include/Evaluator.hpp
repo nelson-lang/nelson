@@ -77,6 +77,7 @@ class NLSINTERPRETER_IMPEXP Evaluator
      * The context that the intepreter operates in.
      */
     Context* context;
+    stringVector classdefAccessContextStack;
     /**
      * The current state of the interpreter.
      */
@@ -225,6 +226,13 @@ public:
      */
     bool
     lookupFunction(const std::string& funcName, FunctionDefPtr& val);
+
+    void
+    pushClassdefAccessContext(const std::string& className);
+    void
+    popClassdefAccessContext();
+    std::string
+    getClassdefAccessContext() const;
 
     void
     setInterface(Interface* _io);

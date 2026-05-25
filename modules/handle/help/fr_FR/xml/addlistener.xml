@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>addlistener</keyword>
+  <short_description>Ajoute un callback ecouteur a un evenement classdef.</short_description>
+  <syntax>
+    <syntax_item>lh = addlistener(obj, eventName, callback)</syntax_item>
+    <syntax_item>lh = addlistener(obj, propertyName, propertyEvent, callback)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>obj</param_name>
+      <param_description>un objet handle classdef</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>eventName</param_name>
+      <param_description>un nom d&apos;evenement sous forme de chaine</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName</param_name>
+      <param_description>un nom de propriete GetObservable ou SetObservable sous forme de chaine</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyEvent</param_name>
+      <param_description>PreGet, PostGet, PreSet ou PostSet</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>callback</param_name>
+      <param_description>un handle de fonction appele avec les arguments source et donnees d&apos;evenement</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>lh</param_name>
+      <param_description>un handle event.listener</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>addlistener</b> enregistre un callback pour un evenement d&apos;objet handle classdef.</p>
+    <p>Pour les proprietes observables, utilisez <b>PreGet</b>, <b>PostGet</b>, <b>PreSet</b> ou <b>PostSet</b>. Les donnees d&apos;evenement de propriete contiennent <b>EventName</b>, <b>PropertyName</b> et <b>AffectedObject</b>.</p>
+    <p>Supprimez le handle ecouteur retourne pour le detacher de l&apos;objet source.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Attacher un callback a un evenement.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[d = [tempdir(), 'nelson_help_addlistener/'];
+mkdir(d);
+filewrite([d, '/NelsonHelpAddListenerCounter.m'], ["classdef NelsonHelpAddListenerCounter < handle"; "  events"; "    CountChanged"; "  end"; "  methods"; "    function trigger(obj)"; "      notify(obj, 'CountChanged');"; "    end"; "  end"; "end"]);
+addpath(d);
+counter = NelsonHelpAddListenerCounter();
+lh = addlistener(counter, 'CountChanged', @(src, eventData) disp('changed'));
+counter.trigger();
+delete(lh);
+delete(counter)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Attacher un callback a une propriete observable.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[d = [tempdir(), 'nelson_help_addlistener_property/'];
+if ~isdir(d)
+  mkdir(d);
+end
+filewrite([d, '/NelsonHelpObservableCounter.m'], ["classdef NelsonHelpObservableCounter < handle"; "  properties (SetObservable)"; "    Count = 0"; "  end"; "  properties"; "    LastEvent = ''"; "  end"; "  methods"; "    function record(obj, eventData)"; "      obj.LastEvent = eventData.EventName;"; "    end"; "  end"; "end"]);
+addpath(d);
+counter = NelsonHelpObservableCounter();
+lh = addlistener(counter, 'Count', 'PostSet', @(src, eventData) src.record(eventData));
+counter.Count = 2;
+counter.LastEvent
+delete(lh);
+delete(counter)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${handle}listener">listener</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}notify">notify</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}events">events</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>support des ecouteurs classdef ajoute</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

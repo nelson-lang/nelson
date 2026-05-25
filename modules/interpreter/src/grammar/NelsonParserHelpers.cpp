@@ -14,6 +14,7 @@
 #include <cstring>
 #include <vector>
 #include "NelsonParserHelpers.hpp"
+#include "ClassdefParser.hpp"
 #include "LexerInterface.hpp"
 #include "ParserInterface.hpp"
 #include "FileParser.hpp"
@@ -37,6 +38,8 @@ currentParserContext()
 static ParserContext
 parseStringWithContext(LexerContext& lexerContext, const std::string& txt, bool rethrowException,
     bool allowMixedScript);
+static std::string
+rewriteMetaclassQuerySyntax(const std::string& txt);
 //=============================================================================
 class ActiveParserContextScope
 {
@@ -177,6 +180,153 @@ setParserDiagnosticIfMissing(ParserContext& parserContext, const std::string& me
     if (parserContext.diagnostic.message.empty()) {
         setParserDiagnostic(message, 0, 0);
     }
+}
+//=============================================================================
+static bool
+isMetaclassIdentifierStart(char ch)
+{
+    return std::isalpha(static_cast<unsigned char>(ch)) != 0 || ch == '_';
+}
+//=============================================================================
+static bool
+isMetaclassIdentifierPart(char ch)
+{
+    return std::isalnum(static_cast<unsigned char>(ch)) != 0 || ch == '_';
+}
+//=============================================================================
+static bool
+isLikelySingleQuotedTextStart(const std::string& txt, size_t quotePosition)
+{
+    size_t previous = quotePosition;
+    while (previous > 0) {
+        const char ch = txt[previous - 1];
+        if (ch != ' ' && ch != '\t' && ch != '\r') {
+            break;
+        }
+        --previous;
+    }
+    if (previous == 0) {
+        return true;
+    }
+
+    const char ch = txt[previous - 1];
+    if (std::isalnum(static_cast<unsigned char>(ch)) != 0 || ch == '_' || ch == ')' || ch == ']'
+        || ch == '}') {
+        return false;
+    }
+    if (ch == '.') {
+        return false;
+    }
+    return true;
+}
+//=============================================================================
+static std::string
+rewriteMetaclassQuerySyntax(const std::string& txt)
+{
+    enum class ScanState
+    {
+        Normal,
+        SingleQuotedText,
+        DoubleQuotedText,
+        LineComment,
+        BlockComment
+    };
+
+    std::string result;
+    result.reserve(txt.size());
+    ScanState state = ScanState::Normal;
+
+    for (size_t k = 0; k < txt.size();) {
+        const char ch = txt[k];
+        if (state == ScanState::LineComment) {
+            result += ch;
+            ++k;
+            if (ch == '\n') {
+                state = ScanState::Normal;
+            }
+            continue;
+        }
+        if (state == ScanState::BlockComment) {
+            if (ch == '%' && k + 1 < txt.size() && txt[k + 1] == '}') {
+                result += "%}";
+                k += 2;
+                state = ScanState::Normal;
+                continue;
+            }
+            result += ch;
+            ++k;
+            continue;
+        }
+        if (state == ScanState::SingleQuotedText) {
+            result += ch;
+            ++k;
+            if (ch == '\'' && k < txt.size() && txt[k] == '\'') {
+                result += txt[k];
+                ++k;
+            } else if (ch == '\'') {
+                state = ScanState::Normal;
+            }
+            continue;
+        }
+        if (state == ScanState::DoubleQuotedText) {
+            result += ch;
+            ++k;
+            if (ch == '"' && k < txt.size() && txt[k] == '"') {
+                result += txt[k];
+                ++k;
+            } else if (ch == '"') {
+                state = ScanState::Normal;
+            }
+            continue;
+        }
+
+        if (ch == '%' && k + 1 < txt.size() && txt[k + 1] == '{') {
+            result += "%{";
+            k += 2;
+            state = ScanState::BlockComment;
+            continue;
+        }
+        if (ch == '%') {
+            result += ch;
+            ++k;
+            state = ScanState::LineComment;
+            continue;
+        }
+        if (ch == '\'' && isLikelySingleQuotedTextStart(txt, k)) {
+            result += ch;
+            ++k;
+            state = ScanState::SingleQuotedText;
+            continue;
+        }
+        if (ch == '"') {
+            result += ch;
+            ++k;
+            state = ScanState::DoubleQuotedText;
+            continue;
+        }
+        if (ch == '?' && k + 1 < txt.size() && isMetaclassIdentifierStart(txt[k + 1])) {
+            size_t end = k + 2;
+            while (end < txt.size()) {
+                while (end < txt.size() && isMetaclassIdentifierPart(txt[end])) {
+                    ++end;
+                }
+                if (end + 1 >= txt.size() || txt[end] != '.'
+                    || !isMetaclassIdentifierStart(txt[end + 1])) {
+                    break;
+                }
+                end += 2;
+            }
+            result += "metaclass('";
+            result += txt.substr(k + 1, end - k - 1);
+            result += "')";
+            k = end;
+            continue;
+        }
+
+        result += ch;
+        ++k;
+    }
+    return result;
 }
 //=============================================================================
 static bool
@@ -577,17 +727,30 @@ parseStringWithContext(LexerContext& lexerContext, const std::string& txt, bool 
     ParserContext parserContext;
     ActiveParserContextScope activeContext(parserContext);
     setParserFilename("");
-    setLexBuffer(lexerContext, txt);
+    if (classdefLooksLikeSource(txt)) {
+        ClassdefDefinition definition;
+        std::string errorMessage;
+        if (parseClassdefSource(txt, definition, errorMessage)) {
+            parserContext.parserState = ClassDef;
+        } else {
+            setParserDiagnosticIfMissing(parserContext, errorMessage);
+        }
+        lastParserContext = parserContext;
+        return lastParserContext;
+    }
+    const std::string rewrittenText = rewriteMetaclassQuerySyntax(txt);
+    setLexBuffer(lexerContext, rewrittenText);
     try {
         if (callyyparse(lexerContext, parserContext) != 0) {
             setParserDiagnosticIfMissing(parserContext, _("Unexpected parser error."));
             if (allowMixedScript
-                && tryParseFunctionWithNestedFunctions(lexerContext, parserContext, txt)) {
+                && tryParseFunctionWithNestedFunctions(
+                    lexerContext, parserContext, rewrittenText)) {
                 lastParserContext = parserContext;
                 return lastParserContext;
             }
             if (allowMixedScript
-                && tryParseMixedScriptLocalFunctions(lexerContext, parserContext, txt)) {
+                && tryParseMixedScriptLocalFunctions(lexerContext, parserContext, rewrittenText)) {
                 lastParserContext = parserContext;
                 return lastParserContext;
             }
@@ -595,12 +758,12 @@ parseStringWithContext(LexerContext& lexerContext, const std::string& txt, bool 
     } catch (const Exception& exception) {
         setParserDiagnosticIfMissing(parserContext, wstring_to_utf8(exception.getMessage()));
         if (allowMixedScript
-            && tryParseFunctionWithNestedFunctions(lexerContext, parserContext, txt)) {
+            && tryParseFunctionWithNestedFunctions(lexerContext, parserContext, rewrittenText)) {
             lastParserContext = parserContext;
             return lastParserContext;
         }
         if (allowMixedScript
-            && tryParseMixedScriptLocalFunctions(lexerContext, parserContext, txt)) {
+            && tryParseMixedScriptLocalFunctions(lexerContext, parserContext, rewrittenText)) {
             lastParserContext = parserContext;
             return lastParserContext;
         }
@@ -612,12 +775,12 @@ parseStringWithContext(LexerContext& lexerContext, const std::string& txt, bool 
     } catch (...) {
         setParserDiagnosticIfMissing(parserContext, _("Unexpected parser error."));
         if (allowMixedScript
-            && tryParseFunctionWithNestedFunctions(lexerContext, parserContext, txt)) {
+            && tryParseFunctionWithNestedFunctions(lexerContext, parserContext, rewrittenText)) {
             lastParserContext = parserContext;
             return lastParserContext;
         }
         if (allowMixedScript
-            && tryParseMixedScriptLocalFunctions(lexerContext, parserContext, txt)) {
+            && tryParseMixedScriptLocalFunctions(lexerContext, parserContext, rewrittenText)) {
             lastParserContext = parserContext;
             return lastParserContext;
         }
@@ -657,16 +820,31 @@ parseFileWithContext(
             fileContent += buffer;
         }
     }
-    setLexBuffer(lexerContext, fileContent);
+    if (classdefLooksLikeSource(fileContent)) {
+        ClassdefDefinition definition;
+        std::string errorMessage;
+        if (parseClassdefSource(fileContent, definition, errorMessage)) {
+            parserContext.parserState = ClassDef;
+        } else {
+            setParserDiagnosticIfMissing(parserContext, errorMessage);
+        }
+        setParserFilename("");
+        lastParserContext = parserContext;
+        return lastParserContext;
+    }
+    const std::string rewrittenFileContent = rewriteMetaclassQuerySyntax(fileContent);
+    setLexBuffer(lexerContext, rewrittenFileContent);
     try {
         if (callyyparse(lexerContext, parserContext) != 0) {
             setParserDiagnosticIfMissing(parserContext, _("Unexpected parser error."));
-            if (tryParseFunctionWithNestedFunctions(lexerContext, parserContext, fileContent)) {
+            if (tryParseFunctionWithNestedFunctions(
+                    lexerContext, parserContext, rewrittenFileContent)) {
                 setParserFilename("");
                 lastParserContext = parserContext;
                 return lastParserContext;
             }
-            if (tryParseMixedScriptLocalFunctions(lexerContext, parserContext, fileContent)) {
+            if (tryParseMixedScriptLocalFunctions(
+                    lexerContext, parserContext, rewrittenFileContent)) {
                 setParserFilename("");
                 lastParserContext = parserContext;
                 return lastParserContext;
@@ -674,12 +852,13 @@ parseFileWithContext(
         }
     } catch (const Exception& exception) {
         setParserDiagnosticIfMissing(parserContext, wstring_to_utf8(exception.getMessage()));
-        if (tryParseFunctionWithNestedFunctions(lexerContext, parserContext, fileContent)) {
+        if (tryParseFunctionWithNestedFunctions(
+                lexerContext, parserContext, rewrittenFileContent)) {
             setParserFilename("");
             lastParserContext = parserContext;
             return lastParserContext;
         }
-        if (tryParseMixedScriptLocalFunctions(lexerContext, parserContext, fileContent)) {
+        if (tryParseMixedScriptLocalFunctions(lexerContext, parserContext, rewrittenFileContent)) {
             setParserFilename("");
             lastParserContext = parserContext;
             return lastParserContext;
@@ -692,12 +871,13 @@ parseFileWithContext(
         return lastParserContext;
     } catch (...) {
         setParserDiagnosticIfMissing(parserContext, _("Unexpected parser error."));
-        if (tryParseFunctionWithNestedFunctions(lexerContext, parserContext, fileContent)) {
+        if (tryParseFunctionWithNestedFunctions(
+                lexerContext, parserContext, rewrittenFileContent)) {
             setParserFilename("");
             lastParserContext = parserContext;
             return lastParserContext;
         }
-        if (tryParseMixedScriptLocalFunctions(lexerContext, parserContext, fileContent)) {
+        if (tryParseMixedScriptLocalFunctions(lexerContext, parserContext, rewrittenFileContent)) {
             setParserFilename("");
             lastParserContext = parserContext;
             return lastParserContext;

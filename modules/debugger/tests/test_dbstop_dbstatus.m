@@ -35,3 +35,19 @@ assert_isequal(bp.name, 'test_run>getStatusCharacter');
 assert_istrue(isfile(bp.file));
 assert_isequal(bp.line, 71);
 %=============================================================================
+addpath([modulepath('interpreter', 'tests'), '/classdef']);
+dbclear all
+dbstop in ClassdefPoint at 25
+bp = dbstatus();
+assert_isequal(bp.name, 'ClassdefPoint');
+assert_istrue(endsWith(bp.file, 'ClassdefPoint.m'));
+assert_isequal(bp.line, 25);
+%=============================================================================
+dbclear all
+dbstop in ClassdefPoint at 36
+bp = dbstatus();
+assert_isequal(bp.name, 'ClassdefPoint');
+assert_istrue(endsWith(bp.file, 'ClassdefPoint.m'));
+assert_isequal(bp.line, 36);
+%=============================================================================
+dbclear all

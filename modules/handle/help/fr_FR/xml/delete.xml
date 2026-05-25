@@ -3,25 +3,23 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>delete</keyword>
-  <short_description>supprime des objets handle.</short_description>
+  <short_description>Supprime des objets handle.</short_description>
   <syntax>
     <syntax_item>delete(h)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>h</param_name>
-      <param_description
-      >un objet handle : scalaire ou matrice.</param_description>
+      <param_description>un objet handle : scalaire ou matrice.</param_description>
     </param_input_item>
   </param_input>
   <description>
     <p>
-      <b>delete(h)</b> supprime de la mémoire les objets handle référencés par h.</p>
-    <p
-    >Une fois supprimées, toutes les références aux objets contenus dans h deviennent invalides.</p>
-    <p>Pour supprimer les variables handle, utilisez la fonction<link
-        linkend="${memory_manager}clear"
-      >clear</link>.</p>
+      <b>delete(h)</b> supprime de la memoire les objets handle references par h.</p>
+    <p>Une fois supprimees, toutes les references aux objets contenus dans h deviennent invalides.</p>
+    <p>Pour les objets handle classdef, <b>delete</b> appelle la methode destructeur de la classe quand elle existe et notifie <b>ObjectBeingDestroyed</b> avant que l&apos;objet devienne invalide.</p>
+    <p>Pour les tableaux de handles, chaque element valide est supprime.</p>
+    <p>Pour supprimer les variables handle, utilisez la fonction <link linkend="${memory_manager}clear">clear</link>.</p>
     <p>Voir la fonction clear pour savoir comment forcer la suppression.</p>
   </description>
   <used_function />
@@ -29,30 +27,39 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description />
-      <example_item_data
-        runnable="adv-cli"
-      ><![CDATA[f = figure();
-ax = gca();
-img = image();
-hold on
-P = plot(magic(5));
-children1 = ax.Children;
-delete(img);
-size(children1)
-children2 = ax.Children;
-size(children2)]]></example_item_data>
+      <example_item_description>Supprimer un tableau de handles classdef.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[clear classes
+d = [tempdir(), 'nelson_help_delete/'];
+mkdir(d);
+filewrite([d, '/NelsonHelpDeleteCounter.m'], ["classdef NelsonHelpDeleteCounter < handle"; "  properties"; "    Count = 0"; "  end"; "end"]);
+addpath(d);
+a = NelsonHelpDeleteCounter();
+b = NelsonHelpDeleteCounter();
+h = [a, b];
+delete(h);
+isvalid(a)
+isvalid(b)]]></example_item_data>
     </example_item>
   </examples>
   <see_also>
     <see_also_item>
       <link linkend="${memory_manager}clear">clear</link>
     </see_also_item>
+    <see_also_item>
+      <link linkend="${interpreter}classdef">classdef</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}addlistener">addlistener</link>
+    </see_also_item>
   </see_also>
   <history>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>comportement des destructeurs handle classdef et des tableaux de handles documente</history_description>
     </history_item>
   </history>
   <authors>

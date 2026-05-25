@@ -36,8 +36,8 @@ const std::wstring gatewayName = L"data_structures";
 //=============================================================================
 static const nlsGateway gateway[] = {
     { OVERLOAD_FUNCTION_NAME(NLS_CLASS_ARRAY_STR, SUBSASGN_OPERATOR_STR),
-        (ptrBuiltin)Nelson::DataStructuresGateway::class_subsagnBuiltin, 1, 3, CPP_BUILTIN,
-        NLS_OVERLOAD_AUTO_OFF },
+        (ptrBuiltin)Nelson::DataStructuresGateway::class_subsagnBuiltin, 1, 3,
+        CPP_BUILTIN_WITH_EVALUATOR, NLS_OVERLOAD_AUTO_OFF },
     { "isfield", (ptrBuiltin)Nelson::DataStructuresGateway::isfieldBuiltin, 1, 2 },
     { "fieldnames", (ptrBuiltin)Nelson::DataStructuresGateway::fieldnamesBuiltin, 1, 1 },
     { "cellfun", (ptrBuiltin)Nelson::DataStructuresGateway::cellfunBuiltin, -1, -1,

@@ -24,6 +24,7 @@
 #include <unistd.h>
 #endif
 #include "Evaluator.hpp"
+#include "ClassdefParser.hpp"
 #include "NelsonConfiguration.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
@@ -42,6 +43,11 @@
 #include "ProcessEventsDynamicFunction.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+#define EVALUATOR_FUNCTION_GET "get"
+#define EVALUATOR_FUNCTION_INVOKE "invoke"
+#define EVALUATOR_FUNCTION_ISMETHOD "ismethod"
+#define EVALUATOR_FUNCTION_SET "set"
 //=============================================================================
 // Constructor: Initializes the Evaluator with context, interface, and state.
 Evaluator::Evaluator(Context* aContext, Interface* aInterface, bool haveEventsLoop, size_t ID)
@@ -83,6 +89,7 @@ void
 Evaluator::clearStacks()
 {
     callstack.clear();
+    classdefAccessContextStack.clear();
 }
 //=============================================================================
 // Resets the state of the evaluator to NLS_STATE_OK.
@@ -142,6 +149,26 @@ bool
 Evaluator::lookupFunction(const std::string& funcName, FunctionDefPtr& val)
 {
     return context->lookupFunction(funcName, val);
+}
+//=============================================================================
+void
+Evaluator::pushClassdefAccessContext(const std::string& className)
+{
+    classdefAccessContextStack.push_back(className);
+}
+//=============================================================================
+void
+Evaluator::popClassdefAccessContext()
+{
+    if (!classdefAccessContextStack.empty()) {
+        classdefAccessContextStack.pop_back();
+    }
+}
+//=============================================================================
+std::string
+Evaluator::getClassdefAccessContext() const
+{
+    return classdefAccessContextStack.empty() ? std::string() : classdefAccessContextStack.back();
 }
 //=============================================================================
 // Returns the context in which the evaluator operates.
@@ -730,7 +757,8 @@ Evaluator::setHandle(ArrayOf r, const std::string& fieldname, const ArrayOfVecto
     } else {
         currentType = r.getHandleCategory();
     }
-    std::string functionNameSetHandle = getOverloadFunctionName(currentType, "set");
+    std::string functionNameSetHandle
+        = getOverloadFunctionName(currentType, EVALUATOR_FUNCTION_SET);
     Context* _context = this->getContext();
     FunctionDef* funcDef = nullptr;
     if (!_context->lookupFunction(functionNameSetHandle, funcDef)) {
@@ -777,7 +805,8 @@ Evaluator::getHandle(ArrayOf r, const std::string& fieldname, const ArrayOfVecto
         }
         return funcDef->evaluateFunction(this, argIn, nLhs);
     }
-    std::string functionNameGetHandle = getOverloadFunctionName(currentType, "get");
+    std::string functionNameGetHandle
+        = getOverloadFunctionName(currentType, EVALUATOR_FUNCTION_GET);
     if (!context->lookupFunction(functionNameGetHandle, funcDef)) {
         Error(_("Function not found: ") + functionNameGetHandle);
     }
@@ -806,7 +835,28 @@ Evaluator::isObjectMethod(const ArrayOf& r, const std::string& methodName)
 {
     Context* _context = this->getContext();
     FunctionDef* funcDef = nullptr;
-    if (_context->lookupFunction("ismethod", funcDef)) {
+    if (r.isClassType()) {
+        const std::string currentType = r.getClassType();
+        std::string methodFunctionName;
+        if (ClassdefDefinitionManager::getInstance()->resolveMethodFunction(
+                currentType, methodName, methodFunctionName, getClassdefAccessContext())
+            && _context->lookupFunction(methodFunctionName, funcDef)) {
+            return true;
+        }
+        if (ClassdefDefinitionManager::getInstance()->loadClass(currentType)) {
+            return false;
+        }
+    }
+    if (r.isHandle()) {
+        const std::string currentType = r.getHandleClassName();
+        std::string methodFunctionName;
+        if (ClassdefDefinitionManager::getInstance()->loadClass(currentType)) {
+            return ClassdefDefinitionManager::getInstance()->resolveMethodFunction(
+                       currentType, methodName, methodFunctionName, getClassdefAccessContext())
+                && _context->lookupFunction(methodFunctionName, funcDef);
+        }
+    }
+    if (_context->lookupFunction(EVALUATOR_FUNCTION_ISMETHOD, funcDef)) {
         int nLhs = 1;
         ArrayOfVector argIn;
         argIn.push_back(r);
@@ -838,10 +888,33 @@ Evaluator::invokeMethod(
                                            : "";
 
     if (!currentType.empty()) {
-        std::string functionNameCurrentType = getOverloadFunctionName(currentType, "invoke");
+        std::string directMethod = getOverloadFunctionName(currentType, methodName);
+        bool canUseDirectMethod = true;
+        if (r.isClassType() || r.isHandle()) {
+            if (ClassdefDefinitionManager::getInstance()->loadClass(currentType)) {
+                canUseDirectMethod
+                    = ClassdefDefinitionManager::getInstance()->resolveMethodFunction(
+                        currentType, methodName, directMethod, getClassdefAccessContext());
+            }
+        }
+        if (canUseDirectMethod) {
+            _context->lookupFunction(directMethod, funcDef);
+        }
+        if (canUseDirectMethod && funcDef != nullptr) {
+            ArrayOfVector argIn;
+            int nLhs = funcDef->outputArgCount() == 0 ? 0 : 1;
+            argIn.reserve(params.size() + 1);
+            argIn.push_back(r);
+            for (const ArrayOf& a : params) {
+                argIn.push_back(a);
+            }
+            return funcDef->evaluateFunction(this, argIn, nLhs);
+        }
+        std::string functionNameCurrentType
+            = getOverloadFunctionName(currentType, EVALUATOR_FUNCTION_INVOKE);
         if (_context->lookupFunction(functionNameCurrentType, funcDef)) {
             ArrayOfVector argIn;
-            int nLhs = 1;
+            int nLhs = funcDef->outputArgCount() == 0 ? 0 : 1;
             argIn.push_back(r);
             argIn.push_back(ArrayOf::characterArrayConstructor(methodName));
             for (const ArrayOf& a : params) {
@@ -851,7 +924,7 @@ Evaluator::invokeMethod(
         }
         return getHandle(r, methodName, params);
     }
-    Error(_("Function not found: ") + "invoke");
+    Error(_("Function not found: ") + EVALUATOR_FUNCTION_INVOKE);
     return {};
 }
 //=============================================================================

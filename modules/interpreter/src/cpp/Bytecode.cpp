@@ -178,6 +178,8 @@ opCodeName(OpCode op)
         return "CALL_BUILTIN";
     case OpCode::CALL_MACRO:
         return "CALL_MACRO";
+    case OpCode::CALL_CLASSDEF_MEMBER:
+        return "CALL_CLASSDEF_MEMBER";
     case OpCode::CALL_NAMED:
         return "CALL_NAMED";
     case OpCode::CALL_NAMED_DYNAMIC:

@@ -142,5 +142,33 @@ h5write(h5filename,'/one_char', REF);
 R = h5read(h5filename,'/one_char');
 assert_isequal(R, REF);
 %=============================================================================
+addpath([nelsonroot(), '/modules/overload/examples/complex']);
+REF = complexObj(3, 4);
+h5write(h5filename, '/old_style_class', REF);
+R = h5read(h5filename, '/old_style_class');
+assert_isequal(class(R), 'complexObj');
+assert_isequal(R.r, 3);
+assert_isequal(R.i, 4);
+%=============================================================================
+classdef_test_path = [modulepath('interpreter', 'tests'), '/classdef'];
+addpath(classdef_test_path);
+REF = ClassdefPoint(7, 8);
+h5write(h5filename, '/classdef_value', REF);
+R = h5read(h5filename, '/classdef_value');
+assert_isequal(class(R), 'ClassdefPoint');
+assert_isequal(R.X, 7);
+assert_isequal(R.Y, 8);
+assert_isequal(R.Label, 'point');
+%=============================================================================
+counter = ClassdefCounter(11);
+h5write(h5filename, '/classdef_handle', counter);
+R = h5read(h5filename, '/classdef_handle');
+assert_isequal(class(R), 'ClassdefCounter');
+assert_istrue(ishandle(R));
+assert_istrue(isvalid(R));
+assert_isequal(R.Count, 11);
+delete(counter);
+delete(R);
+%=============================================================================
 if isfile(h5filename) rmfile(h5filename) end
 %=============================================================================

@@ -3,27 +3,54 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>methods</keyword>
-  <short_description
-  >Renvoie les noms des méthodes d&apos;un objet handle.</short_description>
+  <short_description>Renvoie les noms des methodes publiques d&apos;un objet ou d&apos;une classe.</short_description>
   <syntax>
     <syntax_item>c = methods(h)</syntax_item>
+    <syntax_item>c = methods(obj)</syntax_item>
+    <syntax_item>c = methods(className)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>h</param_name>
       <param_description>un objet handle</param_description>
     </param_input_item>
+    <param_input_item>
+      <param_name>obj</param_name>
+      <param_description>un objet classdef</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>className</param_name>
+      <param_description>un nom de classe sous forme de chaine, y compris les noms qualifies par paquet</param_description>
+    </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>c</param_name>
-      <param_description>un tableau (cell) de chaînes</param_description>
+      <param_description>un tableau (cell) de chaines</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <b>methods</b> renvoie un tableau de chaînes contenant les noms des méthodes.</description>
+    <p>
+      <b>methods</b> renvoie un tableau de chaines contenant les noms des methodes publiques.</p>
+    <p>Pour les classes classdef, les methodes privees ou protegees ne sont pas listees. Les methodes statiques sont listees et peuvent etre appelees avec <b>ClassName.method</b>.</p>
+    <p>Pour les tableaux d&apos;objets classdef, <b>methods</b> renvoie les methodes publiques de la classe des elements.</p>
+  </description>
   <used_function />
   <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Lister les methodes publiques d&apos;un tableau d&apos;objets classdef.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[clear classes
+d = [tempdir(), 'nelson_help_methods/'];
+mkdir(d);
+filewrite([d, '/NelsonHelpMethodsPoint.m'], ["classdef NelsonHelpMethodsPoint"; "  properties"; "    X = 0"; "  end"; "  methods"; "    function r = value(obj)"; "      r = obj.X;"; "    end"; "  end"; "end"]);
+addpath(d);
+a = NelsonHelpMethodsPoint();
+b = NelsonHelpMethodsPoint();
+m = methods([a, b])]]></example_item_data>
+    </example_item>
+  </examples>
   <see_also>
     <see_also_item>
       <link linkend="${handle}isprop">isprop</link>
@@ -31,11 +58,22 @@
     <see_also_item>
       <link linkend="${handle}ismethod">ismethod</link>
     </see_also_item>
+    <see_also_item>
+      <link linkend="${interpreter}classdef">classdef</link>
+    </see_also_item>
   </see_also>
   <history>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>support des noms de classe classdef ajoute</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>support des tableaux d&apos;objets classdef ajoute</history_description>
     </history_item>
   </history>
   <authors>

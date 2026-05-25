@@ -9,6 +9,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <atomic>
 #include <string>
 #include "nlsInterpreter_exports.h"
 #include "QueueCommon.hpp"
@@ -42,6 +43,10 @@ class NLSINTERPRETER_IMPEXP CommandQueue
 {
 private:
     using Base = detail::QueueCommon<std::wstring, detail::CommandQueueTraits>;
+    std::atomic<size_t> pendingCount { 0 };
+
+    void
+    decrementPendingCount();
 
 public:
     CommandQueue();

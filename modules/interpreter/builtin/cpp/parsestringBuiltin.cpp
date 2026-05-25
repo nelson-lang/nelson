@@ -51,6 +51,9 @@ Nelson::InterpreterGateway::parsestringBuiltin(
             retval << ArrayOf::characterArrayConstructor("script");
         }
     } break;
+    case ClassDef: {
+        retval << ArrayOf::characterArrayConstructor("classdef");
+    } break;
     default: {
         retval << ArrayOf::characterArrayConstructor("error");
     } break;

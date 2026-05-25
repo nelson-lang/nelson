@@ -11,5 +11,6 @@
     >Les objets handle sont des références légères vers des structures de données plus volumineuses, permettant une gestion efficace de la mémoire et le partage de données entre différentes parties d&apos;un programme.</p>
     <p
     >Ce module inclut des fonctions pour créer, copier et détruire des objets handle, ainsi que pour gérer leur durée de vie et garantir un nettoyage approprié.</p>
+    <p>Il inclut aussi les fonctions de reflection classdef, d&apos;evenements et d&apos;ecouteurs.</p>
   </chapter_description>
 </xmldoc>

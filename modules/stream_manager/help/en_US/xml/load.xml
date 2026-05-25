@@ -40,6 +40,7 @@
   <description>
     <p>
       <b>load</b> loads data from .nh5 or .mat file to Nelson&apos;s workspace.</p>
+    <p>Classdef objects saved by Nelson are restored as classdef objects when their class definition is available on the path.</p>
   </description>
   <used_function />
   <bibliography />
@@ -65,6 +66,25 @@ A
 B
 ]]></example_item_data>
     </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Load a saved classdef object.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[clear classes
+d = [tempdir(), 'nelson_help_load_classdef/'];
+mkdir(d);
+filewrite([d, '/NelsonHelpLoadPoint.m'], ["classdef NelsonHelpLoadPoint"; "  properties"; "    X = 0"; "    Y = 0"; "  end"; "end"]);
+addpath(d);
+point = NelsonHelpLoadPoint();
+point.X = 7;
+point.Y = 8;
+filename = [tempdir(), 'nelson_help_load_classdef.nh5'];
+save(filename, 'point');
+clear point;
+clear classes;
+loaded = load(filename);
+className = class(loaded.point)
+coordinates = [loaded.point.X, loaded.point.Y]]]></example_item_data>
+    </example_item>
   </examples>
   <see_also>
     <see_also_item>
@@ -81,6 +101,10 @@ B
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>classdef object load behavior documented</history_description>
     </history_item>
   </history>
   <authors>

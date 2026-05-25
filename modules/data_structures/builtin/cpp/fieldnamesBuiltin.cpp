@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "fieldnamesBuiltin.hpp"
+#include "ClassdefParser.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "OverloadRequired.hpp"
 //=============================================================================
@@ -21,6 +22,17 @@ Nelson::DataStructuresGateway::fieldnamesBuiltin(int nLhs, const ArrayOfVector& 
     nargincheck(argIn, 1, 1);
     ArrayOf arg1 = argIn[0];
     if (arg1.isClassType() || arg1.isHandle()) {
+        std::string className;
+        if (arg1.isClassType()) {
+            className = arg1.getClassType();
+        } else if (arg1.isHandle()) {
+            className = arg1.getHandleClassName();
+        }
+        if (!className.empty() && ClassdefDefinitionManager::getInstance()->loadClass(className)) {
+            retval << ArrayOf::toCellArrayOfCharacterColumnVectors(
+                ClassdefDefinitionManager::getInstance()->properties(className));
+            return retval;
+        }
         OverloadRequired("fieldnames");
     } else {
         if (arg1.isStruct()) {

@@ -11,6 +11,8 @@
 #include "StringHelpers.hpp"
 #include "FileSystemWrapper.hpp"
 #include "IsValidVariableName.hpp"
+#include "Context.hpp"
+#include "Scope.hpp"
 #include "BuiltinCompleter.hpp"
 #include "FileCompleter.hpp"
 #include "MacroCompleter.hpp"
@@ -19,10 +21,37 @@
 #include "MethodCompleter.hpp"
 #include "PropertyCompleter.hpp"
 #include "characters_encoding.hpp"
+#include "NelsonConfiguration.hpp"
 #include <algorithm>
 #include <string>
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+static thread_local Evaluator* completionEvaluatorOverride = nullptr;
+//=============================================================================
+class CompletionEvaluatorScope
+{
+private:
+    Evaluator* previousEvaluator = nullptr;
+
+public:
+    explicit CompletionEvaluatorScope(Evaluator* eval)
+    {
+        previousEvaluator = completionEvaluatorOverride;
+        completionEvaluatorOverride = eval;
+    }
+
+    ~CompletionEvaluatorScope() { completionEvaluatorOverride = previousEvaluator; }
+};
+//=============================================================================
+Evaluator*
+getCompletionEvaluator()
+{
+    if (completionEvaluatorOverride != nullptr) {
+        return completionEvaluatorOverride;
+    }
+    return static_cast<Evaluator*>(NelsonConfiguration::getInstance()->getMainEvaluator());
+}
 //=============================================================================
 static size_t
 searchMatchingPrefixAndSuffix(const std::wstring& line, const std::wstring& toFind)
@@ -81,6 +110,53 @@ getPartialLine(const std::wstring& line)
         }
     }
     return line;
+}
+//=============================================================================
+std::string
+getLookupSymbolFromCompletionExpression(const std::string& expression)
+{
+    std::string symbol = expression;
+    size_t lastCharacterIndex = symbol.find_last_of(" \t,;");
+    if (lastCharacterIndex != std::string::npos) {
+        symbol = symbol.substr(lastCharacterIndex + 1);
+    }
+
+    size_t indexingStart = symbol.find_first_of("([{");
+    if (indexingStart != std::string::npos) {
+        symbol = symbol.substr(0, indexingStart);
+    }
+    return symbol;
+}
+//=============================================================================
+static bool
+lookupCompletionVariableInScope(Scope* scope, const std::string& variableName, ArrayOf& value)
+{
+    return scope != nullptr && scope->lookupVariable(variableName, value);
+}
+//=============================================================================
+bool
+lookupCompletionVariable(Context* context, const std::string& variableName, ArrayOf& value)
+{
+    if (context == nullptr) {
+        return false;
+    }
+    Scope* currentScope = context->getCurrentScope();
+    if (lookupCompletionVariableInScope(currentScope, variableName, value)) {
+        return true;
+    }
+    Scope* callerScope = context->getCallerScope();
+    if (callerScope != currentScope
+        && lookupCompletionVariableInScope(callerScope, variableName, value)) {
+        return true;
+    }
+    Scope* baseScope = context->getBaseScope();
+    if (baseScope != currentScope && baseScope != callerScope
+        && lookupCompletionVariableInScope(baseScope, variableName, value)) {
+        return true;
+    }
+    Scope* globalScope = context->getGlobalScope();
+    return globalScope != currentScope && globalScope != callerScope && globalScope != baseScope
+        && lookupCompletionVariableInScope(globalScope, variableName, value);
 }
 //=============================================================================
 std::wstring
@@ -224,6 +300,16 @@ computeCompletion(const std::wstring& line, std::wstring& completionPrefix, wstr
         }
     }
     return showpopup;
+}
+//=============================================================================
+bool
+computeCompletion(Evaluator* eval, const std::wstring& line, std::wstring& completionPrefix,
+    wstringVector& files, wstringVector& builtin, wstringVector& macros, wstringVector& variables,
+    wstringVector& fields, wstringVector& properties, wstringVector& methods)
+{
+    CompletionEvaluatorScope scope(eval);
+    return computeCompletion(
+        line, completionPrefix, files, builtin, macros, variables, fields, properties, methods);
 }
 //=============================================================================
 stringVector

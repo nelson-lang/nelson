@@ -61,6 +61,7 @@
   <description>
     <p>
       <b>save</b> save workspace variables to .nh5 or .mat file.</p>
+    <p>Classdef value objects and classdef handle objects can be saved when their class definition is available on the path when the file is loaded.</p>
   </description>
   <used_function />
   <bibliography />
@@ -119,6 +120,25 @@ save([tempdir(), 'example_save_no_compression.mat'], 'C', '-nocompression')
 with_compression = dir([tempdir(), 'example_save_with_compression.mat'])
 no_compression = dir([tempdir(), 'example_save_no_compression.mat'])]]></example_item_data>
     </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Save and load a classdef object.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[clear classes
+d = [tempdir(), 'nelson_help_save_classdef/'];
+mkdir(d);
+filewrite([d, '/NelsonHelpSavePoint.m'], ["classdef NelsonHelpSavePoint"; "  properties"; "    X = 0"; "    Y = 0"; "  end"; "end"]);
+addpath(d);
+point = NelsonHelpSavePoint();
+point.X = 5;
+point.Y = 6;
+filename = [tempdir(), 'nelson_help_save_classdef.nh5'];
+save(filename, 'point');
+clear point;
+clear classes;
+loaded = load(filename);
+className = class(loaded.point)
+coordinates = [loaded.point.X, loaded.point.Y]]]></example_item_data>
+    </example_item>
   </examples>
   <see_also>
     <see_also_item>
@@ -135,6 +155,10 @@ no_compression = dir([tempdir(), 'example_save_no_compression.mat'])]]></example
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>classdef object save behavior documented</history_description>
     </history_item>
   </history>
   <authors>

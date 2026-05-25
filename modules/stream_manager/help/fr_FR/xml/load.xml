@@ -3,8 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>load</keyword>
-  <short_description
-  >charger des données depuis un fichier .nh5 ou .mat dans l&apos;espace de travail de Nelson.</short_description>
+  <short_description>Charge des donnees depuis un fichier .nh5 ou .mat dans l&apos;espace de travail de Nelson.</short_description>
   <syntax>
     <syntax_item>load(filename)</syntax_item>
     <syntax_item>st = load(filename)</syntax_item>
@@ -16,56 +15,63 @@
   <param_input>
     <param_input_item>
       <param_name>filename</param_name>
-      <param_description
-      >une chaîne : nom de fichier .nh5 ou .mat.</param_description>
+      <param_description>une chaine : nom de fichier .nh5 ou .mat.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>
-        &apos;-mat&apos; or &apos;-nh5&apos;
+        &apos;-mat&apos; ou &apos;-nh5&apos;
       </param_name>
-      <param_description
-      >force la lecture du fichier en tant que nh5 ou mat.</param_description>
+      <param_description>force la lecture du fichier comme fichier nh5 ou mat.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>var1, ..., varN</param_name>
-      <param_description
-      >chaîne : noms des variables à charger dans l&apos;espace de travail de Nelson.</param_description>
+      <param_description>chaines : noms des variables a charger dans l&apos;espace de travail de Nelson.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>st</param_name>
-      <param_description
-      >une structure avec les noms de variables comme champs.</param_description>
+      <param_description>une structure dont les champs sont les noms des variables chargees.</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p>
-      <b>load</b> charge des données depuis un fichier .nh5 ou .mat vers l&apos;espace de travail de Nelson.</p>
+      <b>load</b> charge des donnees depuis un fichier .nh5 ou .mat vers l&apos;espace de travail de Nelson.</p>
+    <p>Les objets classdef sauvegardes par Nelson sont restaures comme objets classdef lorsque leur definition de classe est disponible dans le chemin.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description />
-      <example_item_data
-        runnable="cli"
-      ><![CDATA[A = ones(3, 4);
+      <example_item_description>Charger des variables depuis un fichier MAT.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = ones(3, 4);
 B = 'hello for open mat users';
-save([tempdir(), 'example_load.mat'], 'A', 'B')
-clear;
-st = load([tempdir(), 'example_load.mat']);
-who
+filename = [tempdir(), 'example_load.mat'];
+save(filename, 'A', 'B')
+clear A B;
+st = load(filename);
 st.A
-st.B
-clear
-who
-load([tempdir(), 'example_load.mat']);
-who
-A
-B
-]]></example_item_data>
+st.B]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Charger un objet classdef sauvegarde.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[clear classes
+d = [tempdir(), 'nelson_help_load_classdef/'];
+mkdir(d);
+filewrite([d, '/NelsonHelpLoadPoint.m'], ["classdef NelsonHelpLoadPoint"; "  properties"; "    X = 0"; "    Y = 0"; "  end"; "end"]);
+addpath(d);
+point = NelsonHelpLoadPoint();
+point.X = 7;
+point.Y = 8;
+filename = [tempdir(), 'nelson_help_load_classdef.nh5'];
+save(filename, 'point');
+clear point;
+clear classes;
+loaded = load(filename);
+className = class(loaded.point)
+coordinates = [loaded.point.X, loaded.point.Y]]]></example_item_data>
     </example_item>
   </examples>
   <see_also>
@@ -78,11 +84,18 @@ B
     <see_also_item>
       <link linkend="${hdf5}savenh5">savenh5</link>
     </see_also_item>
+    <see_also_item>
+      <link linkend="${interpreter}classdef">classdef</link>
+    </see_also_item>
   </see_also>
   <history>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>comportement de chargement des objets classdef documente</history_description>
     </history_item>
   </history>
   <authors>

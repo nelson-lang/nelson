@@ -9,7 +9,7 @@
 //=============================================================================
 #include "BuiltinCompleter.hpp"
 #include "Evaluator.hpp"
-#include "NelsonConfiguration.hpp"
+#include "CompleterHelper.hpp"
 #include "What.hpp"
 #include "StringHelpers.hpp"
 //=============================================================================
@@ -19,7 +19,7 @@ wstringVector
 BuiltinCompleter(const std::wstring& prefix)
 {
     wstringVector res;
-    auto* eval = static_cast<Evaluator*>(NelsonConfiguration::getInstance()->getMainEvaluator());
+    auto* eval = getCompletionEvaluator();
     if (eval) {
         wstringVector builtin = WhatListOfBuiltin(eval, true, true);
         for (const auto& k : builtin) {

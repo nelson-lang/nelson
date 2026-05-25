@@ -3,10 +3,9 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>isa</keyword>
-  <short_description
-  >Renvoie vrai si var est un objet de la classe str.</short_description>
+  <short_description>Renvoie true si une variable a la classe ou le type demande.</short_description>
   <syntax>
-    <syntax_item>res = isa(var, str)</syntax_item>
+    <syntax_item>res = isa(var, className)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -14,55 +13,44 @@
       <param_description>une variable</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>str</param_name>
-      <param_description
-      >une chaîne : nom de la classe attendu</param_description>
+      <param_name>className</param_name>
+      <param_description>un nom de classe ou de type sous forme de chaine</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>res</param_name>
-      <param_description>un logique : vrai ou faux</param_description>
+      <param_description>un logique : true ou false</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p>
-      <b>isa</b> renvoie 1 logique (vrai) si l&apos;argument est un tableau de cellules et 0 logique (faux) sinon.</p>
-    <p>str peut aussi être &apos;numeric&apos;, &apos;float&apos; ou &apos;integer&apos; :</p>
-    <p
-    >numeric : tableau à virgule flottante ou entier : double, single, int8, uint8, int16, uint16, int32, uint32, int64, uint64</p>
-    <p
-    >float : tableau flottant en simple ou double précision : double, single</p>
-    <p
-    >integer : tableau entier signé ou non signé : int8, uint8, int16, uint16, int32, uint32, int64, uint64</p>
-    <p>Si <b>var</b> est un objet handle, str peut être &apos;handle&apos; ou le nom de type du handle.</p>
+      <b>isa</b> renvoie un logique 1 quand <b>var</b> est une instance de <b>className</b>, et 0 sinon.</p>
+    <p>
+      <b>className</b> peut etre un nom de type Nelson comme <b>double</b>, <b>cell</b>, <b>numeric</b>, <b>float</b> ou <b>integer</b>.</p>
+    <p>Pour les objets classdef, <b>isa</b> accepte le nom de classe et les noms de superclasses supportes, y compris <b>handle</b> pour les classes handle.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description />
-      <example_item_data
-        runnable="cli"
-      ><![CDATA[A = 3;
+      <example_item_description>Tester un type numerique.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = 3;
 res = isa(A, 'double')]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description />
-      <example_item_data
-        runnable="cli"
-      ><![CDATA[B = {'NelSon', 3, true};
-res = isa(B, 'cell')]]></example_item_data>
-    </example_item>
-    <example_item>
-      <example_item_type>nelson</example_item_type>
-      <example_item_description />
-      <example_item_data
-        runnable="cli"
-      ><![CDATA[B = {'NelSon', 3, true};
-res = isa(B, 'cell')]]></example_item_data>
+      <example_item_description>Tester un objet handle classdef.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[clear classes
+d = [tempdir(), 'nelson_help_isa/'];
+mkdir(d);
+filewrite([d, '/NelsonHelpIsaCounter.m'], ["classdef NelsonHelpIsaCounter < handle"; "  properties"; "    Count = 0"; "  end"; "end"]);
+addpath(d);
+obj = NelsonHelpIsaCounter();
+isCounter = isa(obj, 'NelsonHelpIsaCounter')
+isHandle = isa(obj, 'handle')
+delete(obj)]]></example_item_data>
     </example_item>
   </examples>
   <see_also>
@@ -70,16 +58,20 @@ res = isa(B, 'cell')]]></example_item_data>
       <link linkend="${types}class">class</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${types}isinteger">isinteger</link>
+      <link linkend="${types}isobject">isobject</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${types}isnumeric">isnumeric</link>
+      <link linkend="${interpreter}classdef">classdef</link>
     </see_also_item>
   </see_also>
   <history>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>support des objets classdef documente</history_description>
     </history_item>
   </history>
   <authors>

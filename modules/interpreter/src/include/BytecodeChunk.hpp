@@ -25,6 +25,7 @@ class NLSINTERPRETER_IMPEXP BytecodeChunk
 public:
     std::wstring sourcePath;
     std::string functionName;
+    std::string classdefAccessClassName;
     FunctionDef* selfFunction = nullptr;
     bool isScript = false;
     bool mayCreateNamedFunctionHandle = false;

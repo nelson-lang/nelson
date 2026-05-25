@@ -3,16 +3,25 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>en_US</language>
   <keyword>properties</keyword>
-  <short_description
-  >Returns the properties name of an object handle.</short_description>
+  <short_description>Returns public property names for an object or class.</short_description>
   <syntax>
     <syntax_item>properties(h)</syntax_item>
     <syntax_item>c = properties(h)</syntax_item>
+    <syntax_item>c = properties(obj)</syntax_item>
+    <syntax_item>c = properties(className)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>h</param_name>
       <param_description>a handle object</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>obj</param_name>
+      <param_description>a classdef object</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>className</param_name>
+      <param_description>a class name as a string, including package-qualified names</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -22,18 +31,48 @@
     </param_output_item>
   </param_output>
   <description>
-    <b>properties</b> returns a cell of strings with properties name.</description>
+    <p>
+      <b>properties</b> returns a cell of strings with public property names.</p>
+    <p>For classdef classes, private, protected, and access-list-restricted properties are hidden from this list. Constant properties can be accessed as <b>ClassName.PropertyName</b>.</p>
+    <p>For classdef object arrays, <b>properties</b> returns the public properties of the array element class.</p>
+    <p>Dependent properties and automatic observable property events are parsed as attributes, but MATLAB-compatible get/set dispatch and automatic property notifications are still limited.</p>
+  </description>
   <used_function />
   <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>List public properties of a classdef object array.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[clear classes
+d = [tempdir(), 'nelson_help_properties/'];
+mkdir(d);
+filewrite([d, '/NelsonHelpPropertiesPoint.m'], ["classdef NelsonHelpPropertiesPoint"; "  properties"; "    X = 0"; "  end"; "end"]);
+addpath(d);
+a = NelsonHelpPropertiesPoint();
+b = NelsonHelpPropertiesPoint();
+p = properties([a, b])]]></example_item_data>
+    </example_item>
+  </examples>
   <see_also>
     <see_also_item>
       <link linkend="${handle}isprop">isprop</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${interpreter}classdef">classdef</link>
     </see_also_item>
   </see_also>
   <history>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>classdef class name support added</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>classdef object array support added</history_description>
     </history_item>
   </history>
   <authors>

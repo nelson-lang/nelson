@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>completion</keyword>
+  <short_description>Calcule les candidats de completion de la console.</short_description>
+  <syntax>
+    <syntax_item>r = completion(line)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>line</param_name>
+      <param_description>une chaine : prefixe de ligne de commande a completer.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>r</param_name>
+      <param_description>une structure avec le prefixe de completion et les listes de candidats.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>completion</b> expose le moteur utilise par la console, le terminal graphique et l&apos;editeur de texte.</p>
+    <p>La structure retournee contient <b>prefix</b>, <b>showpopup</b>, <b>files</b>, <b>builtin</b>, <b>macros</b>, <b>variables</b>, <b>fields</b>, <b>properties</b> et <b>methods</b>.</p>
+    <p>Les objets et noms de classes classdef sont completes a partir de leurs proprietes et methodes publiques, y compris les constantes de classe et methodes statiques.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Completer un objet classdef.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[clear classes
+d = [tempdir(), 'nelson_help_completion_classdef_fr/'];
+mkdir(d);
+filewrite([d, '/NelsonHelpCompletionPointFr.m'], ["classdef NelsonHelpCompletionPointFr"; "  properties"; "    X = 0"; "  end"; "  properties (Constant)"; "    Dimension = 2"; "  end"; "  methods"; "    function r = value(obj)"; "      r = obj.X;"; "    end"; "  end"; "  methods (Static)"; "    function obj = origin()"; "      obj = NelsonHelpCompletionPointFr();"; "    end"; "  end"; "end"]);
+addpath(d);
+p = NelsonHelpCompletionPointFr();
+objectCompletion = completion('p.')
+classCompletion = completion('NelsonHelpCompletionPointFr.')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${handle}methods">methods</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}properties">properties</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${interpreter}classdef">classdef</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>moteur de completion expose pour les tests et scripts</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

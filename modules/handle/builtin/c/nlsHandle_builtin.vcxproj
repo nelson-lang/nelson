@@ -273,6 +273,9 @@
     <ClCompile Include="..\cpp\deleteBuiltin.cpp" />
     <ClCompile Include="..\cpp\getBuiltin.cpp" />
     <ClCompile Include="..\cpp\cancelBuiltin.cpp" />
+    <ClCompile Include="..\cpp\classdefHandleBuiltin.cpp" />
+    <ClCompile Include="..\cpp\enumerationBuiltin.cpp" />
+    <ClCompile Include="..\cpp\eventsBuiltin.cpp" />
     <ClCompile Include="..\cpp\handle_deleteBuiltin.cpp" />
     <ClCompile Include="..\cpp\handle_displayBuiltin.cpp" />
     <ClCompile Include="..\cpp\Gateway.cpp" />
@@ -294,6 +297,7 @@
     <ClCompile Include="..\cpp\ispropBuiltin.cpp" />
     <ClCompile Include="..\cpp\isvalidBuiltin.cpp" />
     <ClCompile Include="..\cpp\methodsBuiltin.cpp" />
+    <ClCompile Include="..\cpp\metaclassBuiltin.cpp" />
     <ClCompile Include="..\cpp\propertiesBuiltin.cpp" />
     <ClCompile Include="..\cpp\setBuiltin.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
@@ -329,6 +333,9 @@
     <ClInclude Include="..\include\generic_eq_handleBuiltin.hpp" />
     <ClInclude Include="..\include\getBuiltin.hpp" />
     <ClInclude Include="..\include\cancelBuiltin.hpp" />
+    <ClInclude Include="..\include\classdefHandleBuiltin.hpp" />
+    <ClInclude Include="..\include\enumerationBuiltin.hpp" />
+    <ClInclude Include="..\include\eventsBuiltin.hpp" />
     <ClInclude Include="..\include\handle_deleteBuiltin.hpp" />
     <ClInclude Include="..\include\handle_eqBuiltin.hpp" />
     <ClInclude Include="..\include\handle_fieldnamesBuiltin.hpp" />
@@ -346,6 +353,7 @@
     <ClInclude Include="..\include\ispropBuiltin.hpp" />
     <ClInclude Include="..\include\isvalidBuiltin.hpp" />
     <ClInclude Include="..\include\methodsBuiltin.hpp" />
+    <ClInclude Include="..\include\metaclassBuiltin.hpp" />
     <ClInclude Include="..\include\nlsHandle_builtin_exports.h" />
     <ClInclude Include="..\include\handle_displayBuiltin.hpp" />
     <ClInclude Include="..\include\handle_vertcatBuiltin.hpp" />

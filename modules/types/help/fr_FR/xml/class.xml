@@ -3,11 +3,10 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>class</keyword>
-  <short_description
-  >Retourne le nom de classe d&apos;un objet ou crée un objet nommé.</short_description>
+  <short_description>Renvoie le nom de classe d&apos;une variable ou cree un objet nomme ancien style.</short_description>
   <syntax>
     <syntax_item>name = class(var)</syntax_item>
-    <syntax_item>obj = class(st, strname)</syntax_item>
+    <syntax_item>obj = class(st, className)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -19,100 +18,51 @@
       <param_description>une structure</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>strname</param_name>
-      <param_description
-      >une chaîne : nom de la classe souhaité</param_description>
+      <param_name>className</param_name>
+      <param_description>un nom de classe sous forme de chaine</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>name</param_name>
-      <param_description>une chaîne</param_description>
+      <param_description>une chaine</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>obj</param_name>
-      <param_description
-      >un objet de type &apos;strname&apos; basé sur la structure &apos;st&apos;
+      <param_description>un objet ancien style de type <b>className</b> base sur la structure <b>st</b>
       </param_description>
     </param_output_item>
   </param_output>
   <description>
     <p>
-      <b>name = class(var)</b> renvoie la classe de la variable var.</p>
-    <p>Les classes standard sont :</p>
+      <b>class(var)</b> renvoie le nom de classe de <b>var</b>.</p>
+    <p>Pour les objets classdef valeur et handle, <b>class</b> renvoie le nom de la classe classdef, avec le paquet si necessaire.</p>
     <p>
-      &apos;cell&apos;
-    </p>
-    <p>
-      &apos;struct&apos;
-    </p>
-    <p>
-      &apos;single&apos;
-    </p>
-    <p>
-      &apos;double&apos;
-    </p>
-    <p>
-      &apos;logical&apos;
-    </p>
-    <p>
-      &apos;char&apos;
-    </p>
-    <p>
-      &apos;int8&apos;
-    </p>
-    <p>
-      &apos;int16&apos;
-    </p>
-    <p>
-      &apos;int32&apos;
-    </p>
-    <p>
-      &apos;int64&apos;
-    </p>
-    <p>
-      &apos;uint8&apos;
-    </p>
-    <p>
-      &apos;uint16&apos;
-    </p>
-    <p>
-      &apos;uint32&apos;
-    </p>
-    <p>
-      &apos;uint64&apos;
-    </p>
-    <p>
-      &apos;function_handle&apos;
-    </p>
+      <b>class(st, className)</b> conserve la creation d&apos;objets Nelson ancien style et reste independant des definitions classdef.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description />
-      <example_item_data
-        runnable="cli"
-      ><![CDATA[A = 3;
-res = class(A)]]></example_item_data>
+      <example_item_description>Renvoie le nom d&apos;une classe integree.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = 3;
+name = class(A)]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description />
-      <example_item_data
-        runnable="cli"
-      ><![CDATA[C = [1 ; 3];
-res = class(C)]]></example_item_data>
-    </example_item>
-    <example_item>
-      <example_item_type>nelson</example_item_type>
-      <example_item_description />
-      <example_item_data
-        runnable="cli"
-      ><![CDATA[addpath([nelsonroot(), '/modules/overload/examples/complex']);
-c = complexObj(3,4);
-class(c)]]></example_item_data>
+      <example_item_description>Renvoie les noms de classes classdef valeur et handle.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[clear classes
+d = [tempdir(), 'nelson_help_class/'];
+mkdir(d);
+filewrite([d, '/NelsonHelpClassPoint.m'], ["classdef NelsonHelpClassPoint"; "  properties"; "    X = 0"; "  end"; "end"]);
+filewrite([d, '/NelsonHelpClassCounter.m'], ["classdef NelsonHelpClassCounter < handle"; "  properties"; "    Count = 0"; "  end"; "end"]);
+addpath(d);
+p = NelsonHelpClassPoint();
+h = NelsonHelpClassCounter();
+pointClass = class(p)
+handleClass = class(h)
+delete(h)]]></example_item_data>
     </example_item>
   </examples>
   <see_also>
@@ -120,25 +70,20 @@ class(c)]]></example_item_data>
       <link linkend="${types}isa">isa</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${types}isdouble">isdouble</link>
+      <link linkend="${types}isobject">isobject</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${types}isfloat">isfloat</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${types}ischar">ischar</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${types}isstruct">isstruct</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${types}iscell">iscell</link>
+      <link linkend="${interpreter}classdef">classdef</link>
     </see_also_item>
   </see_also>
   <history>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>comportement des objets classdef valeur et handle documente</history_description>
     </history_item>
   </history>
   <authors>

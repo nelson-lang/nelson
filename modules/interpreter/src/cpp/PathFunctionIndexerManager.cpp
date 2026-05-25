@@ -12,6 +12,7 @@
 #include <fstream>
 #include <nlohmann/json.hpp>
 #include "PathFunctionIndexerManager.hpp"
+#include "ClassdefParser.hpp"
 #include "StringHelpers.hpp"
 #include "characters_encoding.hpp"
 #include "MacroFunctionDef.hpp"
@@ -26,6 +27,23 @@
 namespace Nelson {
 //=============================================================================
 PathFunctionIndexerManager* PathFunctionIndexerManager::m_pInstance = nullptr;
+//=============================================================================
+namespace {
+    //=============================================================================
+    std::string
+    overloadOwnerClassName(const std::string& functionName)
+    {
+        if (functionName.size() < 3 || functionName.front() != '@') {
+            return {};
+        }
+        size_t slash = functionName.find('/');
+        if (slash == std::string::npos || slash <= 1) {
+            return {};
+        }
+        return functionName.substr(1, slash - 1);
+    }
+    //=============================================================================
+} // namespace
 //=============================================================================
 PathFunctionIndexerManager::PathFunctionIndexerManager()
 {
@@ -523,8 +541,18 @@ PathFunctionIndexerManager::processFile(FileFunction* ff, const std::string& fun
     if (ff != nullptr) {
         if (ff->isMex()) {
             ptr = processMexFile(ff->getFilename(), ff->getName(), ff->isOverload());
+        } else if (!ff->isOverload()
+            && ClassdefDefinitionManager::getInstance()->isClassdefFile(ff->getFilename())) {
+            ptr = ClassdefDefinitionManager::getInstance()->loadConstructor(
+                ff->getFilename(), functionName);
         } else {
             ptr = processMacroFile(ff->getFilename(), ff->getWithWatcher(), ff->isOverload());
+            auto* macro = dynamic_cast<MacroFunctionDef*>(ptr);
+            const std::string ownerClassName = overloadOwnerClassName(functionName);
+            if (macro != nullptr && !ownerClassName.empty()
+                && ClassdefDefinitionManager::getInstance()->loadClass(ownerClassName)) {
+                macro->classdefOwnerClassName = ownerClassName;
+            }
         }
     }
     return ptr;
@@ -563,6 +591,7 @@ PathFunctionIndexerManager::processMacroFile(
 void
 PathFunctionIndexerManager::clearCache()
 {
+    ClassdefDefinitionManager::getInstance()->clear();
     FunctionsInMemory::getInstance()->clear();
     refreshFunctionsMap();
 }
@@ -570,6 +599,7 @@ PathFunctionIndexerManager::clearCache()
 void
 PathFunctionIndexerManager::clearCache(const stringVector& exceptedFunctions)
 {
+    ClassdefDefinitionManager::getInstance()->clear();
     FunctionsInMemory::getInstance()->clear(exceptedFunctions);
     refreshFunctionsMap();
 }

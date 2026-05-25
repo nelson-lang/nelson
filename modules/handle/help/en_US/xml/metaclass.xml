@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>metaclass</keyword>
+  <short_description>Returns classdef metadata.</short_description>
+  <syntax>
+    <syntax_item>m = metaclass(obj)</syntax_item>
+    <syntax_item>m = metaclass(className)</syntax_item>
+    <syntax_item>m = ?ClassName</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>obj</param_name>
+      <param_description>a classdef object or handle</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>className</param_name>
+      <param_description>a class name as a string, including package-qualified names</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>m</param_name>
+      <param_description>a metadata structure</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>metaclass</b> returns metadata for a classdef class.</p>
+    <p>
+      <b>?ClassName</b> is accepted as MATLAB-compatible shorthand for <b>metaclass(&apos;ClassName&apos;)</b>, including package-qualified class names.</p>
+    <p>The returned structure contains <b>Name</b>, <b>SuperclassList</b>, <b>PropertyList</b>, <b>MethodList</b>, <b>EventList</b>, and <b>EnumerationMemberList</b>.</p>
+    <p>
+      <b>ClassDetails</b> reports raw class attributes and derived flags such as <b>Abstract</b>, <b>Sealed</b>, and <b>Handle</b>.</p>
+    <p>For classdef classes, <b>PropertyDetails</b>, <b>MethodDetails</b>, <b>EventDetails</b>, and <b>EnumerationDetails</b> expose Nelson metadata structures for common MATLAB attributes such as access, static methods, hidden or sealed methods, constant, dependent, and observable properties. Property and method details also include an <b>Attributes</b> cell array with the raw block attributes. This is a compatibility layer, not yet a full <b>matlab.metadata</b> object implementation.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Read classdef metadata.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[d = [tempdir(), 'nelson_help_metaclass/'];
+mkdir(d);
+filewrite([d, '/NelsonHelpMetaPoint.m'], ["classdef NelsonHelpMetaPoint"; "  properties (Constant)"; "    Dimension = 2"; "  end"; "  properties"; "    X = 0"; "  end"; "  methods"; "    function r = value(obj)"; "      r = obj.X;"; "    end"; "  end"; "  methods (Static)"; "    function obj = origin()"; "      obj = NelsonHelpMetaPoint();"; "    end"; "  end"; "end"]);
+addpath(d);
+m = ?NelsonHelpMetaPoint;
+m.PropertyList
+m.ClassDetails.Handle
+m.PropertyDetails(find(strcmp({m.PropertyDetails.Name}, 'Dimension'))).Constant
+m.PropertyDetails(find(strcmp({m.PropertyDetails.Name}, 'Dimension'))).Attributes
+m.MethodDetails(find(strcmp({m.MethodDetails.Name}, 'origin'))).Static
+m.MethodDetails(find(strcmp({m.MethodDetails.Name}, 'origin'))).Attributes]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${handle}methods">methods</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}properties">properties</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}events">events</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}enumeration">enumeration</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${interpreter}classdef">classdef</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>classdef metadata support added</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

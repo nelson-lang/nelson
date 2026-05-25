@@ -3,10 +3,9 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>en_US</language>
   <keyword>isa</keyword>
-  <short_description
-  >Return true if var is an object from the class str.</short_description>
+  <short_description>Return true if a variable has the requested class or type.</short_description>
   <syntax>
-    <syntax_item>res = isa(var, str)</syntax_item>
+    <syntax_item>res = isa(var, className)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -14,8 +13,8 @@
       <param_description>a variable</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>str</param_name>
-      <param_description>a string: classname expected</param_description>
+      <param_name>className</param_name>
+      <param_description>a class or type name as a string</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -26,42 +25,32 @@
   </param_output>
   <description>
     <p>
-      <b>isa</b> returns a logical 1 if the argument is a cell array and a logical 0 otherwise.</p>
-    <p>str can also be &apos;numeric&apos;, &apos;float&apos;, or &apos;integer&apos;:</p>
-    <p
-    >numeric: floating point or integer array: double, single, int8, uint8, int16, uint16, int32, uint32, int64, uint64</p>
-    <p
-    >float: single or double precision floating-point array: double, single</p>
-    <p
-    >integer: unsigned or signed integer array: int8, uint8, int16, uint16, int32, uint32, int64, uint64</p>
-    <p>If <b>var</b> is a handle object, str can be &apos;handle&apos; or type name of the handle.</p>
+      <b>isa</b> returns logical 1 when <b>var</b> is an instance of <b>className</b>, and logical 0 otherwise.</p>
+    <p>
+      <b>className</b> can be a Nelson type name such as <b>double</b>, <b>cell</b>, <b>numeric</b>, <b>float</b>, or <b>integer</b>.</p>
+    <p>For classdef objects, <b>isa</b> accepts the class name and supported superclass names, including <b>handle</b> for handle classes.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description />
-      <example_item_data
-        runnable="cli"
-      ><![CDATA[A = 3;
+      <example_item_description>Test a numeric type.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = 3;
 res = isa(A, 'double')]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description />
-      <example_item_data
-        runnable="cli"
-      ><![CDATA[B = {'NelSon', 3, true};
-res = isa(B, 'cell')]]></example_item_data>
-    </example_item>
-    <example_item>
-      <example_item_type>nelson</example_item_type>
-      <example_item_description />
-      <example_item_data
-        runnable="cli"
-      ><![CDATA[B = {'NelSon', 3, true};
-res = isa(B, 'cell')]]></example_item_data>
+      <example_item_description>Test a classdef handle object.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[clear classes
+d = [tempdir(), 'nelson_help_isa/'];
+mkdir(d);
+filewrite([d, '/NelsonHelpIsaCounter.m'], ["classdef NelsonHelpIsaCounter < handle"; "  properties"; "    Count = 0"; "  end"; "end"]);
+addpath(d);
+obj = NelsonHelpIsaCounter();
+isCounter = isa(obj, 'NelsonHelpIsaCounter')
+isHandle = isa(obj, 'handle')
+delete(obj)]]></example_item_data>
     </example_item>
   </examples>
   <see_also>
@@ -69,16 +58,20 @@ res = isa(B, 'cell')]]></example_item_data>
       <link linkend="${types}class">class</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${types}isinteger">isinteger</link>
+      <link linkend="${types}isobject">isobject</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${types}isnumeric">isnumeric</link>
+      <link linkend="${interpreter}classdef">classdef</link>
     </see_also_item>
   </see_also>
   <history>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>classdef object support documented</history_description>
     </history_item>
   </history>
   <authors>

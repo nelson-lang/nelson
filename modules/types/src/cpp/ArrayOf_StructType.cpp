@@ -286,7 +286,8 @@ ArrayOf::setFieldAsList(const std::string& fieldName, ArrayOfVector& data)
         if (!bFieldAlreadyExist) {
             names.push_back(fieldName);
         }
-        promoteType(NLS_STRUCT_ARRAY, names);
+        NelsonType targetType = isClassType() ? NLS_CLASS_ARRAY : NLS_STRUCT_ARRAY;
+        promoteType(targetType, names);
         Dimensions a;
         a[0] = 1;
         a[1] = 1;
@@ -325,6 +326,7 @@ ArrayOf::insertFieldName(const std::string& fieldName)
     }
     stringVector names(dp->fieldNames);
     names.push_back(fieldName);
+    NelsonType dataClass = dp->dataClass;
     const ArrayOf* qp = (const ArrayOf*)dp->getData();
     ArrayOf* rp = (ArrayOf*)allocateArrayOf(dp->dataClass, getElementCount(), names, false);
     std::string classtype = dp->getClassTypeName();
@@ -336,7 +338,7 @@ ArrayOf::insertFieldName(const std::string& fieldName)
             rp[i] = qp[i];
         }
     }
-    dp = dp->putData(NLS_STRUCT_ARRAY, dp->dimensions, rp, false, names);
+    dp = dp->putData(dataClass, dp->dimensions, rp, false, names);
     dp->setClassTypeName(classtype);
     return (fN - 1);
 }

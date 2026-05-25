@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>events</keyword>
+  <short_description>Returns event names for a classdef object or class.</short_description>
+  <syntax>
+    <syntax_item>c = events(obj)</syntax_item>
+    <syntax_item>c = events(objArray)</syntax_item>
+    <syntax_item>c = events(className)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>obj</param_name>
+      <param_description>a classdef object or handle</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>objArray</param_name>
+      <param_description>a classdef object array or handle array</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>className</param_name>
+      <param_description>a class name as a string, including package-qualified names</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>c</param_name>
+      <param_description>a cell of strings</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>events</b> returns public event names declared by a classdef class.</p>
+    <p>For classdef object arrays, <b>events</b> returns events of the array element class.</p>
+    <p>Handle classes also expose the <b>ObjectBeingDestroyed</b> event.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>List events declared by a classdef handle array.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[clear classes
+d = [tempdir(), 'nelson_help_events/'];
+mkdir(d);
+filewrite([d, '/NelsonHelpEventCounter.m'], ["classdef NelsonHelpEventCounter < handle"; "  events"; "    CountChanged"; "  end"; "  methods"; "    function trigger(obj)"; "      notify(obj, 'CountChanged');"; "    end"; "  end"; "end"]);
+addpath(d);
+a = NelsonHelpEventCounter();
+b = NelsonHelpEventCounter();
+e = events([a, b]);
+delete([a, b])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${handle}addlistener">addlistener</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}notify">notify</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${interpreter}classdef">classdef</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>classdef support added</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>classdef object array support documented</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

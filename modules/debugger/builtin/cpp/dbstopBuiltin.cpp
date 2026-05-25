@@ -20,6 +20,7 @@
 #include "ParserInterface.hpp"
 #include "StringHelpers.hpp"
 #include "PathFunctionIndexerManager.hpp"
+#include "ClassdefParser.hpp"
 #include <cstdio>
 //=============================================================================
 using namespace Nelson;
@@ -175,8 +176,13 @@ dbstopInAt(Evaluator* eval, const std::wstring& functioOrFilename, size_t positi
         if (eval->lookupFunction(asFunctionName, funcDef)) {
             // Found as a function
             breakpoint.filename = funcDef->getFilename();
-            // Store the function name so breakpoint matching works correctly
-            breakpoint.functionName = asFunctionName;
+            // A classdef file can contain multiple method bodies. A file/line breakpoint in the
+            // class file should match whichever class method owns that source line.
+            if (ClassdefDefinitionManager::getInstance()->isClassdefFile(breakpoint.filename)) {
+                breakpoint.functionName = "";
+            } else {
+                breakpoint.functionName = asFunctionName;
+            }
         } else {
             // It's a script file name - try to resolve it using PathFunctionIndexerManager
             std::wstring resolvedFilename;

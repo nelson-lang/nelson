@@ -12,6 +12,7 @@
     <syntax_item>clear mex</syntax_item>
     <syntax_item>clear variables</syntax_item>
     <syntax_item>clear functions</syntax_item>
+    <syntax_item>clear classes</syntax_item>
     <syntax_item>clear function_name</syntax_item>
     <syntax_item>clear mexfunction_name</syntax_item>
     <syntax_item>clear variable_name_1 ... variable_name_N</syntax_item>
@@ -46,6 +47,11 @@
       >clears cache of macros functions and associated persistent variables.</param_description>
     </param_input_item>
     <param_input_item>
+      <param_name>classes</param_name>
+      <param_description
+      >clears classdef metadata and generated class method cache.</param_description>
+    </param_input_item>
+    <param_input_item>
       <param_name>function_name</param_name>
       <param_description
       >clears persistent variables of a function.</param_description>
@@ -60,7 +66,10 @@
     <p>
       <b>clear</b> is used to remove variable given by its name.</p>
     <p>
-      <b>clear</b> can also delete handle object if a function handle_TYPE_clear is defined.</p>
+      <b
+      >clear</b> can also delete handle object if a function handle_TYPE_clear is defined.</p>
+    <p>
+      <b>clear classes</b> reloads classdef definitions from disk on the next use.</p>
   </description>
   <used_function />
   <bibliography />
@@ -74,7 +83,21 @@
 who
 clear A
 who
-A]]></example_item_data>
+exist('A', 'var')]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Reload a classdef definition from disk.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[clear classes
+d = [tempdir(), 'nelson_help_clear_classdef_en/'];
+mkdir(d);
+file = [d, '/NelsonHelpClearReloadEn.m'];
+filewrite(file, ["classdef NelsonHelpClearReloadEn"; "  properties (Constant)"; "    Version = 1"; "  end"; "end"]);
+addpath(d);
+NelsonHelpClearReloadEn.Version
+filewrite(file, ["classdef NelsonHelpClearReloadEn"; "  properties (Constant)"; "    Version = 2"; "  end"; "end"]);
+clear classes
+NelsonHelpClearReloadEn.Version]]></example_item_data>
     </example_item>
   </examples>
   <see_also>

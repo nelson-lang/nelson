@@ -12,6 +12,7 @@
 #endif
 #include <hdf5.h>
 #include "FileSystemWrapper.hpp"
+#include "HDF5_helpers.hpp"
 #include "characters_encoding.hpp"
 #include "h5ReadDataset.hpp"
 #include "h5ReadFloat.hpp"
@@ -24,10 +25,44 @@
 #include "h5ReadVlen.hpp"
 #include "h5ReadArray.hpp"
 #include "h5ReadReference.hpp"
+#include "h5LoadVariable.hpp"
+#include "h5SaveLoadHelpers.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+static bool
+splitH5Location(const std::wstring& location, std::string& parentLocation, std::string& name)
+{
+    std::string h5path = wstring_to_utf8(location);
+    if (h5path.empty() || h5path == "/" || h5path.back() == '/') {
+        return false;
+    }
+    size_t separator = h5path.find_last_of('/');
+    if (separator == std::string::npos) {
+        parentLocation = "/";
+        name = h5path;
+    } else {
+        parentLocation = separator == 0 ? "/" : h5path.substr(0, separator);
+        name = h5path.substr(separator + 1);
+    }
+    return !name.empty();
+}
+//=============================================================================
+static bool
+tryReadNelsonObject(hid_t fid, const std::wstring& dataSetName, ArrayOf& res)
+{
+    std::string parentLocation;
+    std::string name;
+    if (!splitH5Location(dataSetName, parentLocation, name)) {
+        return false;
+    }
+    disableHdf5Warning();
+    bool isObject = isNelsonObject(fid, parentLocation, name);
+    enableHdf5Warning();
+    return isObject && h5LoadVariable(fid, parentLocation, name, res);
+}
 //=============================================================================
 ArrayOf
 h5ReadDataset(const std::wstring& filename, const std::wstring& dataSetName)
@@ -61,6 +96,11 @@ h5ReadDataset(const std::wstring& filename, const std::wstring& dataSetName)
     }
     if (fid == H5I_INVALID_HID) {
         Error(_W("Impossible to open hdf5 file."));
+    }
+
+    if (tryReadNelsonObject(fid, dataSetName, res)) {
+        H5Fclose(fid);
+        return res;
     }
 
     hid_t dset_id = H5Dopen(fid, wstring_to_utf8(dataSetName).c_str(), H5P_DEFAULT);

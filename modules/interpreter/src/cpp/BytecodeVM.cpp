@@ -19,6 +19,7 @@
 #include "BytecodeVM.hpp"
 #include "CallbackQueue.hpp"
 #include "CheckIfWhileCondition.hpp"
+#include "ClassdefParser.hpp"
 #include "ClearHandle.hpp"
 #include "Context.hpp"
 #include "Evaluator.hpp"
@@ -43,6 +44,13 @@
 namespace Nelson {
 //=============================================================================
 namespace {
+//=============================================================================
+#define BYTECODE_VM_CLASSDEF_ACCESSOR_GET "get"
+#define BYTECODE_VM_CLASSDEF_ERROR_CANNOT_GET_PROPERTY "Cannot get property: "
+#define BYTECODE_VM_CLASSDEF_ERROR_NO_SUCH_PROPERTY "No such property: "
+#define BYTECODE_VM_CLASSDEF_ERROR_UNDEFINED_MEMBER "Undefined classdef member: "
+#define BYTECODE_VM_ERROR_CLASSDEF_MEMBER_CONSTANT_INDEX                                           \
+    "BytecodeVM: classdef member constant index out of range."
     //=============================================================================
     constexpr const char* NO_OUTPUT_SENTINEL_NAME = "__nelson_bytecode_no_output__";
     constexpr const char* COMMA_LIST_SENTINEL_NAME = "__nelson_bytecode_comma_list__";
@@ -244,6 +252,95 @@ namespace {
             return eval->bytecodeGetHandle(base, field, params);
         }
         return eval->bytecodeGetOrInvokeHandle(base, field, params);
+    }
+    //=============================================================================
+    bool
+    splitClassdefMemberSpec(
+        const std::string& spec, std::string& className, std::string& memberName)
+    {
+        size_t pos = spec.find_last_of('.');
+        if (pos == std::string::npos || pos == 0 || pos + 1 >= spec.size()) {
+            return false;
+        }
+        className = spec.substr(0, pos);
+        memberName = spec.substr(pos + 1);
+        return true;
+    }
+    //=============================================================================
+    void
+    checkClassdefPropertyGet(Evaluator* eval, const ArrayOf& base, const std::string& field)
+    {
+        if (!base.isClassType()) {
+            return;
+        }
+        const std::string className = base.getClassType();
+        auto* manager = ClassdefDefinitionManager::getInstance();
+        if (!manager->loadClass(className)) {
+            return;
+        }
+        if (!manager->hasProperty(className, field)) {
+            Error(_(BYTECODE_VM_CLASSDEF_ERROR_NO_SUCH_PROPERTY) + field);
+        }
+        if (!manager->canGetProperty(className, field,
+                eval == nullptr ? std::string() : eval->getClassdefAccessContext())) {
+            Error(_(BYTECODE_VM_CLASSDEF_ERROR_CANNOT_GET_PROPERTY) + field);
+        }
+    }
+    //=============================================================================
+    ArrayOfVector
+    getClassdefDependentFieldAsList(Evaluator* eval, const ArrayOf& base, const std::string& field)
+    {
+        const std::string className = base.getClassType();
+        auto* manager = ClassdefDefinitionManager::getInstance();
+        if (!manager->hasDependentProperty(className, field)) {
+            return {};
+        }
+        checkClassdefPropertyGet(eval, base, field);
+        if (eval == nullptr || eval->getContext() == nullptr) {
+            Error(_(BYTECODE_VM_CLASSDEF_ERROR_CANNOT_GET_PROPERTY) + field);
+        }
+        std::string functionName;
+        if (!manager->resolvePropertyAccessorFunction(
+                className, field, BYTECODE_VM_CLASSDEF_ACCESSOR_GET, functionName)) {
+            Error(_(BYTECODE_VM_CLASSDEF_ERROR_CANNOT_GET_PROPERTY) + field);
+        }
+        FunctionDef* functionDef = nullptr;
+        if (!eval->getContext()->lookupFunction(functionName, functionDef)
+            || functionDef == nullptr) {
+            Error(_(BYTECODE_VM_CLASSDEF_ERROR_CANNOT_GET_PROPERTY) + field);
+        }
+
+        ArrayOfVector values;
+        const indexType elementCount = base.getElementCount();
+        values.reserve(static_cast<size_t>(elementCount));
+        for (indexType k = 0; k < elementCount; ++k) {
+            ArrayOf object = base;
+            if (elementCount != 1) {
+                ArrayOf mutableBase = base;
+                ArrayOf index = ArrayOf::doubleConstructor(static_cast<double>(k + 1));
+                object = mutableBase.getVectorSubset(index);
+            }
+            ArrayOfVector inputs;
+            inputs << object;
+            ArrayOfVector result = functionDef->evaluateFunction(eval, inputs, 1);
+            values << (result.empty() ? ArrayOf::emptyConstructor() : result[0]);
+        }
+        return values;
+    }
+    //=============================================================================
+    ArrayOfVector
+    getClassdefFieldAsList(Evaluator* eval, const ArrayOf& base, const std::string& field)
+    {
+        checkClassdefPropertyGet(eval, base, field);
+        if (base.isClassType()) {
+            ArrayOfVector dependentValues = getClassdefDependentFieldAsList(eval, base, field);
+            if (!dependentValues.empty()
+                || ClassdefDefinitionManager::getInstance()->hasDependentProperty(
+                    base.getClassType(), field)) {
+                return dependentValues;
+            }
+        }
+        return base.getFieldAsList(field);
     }
     //=============================================================================
     ArrayOf
@@ -1337,13 +1434,13 @@ namespace {
                 if (eval->haveEventsLoop()) {
                     ProcessEventsDynamicFunctionWithoutWait();
                 }
-                if (!eval->commandQueue.isEmpty()) {
-                    syncAssignedLocalsToContext();
-                    std::wstring command;
-                    eval->commandQueue.get(command);
-                    eval->evaluateString(command);
-                    refreshLocalsFromContext();
-                }
+            }
+            if (!eval->commandQueue.isEmpty()) {
+                syncAssignedLocalsToContext();
+                std::wstring command;
+                eval->commandQueue.get(command);
+                eval->evaluateString(command);
+                refreshLocalsFromContext();
             }
         };
 
@@ -1356,6 +1453,54 @@ namespace {
                 }
             }
             return false;
+        };
+
+        auto evaluateDotReference = [&](const ArrayOf& base, const std::string& field,
+                                        const ArrayOfVector& params) -> ArrayOfVector {
+            if (base.isClassType()) {
+                stringVector subtypes;
+                ArrayOfVector subsindices;
+                subtypes.push_back(".");
+                subsindices.push_back(ArrayOf::characterArrayConstructor(field));
+                if (!params.empty()) {
+                    subtypes.push_back("()");
+                    subsindices.push_back(classIndexCell(params));
+                }
+                bool haveFunction = false;
+                ArrayOfVector result
+                    = eval->bytecodeExtractClass(base, subtypes, subsindices, haveFunction);
+                if (!haveFunction) {
+                    if (!params.empty()) {
+                        ArrayOfVector methodResult;
+                        if (eval->bytecodeInvokeObjectMethodIfExists(
+                                base, field, params, 1, methodResult)) {
+                            return methodResult;
+                        }
+                    }
+                    return getClassdefFieldAsList(eval, base, field);
+                }
+                return result;
+            }
+            if (base.isHandle() || base.isGraphicsObject()) {
+                return getOrInvokeHandle(eval, base, field, params);
+            }
+            if (!base.isStruct()) {
+                Error(_W("Invalid indexing."));
+            }
+            ArrayOfVector fieldValues = base.getFieldAsList(field);
+            if (!params.empty()) {
+                ArrayOf fieldValue
+                    = fieldValues.empty() ? ArrayOf::emptyConstructor() : fieldValues[0];
+                ArrayOfVector result;
+                ArrayOfVector mutableParams = params;
+                if (params.size() == 1) {
+                    result.push_back(fieldValue.getVectorSubset(mutableParams[0]));
+                } else {
+                    result.push_back(fieldValue.getNDimSubset(mutableParams));
+                }
+                return result;
+            }
+            return fieldValues;
         };
 
         auto setAssignedLocalByName = [&](const std::string& name, const ArrayOf& value) -> bool {
@@ -1591,22 +1736,21 @@ namespace {
                         Error(_W("BytecodeVM: local slot out of range."));
                     }
                     if (!isRuntimeAssignedLocalSlot(frame, ins.A)) {
-                        if ((ins.flags & INST_FLAG_ALLOW_UNDEFINED) != 0) {
-                            stack.push_back(ArrayOf::emptyConstructor());
-                            break;
-                        }
                         if (ins.A < chunk.localNames.size() && !chunk.localNames[ins.A].empty()) {
                             ArrayOf value;
                             if (context->lookupVariable(chunk.localNames[ins.A], value)) {
                                 stack.push_back(value);
                                 break;
                             }
-                            if (tryLoadImplicitArgumentCount(
+                            if ((ins.flags & INST_FLAG_ALLOW_UNDEFINED) == 0
+                                && tryLoadImplicitArgumentCount(
                                     context, chunk.localNames[ins.A], value)) {
                                 stack.push_back(value);
                                 break;
                             }
-                            Error(_("Undefined variable: ") + chunk.localNames[ins.A]);
+                            if ((ins.flags & INST_FLAG_ALLOW_UNDEFINED) == 0) {
+                                Error(_("Undefined variable: ") + chunk.localNames[ins.A]);
+                            }
                         }
                         stack.push_back(ArrayOf::emptyConstructor());
                         break;
@@ -2291,6 +2435,136 @@ namespace {
                         stack.push_back(noOutputSentinel());
                     }
                 } break;
+                case OpCode::CALL_CLASSDEF_MEMBER: {
+                    if (ins.A >= chunk.constants.size()) {
+                        Error(_W(BYTECODE_VM_ERROR_CLASSDEF_MEMBER_CONSTANT_INDEX));
+                    }
+                    const std::string& spec = std::get<std::string>(chunk.constants.get(ins.A));
+                    std::string className;
+                    std::string memberName;
+                    if (!splitClassdefMemberSpec(spec, className, memberName)) {
+                        Error(_(BYTECODE_VM_CLASSDEF_ERROR_UNDEFINED_MEMBER) + spec);
+                    }
+
+                    ArrayOfVector args = expandCommaLists(popVector(ins.B));
+                    detachFunctionArguments(args);
+                    const bool explicitCall = (ins.flags & INST_FLAG_INDEX_ONLY) != 0;
+                    const uint8_t outputFlags = ins.flags & ~INST_FLAG_INDEX_ONLY;
+
+                    if (className.find('.') == std::string::npos) {
+                        ArrayOf variable;
+                        bool hasVariable = tryGetAssignedLocalByName(className, variable);
+                        if (!hasVariable) {
+                            hasVariable = context->lookupVariable(className, variable);
+                        }
+                        if (hasVariable) {
+                            ArrayOfVector result = evaluateDotReference(variable, memberName, args);
+                            for (uint16_t k = 0; k < ins.C; ++k) {
+                                stack.push_back(
+                                    k < result.size() ? result[k] : ArrayOf::emptyConstructor());
+                            }
+                            break;
+                        }
+                    }
+
+                    std::string functionName;
+                    auto* manager = ClassdefDefinitionManager::getInstance();
+                    bool resolved = false;
+                    if (explicitCall) {
+                        resolved = manager->resolveStaticMethodFunction(
+                            className, memberName, functionName, eval->getClassdefAccessContext());
+                    } else if (args.empty()) {
+                        resolved = manager->resolveConstantPropertyFunction(className, memberName,
+                                       functionName, eval->getClassdefAccessContext())
+                            || manager->resolveEnumerationMemberFunction(
+                                className, memberName, functionName);
+                    }
+
+                    if (!resolved) {
+                        if (className.find('.') == std::string::npos) {
+                            FunctionDef* baseDef = nullptr;
+                            if (eval->lookupFunction(className, baseDef)) {
+                                ArrayOfVector baseResult = baseDef->evaluateFunction(eval, {}, 1);
+                                ArrayOf base = baseResult.empty() ? ArrayOf::emptyConstructor()
+                                                                  : baseResult[0];
+                                ArrayOfVector result = evaluateDotReference(base, memberName, args);
+                                for (uint16_t k = 0; k < ins.C; ++k) {
+                                    stack.push_back(k < result.size()
+                                            ? result[k]
+                                            : ArrayOf::emptyConstructor());
+                                }
+                                break;
+                            }
+                        }
+                        Error(_(BYTECODE_VM_CLASSDEF_ERROR_UNDEFINED_MEMBER) + spec);
+                    }
+
+                    FunctionDef* fdef = nullptr;
+                    if (!eval->lookupFunction(functionName, fdef) || fdef == nullptr) {
+                        Error(_(BYTECODE_VM_CLASSDEF_ERROR_UNDEFINED_MEMBER) + spec);
+                    }
+                    bool syncCallerContext = needsCallerContextSync(fdef);
+                    bool refreshCallerContext = needsCallerContextRefresh(fdef);
+                    if (syncCallerContext) {
+                        syncAssignedLocalsToContext();
+                    }
+                    uint16_t nout = ins.C;
+                    ArrayOfVector result;
+                    size_t clearEpoch = context->getVariablesClearedEpoch();
+                    if ((outputFlags & INST_FLAG_PRINT) != 0 && nout == 1
+                        && fdef->outputArgCount() == 0) {
+                        result = fdef->evaluateFunction(eval, args, 0);
+                        refreshAfterVariableClear(clearEpoch);
+                        if (refreshCallerContext) {
+                            refreshLocalsFromContext();
+                        }
+                        stack.push_back(noOutputSentinel());
+                        break;
+                    }
+                    try {
+                        result = fdef->evaluateFunction(eval, args, static_cast<int>(nout));
+                    } catch (const Exception& e) {
+                        if ((outputFlags & INST_FLAG_PRINT) == 0 || nout != 1
+                            || (e.getMessage() != _W("Wrong number of output arguments.")
+                                && e.getMessage()
+                                    != _W("Not enough outputs in varargout to satisfy call."))) {
+                            throw;
+                        }
+                        nout = 0;
+                        result = fdef->evaluateFunction(eval, args, 0);
+                    }
+                    refreshAfterVariableClear(clearEpoch);
+                    if (refreshCallerContext) {
+                        refreshLocalsFromContext();
+                    }
+                    if ((outputFlags & INST_FLAG_PRINT) != 0 && ins.C == 0) {
+                        if (!result.empty()) {
+                            context->insertVariable("ans", result[0]);
+                            for (size_t k = 0; k < result.size(); ++k) {
+                                eval->display(result[k],
+                                    result[k].name().empty() ? "ans" : result[k].name(), false,
+                                    true);
+                            }
+                        }
+                        break;
+                    }
+                    for (uint16_t k = 0; k < nout; ++k) {
+                        if ((outputFlags & INST_FLAG_PRINT) != 0 && ins.C == 1 && result.empty()) {
+                            stack.push_back(noOutputSentinel());
+                        } else {
+                            ArrayOf value
+                                = k < result.size() ? result[k] : ArrayOf::emptyConstructor();
+                            if ((outputFlags & INST_FLAG_PRINT) != 0 && ins.C == 1
+                                && value.name().empty()) {
+                                value.name("ans");
+                            }
+                            stack.push_back(value);
+                        }
+                    }
+                    if (ins.C == 1 && nout == 0) {
+                        stack.push_back(noOutputSentinel());
+                    }
+                } break;
                 case OpCode::CALL_NAMED_DYNAMIC: {
                     if (ins.A >= chunk.names.size()) {
                         Error(_W("BytecodeVM: name index out of range."));
@@ -2475,6 +2749,18 @@ namespace {
                         ArrayOfVector result
                             = eval->bytecodeExtractClass(base, subtypes, subsindices, haveFunction);
                         if (!haveFunction) {
+                            if (ClassdefDefinitionManager::getInstance()->loadClass(
+                                    base.getClassType())) {
+                                if (indices.empty()) {
+                                    Error(_W("Index expression expected."));
+                                }
+                                if (indices.size() == 1) {
+                                    stack.push_back(base.getVectorSubset(indices[0]));
+                                } else {
+                                    stack.push_back(base.getNDimSubset(indices));
+                                }
+                                break;
+                            }
                             Error(_W("Invalid indexing."));
                         }
                         stack.push_back(result.empty() ? ArrayOf::emptyConstructor() : result[0]);
@@ -2563,7 +2849,7 @@ namespace {
                         if ((ins.flags & INST_FLAG_ALLOW_UNDEFINED) != 0) {
                             stringVector fields = base.getFieldNames();
                             if (std::find(fields.begin(), fields.end(), field) != fields.end()) {
-                                ArrayOfVector raw = base.getFieldAsList(field);
+                                ArrayOfVector raw = getClassdefFieldAsList(eval, base, field);
                                 stack.push_back(raw.empty() ? ArrayOf::emptyConstructor() : raw[0]);
                                 break;
                             }
@@ -2580,7 +2866,17 @@ namespace {
                         ArrayOfVector result
                             = eval->bytecodeExtractClass(base, subtypes, subsindices, haveFunction);
                         if (!haveFunction) {
-                            result = base.getFieldAsList(field);
+                            if (ins.C != 0) {
+                                ArrayOfVector methodResult;
+                                if (eval->bytecodeInvokeObjectMethodIfExists(
+                                        base, field, params, 1, methodResult)) {
+                                    result = methodResult;
+                                } else {
+                                    result = getClassdefFieldAsList(eval, base, field);
+                                }
+                            } else {
+                                result = getClassdefFieldAsList(eval, base, field);
+                            }
                         }
                         if (ins.flags & INST_FLAG_LIST) {
                             stack.push_back(commaListSentinel(result));
@@ -2655,7 +2951,7 @@ namespace {
                         if ((ins.flags & INST_FLAG_ALLOW_UNDEFINED) != 0) {
                             stringVector fields = base.getFieldNames();
                             if (std::find(fields.begin(), fields.end(), field) != fields.end()) {
-                                ArrayOfVector raw = base.getFieldAsList(field);
+                                ArrayOfVector raw = getClassdefFieldAsList(eval, base, field);
                                 stack.push_back(raw.empty() ? ArrayOf::emptyConstructor() : raw[0]);
                                 break;
                             }
@@ -2668,7 +2964,7 @@ namespace {
                         ArrayOfVector result
                             = eval->bytecodeExtractClass(base, subtypes, subsindices, haveFunction);
                         if (!haveFunction) {
-                            result = base.getFieldAsList(field);
+                            result = getClassdefFieldAsList(eval, base, field);
                         }
                         stack.push_back(result.empty() ? ArrayOf::emptyConstructor() : result[0]);
                         break;
@@ -2736,6 +3032,27 @@ namespace {
                             ArrayOf assigned = eval->bytecodeAssignClass(
                                 base, subtypes, subsindices, value, haveFunction);
                             if (!haveFunction) {
+                                if (ClassdefDefinitionManager::getInstance()->loadClass(
+                                        base.getClassType())) {
+                                    normalizeParensAssignmentValueForColon(indices, value);
+                                    if (tryAssignVectorColon(base, indices, value)) {
+                                        markRuntimeAssigned(frame, ins.A);
+                                        return;
+                                    }
+                                    if (tryAssignEmptyCellColumn(base, indices, value)) {
+                                        markRuntimeAssigned(frame, ins.A);
+                                        return;
+                                    }
+                                    expandColonParensAssignmentIndices(base, indices, value);
+                                    normalizeParensAssignmentValueForTarget(indices, value);
+                                    if (indices.size() == 1) {
+                                        base.setVectorSubset(indices[0], value);
+                                    } else if (!tryAssignRowColonSlice(base, indices, value)) {
+                                        base.setNDimSubset(indices, value);
+                                    }
+                                    markRuntimeAssigned(frame, ins.A);
+                                    return;
+                                }
                                 Error(_W("Invalid indexing."));
                             }
                             base = assigned;
@@ -2917,6 +3234,33 @@ namespace {
                             ArrayOf assigned = eval->bytecodeAssignClass(
                                 base, subtypes, subsindices, value, haveFunction);
                             if (!haveFunction) {
+                                if (ClassdefDefinitionManager::getInstance()->loadClass(
+                                        base.getClassType())) {
+                                    alignStructFieldsForSubsetAssign(base, value);
+                                    normalizeParensAssignmentValueForColon(indices, value);
+                                    if (tryAssignVectorColon(base, indices, value)) {
+                                        stack.push_back(base);
+                                        return;
+                                    }
+                                    if (tryAssignEmptyCellColumn(base, indices, value)) {
+                                        stack.push_back(base);
+                                        return;
+                                    }
+                                    expandColonParensAssignmentIndices(base, indices, value);
+                                    normalizeParensAssignmentValueForTarget(indices, value);
+                                    if (indices.size() == 1) {
+                                        if (!assignStructVectorSubset(base, indices[0], value)) {
+                                            base.setVectorSubset(indices[0], value);
+                                        }
+                                    } else if (tryAssignRowColonSlice(base, indices, value)) {
+                                        stack.push_back(base);
+                                        return;
+                                    } else {
+                                        base.setNDimSubset(indices, value);
+                                    }
+                                    stack.push_back(base);
+                                    return;
+                                }
                                 Error(_W("Invalid indexing."));
                             }
                             stack.push_back(assigned);
@@ -3158,7 +3502,8 @@ namespace {
                         bool haveFunction = false;
                         ArrayOfVector result
                             = eval->bytecodeExtractClass(base, subtypes, subsindices, haveFunction);
-                        matrix[0] = haveFunction ? result : base.getFieldAsList(field);
+                        matrix[0]
+                            = haveFunction ? result : getClassdefFieldAsList(eval, base, field);
                     } else if (base.isHandle() || base.isGraphicsObject()) {
                         ArrayOfVector params;
                         matrix[0] = getOrInvokeHandle(eval, base, field, params);

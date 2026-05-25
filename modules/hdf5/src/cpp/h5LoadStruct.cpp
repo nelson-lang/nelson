@@ -8,6 +8,9 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "h5LoadStruct.hpp"
+#include "ClassdefHandleObject.hpp"
+#include "ClassdefParser.hpp"
+#include "HandleManager.hpp"
 #include "h5LoadString.hpp"
 #include "h5SaveLoadHelpers.hpp"
 #include "h5LoadVariable.hpp"
@@ -26,12 +29,12 @@ h5LoadStruct(hid_t fid, const std::string& location, const std::string& variable
     } else {
         h5path = location + "/" + variableName;
     }
-    Dimensions dimsFieldnames = getNelsonDimensions(fid, h5path, "fieldnames");
-    bool isEmptyFieldnames = isNelsonEmpty(fid, h5path, "fieldnames");
+    Dimensions dimsFieldnames = getNelsonDimensions(fid, h5path, FIELDNAMES_STR);
+    bool isEmptyFieldnames = isNelsonEmpty(fid, h5path, FIELDNAMES_STR);
     stringVector fieldnames;
     ArrayOf fieldnamesArrayOf;
     if (h5LoadStringArray(
-            fid, h5path, "fieldnames", isEmptyFieldnames, dimsFieldnames, fieldnamesArrayOf)) {
+            fid, h5path, FIELDNAMES_STR, isEmptyFieldnames, dimsFieldnames, fieldnamesArrayOf)) {
         fieldnames = fieldnamesArrayOf.getContentAsCStringVector(false);
     } else {
         return false;
@@ -60,6 +63,22 @@ h5LoadStruct(hid_t fid, const std::string& location, const std::string& variable
     bSuccess = true;
     if (isObject) {
         VariableValue.setClassType(objectClassname);
+        auto* manager = ClassdefDefinitionManager::getInstance();
+        if (manager->loadClass(objectClassname) && manager->isHandleClass(objectClassname)) {
+            nelson_handle* handles = static_cast<nelson_handle*>(
+                ArrayOf::allocateArrayOf(NLS_HANDLE, length, stringVector(), false));
+            for (indexType elementIndex = 0; elementIndex < length; ++elementIndex) {
+                auto* object = new ClassdefHandleObject(objectClassname);
+                for (indexType fieldIndex = 0; fieldIndex < (indexType)fieldnames.size();
+                    ++fieldIndex) {
+                    indexType propertyOffset
+                        = elementIndex * static_cast<indexType>(fieldnames.size()) + fieldIndex;
+                    object->setProperty(fieldnames[fieldIndex], elements[propertyOffset]);
+                }
+                handles[elementIndex] = HandleManager::getInstance()->addHandle(object);
+            }
+            VariableValue = ArrayOf(NLS_HANDLE, dims, handles);
+        }
     }
     return bSuccess;
 }

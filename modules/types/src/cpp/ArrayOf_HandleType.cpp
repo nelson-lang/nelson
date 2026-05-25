@@ -69,8 +69,27 @@ ArrayOf::isHandleProperty(const std::string& methodName) const
 bool
 ArrayOf::isHandleProperty(const std::wstring& propertyName) const
 {
-    HandleGenericObject* obj = getContentAsHandleScalar();
-    return obj->isProperty(propertyName);
+    if (!isHandle()) {
+        Error(_W("Expected a handle."));
+    }
+    auto* ptr = (nelson_handle*)getDataPointer();
+    indexType nbElements = getElementCount();
+    bool isProperty = false;
+    if (nbElements > 0) {
+        for (indexType k = 0; k < nbElements; k++) {
+            if (ptr[k]) {
+                HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(ptr[k]);
+                if (!hlObj) {
+                    continue;
+                }
+                isProperty = hlObj->isProperty(propertyName);
+                if (!isProperty) {
+                    return false;
+                }
+            }
+        }
+    }
+    return isProperty;
 }
 //=============================================================================
 bool
@@ -139,6 +158,9 @@ ArrayOf::getHandleClassName() const
     }
     auto* qp = (nelson_handle*)dp->getData();
     if (qp == nullptr) {
+        return NLS_HANDLE_STR;
+    }
+    if (getElementCount() == 0) {
         return NLS_HANDLE_STR;
     }
     nelson_handle hl = qp[0];

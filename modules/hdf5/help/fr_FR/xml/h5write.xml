@@ -20,12 +20,14 @@
     <param_input_item>
       <param_name>value</param_name>
       <param_description
-      >une valeur : types supportés : double, uint64, uint32, uint16, uint8, single, int64, int32, int16, int8 ou tableau de caractères.</param_description>
+      >une valeur : types supportés : double, uint64, uint32, uint16, uint8, single, int64, int32, int16, int8, tableau de caractères ou objet de classe Nelson.</param_description>
     </param_input_item>
   </param_input>
   <description>
     <p>
-      <b>h5write</b> écrit des données dans l&apos;ensemble du jeu de données <b>location</b> dans le fichier HDF5.</p>
+      <b>h5write</b> écrit des données dans l&apos;ensemble du jeu de données <b
+      >location</b> dans le fichier HDF5.</p>
+    <p>      Les objets de classe Nelson, y compris les objets de classe historiques et les objets classdef valeur ou handle, sont écrits avec les métadonnées objet Nelson.</p>
   </description>
   <used_function />
   <bibliography />
@@ -41,6 +43,20 @@ h5write(h5filename,'/rand', R);
 h5write(h5filename,'/str', 'Hello');
 h5dump(h5filename)]]></example_item_data>
     </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[h5filename = [tempdir(), 'doc_h5write_class.h5'];
+if isfile(h5filename) rmfile(h5filename) end
+obj = class(struct('r', 3, 'i', 4), 'DocH5Class');
+h5write(h5filename, '/obj', obj);
+R = h5read(h5filename, '/obj');
+class(R)
+R.r
+R.i]]></example_item_data>
+    </example_item>
   </examples>
   <see_also>
     <see_also_item>
@@ -51,6 +67,10 @@ h5dump(h5filename)]]></example_item_data>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>Les objets de classe Nelson peuvent être écrits avec les métadonnées objet.</history_description>
     </history_item>
   </history>
   <authors>

@@ -98,6 +98,7 @@ enum class OpCode : uint8_t
     CONTINUE,
     CALL_BUILTIN,
     CALL_MACRO,
+    CALL_CLASSDEF_MEMBER,
     CALL_NAMED,
     CALL_NAMED_DYNAMIC,
     CALL_HANDLE,

@@ -12,6 +12,7 @@
 #endif
 //=============================================================================
 #include "Evaluator.hpp"
+#include "ClassdefParser.hpp"
 #include "Error.hpp"
 #include "PredefinedErrorMessages.hpp"
 #include "Operators.hpp"
@@ -21,6 +22,11 @@
 #include "Warning.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+#define EVALUATOR_INDEXING_FIELD_SUBS "subs"
+#define EVALUATOR_INDEXING_FIELD_TYPE "type"
+#define EVALUATOR_INDEXING_FUNCTION_INVOKE "invoke"
+//=============================================================================
 ArrayOfVector
 Evaluator::bytecodeGetHandle(ArrayOf r, const std::string& fieldname, const ArrayOfVector& params)
 {
@@ -41,9 +47,6 @@ bool
 Evaluator::bytecodeInvokeObjectMethodIfExists(const ArrayOf& r, const std::string& methodName,
     const ArrayOfVector& params, int nLhs, ArrayOfVector& result)
 {
-    if (!isObjectMethod(r, methodName)) {
-        return false;
-    }
     Context* _context = this->getContext();
     FunctionDef* funcDef = nullptr;
     std::string currentType = r.isHandle() ? r.getHandleCategory()
@@ -52,7 +55,57 @@ Evaluator::bytecodeInvokeObjectMethodIfExists(const ArrayOf& r, const std::strin
     if (currentType.empty()) {
         return false;
     }
-    std::string functionNameCurrentType = getOverloadFunctionName(currentType, "invoke");
+    std::string directMethod = getOverloadFunctionName(currentType, methodName);
+    bool canUseDirectMethod = true;
+    if (r.isClassType() || r.isHandle()) {
+        if (ClassdefDefinitionManager::getInstance()->loadClass(currentType)) {
+            canUseDirectMethod = ClassdefDefinitionManager::getInstance()->resolveMethodFunction(
+                currentType, methodName, directMethod, getClassdefAccessContext());
+        }
+    }
+    if (canUseDirectMethod && _context->lookupFunction(directMethod, funcDef)) {
+        if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION)
+                || (funcDef->type() == NLS_MACRO_FUNCTION))) {
+            Error(_W("Type function not valid."));
+        }
+        ArrayOfVector argIn;
+        argIn.reserve(params.size() + 1);
+        argIn.push_back(r);
+        for (const ArrayOf& a : params) {
+            argIn.push_back(a);
+        }
+        int requestedOutputs = nLhs == 1 && funcDef->outputArgCount() == 0 ? 0 : nLhs;
+        result = funcDef->evaluateFunction(this, argIn, requestedOutputs);
+        return true;
+    }
+    if (!isObjectMethod(r, methodName)) {
+        return false;
+    }
+    directMethod = getOverloadFunctionName(currentType, methodName);
+    canUseDirectMethod = true;
+    if (r.isClassType() || r.isHandle()) {
+        if (ClassdefDefinitionManager::getInstance()->loadClass(currentType)) {
+            canUseDirectMethod = ClassdefDefinitionManager::getInstance()->resolveMethodFunction(
+                currentType, methodName, directMethod, getClassdefAccessContext());
+        }
+    }
+    if (canUseDirectMethod && _context->lookupFunction(directMethod, funcDef)) {
+        if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION)
+                || (funcDef->type() == NLS_MACRO_FUNCTION))) {
+            Error(_W("Type function not valid."));
+        }
+        ArrayOfVector argIn;
+        argIn.reserve(params.size() + 1);
+        argIn.push_back(r);
+        for (const ArrayOf& a : params) {
+            argIn.push_back(a);
+        }
+        int requestedOutputs = nLhs == 1 && funcDef->outputArgCount() == 0 ? 0 : nLhs;
+        result = funcDef->evaluateFunction(this, argIn, requestedOutputs);
+        return true;
+    }
+    std::string functionNameCurrentType
+        = getOverloadFunctionName(currentType, EVALUATOR_INDEXING_FUNCTION_INVOKE);
     if (!_context->lookupFunction(functionNameCurrentType, funcDef)) {
         return false;
     }
@@ -65,7 +118,8 @@ Evaluator::bytecodeInvokeObjectMethodIfExists(const ArrayOf& r, const std::strin
     for (const ArrayOf& a : params) {
         argIn.push_back(a);
     }
-    result = funcDef->evaluateFunction(this, argIn, nLhs);
+    int requestedOutputs = nLhs == 1 && funcDef->outputArgCount() == 0 ? 0 : nLhs;
+    result = funcDef->evaluateFunction(this, argIn, requestedOutputs);
     return true;
 }
 //=============================================================================
@@ -89,9 +143,14 @@ Evaluator::bytecodeAssignClass(const ArrayOf& r, const stringVector& subtypes,
 {
     haveFunction = false;
     std::string currentClass = ClassName(r);
+    bool isClassdefObject
+        = r.isClassType() && ClassdefDefinitionManager::getInstance()->loadClass(currentClass);
     FunctionDef* funcDef = nullptr;
     std::string functionName = getOverloadFunctionName(currentClass, SUBSASGN_OPERATOR_STR);
     if (!getContext()->lookupFunction(functionName, funcDef)) {
+        if (isClassdefObject && !subtypes.empty() && subtypes.front() == "()") {
+            return {};
+        }
         functionName
             = getOverloadFunctionName(std::string(NLS_CLASS_ARRAY_STR), SUBSASGN_OPERATOR_STR);
         if (!getContext()->lookupFunction(functionName, funcDef)) {
@@ -103,7 +162,7 @@ Evaluator::bytecodeAssignClass(const ArrayOf& r, const stringVector& subtypes,
         Error(_W("Type function not valid."));
     }
 
-    stringVector fieldnames = { "type", "subs" };
+    stringVector fieldnames = { EVALUATOR_INDEXING_FIELD_TYPE, EVALUATOR_INDEXING_FIELD_SUBS };
     Dimensions dims(1, subtypes.size());
     auto* elements = static_cast<ArrayOf*>(
         ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, dims.getElementCount(), fieldnames, false));
@@ -119,8 +178,8 @@ Evaluator::bytecodeAssignClass(const ArrayOf& r, const stringVector& subtypes,
     for (const auto& t : subsindices) {
         subsVector.push_back(t);
     }
-    substruct.setFieldAsList("type", typesVector);
-    substruct.setFieldAsList("subs", subsVector);
+    substruct.setFieldAsList(EVALUATOR_INDEXING_FIELD_TYPE, typesVector);
+    substruct.setFieldAsList(EVALUATOR_INDEXING_FIELD_SUBS, subsVector);
 
     ArrayOfVector args;
     args.push_back(r);
@@ -334,7 +393,7 @@ Evaluator::extractClass(const ArrayOf& r, const stringVector& subtypes,
         ArrayOfVector argIn;
         argIn.push_back(r);
 
-        stringVector fieldnames = { "type", "subs" };
+        stringVector fieldnames = { EVALUATOR_INDEXING_FIELD_TYPE, EVALUATOR_INDEXING_FIELD_SUBS };
         ArrayOfVector fieldvalues;
 
         Dimensions dims(1, subtypes.size());
@@ -353,8 +412,8 @@ Evaluator::extractClass(const ArrayOf& r, const stringVector& subtypes,
             subsVector.push_back(t);
         }
         if (!typesVector.empty()) {
-            substruct.setFieldAsList("type", typesVector);
-            substruct.setFieldAsList("subs", subsVector);
+            substruct.setFieldAsList(EVALUATOR_INDEXING_FIELD_TYPE, typesVector);
+            substruct.setFieldAsList(EVALUATOR_INDEXING_FIELD_SUBS, subsVector);
         }
 
         argIn.push_back(substruct);

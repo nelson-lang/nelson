@@ -24,6 +24,7 @@ enum ParserState
 {
     ScriptBlock,
     FuncDef,
+    ClassDef,
     ParseError
 };
 //=============================================================================

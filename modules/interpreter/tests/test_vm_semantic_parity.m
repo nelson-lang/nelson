@@ -17,6 +17,10 @@ assert_isequal({S.name}, {'alpha', 'beta', 'gamma'});
 assert_isequal({S.(fieldname)}, {'alpha', 'beta', 'gamma'});
 assert_isequal(unique_if_exists_for_bytecode_test(S, fieldname), {'alpha', 'beta', 'gamma'});
 %=============================================================================
+U(1) = 7;
+U(2) = 9;
+assert_isequal(U, [7 9]);
+%=============================================================================
 T(1).value = 10;
 T(2).value = 20;
 T(3).value = 30;
@@ -37,6 +41,9 @@ fieldname = 'values';
 assert_isequal(D.(fieldname)(2:end-1), [2 3 4]);
 D.(fieldname)(2:end-1) = [];
 assert_isequal(D.values, [1 5]);
+E.values = [1 2 3 4 5];
+E.values(2:4) = [8 9 10];
+assert_isequal(E.values, [1 8 9 10 5]);
 %=============================================================================
 for loopValue = 1:5
   clear loopValue;

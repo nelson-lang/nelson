@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "handle_methodsBuiltin.hpp"
+#include "ClassdefParser.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "PredefinedErrorMessages.hpp"
@@ -16,6 +17,8 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
+#define HANDLE_METHODS_ERROR_INVALID_HANDLE "Invalid handle."
+//=============================================================================
 ArrayOfVector
 Nelson::HandleGateway::handle_methodsBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
@@ -23,11 +26,20 @@ Nelson::HandleGateway::handle_methodsBuiltin(int nLhs, const ArrayOfVector& argI
     nargincheck(argIn, 1, 1);
     ArrayOf param1 = argIn[0];
     if (param1.isHandle()) {
+        if (!param1.isScalar()) {
+            std::string className = param1.getHandleClassName();
+            if (!className.empty()
+                && ClassdefDefinitionManager::getInstance()->loadClass(className)) {
+                retval << ArrayOf::toCellArrayOfCharacterColumnVectors(
+                    ClassdefDefinitionManager::getInstance()->methods(className));
+                return retval;
+            }
+        }
         auto* obj = (HandleGenericObject*)param1.getContentAsHandleScalar();
         if (obj) {
             retval << ArrayOf::toCellArrayOfCharacterColumnVectors(obj->getMethods());
         } else {
-            Error(_W("Invalid handle."));
+            Error(_W(HANDLE_METHODS_ERROR_INVALID_HANDLE));
         }
     } else {
         Error(ERROR_WRONG_ARGUMENT_1_TYPE_FUNCTION_HANDLE_EXPECTED);

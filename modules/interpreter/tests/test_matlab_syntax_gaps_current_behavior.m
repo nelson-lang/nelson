@@ -7,8 +7,10 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(parsestring(sprintf('classdef MyClass\nend')), 'error');
-assert_isequal(parsestring(sprintf('classdef (Abstract) MyClass < handle\nend')), 'error');
+assert_isequal(parsestring(sprintf('classdef MyClass\nend')), 'classdef');
+assert_isequal(parsestring(sprintf('classdef (Abstract) MyClass < handle\nend')), 'classdef');
+assert_isequal(parsestring(sprintf('classdef\nend')), 'error');
+assert_isequal(parsestring(sprintf('classdef MissingEnd\nproperties\n  X\nend')), 'error');
 %=============================================================================
 assert_isequal(parsestring(sprintf('properties\n  X\nend')), 'error');
 assert_isequal(parsestring(sprintf('methods\n  f()\nend')), 'error');
