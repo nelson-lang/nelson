@@ -5,7 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 1.17.0 - (UNRELEASED)
+## 1.17.0 - (2026-05-25)
+
+🕯️ **In memory of Cleve Moler (1939–2026)**
+
+This release is dedicated to the memory of Cleve Moler, creator of MATLAB and a towering figure in numerical computing. His vision of making linear algebra accessible to engineers and scientists changed the way the world writes scientific software and inspired every project that followed in his footsteps, including Nelson.
+We are grateful for the path he blazed.
 
 ### Added
 
