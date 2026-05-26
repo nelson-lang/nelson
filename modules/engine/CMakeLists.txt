@@ -23,6 +23,7 @@ target_include_directories(
   PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include>
          $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
   PRIVATE ${EIGEN3_INCLUDE_DIR}
+          ${Boost_INCLUDE_DIRS}
           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../dynamic_link/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
@@ -61,14 +62,17 @@ target_link_libraries(
           nlsNelson_manager
           nlsOs_functions
           nlsSio_client
+          nlsSparse
           nlsStream_manager
-          nlsTerminal)
+          nlsTerminal
+          nlsTypes)
 
 file(
   GLOB
   ENGINE_HEADER
   "${CMAKE_CURRENT_SOURCE_DIR}/src/include/nlsEngine_exports.h"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/include/MainEvaluator.hpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/include/NelsonEngine.h"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/include/NelSon_engine_mode.h")
 set_target_properties(
   ${module_library_name}

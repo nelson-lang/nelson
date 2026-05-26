@@ -299,3 +299,4 @@ cpack_fixup_bundle.cmake
 modules/slicot/src/f2c/f2c_func
 modules/slicot/src/f2c/f2c_p1f
 #==============================================================================
+modules/python_engine/tests/__pycache__/

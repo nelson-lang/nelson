@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added Flex C++ lexer and Bison C++ parser generated sources as the default committed parser/lexer path.
 - Added parser support for nested functions, trailing local functions in scripts, EOF-terminated simple function files, and temporary result indexing such as `f().Field`, `f()(1)`, and `f(){1}`.
 - Added parser/lexer regression coverage for multiline comments, continuations, transpose disambiguation, virtual commas, command shortcuts, name-value syntax, `arguments` blocks, `global` and `persistent` declarations, nested closures, debugger/profiler integration.
+- Added a native Nelson Engine C API in `modules/engine` for external clients, including start, connect, find, eval, workspace get/put, visibility, and close entry points.
+- Added the `nelson` Python package and `nelson.engine` API with entry points: `start_nelson`, `connect_nelson`, `find_nelson`, `NelsonEngine`, `FutureResult`, `EngineError`, and `NelsonExecutionError`.
+- Added Python engine support for dynamic Nelson function calls, `eval`, `feval`, workspace access, `nargout`, asynchronous calls, stdout/stderr forwarding, owned-session close, connected-session detach, and object-handle pass-through.
+- Added Nelson Python array classes for dense numeric, complex, logical, integer, character, sparse, cell, struct, dictionary, and table-compatible values, with NumPy and pandas interoperability when available.
 
 ### Changed
 
