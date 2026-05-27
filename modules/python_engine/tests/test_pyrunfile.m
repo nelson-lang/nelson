@@ -37,3 +37,19 @@ assert_isequal(R.string(), ["A", "new", "list"]);
 R = pyrunfile("test_pyrunfile_4.py", "z", 'x', 5, 'y', 2);
 assert_isequal(R, 3);
 %=============================================================================
+path_test = [tempdir(), 'nelson pyrunfile path ', createGUID()];
+mkdir(path_test);
+try
+  filename = [path_test, '/test_pyrunfile_path_with_spaces.py'];
+  filewrite(filename, ["value = 'path with spaces ok'"]);
+  R = pyrunfile(filename, "value");
+  assert_isequal(R.char(), 'path with spaces ok');
+  filewrite(filename, ["import sys"; "value = sys.argv[1]"]);
+  R = pyrunfile([filename, ' ''argument ok'''], "value");
+  assert_isequal(R.char(), 'argument ok');
+catch ex
+  rmdir(path_test, 's');
+  rethrow(ex);
+end
+rmdir(path_test, 's');
+%=============================================================================

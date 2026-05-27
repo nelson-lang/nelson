@@ -75,6 +75,7 @@ target_include_directories(
 target_link_libraries(
   ${module_library_builtin_name}
   PRIVATE ${module_library_name}
+          nlsCommons
           nlsDisplay_format
           nlsError_manager
           nlsNelson_manager

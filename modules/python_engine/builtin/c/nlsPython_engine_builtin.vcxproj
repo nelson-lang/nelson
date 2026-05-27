@@ -284,6 +284,9 @@
     <ClCompile Include="..\cpp\__pyenv__Builtin.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\commons\src\c\nlsCommons.vcxproj">
+      <Project>{867f2f84-cc27-4bd8-b44b-5ef4f69c6e15}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\display_format\src\c\nlsDisplay_format.vcxproj">
       <Project>{2469b77e-f2b0-4b0e-b814-bb57747e0865}</Project>
     </ProjectReference>

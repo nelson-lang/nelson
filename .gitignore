@@ -300,3 +300,7 @@ modules/slicot/src/f2c/f2c_func
 modules/slicot/src/f2c/f2c_p1f
 #==============================================================================
 modules/python_engine/tests/__pycache__/
+modules/python_engine/resources/python/nelson/__pycache__/*.pyc
+modules/python_engine/resources/python/nelson/engine/__pycache__/
+modules/python_engine/resources/python/nelson/engine/__pycache__/*.pyc
+#==============================================================================

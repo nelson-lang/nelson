@@ -59,6 +59,12 @@ files = {
   [modulepath('hdf5'), '/help/fr_FR/xml/h5write.xml']
 };
 %=============================================================================
+have_xmldoc = true;
+for k = 1:length(files)
+  have_xmldoc = have_xmldoc && isfile(files{k});
+end
+skip_testsuite(~have_xmldoc, 'XML documentation is missing');
+%=============================================================================
 startMarker = '<![CDATA[';
 endMarker = ']]>';
 %=============================================================================
