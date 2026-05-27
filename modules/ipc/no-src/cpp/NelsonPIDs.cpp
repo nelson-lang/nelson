@@ -11,6 +11,30 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+std::vector<int>
+getNelsonPIDs()
+{
+    return {};
+}
+//=============================================================================
+std::vector<NELSON_ENGINE_MODE>
+getNelsonPIDModes()
+{
+    return {};
+}
+//=============================================================================
+bool
+registerPidInSharedMemory(int pid, NELSON_ENGINE_MODE _mode)
+{
+    return false;
+}
+//=============================================================================
+bool
+unregisterPidInSharedMemory(int pid)
+{
+    return false;
+}
+//=============================================================================
 int
 getCurrentPID()
 {
@@ -19,6 +43,12 @@ getCurrentPID()
 //=============================================================================
 int
 getLatestPidWithModeInSharedMemory(NELSON_ENGINE_MODE _mode)
+{
+    return 0;
+}
+//=============================================================================
+int
+getLatestPidInSharedMemory()
 {
     return 0;
 }

@@ -42,6 +42,15 @@ nelson_module_sources_from_glob(
   CONSOLE_BUILTIN
   DIRS
   ${CMAKE_CURRENT_SOURCE_DIR}/builtin/cpp)
+if(WITHOUT_TEXT_COMPLETION_MODULE)
+  list(
+    APPEND
+    CONSOLE_BUILTIN
+    ${CMAKE_CURRENT_SOURCE_DIR}/../text_completion/no-src/cpp/CompleterHelper.cpp)
+  set(_text_completion_include_dir ${CMAKE_CURRENT_SOURCE_DIR}/../text_completion/no-src/include)
+else()
+  set(_text_completion_include_dir ${CMAKE_CURRENT_SOURCE_DIR}/../text_completion/src/include)
+endif()
 
 add_library(${module_library_builtin_name} ${CONSOLE_BUILTIN})
 
@@ -53,6 +62,7 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
           ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
+          ${_text_completion_include_dir}
           ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
       ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
       ${CMAKE_CURRENT_SOURCE_DIR}/../nelson_manager/src/include
@@ -62,12 +72,14 @@ target_link_libraries(
   ${module_library_builtin_name}
   PRIVATE ${module_library_name}
           nlsTypes
-          nlsText_completion
           nlsInterpreter
           nlsI18n
           nlsError_manager
           nlsCommons
           nlsNelson_manager)
+if(NOT WITHOUT_TEXT_COMPLETION_MODULE)
+  target_link_libraries(${module_library_builtin_name} PRIVATE nlsText_completion)
+endif()
 # ==============================================================================
 nelson_install_library(${module_library_name})
 nelson_install_library(${module_library_builtin_name})
