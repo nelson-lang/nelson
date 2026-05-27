@@ -9,5 +9,7 @@
     >The Tables module provides tools for creating, accessing, and manipulating tabular data in Nelson.</p>
     <p
     >Tables are array-like structures with named variables (columns), each capable of holding different data types.</p>
+    <p
+    >Table metadata is available through T.Properties, and helper functions are provided for adding, moving, renaming, removing and summarizing variables.</p>
   </chapter_description>
 </xmldoc>

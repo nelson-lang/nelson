@@ -363,13 +363,12 @@ namespace {
                 && printIt) {
                 if (isDefinitelyAssignedLocal(node->down->text)) {
                     compileVarLoad(node->down);
+                    emit(OpCode::DISPLAY_STACK, 0, nameIndex(node->down->text));
+                    emit(OpCode::POP);
+                    pop();
                 } else {
-                    emit(OpCode::CALL_NAMED, INST_FLAG_PRINT, nameIndex(node->down->text), 0, 1);
-                    push();
+                    emit(OpCode::CALL_NAMED, INST_FLAG_PRINT, nameIndex(node->down->text), 0, 0);
                 }
-                emit(OpCode::DISPLAY_STACK, 0, nameIndex(node->down->text));
-                emit(OpCode::POP);
-                pop();
                 return;
             }
             if (node->opNum == OP_RHS && node->down != nullptr && node->down->down == nullptr

@@ -9,6 +9,8 @@
     <syntax_item>T = table()</syntax_item>
     <syntax_item>T = table(var1, ... , varN)</syntax_item>
     <syntax_item>T = table(... , Name, Value)</syntax_item>
+    <syntax_item>T = table('Size', sz, 'VariableTypes', types)</syntax_item>
+    <syntax_item>T = table(..., 'VariableNames', names, 'RowNames', rowNames)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -19,7 +21,23 @@
     <param_input_item>
       <param_name>Name, Value</param_name>
       <param_description
-      >Optional arguments are specified as pairs in the format Name1, Value1, ... , NameN, ValueN, where Name represents the argument name and Value is its corresponding value. These name-value pairs must come after any other arguments, but the order of the pairs themselves is flexible</param_description>
+      >Optional arguments are specified as pairs in the format Name1, Value1, ... , NameN, ValueN, where Name represents the argument name and Value is its corresponding value. These name-value pairs must come after any other arguments, but the order of the pairs themselves is flexible.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>sz</param_name>
+      <param_description>Two-element vector that specifies the number of rows and variables for a preallocated table.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>types</param_name>
+      <param_description>Variable types used with <b>Size</b>. Supported values include numeric integer types, floating point types, logical, string, cell, cellstr and char.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>names</param_name>
+      <param_description>Variable names specified as a string array or cell array of character vectors.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>rowNames</param_name>
+      <param_description>Row names specified as a string array or cell array of character vectors.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -55,6 +73,10 @@
       <b>T = table(..., Name, Value)</b> allows you to specify additional options using one or more name-value pair arguments.</p>
     <p
     >For instance, you can set custom variable names by using the &apos;VariableNames&apos; name-value pair.</p>
+    <p
+    >Supported table metadata is exposed through <b>T.Properties</b>. This structure contains <b>VariableNames</b>, <b>VariableTypes</b>, <b>RowNames</b>, <b>DimensionNames</b>, <b>Description</b>, <b>UserData</b>, variable metadata fields, and <b>CustomProperties</b>.</p>
+    <p
+    >A table can be preallocated with <b>Size</b> and <b>VariableTypes</b>. The constructor creates variables with the requested types and default or user-provided variable names.</p>
     <p
     >This syntax can be used in combination with any of the input arguments from the previous forms.</p>
     <p />
@@ -111,6 +133,30 @@ T = table(A, H, W, 'RowNames', RowNames, 'VariableNames', {'Age', 'Height_cm', '
 T('Person2', 1:2)
 ]]></example_item_data>
     </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Preallocate a table with specific variable types</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[T = table('Size', [3 2], 'VariableTypes', {'double', 'string'}, ...
+          'VariableNames', {'Value', 'Label'});
+T.Value = [10; 20; 30];
+T.Label = ["low"; "medium"; "high"];
+T.Properties.Description = 'Example table';
+T]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Use table properties and custom properties</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[T = table([1; 2], [3; 4], 'VariableNames', {'A', 'B'}, ...
+          'RowNames', {'r1', 'r2'});
+T = addprop(T, 'Source', 'table');
+T.Properties.CustomProperties.Source = 'manual';
+T.Properties.CustomProperties.Source
+T.Properties.DimensionNames]]></example_item_data>
+    </example_item>
   </examples>
   <see_also>
     <see_also_item>
@@ -132,11 +178,30 @@ T('Person2', 1:2)
     <see_also_item>
       <link linkend="${table}struct2table">struct2table</link>
     </see_also_item>
+    <see_also_item>
+      <link linkend="${table}addvars">addvars</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${table}movevars">movevars</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${table}summary">summary</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${table}addprop">addprop</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${table}rmprop">rmprop</link>
+    </see_also_item>
   </see_also>
   <history>
     <history_item>
       <history_version>1.8.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>classdef table, table properties, preallocation and metadata support</history_description>
     </history_item>
   </history>
   <authors>

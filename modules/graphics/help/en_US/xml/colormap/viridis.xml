@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>en_US</language>
@@ -27,7 +27,7 @@
   </description>
   <used_function />
   <bibliography
-  >Color map created by Stéfan van der Walt and Nathaniel Smith</bibliography>
+  >Color map created by StÃ©fan van der Walt and Nathaniel Smith</bibliography>
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>

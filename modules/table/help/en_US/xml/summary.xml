@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>summary</keyword>
+  <short_description>Summary of table variables.</short_description>
+  <syntax>
+    <syntax_item>S = summary(T)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>T</param_name>
+      <param_description>Input table.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>S</param_name>
+      <param_description>Structure with summary information.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>summary</b> returns size and type information for each table variable.</p>
+    <p>Numeric variables also include minimum, maximum, and mean values.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Summarize a table</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[T = table([1; 2; 3], ["a"; "b"; "c"], 'VariableNames', {'A', 'Label'});
+S = summary(T)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${table}table">table</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${table}height">height</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${table}width">width</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

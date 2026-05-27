@@ -16,3 +16,6 @@ end
 r = addpath(a);
 np = path();
 assert_isequal(r, p);
+%=============================================================================
+txt = evalc('addpath(a)');
+assert_isfalse(contains(txt, 'ans ='));

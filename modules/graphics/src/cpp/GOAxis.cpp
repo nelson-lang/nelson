@@ -2244,7 +2244,10 @@ GOAxis::unitsReinterpret(std::vector<double> a)
 bool
 GOAxis::is2D()
 {
-    return (!(xvisible && yvisible && zvisible));
+    double azimuth;
+    double elevation;
+    getView(azimuth, elevation);
+    return std::fabs(elevation - 90.) < 1e-9;
 }
 //=============================================================================
 std::vector<double>

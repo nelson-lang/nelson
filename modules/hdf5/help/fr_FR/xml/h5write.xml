@@ -50,7 +50,8 @@ h5dump(h5filename)]]></example_item_data>
         runnable="cli"
       ><![CDATA[h5filename = [tempdir(), 'doc_h5write_class.h5'];
 if isfile(h5filename) rmfile(h5filename) end
-obj = class(struct('r', 3, 'i', 4), 'DocH5Class');
+addpath([nelsonroot(), '/modules/overload/examples/complex']);
+obj = complexObj(3, 4);
 h5write(h5filename, '/obj', obj);
 R = h5read(h5filename, '/obj');
 class(R)

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>graphics</module_name>
+  <chapter>Fonctions de palettes de couleurs</chapter>
+  <chapter_description>
+    <p>Fonctions pour creer, personnaliser et gerer les palettes de couleurs utilisees dans les visualisations.</p>
+  </chapter_description>
+</xmldoc>

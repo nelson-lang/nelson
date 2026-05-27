@@ -84,5 +84,5 @@ function varargout = renamevars(varargin)
   end
   st.Properties.VariableNames = newVarNames;
   
-  varargout{1} = class(st, 'table');
+  varargout{1} = table.fromStruct(st);
 end

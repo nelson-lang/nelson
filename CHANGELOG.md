@@ -13,6 +13,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added bytecode VM coverage for recursive functions, indexing/extraction and insertion, `arguments` blocks, ignored outputs (`~`), `varargin`, and `varargout`.
 - Added `classdef` value classes, handle classes, properties, methods, inheritance, packages, separate method files, method and property attributes, events/listeners, enumerations, static members, constants, dependent properties, observable properties, object arrays, custom indexing hooks, and metadata introspection.
 - Added class-related builtins and compatibility entry points including `metaclass`, `events`, `enumeration`, `addlistener`, `listener`, `notify`, and `completion`.
+- Added table functions `join`, `innerjoin`, `outerjoin`, `mergevars`, `splitvars`, `rows2vars`, `stack`, `unstack`, `convertvars`, `vartype`, `varfun`, and `rowfun`.
+- Added table overloads for row-based set operations and comparisons through `unique`, `ismember`, `union`, `intersect`, `setdiff`, and `setxor`.
+- Added data analysis functions `union`, `intersect`, `setdiff`, `setxor`, `rmmissing`, `fillmissing`, `standardizeMissing`, `groupcounts`, and `groupsummary`, with table-aware behavior where applicable.
 - Added thread-safe parser execution using per-parse parser and lexer context objects.
 - Added Flex C++ lexer and Bison C++ parser generated sources as the default committed parser/lexer path.
 - Added parser support for nested functions, trailing local functions in scripts, EOF-terminated simple function files, and temporary result indexing such as `f().Field`, `f()(1)`, and `f(){1}`.

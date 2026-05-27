@@ -14,6 +14,7 @@
 #include "ClassName.hpp"
 #include "ComHandleObject.hpp"
 #include "HandleManager.hpp"
+#include "characters_encoding.hpp"
 #include "i18n.hpp"
 #include "omp_for_loop.hpp"
 //=============================================================================
@@ -378,6 +379,58 @@ makeSafeArrayFromDimensions(const Dimensions& dims, VARTYPE vt)
     return nullptr;
 }
 //=============================================================================
+static bool
+NelsonTableToComVariant(const ArrayOf& A, VARIANT* variant, std::wstring& errorMessage)
+{
+    stringVector variableNames = A.getTableVariableNames();
+    indexType rowCount = A.getTableHeight();
+    indexType comRowCount = rowCount + 1;
+    Dimensions dims(comRowCount, variableNames.size());
+    SAFEARRAY* arr = makeSafeArrayFromDimensions(dims, VT_VARIANT);
+    if (arr == nullptr) {
+        errorMessage = _W("VARIANT conversion fails.");
+        return false;
+    }
+
+    VARIANT* data = nullptr;
+    if (FAILED(SafeArrayAccessData(arr, reinterpret_cast<void**>(&data)))) {
+        SafeArrayDestroy(arr);
+        errorMessage = _W("VARIANT conversion fails.");
+        return false;
+    }
+
+    indexType elementCount = dims.getElementCount();
+    for (indexType k = 0; k < elementCount; k++) {
+        VariantInit(&data[k]);
+    }
+
+    for (indexType col = 0; col < variableNames.size(); col++) {
+        indexType nameIndex = col * comRowCount;
+        std::wstring wideName = utf8_to_wstring(variableNames[col]);
+        data[nameIndex].vt = VT_BSTR;
+        data[nameIndex].bstrVal = SysAllocString(wideName.c_str());
+
+        ArrayOf column = A.getTableColumn(variableNames[col]);
+        for (indexType row = 0; row < rowCount; row++) {
+            indexType valueIndex = nameIndex + row + 1;
+            ArrayOf value = column.getValueAtIndex(row);
+            if (!NelsonToComVariant(value, &data[valueIndex], errorMessage)) {
+                for (indexType k = 0; k < elementCount; k++) {
+                    VariantClear(&data[k]);
+                }
+                SafeArrayUnaccessData(arr);
+                SafeArrayDestroy(arr);
+                return false;
+            }
+        }
+    }
+
+    SafeArrayUnaccessData(arr);
+    variant->vt = VT_ARRAY | VT_VARIANT;
+    variant->parray = arr;
+    return true;
+}
+//=============================================================================
 bool
 NelsonToComVariant(const ArrayOf& A, VARIANT* variant, std::wstring& errorMessage)
 {
@@ -393,6 +446,9 @@ NelsonToComVariant(const ArrayOf& A, VARIANT* variant, std::wstring& errorMessag
     }
     VariantInit(variant);
     VariantClear(variant);
+    if (A.isTable()) {
+        return NelsonTableToComVariant(A, variant, errorMessage);
+    }
     if (A.isEmpty()) {
         variant->vt = VT_EMPTY;
         return true;

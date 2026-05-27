@@ -55,6 +55,15 @@ convertHandleArray(const ArrayOf& A);
 static PyObject*
 convertClassArray(const ArrayOf& A);
 //=============================================================================
+static PyObject*
+convertTableArray(const ArrayOf& A);
+//=============================================================================
+static PyObject*
+convertTableColumn(const ArrayOf& A);
+//=============================================================================
+static PyObject*
+stringVectorToPyList(const stringVector& values);
+//=============================================================================
 static ArrayOf
 PyArrayArrayToDoubleArrayOf(NelsonType nelsonType, PyObject* pyObject, Py_ssize_t vectorSize);
 //=============================================================================
@@ -121,6 +130,9 @@ arrayOfToPyObject(const ArrayOf& A)
         return convertHandleArray(A);
     } break;
     case NLS_CLASS_ARRAY: {
+        if (A.isTable()) {
+            return convertTableArray(A);
+        }
         return convertClassArray(A);
     } break;
     case NLS_FUNCTION_HANDLE:
@@ -374,6 +386,52 @@ convertClassArray(const ArrayOf& A)
         return pyObj;
     }
     Error(_W("Conversion to Python is not supported."));
+    return pyObj;
+}
+//=============================================================================
+PyObject*
+convertTableArray(const ArrayOf& A)
+{
+    PyObject* pyObj = NLSPyDict_New();
+    PyObject* dataDict = NLSPyDict_New();
+
+    stringVector variableNames = A.getTableVariableNames();
+    for (const auto& variableName : variableNames) {
+        NLSPyDict_SetItemString(
+            dataDict, variableName.c_str(), convertTableColumn(A.getTableColumn(variableName)));
+    }
+    NLSPyDict_SetItemString(pyObj, "data", dataDict);
+
+    PyObject* propertiesDict = NLSPyDict_New();
+    NLSPyDict_SetItemString(propertiesDict, "VariableNames", stringVectorToPyList(variableNames));
+    NLSPyDict_SetItemString(
+        propertiesDict, "VariableTypes", stringVectorToPyList(A.getTableVariableTypes()));
+    NLSPyDict_SetItemString(propertiesDict, "RowNames", stringVectorToPyList(A.getTableRowNames()));
+    NLSPyDict_SetItemString(pyObj, "Properties", propertiesDict);
+    return pyObj;
+}
+//=============================================================================
+PyObject*
+convertTableColumn(const ArrayOf& A)
+{
+    if (!A.isCell()) {
+        return arrayOfToPyObject(A);
+    }
+    ArrayOf* elements = (ArrayOf*)A.getDataPointer();
+    PyObject* pyObj = NLSPyList_New(A.getElementCount());
+    for (indexType k = 0; k < A.getElementCount(); ++k) {
+        NLSPyList_SetItem(pyObj, k, arrayOfToPyObject(elements[k]));
+    }
+    return pyObj;
+}
+//=============================================================================
+PyObject*
+stringVectorToPyList(const stringVector& values)
+{
+    PyObject* pyObj = NLSPyList_New(values.size());
+    for (size_t k = 0; k < values.size(); ++k) {
+        NLSPyList_SetItem(pyObj, k, NLSPyUnicode_FromString(values[k].c_str()));
+    }
     return pyObj;
 }
 //=============================================================================

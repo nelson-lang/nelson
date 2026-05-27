@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>movevars</keyword>
+  <short_description>Move variables in a table.</short_description>
+  <syntax>
+    <syntax_item>TB = movevars(TA, vars, 'Before', location)</syntax_item>
+    <syntax_item>TB = movevars(TA, vars, 'After', location)</syntax_item>
+    <syntax_item>TB = movevars(TA, vars, 'Before', ref)</syntax_item>
+    <syntax_item>TB = movevars(TA, vars, 'After', ref)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>TA</param_name>
+      <param_description>Input table.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>vars</param_name>
+      <param_description>Variables to move, specified by names, indices or logical selectors.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>ref</param_name>
+      <param_description>Reference variable used with <b>Before</b> or <b>After</b>.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>TB</param_name>
+      <param_description>Table with variables reordered.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>movevars</b> reorders table variables without changing their data. The location can be a variable name or a variable index.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Move a variable to the first position</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[T = table([1; 2], [3; 4], 'VariableNames', {'A', 'B'});
+T = movevars(T, 'B', 'Before', 1)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Move a variable after another variable</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[T = table([1; 2], [3; 4], [5; 6], 'VariableNames', {'A', 'B', 'C'});
+T = movevars(T, 'A', 'After', 'C')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${table}table">table</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${table}addvars">addvars</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${table}renamevars">renamevars</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

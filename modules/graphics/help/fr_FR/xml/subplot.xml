@@ -107,7 +107,7 @@ plot(t, Z);]]></example_item_data>
       <link linkend="${graphics}axes">axes</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${graphics}tilelayout">tilelayout</link>
+      <link linkend="${graphics}tiledlayout">tiledlayout</link>
     </see_also_item>
   </see_also>
   <history>

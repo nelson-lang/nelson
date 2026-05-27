@@ -11,10 +11,28 @@ function status = removecompilerconf()
   arch = computer('arch');
   clear('havecompiler'); % clear persistent variable
   jsonfile = [prefdir(), '/compiler_', arch, '.json'];
-  if isfile(jsonfile)
-    [status, msg] = rmfile(jsonfile);
-  else
-    status = true;
+  status = false;
+  for k = 1:20
+    if ~isfile(jsonfile)
+      pause(0.2);
+      if ~isfile(jsonfile)
+        status = true;
+        clear('havecompiler');
+        return
+      end
+    end
+    status = rmfile(jsonfile);
+    if ~isfile(jsonfile)
+      pause(0.2);
+      if ~isfile(jsonfile)
+        status = true;
+        clear('havecompiler');
+        return
+      end
+    end
+    pause(0.1);
   end
+  status = ~isfile(jsonfile);
+  clear('havecompiler');
 end
 %=============================================================================

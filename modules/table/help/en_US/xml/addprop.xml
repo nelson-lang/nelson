@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>addprop</keyword>
+  <short_description>Add custom table property.</short_description>
+  <syntax>
+    <syntax_item>TB = addprop(TA, name, type)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>TA</param_name>
+      <param_description>Input table.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>name</param_name>
+      <param_description>Custom property name.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>type</param_name>
+      <param_description>Custom property type: <b>'table'</b> or <b>'variable'</b>.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>TB</param_name>
+      <param_description>Table with custom property added.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>addprop</b> adds a custom property under <b>T.Properties.CustomProperties</b>. The custom property type follows MATLAB table custom properties: <b>'table'</b> or <b>'variable'</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Add a custom property</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[T = table([1; 2], 'VariableNames', {'A'});
+T = addprop(T, 'Source', 'table');
+T.Properties.CustomProperties.Source = 'demo';
+T.Properties.CustomProperties.Source]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${table}rmprop">rmprop</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${table}table">table</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>innerjoin</keyword>
+  <short_description>Jointure interne de deux tables.</short_description>
+  <syntax>
+    <syntax_item>T = innerjoin(left, right)</syntax_item>
+    <syntax_item>T = innerjoin(left, right, 'Keys', keys)</syntax_item>
+    <syntax_item>T = innerjoin(left, right, 'LeftVariables', leftVars, 'RightVariables', rightVars)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>left, right</param_name>
+      <param_description>Tables d'entree.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>keys</param_name>
+      <param_description>Noms des variables cles.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>leftVars, rightVars</param_name>
+      <param_description>Variables a conserver depuis les tables gauche et droite.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>T</param_name>
+      <param_description>Table contenant les lignes dont les cles existent dans les deux entrees.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>innerjoin</b> conserve seulement les lignes avec des cles correspondantes dans les deux tables.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[L = table([1; 2; 3], [10; 20; 30], 'VariableNames', {'Key', 'LeftValue'});
+R = table([2; 3; 4], [200; 300; 400], 'VariableNames', {'Key', 'RightValue'});
+J = innerjoin(L, R, 'Keys', 'Key')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${table}join">join</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${table}outerjoin">outerjoin</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>
