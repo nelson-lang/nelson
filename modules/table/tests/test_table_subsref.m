@@ -107,3 +107,16 @@ R = T{:, 'name'};
 REF = {'Harry';'Mark';'Steven'};
 assert_isequal(R, REF);
 %=============================================================================
+Names = {'John'; 'Alice'; 'Bob'; 'Diana'};
+Age = [28; 34; 22; 30];
+Height = [175; 160; 180; 165];
+Weight = [70; 55; 80; 60];
+T = table(Names, Age, Height, Weight);
+R = T{'Alice', 'Age'};
+assert_isequal(R, 34);
+R = T{'Alice', 2};
+assert_isequal(R, 34);
+R = T({'Alice', 'Bob'}, {'Age', 'Height'});
+REF = table([34; 22], [160; 180], 'VariableNames', {'Age', 'Height'});
+assert_isequal(R, REF);
+%=============================================================================

@@ -1530,9 +1530,16 @@ classdef table
         rows = sub;
       elseif ischar(sub) || isstring(sub) || iscellstr(sub)
         names = toCellstrRow(obj, sub);
+        implicitNames = {};
+        if isempty(st.Properties.RowNames)
+          implicitNames = firstVariableRowNames(obj, st);
+        end
         rows = zeros(1, length(names));
         for k = 1:length(names)
           idx = find(strcmp(st.Properties.RowNames, names{k}));
+          if isempty(idx) && ~isempty(implicitNames)
+            idx = find(strcmp(implicitNames, names{k}));
+          end
           if isempty(idx)
             error(_('Row name not found.'));
           end
@@ -1540,6 +1547,21 @@ classdef table
         end
       else
         error(_('Invalid row subscript type.'));
+      end
+    end
+
+    function names = firstVariableRowNames(obj, st)
+      names = {};
+      if isempty(st.Properties.VariableNames)
+        return
+      end
+      value = st.data.(st.Properties.VariableNames{1});
+      if isstring(value) && isvector(value)
+        names = cellstr(value(:))';
+      elseif iscellstr(value)
+        names = value(:)';
+      elseif ischar(value) && size(value, 1) == tableHeight(obj, st)
+        names = cellstr(value)';
       end
     end
 
