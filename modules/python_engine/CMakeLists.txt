@@ -89,5 +89,9 @@ nelson_install_module_data(
   EXTRA_TEST_PATTERNS
   "*.py"
   EXTRA_DIR_PATTERNS
-  "resources/python:*.py")
+  "resources/python:*.py"
+  "resources/python:*.toml"
+  "resources/python:*.md"
+  "resources/python/nelson:*.py"
+  "resources/python/nelson/engine:*.py")
 # ==============================================================================

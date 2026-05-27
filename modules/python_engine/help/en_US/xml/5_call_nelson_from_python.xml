@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>Call Nelson from Python</keyword>
+  <short_description>Use the Nelson Engine API for Python.</short_description>
+  <syntax>
+    <syntax_item>import nelson.engine</syntax_item>
+    <syntax_item>eng = nelson.engine.start_nelson()</syntax_item>
+    <syntax_item>eng.eval(command, nargout=0)</syntax_item>
+    <syntax_item>eng.feval(function_name, *args, nargout=1)</syntax_item>
+    <syntax_item>eng.workspace[name] = value</syntax_item>
+    <syntax_item>value = eng.workspace[name]</syntax_item>
+    <syntax_item>eng.quit()</syntax_item>
+  </syntax>
+  <description>
+    <p>
+      The <b>nelson.engine</b> Python package starts or connects to a Nelson process
+      from Python and exposes Nelson functions as Python methods.</p>
+    <p>
+      The package can be used from a Nelson installation or from a build tree when
+      the Nelson engine library is available. If automatic discovery fails, set
+      <b>NELSON_ROOT</b> or <b>NELSON_ENGINE_LIBRARY</b> before importing the package.</p>
+    <p>
+      To install the Python package from a Nelson source or build tree, run
+      <b>python -m pip install path/to/nelson/modules/python_engine/resources/python</b>.
+      See the installation help page for complete commands and environment
+      variable setup.</p>
+    <p>
+      <b>start_nelson</b> starts an owned Nelson session. Calling <b>quit</b> or
+      <b>close</b> closes that session. <b>connect_nelson</b> attaches to an existing
+      session and detaches without closing the target process.</p>
+    <p>
+      Set <b>background=True</b> to run startup or connection asynchronously. The
+      return value is a <b>FutureResult</b> object with <b>result</b>, <b>done</b>,
+      <b>cancel</b>, and <b>cancelled</b> methods.</p>
+    <p>
+      Use <b>nargout</b> to control returned values. With <b>nargout=0</b>, calls
+      return <b>None</b>. With <b>nargout=1</b>, calls return one value. With
+      <b>nargout&gt;1</b>, calls return a tuple.</p>
+    <p>
+      Function calls are synchronous by default. Pass <b>background=True</b> to
+      call a Nelson function asynchronously. The call immediately returns a
+      <b>FutureResult</b>; use <b>result(timeout=None)</b>, <b>done</b>,
+      <b>cancel</b>, and <b>cancelled</b> to inspect or control it.</p>
+    <p>
+      <b>FutureResult.result(timeout)</b> raises <b>nelson.engine.TimeoutError</b>
+      if the result is not ready before the timeout, <b>CancelledError</b> if the
+      call was cancelled, and propagates Nelson execution errors from the
+      asynchronous call.</p>
+    <p>
+      Supported data exchange includes scalar values, strings, logical values,
+      numeric arrays, Nelson array classes, and NumPy arrays when NumPy is
+      installed. Unsupported types raise explicit errors instead of being silently
+      converted.</p>
+    <p>
+      Python to Nelson conversions: <b>bool</b> becomes logical, <b>int</b> and
+      <b>float</b> become scalar double, <b>complex</b> becomes complex double,
+      <b>str</b> becomes char, lists and tuples become double arrays unless they
+      contain complex values, valid-key Python <b>dict</b> values become scalar
+      structs, <b>nelson.cell</b> becomes a cell array, <b>nelson.table</b> and
+      pandas DataFrame values become Nelson tables, and <b>nelson.sparse</b> is
+      created with Nelson <b>sparse</b>. pandas DataFrame indexes that are not the
+      default RangeIndex, including DatetimeIndex values, are preserved as Nelson
+      table row names rather than converted to timetables. NumPy arrays preserve
+      common bool, integer, float, and complex dtypes when NumPy is installed.</p>
+    <p>
+      Nelson to Python conversions: char arrays become <b>nelson.char</b>, dense
+      numeric and logical arrays become Nelson Python array objects, complex
+      arrays preserve their real and imaginary parts, and sparse matrices become
+      <b>nelson.sparse</b>. Scalar structs become <b>nelson.struct</b>, cell
+      arrays become <b>nelson.cell</b>, and tables become pandas DataFrame values
+      when pandas is installed or <b>nelson.table</b> otherwise. Sparse reads use
+      a compatibility path based on <b>full</b> metadata when direct sparse IPC
+      serialization is unavailable. Non-scalar struct arrays, graphics, and other
+      safe object handles return as <b>nelson.engine.NelsonObject</b> values that
+      can be passed back to the same engine call, for example to select or close a
+      figure. Object handles also provide convenience <b>get</b> and <b>set</b>
+      methods for Nelson properties when the underlying Nelson object supports
+      them.</p>
+    <p>
+      Not fully supported yet: converting non-scalar struct arrays into native
+      Python mapping objects, deep table nesting, and arbitrary direct object
+      method dispatch from Python. Nelson does not currently provide a timetable
+      type, so timetable conversion is intentionally not exposed.
+      Python dictionaries with keys that are not valid struct field names are
+      transferred through Nelson dictionary construction when assigned to the
+      workspace. Unsupported object conversions raise explicit compatibility
+      errors or return Nelson object handles when a safe conversion is not
+      available.</p>
+    <p>
+      Table workflows can often be adapted by converting tabular data to
+      supported arrays before crossing the engine boundary. For example, sort or
+      filter values in Python lists, then pass the selected numeric data back as
+      <b>nelson.double</b> arrays for Nelson calculations or plotting.</p>
+    <p>
+      Nelson array classes include <b>nelson.double</b>, <b>nelson.single</b>,
+      signed and unsigned integer arrays, <b>nelson.logical</b>, and
+      <b>nelson.char</b>. Arrays use zero-based Python indexing and preserve
+      Nelson column-major storage for engine transfer.</p>
+    <p>
+      Dictionaries can be represented with <b>nelson.dictionary</b>. Table values
+      interoperate with pandas DataFrame objects when pandas is installed;
+      otherwise they are represented as Nelson object handles or raise
+      compatibility errors where conversion is not available.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>python</example_item_type>
+      <example_item_description>Start Nelson, call a function, and close the session.</example_item_description>
+      <example_item_data><![CDATA[import nelson.engine
+
+eng = nelson.engine.start_nelson()
+print(eng.sqrt(4.0))
+eng.quit()]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>python</example_item_type>
+      <example_item_description>Call a Nelson function asynchronously.</example_item_description>
+      <example_item_data><![CDATA[import nelson.engine
+
+eng = nelson.engine.start_nelson()
+future = eng.sqrt(4.0, background=True)
+if not future.done():
+    ret = future.result(timeout=30)
+print(ret)
+eng.quit()]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>python</example_item_type>
+      <example_item_description>Evaluate commands and exchange workspace variables.</example_item_description>
+      <example_item_data><![CDATA[import nelson
+import nelson.engine
+
+eng = nelson.engine.start_nelson()
+eng.workspace["x"] = nelson.double([[1, 2, 3], [4, 5, 6]])
+eng.eval("y = x * 2;", nargout=0)
+y = eng.workspace["y"]
+eng.quit()]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>python</example_item_type>
+      <example_item_description>Call a user script that computes the area of a triangle.</example_item_description>
+      <example_item_data><![CDATA[# File triarea_script.m in the current folder:
+# b = 5;
+# h = 3;
+# a = 0.5 * (b .* h)
+
+import nelson.engine
+
+eng = nelson.engine.start_nelson()
+eng.triarea_script(nargout=0)
+area = eng.workspace["a"]
+eng.quit()]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>python</example_item_type>
+      <example_item_description>Call a user function from the current folder.</example_item_description>
+      <example_item_data><![CDATA[# File triarea_fun.m in the current folder:
+# function a = triarea_fun(b, h)
+#   a = 0.5 * (b .* h);
+# end
+
+import nelson.engine
+
+eng = nelson.engine.start_nelson()
+ret = eng.triarea_fun(1.0, 5.0)
+print(ret)
+eng.quit()]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>python</example_item_type>
+      <example_item_description>Call functions by changing folder or adding folders to the Nelson path.</example_item_description>
+      <example_item_data><![CDATA[import nelson.engine
+
+eng = nelson.engine.start_nelson()
+eng.cd(r"C:\work\myFolder", nargout=0)
+eng.myFnc(nargout=0)
+
+eng.addpath(r"C:\work\myfiles", nargout=0)
+paths = eng.genpath(r"C:\work\myproject")
+eng.addpath(paths, nargout=0)
+eng.quit()]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>python</example_item_type>
+      <example_item_description>Call a user function after adding its folder to Nelson path.</example_item_description>
+      <example_item_data><![CDATA[import nelson.engine
+
+eng = nelson.engine.start_nelson()
+eng.addpath(r"C:\work\nelson_functions", nargout=0)
+result = eng.myfunction(10.0, nargout=1)
+eng.quit()]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>python</example_item_type>
+      <example_item_description>Run a script. Scripts normally use nargout=0.</example_item_description>
+      <example_item_data><![CDATA[import nelson.engine
+
+eng = nelson.engine.start_nelson()
+eng.cd(r"C:\work\scripts", nargout=0)
+eng.myscript(nargout=0)
+eng.quit()]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>python</example_item_type>
+      <example_item_description>Start Nelson asynchronously.</example_item_description>
+      <example_item_data><![CDATA[import nelson.engine
+
+future = nelson.engine.start_nelson(background=True)
+eng = future.result(timeout=30)
+eng.eval("disp('ready')", nargout=0)
+eng.quit()]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>python</example_item_type>
+      <example_item_description>Use complex, logical, sparse, and NumPy values.</example_item_description>
+      <example_item_data><![CDATA[import nelson
+import nelson.engine
+
+eng = nelson.engine.start_nelson()
+eng.workspace["z"] = nelson.double([[1 + 2j, 3 - 4j]], is_complex=True)
+eng.workspace["flags"] = nelson.logical([[True, False]])
+eng.workspace["s"] = nelson.sparse([0, 1], [1, 0], [5.0, 7.0], (2, 2))
+
+try:
+    import numpy as np
+    eng.workspace["np_values"] = np.array([[1, 2]], dtype=np.int16)
+except ImportError:
+    pass
+
+eng.quit()]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>python</example_item_type>
+      <example_item_description>Use a Medium-style direct engine workflow instead of os.system.</example_item_description>
+      <example_item_data><![CDATA[import nelson
+import nelson.engine
+
+eng = nelson.engine.start_nelson()
+params = nelson.dictionary({"param1": 10, "param2": 12})
+values = nelson.double([1, 2, 3])
+
+# Native dictionary transfer is not yet available in the v1 bridge.
+# Pass supported scalar/array values directly, or convert dictionaries in Nelson code.
+eng.myFunc(values, nargout=0)
+eng.quit()]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>python</example_item_type>
+      <example_item_description>Sort data in Python and plot it with Nelson.</example_item_description>
+      <example_item_data><![CDATA[import nelson
+import nelson.engine
+
+eng = nelson.engine.start_nelson()
+
+pressure = nelson.double(vector=[82.0, 76.0, 91.0, 79.0])
+smoker = nelson.logical(vector=[True, False, True, False])
+
+pressure_values = pressure[0]
+smoker_values = smoker[0]
+sp = [p for p, s in zip(pressure_values, smoker_values) if s is True]
+nsp = [p for p, s in zip(pressure_values, smoker_values) if s is False]
+
+sp = nelson.double(sp)
+nsp = nelson.double(nsp)
+smoker_average = eng.mean(sp)
+nonsmoker_average = eng.mean(nsp)
+
+sdx = eng.linspace(1.0, float(len(sp[0])), len(sp[0]))
+nsdx = eng.linspace(1.0, float(len(nsp[0])), len(nsp[0]))
+
+eng.figure(nargout=0)
+eng.hold("on", nargout=0)
+eng.box("on", nargout=0)
+eng.scatter(sdx, sp, 10.0, "blue", nargout=0)
+eng.scatter(nsdx, nsp, 10.0, "red", nargout=0)
+eng.xlabel("Patient (Anonymized)", nargout=0)
+eng.ylabel("Diastolic Blood Pressure", nargout=0)
+eng.title("Blood Pressure Readings", nargout=0)
+eng.legend("Smokers", "Nonsmokers", nargout=0)
+eng.quit()]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>python</example_item_type>
+      <example_item_description>Keep a Nelson graphics handle in Python and pass it back.</example_item_description>
+      <example_item_data><![CDATA[import nelson.engine
+
+eng = nelson.engine.start_nelson()
+h = eng.figure()
+eng.figure(h, nargout=0)
+visible = h.get("Visible")
+h.set("Visible", visible)
+eng.feval("close", h, nargout=0)
+h.release()
+eng.quit()]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>python</example_item_type>
+      <example_item_description>Use Nelson arrays and dictionaries from Python.</example_item_description>
+      <example_item_data><![CDATA[import nelson
+
+a = nelson.double([[1, 2], [3, 4]])
+flags = nelson.logical([[True, False]])
+config = nelson.dictionary({"method": "fast", "iterations": 10})]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${python_engine}pyrun">pyrun</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${python_engine}pyenv">pyenv</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${python_engine}6_install_nelson_engine_for_python">Install Nelson Engine API for Python</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ipc}ipc">ipc</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>Nelson Engine API for Python added.</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>
