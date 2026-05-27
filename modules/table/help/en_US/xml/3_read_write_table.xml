@@ -29,6 +29,7 @@
     </ul>
     <p
     >Binary format is recommended for preserving exact numeric precision and working with large datasets.</p>
+    <p>Saved tables preserve the public <b>T.Properties</b> metadata. The internal table representation is not part of the file format contract.</p>
   </description>
   <used_function />
   <bibliography />

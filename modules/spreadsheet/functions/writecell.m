@@ -46,7 +46,14 @@ function checkRestrictedOptions(varargin)
 end
 %=============================================================================
 function writeData(M, filename, args)
-  T = table(M);
+  nbColumns = size(M, 2);
+  columns = cell(1, nbColumns);
+  variableNames = cell(1, nbColumns);
+  for k = 1:nbColumns
+    columns{k} = M(:, k);
+    variableNames{k} = ['Var', int2str(k)];
+  end
+  T = table(columns{:}, 'VariableNames', variableNames);
   writetable(T, filename, args{:}, 'WriteVariableNames', false, 'WriteRowNames', false);
 end
 %=============================================================================

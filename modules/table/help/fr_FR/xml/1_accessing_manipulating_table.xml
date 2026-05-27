@@ -53,6 +53,20 @@
     </p>
     <p />
     <p>
+      <b>Organisation des variables</b>
+    </p>
+    <p>Utilisez <b>addvars</b>, <b>movevars</b>, <b>renamevars</b> et <b>removevars</b> pour manipuler les variables tout en conservant les metadonnees de table.</p>
+    <p>voir exemples : <b>Organisation des variables</b>
+    </p>
+    <p />
+    <p>
+      <b>Metadonnees personnalisees</b>
+    </p>
+    <p>Utilisez <b>addprop</b> et <b>rmprop</b> pour gerer les metadonnees personnalisees stockees dans <b>T.Properties.CustomProperties</b>.</p>
+    <p>voir exemples : <b>Metadonnees personnalisees</b>
+    </p>
+    <p />
+    <p>
       <b>Résumé</b>
     </p>
     <p
@@ -170,6 +184,24 @@ T{:,1}
 T{:,2}
 T.Properties.VariableTypes]]></example_item_data>
     </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Ajouter et deplacer des variables</example_item_description>
+      <example_item_data
+      ><![CDATA[T = table([1; 2], [5; 6], 'VariableNames', {'A', 'C'});
+T = addvars(T, [3; 4], 'NewVariableNames', {'B'}, 'Before', 'C');
+T = movevars(T, 'C', 'Before', 1)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Proprietes personnalisees</example_item_description>
+      <example_item_data
+      ><![CDATA[T = table([1; 2], 'VariableNames', {'A'});
+T = addprop(T, 'Source', 'table');
+T.Properties.CustomProperties.Source = 'manual';
+T.Properties.CustomProperties.Source
+T = rmprop(T, 'Source')]]></example_item_data>
+    </example_item>
   </examples>
   <see_also>
     <see_also_item>
@@ -180,6 +212,15 @@ T.Properties.VariableTypes]]></example_item_data>
         linkend="${table}2_direct_compution_with_table"
       >Direct computation with Table</link>
     </see_also_item>
+    <see_also_item>
+      <link linkend="${table}addvars">addvars</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${table}movevars">movevars</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${table}summary">summary</link>
+    </see_also_item>
   </see_also>
   <history>
     <history_item>
@@ -189,6 +230,10 @@ T.Properties.VariableTypes]]></example_item_data>
     <history_item>
       <history_version>1.10.0</history_version>
       <history_description>VariableTypes property</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>fonctions d'organisation des variables et proprietes personnalisees</history_description>
     </history_item>
   </history>
   <authors>

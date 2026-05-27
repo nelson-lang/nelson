@@ -1106,10 +1106,42 @@ ArrayOfToQVariant(ArrayOf A)
     case NLS_HANDLE:
     case NLS_SCOMPLEX:
     case NLS_DCOMPLEX:
-    case NLS_CLASS_ARRAY:
     case NLS_FUNCTION_HANDLE:
     default: {
         Error(_W("Type conversion to QVariant not managed."));
+    } break;
+    case NLS_CLASS_ARRAY: {
+        if (!A.isTable()) {
+            Error(_W("Type conversion to QVariant not managed."));
+        }
+        QVariantMap qvariantTable;
+        QVariantMap qvariantData;
+        stringVector variableNames = A.getTableVariableNames();
+        for (const auto& variableName : variableNames) {
+            qvariantData[QString::fromStdString(variableName)]
+                = ArrayOfToQVariant(A.getTableColumn(variableName));
+        }
+        QVariantMap qvariantProperties;
+        QStringList variableNameList;
+        for (const auto& variableName : variableNames) {
+            variableNameList.push_back(QString::fromStdString(variableName));
+        }
+        qvariantProperties["VariableNames"] = variableNameList;
+        stringVector variableTypes = A.getTableVariableTypes();
+        QStringList variableTypeList;
+        for (const auto& variableType : variableTypes) {
+            variableTypeList.push_back(QString::fromStdString(variableType));
+        }
+        qvariantProperties["VariableTypes"] = variableTypeList;
+        stringVector rowNames = A.getTableRowNames();
+        QStringList rowNameList;
+        for (const auto& rowName : rowNames) {
+            rowNameList.push_back(QString::fromStdString(rowName));
+        }
+        qvariantProperties["RowNames"] = rowNameList;
+        qvariantTable["data"] = qvariantData;
+        qvariantTable["Properties"] = qvariantProperties;
+        res = qvariantTable;
     } break;
     }
     return res;

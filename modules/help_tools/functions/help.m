@@ -10,6 +10,8 @@
 function varargout = help(varargin)
     % HELP Display help about Nelson macros and built-in functions.
     %
+    %   help function_name
+    %   help('function_name')
     %   HELP keyword
     %   Displays help about the specified keyword (macro or built-in function).
     %   If no keyword is provided, a general help message is displayed.
@@ -80,7 +82,15 @@ function varargout = help(varargin)
                 fprintf([l{1}, newline()]);
             end
         else
-            varargout{1} = join(ce, newline());
+            txt = '';
+            for l = ce(:)'
+                if isempty(txt)
+                    txt = l{1};
+                else
+                    txt = [txt, newline(), l{1}];
+                end
+            end
+            varargout{1} = txt;
         end
         return
     else

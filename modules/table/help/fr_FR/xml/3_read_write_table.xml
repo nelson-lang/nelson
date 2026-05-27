@@ -29,6 +29,7 @@
     </ul>
     <p
     >Le format binaire est recommandé pour préserver la précision numérique exacte et travailler avec de grands ensembles de données.</p>
+    <p>Les tables sauvegardees conservent les metadonnees publiques <b>T.Properties</b>. La representation interne des tables ne fait pas partie du contrat du format de fichier.</p>
   </description>
   <used_function />
   <bibliography />

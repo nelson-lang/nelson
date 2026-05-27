@@ -17,7 +17,7 @@
 namespace Nelson {
 //=============================================================================
 #define NLS_TABLE_TYPE "table"
-#define NLS_TABLE_VERSION 1
+#define NLS_TABLE_VERSION 2
 //=============================================================================
 bool
 ArrayOf::isTable() const
@@ -25,7 +25,7 @@ ArrayOf::isTable() const
     if (dp == nullptr) {
         return false;
     }
-    return (dp->dataClass == NLS_CLASS_ARRAY || dp->classTypeName == "table");
+    return dp->dataClass == NLS_CLASS_ARRAY && dp->classTypeName == "table";
 }
 //=============================================================================
 ArrayOf
@@ -76,6 +76,20 @@ ArrayOf
 ArrayOf::getTableProperties() const
 {
     return getField("Properties");
+}
+//=============================================================================
+void
+ArrayOf::setTableData(const ArrayOf& data)
+{
+    ArrayOf copyData = data;
+    setField("data", copyData);
+}
+//=============================================================================
+void
+ArrayOf::setTableProperties(const ArrayOf& properties)
+{
+    ArrayOf copyProperties = properties;
+    setField("Properties", copyProperties);
 }
 //=============================================================================
 stringVector
@@ -205,13 +219,13 @@ ArrayOf::setTableColumn(const std::string& columnName, const ArrayOf& columnData
         ArrayOf newVariableTypes = ArrayOf::stringArrayConstructor(varTypes, dimsVariableTypes);
         properties.setField("VariableTypes", newVariableTypes);
 
-        setField("Properties", properties);
+        setTableProperties(properties);
     }
 
     // Set the column data
     ArrayOf copyData = columnData;
     data.setField(columnName, copyData);
-    setField("data", data);
+    setTableData(data);
 }
 //=============================================================================
 void

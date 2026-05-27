@@ -69,6 +69,7 @@ target_link_libraries(
           nlsProfiler
           nlsLinear_algebra
           nlsElementary_mathematics
+          nlsStream_manager
           nlsTypes)
 # ==============================================================================
 file(

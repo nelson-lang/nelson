@@ -42,6 +42,8 @@ files = {
   [modulepath('handle'), '/help/en_US/xml/isprop.xml'];
   [modulepath('handle'), '/help/en_US/xml/methods.xml'];
   [modulepath('handle'), '/help/en_US/xml/properties.xml'];
+  [modulepath('hdf5'), '/help/en_US/xml/h5read.xml'];
+  [modulepath('hdf5'), '/help/en_US/xml/h5write.xml'];
   [modulepath('handle'), '/help/fr_FR/xml/addlistener.xml'];
   [modulepath('handle'), '/help/fr_FR/xml/delete.xml'];
   [modulepath('handle'), '/help/fr_FR/xml/enumeration.xml'];
@@ -52,7 +54,9 @@ files = {
   [modulepath('handle'), '/help/fr_FR/xml/ismethod.xml'];
   [modulepath('handle'), '/help/fr_FR/xml/isprop.xml'];
   [modulepath('handle'), '/help/fr_FR/xml/methods.xml'];
-  [modulepath('handle'), '/help/fr_FR/xml/properties.xml']
+  [modulepath('handle'), '/help/fr_FR/xml/properties.xml'];
+  [modulepath('hdf5'), '/help/fr_FR/xml/h5read.xml'];
+  [modulepath('hdf5'), '/help/fr_FR/xml/h5write.xml']
 };
 %=============================================================================
 startMarker = '<![CDATA[';

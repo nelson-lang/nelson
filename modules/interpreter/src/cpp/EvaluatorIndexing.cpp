@@ -147,7 +147,19 @@ Evaluator::bytecodeAssignClass(const ArrayOf& r, const stringVector& subtypes,
         = r.isClassType() && ClassdefDefinitionManager::getInstance()->loadClass(currentClass);
     FunctionDef* funcDef = nullptr;
     std::string functionName = getOverloadFunctionName(currentClass, SUBSASGN_OPERATOR_STR);
-    if (!getContext()->lookupFunction(functionName, funcDef)) {
+    bool useClassSpecificSubsasgn = true;
+    if (isClassdefObject) {
+        useClassSpecificSubsasgn = ClassdefDefinitionManager::getInstance()->hasMethod(
+            currentClass, SUBSASGN_OPERATOR_STR);
+        if (useClassSpecificSubsasgn && subtypes.size() == 1 && subtypes.front() == "."
+            && subsindices.size() == 1 && subsindices.front().isRowVectorCharacterArray()) {
+            std::string propertyName = subsindices.front().getContentAsCString();
+            if (ClassdefDefinitionManager::getInstance()->hasProperty(currentClass, propertyName)) {
+                useClassSpecificSubsasgn = false;
+            }
+        }
+    }
+    if (!useClassSpecificSubsasgn || !getContext()->lookupFunction(functionName, funcDef)) {
         if (isClassdefObject && !subtypes.empty() && subtypes.front() == "()") {
             return {};
         }
@@ -382,6 +394,14 @@ Evaluator::extractClass(const ArrayOf& r, const stringVector& subtypes,
     FunctionDef* funcDef = nullptr;
     std::string functionNameSimpleExtractClass
         = getOverloadFunctionName(currentClass, SUBSREF_OPERATOR_STR);
+    if (r.isClassType() && ClassdefDefinitionManager::getInstance()->loadClass(currentClass)
+        && subtypes.size() == 1 && subtypes.front() == "." && subsindices.size() == 1
+        && subsindices.front().isRowVectorCharacterArray()) {
+        std::string propertyName = subsindices.front().getContentAsCString();
+        if (ClassdefDefinitionManager::getInstance()->hasProperty(currentClass, propertyName)) {
+            return {};
+        }
+    }
     if (_context->lookupFunction(functionNameSimpleExtractClass, funcDef)) {
         haveFunction = true;
         if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION)

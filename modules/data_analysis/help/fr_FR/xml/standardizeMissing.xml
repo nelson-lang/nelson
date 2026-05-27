@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>standardizeMissing</keyword>
+  <short_description>Convertit des indicateurs en valeurs manquantes standard.</short_description>
+  <syntax>
+    <syntax_item>B = standardizeMissing(A, indicators)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>Tableau ou table d'entree.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>indicators</param_name>
+      <param_description>Valeurs a traiter comme manquantes.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>B</param_name>
+      <param_description>Donnees avec valeurs manquantes standardisees.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>standardizeMissing</b> remplace les indicateurs par des valeurs manquantes standard comme NaN pour les variables numeriques.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[T = table([1; -99; 3], 'VariableNames', {'A'});
+R = standardizeMissing(T, -99)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${data_analysis}fillmissing">fillmissing</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${data_analysis}rmmissing">rmmissing</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

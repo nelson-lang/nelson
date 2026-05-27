@@ -1633,6 +1633,25 @@ public:
     getTableProperties() const;
 
     /**
+     * @brief Replaces the raw data storage of the table.
+     *
+     * This is part of the
+     * C++ table facade. Callers should use this instead
+     * of writing the internal `data` field
+     * directly.
+     *
+     * @param data The table data struct.
+     */
+    void
+    setTableData(const ArrayOf& data);
+
+    /**
+     * @brief Replaces the properties storage of the table.
+     */
+    void
+    setTableProperties(const ArrayOf& properties);
+
+    /**
      * @brief Gets the variable (column) names of the table.
      *
      * This function returns a vector of strings containing the names of all

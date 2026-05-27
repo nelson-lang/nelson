@@ -679,8 +679,7 @@ VariableTableTableModel::setCellValue(int row, int col, const ArrayOf& cellValue
             std::complex<double> val = cellValue.getContentAsDoubleComplexScalar();
             ptrZ[row].real(val.real());
             ptrZ[row].imag(val.imag());
-            tableData.setField(fieldnames[col], dataCol);
-            m_array.setField("data", tableData);
+            m_array.setTableColumn(fieldnames[col], dataCol);
         } else {
             double* ptrIn = (double*)dataCol.getDataPointer();
             double val = cellValue.getContentAsDoubleScalar();
@@ -695,8 +694,7 @@ VariableTableTableModel::setCellValue(int row, int col, const ArrayOf& cellValue
             std::complex<double> val = cellValue.getContentAsSingleComplexScalar();
             ptrZ[row].real(val.real());
             ptrZ[row].imag(val.imag());
-            tableData.setField(fieldnames[col], dataCol);
-            m_array.setField("data", tableData);
+            m_array.setTableColumn(fieldnames[col], dataCol);
         } else {
             single* ptrIn = (single*)dataCol.getDataPointer();
             single val = cellValue.getContentAsSingleScalar();
@@ -1300,11 +1298,11 @@ VariableTableTableModel::setHeaderData(
 
             ArrayOf tableData = m_array.getTableData();
             tableData.renameFieldnames(fieldNames);
-            m_array.setField("data", tableData);
+            m_array.setTableData(tableData);
 
             ArrayOf newVariableNames = ArrayOf::toCellArrayOfCharacterRowVectors(fieldNames);
             tableProperties.setField("VariableNames", newVariableNames);
-            m_array.setField("Properties", tableProperties);
+            m_array.setTableProperties(tableProperties);
             emit headerDataChanged(Qt::Horizontal, section, section);
         } else {
             return false;
@@ -1319,7 +1317,7 @@ VariableTableTableModel::setHeaderData(
             fieldNames[section] = newFieldname;
             ArrayOf newRowNames = ArrayOf::toCellArrayOfCharacterRowVectors(fieldNames);
             tableProperties.setField("RowNames", newRowNames);
-            m_array.setField("Properties", tableProperties);
+            m_array.setTableProperties(tableProperties);
             emit headerDataChanged(Qt::Vertical, section, section);
 
         } else {

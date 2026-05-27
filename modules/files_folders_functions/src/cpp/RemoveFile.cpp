@@ -32,6 +32,7 @@ RemoveFile(const std::wstring& filename, std::wstring& message)
             message = utf8_to_wstring(errorMessage);
             return false;
         }
+        return true;
     }
     if (bIsFile) {
         std::string errorMessage;
@@ -40,10 +41,10 @@ RemoveFile(const std::wstring& filename, std::wstring& message)
             message = utf8_to_wstring(errorMessage);
             return false;
         }
-    } else {
-        res = false;
-        message = _W("an existing file expected.");
+        return true;
     }
+    res = false;
+    message = _W("an existing file expected.");
     return res;
 }
 //=============================================================================

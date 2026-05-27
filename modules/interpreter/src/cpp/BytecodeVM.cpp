@@ -31,6 +31,7 @@
 #include "MacroFunctionDef.hpp"
 #include "MException.hpp"
 #include "NelsonConfiguration.hpp"
+#include "NelsonPrint.hpp"
 #include "Operators.hpp"
 #include "PredefinedErrorMessages.hpp"
 #include "Profiler.hpp"
@@ -211,12 +212,6 @@ namespace {
     }
     //=============================================================================
     bool
-    bareCallShouldUseZeroOutputs(const std::string& name)
-    {
-        return name == "toc" || name == "warning";
-    }
-    //=============================================================================
-    bool
     tryLoadImplicitArgumentCount(Context* context, const std::string& name, ArrayOf& value)
     {
         if (context == nullptr || context->getCurrentScope() == nullptr
@@ -232,6 +227,213 @@ namespace {
             return true;
         }
         return false;
+    }
+    //=============================================================================
+    class OutputProbeInterface : public Interface
+    {
+    private:
+        Interface* wrapped = nullptr;
+        bool didOutput = false;
+
+    public:
+        explicit OutputProbeInterface(Interface* wrappedInterface) : wrapped(wrappedInterface) { }
+
+        bool
+        hasOutput() const
+        {
+            return didOutput;
+        }
+
+        std::string
+        getLine(const std::string& prompt) override
+        {
+            return wrapped->getLine(prompt);
+        }
+
+        std::wstring
+        getLine(const std::wstring& prompt) override
+        {
+            return wrapped->getLine(prompt);
+        }
+
+        std::wstring
+        getInput(const std::wstring& prompt) override
+        {
+            return wrapped->getInput(prompt);
+        }
+
+        size_t
+        getTerminalWidth() override
+        {
+            return wrapped->getTerminalWidth();
+        }
+
+        size_t
+        getTerminalHeight() override
+        {
+            return wrapped->getTerminalHeight();
+        }
+
+        void
+        outputMessage(const std::string& msg) override
+        {
+            didOutput = true;
+            wrapped->outputMessage(msg);
+        }
+
+        void
+        outputMessage(const std::wstring& msg) override
+        {
+            didOutput = true;
+            wrapped->outputMessage(msg);
+        }
+
+        void
+        errorMessage(const std::string& msg) override
+        {
+            didOutput = true;
+            wrapped->errorMessage(msg);
+        }
+
+        void
+        errorMessage(const std::wstring& msg) override
+        {
+            didOutput = true;
+            wrapped->errorMessage(msg);
+        }
+
+        void
+        warningMessage(const std::string& msg) override
+        {
+            didOutput = true;
+            wrapped->warningMessage(msg);
+        }
+
+        void
+        warningMessage(const std::wstring& msg) override
+        {
+            didOutput = true;
+            wrapped->warningMessage(msg);
+        }
+
+        void
+        clearTerminal() override
+        {
+            wrapped->clearTerminal();
+        }
+
+        bool
+        isAtPrompt() override
+        {
+            return wrapped->isAtPrompt();
+        }
+
+        void
+        interruptGetLineByEvent() override
+        {
+            wrapped->interruptGetLineByEvent();
+        }
+    };
+    //=============================================================================
+    class ScopedOutputProbe
+    {
+    private:
+        Evaluator* eval = nullptr;
+        Interface* savedInterface = nullptr;
+        OutputProbeInterface probe;
+
+    public:
+        explicit ScopedOutputProbe(Evaluator* evaluator)
+            : eval(evaluator), savedInterface(evaluator->getInterface()), probe(savedInterface)
+        {
+            eval->setInterface(&probe);
+            setPrintInterface(&probe);
+        }
+
+        ~ScopedOutputProbe()
+        {
+            eval->setInterface(savedInterface);
+            setPrintInterface(savedInterface);
+        }
+
+        bool
+        hasOutput() const
+        {
+            return probe.hasOutput();
+        }
+    };
+    //=============================================================================
+    bool
+    isMacroFunctionWithVarargout(FunctionDef* fdef)
+    {
+        return fdef != nullptr
+            && (fdef->type() == NLS_MACRO_FUNCTION || fdef->type() == NLS_ANONYMOUS_MACRO_FUNCTION)
+            && fdef->outputArgCount() == -1;
+    }
+    //=============================================================================
+    bool
+    astContainsIdentifier(AbstractSyntaxTreePtr node, const std::string& name)
+    {
+        while (node != nullptr) {
+            if (node->type == id_node && node->text == name) {
+                return true;
+            }
+            if (astContainsIdentifier(node->down, name)) {
+                return true;
+            }
+            node = node->right;
+        }
+        return false;
+    }
+    //=============================================================================
+    bool
+    astContainsVarargoutIndexedByNargout(AbstractSyntaxTreePtr node)
+    {
+        while (node != nullptr) {
+            if (node->type == id_node && node->text == "varargout" && node->down != nullptr
+                && node->down->opNum == OP_BRACES
+                && astContainsIdentifier(node->down->down, "nargout")) {
+                return true;
+            }
+            if (astContainsVarargoutIndexedByNargout(node->down)) {
+                return true;
+            }
+            node = node->right;
+        }
+        return false;
+    }
+    //=============================================================================
+    bool
+    shouldRetrySilentVarargoutCall(FunctionDef* fdef)
+    {
+        if (!isMacroFunctionWithVarargout(fdef) || fdef->type() != NLS_MACRO_FUNCTION) {
+            return false;
+        }
+        auto* macroDef = reinterpret_cast<MacroFunctionDef*>(fdef);
+        return astContainsVarargoutIndexedByNargout(macroDef->code);
+    }
+    //=============================================================================
+    ArrayOfVector
+    callFunctionHandle(Evaluator* eval, const ArrayOf& handle, const ArrayOfVector& args, int nLhs);
+    //=============================================================================
+    ArrayOfVector
+    evaluateFunctionAndDetectOutput(
+        Evaluator* eval, FunctionDef* fdef, const ArrayOfVector& args, int nout, bool& hasOutput)
+    {
+        ScopedOutputProbe probe(eval);
+        ArrayOfVector result = fdef->evaluateFunction(eval, args, nout);
+        hasOutput = probe.hasOutput();
+        return result;
+    }
+    //=============================================================================
+    ArrayOfVector
+    callFunctionHandleAndDetectOutput(Evaluator* eval, const ArrayOf& handle,
+        const ArrayOfVector& args, int nout, bool& hasOutput)
+    {
+        ScopedOutputProbe probe(eval);
+        ArrayOfVector result = callFunctionHandle(eval, handle, args, nout);
+        hasOutput = probe.hasOutput();
+        return result;
     }
     //=============================================================================
     ArrayOf
@@ -2239,22 +2441,37 @@ namespace {
                         if ((ins.flags & INST_FLAG_PRINT) != 0 && ins.C == 0) {
                             ArrayOfVector result;
                             size_t clearEpoch = context->getVariablesClearedEpoch();
-                            try {
-                                result = callFunctionHandle(eval, variable, args, 1);
-                            } catch (const Exception& e) {
-                                if (e.getMessage() != _W("Wrong number of output arguments.")
-                                    && e.getMessage()
-                                        != _W("No output arguments are allowed if only two input "
-                                              "arguments.")
-                                    && e.getMessage()
-                                        != _W("Not enough outputs in varargout to satisfy call.")) {
-                                    throw;
-                                }
-                                result = callFunctionHandle(eval, variable, args, 0);
-                            }
+                            bool hasOutput = false;
+                            result = callFunctionHandleAndDetectOutput(
+                                eval, variable, args, 0, hasOutput);
                             refreshAfterVariableClear(clearEpoch);
                             if (refreshCallerContext) {
                                 refreshLocalsFromContext();
+                            }
+                            if (result.empty() && !hasOutput
+                                && (handleDef != nullptr
+                                    && (handleDef->type() == NLS_ANONYMOUS_MACRO_FUNCTION
+                                        || shouldRetrySilentVarargoutCall(handleDef)))) {
+                                clearEpoch = context->getVariablesClearedEpoch();
+                                try {
+                                    result = callFunctionHandle(eval, variable, args, 1);
+                                } catch (const Exception& e) {
+                                    if (e.getMessage() != _W("Wrong number of output arguments.")
+                                        && e.getMessage()
+                                            != _W(
+                                                "No output arguments are allowed if only two input "
+                                                "arguments.")
+                                        && e.getMessage()
+                                            != _W("Not enough outputs in varargout to satisfy "
+                                                  "call.")) {
+                                        throw;
+                                    }
+                                    result = {};
+                                }
+                                refreshAfterVariableClear(clearEpoch);
+                                if (refreshCallerContext) {
+                                    refreshLocalsFromContext();
+                                }
                             }
                             if (!result.empty()) {
                                 context->insertVariable("ans", result[0]);
@@ -2321,6 +2538,11 @@ namespace {
                         eval->display(result, "ans", false, true);
                         break;
                     }
+                    if ((ins.flags & INST_FLAG_PRINT) != 0 && ins.C == 0 && hasVariable
+                        && args.empty()) {
+                        eval->display(variable, name, false, false);
+                        break;
+                    }
                     if (ins.C == 0 && args.empty() && hasVariable) {
                         break;
                     }
@@ -2364,19 +2586,46 @@ namespace {
                         syncAssignedLocalsToContext();
                     }
                     uint16_t nout = ins.C;
+                    if ((ins.flags & INST_FLAG_PRINT) != 0 && nout == 0
+                        && (fdef->type() == NLS_MACRO_FUNCTION
+                            || fdef->type() == NLS_ANONYMOUS_MACRO_FUNCTION)
+                        && fdef->outputArgCount() > 0) {
+                        nout = 1;
+                    }
                     ArrayOfVector result;
-                    if ((ins.flags & INST_FLAG_PRINT) != 0 && nout == 1
-                        && bareCallShouldUseZeroOutputs(name)) {
+                    bool alreadyEvaluated = false;
+                    if ((ins.flags & INST_FLAG_PRINT) != 0 && ins.C == 0 && nout == 0
+                        && shouldRetrySilentVarargoutCall(fdef)) {
+                        bool hasOutput = false;
                         size_t clearEpoch = context->getVariablesClearedEpoch();
-                        result = fdef->evaluateFunction(eval, args, 0);
+                        result = evaluateFunctionAndDetectOutput(eval, fdef, args, 0, hasOutput);
                         refreshAfterVariableClear(clearEpoch);
                         if (refreshCallerContext) {
                             refreshLocalsFromContext();
                         }
-                        stack.push_back(noOutputSentinel());
-                        break;
+                        if (result.empty() && !hasOutput) {
+                            clearEpoch = context->getVariablesClearedEpoch();
+                            try {
+                                result = fdef->evaluateFunction(eval, args, 1);
+                            } catch (const Exception& e) {
+                                if (e.getMessage() != _W("Wrong number of output arguments.")
+                                    && e.getMessage()
+                                        != _W("No output arguments are allowed if only two input "
+                                              "arguments.")
+                                    && e.getMessage()
+                                        != _W("Not enough outputs in varargout to satisfy call.")) {
+                                    throw;
+                                }
+                                result = {};
+                            }
+                            refreshAfterVariableClear(clearEpoch);
+                            if (refreshCallerContext) {
+                                refreshLocalsFromContext();
+                            }
+                        }
+                        alreadyEvaluated = true;
                     }
-                    if ((ins.flags & INST_FLAG_PRINT) != 0 && nout == 1
+                    if (!alreadyEvaluated && (ins.flags & INST_FLAG_PRINT) != 0 && nout == 1
                         && fdef->outputArgCount() == 0) {
                         size_t clearEpoch = context->getVariablesClearedEpoch();
                         result = fdef->evaluateFunction(eval, args, 0);
@@ -2387,25 +2636,28 @@ namespace {
                         stack.push_back(noOutputSentinel());
                         break;
                     }
-                    size_t clearEpoch = context->getVariablesClearedEpoch();
-                    try {
-                        result = fdef->evaluateFunction(eval, args, static_cast<int>(nout));
-                    } catch (const Exception& e) {
-                        if (!(ins.flags & INST_FLAG_PRINT) || nout != 1
-                            || (e.getMessage() != _W("Wrong number of output arguments.")
-                                && e.getMessage()
-                                    != _W("No output arguments are allowed if only two input "
-                                          "arguments.")
-                                && e.getMessage()
-                                    != _W("Not enough outputs in varargout to satisfy call."))) {
-                            throw;
+                    if (!alreadyEvaluated) {
+                        size_t clearEpoch = context->getVariablesClearedEpoch();
+                        try {
+                            result = fdef->evaluateFunction(eval, args, static_cast<int>(nout));
+                        } catch (const Exception& e) {
+                            if (!(ins.flags & INST_FLAG_PRINT) || nout != 1
+                                || (e.getMessage() != _W("Wrong number of output arguments.")
+                                    && e.getMessage()
+                                        != _W("No output arguments are allowed if only two input "
+                                              "arguments.")
+                                    && e.getMessage()
+                                        != _W(
+                                            "Not enough outputs in varargout to satisfy call."))) {
+                                throw;
+                            }
+                            nout = 0;
+                            result = fdef->evaluateFunction(eval, args, 0);
                         }
-                        nout = 0;
-                        result = fdef->evaluateFunction(eval, args, 0);
-                    }
-                    refreshAfterVariableClear(clearEpoch);
-                    if (refreshCallerContext) {
-                        refreshLocalsFromContext();
+                        refreshAfterVariableClear(clearEpoch);
+                        if (refreshCallerContext) {
+                            refreshLocalsFromContext();
+                        }
                     }
                     if ((ins.flags & INST_FLAG_PRINT) != 0 && ins.C == 0) {
                         if (!result.empty()) {

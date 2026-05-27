@@ -525,7 +525,18 @@ ArrayOfTojl_value_t(const ArrayOf& value)
         }
     } break;
     case NLS_CLASS_ARRAY: {
-        if (value.getClassType() == "dictionary") {
+        if (value.isTable()) {
+            jl_module_t* jl_base_module = (jl_module_t*)NLSjl_eval_string("Base");
+            jl_function_t* dict_constructor = NLSjl_get_function(jl_base_module, "Dict");
+            jl_function_t* setindex_func = NLSjl_get_function(jl_base_module, "setindex!");
+            valuePtr = NLSjl_call0(dict_constructor);
+            NLSjl_call3(setindex_func, valuePtr,
+                convertStructScalarArrayOfToJulia(value.getTableData()),
+                NLSjl_cstr_to_string("data"));
+            NLSjl_call3(setindex_func, valuePtr,
+                convertStructScalarArrayOfToJulia(value.getTableProperties()),
+                NLSjl_cstr_to_string("Properties"));
+        } else if (value.getClassType() == "dictionary") {
             valuePtr = convertDictionaryArrayOfToJulia(value);
         }
     } break;

@@ -12,6 +12,13 @@ s2 = orderfields(s);
 SREF = struct('a', 1, 'b', 2, 'c', 3);
 assert_isequal(s2, SREF);
 %=============================================================================
+clear ans;
+txt = evalc('orderfields(s)');
+assert_istrue(contains(txt, 'ans ='));
+assert_istrue(contains(txt, 'a: 1'));
+assert_istrue(contains(txt, 'b: 2'));
+assert_istrue(contains(txt, 'c: 3'));
+%=============================================================================
 s = struct('b', 2, 'c', 3, 'a', 1);
 [s2, p] = orderfields(s);
 SREF = struct('a', 1, 'b', 2, 'c', 3);

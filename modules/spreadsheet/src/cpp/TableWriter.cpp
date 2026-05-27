@@ -387,10 +387,10 @@ void
 TableWriter::writeTableToFile(const ArrayOf& table, const std::wstring& filename,
     const writeTableOptions& options, std::wstring& errorMessage)
 {
-    ArrayOf columns = table.getField("data");
+    ArrayOf columns = table.getTableData();
     stringVector columnNames = columns.getFieldNames();
 
-    ArrayOf propertiesArrayOf = table.getField("Properties");
+    ArrayOf propertiesArrayOf = table.getTableProperties();
     ArrayOf rowNamesArrayOf = propertiesArrayOf.getField("RowNames");
     wstringVector rowNames = rowNamesArrayOf.getContentAsWideStringVector();
 

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>unstack</keyword>
+  <short_description>Deplie des lignes en variables de table.</short_description>
+  <syntax>
+    <syntax_item>U = unstack(S, dataVar, indicatorVar)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>S</param_name>
+      <param_description>Table empilee.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>dataVar</param_name>
+      <param_description>Nom de la variable de donnees.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>indicatorVar</param_name>
+      <param_description>Nom de la variable indicatrice.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>U</param_name>
+      <param_description>Table depliee.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>unstack</b> cree des variables a partir des valeurs d'une variable indicatrice.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[S = table({'a'; 'a'; 'b'; 'b'}, {'X'; 'Y'; 'X'; 'Y'}, [1; 3; 2; 4], 'VariableNames', {'ID', 'Measure', 'Value'});
+U = unstack(S, 'Value', 'Measure')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${table}stack">stack</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>
