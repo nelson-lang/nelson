@@ -39,7 +39,8 @@ public:
     isOpen();
 
     bool
-    addEntry(const char* filename, uint32_t attributes);
+    addEntry(const char* filename, uint32_t attributes, const char* password = nullptr,
+        uint8_t aesMode = 0);
 
     void
     closeEntry();

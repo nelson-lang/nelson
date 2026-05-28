@@ -7,23 +7,30 @@
   <syntax>
     <syntax_item>res = unzip(zipname)</syntax_item>
     <syntax_item>res = unzip(zipname, rootdir)</syntax_item>
+    <syntax_item>res = unzip(___, 'Password', password)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>zipname</param_name>
-      <param_description>a string: zip archive filename.</param_description>
+      <param_description
+      >a string: zip archive filename. If zipname has no extension, Nelson tries zipname with .zip appended.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>rootdir</param_name>
       <param_description
-      >a character vector or string scalar: root path for the files to decompress.</param_description>
+      >a character vector or string scalar: root path for the files to decompress. Missing folders are created.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>password</param_name>
+      <param_description
+      >a character vector or string scalar: password used to extract encrypted archive entries.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>res</param_name>
       <param_description
-      >a cell array of character vectors containing the names of the files decompressed.</param_description>
+      >a cell array of character vectors containing the names of the files decompressed. Names are relative when rootdir is relative and absolute when rootdir is absolute.</param_description>
     </param_output_item>
   </param_output>
   <description>
@@ -38,8 +45,16 @@
       <example_item_description />
       <example_item_data
         runnable="cli"
-      ><![CDATA[zip([tempdir(), 'test.zip'], [nelsonroot(), '/module_skeleton']);
+      ><![CDATA[zip([tempdir(), 'test'], [nelsonroot(), '/module_skeleton']);
 r = unzip([tempdir(), 'test.zip'], [tempdir(), createGUID()])]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[zip([tempdir(), 'protected'], [nelsonroot(), '/module_skeleton/builder.m'], 'Password', 'secret', 'EncryptionMethod', 'zipcrypto');
+r = unzip([tempdir(), 'protected'], [tempdir(), createGUID()], 'Password', 'secret')]]></example_item_data>
     </example_item>
   </examples>
   <see_also>
@@ -51,6 +66,10 @@ r = unzip([tempdir(), 'test.zip'], [tempdir(), createGUID()])]]></example_item_d
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>added support for password</history_description>
     </history_item>
   </history>
   <authors>

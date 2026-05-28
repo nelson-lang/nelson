@@ -8,12 +8,13 @@
   <syntax>
     <syntax_item>res = zip(zipname, files)</syntax_item>
     <syntax_item>res = zip(zipname, files, rootdir)</syntax_item>
+    <syntax_item>res = zip(___, 'Password', password, 'EncryptionMethod', method)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>zipname</param_name>
       <param_description
-      >une chaîne : fichier de destination de l&apos;archive zip.</param_description>
+      >une chaîne : fichier de destination de l&apos;archive zip. Si zipname ne se termine pas par .zip, Nelson ajoute .zip.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>files</param_name>
@@ -25,19 +26,28 @@
       <param_description
       >un vecteur de caractères ou une chaîne : chemin racine pour les fichiers à compresser.</param_description>
     </param_input_item>
+    <param_input_item>
+      <param_name>password</param_name>
+      <param_description
+      >un vecteur de caractères ou une chaîne : mot de passe utilisé pour chiffrer les entrées de l&apos;archive.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>method</param_name>
+      <param_description
+      >méthode de chiffrement : 'zipcrypto', ou, lorsque AES est pris en charge par la compilation, 'aes-128', 'aes128', 'aes-256' ou 'aes256'. Password et EncryptionMethod doivent être spécifiés ensemble.</param_description>
+    </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>res</param_name>
       <param_description
-      >un tableau de cellules de vecteurs de caractères contenant les noms des fichiers inclus dans l&apos;archive zip.</param_description>
+      >un tableau de cellules de vecteurs de caractères contenant les noms relatifs à l&apos;archive des fichiers inclus dans l&apos;archive zip.</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p>
       <b>zip</b> compresse des fichiers et des répertoires dans une archive zip.</p>
-    <p>Chaque fichier individuel doit être inférieur à 4 Go.</p>
-    <p>Le nombre de fichiers spécifiés doit être inférieur à 65535.</p>
+    <p>Les archives chiffrées peuvent être créées en spécifiant à la fois <b>Password</b> et <b>EncryptionMethod</b>.</p>
   </description>
   <used_function />
   <bibliography />
@@ -47,7 +57,15 @@
       <example_item_description />
       <example_item_data
         runnable="cli"
-      ><![CDATA[zip([tempdir(), 'test.zip'], [nelsonroot(), '/module_skeleton'])
+      ><![CDATA[zip([tempdir(), 'test'], [nelsonroot(), '/module_skeleton'])
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[zip([tempdir(), 'protected'], [nelsonroot(), '/module_skeleton/builder.m'], 'Password', 'secret', 'EncryptionMethod', 'aes-256')
 ]]></example_item_data>
     </example_item>
   </examples>
@@ -60,6 +78,10 @@
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>ajout du support pour le mot de passe et la méthode de chiffrement</history_description>
     </history_item>
   </history>
   <authors>

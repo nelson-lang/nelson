@@ -51,7 +51,7 @@ Zipper::isOpen()
 }
 //=============================================================================
 bool
-Zipper::addEntry(const char* filename, uint32_t attributes)
+Zipper::addEntry(const char* filename, uint32_t attributes, const char* password, uint8_t aesMode)
 {
     if (isOpen()) {
         closeEntry();
@@ -59,9 +59,9 @@ Zipper::addEntry(const char* filename, uint32_t attributes)
         getTime(zi.tmz_date);
         zi.dosDate = 0;
         zi.external_fa = attributes;
-        int err = zipOpenNewFileInZip4_64(m_zipFile, filename, &zi, nullptr, 0, nullptr, 0, nullptr,
-            Z_DEFLATED, Z_DEFAULT_COMPRESSION, 0, 0, 0, 0, nullptr, 0, MZ_VERSION_MADEBY, 1 << 11,
-            0);
+        int err = zipOpenNewFileInZipNelson64(m_zipFile, filename, &zi, nullptr, 0, nullptr, 0,
+            nullptr, Z_DEFLATED, Z_DEFAULT_COMPRESSION, 0, 0, 0, 0, password, 0, MZ_VERSION_MADEBY,
+            1 << 11, 0, aesMode);
         m_entryOpen = (err == ZIP_OK);
     }
     return m_entryOpen;

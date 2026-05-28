@@ -28,6 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Extended `class`, `isa`, `isobject`, `methods`, `properties`, `fieldnames`, `struct`, `clear`, `save`, `load`, `savemat`, `loadmat`, debugger breakpoints, profiler line tracking, and text completion to understand `classdef` objects while preserving legacy `@class` and `class(s, 'Name')` behavior.
+- Improved `zip`/`unzip` with `.zip` extension handling, encrypted archive support, and relative output paths for relative extraction folders.
 - Improved bytecode VM command queue polling to keep IPC responsiveness without taking a mutex on every empty statement boundary.
 - Improved interpreter performance for loops, recursive calls, and anonymous function dispatch.
 - Improved Ctrl+C responsiveness in interpreted loops by polling interrupts at bytecode statement boundaries and loop backedges.

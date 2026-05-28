@@ -7,17 +7,51 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('zip'), -3);
+assert_isequal(nargin('zip'), -7);
 assert_isequal(nargout('zip'), -1);
-%=============================================================================
-builderFile = [nelsonroot(),'/module_skeleton/builder.m'];
-if ~isfile(builderFile)
-  return
-end
 %=============================================================================
 TMPDIR = tempdir()
 if ismac()
   TMPDIR = ['/private', TMPDIR];
+end
+%=============================================================================
+temp_dest = [TMPDIR, createGUID()];
+mkdir(temp_dest);
+cd(temp_dest);
+fd = fopen('a.txt', 'w');
+fprintf(fd, 'hello');
+fclose(fd);
+R = zip('plain', 'a.txt');
+assert_isequal(R, {'a.txt'});
+assert_isfalse(isfile('plain'));
+assert_istrue(isfile('plain.zip'));
+R = zip('with.other.extension', 'a.txt');
+assert_isequal(R, {'a.txt'});
+assert_isfalse(isfile('with.other.extension'));
+assert_istrue(isfile('with.other.extension.zip'));
+assert_checkerror('zip(''missing_password'', ''a.txt'', ''EncryptionMethod'', ''zipcrypto'');', _('Password and encryption method must be specified together.'));
+assert_checkerror('zip(''missing_method'', ''a.txt'', ''Password'', ''secret'');', _('Password and encryption method must be specified together.'));
+assert_checkerror('zip(''bad_method'', ''a.txt'', ''Password'', ''secret'', ''EncryptionMethod'', ''bad'');', _('Invalid encryption method.'));
+methods = {'zipcrypto'};
+if ispc()
+  methods = {'zipcrypto', 'aes-128', 'aes-256'};
+end
+for k = 1:length(methods)
+  archive_name = ['secret_', int2str(k)];
+  out_dir = ['out_', int2str(k)];
+  R = zip(archive_name, 'a.txt', 'Password', 'secret', 'EncryptionMethod', methods{k});
+  assert_isequal(R, {'a.txt'});
+  assert_istrue(isfile([archive_name, '.zip']));
+  extracted = unzip(archive_name, out_dir, 'Password', 'secret');
+  assert_isequal(extracted, {[out_dir, '/a.txt']});
+  assert_istrue(isfile([out_dir, '/a.txt']));
+end
+cd(tempdir());
+rmdir(temp_dest, 's');
+%=============================================================================
+builderFile = [nelsonroot(),'/module_skeleton/builder.m'];
+if ~isfile(builderFile)
+  return
 end
 %=============================================================================
 DEST_1 = [TMPDIR, 'zip_test_1.zip'];
@@ -48,8 +82,8 @@ temp_dest = [TMPDIR, createGUID()];
 mkdir(temp_dest);
 cd(temp_dest);
 R1 = unzip(DEST_1);
-REF1 = {[temp_dest, '/builder.m']};
-REF2 = {[temp_dest, '/builder.m'] , [temp_dest, '/loader.m']};
+REF1 = {'builder.m'};
+REF2 = {'builder.m' , 'loader.m'};
 if length(R1) == 2
   assert_isequal(R1, REF2);
 else
@@ -62,8 +96,8 @@ temp_dest = [TMPDIR, createGUID()];
 mkdir(temp_dest);
 cd(temp_dest);
 R2 = unzip(DEST_2);
-REF1 = {[temp_dest, '/builder.m']};
-REF2 = {[temp_dest, '/builder.m'] , [temp_dest, '/loader.m']};
+REF1 = {'builder.m'};
+REF2 = {'builder.m' , 'loader.m'};
 if length(R2) == 2
   assert_isequal(R2, REF2);
 else

@@ -148,6 +148,19 @@ int zipOpenNewFileInZip5(zipFile file, const char *filename, const zip_fileinfo 
     int raw, int windowBits, int memLevel, int strategy, const char *password,
     uint32_t crc_for_crypting,  uint16_t version_madeby, uint16_t flag_base, int zip64)
 {
+    return zipOpenNewFileInZipNelson64(file, filename, zipfi, extrafield_local,
+        size_extrafield_local, extrafield_global, size_extrafield_global, comment,
+        compression_method, level, raw, windowBits, memLevel, strategy, password,
+        crc_for_crypting, version_madeby, flag_base, zip64, MZ_AES_ENCRYPTION_MODE_256);
+}
+
+int zipOpenNewFileInZipNelson64(zipFile file, const char *filename, const zip_fileinfo *zipfi,
+    const void *extrafield_local, uint16_t size_extrafield_local, const void *extrafield_global,
+    uint16_t size_extrafield_global, const char *comment, uint16_t compression_method, int level,
+    int raw, int windowBits, int memLevel, int strategy, const char *password,
+    uint32_t crc_for_crypting,  uint16_t version_madeby, uint16_t flag_base, int zip64,
+    uint8_t aes_encryption_mode)
+{
     mz_compat *compat = (mz_compat *)file;
     mz_zip_file file_info;
     uint64_t dos_date = 0;
@@ -194,8 +207,11 @@ int zipOpenNewFileInZip5(zipFile file, const char *filename, const zip_fileinfo 
     else
         file_info.zip64 = MZ_ZIP64_DISABLE;
 #ifdef HAVE_WZAES
-    if ((password != NULL) || (raw && (file_info.flag & MZ_ZIP_FLAG_ENCRYPTED)))
+    if (((password != NULL) || (raw && (file_info.flag & MZ_ZIP_FLAG_ENCRYPTED))) &&
+        (aes_encryption_mode != 0)) {
         file_info.aes_version = MZ_AES_VERSION;
+        file_info.aes_encryption_mode = aes_encryption_mode;
+    }
 #endif
 
     return mz_zip_entry_write_open(compat->handle, &file_info, (int16_t)level, (uint8_t)raw, password);

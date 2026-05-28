@@ -22,8 +22,45 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+static std::wstring
+withZipExtensionForRead(const std::wstring& zipFilename)
+{
+    FileSystemWrapper::Path p(zipFilename);
+    if (p.extension().wstring().empty()) {
+        return zipFilename + L".zip";
+    }
+    return zipFilename;
+}
+//=============================================================================
+static std::wstring
+getReturnedFilename(const std::wstring& rootpath, const std::wstring& fullRootPath,
+    const std::wstring& entryName, bool isDirectory)
+{
+    FileSystemWrapper::Path root(rootpath.empty() ? L"." : rootpath);
+    FileSystemWrapper::Path result;
+    if (root.is_absolute()) {
+        result = FileSystemWrapper::Path(fullRootPath) / FileSystemWrapper::Path(entryName);
+    } else if (rootpath.empty() || rootpath == L".") {
+        result = FileSystemWrapper::Path(entryName);
+    } else {
+        result = root / FileSystemWrapper::Path(entryName);
+    }
+    std::wstring returnedName = normalizeZipPath(result.generic_wstring());
+    if (isDirectory && !StringHelpers::ends_with(returnedName, L"/")) {
+        returnedName = returnedName + L"/";
+    }
+    return returnedName;
+}
+//=============================================================================
 void
 UnZip(const std::wstring& zipFilename, const std::wstring& rootpath, wstringVector& filenames)
+{
+    UnZip(zipFilename, rootpath, L"", filenames);
+}
+//=============================================================================
+void
+UnZip(const std::wstring& zipFilename, const std::wstring& rootpath, const std::wstring& password,
+    wstringVector& filenames)
 {
     if (!FileSystemWrapper::Path::is_directory(rootpath)) {
         FileSystemWrapper::Path p(rootpath);
@@ -33,10 +70,18 @@ UnZip(const std::wstring& zipFilename, const std::wstring& rootpath, wstringVect
         }
     }
     std::wstring fullRootPath = getRootPath(rootpath);
+    std::wstring zipFilenameWithExtension = withZipExtensionForRead(zipFilename);
+    std::string utf8Password;
+    const char* passwordPtr = nullptr;
+    if (!password.empty()) {
+        utf8Password = wstring_to_utf8(password);
+        passwordPtr = utf8Password.c_str();
+    }
 
-    unzFile* zipfile = static_cast<unzFile*>(unzOpen64(wstring_to_utf8(zipFilename).c_str()));
+    unzFile* zipfile
+        = static_cast<unzFile*>(unzOpen64(wstring_to_utf8(zipFilenameWithExtension).c_str()));
     if (zipfile == nullptr) {
-        Error(_W("Cannot read file:") + L" " + zipFilename);
+        Error(_W("Cannot read file:") + L" " + zipFilenameWithExtension);
     }
 
     unz_global_info64 global_info;
@@ -55,17 +100,22 @@ UnZip(const std::wstring& zipFilename, const std::wstring& rootpath, wstringVect
         }
         const size_t filename_length = strlen(filename);
         if (filename[filename_length - 1] == '/') {
-            std::wstring completePath = fullRootPath + L"/" + utf8_to_wstring(filename);
+            std::wstring entryName = utf8_to_wstring(filename);
+            std::wstring completePath = fullRootPath + L"/" + entryName;
             if (!FileSystemWrapper::Path::is_directory(completePath)) {
                 FileSystemWrapper::Path::create_directories(completePath);
             }
-            filenames.push_back(completePath);
+            filenames.push_back(getReturnedFilename(rootpath, fullRootPath, entryName, true));
         } else {
-            if (unzOpenCurrentFile(zipfile) != UNZ_OK) {
+            int openStatus = passwordPtr == nullptr
+                ? unzOpenCurrentFile(zipfile)
+                : unzOpenCurrentFilePassword(zipfile, passwordPtr);
+            if (openStatus != UNZ_OK) {
                 unzClose(zipfile);
                 Error(_W("Cannot open file."));
             }
-            std::filesystem::path completePath(fullRootPath + L"/" + utf8_to_wstring(filename));
+            std::wstring entryName = utf8_to_wstring(filename);
+            std::filesystem::path completePath(fullRootPath + L"/" + entryName);
             std::error_code ec;
             std::filesystem::create_directories(completePath.parent_path(), ec);
             if (ec) {
@@ -84,7 +134,7 @@ UnZip(const std::wstring& zipFilename, const std::wstring& rootpath, wstringVect
                 unzClose(zipfile);
                 Error(_W("Cannot open destination file."));
             }
-            filenames.push_back(completePath.generic_wstring());
+            filenames.push_back(getReturnedFilename(rootpath, fullRootPath, entryName, false));
 
             int error = UNZ_OK;
             char read_buffer[MAX_FILENAME];

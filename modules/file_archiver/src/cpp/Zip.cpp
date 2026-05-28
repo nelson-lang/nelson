@@ -22,6 +22,36 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+static std::wstring
+withZipExtension(const std::wstring& zipFilename)
+{
+    FileSystemWrapper::Path p(zipFilename);
+    std::wstring extension = StringHelpers::to_lower_copy(p.extension().wstring());
+    if (extension != L".zip") {
+        return zipFilename + L".zip";
+    }
+    return zipFilename;
+}
+//=============================================================================
+static uint8_t
+getAesMode(const std::wstring& encryptionMethod)
+{
+    std::wstring method = StringHelpers::to_lower_copy(encryptionMethod);
+    if (method == L"zipcrypto") {
+        return 0;
+    }
+#ifdef HAVE_WZAES
+    if (method == L"aes-128" || method == L"aes128") {
+        return MZ_AES_ENCRYPTION_MODE_128;
+    }
+    if (method == L"aes-256" || method == L"aes256") {
+        return MZ_AES_ENCRYPTION_MODE_256;
+    }
+#endif
+    Error(_W("Invalid encryption method."));
+    return 0;
+}
+//=============================================================================
 static wstringVector
 ListFilesWithWildcard(const std::wstring& mask, bool bSubdirectories)
 {
@@ -244,10 +274,29 @@ prepareFilesToZip(const wstringVector& names, const std::wstring& rootpath,
 void
 Zip(const std::wstring& zipFilename, const wstringVector& names, const std::wstring& rootpath,
     wstringVector& entrynames)
+{
+    Zip(zipFilename, names, rootpath, L"", L"", entrynames);
+}
+//=============================================================================
+void
+Zip(const std::wstring& zipFilename, const wstringVector& names, const std::wstring& rootpath,
+    const std::wstring& password, const std::wstring& encryptionMethod, wstringVector& entrynames)
 
 {
     if (!rootpath.empty() && !FileSystemWrapper::Path::is_directory(rootpath)) {
         Error(_W("Invalid root path."));
+    }
+    if ((password.empty() && !encryptionMethod.empty())
+        || (!password.empty() && encryptionMethod.empty())) {
+        Error(_W("Password and encryption method must be specified together."));
+    }
+    uint8_t aesMode = 0;
+    std::string utf8Password;
+    const char* passwordPtr = nullptr;
+    if (!password.empty()) {
+        aesMode = getAesMode(encryptionMethod);
+        utf8Password = wstring_to_utf8(password);
+        passwordPtr = utf8Password.c_str();
     }
     wstringVector localFiles;
     wstringVector filesInZip;
@@ -255,14 +304,15 @@ Zip(const std::wstring& zipFilename, const wstringVector& names, const std::wstr
     if (localFiles.empty()) {
         Error(_W("Nothing to zip."));
     }
+    std::wstring zipFilenameWithExtension = withZipExtension(zipFilename);
     Nelson::Zipper zipFile;
-    if (FileSystemWrapper::Path::is_regular_file(zipFilename)) {
-        FileSystemWrapper::Path pathToRemove(zipFilename);
+    if (FileSystemWrapper::Path::is_regular_file(zipFilenameWithExtension)) {
+        FileSystemWrapper::Path pathToRemove(zipFilenameWithExtension);
         FileSystemWrapper::Path::remove(pathToRemove);
     }
-    zipFile.open(wstring_to_utf8(zipFilename).c_str(), false);
+    zipFile.open(wstring_to_utf8(zipFilenameWithExtension).c_str(), false);
     if (!zipFile.isOpen()) {
-        Error(_W("Cannot write file:") + L" " + zipFilename);
+        Error(_W("Cannot write file:") + L" " + zipFilenameWithExtension);
     }
     for (size_t k = 0; k < localFiles.size(); ++k) {
         std::wstring filename = localFiles[k];
@@ -295,7 +345,8 @@ Zip(const std::wstring& zipFilename, const wstringVector& names, const std::wstr
             if (StringHelpers::starts_with(entry, L"/")) {
                 entry = entry.substr(1);
             }
-            if (zipFile.addEntry(wstring_to_utf8(entry).c_str(), attributes)) {
+            if (zipFile.addEntry(
+                    wstring_to_utf8(entry).c_str(), attributes, passwordPtr, aesMode)) {
                 zipFile << file;
                 file.close();
                 zipFile.closeEntry();

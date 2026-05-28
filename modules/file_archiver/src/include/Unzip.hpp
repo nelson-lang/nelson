@@ -19,5 +19,10 @@ NLSFILE_ARCHIVER_IMPEXP
 void
 UnZip(const std::wstring& zipFilename, const std::wstring& rootpath, wstringVector& entriesnames);
 //=============================================================================
+NLSFILE_ARCHIVER_IMPEXP
+void
+UnZip(const std::wstring& zipFilename, const std::wstring& rootpath, const std::wstring& password,
+    wstringVector& entriesnames);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -27,6 +27,7 @@ if(NOT WITHOUT_FILE_ARCHIVER_MODULE)
     "${_minizip_dir}/mz_strm.c"
     "${_minizip_dir}/mz_strm_buf.c"
     "${_minizip_dir}/mz_strm_mem.c"
+    "${_minizip_dir}/mz_strm_pkcrypt.c"
     "${_minizip_dir}/mz_strm_split.c"
     "${_minizip_dir}/mz_strm_zlib.c"
     "${_minizip_dir}/mz_zip.c")
@@ -34,8 +35,10 @@ if(NOT WITHOUT_FILE_ARCHIVER_MODULE)
     list(
       APPEND
       _minizip_srcs
+      "${_minizip_dir}/mz_crypt_win32.c"
       "${_minizip_dir}/mz_os_win32.c"
-      "${_minizip_dir}/mz_strm_os_win32.c")
+      "${_minizip_dir}/mz_strm_os_win32.c"
+      "${_minizip_dir}/mz_strm_wzaes.c")
   else()
     list(
       APPEND
@@ -63,9 +66,10 @@ add_library(${module_library_name} ${FILE_ARCHIVER_SRC})
 if(NOT WITHOUT_FILE_ARCHIVER_MODULE)
   target_compile_definitions(
     ${module_library_name}
-    PRIVATE MZ_ZIP_NO_ENCRYPTION
-            ZLIB_COMPAT
+    PRIVATE ZLIB_COMPAT
             HAVE_ZLIB
+            HAVE_PKCRYPT
+            $<$<BOOL:${WIN32}>:HAVE_WZAES>
             $<$<BOOL:${HAVE_STDINT_H}>:HAVE_STDINT_H>
             $<$<BOOL:${HAVE_INTTYPES_H}>:HAVE_INTTYPES_H>)
   target_include_directories(
