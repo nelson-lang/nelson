@@ -28,7 +28,7 @@ jobs:
             extra_test_env: ""
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: install micromamba
         uses: mamba-org/setup-micromamba@v3

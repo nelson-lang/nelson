@@ -36,7 +36,7 @@ jobs:
         run: choco install just
         shell: powershell
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - name: Get package version
         uses: jaywcjlove/github-action-package@v2.1.0
         id: json_version
@@ -153,7 +153,7 @@ jobs:
           C:/install/MSMpiSetup.exe -unattend -minimal
         shell: powershell
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - name: Get package version
         uses: jaywcjlove/github-action-package@v2.1.0
         id: json_version
@@ -280,7 +280,7 @@ jobs:
           C:/install/MSMpiSetup.exe -unattend -minimal
         shell: powershell
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - name: Get package version
         uses: jaywcjlove/github-action-package@v2.1.0
         id: json_version

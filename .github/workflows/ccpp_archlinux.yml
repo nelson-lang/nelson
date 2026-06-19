@@ -15,7 +15,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - name: Install dependencies
         run: $GITHUB_WORKSPACE/tools/install_dependencies/install-archLinux.sh
       - name: Trust repo directory
