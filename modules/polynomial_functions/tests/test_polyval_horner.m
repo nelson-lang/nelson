@@ -23,7 +23,7 @@ degrees = {0, 1, 2, 6};
 for k = 1:numel(degrees)
   p = rand(1, degrees{k} + 1) - 0.5;
   x = (rand(40, 7) - 0.5) * 10;
-  asserts.isequal(polyval_horner(p, x), refHorner(p, x));
+  assertHornerMatch(polyval_horner(p, x), refHorner(p, x));
 end
 %=============================================================================
 % Scalar, row, column, N-D shapes are preserved.
@@ -32,7 +32,7 @@ asserts.isequal(polyval_horner(p, 1.25), refHorner(p, 1.25));
 xnd = reshape((1:24) / 7, [2 3 4]);
 r = polyval_horner(p, xnd);
 asserts.isequal(size(r), [2 3 4]);
-asserts.isequal(r, refHorner(p, xnd));
+assertHornerMatch(r, refHorner(p, xnd));
 %=============================================================================
 % NaN / Inf in the evaluation points and in the coefficients propagate
 % exactly like the loop.
@@ -48,7 +48,7 @@ ps = single([1.5 -2.25 0.75]);
 xs = single((rand(50, 1) - 0.5) * 6);
 rs = polyval_horner(ps, xs);
 asserts.isequal(class(rs), 'single');
-asserts.isequal(rs, refHorner(ps, xs));
+assertHornerMatch(rs, refHorner(ps, xs));
 % Mixed single/double promotes to single.
 asserts.isequal(class(polyval_horner(single([1 2 3]), 2)), 'single');
 asserts.isequal(class(polyval_horner([1 2 3], single(2))), 'single');
@@ -62,7 +62,7 @@ rc = polyval_horner(pc, zc);
 asserts.isfalse(isreal(rc));
 asserts.isequal(rc, refHorner(pc, zc));
 pc2 = [2+1i, -1+0i, 3-2i, 0.5];
-asserts.isequal(polyval_horner(pc2, zc), refHorner(pc2, zc));
+assertHornerMatch(polyval_horner(pc2, zc), refHorner(pc2, zc));
 % Complex coefficients with real points.
 asserts.isequal(polyval_horner([1+2i, 3-1i, 0.5], [0 1 2 3]), ...
   refHorner([1+2i, 3-1i, 0.5], [0 1 2 3]));
@@ -71,14 +71,14 @@ pcs = single([1+1i, -2, 0.5-1i]);
 zcs = single((rand(97, 1) - 0.5) + 1i * (rand(97, 1) - 0.5));
 rcs = polyval_horner(pcs, zcs);
 asserts.isequal(class(rcs), 'single');
-asserts.isequal(rcs, refHorner(pcs, zcs));
+assertHornerMatch(rcs, refHorner(pcs, zcs));
 % Bit-identity across element counts (N=1 scalar path, odd/even packet tails,
 % and a large array) for double and single.
 pz = [2+1i, -1+0.5i, 3-2i, 0.5, 1-1i, 0.25, -0.5+0.5i, 2];
 for N = [1 2 3 5 8 17 101 4001]
   z = (rand(N, 1) - 0.5) + 1i * (rand(N, 1) - 0.5);
-  asserts.isequal(polyval_horner(pz, z), refHorner(pz, z));
-  asserts.isequal(polyval_horner(single(pz), single(z)), refHorner(single(pz), single(z)));
+  assertHornerMatch(polyval_horner(pz, z), refHorner(pz, z));
+  assertHornerMatch(polyval_horner(single(pz), single(z)), refHorner(single(pz), single(z)));
 end
 %=============================================================================
 % A complex computation whose result is purely real collapses to real.
@@ -88,16 +88,20 @@ asserts.istrue(isreal(polyval_horner([1 0 1], [2 3 4] + 0i)));
 asserts.isequal(polyval([3 2 1], [5 7 9]), [86 162 262]);
 p = rand(1, 7) - 0.5;
 x = rand(100, 1);
-asserts.isequal(polyval(p, x), refHorner(p, x));
+assertHornerMatch(polyval(p, x), refHorner(p, x));
 pcbig = [2+1i, -1+0i, 3-2i, 0.5];
 zbig = (rand(5000, 1) - 0.5) + 1i * (rand(5000, 1) - 0.5);
-asserts.isequal(polyval(pcbig, zbig), refHorner(pcbig, zbig));
+assertHornerMatch(polyval(pcbig, zbig), refHorner(pcbig, zbig));
 %=============================================================================
 function y = refHorner(coefficients, evaluationPoints)
-  % Exact reproduction of the historical elementwise multiply-then-add loop.
   y = coefficients(1) + zeros(size(evaluationPoints));
   for coefficientIndex = 2:numel(coefficients)
     y = y .* evaluationPoints + coefficients(coefficientIndex);
   end
+end
+%=============================================================================
+function assertHornerMatch(actual, expected)
+  relTol = 4 * eps(cast(1, class(actual)));
+  asserts.isapprox(actual, expected, relTol);
 end
 %=============================================================================

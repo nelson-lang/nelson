@@ -6,6 +6,9 @@
 
 set -e  # Exit immediately if a command exits with a non-zero status
 set -o pipefail  # Return value of a pipeline is the value of the last command
+# never wait on a dpkg or needrestart prompt, a CI job would hang until its timeout
+export DEBIAN_FRONTEND=noninteractive
+export NEEDRESTART_MODE=a
 
 # Function to print messages
 print_status() {
@@ -30,12 +33,15 @@ fi
 print_status "Updating package lists"
 apt-get update --fix-missing -y
 
-print_status "Upgrading existing packages"
-apt-get upgrade -y
+# the GitHub runner image is already current, the upgrade costs minutes and can prompt
+if [ "$GITHUB_ACTIONS" != "true" ]; then
+    print_status "Upgrading existing packages"
+    apt-get upgrade -y
+fi
 
-# Just 1.33 or higher is required
+# Just 1.33 or higher is required: Ubuntu 24.04 ships 1.21, the official installer avoids the snapd hangs seen on runners
 print_status "Installing Just"
-snap install --classic just
+curl --proto "=https" --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to /usr/local/bin
 
 print_status "Installing build tools"
 apt-get install -y build-essential ninja-build autotools-dev libtool automake \

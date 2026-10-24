@@ -130,6 +130,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
+      <DebugInformationFormat>None</DebugInformationFormat>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
@@ -141,7 +142,7 @@
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
       <AdditionalDependencies>user32.lib;bcrypt.lib;libnlsInterpreter.lib;libnlsNelson_manager.lib;libnlsCharacters_encoding.lib;libnlsCommons.lib;libnlsTypes.lib;libnlsFile_archiver.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -149,6 +150,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
     <ClCompile>
+      <DebugInformationFormat>None</DebugInformationFormat>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
@@ -160,7 +162,7 @@
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
       <AdditionalDependencies>user32.lib;bcrypt.lib;libnlsInterpreter.lib;libnlsNelson_manager.lib;libnlsCharacters_encoding.lib;libnlsCommons.lib;libnlsTypes.lib;libnlsFile_archiver.lib;%(AdditionalDependencies)</AdditionalDependencies>

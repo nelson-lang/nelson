@@ -1,0 +1,25 @@
+name: "C/C++ CI"
+
+on: [push, pull_request]
+
+permissions:
+  # the merge jobs delete the shard artifacts once they are merged
+  actions: write
+  checks: write
+  contents: read
+  pull-requests: read
+
+jobs:
+  Windows:
+    uses: ./.github/workflows/ccpp_windows.yml
+
+  macOS:
+    uses: ./.github/workflows/ccpp_macos.yml
+
+  Ubuntu:
+    uses: ./.github/workflows/ccpp_ubuntu.yml
+
+  # on master, build and test the snap in the same run as the rest of the CI
+  Snapcraft:
+    if: github.ref == 'refs/heads/master'
+    uses: ./.github/workflows/snapcraft.yml

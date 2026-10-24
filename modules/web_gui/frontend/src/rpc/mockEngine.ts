@@ -1657,11 +1657,12 @@ export class MockEngine {
       // Single axes filling the figure; enough for the app to target it by handle.
       res.rotatableAxes = [{ handle: handle * 1000 + 1, rect: [0, 0, 1, 1], view: res.view }];
     }
+    // a real transport serializes: hand out copies so the panel sees new objects
     if (f.controls) {
-      res.controls = f.controls;
+      res.controls = f.controls.map((control) => ({ ...control }));
     }
     if (f.menus) {
-      res.menus = f.menus;
+      res.menus = JSON.parse(JSON.stringify(f.menus));
     }
     return res;
   }

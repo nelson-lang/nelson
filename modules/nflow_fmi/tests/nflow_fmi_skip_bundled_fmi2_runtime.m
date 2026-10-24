@@ -10,6 +10,14 @@
 % <--ENGLISH IMPOSED-->
 %=============================================================================
 function tf = nflow_fmi_skip_bundled_fmi2_runtime()
-  tf = ismac() && strcmp(computer('arch'), 'maca64');
+  % the bundled FMI 2.0 reference FMUs only carry x86-64 binaries (win64, darwin64, linux64)
+  if ismac()
+    tf = strcmp(computer('arch'), 'maca64');
+  elseif isunix()
+    [status, machine] = system('uname -m');
+    tf = (status == 0) && ~strcmp(strtrim(machine), 'x86_64');
+  else
+    tf = false;
+  end
 end
 %=============================================================================

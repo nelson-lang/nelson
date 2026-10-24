@@ -39,7 +39,6 @@ ENV AUDIODEV null
 
 RUN just config -DCMAKE_BUILD_TYPE=Release .
 RUN just build
-RUN just get_module_skeleton
 RUN just build_help
 RUN just minimal_tests
 RUN just package

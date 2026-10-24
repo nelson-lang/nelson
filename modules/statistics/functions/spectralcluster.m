@@ -70,7 +70,8 @@ function [validX, validRows, outputRows] = prepareInput(X, opts)
   if strcmp(opts.Distance, 'precomputed')
     validateSimilarityInput(X);
     validRows = (1:outputRows)';
-    validX = X;
+    % fold the ulp level asymmetry tolerated by the check, the Laplacian must stay symmetric
+    validX = (X + X') / 2;
   else
     finiteRows = (double(isfinite(X)) * ones(size(X, 2), 1)) == size(X, 2);
     validRows = find(finiteRows);
@@ -88,7 +89,9 @@ function validateSimilarityInput(S)
   if any(~isfinite(S(:))) || any(S(:) < 0)
     error('Nelson:statistics:mustBeFiniteNonnegative', '%s must contain finite nonnegative values.', 'Similarity matrix');
   end
-  if ~isequal(S, S')
+  % vectorized kernels can differ by an ulp across the diagonal: only a real asymmetry is an error
+  tolerance = 1e-10 * max(1, max(abs(S(:))));
+  if any(abs(S(:) - reshape(S', [], 1)) > tolerance)
     error('Nelson:statistics:similarityMatrixSymmetric', '%s must be symmetric.', 'Similarity matrix');
   end
 end

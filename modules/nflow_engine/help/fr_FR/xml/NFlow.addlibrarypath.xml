@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>NFlow.addlibrarypath</keyword>
+  <short_description>Ajoute un répertoire de recherche de bibliothèques de blocs nflow.</short_description>
+  <syntax>
+    <syntax_item>NFlow.addlibrarypath(folder)</syntax_item>
+    <syntax_item>paths = NFlow.addlibrarypath(folder)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>folder</param_name><param_description>un répertoire contenant un ou plusieurs sous-dossiers de bibliothèque, chacun avec un <b>library.json</b> et sa bibliothèque native.</param_description></param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>paths</param_name><param_description>la liste mise à jour des répertoires de recherche, un tableau de cellules de chaînes de caractères.</param_description></param_output_item>
+  </param_output>
+  <description>
+    <p><b>NFlow.addlibrarypath</b> ajoute <b>folder</b> aux répertoires de recherche de bibliothèques de blocs nflow et le parcourt. Chaque sous-dossier contenant un <b>library.json</b> à côté de sa bibliothèque native est chargé, de sorte que ses blocs deviennent disponibles pour <b>sim</b>, la génération de code et l'éditeur sans redémarrer Nelson.</p>
+    <p>Ajouter un répertoire déjà enregistré n'a aucun effet. Une erreur est levée lorsque <b>folder</b> n'existe pas.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Compile le plugin d'exemple cumprod et enregistre son dossier de bibliothèques.</example_item_description>
+      <example_item_data><![CDATA[run([modulepath('nflow_gui'), '/examples/libraries/cumprod/builder.m']);
+NFlow.addlibrarypath([modulepath('nflow_gui'), '/examples/libraries']);
+NFlow.librarypaths()]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${nflow_engine}NFlow.librarypaths">NFlow.librarypaths</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}NFlow.rmlibrarypath">NFlow.rmlibrarypath</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}sim">sim</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>2.0.0</history_version><history_description>version initiale</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

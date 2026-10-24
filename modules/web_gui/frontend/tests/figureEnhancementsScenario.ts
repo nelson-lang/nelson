@@ -24,6 +24,7 @@ export async function figureEnhancementsScenario(page: Page) {
     await waitForFigureLayout(figure);
   };
   await page.goto('/');
+  await page.getByRole('tab', { name: 'Command Window', exact: true }).click();
   await expect(page.locator('.console-host').first()).toContainText('connected:', {
     timeout: 120000,
   });
@@ -37,18 +38,23 @@ export async function figureEnhancementsScenario(page: Page) {
   await figure.getByRole('button', { name: 'Properties', exact: true }).click();
   await waitForFigureLayout(figure);
   const inspector = figure.getByRole('complementary', { name: 'Figure properties' });
-  await inspector.getByLabel('Object', { exact: true }).selectOption({ label: 'Signal' });
-  await inspector.getByLabel('Line style', { exact: true }).selectOption('--');
-  await expect(inspector.getByLabel('Line style', { exact: true })).toHaveValue('--');
+  // the object browser picks the line, the property grid then edits it by property name
+  await inspector
+    .getByRole('tree', { name: 'Object browser' })
+    .getByRole('button', { name: 'line (Signal)', exact: true })
+    .click();
+  const lineStyle = inspector.getByLabel('LineStyle', { exact: true });
+  await lineStyle.selectOption('--');
+  await expect(lineStyle).toHaveValue('--');
   await figure.getByRole('button', { name: 'Undo figure edit' }).click();
-  await expect(inspector.getByLabel('Line style', { exact: true })).toHaveValue('-');
+  await expect(lineStyle).toHaveValue('-');
   await figure.focus();
   await figure.press('Control+Shift+z');
-  await expect(inspector.getByLabel('Line style', { exact: true })).toHaveValue('--');
+  await expect(lineStyle).toHaveValue('--');
   await inspector.getByLabel('Marker', { exact: true }).selectOption('o');
-  await inspector.getByLabel('Marker size', { exact: true }).fill('9');
-  await inspector.getByLabel('Marker size', { exact: true }).press('Enter');
-  await expect(inspector.getByLabel('Marker size', { exact: true })).toHaveValue('9');
+  await inspector.getByLabel('MarkerSize', { exact: true }).fill('9');
+  await inspector.getByLabel('MarkerSize', { exact: true }).press('Enter');
+  await expect(inspector.getByLabel('MarkerSize', { exact: true })).toHaveValue('9');
   await inspector.getByLabel('Color picker', { exact: true }).fill('#00ff00');
   await expect(inspector.getByLabel('Color', { exact: true })).toHaveValue('0, 1, 0');
   const legend = figure.getByLabel('Plotted objects', { exact: true });
@@ -91,7 +97,7 @@ export async function figureEnhancementsScenario(page: Page) {
     .poll(() =>
       page.evaluate(() => JSON.parse(localStorage.getItem('nelson.figure.workspace.v1') ?? '{}'))
     )
-    .toEqual({ properties: true, navigation: true, details: true, width: previous + 10 });
+    .toEqual(expect.objectContaining({ properties: true, details: true, width: previous + 10 }));
   await page.reload();
   await page.getByRole('tab', { name: 'Command Window', exact: true }).click();
   await expect(page.locator('.console-host').first()).toContainText('connected:', {
@@ -101,6 +107,9 @@ export async function figureEnhancementsScenario(page: Page) {
     "close('all'); f=figure('Name','Workspace enhancements','WindowStyle','docked'); plot(1:3)"
   );
   await show();
+  // a newly mounted figure always starts with its inspector closed: only its width is kept
+  await expect(figure.getByRole('complementary', { name: 'Figure properties' })).toHaveCount(0);
+  await figure.getByRole('button', { name: 'Properties', exact: true }).click();
   await expect(figure.getByRole('complementary', { name: 'Figure properties' })).toBeVisible();
   await expect(figure.getByLabel('Figure navigation', { exact: true })).toBeVisible();
   await expect(figure.locator('.figure-workspace-status')).toBeVisible();

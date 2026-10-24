@@ -48,8 +48,12 @@
 #include "NelsonHistory.hpp"
 #include "characters_encoding.hpp"
 #include "Evaluator.hpp"
+#include "RuntimeDispatch.hpp"
 #if WITH_TEXT_COMPLETION_MODULE
 #include "CompleterHelper.hpp"
+#include "BuiltinCompleter.hpp"
+#include "MacroCompleter.hpp"
+#include "VariableCompleter.hpp"
 #endif
 //=============================================================================
 #if WITH_TEXT_COMPLETION_MODULE
@@ -109,8 +113,10 @@ completionHook(const std::string& buffer, int& contextLen)
     return completions;
 }
 //=============================================================================
-// Inline hint: when the current token has exactly one completion, replxx shows
-// it as gray text after the cursor.
+// Pause after the last keystroke before replxx asks for the inline hint.
+static constexpr int HINT_DELAY_MS = 200;
+//=============================================================================
+// Inline gray hint for a unique completion, from name tables only (no file listing).
 static replxx::Replxx::hints_t
 hintHook(const std::string& buffer, int& contextLen, replxx::Replxx::Color& color)
 {
@@ -120,40 +126,55 @@ hintHook(const std::string& buffer, int& contextLen, replxx::Replxx::Color& colo
         return hints;
     }
     std::wstring currentW = utf8_to_wstring(buffer);
-    // Member expressions with indexing ("data(k).fi") may evaluate the object
-    // to list its fields; do not pay that cost (or its side effects) on every
-    // keystroke, only on an explicit TAB.
+    std::wstring filepart = getPartialLineAsPath(currentW);
+    std::wstring textpart = getPartialLine(currentW);
+    if (isFileCompletionContext(currentW, filepart, textpart)) {
+        return hints;
+    }
     std::wstring token = getCompletionTokenToReplace(currentW, false);
+    if (token.empty()) {
+        return hints;
+    }
     size_t tokenStart = currentW.size() - token.size();
     bool memberContext = (tokenStart > 0) && (currentW[tokenStart - 1] == L'.');
+    std::unordered_set<std::string> uniqueEntries;
+    auto collect = [&](const Nelson::wstringVector& source) {
+        for (const auto& entry : source) {
+            if (StringHelpers::istarts_with(entry, token)) {
+                uniqueEntries.insert(wstring_to_utf8(entry));
+            }
+        }
+    };
     if (memberContext) {
+        // Indexed member expressions evaluate the object: leave them to TAB.
         size_t chunkStart = currentW.find_last_of(L" \t,;=");
         std::wstring chunk
             = (chunkStart == std::wstring::npos) ? currentW : currentW.substr(chunkStart + 1);
         if (chunk.find_first_of(L"({") != std::wstring::npos) {
             return hints;
         }
-    }
-    std::wstring completionPrefix = currentW;
-    Nelson::wstringVector files, builtin, macros, variables, fields, properties, methods;
-    if (!computeCompletion(currentW, completionPrefix, files, builtin, macros, variables, fields,
-            properties, methods)) {
-        return hints;
-    }
-    std::unordered_set<std::string> uniqueEntries;
-    for (const auto* source :
-        { &variables, &fields, &properties, &methods, &macros, &builtin, &files }) {
-        for (const auto& entry : *source) {
-            uniqueEntries.insert(wstring_to_utf8(entry));
-            if (uniqueEntries.size() > 1) {
-                return hints;
-            }
+        std::wstring completionPrefix = currentW;
+        Nelson::wstringVector files, builtin, macros, variables, fields, properties, methods;
+        if (!computeCompletion(currentW, completionPrefix, files, builtin, macros, variables,
+                fields, properties, methods)) {
+            return hints;
         }
+        for (const auto* source :
+            { &variables, &fields, &properties, &methods, &macros, &builtin }) {
+            collect(*source);
+        }
+    } else {
+        collect(VariableCompleter(token));
+        collect(MacroCompleter(token));
+        collect(BuiltinCompleter(token));
     }
     if (uniqueEntries.size() == 1) {
-        contextLen = countCodePoints(completionPrefix);
-        color = replxx::Replxx::Color::GRAY;
-        hints.emplace_back(*uniqueEntries.begin());
+        const std::string& candidate = *uniqueEntries.begin();
+        if (!StringHelpers::iequals(utf8_to_wstring(candidate), token)) {
+            contextLen = countCodePoints(token);
+            color = replxx::Replxx::Color::GRAY;
+            hints.emplace_back(candidate);
+        }
     }
 #else
     (void)buffer;
@@ -223,13 +244,23 @@ AdvancedTerminal::AdvancedTerminal() : repl(), syncedHistorySize(0)
     if (repl) {
         repl->set_completion_callback(&completionHook);
         repl->set_hint_callback(&hintHook);
+        repl->set_hint_delay(HINT_DELAY_MS);
         repl->set_max_hint_rows(1);
         repl->set_indent_multiline(true);
+        // Queued interpreter work wakes the blocking line read instead of a periodic poll.
+        replxx::Replxx* replPtr = repl.get();
+        Nelson::setInterpreterWakeupHook([replPtr]() { replPtr->wake(); });
     }
     atPrompt = false;
 }
 //=============================================================================
-AdvancedTerminal::~AdvancedTerminal() = default;
+AdvancedTerminal::~AdvancedTerminal()
+{
+    if (repl) {
+        // The hook may run on any thread: remove it before the line editor goes away.
+        Nelson::setInterpreterWakeupHook(nullptr);
+    }
+}
 //=============================================================================
 namespace {
 //=============================================================================
@@ -714,6 +745,11 @@ AdvancedTerminal::isAtPrompt()
 void
 AdvancedTerminal::interruptGetLineByEvent()
 {
+    if (repl) {
+        // Wake the line editor instead of injecting a fake Return in the console input.
+        repl->wake();
+        return;
+    }
     injectNewlineIntoInput();
 }
 //=============================================================================

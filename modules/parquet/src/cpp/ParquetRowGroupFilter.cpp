@@ -11,6 +11,7 @@
 #include <algorithm>
 #include <cmath>
 #include <limits>
+#include <arrow/util/config.h>
 #include <parquet/statistics.h>
 #include <parquet/types.h>
 //=============================================================================
@@ -141,10 +142,15 @@ namespace {
     bool
     statsAreExact(const std::shared_ptr<parquet::Statistics>& stats)
     {
+#if ARROW_VERSION_MAJOR >= 22
         auto minExact = stats->is_min_value_exact();
         auto maxExact = stats->is_max_value_exact();
         return (!minExact.has_value() || minExact.value())
             && (!maxExact.has_value() || maxExact.value());
+#else
+        // Older Arrow releases do not expose the exactness flags: trust the bounds.
+        return true;
+#endif
     }
     //=============================================================================
     bool

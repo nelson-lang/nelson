@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>dlgetnflowincludes</keyword>
+  <short_description
+  >Renvoie les répertoires d&apos;includes nécessaires pour compiler un plugin de bloc natif nflow.</short_description>
+  <syntax>
+    <syntax_item>C = dlgetnflowincludes()</syntax_item>
+  </syntax>
+  <param_output>
+    <param_output_item>
+      <param_name>C</param_name>
+      <param_description
+      >un tableau de cellules contenant les chemins d&apos;includes : les en-têtes du SDK nflow_blocks, suivis des répertoires d&apos;includes du SDK Nelson.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>C = dlgetnflowincludes()</b> renvoie les répertoires d&apos;includes nécessaires pour compiler un plugin de bloc natif nflow.</p>
+    <p
+    >Le résultat liste les en-têtes publics de <b>nflow_blocks</b> (<b>BlockPlugin.h</b>, <b>SimEngineTypes.hpp</b>, et autres), puis les répertoires d&apos;includes du SDK Nelson. Les répertoires Nelson fournissent <b>nlohmann/json.hpp</b>, inclus par <b>SimEngineTypes.hpp</b>.</p>
+    <p
+    >Les chemins sont résolus que Nelson soit lancé depuis son arbre des sources ou depuis une installation.</p>
+    <p>Cette fonction est généralement passée à <b
+      >dlgeneratemake</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[dlgetnflowincludes()]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link
+        linkend="${nflow_blocks}dlgetnflowlibraries"
+      >dlgetnflowlibraries</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${dynamic_link}dlgeneratemake">dlgeneratemake</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${dynamic_link}dlmake">dlmake</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

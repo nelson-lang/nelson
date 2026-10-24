@@ -20,8 +20,13 @@ function varargout = view(varargin)
     ax = gca();
     args = {ax};
   elseif (nargin == 1)
-    ax = gca();
-    args = {ax, varargin{1}};
+    if (isgraphics(varargin{1}, 'axes'))
+      % view(ax) queries that axes, without touching the current figure
+      args = {varargin{1}};
+    else
+      ax = gca();
+      args = {ax, varargin{1}};
+    end
   elseif (nargin == 2)
     if (isgraphics(varargin{1}))
       args = {varargin{1}, varargin{2}};

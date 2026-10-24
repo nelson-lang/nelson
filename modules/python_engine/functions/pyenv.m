@@ -68,11 +68,9 @@ function varargout = pyenv(varargin)
 end
 %=============================================================================
 function result = getPythonCommandResult(python, pythonScript)
-  if ispc()
-    cmd = ['"', convertStringsToChars(python), '"', ' ', '"', convertStringsToChars(pythonScript), '"'];
-  else
-    cmd = [convertStringsToChars(python), ' ', convertStringsToChars(pythonScript)];
-  end
+  % Quote both paths on every platform: the Nelson installation directory (and so
+  % the scripts path) may contain spaces, e.g. "/tmp/Nelson 2.0.0/Nelson.app".
+  cmd = ['"', convertStringsToChars(python), '"', ' ', '"', convertStringsToChars(pythonScript), '"'];
   [status, result] = unix(cmd);
   if (status ~= 0)
     error('Nelson:pyenv:cannotCallPython', 'Impossible to call Python. Check path.');

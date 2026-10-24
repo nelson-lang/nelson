@@ -85,6 +85,9 @@ public:
     EVENT_TYPE
     wait_for_input(int long = 0);
     void notify_event(EVENT_TYPE);
+    // Nelson: wake wait_for_input() from any thread without queuing an event.
+    void
+    wake(void);
     void
     jump_cursor(int, int);
     void

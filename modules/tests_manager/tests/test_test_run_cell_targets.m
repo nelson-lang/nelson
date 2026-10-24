@@ -11,15 +11,14 @@
 % <--SEQUENTIAL TEST REQUIRED-->
 skip_if_no_native_unittest_runner();
 %=============================================================================
-moduleRoot = fileparts(fileparts(nfilename('fullpath')));
-repoRoot = fileparts(fileparts(moduleRoot));
+moduleRoot = modulepath('tests_manager');
 savedPath = path();
 savedWorkers = maxNumCompThreads(1);
 savedNative = getenv('NELSON_UNITTEST_FORCE_NATIVE_RUNNER');
 setenv('NELSON_UNITTEST_FORCE_NATIVE_RUNNER', 'TRUE');
 addpath(fullfile(moduleRoot, 'functions'));
 addpath(fullfile(moduleRoot, 'functions', '+nelson', '+unittest', 'private'));
-fixture = fullfile(repoRoot, 'temp', ['cell_targets_', createGUID()]);
+fixture = fullfile(tempdir(), ['cell_targets_', createGUID()]);
 mkdir(fixture);
 cleanup = onCleanup(@() cleanupCellTargets(fixture, savedPath, savedWorkers, savedNative));
 

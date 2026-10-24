@@ -11,6 +11,7 @@
 #include "BlockRegistry.hpp"
 #include "FieldNames.hpp"
 #include "FmuComponent.hpp"
+#include "AssetPath.hpp"
 #include <algorithm>
 #include <filesystem>
 #include <vector>
@@ -127,11 +128,7 @@ namespace NFlow {
                 }
                 return false;
             }
-            std::error_code ec;
-            std::filesystem::path fmuPath(std::filesystem::u8path(path));
-            if (fmuPath.is_relative() && ctx.baseDir && !ctx.baseDir->empty()) {
-                fmuPath = std::filesystem::path(*ctx.baseDir) / fmuPath;
-            }
+            const std::filesystem::path fmuPath = resolveAssetPath(ctx, path);
 
             SimDiagnostic diag;
             std::unique_ptr<IFmuMeComponent> comp = makeFmuMeComponent(fmuPath.u8string(), diag);

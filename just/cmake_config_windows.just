@@ -11,10 +11,6 @@ win64 *OPTS:
 x64 *OPTS:
     @just win64 {{OPTS}}
 
-# Configure Windows 32-bit CMake build
-win32 *OPTS:
-    @call .\win32-environment.bat env-only && set "CMAKE_GENERATOR=Visual Studio 18 2026" && .\tools\cmake\bin\cmake.exe -S . -B build\cmake-windows-win32-vs18 -A Win32 {{OPTS}}
-
 # Configure Windows ARM64 CMake build
 arm64 *OPTS:
     @call .\ARM64-environment.bat env-only && set "CMAKE_GENERATOR=Visual Studio 18 2026" && .\tools\cmake\bin\cmake.exe -S . -B build\cmake-windows-arm64-vs18 -A ARM64 {{OPTS}}

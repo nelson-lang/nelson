@@ -7,18 +7,14 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-moduleRoot = fileparts(fileparts(nfilename('fullpath')));
-repoRoot = fileparts(fileparts(moduleRoot));
-if isempty(repoRoot)
-  repoRoot = nelsonroot();
-end
+moduleRoot = modulepath('tests_manager');
 privateDir = fullfile(moduleRoot, 'functions', '+nelson', '+unittest', 'private');
 savedPath = path();
 savedDirectory = pwd();
 addpath(fullfile(moduleRoot, 'functions'));
 addpath(privateDir);
 addpath(fullfile(moduleRoot, 'tests'));
-testRoot = fullfile(repoRoot, 'temp', ['module_identity_', createGUID()]);
+testRoot = fullfile(tempdir(), ['module_identity_', createGUID()]);
 mkdir(testRoot);
 legacyName = ['legacy_identity_', strrep(createGUID(), '-', '_')];
 cleanup = onCleanup(@() cleanupModuleIdentity(testRoot, savedPath, savedDirectory, legacyName));

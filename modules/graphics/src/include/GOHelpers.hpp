@@ -58,6 +58,10 @@ freeGraphicsObject(int64 handle);
 NLSGRAPHICS_IMPEXP bool
 isDeletedGraphicsObject(int64 handle);
 //=============================================================================
+// False when the object has SelectionHighlight set to 'off'.
+NLSGRAPHICS_IMPEXP bool
+highlightsSelection(GraphicsObject* object);
+//=============================================================================
 NLSGRAPHICS_IMPEXP bool
 isUnassignedGraphicsObject(int64 handle);
 //=============================================================================

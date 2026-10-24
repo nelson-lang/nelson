@@ -447,12 +447,16 @@ export interface FigureDisplayListResult {
   // Set when the figure defines WindowScrollWheelFcn: the script owns the
   // wheel, so the panel leaves its built-in wheel zoom off.
   hasScrollWheelCallback?: boolean;
+  // Set when the figure ToolBar is 'none': the panel hides its navigation
+  // tools and details bar, as the native figure window does.
+  toolbarHidden?: boolean;
 }
 //=============================================================================
 export interface RotatableAxes {
   handle: number;
   rect: [number, number, number, number];
   view: [number, number];
+  highlight?: boolean;
 }
 //=============================================================================
 export interface MenuNode {

@@ -19,9 +19,7 @@ catch installer_error
 end
 function check_runtime_installer()
   scratchBefore = numel(dir(fullfile(tempdir(), 'nelson-install-*')));
-  scratch = fullfile(nelsonroot(), 'temp');
-  if ~isfolder(scratch); mkdir(scratch); end
-  work = [tempname(scratch), ' runtime flags '' ', char([28450, 23383])]; mkdir(work);
+  work = [tempname(tempdir()), ' runtime flags '' ', char([28450, 23383])]; mkdir(work);
   cleanup = onCleanup(@() rmdir(work, 's'));
   entry = fullfile(work, 'runtime_cli_app.m');
   filewrite(entry, 'function runtime_cli_app(proof); if ~isdeployed() || ismodule(''compiler''); error(''Invalid runtime.''); end; filewrite(proof, nelsonroot()); disp(''RUNTIME_INSTALLER_CLI_OK''); end');

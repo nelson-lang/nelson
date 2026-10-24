@@ -18,7 +18,7 @@ catch installer_error
 end
 
 function check_restore()
-  work = tempname(fullfile(nelsonroot(), 'temp'));
+  work = tempname(tempdir());
   mkdir(work);
   cleanup = onCleanup(@() remove_work(work));
   entry = fullfile(work, 'editor_restore.m');
@@ -82,8 +82,8 @@ function close_editor(window)
 end
 
 function assert_local(filename)
-  allowed = fullpath(fullfile(nelsonroot(), 'temp'));
-  asserts.istrue(startsWith(fullpath(filename), [allowed, '/']));
+  allowed = tempdir();
+  asserts.istrue(startsWith(fullpath(filename), allowed));
 end
 
 function remove_work(work)

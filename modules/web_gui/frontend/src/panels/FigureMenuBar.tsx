@@ -102,7 +102,8 @@ export function ContextMenuPopup({
 }): JSX.Element {
   return (
     <div
-      style={{ position: 'fixed', inset: 0, zIndex: 1000 }}
+      // the uicontrol overlay disables pointer events; the popup must take them back
+      style={{ position: 'fixed', inset: 0, zIndex: 1000, pointerEvents: 'auto' }}
       onClick={onClose}
       onContextMenu={(e) => {
         e.preventDefault();

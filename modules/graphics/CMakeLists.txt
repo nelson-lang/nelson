@@ -82,6 +82,11 @@ if(APPLE)
       "-framework CoreGraphics"
   )
 endif()
+
+# the Linux screen fallback loads X11 at run time
+if(UNIX AND NOT APPLE AND NOT EMSCRIPTEN)
+  target_link_libraries(${module_library_name} PRIVATE ${CMAKE_DL_LIBS})
+endif()
 # ==============================================================================
 # Builtin library
 # ==============================================================================

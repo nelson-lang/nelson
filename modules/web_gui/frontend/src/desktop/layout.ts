@@ -192,7 +192,10 @@ function sanitizeGroup(
 function sanitizeNode(node: SerializedGridNode, groupIds: Set<string>): SerializedGridNode | null {
   if (node.type === 'leaf') {
     const data = sanitizeGroup(node.data as SerializedGroupData, groupIds);
-    return data ? { ...node, data } : null;
+    if (!data) return null;
+    // a group hidden behind a maximized figure must come back visible once that figure is gone
+    const { visible: _visible, ...leaf } = node;
+    return { ...leaf, data };
   }
   const children = (node.data as SerializedGridNode[])
     .map((child) => sanitizeNode(child, groupIds))

@@ -95,12 +95,11 @@ classdefProfileFiles = {classdefProfile.Filename};
 classdefProfileNames = {classdefProfile.FunctionName};
 classdefProfileLines = [classdefProfile.LinePosition];
 classdefProfileMatches = strcmp(classdefProfileFiles, classdefFile);
-% Line 14 of the constructor is `if nargin > 0`. `nargin` is resolved as the
-% function's argument-count binding (not a profiled builtin call), so the
-% profiled entry for that line is the comparison operator `gt`.
-asserts.istrue(any(classdefProfileMatches & strcmp(classdefProfileNames, 'gt') & classdefProfileLines == 14));
-asserts.istrue(any(classdefProfileMatches & strcmp(classdefProfileNames, 'sqrt') & classdefProfileLines == 21));
-asserts.istrue(any(classdefProfileMatches & strcmp(classdefProfileNames, 'subsasgn') & classdefProfileLines == 32));
+% Line 23 of ClassdefPoint.m (constructor) is `if nargin > 0`.
+% Line 30 is `sqrt(...)` in magnitude(), line 41 is `obj = ClassdefPoint(0, 0)` in origin().
+asserts.istrue(any(classdefProfileMatches & strcmp(classdefProfileNames, 'gt') & classdefProfileLines == 23));
+asserts.istrue(any(classdefProfileMatches & strcmp(classdefProfileNames, 'sqrt') & classdefProfileLines == 30));
+asserts.istrue(any(classdefProfileMatches & strcmp(classdefProfileNames, 'subsasgn') & classdefProfileLines == 41));
 asserts.isequal(value, 5);
 asserts.isequal(origin.X, 0);
 %=============================================================================

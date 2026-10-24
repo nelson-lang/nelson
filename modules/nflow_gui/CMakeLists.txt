@@ -125,6 +125,7 @@ target_link_libraries(${module_library_builtin_name}
     nlsCharacters_encoding
     nlsCommons
     nlsError_manager
+    nlsModules_manager
     nlsNelson_manager
     nlsI18n
     nlsInterpreter
@@ -156,7 +157,12 @@ nelson_install_module_data(
   "*.nflow"
   "*.c"
   EXTRA_DIRS
-  dist
   examples
   resources
+)
+# dist only exists after the frontend build, so it can not go through the EXTRA_DIRS
+# check made at configure time: install it unconditionally, as web_gui does
+install(
+  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/dist/
+  DESTINATION ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/modules/${module_name}/dist
 )

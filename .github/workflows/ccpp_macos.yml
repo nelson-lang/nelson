@@ -1,0 +1,277 @@
+name: "macOS Build"
+
+on:
+  workflow_call:
+
+jobs:
+  # built on the oldest supported macOS: the DMG then loads on every newer release, the tests run on macOS 26
+  macOS_arm64:
+    name: macOS 15 ARM64
+    runs-on: macos-15
+    timeout-minutes: 120
+    outputs:
+      version: ${{ steps.json_version.outputs.version }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Install dependencies
+        run: $GITHUB_WORKSPACE/tools/install_dependencies/install-macOS.sh
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: ".nvmrc"
+
+      - uses: julia-actions/setup-julia@v3.0.3
+        with:
+          arch: "aarch64"
+
+      - name: Get package version
+        uses: jaywcjlove/github-action-package@v2.1.0
+        id: json_version
+
+      - name: Update version
+        run: just update_version
+
+      - name: Configure
+        run: |
+          just config "-DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_ARCHITECTURES=arm64 -DCMAKE_OSX_DEPLOYMENT_TARGET=15.0 -G \"Unix Makefiles\" ."
+
+      - name: Build
+        run: just build
+
+      - name: Build help
+        run: just build_help
+
+      - name: Minimal tests
+        run: just minimal_tests
+
+      - name: Package
+        # hdiutil can fail to create the DMG on a loaded runner: retry the CPack packaging
+        run: |
+          for attempt in 1 2 3; do
+            if just package; then exit 0; fi
+            echo "packaging attempt $attempt of 3 failed, retrying in 15s"
+            sleep 15
+          done
+          echo 'packaging failed after 3 attempts'
+          exit 1
+
+      - name: Create artifacts directory
+        run: mkdir -p "$GITHUB_WORKSPACE/artifacts"
+
+      - name: Copy installer in artifacts directory
+        run: mv "$GITHUB_WORKSPACE"/Nelson-*.dmg "$GITHUB_WORKSPACE/artifacts/"
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: nelson-installer-macos-arm64-${{ steps.json_version.outputs.version }}.${{ github.run_number }}
+          path: artifacts/
+
+  macOS_arm64_bench:
+    name: macOS ARM64 - Benchs
+    needs: macOS_arm64
+    runs-on: macos-26
+    timeout-minutes: 60
+
+    steps:
+      - uses: julia-actions/setup-julia@v3.0.3
+        with:
+          arch: "aarch64"
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.14"
+
+      - name: Install OpenMPI
+        run: brew install openmpi
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v8
+        with:
+          name: nelson-installer-macos-arm64-${{ needs.macOS_arm64.outputs.version }}.${{ github.run_number }}
+
+      - name: Install Nelson from DMG
+        run: |
+          DMG_FILE=$(ls Nelson-*.dmg)
+          yes | hdiutil attach "$DMG_FILE" -nobrowse -noverify
+          VOLUME=$(ls -d /Volumes/Nelson*)
+          mkdir -p "/tmp/Nelson-${{ needs.macOS_arm64.outputs.version }}.${{ github.run_number }}"
+          cp -R "$VOLUME/Nelson.app" "/tmp/Nelson-${{ needs.macOS_arm64.outputs.version }}.${{ github.run_number }}/"
+          hdiutil detach "$VOLUME"
+
+      - name: Create artifacts directory
+        run: mkdir -p "$GITHUB_WORKSPACE/artifacts"
+
+      - name: Set Python Environment for Nelson
+        run: |
+          INSTALL_DIR="/tmp/Nelson-${{ needs.macOS_arm64.outputs.version }}.${{ github.run_number }}/Nelson.app/Contents/Resources"
+          "$INSTALL_DIR/bin/nelson-adv-cli" --noipc --quiet -f "$INSTALL_DIR/share/Nelson/tools/python_environment_CI/configurePythonEnvironment.m"
+
+      - name: Set Julia Environment for Nelson
+        run: |
+          INSTALL_DIR="/tmp/Nelson-${{ needs.macOS_arm64.outputs.version }}.${{ github.run_number }}/Nelson.app/Contents/Resources"
+          "$INSTALL_DIR/bin/nelson-adv-cli" --noipc --quiet -f "$INSTALL_DIR/share/Nelson/tools/julia_environment_CI/configureJuliaEnvironment.m"
+
+      - name: Benchs
+        env:
+          NELSON_TERM_IS_UNICODE_SUPPORTED: "TRUE"
+          TESTS_RESULT_DIR: ${{ github.workspace }}/artifacts
+        run: |
+          INSTALL_DIR="/tmp/Nelson-${{ needs.macOS_arm64.outputs.version }}.${{ github.run_number }}/Nelson.app/Contents/Resources"
+          "$INSTALL_DIR/bin/nelson-adv-cli" --noipc --quiet -f "$INSTALL_DIR/share/Nelson/tools/benchmark_all/runbenchmark_all.m"
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: nelson-github-action-artifacts-bench-macos-arm64-${{ needs.macOS_arm64.outputs.version }}.${{ github.run_number }}
+          path: artifacts/
+
+  macOS_arm64_tests:
+    name: macOS ARM64 - Tests (Shard ${{ matrix.shard }}/3)
+    needs: macOS_arm64
+    runs-on: macos-26
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3]
+
+    steps:
+      - uses: julia-actions/setup-julia@v3.0.3
+        with:
+          arch: "aarch64"
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.14"
+
+      - name: Install OpenMPI
+        run: brew install openmpi
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v8
+        with:
+          name: nelson-installer-macos-arm64-${{ needs.macOS_arm64.outputs.version }}.${{ github.run_number }}
+
+      - name: Install Nelson from DMG
+        run: |
+          DMG_FILE=$(ls Nelson-*.dmg)
+          yes | hdiutil attach "$DMG_FILE" -nobrowse -noverify
+          VOLUME=$(ls -d /Volumes/Nelson*)
+          mkdir -p "/tmp/Nelson-${{ needs.macOS_arm64.outputs.version }}.${{ github.run_number }}"
+          cp -R "$VOLUME/Nelson.app" "/tmp/Nelson-${{ needs.macOS_arm64.outputs.version }}.${{ github.run_number }}/"
+          hdiutil detach "$VOLUME"
+
+      - name: Create artifacts directory
+        run: mkdir -p "$GITHUB_WORKSPACE/artifacts"
+
+      - name: Set Python Environment for Nelson
+        run: |
+          INSTALL_DIR="/tmp/Nelson-${{ needs.macOS_arm64.outputs.version }}.${{ github.run_number }}/Nelson.app/Contents/Resources"
+          "$INSTALL_DIR/bin/nelson-adv-cli" --noipc --quiet -f "$INSTALL_DIR/share/Nelson/tools/python_environment_CI/configurePythonEnvironment.m"
+
+      - name: Set Julia Environment for Nelson
+        run: |
+          INSTALL_DIR="/tmp/Nelson-${{ needs.macOS_arm64.outputs.version }}.${{ github.run_number }}/Nelson.app/Contents/Resources"
+          "$INSTALL_DIR/bin/nelson-adv-cli" --noipc --quiet -f "$INSTALL_DIR/share/Nelson/tools/julia_environment_CI/configureJuliaEnvironment.m"
+
+      - name: Tests
+        env:
+          NELSON_TEST_SHARD_INDEX: ${{ matrix.shard }}
+          NELSON_TEST_SHARD_COUNT: 3
+          NELSON_TERM_IS_UNICODE_SUPPORTED: "TRUE"
+          TESTS_RESULT_DIR: ${{ github.workspace }}/artifacts
+        run: |
+          INSTALL_DIR="/tmp/Nelson-${{ needs.macOS_arm64.outputs.version }}.${{ github.run_number }}/Nelson.app/Contents/Resources"
+          "$INSTALL_DIR/bin/nelson-adv-cli" --noipc --quiet -f "$INSTALL_DIR/share/Nelson/tools/tests_all/runtests_all.m"
+
+      - name: Collect macOS crash reports
+        # A test process killed by a signal (exit code 138 = SIGBUS, 139 = SIGSEGV)
+        # leaves a .ips report with the native stack: keep them with the results.
+        if: always()
+        run: |
+          mkdir -p "$GITHUB_WORKSPACE/artifacts/crash-reports-shard-${{ matrix.shard }}"
+          cp ~/Library/Logs/DiagnosticReports/*.ips "$GITHUB_WORKSPACE/artifacts/crash-reports-shard-${{ matrix.shard }}/" 2>/dev/null || true
+          ls -la "$GITHUB_WORKSPACE/artifacts/crash-reports-shard-${{ matrix.shard }}"
+
+      - name: Rename test results with shard index
+        if: always()
+        run: |
+          for f in "$GITHUB_WORKSPACE"/artifacts/*; do
+            [ -f "$f" ] || continue
+            base=$(basename "$f")
+            if [ "${base##*.}" = "$base" ]; then
+              mv "$f" "$f-shard-${{ matrix.shard }}"
+            else
+              mv "$f" "$GITHUB_WORKSPACE/artifacts/${base%.*}-shard-${{ matrix.shard }}.${base##*.}"
+            fi
+          done
+
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: nelson-test-results-macos-shard-${{ matrix.shard }}-${{ needs.macOS_arm64.outputs.version }}.${{ github.run_number }}
+          path: artifacts/
+
+  macOS_arm64_merge_results:
+    name: macOS ARM64 - Merge Results
+    if: always()
+    needs: [macOS_arm64, macOS_arm64_tests, macOS_arm64_bench]
+    runs-on: ubuntu-26.04
+    timeout-minutes: 5
+
+    steps:
+      # the test-reporter needs the git context, the merge step needs .github/scripts
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          sparse-checkout: .github
+
+      - name: Download all test results
+        uses: actions/download-artifact@v8
+        with:
+          pattern: nelson-test-results-macos-shard-*
+          merge-multiple: true
+          path: results/
+
+      - name: Download benchmark results
+        continue-on-error: true
+        uses: actions/download-artifact@v8
+        with:
+          name: nelson-github-action-artifacts-bench-macos-arm64-${{ needs.macOS_arm64.outputs.version }}.${{ github.run_number }}
+          path: results/
+
+      # one result file per platform in the final artifact: the shard files stay only when the merge failed
+      - name: Merge shard results
+        id: merge
+        continue-on-error: true
+        run: python3 .github/scripts/merge_test_shards.py results
+
+      - name: Test Report
+        uses: dorny/test-reporter@v3
+        if: always()
+        with:
+          name: "macOS Tests"
+          path: "results/tests_all-*.xml"
+          reporter: java-junit
+          fail-on-error: false
+          list-suites: failed
+          list-tests: failed
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: nelson-github-action-artifacts-macos-arm64-${{ needs.macOS_arm64.outputs.version }}.${{ github.run_number }}
+          path: results/
+
+      # the shard artifacts are merged into the final one above: they are deleted once it is
+      # uploaded (the read-only token of a pull request from a fork cannot delete them)
+      - name: Delete shard artifacts
+        if: steps.merge.outcome == 'success'
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api --paginate "repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts?per_page=100" \
+            --jq '.artifacts[] | select(.name | startswith("nelson-test-results-macos-shard-")) | .id' \
+            | xargs -r -I{} gh api -X DELETE "repos/${{ github.repository }}/actions/artifacts/{}"

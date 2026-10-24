@@ -15,6 +15,7 @@ pub struct ModelState {
     pub hpf_x_b2: f64,
     pub hpf_uprev_b2: f64,
     pub der_prev_b4: f64,
+    pub der_primed_b4: f64,
     pub rng_state: u32,
     pub int_b10: f64,
 }
@@ -42,6 +43,7 @@ pub fn nflow_init(s: &mut ModelState) {
     s.hpf_x_b2 = 0.0_f64;
     s.hpf_uprev_b2 = 0.0_f64;
     s.der_prev_b4 = 0.0_f64;
+    s.der_primed_b4 = 0.0;
     s.rng_state = 1_u32;
     s.int_b10 = libm::fmin(libm::fmax(0.0_f64, f64::NEG_INFINITY), f64::INFINITY);
 }
@@ -77,10 +79,14 @@ pub fn nflow_step(s: &mut ModelState,
     s.rng_state = 1664525_u32.wrapping_mul(s.rng_state).wrapping_add(1013904223_u32);
     out_b7 = 1.0_f64 * ((s.rng_state as f64 / 4294967295.0_f64) * 2.0_f64 - 1.0_f64);
     // derivative  b4
+    if s.der_primed_b4 == 0.0 {
+        s.der_prev_b4 = out_b5;
+        s.der_primed_b4 = 1.0;
+    }
     out_b4 = (out_b5 - s.der_prev_b4) / libm::fmax(dt, 1e-6_f64);
     s.der_prev_b4 = out_b5;
     // sum  b8
-    out_b8 = out_b5 + out_b7;
+    out_b8 = out_b7 + out_b5;
     // sum  b9
     out_b9 = out_b4 + 0.0_f64 + out_b6;
     // lpf  b1

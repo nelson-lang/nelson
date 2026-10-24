@@ -18,7 +18,7 @@ catch installer_error
 end
 
 function check_editor_sources()
-  work = tempname(fullfile(nelsonroot(), 'temp'));
+  work = tempname(tempdir());
   mkdir(work);
   cleanup = onCleanup(@() remove_work(work));
   entry = fullfile(work, 'editor_sources.m');
@@ -56,8 +56,8 @@ function check_editor_sources()
   asserts.isequal(window.UserData.Sources.State, 'current');
   asserts.isfalse(strcmp(window.UserData.Project.LastBuild.SourcesSHA256, savedDigest));
   asserts.istrue(__nelsonc_editor_action__(window, 'save'));
-  root = fullpath(fullfile(nelsonroot(), 'temp'));
-  asserts.istrue(startsWith(fullpath(entry), [root, '/']));
+  root = tempdir();
+  asserts.istrue(startsWith(fullpath(entry), root));
   rmfile(entry);
   asserts.istrue(__nelsonc_editor_action__(window, 'new'));
   asserts.istrue(__nelsonc_editor_action__(window, 'open', filename));
@@ -78,7 +78,7 @@ function close_editor(window)
 end
 
 function remove_work(work)
-  root = fullpath(fullfile(nelsonroot(), 'temp'));
-  asserts.istrue(startsWith(fullpath(work), [root, '/']));
+  root = tempdir();
+  asserts.istrue(startsWith(fullpath(work), root));
   if isfolder(work); rmdir(work, 's'); end
 end

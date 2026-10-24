@@ -34,10 +34,10 @@
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>See module skeleton for example</example_item_description>
+      <example_item_description>Generate the gateway of a module named my_module with two builtins</example_item_description>
       <example_item_data
         runnable="cli"
-      ><![CDATA[dlgenerategateway(tempdir(), 'module_skeleton', {{'cpp_sum', 1, 2}; {'cpp_sub', 2, 3}});
+      ><![CDATA[dlgenerategateway(tempdir(), 'my_module', {{'cpp_sum', 1, 2}; {'cpp_sub', 2, 3}});
 text = fileread([tempdir(), 'Gateway.cpp'])]]></example_item_data>
     </example_item>
   </examples>

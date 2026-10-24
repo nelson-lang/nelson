@@ -33,7 +33,7 @@ pacman -Syu --noconfirm || { echo "System update failed"; exit 1; }
 
 # Install package groups
 print_status "Installing development tools"
-install_packages base-devel git gcc binutils glibc inetutils gawk m4 pkg-config cmake make just clang rust curl
+install_packages base-devel git gcc binutils glibc inetutils gawk m4 pkg-config cmake make ninja just clang rust curl
 
 arch=$(uname -m)
 if [ "$arch" = "x86_64" ]; then

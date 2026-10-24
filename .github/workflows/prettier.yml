@@ -1,0 +1,78 @@
+name: "Prettier"
+
+on: [push]
+
+jobs:
+  prettier_check:
+    name: "Prettier - Ubuntu"
+    runs-on: ubuntu-26.04
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Install clang-format-20
+        run: |
+          curl -fsSL -o /usr/local/bin/clang-format-20 \
+            https://github.com/muttleyxd/clang-tools-static-binaries/releases/download/master-796e77c/clang-format-20_linux-amd64
+          chmod +x /usr/local/bin/clang-format-20
+          ln -sf /usr/local/bin/clang-format-20 /usr/local/bin/clang-format
+
+      # rustfmt formats the Rust tools; without it nelson-fmt falls back to a basic cleanup
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt
+
+      - name: Cache nelson-fmt build
+        uses: Swatinem/rust-cache@v2
+
+      # cmake-fmt formats the CMake files; nelson-fmt would otherwise cargo install it on every run
+      - name: Cache cmake-fmt
+        id: cmake-fmt-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cargo/bin/cmake-fmt
+          key: cmake-fmt-0.11-${{ runner.os }}
+
+      - name: Install cmake-fmt
+        if: steps.cmake-fmt-cache.outputs.cache-hit != 'true'
+        run: cargo install cmake-fmt --version "^0.11" --locked
+
+      # `cargo typos` runs the typos binary and would cargo install it on every run
+      - name: Cache typos
+        id: typos-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cargo/bin/typos
+          key: typos-1.48.0-${{ runner.os }}
+
+      - name: Install typos
+        if: steps.typos-cache.outputs.cache-hit != 'true'
+        run: cargo install typos-cli --locked --version 1.48.0
+
+      - name: Install just
+        uses: extractions/setup-just@v4
+
+      # prettier runs through `npm run format:check` in each frontend, which needs its node_modules
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: ".nvmrc"
+          cache: npm
+          cache-dependency-path: |
+            modules/web_gui/frontend/package-lock.json
+            modules/nflow_gui/package-lock.json
+
+      - name: Install frontend dependencies
+        run: |
+          npm ci --no-audit --no-fund --prefix modules/web_gui/frontend
+          npm ci --no-audit --no-fund --prefix modules/nflow_gui
+
+      - name: Check formatting
+        run: |
+          just format-check
+
+      - name: Check typos
+        run: |
+          just typos

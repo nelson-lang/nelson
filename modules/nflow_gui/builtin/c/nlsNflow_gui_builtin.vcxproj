@@ -108,7 +108,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NOMINMAX;NLSNFLOW_GUI_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/nflow_blocks/src/include;$(SolutionDir)modules/nflow_engine/src/include;$(SolutionDir)modules/nflow_engine/builtin/include;$(SolutionDir)modules/nflow_fmi/src/include;$(SolutionDir)modules/nflow_gui/builtin/include;$(SolutionDir)modules/nflow_gui/src/cpp;$(SolutionDir)modules/nflow_gui/src/include;$(SolutionDir)modules/webview/src/include;$(SolutionDir)modules/webview/src/webui/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/operators/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/nflow_blocks/src/include;$(SolutionDir)modules/nflow_engine/src/include;$(SolutionDir)modules/nflow_engine/builtin/include;$(SolutionDir)modules/nflow_fmi/src/include;$(SolutionDir)modules/nflow_gui/builtin/include;$(SolutionDir)modules/nflow_gui/src/cpp;$(SolutionDir)modules/nflow_gui/src/include;$(SolutionDir)modules/webview/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/webview/src/webui/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/operators/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -130,7 +130,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NOMINMAX;NLSNFLOW_GUI_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/nflow_blocks/src/include;$(SolutionDir)modules/nflow_engine/src/include;$(SolutionDir)modules/nflow_engine/builtin/include;$(SolutionDir)modules/nflow_fmi/src/include;$(SolutionDir)modules/nflow_gui/builtin/include;$(SolutionDir)modules/nflow_gui/src/include;$(SolutionDir)modules/webview/src/include;$(SolutionDir)modules/webview/src/webui/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/operators/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/nflow_blocks/src/include;$(SolutionDir)modules/nflow_engine/src/include;$(SolutionDir)modules/nflow_engine/builtin/include;$(SolutionDir)modules/nflow_fmi/src/include;$(SolutionDir)modules/nflow_gui/builtin/include;$(SolutionDir)modules/nflow_gui/src/include;$(SolutionDir)modules/webview/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/webview/src/webui/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/operators/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -146,6 +146,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
+      <DebugInformationFormat>None</DebugInformationFormat>
       <WarningLevel>Level3</WarningLevel>
       <PrecompiledHeader>
       </PrecompiledHeader>
@@ -154,7 +155,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NOMINMAX;NLSNFLOW_GUI_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/nflow_blocks/src/include;$(SolutionDir)modules/nflow_engine/src/include;$(SolutionDir)modules/nflow_engine/builtin/include;$(SolutionDir)modules/nflow_fmi/src/include;$(SolutionDir)modules/nflow_gui/builtin/include;$(SolutionDir)modules/nflow_gui/src/cpp;$(SolutionDir)modules/nflow_gui/src/include;$(SolutionDir)modules/webview/src/include;$(SolutionDir)modules/webview/src/webui/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/operators/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/nflow_blocks/src/include;$(SolutionDir)modules/nflow_engine/src/include;$(SolutionDir)modules/nflow_engine/builtin/include;$(SolutionDir)modules/nflow_fmi/src/include;$(SolutionDir)modules/nflow_gui/builtin/include;$(SolutionDir)modules/nflow_gui/src/cpp;$(SolutionDir)modules/nflow_gui/src/include;$(SolutionDir)modules/webview/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/webview/src/webui/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/operators/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -164,7 +165,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>
@@ -173,6 +174,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
     <ClCompile>
+      <DebugInformationFormat>None</DebugInformationFormat>
       <WarningLevel>Level3</WarningLevel>
       <PrecompiledHeader>
       </PrecompiledHeader>
@@ -181,7 +183,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NOMINMAX;NLSNFLOW_GUI_BUILTIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/nflow_blocks/src/include;$(SolutionDir)modules/nflow_engine/src/include;$(SolutionDir)modules/nflow_engine/builtin/include;$(SolutionDir)modules/nflow_fmi/src/include;$(SolutionDir)modules/nflow_gui/builtin/include;$(SolutionDir)modules/nflow_gui/src/include;$(SolutionDir)modules/webview/src/include;$(SolutionDir)modules/webview/src/webui/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/operators/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/nflow_blocks/src/include;$(SolutionDir)modules/nflow_engine/src/include;$(SolutionDir)modules/nflow_engine/builtin/include;$(SolutionDir)modules/nflow_fmi/src/include;$(SolutionDir)modules/nflow_gui/builtin/include;$(SolutionDir)modules/nflow_gui/src/include;$(SolutionDir)modules/webview/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/webview/src/webui/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/operators/src/include;$(SolutionDir)modules/overload/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
       <DisableSpecificWarnings>4190</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -190,7 +192,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>
@@ -256,6 +258,9 @@
     </ProjectReference>
     <ProjectReference Include="..\..\..\webview\src\c\nlsWebview.vcxproj">
       <Project>{585fa4c3-c0be-4fe9-b4d3-476fe810ceb8}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\modules_manager\src\c\nlsModules_manager.vcxproj">
+      <Project>{f666ac18-eeda-4a00-acd2-4cafe3865c15}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\nflow_blocks\src\c\nlsNflow_blocks.vcxproj">
       <Project>{7cc209ac-ef99-4b13-868a-94ae93c5f4e0}</Project>

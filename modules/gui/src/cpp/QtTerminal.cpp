@@ -345,14 +345,21 @@ QtTerminal::sendReturnKey()
 std::wstring
 QtTerminal::getLine(const std::wstring& prompt)
 {
-    printPrompt(Nelson::wstringToQString(prompt));
+    // A silent callback left the prompt (and any typed text) on screen: reuse it.
+    const bool reusePrompt = canReusePrompt(prompt);
+    promptKeptAlive = false;
+    if (!reusePrompt) {
+        printPrompt(Nelson::wstringToQString(prompt));
+        promptBlock = document()->lastBlock();
+        setCursorWidth(QFontMetrics(document()->defaultFont()).horizontalAdvance(QChar('x')));
+    }
+    if (promptWaitCursorSet) {
+        Nelson::restoreApplicationWaitCursor();
+        promptWaitCursorSet = false;
+    }
     VariablesEditor::updateVariablesEditor();
     FileBrowser::updateFileBrowser();
-    promptBlock = document()->lastBlock();
-
-    setCursorWidth(QFontMetrics(document()->defaultFont()).horizontalAdvance(QChar('x')));
     WorkspaceBrowser::updateWorkspaceBrowser();
-    Nelson::restoreApplicationWaitCursor();
     Nelson::Evaluator* eval
         = static_cast<Nelson::Evaluator*>(NelsonConfiguration::getInstance()->getMainEvaluator());
     if (!eval) {
@@ -378,23 +385,27 @@ QtTerminal::getLine(const std::wstring& prompt)
             break;
         }
 
-        if (taskQueue->processTasks(eval)) {
-            continue;
+        taskQueue->processTasks(eval);
+        // A typed or posted line comes first: Enter also marks the prompt as consumed.
+        if (!lineToSend.empty() || !lineBuffer.isEmpty()) {
+            break;
+        }
+        // Output arrived while the prompt waited: end the wait, the evaluator prints a new prompt.
+        if (!mCommandLineReady) {
+            wasInterruptedByAction = true;
+            break;
         }
         if (!eval->commandQueue.isEmpty() || !Nelson::CallbackQueue::getInstance()->isEmpty()
             || !Nelson::EventQueue::getInstance()->isEmpty()) {
             wasInterruptedByAction = true;
             break;
         }
-
-        if (!lineToSend.empty() || !lineBuffer.isEmpty()) {
-            break;
-        }
     }
 
     std::wstring line;
     if (wasInterruptedByAction) {
-        clearLine();
+        // Keep the prompt: the evaluator runs the callback, then asks for a line again.
+        promptKeptAlive = true;
         line = L"\n";
     } else {
         if (!lineBuffer.isEmpty()) {
@@ -412,9 +423,11 @@ QtTerminal::getLine(const std::wstring& prompt)
     lineToSend.clear();
     Nelson::ProcessEvents();
 
-    setCursorWidth(0);
-
-    Nelson::setApplicationWaitCursor();
+    if (!promptKeptAlive) {
+        setCursorWidth(0);
+        Nelson::setApplicationWaitCursor();
+        promptWaitCursorSet = true;
+    }
     return line;
 }
 //=============================================================================
@@ -926,6 +939,7 @@ QtTerminal::finishOutputScroll(QTextCursor& cursor, bool wasAtBottom, int previo
 void
 QtTerminal::printMessage(QString msg, DISP_MODE mode)
 {
+    releaseKeptPrompt(msg.startsWith(QLatin1Char('\n')));
     mCommandLineReady = false;
     const bool wasAtBottom = isScrolledToBottom();
     const int previousScrollValue = verticalScrollBar() ? verticalScrollBar()->value() : 0;
@@ -1038,6 +1052,7 @@ QtTerminal::insertHyperlinkedText(QTextCursor& cursor, const QString& text, DISP
 void
 QtTerminal::printStyledMessage(QString msg, const TextStyle& style)
 {
+    releaseKeptPrompt(msg.startsWith(QLatin1Char('\n')));
     mCommandLineReady = false;
     const bool wasAtBottom = isScrolledToBottom();
     const int previousScrollValue = verticalScrollBar() ? verticalScrollBar()->value() : 0;
@@ -1090,6 +1105,7 @@ QtTerminal::printStyledMessage(QString msg, const TextStyle& style)
 void
 QtTerminal::printAnsiMessage(const std::wstring& msg, DISP_MODE mode)
 {
+    releaseKeptPrompt(!msg.empty() && msg[0] == L'\n');
     mCommandLineReady = false;
     const bool wasAtBottom = isScrolledToBottom();
     const int previousScrollValue = verticalScrollBar() ? verticalScrollBar()->value() : 0;
@@ -1353,6 +1369,7 @@ QtTerminal::zoomTerminalReset()
 void
 QtTerminal::insertHtml(const std::wstring& msg)
 {
+    releaseKeptPrompt();
     QTextCursor cur = textCursor();
     const int htmlStart = cur.position();
     cur.insertHtml(Nelson::wstringToQString(msg));
@@ -1369,6 +1386,7 @@ void
 QtTerminal::insertExpandableText(const std::wstring& label, const std::wstring& expandedText,
     const std::wstring& contextName, long long contextValue)
 {
+    releaseKeptPrompt();
     mCommandLineReady = false;
     QTextCursor cur(document()->lastBlock());
     cur.movePosition(QTextCursor::EndOfBlock);
@@ -1396,6 +1414,7 @@ void
 QtTerminal::insertTruncatedMatrix(const std::wstring& truncatedText, const std::wstring& label,
     const std::wstring& expandedText, const std::wstring& variableName)
 {
+    releaseKeptPrompt();
     mCommandLineReady = false;
     QTextCursor cur(document()->lastBlock());
     cur.movePosition(QTextCursor::EndOfBlock);
@@ -1898,6 +1917,34 @@ bool
 QtTerminal::isAtPrompt()
 {
     return mCommandLineReady;
+}
+//=============================================================================
+bool
+QtTerminal::canReusePrompt(const std::wstring& prompt) const
+{
+    return promptKeptAlive && mCommandLineReady && promptBlock.isValid()
+        && (promptBlock == document()->lastBlock())
+        && (mPrompt == Nelson::wstringToQString(prompt));
+}
+//=============================================================================
+void
+QtTerminal::releaseKeptPrompt(bool messageStartsWithNewline)
+{
+    const bool kept = promptKeptAlive;
+    promptKeptAlive = false;
+    const bool promptOnScreen
+        = mCommandLineReady && promptBlock.isValid() && (promptBlock == document()->lastBlock());
+    if (!promptOnScreen) {
+        return;
+    }
+    // Errors and warnings at a waiting prompt already start a new line themselves.
+    if (!kept && messageStartsWithNewline) {
+        return;
+    }
+    // The prompt line is emptied and the output starts there; getLine prints a new prompt after.
+    QTextCursor cursor(promptBlock);
+    cursor.movePosition(QTextCursor::EndOfBlock, QTextCursor::KeepAnchor);
+    cursor.removeSelectedText();
 }
 //=============================================================================
 int

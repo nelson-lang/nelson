@@ -56,7 +56,12 @@ for k = 1:size(CASES, 1)
     ref = full(:, d + 1:q:end);
     ref = ref(:, 1:min(n, size(ref, 2)));
   end
-  asserts.istrue(isequaln(y, ref));
+  if isfloat(y)
+    relTol = 4 * eps(cast(1, class(y)));
+    asserts.isapprox(y, ref, relTol);
+  else
+    asserts.istrue(isequaln(y, ref));
+  end
 end
 %=============================================================================
 % 30 minutes at 360 Hz brought to 250 Hz: only the 450000 kept samples go

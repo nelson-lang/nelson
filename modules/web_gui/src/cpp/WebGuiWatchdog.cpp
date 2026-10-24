@@ -39,14 +39,21 @@ WebGuiServer::startWatchdog()
     }
     m_watchdogThread = std::thread([this]() {
         std::unique_lock<std::mutex> lock(m_watchdogMutex);
+        bool wasShown = false;
         while (!m_shuttingDown.load()) {
             m_watchdogCv.wait_for(
                 lock, std::chrono::seconds(1), [this]() { return m_shuttingDown.load(); });
             if (m_shuttingDown.load()) {
                 return;
             }
+            const bool shown = webui_is_shown(m_window);
+            // a browser that just left gets the whole grace period, whatever its last beat date
+            if (wasShown && !shown) {
+                heartbeat();
+            }
+            wasShown = shown;
             const long long last = m_lastBeatMs.load();
-            if (last >= 0 && nowMs() - last > 4000 && !webui_is_shown(m_window)) {
+            if (last >= 0 && nowMs() - last > 4000 && !shown) {
                 requestExit();
                 return;
             }

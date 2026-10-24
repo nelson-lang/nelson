@@ -13,6 +13,7 @@
 #include "nlsInterpreter_exports.h"
 #include "Evaluator.hpp"
 #include "QueueCommon.hpp"
+#include "RuntimeDispatch.hpp"
 #include "SingletonHelper.hpp"
 //=============================================================================
 namespace Nelson {
@@ -43,6 +44,8 @@ public:
     add(const EventCallback& eventCallback)
     {
         enqueue(eventCallback);
+        // Timer ticks are posted from a worker thread: wake the prompt.
+        notifyInterpreterWakeup();
     }
     bool
     processCallback(Evaluator* eval)

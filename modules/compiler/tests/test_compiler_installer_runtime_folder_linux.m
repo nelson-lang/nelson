@@ -10,6 +10,9 @@
 % <--SEQUENTIAL TEST REQUIRED-->
 % <--TIMEOUT 900-->
 if ispc() || ismac(); return; end
+% deployed applications scan PATH (/usr/bin:/bin here) for an installed runtime
+skip_testsuite(isfile('/usr/bin/nelson-cli') || isfile('/bin/nelson-cli'), ...
+  'A system-wide Nelson installation on PATH is discoverable by deployed applications.');
 ncc('--help');
 check_installer();
 

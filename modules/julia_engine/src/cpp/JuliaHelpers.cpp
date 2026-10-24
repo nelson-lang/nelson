@@ -156,15 +156,22 @@ jl_value_tfieldnames(jl_value_t* value)
     }
 
     jl_value_t* count_val = NLSjl_call1(fieldcount_func, type);
-    if (!count_val || !jl_is_long(count_val)) {
+    if (!count_val) {
         return fieldNames;
     }
-
-#ifdef _P64
-    size_t num_fields = NLSjl_unbox_int64(count_val);
-#else
-    size_t num_fields = NLSjl_unbox_int32(count_val);
-#endif
+    // Do not use jl_is_long(): it compares the small-type tag baked into the
+    // julia.h used at build time. Julia 1.13 inserted a `nothing` tag before the
+    // integer tags, so a build against 1.12 headers no longer recognizes an Int64
+    // at runtime and every field enumeration comes back empty. The runtime type
+    // name is stable across versions.
+    const char* countTypeName = NLSjl_typeof_str(count_val);
+    bool isInt64 = countTypeName && std::string(countTypeName) == "Int64";
+    bool isInt32 = countTypeName && std::string(countTypeName) == "Int32";
+    if (!isInt64 && !isInt32) {
+        return fieldNames;
+    }
+    size_t num_fields = isInt64 ? static_cast<size_t>(NLSjl_unbox_int64(count_val))
+                                : static_cast<size_t>(NLSjl_unbox_int32(count_val));
     jl_function_t* fieldnames_func = NLSjl_get_function(jl_base_module, "fieldnames");
     if (!fieldnames_func) {
         return fieldNames;
@@ -230,23 +237,41 @@ jl_value_tgetMethodOrPropertyNames(
         return propertyNames;
     }
 
+    // Check declared field type (<: Function) instead of runtime isa.
+    // Robust across Julia versions (avoids Julia 1.13 closure detection issues).
+    jl_value_t* field_type_check_fn = NLSjl_eval_string(
+        "(obj, sym) -> (try; fieldtype(typeof(obj), sym) <: Function; catch; false; end)");
+
     for (const std::string& fieldname : fieldnames) {
         if (fieldname.empty()) {
             continue;
         }
-        jl_value_t* field = NLSjl_get_field(value, fieldname.c_str());
-        if (!field) {
-            continue;
+
+        bool is_func = false;
+
+        if (field_type_check_fn) {
+            jl_sym_t* fsym = NLSjl_symbol(fieldname.c_str());
+            if (fsym) {
+                jl_value_t* result = NLSjl_call2(field_type_check_fn, value, (jl_value_t*)fsym);
+                is_func = result && NLSjl_unbox_bool(result);
+            }
         }
-        jl_value_t* is_function
-            = NLSjl_call2(NLSjl_get_function(jl_base_module, "isa"), field, function_type);
+
+        if (!is_func) {
+            jl_value_t* field = NLSjl_get_field(value, fieldname.c_str());
+            if (field) {
+                jl_value_t* is_function
+                    = NLSjl_call2(NLSjl_get_function(jl_base_module, "isa"), field, function_type);
+                is_func = is_function && NLSjl_unbox_bool(is_function);
+            }
+        }
 
         if (methodOrPropertyType == GET_METHOD_NAME) {
-            if (is_function && NLSjl_unbox_bool(is_function)) {
+            if (is_func) {
                 propertyNames.push_back(fieldname);
             }
         } else {
-            if (is_function && !NLSjl_unbox_bool(is_function)) {
+            if (!is_func) {
                 propertyNames.push_back(fieldname);
             }
         }

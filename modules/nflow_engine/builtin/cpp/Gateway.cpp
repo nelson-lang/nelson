@@ -38,6 +38,9 @@
 #include "nflow_layoutBuiltin.hpp"
 #include "nflow_lineNameBuiltin.hpp"
 #include "nflow_rerouteBuiltin.hpp"
+#include "nflow_addlibrarypathBuiltin.hpp"
+#include "nflow_librarypathsBuiltin.hpp"
+#include "nflow_rmlibrarypathBuiltin.hpp"
 #include "NFlowNelsonBridge.hpp"
 #include "SolverBackend.hpp"
 #include "SundialsSolverBackend.hpp"
@@ -92,6 +95,12 @@ static const nlsGateway gateway[] = {
     { "nflow_lineName", (ptrBuiltin)Nelson::NFlowGateway::nflow_lineNameBuiltin, 1, 4,
         CPP_BUILTIN },
     { "nflow_reroute", (ptrBuiltin)Nelson::NFlowGateway::nflow_rerouteBuiltin, 0, 3, CPP_BUILTIN },
+    { "__nflow_addlibrarypath__", (ptrBuiltin)Nelson::NFlowGateway::nflow_addlibrarypathBuiltin, 1,
+        1, CPP_BUILTIN },
+    { "__nflow_librarypaths__", (ptrBuiltin)Nelson::NFlowGateway::nflow_librarypathsBuiltin, 1, 0,
+        CPP_BUILTIN },
+    { "__nflow_rmlibrarypath__", (ptrBuiltin)Nelson::NFlowGateway::nflow_rmlibrarypathBuiltin, 1, 1,
+        CPP_BUILTIN },
 };
 //=============================================================================
 static bool

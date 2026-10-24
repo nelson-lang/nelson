@@ -28,7 +28,7 @@ y = surfaceRadius .* cos(angleGrid);
 z = petalShape .* ...
   (radiusGrid .* decayCosine - radialModulation .* decaySine);
 
-figureHandle = figure('Name', 'Parametric rainbow rose', 'NumberTitle', 'off');
+figureHandle = figure('SelectionHighlight', 'off', 'Name', 'Parametric rainbow rose', 'NumberTitle', 'off');
 axesHandle = axes('Parent', figureHandle);
 surf(axesHandle, x, y, z, angleGrid, 'LineStyle', 'none');
 axis(axesHandle, 'equal');

@@ -1,0 +1,299 @@
+name: "Ubuntu Tests"
+
+# runs the benchmarks, the test shards and the frontend b2b suites on the installer built for one architecture
+on:
+  workflow_call:
+    inputs:
+      arch:
+        description: "Debian architecture of the installer: amd64 or arm64"
+        required: true
+        type: string
+      ubuntu:
+        description: "Ubuntu release of the runner: 26.04 or 24.04"
+        required: false
+        default: "26.04"
+        type: string
+      version:
+        description: "Nelson version of the installer artifact"
+        required: true
+        type: string
+
+jobs:
+  bench:
+    name: Benchs
+    runs-on: ubuntu-${{ inputs.ubuntu }}${{ inputs.arch == 'arm64' && '-arm' || '' }}
+    timeout-minutes: 60
+
+    steps:
+      - uses: julia-actions/setup-julia@v3.0.3
+        with:
+          arch: ${{ inputs.arch == 'arm64' && 'aarch64' || 'x64' }}
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.14"
+          architecture: ${{ inputs.arch == 'arm64' && 'arm64' || 'x64' }}
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v8
+        with:
+          name: nelson-installer-ubuntu-${{ inputs.ubuntu }}-${{ inputs.arch }}-${{ inputs.version }}.${{ github.run_number }}
+
+      - name: Install Nelson from .deb
+        run: |
+          DEB_FILE=$(ls nelson-*.deb)
+          # apt resolves the runtime dependencies declared by the package.
+          # `dpkg -i` followed by `apt-get install -f` removes nelson instead.
+          sudo apt-get update
+          # xvfb gives the headless runner a display: without it every ADV-CLI,
+          # GUI and WITH DISPLAY test is skipped.
+          sudo apt-get install -y xvfb "./$DEB_FILE"
+
+      - name: Create artifacts directory
+        run: mkdir -p "$GITHUB_WORKSPACE/artifacts"
+
+      - name: Set Python Environment for Nelson
+        run: nelson-adv-cli --noipc --quiet -f /usr/share/Nelson/tools/python_environment_CI/configurePythonEnvironment.m
+
+      - name: Set Julia Environment for Nelson
+        run: nelson-adv-cli --noipc --quiet -f /usr/share/Nelson/tools/julia_environment_CI/configureJuliaEnvironment.m
+
+      - name: Benchs
+        env:
+          NELSON_TERM_IS_UNICODE_SUPPORTED: "TRUE"
+          TESTS_RESULT_DIR: ${{ github.workspace }}/artifacts
+        run: |
+          xvfb-run -a nelson-adv-cli --noipc --quiet -f /usr/share/Nelson/tools/benchmark_all/runbenchmark_all.m
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: nelson-github-action-artifacts-bench-ubuntu-${{ inputs.ubuntu }}-${{ inputs.arch }}-${{ inputs.version }}.${{ github.run_number }}
+          path: artifacts/
+
+  tests:
+    name: Tests (Shard ${{ matrix.shard }}/3)
+    runs-on: ubuntu-${{ inputs.ubuntu }}${{ inputs.arch == 'arm64' && '-arm' || '' }}
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3]
+
+    steps:
+      - uses: julia-actions/setup-julia@v3.0.3
+        with:
+          arch: ${{ inputs.arch == 'arm64' && 'aarch64' || 'x64' }}
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.14"
+          architecture: ${{ inputs.arch == 'arm64' && 'arm64' || 'x64' }}
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v8
+        with:
+          name: nelson-installer-ubuntu-${{ inputs.ubuntu }}-${{ inputs.arch }}-${{ inputs.version }}.${{ github.run_number }}
+
+      - name: Install Nelson from .deb
+        run: |
+          DEB_FILE=$(ls nelson-*.deb)
+          # apt resolves the runtime dependencies declared by the package.
+          # `dpkg -i` followed by `apt-get install -f` removes nelson instead.
+          sudo apt-get update
+          # xvfb gives the headless runner a display: without it every ADV-CLI,
+          # GUI and WITH DISPLAY test is skipped.
+          sudo apt-get install -y xvfb "./$DEB_FILE"
+
+      - name: Create artifacts directory
+        run: mkdir -p "$GITHUB_WORKSPACE/artifacts"
+
+      - name: Set Python Environment for Nelson
+        run: nelson-adv-cli --noipc --quiet -f /usr/share/Nelson/tools/python_environment_CI/configurePythonEnvironment.m
+
+      - name: Set Julia Environment for Nelson
+        run: nelson-adv-cli --noipc --quiet -f /usr/share/Nelson/tools/julia_environment_CI/configureJuliaEnvironment.m
+
+      - name: Tests
+        env:
+          NELSON_TEST_SHARD_INDEX: ${{ matrix.shard }}
+          NELSON_TEST_SHARD_COUNT: 3
+          NELSON_TERM_IS_UNICODE_SUPPORTED: "TRUE"
+          TESTS_RESULT_DIR: ${{ github.workspace }}/artifacts
+        run: |
+          xvfb-run -a nelson-adv-cli --noipc --quiet -f /usr/share/Nelson/tools/tests_all/runtests_all.m
+
+      - name: Rename test results with shard index
+        if: always()
+        run: |
+          for f in "$GITHUB_WORKSPACE"/artifacts/*; do
+            [ -f "$f" ] || continue
+            base=$(basename "$f")
+            if [ "${base##*.}" = "$base" ]; then
+              mv "$f" "$f-shard-${{ matrix.shard }}"
+            else
+              mv "$f" "$GITHUB_WORKSPACE/artifacts/${base%.*}-shard-${{ matrix.shard }}.${base##*.}"
+            fi
+          done
+
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: nelson-test-results-ubuntu-${{ inputs.ubuntu }}-${{ inputs.arch }}-shard-${{ matrix.shard }}-${{ inputs.version }}.${{ github.run_number }}
+          path: artifacts/
+
+  merge_results:
+    name: Merge Results
+    if: always()
+    needs: [tests, bench]
+    runs-on: ubuntu-26.04
+    timeout-minutes: 5
+
+    steps:
+      # the test-reporter needs the git context, the merge step needs .github/scripts
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          sparse-checkout: .github
+
+      - name: Download all test results
+        uses: actions/download-artifact@v8
+        with:
+          pattern: nelson-test-results-ubuntu-${{ inputs.ubuntu }}-${{ inputs.arch }}-shard-*
+          merge-multiple: true
+          path: results/
+
+      - name: Download benchmark results
+        continue-on-error: true
+        uses: actions/download-artifact@v8
+        with:
+          name: nelson-github-action-artifacts-bench-ubuntu-${{ inputs.ubuntu }}-${{ inputs.arch }}-${{ inputs.version }}.${{ github.run_number }}
+          path: results/
+
+      # one result file per platform in the final artifact: the shard files stay only when the merge failed
+      - name: Merge shard results
+        id: merge
+        continue-on-error: true
+        run: python3 .github/scripts/merge_test_shards.py results
+
+      - name: Test Report
+        uses: dorny/test-reporter@v3
+        if: always()
+        with:
+          name: "Ubuntu ${{ inputs.ubuntu }} Tests (${{ inputs.arch }})"
+          path: "results/tests_all-*.xml"
+          reporter: java-junit
+          fail-on-error: false
+          list-suites: failed
+          list-tests: failed
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: nelson-github-action-artifacts-ubuntu-${{ inputs.ubuntu }}-${{ inputs.arch }}-${{ inputs.version }}.${{ github.run_number }}
+          path: results/
+
+      # the shard artifacts are merged into the final one above: they are deleted once it is
+      # uploaded (the read-only token of a pull request from a fork cannot delete them)
+      - name: Delete shard artifacts
+        if: steps.merge.outcome == 'success'
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api --paginate "repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts?per_page=100" \
+            --jq '.artifacts[] | select(.name | startswith("nelson-test-results-ubuntu-${{ inputs.ubuntu }}-${{ inputs.arch }}-shard-")) | .id' \
+            | xargs -r -I{} gh api -X DELETE "repos/${{ github.repository }}/actions/artifacts/{}"
+
+  # the b2b suites drive the installed Nelson from the frontends: they run on master and when those change,
+  # on the amd64 build only since they exercise the frontends, not the engine
+  changes:
+    name: Detect frontend changes
+    if: inputs.arch == 'amd64'
+    runs-on: ubuntu-26.04
+    timeout-minutes: 5
+    outputs:
+      frontend: ${{ steps.filter.outputs.frontend }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Filter changed paths
+        id: filter
+        uses: dorny/paths-filter@v4
+        with:
+          filters: |
+            frontend:
+              - ".github/workflows/ccpp_ubuntu_tests.yml"
+              - ".nvmrc"
+              - "modules/web_gui/**"
+              - "modules/nflow_gui/**"
+              - "modules/nflow_engine/**"
+              - "modules/nflow_blocks/**"
+              - "modules/webview/**"
+
+  b2b:
+    name: Frontend b2b
+    needs: changes
+    if: inputs.arch == 'amd64' && (github.ref == 'refs/heads/master' || github.base_ref == 'master' || needs.changes.outputs.frontend == 'true')
+    runs-on: ubuntu-${{ inputs.ubuntu }}
+    timeout-minutes: 45
+
+    steps:
+      # the frontend sources and Playwright specs drive the installed Nelson
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: ".nvmrc"
+          cache: npm
+          cache-dependency-path: |
+            modules/web_gui/frontend/package-lock.json
+            modules/nflow_gui/package-lock.json
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v8
+        with:
+          name: nelson-installer-ubuntu-${{ inputs.ubuntu }}-${{ inputs.arch }}-${{ inputs.version }}.${{ github.run_number }}
+
+      - name: Install Nelson from .deb
+        run: |
+          DEB_FILE=$(ls nelson-*.deb)
+          sudo apt-get update
+          sudo apt-get install -y xvfb "./$DEB_FILE"
+
+      - name: Install frontend dependencies
+        run: |
+          npm ci --no-audit --no-fund --prefix modules/web_gui/frontend
+          npm ci --no-audit --no-fund --prefix modules/nflow_gui
+
+      # both frontends pin the same Playwright version, one browser install serves both
+      - name: Install Playwright Chromium
+        working-directory: modules/web_gui/frontend
+        run: npx playwright install --with-deps chromium
+
+      - name: Web GUI b2b tests
+        working-directory: modules/web_gui/frontend
+        env:
+          CI: "true"
+          NELSON_WEBVIEW_PATH: /usr/bin/nelson-webview
+        run: xvfb-run -a npm run test:b2b
+
+      - name: NFlow b2b tests
+        if: always()
+        working-directory: modules/nflow_gui
+        env:
+          CI: "true"
+          NELSON_CLI_PATH: /usr/bin/nelson-cli
+        run: xvfb-run -a npm run test:b2b
+
+      - name: Upload Playwright results
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-b2b-ubuntu-${{ inputs.ubuntu }}-${{ github.run_number }}
+          path: |
+            modules/web_gui/frontend/test-results/
+            modules/nflow_gui/test-results/
+            modules/nflow_gui/tests/b2b/test-results/
+          if-no-files-found: ignore

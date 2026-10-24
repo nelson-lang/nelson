@@ -37,6 +37,7 @@ cmake_install.cmake
 cmake_uninstall.cmake
 CTestTestfile.cmake
 modules/spreadsheet/src/xlnt/include/xlnt/utils/xlnt_cmake_export.h
+modules/spreadsheet/xlnt/source/XlntConfig.cmake
 modules/spreadsheet/xlnt/source/XlntConfigVersion.cmake
 modules/spreadsheet/xlnt/source/xlnt.pc
 install_manifest.txt
@@ -96,7 +97,6 @@ bin/macos/*-exec
 #==============================================================================
 /modules/*/nls*_autogen
 /modules/modules.m
-/module_skeleton/
 /modules/qml_engine/nlsQml_engine_automoc.dir/
 /modules/text_editor/nlsText_editor_automoc.dir/
 /modules/*/builtin/c/x64
@@ -214,19 +214,6 @@ node_modules/
 modules/mex/examples/rust-mex-builder/helloworld/Cargo.lock
 modules/mex/examples/rust-mex-builder/helloworld/build.rs
 modules/mex/examples/rust-mex-builder/helloworld/target/
-#==============================================================================
-# Module skeleton files
-#==============================================================================
-module_skeleton/builtin/CMakeLists.txt
-module_skeleton/builtin/cleaner.m
-module_skeleton/builtin/loader.m
-module_skeleton/builtin/unloader.m
-module_skeleton/builtin/cpp/Gateway.cpp
-module_skeleton/src/CMakeLists.txt
-module_skeleton/src/cleaner.m
-module_skeleton/src/loader.m
-module_skeleton/src/unloader.m
-module_skeleton/*/*.manifest
 #==============================================================================
 # Test and benchmark files
 #==============================================================================

@@ -11,15 +11,13 @@
 % <--WEIGHT 4-->
 skip_testsuite(isempty(which('__nelson_unittest_process_supervisor_start__')), ...
   'Native unittest process supervisor is not available.');
-moduleRoot = fileparts(fileparts(nfilename('fullpath')));
-repoRoot = fileparts(fileparts(moduleRoot));
 savedPath = path();
 previousExternal = getenv('NELSON_EXTERNAL_MODULES_PATH');
 previousForceNativeRunner = getenv('NELSON_UNITTEST_FORCE_NATIVE_RUNNER');
 setenv('NELSON_UNITTEST_FORCE_NATIVE_RUNNER', 'TRUE');
-addpath(fullfile(repoRoot, 'modules', 'tests_manager', 'functions'));
-addpath(fullfile(repoRoot, 'modules', 'tests_manager', 'tests'));
-testRoot = fullfile(repoRoot, 'temp', ['nmm_test_identity_', createGUID()]);
+addpath(fullfile(modulepath('tests_manager'), 'functions'));
+addpath(fullfile(modulepath('tests_manager'), 'tests'));
+testRoot = fullfile(tempdir(), ['nmm_test_identity_', createGUID()]);
 mkdir(testRoot);
 mkdir(fullfile(testRoot, 'modules'));
 mkdir(fullfile(testRoot, 'archives'));

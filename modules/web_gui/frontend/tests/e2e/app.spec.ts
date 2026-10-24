@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 import { test, expect, type Page } from '@playwright/test';
-import { showFigureBars } from '../figureBars';
+import { showFigureBars, waitForFigureLayout } from '../figureBars';
 //=============================================================================
 // xterm reads real keyboard events from its hidden textarea.
 async function focusTerminal(page: Page) {
@@ -240,8 +240,12 @@ test('right-click opens the context menu', async ({ page }) => {
 test('context-menu Clear leaves a single prompt (no ">> >>")', async ({ page }) => {
   await page.locator('.console-panel').click({ button: 'right' });
   await page.locator('.console-menu__item', { hasText: 'Clear' }).click();
-  await expect.poll(() => terminalText(page)).not.toContain('>> >>');
-  await expect.poll(() => terminalText(page)).toContain('>>');
+  // the prompt lives in the input stack, which terminalText() strips: read the host
+  const host = page.locator('.console-host');
+  await expect.poll(() => host.innerText()).toContain('>>');
+  await expect
+    .poll(() => host.evaluate((el) => (el.textContent?.match(/>>/g) ?? []).length))
+    .toBe(1);
 });
 //=============================================================================
 test('Up recalls persistent history immediately (seeded from history.list)', async ({ page }) => {
@@ -640,13 +644,16 @@ test('editor ribbon re-lays-out live as the panel is resized (follows shrink & g
 
   await expect.poll(collapsedCount).toBeLessThanOrEqual(2);
   expect(await pinned()).toBe(false);
+  const wideCount = await collapsedCount();
 
-  await page.setViewportSize({ width: 760, height: 900 });
-  await expect.poll(collapsedCount).toBeGreaterThan(3);
+  // shrinking collapses more groups than the wide layout, growing restores it;
+  // stay above MOBILE_MAX_WIDTH (760), the compact layout drops the editor panel
+  await page.setViewportSize({ width: 800, height: 900 });
+  await expect.poll(collapsedCount).toBeGreaterThan(wideCount);
   expect(await pinned()).toBe(false);
 
   await page.setViewportSize({ width: 1700, height: 900 });
-  await expect.poll(collapsedCount).toBeLessThanOrEqual(2);
+  await expect.poll(collapsedCount).toBe(wideCount);
   expect(await pinned()).toBe(false);
 });
 //=============================================================================
@@ -772,22 +779,24 @@ test('pixel uicontrols keep their authored layout when the figure panel resizes'
   const canvas = page.locator('.figure-panel__canvas');
   const button = page.locator('.figure-panel').getByRole('button', { name: 'Push me' });
   await expect(button).toBeVisible();
+  // the figure takes the panel size (figure.setSize); pixel controls keep their
+  // authored size and stay anchored to the bottom-left corner (Position units)
+  await expect.poll(async () => (await canvas.boundingBox())?.width ?? 0).toBeGreaterThan(640);
+  await expect
+    .poll(async () => {
+      const buttonBox = await button.boundingBox();
+      return buttonBox?.width ?? 0;
+    })
+    .toBeCloseTo(110, 0);
+  // authored at y = 20 from the top of a 400 px figure: 350 px above the bottom
   await expect
     .poll(async () => {
       const canvasBox = await canvas.boundingBox();
       const buttonBox = await button.boundingBox();
-      if (!canvasBox || !buttonBox) return 0;
-      return buttonBox.width / canvasBox.width;
+      if (!canvasBox || !buttonBox) return -1;
+      return canvasBox.y + canvasBox.height - (buttonBox.y + buttonBox.height);
     })
-    .toBeCloseTo(110 / 640, 2);
-  await expect
-    .poll(async () => {
-      const canvasBox = await canvas.boundingBox();
-      const buttonBox = await button.boundingBox();
-      if (!canvasBox || !buttonBox) return 0;
-      return (buttonBox.y - canvasBox.y) / canvasBox.height;
-    })
-    .toBeCloseTo(20 / 400, 2);
+    .toBeCloseTo(350, 0);
 });
 //=============================================================================
 test('clicking a uicontrol reports the action to the backend', async ({ page }) => {
@@ -816,6 +825,8 @@ test('figure menu bar opens and fires the selected uimenu', async ({ page }) => 
 //=============================================================================
 test('right-click on a control opens its uicontextmenu and fires the item', async ({ page }) => {
   await runLine(page, 'uidemo');
+  // the overlay hit-tests controls in stage coordinates: wait for the resize to settle
+  await waitForFigureLayout(page.locator('.figure-panel'));
   await page
     .locator('.figure-panel')
     .getByRole('button', { name: 'Push me' })

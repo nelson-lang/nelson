@@ -176,8 +176,8 @@ QtFileBrowser::applyNameFilter()
     QStringList patterns;
     const QString text = filterLineEdit->text().trimmed();
     if (!text.isEmpty()) {
-        const QStringList splitted = text.split(QRegularExpression("[;,\\s]+"), Qt::SkipEmptyParts);
-        for (const QString& pattern : splitted) {
+        const QStringList pieces = text.split(QRegularExpression("[;,\\s]+"), Qt::SkipEmptyParts);
+        for (const QString& pattern : pieces) {
             patterns << pattern;
         }
     }

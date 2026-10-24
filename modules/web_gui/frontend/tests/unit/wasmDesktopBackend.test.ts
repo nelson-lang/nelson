@@ -2247,9 +2247,10 @@ describe('WebAssembly desktop backend', () => {
       backend.handle('uicontrol.action', { handle: 9, value: 1, text: "Start 'now'" }, signal)
     ).resolves.toEqual({ ok: true, figures: [] });
 
+    // a busy interpreter gets the view change as a deferred figure action
     expect(fixture.client.queueCommand).toHaveBeenNthCalledWith(
       1,
-      '__web_display_list__(0, 42, 12, 34, true);'
+      `__web_figure_deferred_action__(0, '{"action":"view","axesHandle":42,"azimuth":12,"elevation":34,"compactView":true,"softwareFallback":true}');`
     );
     expect(fixture.client.queueCommand).toHaveBeenNthCalledWith(
       2,

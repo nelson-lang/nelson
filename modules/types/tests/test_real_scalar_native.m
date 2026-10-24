@@ -16,6 +16,7 @@ if ispc() && ~havecompiler()
 end
 skip_testsuite(~havecompiler(), 'Native compiler unavailable');
 skip_testsuite(~findcmake(), 'CMake unavailable');
+skip_testsuite(~isfile([modulepath('types'), '/tests/real_scalar_storage.cpp']), 'C++ test source not installed');
 %=============================================================================
 destination = tempname();
 mkdir(destination);

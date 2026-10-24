@@ -17,10 +17,9 @@ function Join-Arguments([string[]]$Values) {
     }
     return $quoted -join ' '
 }
-$repo = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../..'))
-$allowed = [IO.Path]::GetFullPath((Join-Path $repo 'temp')) + [IO.Path]::DirectorySeparatorChar
+$allowed = [IO.Path]::GetTempPath()
 $Work = [IO.Path]::GetFullPath($Work)
-if (-not $Work.StartsWith($allowed, [StringComparison]::OrdinalIgnoreCase)) { throw 'Test work must be inside repository temp.' }
+if (-not $Work.StartsWith($allowed, [StringComparison]::OrdinalIgnoreCase)) { throw 'Test work must be inside temporary directory.' }
 $target = Join-Path $Work 'native-output'
 $source = Join-Path $Work 'native-source'
 New-Item -ItemType Directory -Path $target, $source | Out-Null

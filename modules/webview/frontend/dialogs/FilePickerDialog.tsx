@@ -162,6 +162,11 @@ function joinPath(dir: string, name: string): string {
   return stripTrailingSep(dir) + '/' + name;
 }
 //=============================================================================
+// A file name typed as a full path is used as is, like the system dialogs do.
+function isAbsolutePath(name: string): boolean {
+  return /^([a-zA-Z]:[\\/]|[\\/])/.test(name);
+}
+//=============================================================================
 function parentPath(dir: string): string {
   const stripped = stripTrailingSep(dir);
   const cut = stripped.replace(/[\\/][^\\/]*$/, '');
@@ -212,7 +217,7 @@ export function FilePickerDialog(props: FilePickerDialogProps): JSX.Element {
     } else if (mode === 'save') {
       const name = saveName.trim();
       if (!name) return;
-      onSubmit(joinPath(cwd, name));
+      onSubmit(isAbsolutePath(name) ? name : joinPath(cwd, name));
     } else {
       if (!selected) return;
       onSubmit(joinPath(cwd, selected));

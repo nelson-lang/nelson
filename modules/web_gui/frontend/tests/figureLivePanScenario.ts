@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 import { expect, test, type Page } from '@playwright/test';
+import { selectInspectorObject } from './figureObjects';
 import { showFigureBars, waitForFigureLayout } from './figureBars';
 import { figureCommands } from './figureCommands';
 //=============================================================================
@@ -15,6 +16,7 @@ export async function figureLivePanScenario(page: Page) {
   const run = figureCommands(page, 'live-pan');
   const ready = () => expect(page.locator('.figure-workspace-status')).not.toContainText('Pending');
   await page.goto('/');
+  await page.getByRole('tab', { name: 'Command Window', exact: true }).click();
   await expect(page.locator('.console-host').first()).toContainText('connected:', {
     timeout: 120000,
   });
@@ -30,7 +32,7 @@ export async function figureLivePanScenario(page: Page) {
     ['Helix', 0.75, 0.3],
     ['Surface', 0.3, 0.7],
   ] as const) {
-    await page.getByRole('combobox', { name: 'Axes', exact: true }).selectOption({ label });
+    await selectInspectorObject(page, `axes (${label})`);
     for (const projection of label === 'Signal'
       ? ['orthographic']
       : ['orthographic', 'perspective']) {
@@ -39,9 +41,7 @@ export async function figureLivePanScenario(page: Page) {
         .selectOption(projection);
       await page.getByRole('button', { name: 'Fit', exact: true }).click();
       await ready();
-      const initial = await page
-        .getByRole('textbox', { name: 'X limits', exact: true })
-        .inputValue();
+      const initial = await page.getByRole('textbox', { name: 'XLim', exact: true }).inputValue();
       const drawing = page.locator('.figure-panel__canvas');
       const reference = await drawing.screenshot();
       const box = await drawing.boundingBox();
@@ -54,7 +54,7 @@ export async function figureLivePanScenario(page: Page) {
       try {
         await page.mouse.move(x + 20, y - 10, { steps: 12 });
         // The inspector receives actual engine properties, with the mouse still down.
-        const limits = page.getByRole('textbox', { name: 'X limits', exact: true });
+        const limits = page.getByRole('textbox', { name: 'XLim', exact: true });
         await expect(limits).not.toHaveValue(initial);
         await ready();
         const partial = await limits.inputValue();
@@ -72,12 +72,12 @@ export async function figureLivePanScenario(page: Page) {
       // Fit immediately after release must run after the final pan displacement.
       await page.getByRole('button', { name: 'Fit', exact: true }).click();
       await ready();
-      await expect(page.getByRole('textbox', { name: 'X limits', exact: true })).toHaveValue(
-        initial
-      );
+      await expect(page.getByRole('textbox', { name: 'XLim', exact: true })).toHaveValue(initial);
       await expect.poll(async () => (await drawing.screenshot()).equals(reference)).toBe(true);
     }
   }
-  await run('asserts.isequal([a1.Position;a2.Position;a3.Position;a4.Position],slots); close(f)');
+  await run(
+    'asserts.isapprox([a1.Position;a2.Position;a3.Position;a4.Position],slots,1e-12); close(f)'
+  );
 }
 //=============================================================================

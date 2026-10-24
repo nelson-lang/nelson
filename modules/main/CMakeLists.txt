@@ -305,19 +305,6 @@ if(WITH_WEB_GUI_MODULE)
   endif()
 endif()
 # ==============================================================================
-if(NOT WITHOUT_WEBTOOLS_MODULE)
-  set(GET_MODULE_SKELETON_ACTION
-    COMMAND
-    ${BIN_DIRECTORY}/nelson-cli
-    --no-ipc
-    --no-user-modules
-    --quiet
-    --file
-    "${BIN_DIRECTORY}/../../tools/clone_module_skeleton/clone.m"
-  )
-  set(BUILD_ALL_GET_MODULE_SKELETON_ACTION ${GET_MODULE_SKELETON_ACTION})
-endif()
-# ==============================================================================
 if(NOT WITHOUT_HELP_TOOLS_MODULE)
   set(BUILDHELP_ACTION
     COMMAND
@@ -394,13 +381,6 @@ if(NOT WITHOUT_LOCALIZATION_MODULE)
   add_custom_target(update_localization
     COMMAND ${BIN_DIRECTORY}/nelson-cli --no-user-modules --no-ipc --quiet
       --file "${BIN_DIRECTORY}/../../tools/i18n/i18nExtractor.m"
-    DEPENDS nelson-cli-exec
-  )
-endif()
-# ==============================================================================
-if(NOT WITHOUT_WEBTOOLS_MODULE)
-  add_custom_target(get_module_skeleton
-    COMMAND ${GET_MODULE_SKELETON_ACTION}
     DEPENDS nelson-cli-exec
   )
 endif()

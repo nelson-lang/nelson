@@ -46,8 +46,9 @@ export async function figureOutputScenario(
   await saveDialog.getByRole('textbox').fill(savedName);
   await saveDialog.getByRole('button', { name: 'OK', exact: true }).click();
   await expect(saveDialog).toBeHidden();
+  // the export is written by the engine after the dialog closes: give it a bounded wait
   await run(
-    `asserts.istrue(isfile('${savedName}')); asserts.istrue(contains(fileread('${savedName}'),'<svg')); close(f)`
+    `saveStart=tic(); while ~isfile('${savedName}') && toc(saveStart) < 30, pause(0.2); end; asserts.istrue(isfile('${savedName}')); asserts.istrue(contains(fileread('${savedName}'),'<svg')); close(f)`
   );
   await detached.close();
   await page.bringToFront();

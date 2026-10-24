@@ -23,9 +23,15 @@ for k = 1:160
 end
 f.SizeChangedFcn = @resizeControlsCallback;
 f.Position = [100, 100, 560, 360];
-drawnow();
-pause(0.1);
-drawnow();
+% the window system can report the new geometry asynchronously (Cocoa): the resize
+% callback is queued once the host sees it, so give it a few seconds
+for k = 1:50
+  drawnow();
+  if strcmp(f.Tag, 'sizechanged')
+    break
+  end
+  pause(0.1);
+end
 
 asserts.isequal(f.Tag, 'sizechanged');
 asserts.isequal(length(f.Children), 160);

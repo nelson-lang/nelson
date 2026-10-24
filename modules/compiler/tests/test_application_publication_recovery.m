@@ -13,7 +13,7 @@ ncc('--help');
 check_recovery();
 
 function check_recovery()
-  work = tempname(fullfile(nelsonroot(), 'temp'));
+  work = tempname(tempdir());
   mkdir(work);
   cleanup = onCleanup(@() remove_work(work));
   for phase = 0:6
@@ -152,7 +152,7 @@ function rejected(callback)
 end
 
 function remove_work(work)
-  allowed = fullpath(fullfile(nelsonroot(), 'temp'));
-  asserts.istrue(startsWith(fullpath(work), [allowed, '/']));
+  allowed = tempdir();
+  asserts.istrue(startsWith(fullpath(work), allowed));
   if isfolder(work); rmdir(work, 's'); end
 end

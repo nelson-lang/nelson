@@ -24,14 +24,18 @@ test('keeps a connected desktop alive when rendering delays its heartbeats', asy
         ? Promise.resolve(JSON.stringify({ id: request.id, result: { ok: true } }))
         : original(name, payload);
     };
+    let pong: unknown;
     try {
       await new Promise((resolve) => setTimeout(resolve, 5500));
-      return JSON.parse(
+      pong = JSON.parse(
         await original('rpc', JSON.stringify({ id: 'watchdog-check', method: 'ping' }))
       );
     } finally {
       bridge.call = original;
     }
+    // feed the watchdog before the page closes, so the next test does not race its budget
+    await original('rpc', JSON.stringify({ id: 'watchdog-beat', method: 'app.heartbeat' }));
+    return pong as { error?: unknown; result?: unknown };
   });
   expect(response.error).toBeUndefined();
   expect(response.result).toBeDefined();

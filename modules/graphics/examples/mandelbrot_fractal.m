@@ -27,7 +27,8 @@ for iteration = 1:maximumIterations
 end
 escapeIteration(active) = maximumIterations;
 
-figureHandle = figure('Name', 'Mandelbrot fractal', 'NumberTitle', 'off');
+figureHandle = figure('SelectionHighlight', 'off', 'ToolBar', 'none', ...
+  'Name', 'Mandelbrot fractal', 'NumberTitle', 'off');
 axesHandle = axes('Parent', figureHandle);
 image('Parent', axesHandle, 'CData', escapeIteration, ...
   'XData', [realAxis(1) realAxis(end)], ...

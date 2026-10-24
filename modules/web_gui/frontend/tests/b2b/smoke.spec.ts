@@ -44,6 +44,7 @@ async function terminalText(page: Page) {
 //=============================================================================
 test('real engine: REPL, history, uicontrol callback, PNG export', async ({ page }) => {
   await page.goto('/');
+  await page.getByRole('tab', { name: 'Command Window', exact: true }).click();
   await expect(page.locator('.console-panel')).toBeVisible();
   await expect.poll(() => terminalText(page), { timeout: 60_000 }).toContain('connected: engine');
 
@@ -260,22 +261,23 @@ test('real engine: REPL, history, uicontrol callback, PNG export', async ({ page
   const btn = page.locator('.figure-panel').getByRole('button', { name: 'SmokeBtn' });
   await expect(btn).toBeVisible({ timeout: 30_000 });
   const figureCanvas = page.locator('.figure-panel__canvas');
+  // a docked figure fills its panel, whatever its requested Position: the control keeps its
+  // pixel size and its offset from the bottom left corner of the drawing area
   await expect
     .poll(async () => {
       const canvasBox = await figureCanvas.boundingBox();
       const buttonBox = await btn.boundingBox();
-      if (!canvasBox || !buttonBox) return 0;
-      return buttonBox.width / canvasBox.width;
+      if (!canvasBox || !buttonBox) return 1000;
+      const measured = [
+        buttonBox.width,
+        buttonBox.height,
+        buttonBox.x - canvasBox.x,
+        canvasBox.y + canvasBox.height - (buttonBox.y + buttonBox.height),
+      ];
+      const expected = [110, 32, 20, 20];
+      return Math.max(...measured.map((value, index) => Math.abs(value - expected[index])));
     })
-    .toBeCloseTo(110 / 420, 2);
-  await expect
-    .poll(async () => {
-      const canvasBox = await figureCanvas.boundingBox();
-      const buttonBox = await btn.boundingBox();
-      if (!canvasBox || !buttonBox) return 0;
-      return (buttonBox.y - canvasBox.y) / canvasBox.height;
-    })
-    .toBeCloseTo((260 - 20 - 32) / 260, 2);
+    .toBeLessThanOrEqual(2);
   await btn.click();
   await runLine(page, 'disp(smoke_clicked)');
   await expect.poll(() => terminalText(page)).toContain('7');
@@ -313,7 +315,11 @@ test('real engine: REPL, history, uicontrol callback, PNG export', async ({ page
   const svgDownload = await svgDownloadPromise;
   const svgFile = await svgDownload.path();
   expect(svgFile).toBeTruthy();
-  expect(readFileSync(svgFile!, 'utf8')).toContain('ExportText');
+  // a figure holding uicontrols is exported as one raster page embedded in the SVG
+  const svgText = readFileSync(svgFile!, 'utf8');
+  expect(svgText).toContain('<svg');
+  expect(svgText).toContain('<image');
+  expect(svgText).toContain('data:image/png;base64');
   await figurePanel.getByRole('button', { name: 'Export', exact: true }).click();
   await figurePanel.getByLabel('Format', { exact: true }).selectOption('png');
   const exportButton = figurePanel.getByRole('button', { name: 'Download PNG', exact: true });

@@ -39,6 +39,8 @@ private:
     // rendering to a file. Layout geometry must always use the layout size.
     double m_renderScale = 1.0;
     bool m_childrenLayoutStale = false;
+    // the host applied a size whose resize report is still to come
+    bool m_sizeReportExpected = false;
     bool _resized;
     bool renderingStateInvalid = false;
     ArrayOf m_workspaceHistory;
@@ -114,6 +116,14 @@ public:
         m_width = width;
         m_height = height;
         m_renderScale = renderScale > 0 ? renderScale : 1.0;
+    }
+    // The host applied a new size before its resize report arrives (Cocoa delivers the
+    // resize later): that report, although it carries the size already set, must still run
+    // the SizeChangedFcn.
+    void
+    expectSizeReport()
+    {
+        m_sizeReportExpected = true;
     }
     // The children were last laid out for a previous rendering size: an auto axes
     // Position (pixel insets for ticks, labels, title) must be re-derived before

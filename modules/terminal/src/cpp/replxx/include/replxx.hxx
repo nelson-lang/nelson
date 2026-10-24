@@ -560,6 +560,10 @@ public:
     void
     write(char const* str, int length);
 
+    /*! \brief Nelson extension: wake a blocked input() so it re-checks the interpreter queues. */
+    void
+    wake();
+
     /*! \brief Asynchronously change the prompt while replxx_input() call is in efect.
      *
      * Can be used to change the prompt from callbacks or other threads.

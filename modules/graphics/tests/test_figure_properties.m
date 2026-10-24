@@ -44,6 +44,7 @@ REF = {'Alphamap';
   'Parent';
   'Position';
   'Resize';
+  'SelectionHighlight';
   'SizeChangedFcn';
   'Tag';
   'ToolBar';

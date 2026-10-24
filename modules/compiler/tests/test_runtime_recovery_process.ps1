@@ -25,10 +25,9 @@ function Join-Arguments([string[]]$Values) {
     }
     return $quoted -join ' '
 }
-$repo = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../..'))
-$allowed = [IO.Path]::GetFullPath((Join-Path $repo 'temp')) + [IO.Path]::DirectorySeparatorChar
+$allowed = [IO.Path]::GetTempPath()
 $Work = [IO.Path]::GetFullPath($Work)
-if (-not $Work.StartsWith($allowed, [StringComparison]::OrdinalIgnoreCase)) { throw 'Recovery work must stay in repository temp.' }
+if (-not $Work.StartsWith($allowed, [StringComparison]::OrdinalIgnoreCase)) { throw 'Recovery work must stay in temporary directory.' }
 
 function Run-Setup([string]$Executable, [string]$Destination, [string]$Pause = '', [switch]$Uninstall,
     [string]$Portable = '1', [switch]$KeepLock) {

@@ -5,4 +5,4 @@ import 'build_windows.just'
 
 # Build the project
 build:
-    cd .. && cmake --build . -- -j$(nproc)
+    cmake --build . -- -j$(nproc 2>/dev/null || sysctl -n hw.ncpu)

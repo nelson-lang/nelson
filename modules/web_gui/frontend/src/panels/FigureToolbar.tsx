@@ -20,6 +20,8 @@ interface Props {
   view?: [number, number];
   detailsVisible: boolean;
   toggleDetails: () => void;
+  // The figure ToolBar is 'none': no navigation tools, no details bar toggle.
+  toolbarHidden?: boolean;
   inspectorOpen: boolean;
   toggleInspector: () => void;
   maximized: boolean;
@@ -64,7 +66,7 @@ export function FigureToolbar(props: Props) {
           {props.title}
           <span>{props.is3d ? '3D' : '2D'} plot</span>
         </div>
-        <FigureNavigation {...props} />
+        {!props.toolbarHidden && <FigureNavigation {...props} />}
         <div className="figure-workspace-actions">
           <button
             aria-label="Undo figure edit"
@@ -223,15 +225,17 @@ function FigureMoreMenu({ props, close }: { props: Props; close: () => void }) {
       <button aria-label="Zoom out" onClick={() => act({ action: 'zoom', factor: 0.8 })}>
         Zoom out
       </button>
-      <button
-        aria-pressed={props.detailsVisible}
-        onClick={() => {
-          props.toggleDetails();
-          close();
-        }}
-      >
-        Plot details bar
-      </button>
+      {!props.toolbarHidden && (
+        <button
+          aria-pressed={props.detailsVisible}
+          onClick={() => {
+            props.toggleDetails();
+            close();
+          }}
+        >
+          Plot details bar
+        </button>
+      )}
       <button
         title="Replace the reference for Restore view with the selected subplot’s current view"
         onClick={() => act({ action: 'reference' })}

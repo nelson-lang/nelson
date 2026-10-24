@@ -9,7 +9,7 @@
 %=============================================================================
 nefertiti_directory = [modulepath('graphics', 'root'), '/examples/nefertiti-mask/'];
 load([nefertiti_directory, 'nefertiti-mask.nh5']);
-figure('Color', [1, 1, 1]);
+figure('SelectionHighlight', 'off', 'Color', [1, 1, 1]);
 patch('Faces', Faces, 'Vertices', Vertices, 'FaceVertexCData', Colors, ...
   'EdgeColor', 'white', ...
   'FaceColor', 'interp', 'FaceAlpha', 1);

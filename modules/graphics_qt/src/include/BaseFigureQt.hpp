@@ -46,6 +46,15 @@ private:
     syncFigureSize(int logicalWidth, int logicalHeight);
     bool
     hasExpectedRenderingSize();
+    // Reads the already-rendered framebuffer without triggering a new GL render.
+    QImage
+    grabCurrentFrameWithoutRender();
+    // True when a clean frame is already present and can be read back as-is.
+    bool
+    hasCleanRenderedFrame();
+    // Returns the current frame, reusing the last render when one is clean.
+    QImage
+    grabFrameReusingLastRender();
     //=============================================================================
 public:
     BaseFigureQt(QWidget* parent, GOFigure* fig);

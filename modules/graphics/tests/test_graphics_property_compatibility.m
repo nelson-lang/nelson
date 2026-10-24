@@ -251,7 +251,7 @@ function names = reference_figure_properties()
     'NumberTitle'; 'Icon'; 'Number'; 'Children'; 'Parent'; 'HandleVisibility';
     'ButtonDownFcn'; 'ContextMenu'; 'BusyAction'; 'BeingDeleted'; 'Interruptible';
     'CreateFcn'; 'DeleteFcn'; 'Type'; 'Tag'; 'UserData'; 'Clipping'; 'Scrollable';
-    'WindowStyle'; 'WindowState'; 'DockControls'; 'Resize'; 'PaperPosition';
+    'WindowStyle'; 'WindowState'; 'DockControls'; 'Resize'; 'SelectionHighlight'; 'PaperPosition';
     'PaperPositionMode'; 'PaperSize'; 'PaperType'; 'PaperUnits'; 'InvertHardcopy';
     'PaperOrientation'; 'KeyPressFcn'; 'KeyReleaseFcn'; 'Theme'; 'ThemeMode';
     'ThemeChangedFcn'; 'AutoResizeChildren'};

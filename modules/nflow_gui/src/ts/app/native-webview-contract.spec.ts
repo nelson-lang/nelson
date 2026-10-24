@@ -40,7 +40,7 @@ test('nflow_gui depends on modules/webview for WebUI', () => {
     path.join(repoDir, 'modules/webview/src/c/nlsWebview.vcxproj'),
     'utf8'
   );
-  const solution = readFileSync(path.join(repoDir, 'nelson.sln'), 'utf8');
+  const solution = readFileSync(path.join(repoDir, 'NelSon.sln'), 'utf8');
   const nflowGuiSolutionBlock = solution.slice(
     solution.indexOf('= "nlsNflow_gui"'),
     solution.indexOf('= "nlsNflow_gui_builtin"')
@@ -122,7 +122,7 @@ test('Qt prompt exposes interpreter idle state to the NFlow bridge', () => {
 
   expect(terminal).toContain('taskQueue->setInterpreterIdle(true);');
   expect(terminal).toContain('~IdleReset() { queue->setInterpreterIdle(false); }');
-  expect(terminal).toContain('if (taskQueue->processTasks(eval)) {');
+  expect(terminal).toContain('taskQueue->processTasks(eval);');
   expect(bridge).toContain('runNowIfIdleOrQueue(');
   expect(taskQueue).toContain('MainThreadTaskQueue::getInstance()');
 });

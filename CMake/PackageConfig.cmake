@@ -251,9 +251,15 @@ if(UNIX)
       set(CPACK_PACKAGE_FILE_NAME
         "nelson-Ubuntu-${UBUNTU_VERSION}-${TARGET_TRIPLE}-v${CPACK_PACKAGE_VERSION}"
       )
+      # the runner architecture, amd64 or arm64: apt refuses a package built for another one
+      execute_process(
+        COMMAND dpkg --print-architecture
+        OUTPUT_VARIABLE CPACK_DEBIAN_PACKAGE_ARCHITECTURE
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+      )
       if(UBUNTU_VERSION VERSION_EQUAL "26.04")
-        set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE "amd64")
-        set(CPACK_DEBIAN_PACKAGE_RECOMMENDS "cmake")
+        # WebKitGTK is loaded at run time by the native WebView window, apt installs it by default
+        set(CPACK_DEBIAN_PACKAGE_RECOMMENDS "cmake, libwebkit2gtk-4.1-0")
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
           "libfftw3-bin, libfftw3-double3, libfftw3-single3"
         )
@@ -321,6 +327,9 @@ if(UNIX)
           "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libopenblas0"
         )
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libarpack2t64"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
           "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libopenmpi40 (>= 5.0.10)"
         )
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
@@ -374,15 +383,61 @@ if(UNIX)
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
           "${CPACK_DEBIAN_PACKAGE_DEPENDS}, zlib1g (>= 1:1.1.4)"
         )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libqhull-r8.0"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libsqlite3-0"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libnetcdf22"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libarrow2300"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libparquet2300"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libwebp7"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libsundials-core7"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libsundials-cvodes7"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libsundials-idas6"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libsundials-nvecserial7"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libsundials-sunmatrix5"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libsundials-sunlinsol5"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libsundials-kinsol7"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libhighs1"
+        )
       endif()
       if(UBUNTU_VERSION VERSION_EQUAL "24.04")
-        set(CPACK_DEBIAN_PACKAGE_RECOMMENDS "cmake")
+        # WebKitGTK is loaded at run time by the native WebView window, apt installs it by default
+        set(CPACK_DEBIAN_PACKAGE_RECOMMENDS "cmake, libwebkit2gtk-4.1-0")
         # NOTE: libfftw3-bin, libfftw3-double3, libfftw3-single3 are separate deps
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
           "libfftw3-bin, libfftw3-double3, libfftw3-single3"
         )
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
           "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libopenblas0"
+        )
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libarpack2t64"
         )
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
           "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libasound2t64 (>= 1.2.11)"
@@ -501,135 +556,40 @@ if(UNIX)
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
           "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libtiff6"
         )
-      endif()
-      if(UBUNTU_VERSION VERSION_EQUAL "22.04")
-        set(CPACK_DEBIAN_PACKAGE_RECOMMENDS "cmake")
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS "fftw3")
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libopenblas0-openmp"
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libqhull-r8.0"
         )
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libasound2 (>= 1.0.16)"
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libsqlite3-0"
         )
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libc6 (>= 2.35)"
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libnetcdf19"
         )
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libcurl4 (>= 7.16.2)"
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libwebp7"
         )
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libffi8 (>= 3.4)"
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libsundials-cvodes6"
         )
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libgcc-s1 (>= 4.0)"
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libsundials-idas5"
         )
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libgit2-1.1 (>= 1.1.0)"
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libsundials-nvecserial6"
         )
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libgomp1 (>= 4.9)"
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libsundials-sunmatrix4"
         )
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libhdf5-103-1"
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libsundials-sunlinsol3"
         )
         set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libicu70 (>= 70.1-1~)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libjack-jackd2-0 (>= 1.9.10+20150825) | libjack-0.125"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libmatio11 (>= 1.5.15)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libopenblas0"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libopenmpi3 (>= 4.1.2)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libportaudio2 (>= 19+svn20101113)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libpcre2-32-0"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libqt6core6 (>= 6.2.0)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libqt6gui6 (>= 6.1.2)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libqt6printsupport6 (>= 6.1.2)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libqt6qml6 (>= 6.2.0)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libqt6quick6 (>= 6.2.0)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libqt6svg6 (>= 6.2.0)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libqt6widgets6 (>= 6.1.2)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libsndfile1 (>= 1.0.20)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libstdc++6 (>= 12)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libtag1v5 (>= 1.9.1-2.2~)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libxml2 (>= 2.7.4)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libxslt1.1 (>= 1.1.0)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, zlib1g (>= 1:1.1.4)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, qt6-declarative-dev"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, qml6-module-qtquick"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, qml6-module-qtquick-templates"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, qml6-module-qtquick-controls"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, qml6-module-qtquick-window"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, qml6-module-qtquick-dialogs"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, qml6-module-qtqml-workerscript"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, qml6-module-qtquick-layouts"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libtbb12 (>=2020.3-1ubuntu3)"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libgif7"
-        )
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS
-          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libtiff6"
+          "${CPACK_DEBIAN_PACKAGE_DEPENDS}, libsundials-kinsol6"
         )
       endif()
 
       if(NOT UBUNTU_VERSION VERSION_EQUAL "26.04"
         AND NOT UBUNTU_VERSION VERSION_EQUAL "24.04"
-        AND NOT UBUNTU_VERSION VERSION_EQUAL "22.04"
       )
         message(STATUS
           "Ubuntu ${UBUNTU_VERSION}: DEB dependency list not available, using TGZ."

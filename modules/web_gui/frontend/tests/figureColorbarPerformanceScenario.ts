@@ -33,11 +33,12 @@ export async function figureColorbarPerformanceScenario(page: Page) {
   await expect(figure.locator('canvas').first()).toBeVisible();
   const properties = figure.getByRole('button', { name: 'Properties', exact: true });
   if ((await properties.getAttribute('aria-expanded')) !== 'true') await properties.click();
+  // the figure is the object selected by default: its Name property is in the grid
   await expect(
     figure
       .getByRole('complementary', { name: 'Figure properties' })
-      .getByLabel('Plot title', { exact: true })
-  ).toBeVisible();
+      .getByLabel('Name', { exact: true })
+  ).toHaveValue('Colorbar performance');
   await expect(figure).not.toHaveAttribute('aria-busy', 'true');
   await run("close('all')");
 }

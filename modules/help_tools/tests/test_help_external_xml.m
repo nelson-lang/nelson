@@ -10,7 +10,7 @@
 % XML help belongs to the currently loaded module, not the global JSON index.
 initialLanguage = getlanguage();
 moduleName = ['help_xml_', strrep(createGUID(), '-', '_')];
-moduleRoot = tempname(fullfile(nelsonroot(), 'temp'));
+moduleRoot = tempname(tempdir());
 functionsRoot = fullfile(moduleRoot, 'functions');
 namespaceRoot = fullfile(functionsRoot, ['+', moduleName]);
 guide = [moduleName, '_guide'];

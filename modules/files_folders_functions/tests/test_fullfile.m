@@ -211,15 +211,8 @@ CMD = 'fullfile(''/home/username'', {''d'', ''f''; ''d'', ''f''}, {''f'', ''d''}
 MSG = _('All string and cell array inputs must be the same size or scalars.');
 asserts.checkerror(CMD, MSG);
 %=============================================================================
-rootParent = fullfile(nelsonroot(), 'temp');
-rootTemp = fullfile(rootParent, 'compatibility_file_behaviors');
-if ~isdir(rootParent)
-  mkdir(nelsonroot(), 'temp');
-end
-if isdir(rootTemp)
-  rmdir(rootTemp, 's');
-end
-[status, msg] = mkdir(rootParent, 'compatibility_file_behaviors');
+rootTemp = fullfile(tempdir(), ['compatibility_file_behaviors_', createGUID()]);
+[status, msg] = mkdir(rootTemp);
 asserts.istrue(status);
 asserts.isequal(msg, '');
 asserts.istrue(isdir(rootTemp));

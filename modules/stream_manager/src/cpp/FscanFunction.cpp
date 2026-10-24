@@ -12,6 +12,8 @@
 #endif
 //=============================================================================
 #include <algorithm>
+#include <cctype>
+#include <cstdio>
 #include <cstring>
 #include "Fscanf_helpers.hpp"
 #include "FscanFunction.hpp"
@@ -101,6 +103,35 @@ convertToArrayOfFscanf(ArrayOfVector& values, NelsonType classDestination, bool 
     return value;
 }
 //=============================================================================
+// Matches the literal text between two conversions like fscanf does: a blank
+// matches any run of whitespace, any other character must match the stream.
+// Returns EOF when the stream ends before a character could match, else 0.
+static int
+matchLiteralText(FILE* filepointer, const char* text)
+{
+    for (const char* p = text; *p; ++p) {
+        int c;
+        if (isspace(static_cast<unsigned char>(*p))) {
+            do {
+                c = fgetc(filepointer);
+            } while (c != EOF && isspace(c));
+            if (c != EOF) {
+                ungetc(c, filepointer);
+            }
+            continue;
+        }
+        c = fgetc(filepointer);
+        if (c == EOF) {
+            return EOF;
+        }
+        if (c != static_cast<unsigned char>(*p)) {
+            ungetc(c, filepointer);
+            return 0;
+        }
+    }
+    return feof(filepointer) ? EOF : 0;
+}
+//=============================================================================
 ArrayOf
 FscanF(FILE* filepointer, const std::string& format, const std::string& encoding, double m,
     double n, bool haveThirdArgument, indexType& count, bool asSscanf)
@@ -135,7 +166,7 @@ FscanF(FILE* filepointer, const std::string& format, const std::string& encoding
             sv = *dp;
             *dp = 0;
             if (*np != 0) {
-                resf = fscanf(filepointer, np);
+                resf = matchLiteralText(filepointer, np);
                 if (resf == EOF || feof(filepointer)) {
                     bContinue = false;
                 }

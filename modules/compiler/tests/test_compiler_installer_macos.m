@@ -15,7 +15,7 @@ check_macos_packages();
 
 function check_macos_packages()
   [~, token] = fileparts(tempname());
-  work = fullfile(nelsonroot(), 'temp', ['compiler mac ', token, ' ', char([233, 28450])]);
+  work = fullfile(tempdir(), ['compiler mac ', token, ' ', char([233, 28450])]);
   mkdir(work); cleanup = onCleanup(@() rmdir(work, 's'));
   source = fullfile(work, 'source'); mkdir(source);
   entry = fullfile(source, 'mac_console.m');

@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 ncc('--help');
-root = fullpath(fullfile(nelsonroot(), 'temp'));
+root = tempdir();
 modules = fullpath(fullfile(nelsonroot(), 'modules'));
 entry = [root, '/fingerprint_entry.m'];
 base = [modules, '/elementary_functions/functions'];

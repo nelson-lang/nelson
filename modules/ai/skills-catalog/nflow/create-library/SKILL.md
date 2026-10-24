@@ -58,7 +58,7 @@ Use a `math` render for parameterized formulas, a `plot` render for SVG paths ba
 
 Built-in manifests and assets are copied from `modules/nflow_blocks/libraries/` by `modules/nflow_gui/scripts/prepare-dist.mjs`; the module installers already ship the complete libraries directory. A new built-in family still needs its import and registration in `blocks-registry.ts`, plus any family-specific renderer module.
 
-External libraries are found through Library Manager search paths or `NFLOW_DEV_PLUGIN_SCAN_PATH`. Keep the plugin filename beside the manifest and verify that the manifest's `native` value matches the built artifact.
+External libraries are found through Library Manager search paths, or added from a script with `NFlow.addlibrarypath`. Keep the plugin filename beside the manifest and verify that the manifest's `native` value matches the built artifact.
 
 ## Validate
 
@@ -68,7 +68,7 @@ External libraries are found through Library Manager search paths or `NFLOW_DEV_
 - For a native plugin, build and load the library, simulate a minimal diagram, and test optional C/Rust generation.
 - For a built-in family, add or extend Nelson tests in `modules/nflow_blocks/tests/` and confirm installed-data packaging tests still pass.
 
-Use `modules/nflow_gui/examples/libraries/cumprod/` as the complete external native-library example.
+Use `modules/nflow_gui/examples/libraries/cumprod/` as the complete external native-library example. Build its native plugin with Nelson's own tools by running the bundled `builder.m` (it calls `dlgeneratemake` / `dlmake` with the nflow SDK resolvers `dlgetnflowincludes` / `dlgetnflowlibraries`), rather than a hand-written `CMakeLists.txt`.
 
 ## Done When
 

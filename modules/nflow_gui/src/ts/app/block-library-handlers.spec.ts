@@ -77,18 +77,33 @@ describe('block-library-handlers - getters/setters', () => {
 });
 //=============================================================================
 describe('block-library-handlers - renderBlockLibrary', () => {
+  // fake timers keep the 150 ms retry from firing after jsdom is torn down
   test('schedules retries when no groups set', () => {
-    handlers.setBlockLibraryGroups(null);
-    handlers.renderBlockLibrary();
-    expect(window.__renderBlockLibraryRetryCount).toBe(1);
+    vi.useFakeTimers();
+    try {
+      handlers.setBlockLibraryGroups(null);
+      handlers.renderBlockLibrary();
+      expect(window.__renderBlockLibraryRetryCount).toBe(1);
+      expect(vi.getTimerCount()).toBe(1);
+    } finally {
+      vi.clearAllTimers();
+      vi.useRealTimers();
+    }
   });
 
   test('stops retrying after 5 attempts', () => {
-    handlers.setBlockLibraryGroups(null);
-    window.__renderBlockLibraryRetryCount = 5;
-    handlers.renderBlockLibrary();
-    // should not increment beyond 5 (stops at 6)
-    expect(window.__renderBlockLibraryRetryCount).toBe(6);
+    vi.useFakeTimers();
+    try {
+      handlers.setBlockLibraryGroups(null);
+      window.__renderBlockLibraryRetryCount = 5;
+      handlers.renderBlockLibrary();
+      // should not increment beyond 5 (stops at 6)
+      expect(window.__renderBlockLibraryRetryCount).toBe(6);
+      expect(vi.getTimerCount()).toBe(0);
+    } finally {
+      vi.clearAllTimers();
+      vi.useRealTimers();
+    }
   });
 
   test('creates groups and tool buttons', () => {

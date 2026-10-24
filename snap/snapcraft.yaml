@@ -8,9 +8,9 @@
 # LICENCE_BLOCK_END
 # ==============================================================================
 name: nelson
-base: core24
+base: core26
 icon: $SNAP/gui/logo.png
-summary: Nelson numerical computing language for engineering and scientific applications.
+summary: Nelson, a numerical computing language for engineering and science
 description: |
   Nelson is a matrix and array programming language for engineering and scientific computing.
   It provides an interpreter, a high-level language, plotting tools, and numerical libraries such as Eigen.
@@ -60,15 +60,17 @@ parts:
   nelson:
     plugin: nil
     source: .
+    # the CMake build compiles the web frontends with npm, the node snap matches .nvmrc
+    build-snaps:
+      - node/22/stable
 
     override-build: |
       craftctl default
 
-      cmake -DCMAKE_INSTALL_PREFIX=/usr  -DCMAKE_BUILD_TYPE=Release -DQTDIR=/usr/lib/qt6 -DWITHOUT_IPC_MODULE=TRUE -DWITHOUT_MPI_MODULE=TRUE -DWITHOUT_AUDIO_MODULE=TRUE . 
+      cmake -DCMAKE_INSTALL_PREFIX=/usr  -DCMAKE_BUILD_TYPE=Release -DQTDIR=/usr/lib/qt6 -DWITHOUT_IPC_MODULE=TRUE -DWITHOUT_MPI_MODULE=TRUE . 
       cmake --build . -- -j $(nproc)
       export XDG_RUNTIME_DIR=/tmp
       cmake --build . -- -j $(nproc) buildhelp
-      cmake --build . -- -j $(nproc) get_module_skeleton
 
       # Use the packaged icon path in the desktop file.
       # This needs to happen post-build or the build versioning will show as "modified locally"
@@ -89,44 +91,67 @@ parts:
       craftctl default
       rm -vf usr/lib/$SNAP_LAUNCHER_ARCH_TRIPLET/libc_malloc_debug.so
 
+    # Ubuntu 26.04 (core26) package names: Arrow, Parquet, HiGHS and SUNDIALS 7 are all packaged there
     build-packages:
+      # build tools
       - build-essential
+      - cmake
+      - pkg-config
+      - gettext
       - locales-all
-      - libglvnd-dev
-      - libasound2-data
       - autotools-dev
       - libtool
       - automake
-      - gettext
-      - pkg-config
+      # OpenGL
+      - libglvnd-dev
+      - libgl-dev
+      # system libraries
+      - zlib1g-dev
       - libffi-dev
       - libicu-dev
       - libxml2-dev
       - libxslt1-dev
-      - libopenblas-openmp-dev
-      - libfftw3-dev
-      - libasound-dev
-      - portaudio19-dev
-      - libsndfile1-dev
-      - libtag1-dev
-      - alsa-utils
       - libsqlite3-dev
-      - libgl1
-      - zlib1g-dev
       - libcurl4-openssl-dev
       - libgit2-dev
+      - libtbb-dev
       - libpcre2-dev
+      # numerics
+      - libopenblas-openmp-dev
+      - liblapack-dev
+      - libfftw3-dev
       - libeigen3-dev
+      - libarpack2-dev
+      - libqhull-dev
+      - libsundials-dev
+      # the Ubuntu SUNDIALS headers include <mpi.h>
+      - libopenmpi-dev
+      - libhighs-dev
+      - highs
+      # data formats
+      - libhdf5-dev
       - libmatio-dev
-      - libsqlite3-dev
+      - libnetcdf-dev
+      - libarrow-dev
+      - libparquet-dev
+      # audio
+      - libasound2-dev
+      - libasound2-data
+      - portaudio19-dev
+      - libsndfile1-dev
+      - libtag-dev
+      - alsa-utils
+      # images
+      - libgif-dev
+      - libjpeg-turbo8-dev
+      - libpng-dev
+      - libtiff-dev
+      - libwebp-dev
+      # Qt 6
       - qt6-base-dev
-      - libqt6svg6
-      - libqt6sql6
-      - libqt6sql6-mysql
+      - qt6-svg-dev
       - libqt6sql6-sqlite
-      - libqt6quick6
-      - libqt6opengl6-dev
-      - libqt6svg6-dev
+      - libqt6sql6-mysql
       - qt6-declarative-dev
       - qml6-module-qtquick
       - qml6-module-qtquick-templates
@@ -136,69 +161,101 @@ parts:
       - qml6-module-qtqml-workerscript
       - qml6-module-qtquick-layouts
       - qmlscene
-      - cmake
+      # Python engine
       - python3-dev
-      - libproxy1-plugin-webkit
-      - libtbb-dev
-      - libgif-dev
-      - libtiff-dev
+      - python3-numpy
 
     stage-packages:
+      # runtime and the toolchain kept for mex and external modules
       - libc6
       - libstdc++6
-      - build-essential
+      - libgomp1
       - locales-all
+      - build-essential
+      - cmake
+      - pkg-config
+      - gettext
       - libtool
       - automake
-      - gettext
-      - pkg-config
+      # OpenGL
+      - libgl1
+      - libglvnd0
+      - libegl1
+      # system libraries
+      - zlib1g
       - libffi8
-      - libxml2
+      - libicu78
+      - libxml2-16
       - libxslt1.1
-      - libopenblas0-openmp  
+      - libsqlite3-0
+      - libcurl4t64
+      - libgit2-1.9
+      - libtbb12
+      - libpcre2-32-0
+      - libproxy1v5
+      # numerics
+      - libopenblas0-openmp
       - libfftw3-double3
       - libfftw3-single3
+      - libarpack2t64
+      - libqhull-r8.0
+      - libopenmpi40
+      - libsundials-core7
+      - libsundials-cvodes7
+      - libsundials-idas6
+      - libsundials-kinsol7
+      - libsundials-nvecserial7
+      - libsundials-sunlinsol5
+      - libsundials-sunmatrix5
+      - libhighs1
+      # data formats
+      - libhdf5-310
+      - libmatio14
+      - libnetcdf22
+      - libarrow2300
+      - libparquet2300
+      # audio: the ALSA pulse plugin routes PortAudio to the host sound server
+      - libasound2t64
       - libasound2-data
-      - libasound2
+      - libasound2-plugins
+      - libpulse0
       - libportaudio2
       - libsndfile1
-      - libtag1v5
+      - libtag2
+      - libjack-jackd2-0
       - alsa-utils
-      - libsqlite3-0
-      - libgl1
-      - zlib1g
-      - libicu74
-      - libcurl4
-      - libgit2-1.7
-      - libpcre2-32-0
+      # images
       - libgif7
-      - libmatio11
-      - libqt6concurrent6
-      - libqt6core6
-      - libqt6dbus6
+      - libjpeg-turbo8
+      - libpng16-16t64
+      - libtiff6
+      - libwebp7
+      # Qt 6
+      - libqt6core6t64
       - libqt6gui6
+      - libqt6widgets6
       - libqt6network6
+      - libqt6dbus6
+      - libqt6opengl6
       - libqt6openglwidgets6
       - libqt6printsupport6
-      - libqt6sql6
-      - libqt6sql6-mysql
-      - libqt6sql6-sqlite
-      - libqt6test6
-      - libqt6widgets6
       - libqt6xml6
-      - qt6-qpa-plugins
+      - libqt6concurrent6
+      - libqt6test6
+      - libqt6sql6
+      - libqt6sql6-sqlite
+      - libqt6sql6-mysql
       - libqt6svg6
-      - libqt6quick6
-      - libqt63dquick6
+      - libqt6help6
       - libqt6qml6
+      - libqt6qmlmeta6
       - libqt6qmlmodels6
-      - qt6-base-abi
-      - libqt6quickdialogs2-6
-      - libqt6quickcontrols2impl6
-      - libqt6quickdialogs2-6
-      - libqt6quickdialogs2quickimpl6
-      - libqt6quicklayouts6
-      - libqt6quickparticles6
+      - libqt6qmlworkerscript6
+      - libqt6quick6
+      - libqt6quickcontrols2-6
+      - libqt6quicktemplates2-6
+      - libqt6quickshapes6
+      - qt6-qpa-plugins
       - qml6-module-qtquick
       - qml6-module-qtquick-templates
       - qml6-module-qtquick-controls
@@ -207,18 +264,24 @@ parts:
       - qml6-module-qtqml-workerscript
       - qml6-module-qtquick-layouts
       - qmlscene
-      - cmake
-      - libpython3.12
+      # WebView window (WebUI loads libwebkit2gtk-4.1 at run time, GTK 3 comes from the gnome extension)
+      - libwebkit2gtk-4.1-0
+      # Python engine
+      - libpython3.14
       - python3-pip
       - python3-numpy
-      - libtbb12
-      - libasound2t64
-      - libjack-jackd2-0 
-      - libtiff6
+
+  alsa-config:
+    plugin: dump
+    source: snap/local
+    organize:
+      asound.conf: etc/asound.conf
 
 apps:
   nelson:
     command: usr/bin/nelson
+    # the gnome extension supplies the GTK 3 runtime the native WebView window needs
+    extensions: [gnome]
     desktop: usr/share/applications/io.github.nelson_lang.Nelson.desktop
     environment:
       XDG_CURRENT_DESKTOP: $XDG_CURRENT_DESKTOP:Unity:Unity7
@@ -228,17 +291,18 @@ apps:
       PATH: "$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR:$SNAP/usr/lib:$SNAP/usr/bin:$SNAP/bin:/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/qt6/bin:$PATH"
       QTDIR: "/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/qt6/"
       QTDIR_BINARIES: "$SNAP/usr/lib/qt6/bin/"
-      __NELSON_PYTHON_VERSION__: "3.12"
+      __NELSON_PYTHON_VERSION__: "3.14"
       __NELSON_PYTHON_EXECUTABLE__: "/usr/bin/python3"
-      __NELSON_PYTHON_LIBRARY__: "libpython3.12.so.1.0"
+      __NELSON_PYTHON_LIBRARY__: "libpython3.14.so.1.0"
       __NELSON_PYTHON_HOME__: "/usr"
+      ALSA_CONFIG_PATH: "$SNAP/etc/asound.conf"
+      # the WebKit bubblewrap sandbox cannot start under strict confinement, the snap is the sandbox
+      WEBKIT_DISABLE_SANDBOX_THIS_IS_DANGEROUS: "1"
 
     plugs: &plugs
-      - alsa
       - jack1
       - audio-playback
       - audio-record
-      - pulseaudio
       - desktop
       - desktop-legacy
       - home
@@ -263,12 +327,16 @@ layout:
     symlink: $SNAP/usr/bin/nelson-adv-cli
   /usr/bin/nelson-gui:
     symlink: $SNAP/usr/bin/nelson-gui
+  /usr/bin/nelson-webview:
+    symlink: $SNAP/usr/bin/nelson-webview
   /usr/bin/nelson-cli-exec:
     bind-file: $SNAP/usr/bin/nelson-cli-exec
   /usr/bin/nelson-adv-cli-exec:
     bind-file: $SNAP/usr/bin/nelson-adv-cli-exec
   /usr/bin/nelson-gui-exec:
     bind-file: $SNAP/usr/bin/nelson-gui-exec
+  /usr/bin/nelson-webview-exec:
+    bind-file: $SNAP/usr/bin/nelson-webview-exec
 
   /usr/lib/Nelson:
     bind: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/Nelson

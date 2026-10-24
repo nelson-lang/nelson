@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 import { expect, type Page } from '@playwright/test';
+import { selectInspectorObject } from './figureObjects';
 import { figureCommands } from './figureCommands';
 import { showFigureBars, waitForFigureLayout } from './figureBars';
 //=============================================================================
@@ -20,6 +21,7 @@ export async function figureConcurrencyScenario(page: Page) {
     await waitForFigureLayout(page);
   };
   await page.goto('/');
+  await page.getByRole('tab', { name: 'Command Window', exact: true }).click();
   await expect(page.locator('.console-host').first()).toContainText('connected:', {
     timeout: 120000,
   });
@@ -29,9 +31,7 @@ export async function figureConcurrencyScenario(page: Page) {
   await show();
   await showFigureBars(page);
   await page.getByRole('button', { name: 'Properties', exact: true }).click();
-  await page
-    .getByRole('combobox', { name: 'Axes', exact: true })
-    .selectOption({ label: 'Surface' });
+  await selectInspectorObject(page, 'axes (Surface)');
   await page.getByRole('button', { name: 'Rotate', exact: true }).click();
   const azimuth = page.getByRole('slider', { name: 'Azimuth', exact: true });
   const initial = await azimuth.inputValue();
@@ -48,15 +48,15 @@ export async function figureConcurrencyScenario(page: Page) {
   // Fit via keyboard while the primary button remains held.
   let point = await hold();
   await page.keyboard.press('f');
-  await expect(page.getByRole('combobox', { name: 'X limit mode', exact: true })).toHaveValue(
-    'auto'
-  );
+  await expect(page.getByRole('combobox', { name: 'XLimMode', exact: true })).toHaveValue('auto');
   const fitted = await azimuth.inputValue();
   expect(fitted).not.toBe(initial);
   await page.mouse.move(point.x + 70, point.y + 40);
   await page.mouse.up();
   await expect(azimuth).toHaveValue(fitted);
-  await run("asserts.isequal(a.XLimMode,'auto'); asserts.isequal([a.Position;b.Position],slots)");
+  await run(
+    "asserts.isequal(a.XLimMode,'auto'); asserts.isapprox([a.Position;b.Position],slots,1e-12)"
+  );
   await show();
   // Restore via keyboard activation of the button, without releasing the drag.
   point = await hold();
@@ -68,7 +68,7 @@ export async function figureConcurrencyScenario(page: Page) {
   await page.mouse.up();
   await expect(azimuth).toHaveValue(initial);
   await run(
-    'asserts.isapprox([a.View a.CameraPosition a.CameraTarget a.XLim a.YLim a.ZLim],saved,1e-8); asserts.isequal([a.Position;b.Position],slots)'
+    'asserts.isapprox([a.View a.CameraPosition a.CameraTarget a.XLim a.YLim a.ZLim],saved,1e-8); asserts.isapprox([a.Position;b.Position],slots,1e-12)'
   );
   await show();
   point = await hold();

@@ -19,6 +19,7 @@ Source: {#RootPath}modules\{#MODULE_NAME}\etc\finish.m; DestDir: {app}\modules\{
 Source: {#RootPath}modules\{#MODULE_NAME}\functions\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\;Components: {#COMPONENT_SPREADSHEET};
 Source: {#RootPath}modules\{#MODULE_NAME}\functions\+nelson\+io\+text\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\+nelson\+io\+text\;Components: {#COMPONENT_SPREADSHEET};
 Source: {#RootPath}modules\{#MODULE_NAME}\functions\+nelson\+io\+json\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\+nelson\+io\+json\;Components: {#COMPONENT_SPREADSHEET};
+Source: {#RootPath}modules\{#MODULE_NAME}\functions\+nelson\+io\+spreadsheet\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\+nelson\+io\+spreadsheet\;Components: {#COMPONENT_SPREADSHEET};
 Source: {#RootPath}modules\{#MODULE_NAME}\functions\private\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\private\;Components: {#COMPONENT_SPREADSHEET};
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\examples\*; DestDir: {app}\modules\{#MODULE_NAME}\examples\; Flags: recursesubdirs;Components: {#COMPONENT_SPREADSHEET};

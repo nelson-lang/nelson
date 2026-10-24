@@ -13,6 +13,7 @@ test('keeps raycaster pixels while stationary and renders surface axes', async (
   page,
 }, testInfo) => {
   await page.goto('/');
+  await page.getByRole('tab', { name: 'Command Window', exact: true }).click();
   await expect(page.locator('.console-host').first()).toContainText('connected: engine', {
     timeout: 60_000,
   });

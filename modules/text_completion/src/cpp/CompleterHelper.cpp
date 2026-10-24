@@ -150,7 +150,7 @@ isEditMacroCompletionContext(
     return getCompletionCommandName(line, filepart) == L"edit";
 }
 //=============================================================================
-static bool
+bool
 isFileCompletionContext(
     const std::wstring& line, const std::wstring& filepart, const std::wstring& textpart)
 {

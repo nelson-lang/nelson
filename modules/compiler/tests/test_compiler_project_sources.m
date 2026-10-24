@@ -12,7 +12,7 @@ ncc('--help');
 check_sources();
 
 function check_sources()
-  work = [tempname(fullfile(nelsonroot(), 'temp')), ' sources '' ', char([28450, 23383])];
+  work = [tempname(tempdir()), ' sources '' ', char([28450, 23383])];
   mkdir(work);
   cleanup = onCleanup(@() remove_work(work));
   root = fullfile(work, 'project');
@@ -157,8 +157,8 @@ function rejected(callback)
 end
 
 function assert_local(filename)
-  root = fullpath(fullfile(nelsonroot(), 'temp'));
-  asserts.istrue(startsWith(fullpath(filename), [root, '/']));
+  root = tempdir();
+  asserts.istrue(startsWith(fullpath(filename), root));
 end
 
 function remove_work(work)

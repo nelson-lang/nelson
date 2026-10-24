@@ -44,11 +44,11 @@ asserts.istrue(any(strcmp(restoredCounterEvents, 'CountChanged')));
 asserts.istrue(any(strcmp(restoredCounterFields, 'Count')));
 asserts.istrue(isprop(savedCounter, 'Count'));
 dbclear all;
-dbstop in ClassdefCounter at 38;
+dbstop in ClassdefCounter at 47;
 restoredCounterBreakpoints = dbstatus();
 asserts.isequal(restoredCounterBreakpoints.name, 'ClassdefCounter');
 asserts.istrue(endsWith(restoredCounterBreakpoints.file, 'ClassdefCounter.m'));
-asserts.isequal(restoredCounterBreakpoints.line, 39);
+asserts.isequal(restoredCounterBreakpoints.line, 48);
 dbclear all;
 profile('clear');
 profile('on');
@@ -60,7 +60,7 @@ restoredCounterProfileFiles = {restoredCounterProfile.Filename};
 restoredCounterProfileLines = [restoredCounterProfile.LinePosition];
 restoredCounterFile = [path_test, '/ClassdefCounter.m'];
 asserts.istrue(any(strcmp(restoredCounterProfileFiles, restoredCounterFile) & ...
-  (restoredCounterProfileLines == 38 | restoredCounterProfileLines == 39)));
+  (restoredCounterProfileLines == 47 | restoredCounterProfileLines == 48)));
 asserts.isequal(savedCounter.Count, 18);
 delete(savedCounter);
 %=============================================================================
@@ -79,18 +79,18 @@ foundPointMethod = false;
 foundCounterConstructor = false;
 foundCounterMethod = false;
 for k = 1:length(profInfo)
-  if strcmp(profInfo(k).Filename, classdefPointFile) && profInfo(k).LinePosition == 15
+  if strcmp(profInfo(k).Filename, classdefPointFile) && profInfo(k).LinePosition == 24
     foundPointConstructor = true;
   end
-  if strcmp(profInfo(k).Filename, classdefPointFile) && profInfo(k).LinePosition == 25
+  if strcmp(profInfo(k).Filename, classdefPointFile) && profInfo(k).LinePosition == 34
     foundPointMethod = true;
   end
   if strcmp(profInfo(k).Filename, classdefCounterFile) && ...
-      (profInfo(k).LinePosition == 32 || profInfo(k).LinePosition == 33)
+      (profInfo(k).LinePosition == 41 || profInfo(k).LinePosition == 42)
     foundCounterConstructor = true;
   end
   if strcmp(profInfo(k).Filename, classdefCounterFile) && ...
-      (profInfo(k).LinePosition == 38 || profInfo(k).LinePosition == 39)
+      (profInfo(k).LinePosition == 47 || profInfo(k).LinePosition == 48)
     foundCounterMethod = true;
   end
 end
@@ -102,14 +102,14 @@ delete(counterForProfile);
 profile('clear');
 %=============================================================================
 dbclear all;
-dbstop in ClassdefPoint at 15;
-dbstop in ClassdefCounter at 38;
+dbstop in ClassdefPoint at 24;
+dbstop in ClassdefCounter at 47;
 bp = dbstatus();
 asserts.isequal(length(bp), 2);
 asserts.istrue(any(strcmp({bp.name}, 'ClassdefPoint')));
 asserts.istrue(any(strcmp({bp.name}, 'ClassdefCounter')));
-asserts.istrue(any([bp.line] == 15));
-asserts.istrue(any([bp.line] == 39));
+asserts.istrue(any([bp.line] == 24));
+asserts.istrue(any([bp.line] == 48));
 dbclear all;
 %=============================================================================
 completionPoint = ClassdefPoint(1, 2);

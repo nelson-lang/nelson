@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <chapter>Développement de plugins natifs</chapter>
+  <chapter_description>
+    <p>Fonctions utilisées pour compiler des plugins de blocs natifs (C++) pour NFlow.</p>
+  </chapter_description>
+</xmldoc>

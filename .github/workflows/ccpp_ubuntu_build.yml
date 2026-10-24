@@ -1,0 +1,85 @@
+name: "Ubuntu Build"
+
+# builds and packages Nelson for one Ubuntu release and Debian architecture
+on:
+  workflow_call:
+    inputs:
+      arch:
+        description: "Debian architecture of the runner: amd64 or arm64"
+        required: true
+        type: string
+      ubuntu:
+        description: "Ubuntu release of the runner: 26.04 or 24.04"
+        required: false
+        default: "26.04"
+        type: string
+    outputs:
+      version:
+        description: "Nelson version read from package.json"
+        value: ${{ jobs.build.outputs.version }}
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-${{ inputs.ubuntu }}${{ inputs.arch == 'arm64' && '-arm' || '' }}
+    timeout-minutes: 120
+    outputs:
+      version: ${{ steps.json_version.outputs.version }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Install dependencies
+        # the install normally takes 5 minutes, a hang must not eat the 120 minutes of the job;
+        # sudo resets the environment, the script needs GITHUB_ACTIONS to skip the slow apt upgrade
+        timeout-minutes: 30
+        run: sudo --preserve-env=GITHUB_ACTIONS $GITHUB_WORKSPACE/tools/install_dependencies/install-ubuntu-${{ inputs.ubuntu }}.sh
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: ".nvmrc"
+
+      - uses: julia-actions/setup-julia@v3.0.3
+        with:
+          arch: ${{ inputs.arch == 'arm64' && 'aarch64' || 'x64' }}
+
+      - name: Get package version
+        uses: jaywcjlove/github-action-package@v2.1.0
+        id: json_version
+
+      - name: Update version
+        run: just update_version
+
+      - name: Configure
+        run: |
+          just config "-DCMAKE_BUILD_TYPE=Release -G Ninja ."
+
+      - name: Build
+        run: just build
+
+      - name: Set Python Environment for Nelson
+        run: just setup_python
+
+      - name: Set Julia Environment for Nelson
+        run: just setup_julia
+
+      - name: Build help
+        run: just build_help
+
+      - name: Minimal tests
+        run: just minimal_tests
+
+      - name: Package
+        run: just package
+
+      - name: Create artifacts directory
+        run: mkdir -p "$GITHUB_WORKSPACE/artifacts"
+
+      - name: Copy installer in artifacts directory
+        run: mv "$GITHUB_WORKSPACE"/nelson-*.deb "$GITHUB_WORKSPACE/artifacts/"
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: nelson-installer-ubuntu-${{ inputs.ubuntu }}-${{ inputs.arch }}-${{ steps.json_version.outputs.version }}.${{ github.run_number }}
+          path: artifacts/

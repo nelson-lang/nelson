@@ -26,6 +26,10 @@ import type {
   FigureAxesState,
   FigureInspectorState,
   FigurePlotObject,
+  InspectorKind,
+  InspectorModel,
+  InspectorProperty,
+  InspectorTreeNode,
 } from '../../src/rpc/figureTypes';
 //=============================================================================
 let host: HTMLDivElement, root: Root;
@@ -177,13 +181,39 @@ it('provides color, line, marker and numeric editors and keyboard resizing', () 
     ...state.axes[0],
     objects: [{ ...objects[0], LineStyle: '-', Marker: 'none', MarkerSize: 6, LineWidth: 0.5 }],
   } as FigureAxesState;
+  // the editors come from the engine inspector model of the selected object
+  const property = (name: string, kind: InspectorKind, value: unknown, choices: string[] = []) =>
+    ({ name, kind, writable: true, display: String(value), value, choices } as InspectorProperty);
+  const model: InspectorModel = {
+    handle: 10,
+    type: 'line',
+    label: 'Signal',
+    properties: [
+      property('LineStyle', 'enum', '-', ['-', '--', ':', '-.', 'none']),
+      property('MarkerSize', 'number', 6),
+      property('Color', 'color', [1, 0, 0]),
+    ],
+  };
+  const tree: InspectorTreeNode = {
+    handle: 0,
+    type: 'figure',
+    label: '',
+    children: [
+      {
+        handle: axes.handle,
+        type: 'axes',
+        label: '',
+        children: [{ handle: 10, type: 'line', label: 'Signal', children: [] }],
+      },
+    ],
+  };
   act(() =>
     root.render(
       <FigureInspector
         state={state}
         axes={axes}
-        axesHandle={axes.handle}
-        selectAxes={vi.fn()}
+        model={model}
+        tree={tree}
         selectedObject={10}
         selectObject={vi.fn()}
         action={action}
@@ -192,7 +222,7 @@ it('provides color, line, marker and numeric editors and keyboard resizing', () 
       />
     )
   );
-  const select = host.querySelector<HTMLSelectElement>('[aria-label="Line style"]')!;
+  const select = host.querySelector<HTMLSelectElement>('[aria-label="LineStyle"]')!;
   act(() => {
     select.value = '--';
     select.dispatchEvent(new Event('change', { bubbles: true }));
@@ -202,7 +232,7 @@ it('provides color, line, marker and numeric editors and keyboard resizing', () 
     objectHandle: 10,
     properties: { LineStyle: '--' },
   });
-  expect(host.querySelector('[aria-label="Marker size"]')?.getAttribute('type')).toBe('number');
+  expect(host.querySelector('[aria-label="MarkerSize"]')?.getAttribute('type')).toBe('number');
   const picker = host.querySelector<HTMLInputElement>('[aria-label="Color picker"]')!;
   act(() => {
     Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!.call(

@@ -13,6 +13,12 @@
 % in nelson-format-ignore.json (which excludes 'temp/'): use a dedicated
 % folder under nelsonroot whose name matches no ignore pattern.
 test_dir = [nelsonroot(), '/nelson-ai-mcp-run-check-format-fixture'];
+[mkStatus, mkMsg] = mkdir(test_dir);
+if mkStatus
+  rmdir(test_dir, 's');
+else
+  skip_testsuite(true, 'nelsonroot is not writable (installed binary).');
+end
 if isdir(test_dir)
   rmdir(test_dir, 's');
 end

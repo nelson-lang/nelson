@@ -93,5 +93,13 @@ isEvaluatorThread();
 NLSINTERPRETER_IMPEXP bool
 canRunIdleInterpreterTaskOnCallingThread();
 //=============================================================================
+// Hook installed by a console front end so queued interpreter work wakes its blocking prompt.
+using InterpreterWakeupHook = std::function<void()>;
+NLSINTERPRETER_IMPEXP void
+setInterpreterWakeupHook(InterpreterWakeupHook hook);
+// Called by producers after enqueueing; cheap no-op when no hook is installed.
+NLSINTERPRETER_IMPEXP void
+notifyInterpreterWakeup();
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

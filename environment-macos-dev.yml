@@ -2,31 +2,52 @@ name: nelson
 channels:
   - conda-forge
 dependencies:
-  # Build dependencies
+  # Build tools
   - cmake
+  - ninja
+  - just
+  - pkg-config
   - cxx-compiler
-  # Host dependencies
   - libgfortran
-  - mesalib
-  - qt-main
-  - fftw
+  # GUI, graphics and help (qt6-main bundles qtbase, qtdeclarative, qtsvg and qttools)
+  - qt6-main
+  # Numerics
   - openblas
+  - fftw
+  - eigen
+  - sundials
+  - highs
+  - qhull
+  - tbb-devel
   - openmpi
   - openmpi-mpicc
   - openmpi-mpicxx
-  - libmatio
+  # Data formats
+  # conda-forge still carries a 1.5.6 build the solver may pick: Mat_GetDir needs 1.5.26
+  - libmatio>=1.5.26
   - hdf5
-  - portaudio
+  - libnetcdf
+  - libarrow
+  - libparquet
+  - libxml2
+  - libxml2-devel
+  - libxslt
+  # System libraries
   - libgit2
   - libcurl
   - gettext
   - icu
-  - libxml2
-  - libxslt
-  - libsndfile
   - libffi
   - libzlib
+  # Images
   - giflib
   - libtiff
-  - eigen
-  - pkg-config
+  - libjpeg-turbo
+  - libpng
+  - libwebp
+  # Audio (taglib is not packaged on conda-forge, the audio metadata stay optional)
+  - portaudio
+  - libsndfile
+  # Python engine (the CI runs 3.14, conda-forge 3.15 has no embed libraries CMake finds)
+  - python=3.14
+  - numpy

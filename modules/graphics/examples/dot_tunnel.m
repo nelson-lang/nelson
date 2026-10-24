@@ -30,7 +30,8 @@ brightness = 1 - radiusGrid(:) / outerRadius;
 brightness(brightness < 0.15) = 0.15;
 colors = [brightness brightness brightness];
 
-figureHandle = figure('Color', 'k', 'Name', 'Dot tunnel', 'NumberTitle', 'off');
+figureHandle = figure('SelectionHighlight', 'off', 'ToolBar', 'none', ...
+  'Color', 'k', 'Name', 'Dot tunnel', 'NumberTitle', 'off');
 axesHandle = axes('Parent', figureHandle, 'Color', 'k');
 scatterHandle = scatter(axesHandle, x(:), y(:), 18, colors, 'filled');
 axis(axesHandle, 'equal');

@@ -18,7 +18,7 @@ catch installer_error
 end
 
 function check_runtime_folder()
-  work = [tempname(fullfile(nelsonroot(), 'temp')), ' runtime '' ', char([28450, 23383])];
+  work = [tempname(tempdir()), ' runtime '' ', char([28450, 23383])];
   mkdir(work);
   source = fullfile(work, 'source'); mkdir(source);
   entryA = fullfile(source, 'shared_a.m');
@@ -49,8 +49,8 @@ function check_runtime_folder()
   asserts.istrue(status == 0, output);
   asserts.istrue(contains(output, 'WINDOWS_RUNTIME_FOLDER_OK'), output);
   disp(output);
-  allowed = fullpath(fullfile(nelsonroot(), 'temp'));
-  asserts.istrue(startsWith(fullpath(work), [allowed, '/']));
+  allowed = tempdir();
+  asserts.istrue(startsWith(fullpath(work), allowed));
   rmdir(work, 's');
 end
 

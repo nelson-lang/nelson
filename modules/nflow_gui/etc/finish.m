@@ -8,8 +8,5 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 %rmpath(modulepath('nflow_gui', 'functions'));
-if ismodule('webview')
-  __webview__('unregisterExamplesProvider', modulepath('nflow_gui', 'builtin'));
-end
 removegateway(modulepath('nflow_gui', 'builtin'));
 %=============================================================================

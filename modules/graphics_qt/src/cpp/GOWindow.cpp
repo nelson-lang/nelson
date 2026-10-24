@@ -561,10 +561,15 @@ GOWindow::GOWindow(int64 ahandle, bool headless) : QMainWindow()
     createMenuBar();
     workspace = std::make_unique<FigureWorkspaceQt>(this);
     createToolbars();
-    std::vector<double> defaultPosition = defaultFigurePosition();
-    setFigureGeometryFromInnerPosition(static_cast<int>(defaultPosition[0]),
-        static_cast<int>(defaultPosition[1]), static_cast<int>(defaultPosition[2]),
-        static_cast<int>(defaultPosition[3]), Nelson::BaseFigureQt::getCurrentScreenHeight());
+
+    std::vector<double> initialPosition = figurePositionToPixels(
+        goFig, goFig->findVectorDoubleProperty(GO_POSITION_PROPERTY_NAME_STR));
+    if (initialPosition.size() < 4 || initialPosition[2] <= 0 || initialPosition[3] <= 0) {
+        initialPosition = defaultFigurePosition();
+    }
+    setFigureGeometryFromInnerPosition(static_cast<int>(initialPosition[0]),
+        static_cast<int>(initialPosition[1]), static_cast<int>(initialPosition[2]),
+        static_cast<int>(initialPosition[3]), Nelson::BaseFigureQt::getCurrentScreenHeight());
     setMouseTracking(true);
     statusBar()->setVisible(false);
     mousePositionOrigin.setX(width() / 2);

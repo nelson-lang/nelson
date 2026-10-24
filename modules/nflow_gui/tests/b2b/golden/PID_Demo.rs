@@ -23,16 +23,19 @@ const PID_KI_C1: f64 = 0.0_f64;
 const PID_KD_C1: f64 = 0.0_f64;
 const PID_MIN_C1: f64 = f64::NEG_INFINITY;
 const PID_MAX_C1: f64 = f64::INFINITY;
+const PID_N_C1: f64 = 0.0_f64;
 const PID_KP_C2: f64 = 2.0_f64;
 const PID_KI_C2: f64 = 1.0_f64;
 const PID_KD_C2: f64 = 0.0_f64;
 const PID_MIN_C2: f64 = f64::NEG_INFINITY;
 const PID_MAX_C2: f64 = f64::INFINITY;
+const PID_N_C2: f64 = 0.0_f64;
 const PID_KP_C3: f64 = 3.0_f64;
 const PID_KI_C3: f64 = 1.5_f64;
 const PID_KD_C3: f64 = 1.2_f64;
 const PID_MIN_C3: f64 = f64::NEG_INFINITY;
 const PID_MAX_C3: f64 = f64::INFINITY;
+const PID_N_C3: f64 = 0.0_f64;
 
 pub const INPUT_COUNT:  usize = 0;
 pub const OUTPUT_COUNT: usize = 6;
@@ -154,11 +157,11 @@ pub fn nflow_step(s: &mut ModelState,
     // step  r1
     out_r1 = if t >= 1.0_f64 { 1.0_f64 } else { 0.0_f64 };
     // sum  e1
-    out_e1 = out_r1 - out_p1;
+    out_e1 = 0.0_f64 - out_p1 + out_r1;
     // sum  e2
-    out_e2 = out_r1 - out_p2;
+    out_e2 = 0.0_f64 - out_p2 + out_r1;
     // sum  e3
-    out_e3 = out_r1 - out_p3;
+    out_e3 = 0.0_f64 - out_p3 + out_r1;
     // scope  sc1
     out_sc1 = out_p1;
     // labelSink  ls_p_out
@@ -174,24 +177,45 @@ pub fn nflow_step(s: &mut ModelState,
     {
         s.pid_integ_c1 += out_e1 * dt;
         s.pid_integ_c1 = libm::fmin(libm::fmax(s.pid_integ_c1, PID_MIN_C1), PID_MAX_C1);
-        let deriv = (out_e1 - s.pid_prev_c1) / libm::fmax(dt, 1e-6_f64);
-        s.pid_prev_c1 = out_e1;
+        let deriv = if PID_N_C1 > 0.0_f64 {
+            let d = PID_N_C1 * (out_e1 - s.pid_prev_c1);
+            s.pid_prev_c1 += dt * PID_N_C1 * (out_e1 - s.pid_prev_c1);
+            d
+        } else {
+            let d = (out_e1 - s.pid_prev_c1) / libm::fmax(dt, 1e-6_f64);
+            s.pid_prev_c1 = out_e1;
+            d
+        };
         out_c1 = PID_KP_C1 * out_e1 + PID_KI_C1 * s.pid_integ_c1 + PID_KD_C1 * deriv;
     }
     // pid  c2
     {
         s.pid_integ_c2 += out_e2 * dt;
         s.pid_integ_c2 = libm::fmin(libm::fmax(s.pid_integ_c2, PID_MIN_C2), PID_MAX_C2);
-        let deriv = (out_e2 - s.pid_prev_c2) / libm::fmax(dt, 1e-6_f64);
-        s.pid_prev_c2 = out_e2;
+        let deriv = if PID_N_C2 > 0.0_f64 {
+            let d = PID_N_C2 * (out_e2 - s.pid_prev_c2);
+            s.pid_prev_c2 += dt * PID_N_C2 * (out_e2 - s.pid_prev_c2);
+            d
+        } else {
+            let d = (out_e2 - s.pid_prev_c2) / libm::fmax(dt, 1e-6_f64);
+            s.pid_prev_c2 = out_e2;
+            d
+        };
         out_c2 = PID_KP_C2 * out_e2 + PID_KI_C2 * s.pid_integ_c2 + PID_KD_C2 * deriv;
     }
     // pid  c3
     {
         s.pid_integ_c3 += out_e3 * dt;
         s.pid_integ_c3 = libm::fmin(libm::fmax(s.pid_integ_c3, PID_MIN_C3), PID_MAX_C3);
-        let deriv = (out_e3 - s.pid_prev_c3) / libm::fmax(dt, 1e-6_f64);
-        s.pid_prev_c3 = out_e3;
+        let deriv = if PID_N_C3 > 0.0_f64 {
+            let d = PID_N_C3 * (out_e3 - s.pid_prev_c3);
+            s.pid_prev_c3 += dt * PID_N_C3 * (out_e3 - s.pid_prev_c3);
+            d
+        } else {
+            let d = (out_e3 - s.pid_prev_c3) / libm::fmax(dt, 1e-6_f64);
+            s.pid_prev_c3 = out_e3;
+            d
+        };
         out_c3 = PID_KP_C3 * out_e3 + PID_KI_C3 * s.pid_integ_c3 + PID_KD_C3 * deriv;
     }
     // tf  p1

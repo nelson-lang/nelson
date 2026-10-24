@@ -68,6 +68,9 @@ public slots:
 
     bool
     isAtPrompt();
+    // True when the prompt kept on screen by a silent callback serves the next getLine as is.
+    bool
+    canReusePrompt(const std::wstring& prompt) const;
     // Re-read the command window preferences (font size, wrap, truncate) from
     // QSettings and apply them live. Called by the preferences dialog.
     void
@@ -160,6 +163,13 @@ private:
     printNewLine();
 
     QTextBlock promptBlock;
+    // Set when getLine returns for a queued callback and leaves the prompt line untouched.
+    bool promptKeptAlive = false;
+    // True while the wait cursor pushed at the end of getLine is still to be popped.
+    bool promptWaitCursorSet = false;
+    // Output is coming while the prompt line is on screen: empty that line first.
+    void
+    releaseKeptPrompt(bool messageStartsWithNewline = false);
     bool
     isInEditionZone();
     void

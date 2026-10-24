@@ -18,9 +18,24 @@ function result = optimFminconInteriorPoint(data, opts, coreSolver)
   end
   interior.x0 = warm;
   result = coreSolver(interior, opts);
+  result = polishUnconverged(interior, opts, coreSolver, result);
   result.output.algorithm = 'interior-point';
   result.output.barrieriterations = barrierIterations;
   result = acceptFeasibleStationary(result, opts);
+end
+%=============================================================================
+function result = polishUnconverged(data, opts, coreSolver, result)
+  % a run out of iterations restarts once from its last point: the solver usually converges from there
+  if result.exitflag ~= 0 || isempty(result.x)
+    return
+  end
+  localData = data;
+  localData.x0 = result.x;
+  polished = coreSolver(localData, opts);
+  feasible = polished.output.constrviolation <= max(opts.ConstraintTolerance, 1e-5);
+  if feasible && (polished.exitflag > 0 || polished.fval <= result.fval)
+    result = polished;
+  end
 end
 %=============================================================================
 function result = acceptFeasibleStationary(result, opts)

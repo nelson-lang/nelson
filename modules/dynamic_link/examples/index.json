@@ -19,7 +19,9 @@
         "fortran",
         "native"
       ],
-      "requirements": []
+      "requirements": [
+        "blas"
+      ]
     },
     {
       "file": "dllibinfo_demo.m",

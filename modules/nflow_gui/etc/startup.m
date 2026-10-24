@@ -8,9 +8,5 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 addgateway(modulepath('nflow_gui', 'builtin'), 'nflow_gui');
-if ismodule('webview')
-  % NFlow models and scripts join the examples gallery (demo, web desktop, NFlow).
-  __webview__('registerExamplesProvider', modulepath('nflow_gui', 'builtin'), 'nlsNFlowExampleGroupsJson');
-end
 addpath(modulepath('nflow_gui', 'functions'), '-frozen');
 %=============================================================================

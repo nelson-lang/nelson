@@ -21,10 +21,9 @@ function Join-Arguments([string[]]$Values) {
     }
     return $quoted -join ' '
 }
-$repo = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../..'))
 $Work = (Resolve-Path -LiteralPath $Work).Path
-if (-not $Work.StartsWith((Join-Path $repo 'temp') + '\', [StringComparison]::OrdinalIgnoreCase)) {
-    throw 'The fixture must stay inside repository temp.'
+if (-not $Work.StartsWith([IO.Path]::GetTempPath(), [StringComparison]::OrdinalIgnoreCase)) {
+    throw 'The fixture must stay inside temporary directory.'
 }
 $key = "HKCU:\Software\Nelson\Runtime\$Architecture\$Fingerprint"
 if (Test-Path -LiteralPath $key) { throw 'An existing runtime registration must not be modified.' }

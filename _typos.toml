@@ -41,6 +41,16 @@ extend-exclude = [
     "modules/slicot/builtin/cpp/slicot_*",
     "resources/textedit-icon.svg",
     "tools/doxygen/",
+    # vendored sources
+    "modules/font_metrics/src/include/stb_truetype.h",
+    "modules/render_web/src/include/stb_image.h",
+    "modules/render_web/src/include/stb_image_write.h",
+    "modules/core/src/c/monocypher/",
+    "modules/nflow_fmi/src/fmi4c/",
+    # hexadecimal tables
+    "modules/random/src/cpp/ziggurat_normal_tables.hpp",
+    # bilingual example catalogs (fr_FR descriptions)
+    "modules/*/examples/index.json",
     "*.fig",
     "*.aps",
     "*.bin",
@@ -144,3 +154,68 @@ ttest2 = "ttest2"
 whos = "whos"
 workd = "workd"
 wre = "wre"
+# domain words
+colinear = "colinear"
+Colinear = "Colinear"
+causalities = "causalities"
+precessing = "precessing"
+Precessing = "Precessing"
+precess = "precess"
+extrapolant = "extrapolant"
+inport = "inport"
+Inport = "Inport"
+inports = "inports"
+paeth = "paeth"
+Paeth = "Paeth"
+flate = "flate"
+Flate = "Flate"
+serie = "serie"
+# French words in help generators and example galleries
+composant = "composant"
+moteur = "moteur"
+groupe = "groupe"
+exemple = "exemple"
+Exemple = "Exemple"
+exemples = "exemples"
+Exemples = "Exemples"
+# identifiers and identifier fragments
+iy = "iy"
+IY = "IY"
+iit = "iit"
+eit = "eit"
+ffrom = "ffrom"
+fo = "fo"
+FO = "FO"
+pn = "pn"
+PN = "PN"
+ser = "ser"
+mis = "mis"
+Mis = "Mis"
+rin = "rin"
+Rin = "Rin"
+sav = "sav"
+ine = "ine"
+tpos = "tpos"
+ue = "ue"
+Ue = "Ue"
+aout = "aout"
+ot = "ot"
+yout = "yout"
+numer = "numer"
+anc = "anc"
+bre = "bre"
+mape = "mape"
+ody = "ody"
+tre = "tre"
+varn = "varn"
+Varn = "Varn"
+wronly = "wronly"
+WRONLY = "WRONLY"
+byt = "byt"
+tru = "tru"
+whil = "whil"
+struc = "struc"
+Struc = "Struc"
+utputs = "utputs"
+UTPUTS = "UTPUTS"
+consol = "consol"

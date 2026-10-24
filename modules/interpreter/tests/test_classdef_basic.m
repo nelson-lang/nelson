@@ -159,18 +159,18 @@ foundSqrtAtMethodLine = false;
 for k = 1:length(profInfo)
   if strcmp(profInfo(k).FunctionName, 'sqrt') ...
       && strcmp(profInfo(k).Filename, classdefPointFile) ...
-      && profInfo(k).LinePosition == 21
+      && profInfo(k).LinePosition == 30
     foundSqrtAtMethodLine = true;
   end
 end
 asserts.istrue(foundSqrtAtMethodLine);
 profile('clear');
 dbclear all;
-dbstop in ClassdefPoint at 21;
+dbstop in ClassdefPoint at 30;
 bp = dbstatus();
 asserts.isequal(bp.name, 'ClassdefPoint');
 asserts.istrue(isfile(bp.file));
-asserts.isequal(bp.line, 21);
+asserts.isequal(bp.line, 30);
 dbclear all;
 q = p.shift(1, 2);
 asserts.isequal(q.X, 4);

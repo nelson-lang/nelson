@@ -1,0 +1,56 @@
+name: "Ubuntu CI"
+
+# builds and tests Nelson on Ubuntu 26.04 for amd64 and arm64, then builds Ubuntu 24.04 amd64:
+# nested reusable workflows keep ccpp.yml short
+on:
+  workflow_call:
+
+jobs:
+  build_amd64:
+    name: Ubuntu 26.04 amd64
+    uses: ./.github/workflows/ccpp_ubuntu_build.yml
+    with:
+      arch: amd64
+
+  # on master the arm64 build starts at once, elsewhere it waits for a green amd64 build
+  build_arm64:
+    name: Ubuntu 26.04 arm64
+    if: github.ref == 'refs/heads/master'
+    uses: ./.github/workflows/ccpp_ubuntu_build.yml
+    with:
+      arch: arm64
+
+  build_arm64_gated:
+    name: Ubuntu 26.04 arm64
+    if: github.ref != 'refs/heads/master'
+    needs: build_amd64
+    uses: ./.github/workflows/ccpp_ubuntu_build.yml
+    with:
+      arch: arm64
+
+  tests_amd64:
+    name: Ubuntu 26.04 amd64
+    needs: build_amd64
+    uses: ./.github/workflows/ccpp_ubuntu_tests.yml
+    with:
+      arch: amd64
+      version: ${{ needs.build_amd64.outputs.version }}
+
+  # only one of the two arm64 builds runs: the tests follow whichever succeeded
+  tests_arm64:
+    name: Ubuntu 26.04 arm64
+    needs: [build_arm64, build_arm64_gated]
+    if: always() && (needs.build_arm64.result == 'success' || needs.build_arm64_gated.result == 'success')
+    uses: ./.github/workflows/ccpp_ubuntu_tests.yml
+    with:
+      arch: arm64
+      version: ${{ needs.build_arm64.outputs.version || needs.build_arm64_gated.outputs.version }}
+
+  # Ubuntu 24.04 is built, not tested, and only once the 26.04 amd64 build is green
+  build_24_04_amd64:
+    name: Ubuntu 24.04 amd64
+    needs: build_amd64
+    uses: ./.github/workflows/ccpp_ubuntu_build.yml
+    with:
+      ubuntu: "24.04"
+      arch: amd64

@@ -24,6 +24,7 @@ test('real engine: pushbuttons render and activate through pointer and keyboard'
   page,
 }, info) => {
   await page.goto('/');
+  await page.getByRole('tab', { name: 'Command Window', exact: true }).click();
   await expect(page.locator('.console-host').first()).toContainText('connected: engine', {
     timeout: 60_000,
   });

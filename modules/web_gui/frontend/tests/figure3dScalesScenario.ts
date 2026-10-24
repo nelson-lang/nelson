@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 import { expect, test, type Page } from '@playwright/test';
+import { figureMenuAction, selectInspectorObject } from './figureObjects';
 import { figureCommands } from './figureCommands';
 import { showFigureBars, waitForFigureLayout } from './figureBars';
 //=============================================================================
@@ -54,6 +55,7 @@ export async function figure3dScalesScenario(page: Page) {
     await waitForFigureLayout(page);
   };
   await page.goto('/');
+  await page.getByRole('tab', { name: 'Command Window', exact: true }).click();
   await expect(page.locator('.console-host').first()).toContainText('connected:', {
     timeout: 120000,
   });
@@ -67,7 +69,7 @@ export async function figure3dScalesScenario(page: Page) {
     ['Log surface', 'a', 0.25],
     ['Log curve', 'b', 0.75],
   ] as const) {
-    await page.getByRole('combobox', { name: 'Axes', exact: true }).selectOption({ label });
+    await selectInspectorObject(page, `axes (${label})`);
     for (const projection of ['orthographic', 'perspective']) {
       await page
         .getByRole('combobox', { name: 'Projection', exact: true })
@@ -94,15 +96,15 @@ export async function figure3dScalesScenario(page: Page) {
       await expect(page.locator('.figure-panel')).not.toHaveAttribute('aria-busy', 'true');
       const moved = await page.locator('.figure-panel__canvas').screenshot();
       expect(moved.equals(snapshot)).toBe(false);
-      await page.getByRole('button', { name: 'Zoom in', exact: true }).click();
+      await figureMenuAction(page, 'Zoom in');
       await run(
-        `asserts.istrue(norm([${variable}.CameraPosition ${variable}.CameraTarget]-original(3:8))>1e-6); asserts.istrue(all(isfinite([${variable}.XLim ${variable}.YLim ${variable}.ZLim]))); asserts.istrue(all([${variable}.XLim ${variable}.YLim ${variable}.ZLim]>0)); asserts.isequal([a.Position;b.Position],slots)`
+        `asserts.istrue(norm([${variable}.CameraPosition ${variable}.CameraTarget]-original(3:8))>1e-6); asserts.istrue(all(isfinite([${variable}.XLim ${variable}.YLim ${variable}.ZLim]))); asserts.istrue(all([${variable}.XLim ${variable}.YLim ${variable}.ZLim]>0)); asserts.isapprox([a.Position;b.Position],slots,1e-12)`
       );
       await show();
       await page.getByRole('button', { name: 'Fit', exact: true }).click();
       await page.getByRole('button', { name: 'Restore view', exact: true }).click();
       await run(
-        `asserts.isapprox([${variable}.View ${variable}.CameraPosition ${variable}.CameraTarget ${variable}.CameraViewAngle ${variable}.XLim ${variable}.YLim ${variable}.ZLim],original,1e-8); asserts.isequal([a.Position;b.Position],slots)`
+        `asserts.isapprox([${variable}.View ${variable}.CameraPosition ${variable}.CameraTarget ${variable}.CameraViewAngle ${variable}.XLim ${variable}.YLim ${variable}.ZLim],original,1e-8); asserts.isapprox([a.Position;b.Position],slots,1e-12)`
       );
       await show();
     }

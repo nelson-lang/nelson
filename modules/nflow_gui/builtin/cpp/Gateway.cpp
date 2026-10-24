@@ -12,6 +12,8 @@
 #include "open_systemBuiltin.hpp"
 #include "nflow_highlightBuiltin.hpp"
 #include "WebDesktopBridge.hpp"
+#include "ExamplesCatalogHost.hpp"
+#include "ModulePath.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -34,16 +36,29 @@ openNFlowFromBridge(void*, Nelson::Evaluator* eval, const wchar_t* modelPath)
     Nelson::NFlowGateway::nflow_guiBuiltin(eval, 0, arguments);
 }
 //=============================================================================
+// The NFlow models and scripts join the examples gallery of every host: the
+// registration lives here because nelson-cli never loads the webview module.
+static const char* examplesProviderSymbol = "nlsNFlowExampleGroupsJson";
 static bool
 initializeNFlowGuiModule(Nelson::Evaluator*)
 {
     Nelson::WebDesktopBridge::getInstance()->setWebNFlowOpener(&openNFlowFromBridge, nullptr);
+    try {
+        Nelson::RegisterExamplesProvider(
+            Nelson::ModulePath(gatewayName, Nelson::GET_LIBRARY_FULLPATH), examplesProviderSymbol);
+    } catch (...) {
+    }
     return true;
 }
 //=============================================================================
 static bool
 finishNFlowGuiModule(Nelson::Evaluator* eval)
 {
+    try {
+        Nelson::UnregisterExamplesProvider(
+            Nelson::ModulePath(gatewayName, Nelson::GET_LIBRARY_FULLPATH));
+    } catch (...) {
+    }
     Nelson::WebDesktopBridge::getInstance()->setWebNFlowOpener(nullptr, nullptr);
     Nelson::NFlowGateway::closeAllNFlowWindows(eval);
     return true;

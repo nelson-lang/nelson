@@ -15,6 +15,7 @@
 #include "EventQueue.hpp"
 #include "MainThreadTaskQueue.hpp"
 #include "NelsonConfiguration.hpp"
+#include "RuntimeDispatch.hpp"
 #include "Evaluator.hpp"
 #include "NelsonHistory.hpp"
 #include <nlohmann/json.hpp>
@@ -31,9 +32,15 @@ WebGuiTerminal::WebGuiTerminal(WebGuiServer* server) : m_server(server)
     // m_interrupt. An interrupt is handled as a synthetic newline so it can
     // never be mistaken for end-of-input by the REPL.
     MainThreadTaskQueue::getInstance()->setWakeupHook([this]() { m_cv.notify_one(); });
+    // Timer ticks, graphics callbacks and posted commands wake the prompt too.
+    setInterpreterWakeupHook([this]() { m_cv.notify_one(); });
 }
 //=============================================================================
-WebGuiTerminal::~WebGuiTerminal() { MainThreadTaskQueue::getInstance()->setWakeupHook(nullptr); }
+WebGuiTerminal::~WebGuiTerminal()
+{
+    setInterpreterWakeupHook(nullptr);
+    MainThreadTaskQueue::getInstance()->setWakeupHook(nullptr);
+}
 //=============================================================================
 std::wstring
 WebGuiTerminal::waitForLine(const std::wstring& prompt)

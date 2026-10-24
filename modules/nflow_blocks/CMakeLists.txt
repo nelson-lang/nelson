@@ -38,5 +38,15 @@ target_include_directories(${module_library_name}
 
 target_link_libraries(${module_library_name} PRIVATE nlsCommons)
 # ==============================================================================
+# Public SDK headers shipped so external native block plugins can be built
+# against an installed Nelson (see the cumprod example and dlgetnflowincludes).
+file(GLOB NFLOW_BLOCKS_HEADER
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.hpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.h"
+)
+set_target_properties(${module_library_name}
+  PROPERTIES PUBLIC_HEADER "${NFLOW_BLOCKS_HEADER}"
+)
+# ==============================================================================
 nelson_install_library(${module_library_name})
 nelson_install_module_data(${module_name} EXTRA_DIRS libraries examples)

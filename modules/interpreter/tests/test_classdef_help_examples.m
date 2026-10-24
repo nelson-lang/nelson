@@ -88,17 +88,22 @@ for k = 1:length(files)
     if isempty(relStart)
       break;
     end
-    startIndex = cursor + relStart(1) - 1 + length(startMarker);
+    absStart = cursor + relStart(1) - 1;
+    startIndex = absStart + length(startMarker);
     relEnd = strfind(xml(startIndex:length(xml)), endMarker);
     asserts.isfalse(isempty(relEnd));
     endIndex = startIndex + relEnd(1) - 2;
     code = xml(startIndex:endIndex);
-    try
-      runClassdefHelpExample(code);
-    catch e
-      disp(filename);
-      disp(e.message);
-      asserts.istrue(false);
+    tagPrefix = xml(max(1, absStart - 300):absStart - 1);
+    isRunnable = isempty(strfind(tagPrefix, 'runnable="false"'));
+    if isRunnable
+      try
+        runClassdefHelpExample(code);
+      catch e
+        disp(filename);
+        disp(e.message);
+        asserts.istrue(false);
+      end
     end
     exampleCount = exampleCount + 1;
     cursor = endIndex + length(endMarker) + 1;

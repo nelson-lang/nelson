@@ -699,7 +699,26 @@ GOText::paintMe(RenderInterface& gc)
         // Keep it in the upper title band for every camera orientation. This
         // avoids the title following the projected surface below the frame
         // after an orbit and matches the desktop renderer's stable layout.
+        // The band sits above the Position box of the axes and the anchor follows that
+        // box, not the camera: a subplot title stays with its subplot and does not drift
+        // while the view pans; a full figure axes keeps the frame top as before.
         y = maxY;
+        std::vector<double> axesBox
+            = axis->getPropertyVectorAsPixels(gc, GO_POSITION_PROPERTY_NAME_STR);
+        if (axesBox.size() >= 4 && std::isfinite(axesBox[0]) && std::isfinite(axesBox[1])
+            && std::isfinite(axesBox[2]) && std::isfinite(axesBox[3])) {
+            const int boxLeft = static_cast<int>(std::lround(axesBox[0]));
+            const int boxWidth = static_cast<int>(std::lround(axesBox[2]));
+            const int boxTop = static_cast<int>(std::lround(axesBox[1] + axesBox[3]));
+            if (xalign == RenderInterface::Mean) {
+                x = boxLeft + boxWidth / 2;
+            } else if (xalign == RenderInterface::Max) {
+                x = boxLeft + boxWidth;
+            } else {
+                x = boxLeft;
+            }
+            y = std::min(maxY, boxTop + textheight + margin);
+        }
     }
     double rotation = findScalarDoubleProperty(GO_ROTATION_PROPERTY_NAME_STR);
     double costheta = cos(-rotation * M_PI / 180.0);

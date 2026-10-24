@@ -263,6 +263,11 @@
         <td>Type: on/off value. Supported values: 'on', 'off', true, or false.</td>
       </tr>
       <tr>
+        <td><b>SelectionHighlight</b></td>
+        <td>'off' hides the frame drawn around the axes under the pointer for every axes of the figure; navigation gestures stay available.</td>
+        <td>Type: on/off value. Supported values: 'on', 'off', true, or false.</td>
+      </tr>
+      <tr>
         <td><b>Scrollable</b></td>
         <td>updates rendered output on the next graphics refresh.</td>
         <td>Type: on/off value. Supported values: 'on', 'off', true, or false.</td>
@@ -299,7 +304,7 @@
       </tr>
       <tr>
         <td><b>ToolBar</b></td>
-        <td>updates rendered output on the next graphics refresh.</td>
+        <td>'none' hides the navigation tools and the plot details bar, in the native window and in the web figure panel; mouse gestures and keyboard shortcuts stay available.</td>
         <td>Type: text scalar or character row vector. Supported values: 'none', 'figure', 'auto'.</td>
       </tr>
       <tr>

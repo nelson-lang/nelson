@@ -577,6 +577,17 @@ findGraphicsObject(int64 handle, bool throwError)
     return objectset.findGO(handle - HANDLE_OFFSET_OBJECT, throwError);
 }
 //=============================================================================
+bool
+highlightsSelection(GraphicsObject* object)
+{
+    if (!object) {
+        return true;
+    }
+    auto* property = static_cast<GOStringProperty*>(
+        object->findProperty(GO_SELECTION_HIGHLIGHT_PROPERTY_NAME_STR, false));
+    return !property || !property->isEqual(GO_PROPERTY_VALUE_OFF_STR);
+}
+//=============================================================================
 GOFigure*
 findGOFigure(int64 handle)
 {

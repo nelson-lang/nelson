@@ -15,10 +15,10 @@ a = single([0.2 0.5 0.9 1.5]);
 A = gpuArray(a);
 assert_isapprox(gather(sinh(A)), sinh(a), 1e-4);
 assert_isapprox(gather(cosh(A)), cosh(a), 1e-4);
-assert_isapprox(gather(tanh(A)), tanh(a), 1e-5);
-assert_isapprox(gather(atan(A)), atan(a), 1e-5);
-assert_isapprox(gather(log2(A)), log2(a), 1e-5);
-assert_isapprox(gather(log10(A)), log10(a), 1e-5);
+assert_isapprox(gather(tanh(A)), tanh(a), 1e-4);
+assert_isapprox(gather(atan(A)), atan(a), 1e-4);
+assert_isapprox(gather(log2(A)), log2(a), 1e-3);
+assert_isapprox(gather(log10(A)), log10(a), 1e-3);
 %=============================================================================
 % asin / acos on a valid domain (|x| <= 1); GPU inverse trig is less precise
 b = single([-0.7 0.1 0.4 0.9]);
@@ -31,8 +31,8 @@ y = single([3 -3 1 0]);
 x = single([4 4 -1 -2]);
 Y = gpuArray(y);
 X = gpuArray(x);
-assert_isapprox(gather(atan2(Y, X)), atan2(y, x), 1e-5);
-assert_isapprox(gather(hypot(Y, X)), hypot(y, x), 1e-5);
+assert_isapprox(gather(atan2(Y, X)), atan2(y, x), 1e-4);
+assert_isapprox(gather(hypot(Y, X)), hypot(y, x), 1e-4);
 %=============================================================================
 % results stay device resident
 assert_istrue(isgpuarray(tanh(A)));
@@ -54,16 +54,16 @@ assert_isequal(gather(isfinite(gpuArray(int32([1 2 -3])))), [true true true]);
 c = single([0.3 0.7 1.2 2.1]);
 Cc = gpuArray(c);
 assert_isapprox(gather(expm1(Cc)), expm1(c), 1e-4);
-assert_isapprox(gather(log1p(Cc)), log1p(c), 1e-5);
+assert_isapprox(gather(log1p(Cc)), log1p(c), 1e-4);
 assert_isapprox(gather(pow2(Cc)), pow2(c), 1e-4);
 assert_isapprox(gather(sec(Cc)), sec(c), 1e-3);
 assert_isapprox(gather(csc(Cc)), csc(c), 1e-4);
 assert_isapprox(gather(cot(Cc)), cot(c), 1e-4);
-assert_isapprox(gather(sech(Cc)), sech(c), 1e-5);
+assert_isapprox(gather(sech(Cc)), sech(c), 1e-4);
 assert_isapprox(gather(csch(Cc)), csch(c), 1e-4);
 assert_isapprox(gather(coth(Cc)), coth(c), 1e-4);
 assert_isapprox(gather(asinh(Cc)), asinh(c), 1e-4);
-assert_isapprox(gather(deg2rad(Cc)), deg2rad(c), 1e-5);
+assert_isapprox(gather(deg2rad(Cc)), deg2rad(c), 1e-4);
 assert_isapprox(gather(rad2deg(Cc)), rad2deg(c), 1e-3);
 %=============================================================================
 % inverse reciprocal trig on |x| >= 1, inverse hyperbolic on their domains

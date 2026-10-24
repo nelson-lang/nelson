@@ -120,7 +120,8 @@ Terminal::Terminal(int in_fd_, int out_fd_)
     , _out_fd(out_fd_)
 {
 #ifdef _WIN32
-    _interrupt = CreateEvent(nullptr, true, false, TEXT("replxx_interrupt_event"));
+    // Nelson: unnamed event, the upstream named one is shared across processes.
+    _interrupt = CreateEvent(nullptr, true, false, nullptr);
 #else
     static_cast<void>(::pipe(_interrupt) == 0);
 #endif
@@ -718,56 +719,92 @@ Terminal::read_char(void)
     return (c);
 }
 
+namespace {
+
+    // Nelson: work queued for the interpreter, input() returns MESSAGE so the evaluator runs it.
+    bool
+    hasPendingInterpreterWork(Nelson::Evaluator* eval)
+    {
+        return ((eval != nullptr) && !eval->commandQueue.isEmpty())
+            || !Nelson::CallbackQueue::getInstance()->isEmpty()
+            || !Nelson::EventQueue::getInstance()->isEmpty();
+    }
+
+    // Nelson: cross-thread tasks run here, parked at the prompt, so idle-only figure requests
+    // succeed.
+    void
+    drainInterpreterTasks(Nelson::Evaluator* eval)
+    {
+        if (eval != nullptr) {
+            Nelson::MainThreadTaskQueue::getInstance()->processTasks(eval);
+        }
+    }
+
+    // Safety bound of one blocking wait, for a producer that does not call Replxx::wake().
+    constexpr long long IDLE_WAIT_CAP_MS = 250;
+
+    // Pumps the GUI event loop; false when a callback failed and input() must return.
+    bool
+    pumpGuiEvents(Nelson::Evaluator* eval)
+    {
+        try {
+            Nelson::processGuiEvents(false);
+        } catch (Nelson::NelsonException const& e) {
+            if (eval != nullptr) {
+                e.printMe(eval->getInterface());
+            }
+            return false;
+        }
+        return true;
+    }
+
+} // namespace
+
+// Nelson: blocks until a key, a wake(), GUI events or the hint delay, with no periodic polling.
 Terminal::EVENT_TYPE
 Terminal::wait_for_input(int long timeout_)
 {
+    auto* eval = static_cast<Nelson::Evaluator*>(
+        Nelson::NelsonConfiguration::getInstance()->getMainEvaluator());
+    // As in upstream replxx, 0 or less means no timeout.
+    auto const timeoutEnabled(timeout_ > 0);
+    auto const deadline(std::chrono::steady_clock::now() + std::chrono::milliseconds(timeout_));
 #if defined(_MSC_VER)
     std::array<HANDLE, 2> handles = { _consoleIn, _interrupt };
-    auto const timeoutEnabled(timeout_ >= 0);
-    auto const timeoutBudget(
-        timeoutEnabled ? std::chrono::milliseconds(timeout_) : std::chrono::milliseconds::zero());
-    auto const start(std::chrono::steady_clock::now());
-
-    void* veval = Nelson::NelsonConfiguration::getInstance()->getMainEvaluator();
-    Nelson::Evaluator* eval = (Nelson::Evaluator*)veval;
-    eval->commandQueue.clear();
-    bool stopInputBuffer = false;
 
     while (true) {
-        bool waitKey(true);
-        DWORD event(WAIT_TIMEOUT);
-        while (waitKey) {
-            try {
-                Nelson::processGuiEvents(false);
-            } catch (Nelson::NelsonException const& e) {
-                e.printMe(eval->getInterface());
-                stopInputBuffer = true;
-            }
-            std::this_thread::sleep_for(std::chrono::milliseconds(10));
-            if (stopInputBuffer) {
-                return static_cast<EVENT_TYPE>(EVENT_TYPE::MESSAGE);
-            }
-            event = WaitForMultipleObjects(
-                static_cast<DWORD>(handles.size()), handles.data(), false, 0);
-            if (!eval->commandQueue.isEmpty() || !Nelson::CallbackQueue::getInstance()->isEmpty()
-                || !Nelson::EventQueue::getInstance()->isEmpty()
-                || !Nelson::MainThreadTaskQueue::getInstance()->isEmpty()) {
-                stopInputBuffer = false;
-                return static_cast<EVENT_TYPE>(EVENT_TYPE::MESSAGE);
-            }
-            if (event == WAIT_TIMEOUT) {
-                if (timeoutEnabled) {
-                    auto const now(std::chrono::steady_clock::now());
-                    if (now - start >= timeoutBudget) {
-                        return (EVENT_TYPE::TIMEOUT);
-                    }
-                }
-                continue;
-            }
-            waitKey = false;
+        drainInterpreterTasks(eval);
+        if (hasPendingInterpreterWork(eval)) {
+            return (EVENT_TYPE::MESSAGE);
         }
-        switch (event) {
-        case (WAIT_OBJECT_0 + 0): {
+        // Qt posted events and timers are thread messages, so MsgWaitForMultipleObjectsEx wakes on
+        // them.
+        bool const guiServices(Nelson::hasGuiServices());
+        if (guiServices) {
+            if (!pumpGuiEvents(eval)) {
+                return (EVENT_TYPE::MESSAGE);
+            }
+            drainInterpreterTasks(eval);
+            if (hasPendingInterpreterWork(eval)) {
+                return (EVENT_TYPE::MESSAGE);
+            }
+        }
+        long long waitMs(IDLE_WAIT_CAP_MS);
+        if (timeoutEnabled) {
+            auto const now(std::chrono::steady_clock::now());
+            if (now >= deadline) {
+                return (EVENT_TYPE::TIMEOUT);
+            }
+            auto const remaining(
+                std::chrono::duration_cast<std::chrono::milliseconds>(deadline - now).count() + 1);
+            waitMs = (remaining < waitMs) ? remaining : waitMs;
+        }
+        DWORD const event(guiServices
+                ? MsgWaitForMultipleObjectsEx(static_cast<DWORD>(handles.size()), handles.data(),
+                      static_cast<DWORD>(waitMs), QS_ALLINPUT, MWMO_INPUTAVAILABLE)
+                : WaitForMultipleObjects(static_cast<DWORD>(handles.size()), handles.data(), FALSE,
+                      static_cast<DWORD>(waitMs)));
+        if (event == (WAIT_OBJECT_0 + 0)) {
             // peek events that will be skipped
             INPUT_RECORD rec;
             DWORD count;
@@ -814,79 +851,85 @@ Terminal::wait_for_input(int long timeout_)
 
             return (EVENT_TYPE::KEY_PRESS);
         }
-        case (WAIT_OBJECT_0 + 1): {
+        if (event == (WAIT_OBJECT_0 + 1)) {
             ResetEvent(_interrupt);
             if (_events.empty()) {
+                // wake(): loop and re-check the interpreter queues.
                 continue;
             }
             EVENT_TYPE eventType(_events.front());
             _events.pop_front();
             return (eventType);
         }
-        case (WAIT_TIMEOUT): {
-            return (EVENT_TYPE::TIMEOUT);
+        if (event == WAIT_FAILED) {
+            // Console handle gone: do not spin on the error.
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
         }
-        }
+        // Timeout or GUI thread message: loop, pump and re-check queues and deadline.
     }
 #else
-    fd_set fdSet;
-    int nfds(max({ _interrupt[0], _interrupt[1], _in_fd }) + 1);
-
-    void* veval = Nelson::NelsonConfiguration::getInstance()->getMainEvaluator();
-    Nelson::Evaluator* eval = (Nelson::Evaluator*)veval;
-    eval->commandQueue.clear();
-    bool stopInputBuffer = false;
-    auto const timeoutEnabled(timeout_ >= 0);
-    auto const timeoutBudget(
-        timeoutEnabled ? std::chrono::milliseconds(timeout_) : std::chrono::milliseconds::zero());
-    auto const start(std::chrono::steady_clock::now());
+    int const nfds(max({ _interrupt[0], _in_fd }) + 1);
 
     while (true) {
-        bool waitKey(true);
-        int err(0);
+        drainInterpreterTasks(eval);
+        if (hasPendingInterpreterWork(eval)) {
+            return (EVENT_TYPE::MESSAGE);
+        }
+        bool const guiServices(Nelson::hasGuiServices());
+        if (guiServices) {
+            if (!pumpGuiEvents(eval)) {
+                return (EVENT_TYPE::MESSAGE);
+            }
+            drainInterpreterTasks(eval);
+            if (hasPendingInterpreterWork(eval)) {
+                return (EVENT_TYPE::MESSAGE);
+            }
+        }
+        // Qt events do not wake select(): short poll with a GUI runtime, block otherwise.
+        long long waitMs(guiServices ? 10 : IDLE_WAIT_CAP_MS);
+        if (timeoutEnabled) {
+            auto const now(std::chrono::steady_clock::now());
+            if (now >= deadline) {
+                return (EVENT_TYPE::TIMEOUT);
+            }
+            auto const remaining(
+                std::chrono::duration_cast<std::chrono::milliseconds>(deadline - now).count() + 1);
+            waitMs = (remaining < waitMs) ? remaining : waitMs;
+        }
         fd_set readySet;
-        while (waitKey) {
-            try {
-                Nelson::processGuiEvents(false);
-            } catch (Nelson::NelsonException const& e) {
-                e.printMe(eval->getInterface());
-                stopInputBuffer = true;
+        FD_ZERO(&readySet);
+        FD_SET(_in_fd, &readySet);
+        FD_SET(_interrupt[0], &readySet);
+        timeval tv { static_cast<time_t>(waitMs / 1000),
+            static_cast<suseconds_t>((waitMs % 1000) * 1000) };
+        int const err(select(nfds, &readySet, nullptr, nullptr, &tv));
+        if (err == -1) {
+            if (errno != EINTR) {
+                std::this_thread::sleep_for(std::chrono::milliseconds(10));
             }
-            std::this_thread::sleep_for(std::chrono::milliseconds(10));
-            if (stopInputBuffer) {
-                return (EVENT_TYPE::MESSAGE);
-            }
-            FD_ZERO(&readySet);
-            FD_SET(_in_fd, &readySet);
-            FD_SET(_interrupt[0], &readySet);
-            timeval tv { 0, 0 };
-            err = select(nfds, &readySet, nullptr, nullptr, &tv);
-            if (!eval->commandQueue.isEmpty() || !Nelson::CallbackQueue::getInstance()->isEmpty()
-                || !Nelson::EventQueue::getInstance()->isEmpty()
-                || !Nelson::MainThreadTaskQueue::getInstance()->isEmpty()) {
-                stopInputBuffer = false;
-                return (EVENT_TYPE::MESSAGE);
-            }
-            if ((err == -1) && (errno == EINTR)) {
-                continue;
-            }
-            if (err <= 0) {
-                if ((err == 0) && timeoutEnabled) {
-                    auto const now(std::chrono::steady_clock::now());
-                    if (now - start >= timeoutBudget) {
-                        return (EVENT_TYPE::TIMEOUT);
-                    }
+            continue;
+        }
+        if (err == 0) {
+            // Timeout: loop and re-check queues and deadline.
+            continue;
+        }
+        if (FD_ISSET(_interrupt[0], &readySet)) {
+            char data(0);
+            if (read(_interrupt[0], &data, 1) == 1) {
+                if (data == 'm') {
+                    return (EVENT_TYPE::MESSAGE);
                 }
-                continue;
+                if (data == 'r') {
+                    return (EVENT_TYPE::RESIZE);
+                }
+                if (data == 'k') {
+                    return (EVENT_TYPE::KEY_PRESS);
+                }
+                // 'w' is wake(): loop and re-check the interpreter queues.
             }
-
-            waitKey = false;
-            fdSet = readySet;
+            continue;
         }
-        if (FD_ISSET(_interrupt[0], &fdSet)) {
-            // ...existing code...
-        }
-        if (FD_ISSET(_in_fd, &fdSet)) {
+        if (FD_ISSET(_in_fd, &readySet)) {
             return (EVENT_TYPE::KEY_PRESS);
         }
     }
@@ -903,6 +946,20 @@ Terminal::notify_event(EVENT_TYPE eventType_)
     char data((eventType_ == EVENT_TYPE::KEY_PRESS)
             ? 'k'
             : (eventType_ == EVENT_TYPE::MESSAGE ? 'm' : 'r'));
+    static_cast<void>(write(_interrupt[1], &data, 1) == 1);
+#endif
+}
+
+void
+Terminal::wake(void)
+{
+    // Nelson: signal only, _events is read without a lock by the waiting thread.
+#if defined(_MSC_VER)
+    if (_interrupt != INVALID_HANDLE_VALUE) {
+        SetEvent(_interrupt);
+    }
+#else
+    char data('w');
     static_cast<void>(write(_interrupt[1], &data, 1) == 1);
 #endif
 }

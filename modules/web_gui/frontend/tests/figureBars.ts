@@ -9,13 +9,13 @@
 //=============================================================================
 import { expect, type Locator, type Page } from '@playwright/test';
 //=============================================================================
+// The navigation toolbar is always shown; only the plot details bar is a toggle
+// of the "More figure actions" menu.
 export async function showFigureBars(figure: Page | Locator) {
-  for (const name of ['Navigation toolbar', 'Plot details bar']) {
-    await figure.getByRole('button', { name: 'More figure actions', exact: true }).click();
-    const toggle = figure.getByRole('button', { name, exact: true });
-    if ((await toggle.getAttribute('aria-pressed')) === 'false') await toggle.click();
-    else await figure.getByRole('button', { name: 'More figure actions', exact: true }).click();
-  }
+  await figure.getByRole('button', { name: 'More figure actions', exact: true }).click();
+  const toggle = figure.getByRole('button', { name: 'Plot details bar', exact: true });
+  if ((await toggle.getAttribute('aria-pressed')) === 'false') await toggle.click();
+  else await figure.getByRole('button', { name: 'More figure actions', exact: true }).click();
   await waitForFigureLayout(figure);
 }
 //=============================================================================

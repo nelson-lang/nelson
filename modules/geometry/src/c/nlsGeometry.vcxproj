@@ -105,9 +105,6 @@
       <AdditionalLibraryDirectories>$(SolutionDir)../nelson-thirdparty-$(PlatformName)/qhull/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <PostBuildEvent>
-      <Command>if exist "$(SolutionDir)..\nelson-thirdparty-$(PlatformName)\qhull\bin\qhull_r.dll" copy /Y "$(SolutionDir)..\nelson-thirdparty-$(PlatformName)\qhull\bin\qhull_r.dll" "$(OutDir)"</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
     <ClCompile>
@@ -127,12 +124,10 @@
       <AdditionalLibraryDirectories>$(SolutionDir)../nelson-thirdparty-$(PlatformName)/qhull/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <PostBuildEvent>
-      <Command>if exist "$(SolutionDir)..\nelson-thirdparty-$(PlatformName)\qhull\bin\qhull_r.dll" copy /Y "$(SolutionDir)..\nelson-thirdparty-$(PlatformName)\qhull\bin\qhull_r.dll" "$(OutDir)"</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
+      <DebugInformationFormat>None</DebugInformationFormat>
       <WarningLevel>Level3</WarningLevel>
       <PrecompiledHeader>
       </PrecompiledHeader>
@@ -147,18 +142,16 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(SolutionDir)../nelson-thirdparty-$(PlatformName)/qhull/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <PostBuildEvent>
-      <Command>if exist "$(SolutionDir)..\nelson-thirdparty-$(PlatformName)\qhull\bin\qhull_r.dll" copy /Y "$(SolutionDir)..\nelson-thirdparty-$(PlatformName)\qhull\bin\qhull_r.dll" "$(OutDir)"</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
     <ClCompile>
+      <DebugInformationFormat>None</DebugInformationFormat>
       <WarningLevel>Level3</WarningLevel>
       <PrecompiledHeader>
       </PrecompiledHeader>
@@ -173,15 +166,12 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(SolutionDir)../nelson-thirdparty-$(PlatformName)/qhull/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <PostBuildEvent>
-      <Command>if exist "$(SolutionDir)..\nelson-thirdparty-$(PlatformName)\qhull\bin\qhull_r.dll" copy /Y "$(SolutionDir)..\nelson-thirdparty-$(PlatformName)\qhull\bin\qhull_r.dll" "$(OutDir)"</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\dllMain.cpp" />

@@ -12,7 +12,7 @@ ncc('--help');
 check_build_recovery();
 
 function check_build_recovery()
-  work = tempname(fullfile(nelsonroot(), 'temp'));
+  work = tempname(tempdir());
   mkdir(work);
   cleanup = onCleanup(@() remove_work(work));
   entry = fullfile(work, 'recovered_app.m');
@@ -59,7 +59,7 @@ function check_build_recovery()
 end
 
 function remove_work(work)
-  allowed = fullpath(fullfile(nelsonroot(), 'temp'));
-  asserts.istrue(startsWith(fullpath(work), [allowed, '/']));
+  allowed = tempdir();
+  asserts.istrue(startsWith(fullpath(work), allowed));
   if isfolder(work); rmdir(work, 's'); end
 end

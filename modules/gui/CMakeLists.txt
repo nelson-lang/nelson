@@ -73,6 +73,10 @@ target_link_libraries(${module_library_name}
     Qt6::Network
     Qt6::PrintSupport
 )
+# ScreenInfo.cpp loads libX11 at run time to size the screen before Qt starts
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+  target_link_libraries(${module_library_name} PRIVATE ${CMAKE_DL_LIBS})
+endif()
 # ==============================================================================
 # Builtin library
 # ==============================================================================

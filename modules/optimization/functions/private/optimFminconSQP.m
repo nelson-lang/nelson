@@ -99,7 +99,7 @@ function result = optimFminconSQPCore(data, opts)
     funcCount = funcCount + used;
     if accepted
       s = trial - x;
-      y = trialState.grad - state.grad;
+      y = lagrangianGradient(trialState, qpLambda) - lagrangianGradient(state, qpLambda);
       H = updateHessian(H, s, y);
       if abs(state.f - trialState.f) <= opts.FunctionTolerance && trialState.violation <= opts.ConstraintTolerance
         % The reference reserves exitflag 3 for trust-region-reflective; the
@@ -215,6 +215,11 @@ function [trial, trialState, accepted, alpha, count] = lineSearch(data, opts, x,
   step = boundedLineSearchStep(x, step, opts);
   rho = meritPenalty(state, qpLambda);
   base = meritValue(state, rho);
+  % Armijo on the L1 merit: the model decrease along the QP step is the objective slope
+  % minus the violation the step removes (Nocedal & Wright, 18.29). A fixed absolute
+  % decrease cannot be met near the solution, where the search then failed.
+  slope = state.grad(:)' * step(:) - rho * (sum(max(0, state.cineq)) + sum(abs(state.ceq)));
+  decrease = 1e-4 * max(-slope, 0);
   accepted = false;
   count = 0;
   trial = x;
@@ -227,7 +232,7 @@ function [trial, trialState, accepted, alpha, count] = lineSearch(data, opts, x,
       [candidate, candidateState, correctedCount] = feasibilityCorrection(data, opts, candidate, candidateState);
       count = count + correctedCount;
     end
-    if meritValue(candidateState, rho) <= base - 1e-4 * alpha * max(1, scaledStepNorm(step, x, opts) ^ 2)
+    if meritValue(candidateState, rho) <= base - alpha * decrease
       trial = candidate; trialState = candidateState; accepted = true; return
     end
     alpha = alpha / 2;
@@ -323,13 +328,36 @@ function rho = meritPenalty(state, qpLambda)
   rho = max(floorRho, 1.1 * maxLambda + 1);
 end
 %=============================================================================
+function g = lagrangianGradient(state, qpLambda)
+  % The curvature the quasi-Newton matrix must learn is the one of the Lagrangian: the
+  % objective alone can be linear while the constraints carry all the curvature.
+  g = state.grad(:);
+  if isstruct(qpLambda) && isfield(qpLambda, 'eqlin') && numel(qpLambda.eqlin) == size(state.Jeq, 1)
+    g = g + state.Jeq' * qpLambda.eqlin(:);
+  end
+  if isstruct(qpLambda) && isfield(qpLambda, 'ineqlin') && numel(qpLambda.ineqlin) == size(state.Jineq, 1)
+    g = g + state.Jineq' * qpLambda.ineqlin(:);
+  end
+end
+%=============================================================================
 function H = updateHessian(H, s, y)
-  if s' * y <= 1e-12 * max(1, norm(s) * norm(y))
+  % Powell's damped BFGS (Nocedal & Wright, procedure 18.2) keeps H positive definite
+  % whatever the curvature pair: a raw update with a gradient difference made of
+  % finite-difference noise left H singular along the step and the QP step unbounded.
+  Hs = H * s;
+  sHs = s' * Hs;
+  if ~(sHs > 0) || ~all(isfinite(y))
     H = H + 1e-8 * eye(size(H));
     return
   end
-  Hs = H * s;
-  H = H - (Hs * Hs') / max(s' * Hs, eps) + (y * y') / (s' * y);
+  sy = s' * y;
+  if sy >= 0.2 * sHs
+    r = y;
+  else
+    theta = 0.8 * sHs / (sHs - sy);
+    r = theta * y + (1 - theta) * Hs;
+  end
+  H = H - (Hs * Hs') / sHs + (r * r') / (s' * r);
   H = (H + H') / 2;
 end
 %=============================================================================

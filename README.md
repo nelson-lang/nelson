@@ -171,9 +171,10 @@ Nelson is tested on the platforms listed below. **[Download](https://github.com/
 |  **macOS Sequoia**   |        arm64        |   ✓    |                   |
 |   **macOS Sonoma**   |        arm64        |   ✓    |                   |
 |   **macOS Sonoma**   |   x86-64 (64-bit)   |   ✓    |                   |
+|   **Ubuntu 26.04**   |       x86-64        |   ✓    | ✓ (Snap, Flatpak) |
+|   **Ubuntu 26.04**   | arm64 (cobalt 100)  |   ✓    | ✓ (Snap, Flatpak) |
 |   **Ubuntu 24.04**   |       x86-64        |   ✓    | ✓ (Snap, Flatpak) |
 |   **Ubuntu 24.04**   | arm64 (cobalt 100)  |   ✓    | ✓ (Snap, Flatpak) |
-|   **Ubuntu 22.04**   |       x86-64        |   ✓    | ✓ (Snap, Flatpak) |
 |    **Fedora 43**     |       x86-64        |   ✓    | ✓ (Snap, Flatpak) |
 |    **ArchLinux**     |       x86-64        |   ✓    | ✓ (Snap, Flatpak) |
 

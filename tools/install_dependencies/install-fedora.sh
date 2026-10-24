@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Nelson - Installation script for Fedora 41-42 dependencies
+# Nelson - Installation script for Fedora 41-44 dependencies
 # This script installs all required dependencies to build Nelson from source
 #
 
@@ -11,7 +11,7 @@ print_status() {
     echo -e "\n===> $1"
 }
 
-print_status "Nelson - Installation script for Fedora 41-43 dependencies"
+print_status "Nelson - Installation script for Fedora 41-44 dependencies"
 print_status "This script uses sudo for privileged operations; run as normal user."
 
 print_status "Updating system packages"
@@ -28,7 +28,7 @@ system_utils=(
 # --- Build Tools ---
 build_tools=(
     make libtool gcc gcc-c++ autoconf automake
-    cmake pkg-config
+    cmake ninja-build pkg-config
 )
 
 # --- Rust Toolchain ---

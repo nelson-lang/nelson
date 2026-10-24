@@ -560,8 +560,11 @@ namespace FontMetrics {
         if (text.find(L'\n') != std::wstring::npos) {
             // Ink top of the first line to ink bottom of the last: full line height
             // for every line but the last, tight height for the last.
+            // whole pixel line step, as QFontMetrics::lineSpacing: each added line grows the
+            // rounded block by the same amount on every platform
             const std::vector<std::wstring> lines = splitTextLines(text);
-            return (lines.size() - 1) * lineHeightPixels(family, pixelSize, bold, italic)
+            return (lines.size() - 1)
+                * std::round(lineHeightPixels(family, pixelSize, bold, italic))
                 + textHeightPixels(lines.back(), family, pixelSize, bold, italic);
         }
         // Ascent plus the descender band only when the text has a descender.

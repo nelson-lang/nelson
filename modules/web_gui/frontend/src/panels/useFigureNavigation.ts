@@ -189,7 +189,7 @@ export function useFigureNavigation(options: Options) {
   // the threshold pans (2D) or rotates (3D). The gesture starts from the press
   // origin so the first frame has the full delta.
   const beginModeless = (event: ReactMouseEvent, pick: (xFrac: number, yFrac: number) => void) => {
-    if (!dl || event.button !== 0) return;
+    if (!dl || event.button !== 0 || !dl.rotatableAxes?.length) return;
     const rect = event.currentTarget.getBoundingClientRect();
     const originX = event.clientX,
       originY = event.clientY;

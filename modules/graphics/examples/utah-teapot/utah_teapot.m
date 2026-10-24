@@ -9,7 +9,7 @@
 %=============================================================================
 teapot_directory = [modulepath('graphics', 'root'), '/examples/utah-teapot/'];
 load([teapot_directory, 'teapot.nh5']);
-f = figure();
+f = figure('SelectionHighlight', 'off');
 f.DrawLater = 'on';
 axis off
 axis([-3 3 -3 3 -3 5]);

@@ -20,7 +20,8 @@ pythonExecutable = getenv('NLS_DEFAULT_PYTHON_EXECUTABLE_TESTS');
 if ~isempty(pythonExecutable) && isfile(pythonExecutable)
   try
     pe = pyenv('Version', pythonExecutable);
-  catch
+  catch e
+    disp(['pyenv(NLS_DEFAULT_PYTHON_EXECUTABLE_TESTS) failed: ', e.message]);
   end
 end
 if ~(pe.Version == "")
@@ -37,7 +38,8 @@ pythonExecutable = [Python_ROOT_DIR, '/', name];
 if isfile(pythonExecutable)
   try
     pe = pyenv('Version', pythonExecutable);
-  catch
+  catch e
+    disp(['pyenv(Python_ROOT_DIR) failed: ', e.message]);
   end
 end
 if (pe.Version == "")
@@ -52,15 +54,19 @@ if (pe.Version == "")
     if isfile(pythonExecutable)
       try
         pe = pyenv('Version', pythonExecutable);
-      catch
+      catch e
+        disp(['pyenv(PATH python) failed: ', e.message]);
       end
     end
   end
 end
 
-% install numpy on windows
-if ispc()
-  [r, msg] = system([pe.Executable + " -m pip install numpy"]);
+% install numpy for the tests (test_pyfunction, test_type_numpy, ...)
+if ~(pe.Version == "")
+  [r, msg] = system([pe.Executable + " -m pip install --quiet numpy"]);
+  if r ~= 0
+    disp(['pip install numpy failed (status ', int2str(r), '): ', strtrim(msg)]);
+  end
 end
 pe
 exit(pe.Version == "");

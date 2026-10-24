@@ -40,8 +40,8 @@ REF = '
 Error:
 Undefined variable: TEST_CONDITION
 
-at line     8 of ''PATH_REF_2''
-at line     6 of ''PATH_REF_1''
+at line    17 of ''PATH_REF_2''
+at line    15 of ''PATH_REF_1''
 at line    33 of ''PATH_REF_3''
 ';
 REF = replace(REF, 'PATH_REF_2', PATH_REF_2);
@@ -67,8 +67,8 @@ REF = '
 Error in clc
 Too many input arguments.
 
-at line    10 of ''PATH_REF_2''
-at line     6 of ''PATH_REF_1''
+at line    19 of ''PATH_REF_2''
+at line    15 of ''PATH_REF_1''
 at line    53 of ''PATH_REF_3''
 ';
 REF = replace(REF, 'PATH_REF_2', PATH_REF_2);
@@ -91,11 +91,11 @@ catch
 end
 %=============================================================================
 REF = '
-Error in fun_run (line 7)
+Error in fun_run (line 16)
 qqq
 
-at line    12 of ''PATH_REF_2''
-at line     6 of ''PATH_REF_1''
+at line    21 of ''PATH_REF_2''
+at line    15 of ''PATH_REF_1''
 at line    73 of ''PATH_REF_3''
 ';
 REF = replace(REF, 'PATH_REF_2', PATH_REF_2);
@@ -121,8 +121,8 @@ REF = '
 Error:
 g
 
-at line    14 of ''PATH_REF_2''
-at line     6 of ''PATH_REF_1''
+at line    23 of ''PATH_REF_2''
+at line    15 of ''PATH_REF_1''
 at line    93 of ''PATH_REF_3''
 ';
 REF = replace(REF, 'PATH_REF_2', PATH_REF_2);

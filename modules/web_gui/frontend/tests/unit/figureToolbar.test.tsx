@@ -116,3 +116,50 @@ it('shows the unified navigation bar, keeps modes radio-style and routes actions
   }
 });
 //=============================================================================
+it('hides the navigation tools and the details bar toggle when the figure ToolBar is none', () => {
+  vi.stubGlobal('IS_REACT_ACT_ENVIRONMENT', true);
+  const host = document.createElement('div');
+  document.body.appendChild(host);
+  const root = createRoot(host);
+  const noop = () => undefined;
+  const render = (toolbarHidden: boolean) =>
+    act(() =>
+      root.render(
+        <FigureToolbar
+          title="Scene"
+          is3d={false}
+          tool="inspect"
+          setTool={noop}
+          detailsVisible
+          toggleDetails={noop}
+          toolbarHidden={toolbarHidden}
+          inspectorOpen={false}
+          toggleInspector={noop}
+          maximized={false}
+          onAction={noop}
+          exportFigure={noop}
+          exporting={false}
+          saveAs={noop}
+          print={noop}
+          refresh={noop}
+          detach={noop}
+          detachLabel="Undock"
+        />
+      )
+    );
+  const buttons = () => [...host.querySelectorAll('button')];
+  render(true);
+  expect(host.querySelector('[aria-label="Figure navigation"]')).toBeNull();
+  act(() =>
+    buttons()
+      .find((b) => b.getAttribute('aria-label') === 'More figure actions')!
+      .click()
+  );
+  expect(buttons().some((b) => b.textContent?.trim() === 'Plot details bar')).toBe(false);
+  render(false);
+  expect(host.querySelector('[aria-label="Figure navigation"]')).not.toBeNull();
+  act(() => root.unmount());
+  host.remove();
+  vi.unstubAllGlobals();
+});
+//=============================================================================

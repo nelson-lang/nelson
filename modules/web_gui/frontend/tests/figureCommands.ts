@@ -36,7 +36,7 @@ export function figureCommands(page: Page, prefix: string) {
               .count()
           ) {
             throw new Error(
-              (await page.locator('.console-line').allTextContents()).slice(-5).join('\n')
+              (await page.locator('.console-line').allTextContents()).slice(-10).join('\n')
             );
           }
           return page

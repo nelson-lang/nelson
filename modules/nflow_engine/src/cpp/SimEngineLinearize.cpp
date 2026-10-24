@@ -24,6 +24,7 @@
 #include "SimEngineInit.hpp"
 #include "SimEngineLabels.hpp"
 #include "SimEngineAlgebraic.hpp"
+#include "SimEngineAssets.hpp"
 #include "StateLayout.hpp"
 #include "SimEngineTypes.hpp"
 #include "BlockRegistry.hpp"
@@ -118,6 +119,8 @@ linearizeModel(const std::string& diagramJson)
         baseDirStr = diagram["baseDir"].get<std::string>();
     }
     ctx.baseDir = &baseDirStr;
+    const std::map<std::string, std::string> exampleRoots = packagedExampleRoots();
+    ctx.exampleRoots = &exampleRoots;
     if (diagram.contains("relTol") && diagram["relTol"].is_number()) {
         ctx.relTol = diagram["relTol"].get<double>();
     }

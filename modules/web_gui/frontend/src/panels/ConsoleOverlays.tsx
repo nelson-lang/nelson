@@ -7,7 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-import type { RefObject } from 'react';
+import { useLayoutEffect, useRef, useState, type RefObject } from 'react';
 import { DesktopIcon } from '../components/DesktopIcon';
 import type { MenuState } from '../console/consolePanelTypes';
 //=============================================================================
@@ -85,13 +85,25 @@ export function ConsoleContextMenu({
   onToggleWrap: () => void;
   wrap: boolean;
 }): JSX.Element {
+  // keep the whole menu inside the viewport: measure where it landed (an ancestor may
+  // be the containing block of the fixed box) and pull it back by the overflow
+  const menuRef = useRef<HTMLDivElement>(null);
+  const [position, setPosition] = useState({ left: menu.x, top: menu.y });
+  useLayoutEffect(() => {
+    setPosition({ left: menu.x, top: menu.y });
+    const rect = menuRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    const overflowX = Math.max(0, rect.right - window.innerWidth);
+    const overflowY = Math.max(0, rect.bottom - window.innerHeight);
+    if (overflowX || overflowY) {
+      setPosition({ left: Math.max(0, menu.x - overflowX), top: Math.max(0, menu.y - overflowY) });
+    }
+  }, [menu.x, menu.y]);
   return (
     <div
+      ref={menuRef}
       className="console-menu"
-      style={{
-        left: Math.min(menu.x, window.innerWidth - 170),
-        top: Math.min(menu.y, window.innerHeight - 150),
-      }}
+      style={position}
       onMouseDown={(e) => e.stopPropagation()}
     >
       <div

@@ -1,0 +1,128 @@
+name: "Frontend"
+
+on: [push]
+
+permissions:
+  contents: read
+  # dorny/paths-filter lists the files of a pull request through the API
+  pull-requests: read
+
+jobs:
+  # the suites run on every push to master, elsewhere only when a frontend or this workflow changes
+  changes:
+    name: "Detect frontend changes"
+    runs-on: ubuntu-26.04
+    timeout-minutes: 5
+    outputs:
+      frontend: ${{ steps.filter.outputs.frontend }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Filter changed paths
+        id: filter
+        uses: dorny/paths-filter@v4
+        with:
+          filters: |
+            frontend:
+              - ".github/workflows/frontend.yml"
+              - ".nvmrc"
+              - "modules/web_gui/frontend/**"
+              - "modules/nflow_gui/**"
+              - "modules/nflow_engine/src/cpp/**"
+
+  frontend_unit:
+    name: "Frontend unit - ${{ matrix.frontend }}"
+    needs: changes
+    if: github.ref == 'refs/heads/master' || needs.changes.outputs.frontend == 'true'
+    runs-on: ubuntu-26.04
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        frontend: [modules/web_gui/frontend, modules/nflow_gui]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: ".nvmrc"
+          cache: npm
+          cache-dependency-path: ${{ matrix.frontend }}/package-lock.json
+
+      - name: Install dependencies
+        working-directory: ${{ matrix.frontend }}
+        run: npm ci --no-audit --no-fund
+
+      - name: Type check
+        working-directory: ${{ matrix.frontend }}
+        run: npm run typecheck
+
+      - name: Lint
+        working-directory: ${{ matrix.frontend }}
+        run: npm run lint
+
+      # vitest unit tests; formatting is checked by the Prettier workflow
+      - name: Unit tests
+        working-directory: ${{ matrix.frontend }}
+        run: npm run test
+
+  frontend_e2e:
+    name: "Frontend e2e - ${{ matrix.frontend }}"
+    needs: changes
+    if: github.ref == 'refs/heads/master' || needs.changes.outputs.frontend == 'true'
+    runs-on: ubuntu-26.04
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # the vite dev server is the Playwright webServer
+          - frontend: modules/web_gui/frontend
+            prebuild: ""
+          # the hostless static server serves dist/, so the bundle is built first
+          - frontend: modules/nflow_gui
+            prebuild: "npm run build"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: ".nvmrc"
+          cache: npm
+          cache-dependency-path: ${{ matrix.frontend }}/package-lock.json
+
+      - name: Install dependencies
+        working-directory: ${{ matrix.frontend }}
+        run: npm ci --no-audit --no-fund
+
+      - name: Install Playwright Chromium
+        working-directory: ${{ matrix.frontend }}
+        run: npx playwright install --with-deps chromium
+
+      - name: Build bundle
+        if: matrix.prebuild != ''
+        working-directory: ${{ matrix.frontend }}
+        run: ${{ matrix.prebuild }}
+
+      - name: End-to-end tests
+        working-directory: ${{ matrix.frontend }}
+        env:
+          CI: "true"
+        run: npm run test:e2e
+
+      - name: Upload Playwright results
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-e2e-${{ strategy.job-index }}-${{ github.run_number }}
+          path: |
+            ${{ matrix.frontend }}/test-results/
+            ${{ matrix.frontend }}/playwright-report/
+            ${{ matrix.frontend }}/tests/e2e/test-results/
+          if-no-files-found: ignore

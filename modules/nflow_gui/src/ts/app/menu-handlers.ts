@@ -252,6 +252,12 @@ export async function performSaveAs(
       } catch (_e) {}
       clearDirty();
       writeStatus(statusEl, t('Saved: {path}', { path: savedPath }));
+    } else if (result['canceled'] !== true) {
+      // A refused write must not stay silent: the status bar tells the user why.
+      writeStatus(
+        statusEl,
+        t('Save error: {error}', { error: String(result['error'] || 'Cannot write file') })
+      );
     }
     return result as Record<string, unknown>;
   } catch (err: unknown) {
