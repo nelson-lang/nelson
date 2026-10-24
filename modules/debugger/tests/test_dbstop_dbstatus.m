@@ -56,10 +56,10 @@ asserts.istrue(endsWith(bp.file, 'ClassdefPoint.m'));
 asserts.isequal(bp.line, 25);
 %=============================================================================
 dbclear all
-dbstop in ClassdefPoint at 32
+dbstop in ClassdefPoint at 41
 bp = dbstatus();
 asserts.isequal(bp.name, 'ClassdefPoint');
 asserts.istrue(endsWith(bp.file, 'ClassdefPoint.m'));
-asserts.isequal(bp.line, 32);
+asserts.isequal(bp.line, 41);
 %=============================================================================
 dbclear all

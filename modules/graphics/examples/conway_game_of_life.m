@@ -14,7 +14,8 @@ frameCount = 75;
 population = rand(gridSize) < 0.28;
 neighborKernel = ones(3);
 
-figureHandle = figure('Name', 'Conway Game of Life', 'NumberTitle', 'off');
+figureHandle = figure('SelectionHighlight', 'off', 'ToolBar', 'none', ...
+  'Name', 'Conway Game of Life', 'NumberTitle', 'off');
 axesHandle = axes('Parent', figureHandle);
 imageHandle = image('Parent', axesHandle, 'CData', double(population), ...
   'CDataMapping', 'scaled');

@@ -19,7 +19,61 @@
         pkgs = import nixpkgs { system = effectiveSystem; };
         isDarwin = pkgs.stdenv.isDarwin;
       in {
-        devShells.default = with pkgs; mkShell {
+        devShells.default = with pkgs; let
+          # the libraries CMake looks for, also exposed at run time through the library path below
+          nelsonLibraries = [
+            # GUI, graphics and help
+            qt6.full
+            # numerics
+            mpich
+            fftw
+            fftwFloat
+            openblasCompat
+            eigen
+            sundials
+            highs
+            qhull
+            tbb_2022_0
+            # data formats
+            hdf5
+            matio
+            netcdf
+            arrow-cpp
+            libxml2
+            libxslt
+            # system libraries
+            icu
+            zlib
+            openssl
+            curl
+            libgit2
+            libffi
+            # images
+            giflib
+            libtiff
+            libjpeg_turbo
+            libpng
+            libwebp
+            # audio
+            portaudio
+            libsndfile
+            taglib
+            # Python engine
+            python313
+          ] ++ lib.optionals isDarwin [
+            llvmPackages.libcxx
+            llvmPackages.openmp
+            coreutils
+            libiconv
+          ] ++ lib.optionals (!isDarwin) [
+            alsa-oss
+            alsa-lib
+            libjack2
+            # WebUI loads GTK 3 and WebKitGTK at run time for the native WebView window
+            gtk3
+            webkitgtk_4_1
+          ];
+        in mkShell {
           name = "Default development shell";
 
           packages = [
@@ -32,6 +86,9 @@
             git
             rustc
             cargo
+            # the CMake build compiles the web frontends with npm, the CI configures the Julia engine
+            nodejs_22
+            julia-bin
           ] ++ lib.optionals (!isDarwin) [
             xvfb-run
             gdb
@@ -47,76 +104,21 @@
             makeWrapper
           ];
 
-          buildInputs = [
-            qt6.full
-            mpich
-            fftw
-            fftwFloat
-            icu
-            zlib
-            openssl
-            hdf5
-            curl
-            libgit2
-            libsndfile
-            eigen
-            portaudio
-            openblasCompat
-            taglib
-            matio
-            giflib
-            libtiff
-            python313
-            libxslt
-          ] ++ lib.optionals isDarwin [
-            llvmPackages.libcxx
-            llvmPackages.openmp
-            coreutils
-            libiconv
-            darwin.apple_sdk.frameworks.CoreAudio
-            darwin.apple_sdk.frameworks.Accelerate
-          ] ++ lib.optionals (!isDarwin) [
-            alsa-oss
-            alsa-lib
-            libjack2
+          buildInputs = nelsonLibraries ++ [
+            python313Packages.numpy
           ];
 
-          shellHook = ''
-            export ${if isDarwin then "DYLD_LIBRARY_PATH" else "LD_LIBRARY_PATH"}"${
-              pkgs.lib.makeLibraryPath (
-                [
-                  zlib
-                  fftw
-                  fftwFloat
-                  openblasCompat
-                  icu
-                  openssl
-                  mpi
-                  hdf5
-                  curl
-                  libgit2
-                  libsndfile
-                  portaudio
-                  eigen
-                  taglib
-                  matio
-                  qt6.full
-                  giflib
-                  libtiff
-                  python313
-                  libxslt
-                ]
-                ++ lib.optionals isDarwin [
-                  llvmPackages.openmp
-                  darwin.apple_sdk.frameworks.CoreAudio
-                  darwin.apple_sdk.frameworks.Accelerate
-                ]
-                ++ lib.optionals (!isDarwin) [
-                  pipewire.jack
-                ]
-              )
-            }:$${if isDarwin then "DYLD_LIBRARY_PATH" else "LD_LIBRARY_PATH"}"
-
+          # the libraries Nelson loads by name at run time (fftw, python, ...)
+          # macOS uses the fallback path: DYLD_LIBRARY_PATH would shadow the libc++ of the Nix binaries (cargo dies with SIGBUS)
+          shellHook = (if isDarwin then ''
+            export DYLD_FALLBACK_LIBRARY_PATH="${
+              pkgs.lib.makeLibraryPath nelsonLibraries
+            }:/usr/local/lib:/usr/lib"
+          '' else ''
+            export LD_LIBRARY_PATH="${
+              pkgs.lib.makeLibraryPath (nelsonLibraries ++ [ pipewire.jack ])
+            }:$LD_LIBRARY_PATH"
+          '') + ''
              # Export prefix variables for specific libraries
             export NIX_LIBTIFF_PREFIX="${pkgs.libtiff}"
             export NIX_GIFLIB_PREFIX="${pkgs.giflib}"

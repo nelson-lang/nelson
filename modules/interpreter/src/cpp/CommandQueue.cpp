@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "CommandQueue.hpp"
+#include "RuntimeDispatch.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -30,6 +31,8 @@ CommandQueue::add(const std::wstring& cmdline, bool bIsPriority)
         this->enqueue(cmdline);
     }
     pendingCount.fetch_add(1, std::memory_order_release);
+    // A front end blocked at its prompt runs the command once woken.
+    notifyInterpreterWakeup();
 }
 //=============================================================================
 void

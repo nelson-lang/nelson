@@ -424,7 +424,7 @@
       </tr>
       <tr>
         <td><b>SelectionHighlight</b></td>
-        <td>updates rendered output on the next graphics refresh.</td>
+        <td>'off' hides the frame drawn around the axes under the pointer; navigation gestures stay available. The figure SelectionHighlight applies to all its axes.</td>
         <td>Type: text scalar or character row vector. Supported values: 'on', 'off'.</td>
       </tr>
       <tr>

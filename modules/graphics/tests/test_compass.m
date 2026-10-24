@@ -9,6 +9,9 @@
 %=============================================================================
 % <--ADV-CLI MODE-->
 %=============================================================================
+% Pin the calibration geometry for 573x460 on a 1024x768 CI runner.
+set(groot, 'DefaultFigurePosition', [423 180 1074 646]);
+%=============================================================================
 % compass draws one Line object per vector (arrows from the origin).
 f = figure('Visible', 'off');
 h = compass(rand(1, 8), rand(1, 8));

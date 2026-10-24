@@ -24,6 +24,7 @@ import { useFigurePinch } from './useFigurePinch';
 import { FigureToolbar } from './FigureToolbar';
 import { isFigureFormTarget } from './figureShortcuts';
 import { FigureInspector } from './FigureInspector';
+import { axesOfTreeNode } from './figureTree';
 import { FigureInspection } from './FigureInspection';
 import { FigureLegend } from './FigureLegend';
 import { useFigurePreferences } from './figurePreferences';
@@ -131,6 +132,8 @@ export function FigurePanel({
   const [maximized, setMaximized] = useState(false);
   const { preferences, change: changePreference } = useFigurePreferences();
   const { properties: inspectorOpen, details: detailsVisible } = preferences;
+  // ToolBar 'none' hides the navigation tools and the details bar in every front end.
+  const toolbarHidden = !!dl?.toolbarHidden;
   const [selectedObject, setSelectedObject] = useState(0);
   const figureExport = useFigureExport(handle);
   const [printError, setPrintError] = useState('');
@@ -398,7 +401,7 @@ export function FigurePanel({
   const inspector = useFigureInspector(
     handle,
     acceptDisplayList,
-    inspectorOpen || detailsVisible || quickToolActive
+    inspectorOpen || (detailsVisible && !toolbarHidden) || quickToolActive
   );
   const inspectTarget = selectedObject || inspector.point?.objectHandle || 0;
   const inspectorModel = useInspectorModel(handle, inspectTarget, inspectorOpen);
@@ -821,6 +824,7 @@ export function FigurePanel({
         view={(inspectorOpen || detailsVisible ? inspector.axes?.View : undefined) ?? dl?.view}
         detailsVisible={detailsVisible}
         toggleDetails={() => changePreference('details', !detailsVisible)}
+        toolbarHidden={toolbarHidden}
         inspectorOpen={inspectorOpen}
         toggleInspector={() => changePreference('properties', !inspectorOpen)}
         canUndo={inspector.state?.canUndo}
@@ -914,7 +918,7 @@ export function FigurePanel({
                 height={dl.height}
                 onWebGlBackendChange={handleWebGlBackendChange}
               />
-              {quick.axis && (
+              {quick.axis && quick.axis.highlight !== false && (
                 <FigureAxesIndicator
                   axis={quick.axis}
                   label={
@@ -986,14 +990,19 @@ export function FigurePanel({
             model={inspectorModel?.model ?? null}
             tree={inspectorModel?.tree ?? null}
             selectedObject={inspectTarget}
-            selectObject={setSelectedObject}
+            selectObject={(objectHandle) => {
+              setSelectedObject(objectHandle);
+              // the browsed object also picks the axes that View, Fit and the presets act on
+              const axesHandle = axesOfTreeNode(inspectorModel?.tree ?? null, objectHandle);
+              if (axesHandle) inspector.setAxesHandle(axesHandle);
+            }}
             action={(request) => {
               void figureAction(request);
             }}
           />
         )}
       </div>
-      {detailsVisible && (
+      {detailsVisible && !toolbarHidden && (
         <>
           {inspector.axes && inspector.axes.objects.length > 0 && (
             <FigureLegend

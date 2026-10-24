@@ -7,7 +7,7 @@ param(
 )
 $ErrorActionPreference = 'Stop'
 $repo = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../..'))
-$root = Join-Path $repo ('temp/compiler-installer-' + [Guid]::NewGuid().ToString('N'))
+$root = Join-Path ([IO.Path]::GetTempPath()) ('nelson-compiler-installer-' + [Guid]::NewGuid().ToString('N'))
 $stage = Join-Path $root 'source with spaces'
 $binary = Join-Path $stage 'bin/x64'
 $module = Join-Path $stage 'modules/compiler'

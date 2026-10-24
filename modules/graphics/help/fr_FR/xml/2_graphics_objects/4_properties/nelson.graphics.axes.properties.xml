@@ -424,7 +424,7 @@
       </tr>
       <tr>
         <td><b>SelectionHighlight</b></td>
-        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>'off' masque le cadre dessine autour de l'axes sous le pointeur ; les gestes de navigation restent disponibles. Le SelectionHighlight de la figure s'applique a tous ses axes.</td>
         <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
       </tr>
       <tr>

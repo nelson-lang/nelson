@@ -10,6 +10,8 @@
 % <--ADV-CLI MODE-->
 %=============================================================================
 close all
+% Pin the calibration geometry for 573x460 on a 1024x768 CI runner.
+set(groot, 'DefaultFigurePosition', [423 180 1074 646]);
 %=============================================================================
 
 f = figure('Visible', 'off');

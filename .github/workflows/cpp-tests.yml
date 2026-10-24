@@ -1,0 +1,38 @@
+name: "C++ unit tests"
+
+on: [push]
+
+jobs:
+  cpp_unit_tests:
+    name: "C++ unit tests (doctest) - Ubuntu"
+    # ubuntu-26.04 ships SUNDIALS 7, the ode_solvers sources use its API (SUN_COMM_NULL, sundials_core)
+    runs-on: ubuntu-26.04
+    timeout-minutes: 30
+    env:
+      # the Qt based suites (graphics_qt, gui) run without a display
+      QT_QPA_PLATFORM: offscreen
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      # each modules/<name>/tests/cpp is a standalone CMake project compiling the sources it covers
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          # libqt6svg6-dev brings the SVG image plugin the tinted desktop icons are rendered with
+          # libopenmpi-dev provides the mpi.h the MPI-enabled SUNDIALS headers include
+          sudo apt-get install -y cmake ninja-build qt6-base-dev libqt6svg6-dev libgl-dev libsundials-dev libopenmpi-dev
+
+      - name: Build and run the suites
+        run: |
+          set -e
+          suites="graphics_qt gui interpreter ipc nflow_blocks nflow_engine nflow_gui ode_solvers web_gui webview"
+          for suite in $suites; do
+            echo "::group::$suite"
+            cmake -S "modules/$suite/tests/cpp" -B "build/$suite" -G Ninja \
+              -DCMAKE_BUILD_TYPE=Release -DSUNDIALS_ROOT=/usr
+            cmake --build "build/$suite"
+            ctest --test-dir "build/$suite" --output-on-failure
+            echo "::endgroup::"
+          done

@@ -34,7 +34,7 @@ for generation = 1:generationCount
   segmentEnd = nextEnd;
 end
 
-figureHandle = figure('Name', 'Fractal tree', 'NumberTitle', 'off', ...
+figureHandle = figure('SelectionHighlight', 'off', 'ToolBar', 'none', 'Name', 'Fractal tree', 'NumberTitle', 'off', ...
   'Color', [0.04 0.06 0.08]);
 axesHandle = axes('Parent', figureHandle, 'Color', [0.04 0.06 0.08]);
 plot(axesHandle, plotX, plotY, 'Color', [0.35 0.85 0.45], 'LineWidth', 0.7);

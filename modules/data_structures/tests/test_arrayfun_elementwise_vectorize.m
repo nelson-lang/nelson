@@ -17,11 +17,14 @@
 A = reshape(1:12, 3, 4);
 B = reshape(12:-1:1, 3, 4);
 %=============================================================================
-% Vectorizable bodies must equal the hand-vectorized expression.
-asserts.isequal(arrayfun(@(x, y) sqrt(x .^ 2 + y .^ 2), A, B), sqrt(A .^ 2 + B .^ 2));
-asserts.isequal(arrayfun(@(x) sin(x) + 1, A), sin(A) + 1);
-asserts.isequal(arrayfun(@(x) exp(-x) ./ (1 + abs(x)), A), exp(-A) ./ (1 + abs(A)));
-asserts.isequal(arrayfun(@(x, y) x .^ y, A, B), A .^ B);
+% Vectorizable bodies must equal the hand-vectorized expression. Transcendental
+% functions are compared up to 1 ulp (1e-15 relative): the scalar libm result of
+% the per-element path and the SIMD result of the array path can differ by one
+% rounding on some CPUs (seen on the Linux CI runner for exp).
+asserts.isapprox(arrayfun(@(x, y) sqrt(x .^ 2 + y .^ 2), A, B), sqrt(A .^ 2 + B .^ 2), 1e-15);
+asserts.isapprox(arrayfun(@(x) sin(x) + 1, A), sin(A) + 1, 1e-15);
+asserts.isapprox(arrayfun(@(x) exp(-x) ./ (1 + abs(x)), A), exp(-A) ./ (1 + abs(A)), 1e-15);
+asserts.isapprox(arrayfun(@(x, y) x .^ y, A, B), A .^ B, 1e-15);
 asserts.isequal(arrayfun(@(x, y) x .* y - x ./ (y + 1), A, B), A .* B - A ./ (B + 1));
 asserts.isequal(arrayfun(@(x) - x, A), -A);
 %=============================================================================
@@ -34,8 +37,8 @@ asserts.isequal(arrayfun(@(x, y)(x <= 3) | (y == 12), A, B), (A <= 3) | (B == 12
 asserts.isequal(arrayfun(@(x, y) min(x, y), A, B), min(A, B));
 asserts.isequal(arrayfun(@(x, y) max(x, y), A, B), max(A, B));
 asserts.isequal(arrayfun(@(x, y) mod(x, y), A, B), mod(A, B));
-asserts.isequal(arrayfun(@(x, y) hypot(x, y), A, B), hypot(A, B));
-asserts.isequal(arrayfun(@(x, y) atan2(x, y), A, B), atan2(A, B));
+asserts.isapprox(arrayfun(@(x, y) hypot(x, y), A, B), hypot(A, B), 1e-15);
+asserts.isapprox(arrayfun(@(x, y) atan2(x, y), A, B), atan2(A, B), 1e-15);
 %=============================================================================
 % Captured scalar is inlined and stays correct.
 c = 5;
@@ -55,9 +58,9 @@ asserts.isequal(arrayfun(@(x) x', v), v);
 %=============================================================================
 % Named function handles to element-wise builtins are vectorized too (arrayfun
 % inputs are the same size, so max/min/mod/rem are element-wise and safe).
-asserts.isequal(arrayfun(@sin, A), sin(A));
-asserts.isequal(arrayfun(@exp, A), exp(A));
-asserts.isequal(arrayfun(@sqrt, A), sqrt(A));
+asserts.isapprox(arrayfun(@sin, A), sin(A), 1e-15);
+asserts.isapprox(arrayfun(@exp, A), exp(A), 1e-15);
+asserts.isapprox(arrayfun(@sqrt, A), sqrt(A), 1e-15);
 asserts.isequal(arrayfun(@abs, -A), abs(-A));
 asserts.isequal(arrayfun(@plus, A, B), A + B);
 asserts.isequal(arrayfun(@minus, A, B), A - B);
@@ -66,7 +69,7 @@ asserts.isequal(arrayfun(@rdivide, A, B), A ./ B);
 asserts.isequal(arrayfun(@max, A, B), max(A, B));
 asserts.isequal(arrayfun(@min, A, B), min(A, B));
 asserts.isequal(arrayfun(@mod, A, B), mod(A, B));
-asserts.isequal(arrayfun(@hypot, A, B), hypot(A, B));
+asserts.isapprox(arrayfun(@hypot, A, B), hypot(A, B), 1e-15);
 asserts.isequal(arrayfun(@gt, A, B), A > B);
 asserts.isequal(arrayfun(@and, A > 2, B > 2), (A > 2) & (B > 2));
 asserts.isequal(arrayfun(@xor, A > 5, B > 5), xor(A > 5, B > 5));

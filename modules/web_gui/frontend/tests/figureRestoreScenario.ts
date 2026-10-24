@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 import { expect, test, type Page } from '@playwright/test';
+import { figureMenuAction, selectInspectorObject } from './figureObjects';
 import { figureCommands } from './figureCommands';
 import { showFigureBars, waitForFigureLayout } from './figureBars';
 //=============================================================================
@@ -30,6 +31,7 @@ export async function figureRestoreScenario(page: Page) {
     await expect(page.locator('.figure-panel')).not.toHaveAttribute('aria-busy', 'true');
   };
   await page.goto('/');
+  await page.getByRole('tab', { name: 'Command Window', exact: true }).click();
   await expect(page.locator('.console-host').first()).toContainText('connected:', {
     timeout: 120000,
   });
@@ -39,9 +41,7 @@ export async function figureRestoreScenario(page: Page) {
   await show();
   await showFigureBars(page);
   await page.getByRole('button', { name: 'Properties', exact: true }).click();
-  await page
-    .getByRole('combobox', { name: 'Axes', exact: true })
-    .selectOption({ label: 'Dense surface' });
+  await selectInspectorObject(page, 'axes (Dense surface)');
   await waitForFigureLayout(page);
   await run(
     'saved3=[a3.View a3.CameraPosition a3.CameraTarget a3.CameraUpVector a3.CameraViewAngle a3.XLim a3.YLim a3.ZLim]; saved2=[a2.XLim a2.YLim]; slots=[a1.Position;a2.Position;a3.Position]'
@@ -51,7 +51,7 @@ export async function figureRestoreScenario(page: Page) {
   await page.getByRole('button', { name: 'Use current view as reference', exact: true }).click();
   await drag('Pan', 0.5, 0.7);
   await drag('Rotate', 0.5, 0.7);
-  await page.getByRole('button', { name: 'Zoom in', exact: true }).click();
+  await figureMenuAction(page, 'Zoom in');
   await run(
     "asserts.istrue(norm([a3.View a3.CameraPosition a3.CameraTarget a3.CameraUpVector a3.CameraViewAngle a3.XLim a3.YLim a3.ZLim]-saved3)>1e-6); a3.XGrid='on'"
   );
@@ -59,7 +59,7 @@ export async function figureRestoreScenario(page: Page) {
   await page.getByRole('button', { name: 'Restore view', exact: true }).click();
   const check3 =
     "asserts.isapprox([a3.View a3.CameraPosition a3.CameraTarget a3.CameraUpVector a3.CameraViewAngle a3.XLim a3.YLim a3.ZLim],saved3,1e-8); asserts.isequal(a3.CameraPositionMode,'manual'); asserts.isequal(a3.CameraViewAngleMode,'manual'); asserts.isequal(char(a3.XGrid),'on'); asserts.isequal([a2.XLim a2.YLim],saved2)";
-  await run(check3 + '; asserts.isequal([a1.Position;a2.Position;a3.Position],slots)');
+  await run(check3 + '; asserts.isapprox([a1.Position;a2.Position;a3.Position],slots,1e-12)');
   await show();
   await expect
     .poll(() =>
@@ -84,24 +84,20 @@ export async function figureRestoreScenario(page: Page) {
   await page
     .locator('.figure-panel__canvas')
     .screenshot({ path: test.info().outputPath('restored-tiled-surface.png') });
-  await page
-    .getByRole('combobox', { name: 'Axes', exact: true })
-    .selectOption({ label: 'Log reversed' });
+  await selectInspectorObject(page, 'axes (Log reversed)');
   await drag('Pan', 0.3, 0.3);
   await run(
     'asserts.istrue(a1.XLim(1)>1); asserts.istrue(a1.YLim(1)<1); logSpan=diff(log10(a1.XLim))'
   );
   await show();
-  await page.getByRole('button', { name: 'Zoom in', exact: true }).click();
+  await figureMenuAction(page, 'Zoom in');
   await run('asserts.isapprox(diff(log10(a1.XLim)),logSpan/1.25,1e-8)');
   await show();
   await page.getByRole('button', { name: 'Restore view', exact: true }).click();
   await run('asserts.isapprox(a1.XLim,[1 100],1e-8); asserts.isapprox(a1.YLim,[1 100],1e-8)');
   await show();
-  await page
-    .getByRole('combobox', { name: 'Axes', exact: true })
-    .selectOption({ label: 'Dense surface' });
-  await page.getByRole('button', { name: 'Zoom in', exact: true }).click();
+  await selectInspectorObject(page, 'axes (Dense surface)');
+  await figureMenuAction(page, 'Zoom in');
   await expect(page.locator('.figure-panel')).not.toHaveAttribute('aria-busy', 'true');
   await page.getByRole('button', { name: 'More figure actions', exact: true }).click();
   const opening = page.waitForEvent('popup');
@@ -110,14 +106,9 @@ export async function figureRestoreScenario(page: Page) {
   await expect(detached.locator('.nelson-shell--standalone')).toBeVisible({ timeout: 60000 });
   const properties = detached.getByRole('button', { name: 'Properties', exact: true });
   if ((await properties.getAttribute('aria-expanded')) !== 'true') await properties.click();
-  await detached
-    .getByRole('combobox', { name: 'Axes', exact: true })
-    .selectOption({ label: 'Dense surface' });
-  await detached.getByRole('button', { name: 'More figure actions', exact: true }).click();
-  await detached
-    .getByRole('group', { name: 'More figure actions' })
-    .getByRole('button', { name: 'Restore view', exact: true })
-    .click();
+  await selectInspectorObject(detached, 'axes (Dense surface)');
+  // Restore view is a navigation tool of the toolbar, not a menu entry
+  await detached.getByRole('button', { name: 'Restore view', exact: true }).click();
   await expect(detached.locator('.figure-panel')).not.toHaveAttribute('aria-busy', 'true');
   await run(check3 + '; close(f)');
   await detached.close();

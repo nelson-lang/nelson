@@ -140,8 +140,11 @@ GuiTerminal::getTextLine(const std::wstring& prompt, bool bIsInput)
     flushGuiOutputBuffer();
     QtTerminal* qtterm = getQtTerminalInstance();
     if (qtterm) {
-        this->diary.writeMessage(L"\n");
-        this->diary.writeMessage(prompt);
+        // A prompt kept on screen through a silent callback is not printed again.
+        if (!qtterm->canReusePrompt(prompt)) {
+            this->diary.writeMessage(L"\n");
+            this->diary.writeMessage(prompt);
+        }
         line = qtterm->getLine(prompt);
         if (line != L"\n") {
             this->diary.writeMessage(line);

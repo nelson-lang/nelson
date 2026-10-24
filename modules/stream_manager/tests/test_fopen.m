@@ -66,15 +66,8 @@ asserts.isequal(IDS, [0 1 2]);
 %=============================================================================
 asserts.checkerror('fopen()', _('Not enough input arguments.'))
 %=============================================================================
-rootParent = fullfile(nelsonroot(), 'temp');
-rootTemp = fullfile(rootParent, 'compatibility_stream_behaviors');
-if ~isdir(rootParent)
-  mkdir(nelsonroot(), 'temp');
-end
-if isdir(rootTemp)
-  rmdir(rootTemp, 's');
-end
-mkdir(rootParent, 'compatibility_stream_behaviors');
+rootTemp = fullfile(tempdir(), ['compatibility_stream_behaviors_', createGUID()]);
+mkdir(rootTemp);
 textFile = fullfile(rootTemp, 'text.txt');
 errorFile = fullfile(rootTemp, 'error.txt');
 fid = fopen(textFile, 'wt', 'n', 'UTF-8');

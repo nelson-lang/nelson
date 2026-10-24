@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % Display a live, interruptible analog clock animation (Stop to end).
-figureHandle = figure('Name', 'Analog clock', 'NumberTitle', 'off', ...
+figureHandle = figure('SelectionHighlight', 'off', 'ToolBar', 'none', 'Name', 'Analog clock', 'NumberTitle', 'off', ...
   'Position', [300 200 520 560]);
 axesHandle = axes('Parent', figureHandle, 'Position', [0.08 0.14 0.84 0.80]);
 hold(axesHandle, 'on');

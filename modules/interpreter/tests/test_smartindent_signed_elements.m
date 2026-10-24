@@ -11,7 +11,7 @@
 % Inside [] and {}, "a -b" (space before the sign, none after) is two elements
 % while "a - b" and "a-b" are one subtraction: the formatter must never turn the
 % former into the latter.
-folder = tempname(fullfile(nelsonroot(), 'temp'));
+folder = tempname(tempdir());
 mkdir(folder);
 cleanup = onCleanup(@() rmdir(folder, 's'));
 setup = 'a = [5 7]; b = [2 3]; x = 3;';

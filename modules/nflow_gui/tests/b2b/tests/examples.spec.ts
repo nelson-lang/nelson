@@ -71,6 +71,10 @@ const REQUIRES_SETUP = new Map<string, string>([
     'From_Workspace_Demo.nflow',
     'needs its companion From_Workspace_Demo.m to define the base-workspace signal "simin"',
   ],
+  // FMI-LS-WASM packages run in the browser build only: the native engine has no WebAssembly runtime.
+  ['Adder_C_Wasm_FMU.nflow', 'WebAssembly FMU, browser build only'],
+  ['Adder_Rust_Wasm_FMU.nflow', 'WebAssembly FMU, browser build only'],
+  ['Adder_WAT_Wasm_FMU.nflow', 'WebAssembly FMU, browser build only'],
 ]);
 //=============================================================================
 // These scopes must still contain their traces after the simulation reaches "Done".
@@ -117,6 +121,8 @@ test.describe('example gallery: FMU-backed models', () => {
   for (const model of fmuModels) {
     test(`fmi / ${model.name}`, async ({ page }) => {
       test.setTimeout(TEST_TIMEOUT_MS);
+      const setup = REQUIRES_SETUP.get(model.name);
+      test.skip(Boolean(setup), setup || '');
       await runExampleModel(page, model);
     });
   }

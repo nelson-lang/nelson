@@ -46,13 +46,13 @@ set "PATH=%MSBUILD_DIR%;%PATH%"
 :: manage the argument
 if /i "%~1"=="win64" (
     call .\win64-environment.bat env-only
-    call "%MSBUILD_EXE%" nelson.sln /p:Configuration=Release /p:Platform=x64 /target:"NelSon-gui" /m:4 /p:PreferredToolArchitecture=x64 /p:QTDIR="!QTDIR!" /p:PATH="!PATH!"
+    call "%MSBUILD_EXE%" nelson.sln /p:Configuration=Release /p:Platform=x64 /target:"NelSon-gui" /m /p:UseMultiToolTask=true /p:EnforceProcessCountAcrossBuilds=true /p:PreferredToolArchitecture=x64 /p:UseStructuredOutput=false /p:QTDIR="!QTDIR!" /p:PATH="!PATH!"
     exit /b !errorlevel!
 )
 
 if /i "%~1"=="arm64" (
     call .\ARM64-environment.bat env-only
-    call "%MSBUILD_EXE%" nelson.sln /p:Configuration=Release /p:Platform=ARM64 /target:"NelSon-gui" /m:4 /p:PreferredToolArchitecture=x64 /p:QTDIR="!QTDIR!" /p:PATH="!PATH!"
+    call "%MSBUILD_EXE%" nelson.sln /p:Configuration=Release /p:Platform=ARM64 /target:"NelSon-gui" /m /p:UseMultiToolTask=true /p:EnforceProcessCountAcrossBuilds=true /p:PreferredToolArchitecture=x64 /p:UseStructuredOutput=false /p:QTDIR="!QTDIR!" /p:PATH="!PATH!"
     exit /b !errorlevel!
 )
 

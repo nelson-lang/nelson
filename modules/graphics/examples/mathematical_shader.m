@@ -36,7 +36,8 @@ end
 colorImage = colorImage / max(colorImage(:));
 colorImage = min(sqrt(colorImage), 1);
 
-figureHandle = figure('Name', 'Mathematical shader', 'NumberTitle', 'off', ...
+figureHandle = figure('SelectionHighlight', 'off', 'ToolBar', 'none', ...
+  'Name', 'Mathematical shader', 'NumberTitle', 'off', ...
   'Color', 'black');
 axesHandle = axes('Parent', figureHandle);
 image('Parent', axesHandle, 'CData', colorImage);

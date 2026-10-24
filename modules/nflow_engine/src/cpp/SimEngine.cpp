@@ -25,6 +25,7 @@
 #include "SimEngineAlgebraic.hpp" // algebraic-loop solve
 #include "SimEngineFunctionCall.hpp" // function-call subsystem wiring
 #include "SimEngineEvents.hpp" // queued UI parameter events
+#include "SimEngineAssets.hpp" // packaged example roots for nflow-example:/ assets
 #include "DashboardBindingManager.hpp"
 #include "BlockRegistry.hpp"
 #include "SolverBackend.hpp"
@@ -69,24 +70,7 @@ namespace NFlow {
     void
     ensureBuiltinsRegistered()
     {
-        std::call_once(s_builtinsOnce, []() {
-            registerAllBuiltinHandlers();
-
-            // Development helper: plugins generated in NFLOW_DEV_PLUGIN_SCAN_PATH are picked up
-            // by BlockRegistry.
-            try {
-                const char* envPath = std::getenv("NFLOW_DEV_PLUGIN_SCAN_PATH");
-                if (envPath && std::filesystem::exists(std::filesystem::path(envPath))) {
-                    auto& reg = BlockRegistry::instance();
-                    bool ok = reg.scanDirectory(std::string(envPath));
-                    std::clog << "[SimEngine] NFLOW_DEV_PLUGIN_SCAN_PATH='" << envPath
-                              << "' scanDirectory returned=" << (ok ? "true" : "false")
-                              << std::endl;
-                }
-            } catch (const std::exception& ex) {
-                std::clog << "[SimEngine] scanDirectory exception: " << ex.what() << std::endl;
-            }
-        });
+        std::call_once(s_builtinsOnce, []() { registerAllBuiltinHandlers(); });
     }
     //=============================================================================
     std::string
@@ -178,6 +162,8 @@ namespace NFlow {
             baseDirStr = diagram["baseDir"].get<std::string>();
         }
         ctx.baseDir = &baseDirStr;
+        const std::map<std::string, std::string> exampleRoots = packagedExampleRoots();
+        ctx.exampleRoots = &exampleRoots;
         // Read the tolerance before INIT: a block whose init uses it (an FMU's
         // enterInitializationMode) must not get the FMU internal default.
         if (diagram.contains("relTol") && diagram["relTol"].is_number()) {

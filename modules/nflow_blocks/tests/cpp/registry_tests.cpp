@@ -61,9 +61,8 @@ TEST_CASE("BlockRegistry exposes expected handler phases")
         CHECK(reg.hasPhase(type, Phase::ALGEBRAIC));
     }
 
-    const std::vector<std::string> stateful
-        = { "fileSource", "integrator", "tf", "delay", "stateSpace", "lpf", "hpf", "pid", "foh",
-              "dtf", "ddelay", "dstateSpace", "unitDelay", "subsystem" };
+    const std::vector<std::string> stateful = { "fileSource", "integrator", "tf", "delay",
+        "stateSpace", "lpf", "hpf", "ddelay", "unitDelay", "subsystem" };
     for (const auto& type : stateful) {
         CHECK(reg.hasPhase(type, Phase::INIT));
         CHECK(reg.hasPhase(type, Phase::OUTPUT));
@@ -77,9 +76,10 @@ TEST_CASE("BlockRegistry exposes expected handler phases")
     // committed value as memory, and a zoh takes its sample AT the hit instant;
     // reading their committed state back as the output would delay each of them
     // by a step.
-    const std::vector<std::string> feedthroughInAlgebraic
-        = { "derivative", "difference", "detectChange", "risingEdge", "fallingEdge",
-              "detectIncrease", "detectDecrease", "rate", "backlash", "hysteresis", "zoh" };
+    // pid, dtf, foh and dstateSpace answer the current input the same way.
+    const std::vector<std::string> feedthroughInAlgebraic = { "derivative", "difference",
+        "detectChange", "risingEdge", "fallingEdge", "detectIncrease", "detectDecrease", "rate",
+        "backlash", "hysteresis", "zoh", "pid", "dtf", "foh", "dstateSpace" };
     for (const auto& type : feedthroughInAlgebraic) {
         CHECK(reg.hasPhase(type, Phase::INIT));
         CHECK(reg.hasPhase(type, Phase::ALGEBRAIC));

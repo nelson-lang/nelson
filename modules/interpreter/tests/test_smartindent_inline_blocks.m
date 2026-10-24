@@ -7,7 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-folder = tempname(fullfile(nelsonroot(), 'temp'));
+folder = tempname(tempdir());
 mkdir(folder);
 originalPath = path();
 cleanup = onCleanup(@() cleanupFixtureFolder(folder, originalPath));

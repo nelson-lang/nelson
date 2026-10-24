@@ -16,7 +16,7 @@
 %=============================================================================
 skip_testsuite(~__nflow_fmi_available__(), 'nflow_fmi runtime not available');
 skip_testsuite(nflow_fmi_skip_bundled_fmi2_runtime(), ...
-  'bundled FMI 2.0 reference FMUs are not loadable by native macOS arm64 builds');
+  'bundled FMI 2.0 reference FMUs only ship x86-64 binaries');
 exdir = [modulepath('nflow_fmi', 'root'), '/examples'];
 %=============================================================================
 % Van der Pol (mu = 1) settles onto its limit cycle with amplitude ~2.0.

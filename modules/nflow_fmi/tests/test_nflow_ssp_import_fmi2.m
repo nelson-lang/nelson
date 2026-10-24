@@ -16,7 +16,7 @@
 %=============================================================================
 skip_testsuite(~__nflow_fmi_available__(), 'nflow_fmi runtime not available');
 skip_testsuite(nflow_fmi_skip_bundled_fmi2_runtime(), ...
-  'bundled FMI 2.0 reference FMUs are not loadable by native macOS arm64 builds');
+  'bundled FMI 2.0 reference FMUs only ship x86-64 binaries');
 work = tempname();
 if isdir(work)
   rmdir(work, 's');

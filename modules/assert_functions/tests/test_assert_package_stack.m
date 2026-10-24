@@ -18,7 +18,7 @@ end
 asserts.istrue(raised);
 asserts.istrue(numel(ME.stack) >= 1);
 asserts.isequal(ME.stack(1).name, 'asserts_stack_probe');
-asserts.isequal(ME.stack(1).line, 2);
+asserts.isequal(ME.stack(1).line, 11);
 asserts.isfalse(any(strcmp({ME.stack.name}, 'istrue')));
 %=============================================================================
 raised = false;

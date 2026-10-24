@@ -4,8 +4,7 @@ param(
     [ValidateSet('win64', 'woa64')][string]$Architecture = 'win64'
 )
 $ErrorActionPreference = 'Stop'
-$repo = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../..'))
-$root = Join-Path $repo ('temp/runtime-registration-' + [Guid]::NewGuid().ToString('N'))
+$root = Join-Path ([IO.Path]::GetTempPath()) ('nelson-runtime-registration-' + [Guid]::NewGuid().ToString('N'))
 New-Item -ItemType Directory -Path $root | Out-Null
 $key = "HKCU:\Software\Nelson\Runtime\$Architecture\$Fingerprint"
 $uninstallKey = $null

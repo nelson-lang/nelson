@@ -16,7 +16,7 @@ catch installer_error
   skip_installer_antivirus(installer_error);
 end
 function check_rebuild()
-  work = [tempname(fullfile(nelsonroot(), 'temp')), ' rebuild '' ', char([28450, 23383])];
+  work = [tempname(tempdir()), ' rebuild '' ', char([28450, 23383])];
   mkdir(work);
   cleanup = onCleanup(@() remove_work(work));
   source = fullfile(work, 'source');
@@ -128,7 +128,7 @@ function rejected(callback)
 end
 
 function remove_work(work)
-  allowed = fullpath(fullfile(nelsonroot(), 'temp'));
-  asserts.istrue(startsWith(fullpath(work), [allowed, '/']));
+  allowed = tempdir();
+  asserts.istrue(startsWith(fullpath(work), allowed));
   if isfolder(work); rmdir(work, 's'); end
 end

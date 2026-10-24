@@ -46,10 +46,10 @@ end
 
 if ispc()
   filewrite(childScript, {...
-    'Start-Sleep -Seconds 3'
+    'Start-Sleep -Seconds 30'
     ['Set-Content -LiteralPath ''', markerFile, ''' -Value ''orphan''']});
   filewrite(normalChildScript, {...
-    'Start-Sleep -Seconds 3'
+    'Start-Sleep -Seconds 30'
     ['Set-Content -LiteralPath ''', normalMarkerFile, ''' -Value ''orphan''']});
   launchCommand = ['unix(''cmd /c start "" /b powershell -NoProfile ', ...
     '-ExecutionPolicy Bypass -File "', childScript, '"'');'];
@@ -58,11 +58,11 @@ if ispc()
 else
   filewrite(childScript, {...
     '#!/bin/sh'
-    'sleep 3'
+    'sleep 30'
     ['printf orphan > "', markerFile, '"']});
   filewrite(normalChildScript, {...
     '#!/bin/sh'
-    'sleep 3'
+    'sleep 30'
     ['printf orphan > "', normalMarkerFile, '"']});
   filewrite(launcherScript, {...
     '#!/bin/sh'

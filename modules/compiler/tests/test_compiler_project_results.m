@@ -12,7 +12,7 @@ ncc('--help');
 check_results();
 
 function check_results()
-  work = [tempname(fullfile(nelsonroot(), 'temp')), ' results '' ', char([28450, 23383])];
+  work = [tempname(tempdir()), ' results '' ', char([28450, 23383])];
   mkdir(work);
   cleanup = onCleanup(@() remove_work(work));
   project = __nelsonc_project__('new');
@@ -179,8 +179,8 @@ function rejected(callback, message)
 end
 
 function assert_local(directory)
-  allowed = fullpath(fullfile(nelsonroot(), 'temp'));
-  asserts.istrue(startsWith(fullpath(directory), [allowed, '/']));
+  allowed = tempdir();
+  asserts.istrue(startsWith(fullpath(directory), allowed));
 end
 
 function remove_work(work)

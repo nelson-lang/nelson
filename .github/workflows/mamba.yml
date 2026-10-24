@@ -1,0 +1,71 @@
+name: "Micromamba Build"
+
+on:
+  # the Run workflow button in the Actions tab, this build is not part of the push CI
+  workflow_dispatch:
+  workflow_call:
+
+permissions:
+  checks: write
+  contents: read
+
+jobs:
+  Micromamba:
+    name: Micromamba (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-26.04
+            env_file: environment-linux-dev.yml
+            julia_arch: x64
+            extra_cmake_flags: ""
+          - os: macos-15
+            env_file: environment-macos-dev.yml
+            julia_arch: aarch64
+            extra_cmake_flags: "-DCMAKE_OSX_ARCHITECTURES=arm64 -DFORCE_LIBGFORTRAN_LINK=ON"
+    defaults:
+      run:
+        # every command runs inside the micromamba environment
+        shell: micromamba-shell {0}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      # the compilers, the libraries, just and ninja come from the conda environment
+      - name: Install dependencies
+        uses: mamba-org/setup-micromamba@v3
+        with:
+          environment-file: ${{ matrix.env_file }}
+          environment-name: nelson
+
+      # the CMake build also builds the web frontends, which need npm
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: ".nvmrc"
+
+      - uses: julia-actions/setup-julia@v3.0.3
+        with:
+          arch: ${{ matrix.julia_arch }}
+
+      - name: Configure
+        run: |
+          just config "-DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=$CONDA_PREFIX -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX -DCMAKE_INSTALL_LIBDIR=lib ${{ matrix.extra_cmake_flags }} -G Ninja ."
+
+      - name: Build
+        run: just build
+
+      - name: Set Python Environment for Nelson
+        run: just setup_python
+
+      - name: Set Julia Environment for Nelson
+        run: just setup_julia
+
+      - name: Build help
+        run: just build_help
+
+      - name: Minimal tests
+        run: just minimal_tests

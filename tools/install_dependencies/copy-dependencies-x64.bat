@@ -211,6 +211,15 @@ robocopy "%SRC%" "%BIN_DIR%" *.dll /NJH /NJS /NFL /NDL >nul 2>&1
 set rc=%ERRORLEVEL%
 if %rc% GEQ 8 ( echo ERROR: Failed to copy highs DLLs (robocopy rc=%rc%) & exit /b 1 )
 
+set "SRC=%THIRD_PARTY__DIR%\qhull\bin"
+if not exist "%SRC%\" (
+    echo ERROR: Source folder not found: "%SRC%"
+    exit /b 1
+)
+robocopy "%SRC%" "%BIN_DIR%" *.dll /NJH /NJS /NFL /NDL >nul 2>&1
+set rc=%ERRORLEVEL%
+if %rc% GEQ 8 ( echo ERROR: Failed to copy qhull DLLs (robocopy rc=%rc%) & exit /b 1 )
+
 set "SRC=%THIRD_PARTY__DIR%\arrow\bin"
 if not exist "%SRC%\" (
     echo ERROR: Source folder not found: "%SRC%"

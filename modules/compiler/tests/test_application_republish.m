@@ -12,7 +12,7 @@ ncc('--help');
 check_republication();
 
 function check_republication()
-  work = tempname(fullfile(nelsonroot(), 'temp'));
+  work = tempname(tempdir());
   mkdir(work);
   cleanup = onCleanup(@() remove_work(work));
   source = fullfile(work, 'staged');
@@ -103,7 +103,7 @@ function rejected(callback)
 end
 
 function remove_work(work)
-  allowed = fullpath(fullfile(nelsonroot(), 'temp'));
-  asserts.istrue(startsWith(fullpath(work), [allowed, '/']));
+  allowed = tempdir();
+  asserts.istrue(startsWith(fullpath(work), allowed));
   if isfolder(work); rmdir(work, 's'); end
 end

@@ -68,6 +68,17 @@ function text = local_label(object)
       return;
     end
   end
+  % an axes is known by its title, as in the figure toolbar
+  if isprop(object, 'Title')
+    value = get(object, 'Title');
+    if isgraphics(value) && isprop(value, 'String')
+      value = get(value, 'String');
+      if ischar(value) && ~isempty(value)
+        text = char(value);
+        return;
+      end
+    end
+  end
   if isprop(object, 'Tag')
     value = get(object, 'Tag');
     if ~isempty(value)

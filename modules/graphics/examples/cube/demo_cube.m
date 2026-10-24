@@ -37,7 +37,7 @@ colors = rand(colorCount, 3);
 lineGroups = mod(0:numLines - 1, colorCount) + 1;
 
 % Create figure
-f = figure('Visible', 'off');
+f = figure('SelectionHighlight', 'off', 'Visible', 'off');
 ax = axes('Parent', f);
 axis off
 grid on;

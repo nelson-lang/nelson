@@ -466,6 +466,9 @@ namespace NFlow {
         // Directory of the .nflow file (for resolving relative asset paths, e.g.
         // imported FMU packages). Empty/nullptr for an unsaved diagram.
         const std::string* baseDir = nullptr;
+        // Roots of the packaged example trees for nflow-example:/<namespace>/... asset
+        // paths: "fmi" for nflow_fmi, "" for the nflow_blocks categories. Optional.
+        const std::map<std::string, std::string>* exampleRoots = nullptr;
         // Signal tables resolved by buildSignalLayout before the run. When null, every
         // port is a scalar double and the outputBase arithmetic applies.
         const std::vector<PortSig>* sigs = nullptr; // [gpi]

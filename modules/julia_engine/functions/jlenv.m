@@ -58,11 +58,7 @@ function varargout = jlenv(varargin)
 end
 %=============================================================================
 function result = getJuliaCommandResult(julia, juliaScript)
-  if ispc()
-    cmd = ['"', convertStringsToChars(julia), '"', ' ', '"', convertStringsToChars(juliaScript), '"'];
-  else
-    cmd = [convertStringsToChars(julia), ' ', convertStringsToChars(juliaScript)];
-  end
+  cmd = ['"', convertStringsToChars(julia), '"', ' ', '"', convertStringsToChars(juliaScript), '"'];
   [status, result] = unix(cmd);
   if (status ~= 0)
     error('Nelson:jlenv:cannotCallJulia', 'Impossible to call Julia. Check path.');

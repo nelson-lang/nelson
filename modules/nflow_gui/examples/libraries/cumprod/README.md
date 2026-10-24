@@ -1,90 +1,134 @@
-# Example: Custom C++ Block Library - `cumprod`
+# Example: custom C++ block library (cumprod)
 
-This directory is an end-to-end example of how to create a **native block library** for nflow.
-It implements a single block, **Cumulative Product** (`cumprod`), using the full plugin API —
-including the optional `nfGetBlockCodegen` export so the block participates in
-`nflow_codegenerate` (C and Rust) exactly like a built-in.
+This directory is a complete example of a native block library for nflow. It
+provides one block, Cumulative Product (cumprod), and uses the full plugin API.
+It also exports the optional `nfGetBlockCodegen` function, so the block can be
+used by `nflow_codegenerate` to produce C and Rust code like a built-in block.
 
-> Full authoring guide: see the `nflow-create-block` AI skill in `modules/ai/skills-catalog/nflow/create-block/SKILL.md`
+The full authoring guide is the `nflow-create-block` AI skill in
+`modules/ai/skills-catalog/nflow/create-block/SKILL.md`.
 
-| File             | Purpose                                                      |
-| ---------------- | ------------------------------------------------------------ |
-| `library.json`  | Library metadata, block list, phases **and block geometry**  |
-| `blocks.js`      | JS module: SVG render functions (`blockDefinitions` export)  |
-| `cumprod.cpp`    | C++ native simulation handler (compiled to a shared library) |
-| `CMakeLists.txt` | CMake build script for the shared library                    |
+| File          | Purpose                                                      |
+| ------------- | ------------------------------------------------------------ |
+| `library.json`| Library metadata, block list, phases, and block geometry     |
+| `blocks.js`   | JS module with the SVG render functions (`blockDefinitions`) |
+| `cumprod.cpp` | C++ simulation handler, compiled to a shared library         |
+| `builder.m`   | Build script, based on the Nelson build tools                |
 
----
+## The block
 
-## Block: Cumulative Product
-
-Computes the running product of all input samples:
+The block computes the running product of the input samples:
 
 ```
 y(0) = u(0)
-y(k) = y(k−1) × u(k)
+y(k) = y(k-1) * u(k)
 ```
 
-One input, one output. The accumulator resets to 1 when the simulation is initialized.
+It has one input and one output. The accumulator is reset to 1 when the
+simulation starts.
 
----
-
-## Directory Layout
+## Directory layout
 
 ```
 cumprod/
-  library.json          ← required by the library loader
-  blocks.js              ← required by the library loader (JS side)
-  cumprod.cpp            ← native plugin source
-  CMakeLists.txt         ← build script
-  nflow_cumprod(.dll, .dylib, .so) ← platform extension automatically appended
+  library.json     required by the library loader
+  blocks.js        required by the library loader (JS side)
+  cumprod.cpp      native plugin source
+  builder.m        build script (uses the Nelson dynamic_link tools)
+  nflow_cumprod.*  produced by builder.m; the extension depends on the platform
 ```
 
----
+## Building the native plugin
 
-## How to Build the Native Plugin
+The plugin is built with the Nelson build tools, so there is no CMakeLists.txt
+to write and no path to set by hand. The `builder.m` script uses the
+`dynamic_link` module (`dlgeneratemake` and `dlmake`) together with the two
+nflow helper functions `dlgetnflowincludes` and `dlgetnflowlibraries`. The same
+script works both from the Nelson source tree and from an installation.
 
-### Prerequisites
+Requirements:
 
-- CMake ≥ 3.16
-- A C++17 compiler (MSVC, GCC, Clang)
-- A built nflow installation (so `nlsNflow_blocks` import-lib / shared-lib exists)
+- A Nelson build or installation with the `nflow` and `dynamic_link` modules.
+- A C++17 compiler. Test it with `havecompiler()`. On Windows, run
+  `configuremsvc()` first if needed. See `doc supported_compiler`.
 
-### Steps
+For an installed Nelson, the nflow headers (from `nflow_blocks`) and the
+`nlsNflow_blocks` import library are part of the Dynamic link component. Select
+that component when you install Nelson.
 
-```bash
-# From this directory:
-cmake -S . -B build \
-    -DNFLOW_ROOT=/path/to/nflow
+To build, run the following in Nelson from this directory:
 
-cmake --build build --config Release
-cmake --install build
+```matlab
+cd([modulepath('nflow_gui'), '/examples/libraries/cumprod']);
+builder
 ```
 
-On Windows (MSVC), `nflow_cumprod.dll` will be copied here.
-On Linux, `nflow_cumprod.so`. On macOS, `nflow_cumprod.dylib`.
+The shared library is written next to `library.json`, with the name given in
+the `native` field of the manifest:
 
-> **Note**: the filename must match the `"native"` field in `library.json`.
+- Windows: `nflow_cumprod.dll`
+- Linux: `nflow_cumprod.so`
+- macOS: `nflow_cumprod.dylib`
 
----
+The file name must match the `native` field in `library.json`. The script reads
+that field, so the two stay in sync.
 
-## How to Use This Library in nflow
+### What builder.m does
+
+```matlab
+[ok, msg] = dlgeneratemake('dynamic_library', buildDir, 'nflow_cumprod', ...
+  {source}, dlgetnflowincludes(), {}, dlgetnflowlibraries());
+[ok, msg] = dlmake(buildDir);
+```
+
+- `dlgetnflowincludes()` returns the `nflow_blocks` headers and the Nelson SDK
+  include directories. The Nelson directories provide `nlohmann/json.hpp`, which
+  is included by `SimEngineTypes.hpp`.
+- `dlgetnflowlibraries()` returns `nlsNflow_blocks`. That library exports the
+  simulation helpers (`getInput`, `getState`, `setOutput`, `updated`, and so
+  on).
+- `dlgeneratemake` writes a CMake project in a temporary directory and `dlmake`
+  builds it with the compiler that Nelson is configured to use. The script then
+  copies the result into this directory and removes the temporary directory.
+
+## Using this library in nflow
+
+### In the nflow editor
 
 1. Build the plugin (see above).
-2. In nflow's Library Manager panel, click **+** (or add a search path) and point it at the
-   parent directory of this folder (i.e., the `libraries/` directory containing `cumprod/`).
-3. Tick **Example C++** in the library list.
-4. The **Cum. Product** block appears in the palette under the _Example C++_ group.
+2. In the nflow Library Manager panel, click `+` (or add a search path) and
+   select the parent directory of this folder, that is the `libraries/`
+   directory that contains `cumprod/`.
+3. Check Example C++ in the library list.
+4. The Cum. Product block appears in the palette, in the Example C++ group.
 
----
+### From Nelson commands
 
-## Plugin API Reference
+Add the directory that contains the `cumprod/` folder (the `libraries/`
+directory) to the nflow search paths with `NFlow.addlibrarypath`. It scans that
+directory and loads every sub-directory that holds a `library.json` next to its
+native library, so the blocks become available to `sim` and code generation.
 
-### `library.json` schema
+```matlab
+% Build the plugin, then make it visible to the engine.
+builder
+NFlow.addlibrarypath([modulepath('nflow_gui'), '/examples/libraries']);
 
-Block geometry (`width`, `height`, `inputs`, `outputs`, `defaultParams`) lives
-here alongside phases - the library-loader derives the palette descriptor
-and template skeleton from the manifest automatically.
+% Run a model that uses the Cum. Product block.
+out = sim('my_model.nflow');
+```
+
+Related commands: `NFlow.librarypaths()` lists the current search paths and
+`NFlow.rmlibrarypath(folder)` removes one. The editor manages the same paths
+through the Library Manager panel.
+
+## Plugin API reference
+
+### library.json
+
+The block geometry (`width`, `height`, `inputs`, `outputs`, `defaultParams`) is
+defined here, next to the phases. The library loader builds the palette entry
+and the template from the manifest.
 
 ```json
 {
@@ -107,43 +151,43 @@ and template skeleton from the manifest automatically.
 }
 ```
 
-### `blocks.js` exports
+### blocks.js
 
-Only SVG render functions are needed - everything else is derived from the manifest.
+Only the SVG render functions are needed. The rest is read from the manifest.
 
 ```js
-// Primary form – blockDefinitions (type → { render })
+// Main form: blockDefinitions (type to { render })
 export const blockDefinitions = {
   myBlock: {
-    render(block, { svgRect, createSvgElement, /* … */ }) {
-      // populate block.group with SVG elements
+    render(block, { svgRect, createSvgElement }) {
+      // add SVG elements to block.group
     },
   },
 };
 
-// Backward-compatible alias (still supported)
+// Compatible alias (still supported)
 export const renderers = {
   myBlock: (block, helpers) => blockDefinitions.myBlock.render(block, helpers),
 };
 ```
 
-### Native plugin C API (`BlockPlugin.h`)
+### Native plugin C API (BlockPlugin.h)
 
 ```c
-// Required – ABI handshake (loader refuses mismatched plugins)
+// Required. ABI check: the loader rejects a plugin with a wrong version.
 int nfGetAbiVersion(void);   // must return NF_PLUGIN_ABI_VERSION
 
-// Required – handler table
+// Required. Handler table.
 const NfBlockHandlerEntry* nfGetBlockHandlers(int* count);
 
-// Optional (phases can come from library.json instead)
+// Optional. Phases can also be read from library.json.
 const char* nfGetPhaseInfo(void);
 ```
 
-`NfBlockHandlerFn` signature (typed against `SimEngineTypes.hpp`):
+The `NfBlockHandlerFn` signature is typed against `SimEngineTypes.hpp`:
 
 ```cpp
-// C ABI wrapper receives opaque pointers; cast to the real types:
+// The C ABI passes opaque pointers. Cast them to the real types.
 static int myHandler(void* ctx, const void* block, int phase)
 {
     SimCtx&      simCtx = *static_cast<SimCtx*>(ctx);
@@ -151,16 +195,16 @@ static int myHandler(void* ctx, const void* block, int phase)
     Phase        ph     = static_cast<Phase>(phase);
     // 0=INIT  1=OUTPUT  2=ALGEBRAIC  3=AFTER_STEP  4=UPDATE
     // 5=DERIVATIVE  6=ZERO_CROSSING  7=EVENT
-    ...
 }
 ```
 
-Available helper functions (declared in `SimEngineTypes.hpp`):
+The helper functions are declared in `SimEngineTypes.hpp` and exported by
+`nlsNflow_blocks`:
 
-| Helper                                       | Description                                       |
-| -------------------------------------------- | ------------------------------------------------- |
-| `getInput(ctx, id, portIdx, fallback)`       | Read scalar input at port                         |
-| `getState(ctx, id)`                          | Get mutable `BlockState&` for the block           |
-| `setOutput(ctx, id, value, port=0)`          | Write a scalar to an output port                  |
-| `updated(ctx, id, newVal, port=0)`           | Write output and return convergence flag          |
-| `param(block, vars, key, fallback)`          | Read a block parameter with variable substitution |
+| Helper                                  | Description                               |
+| --------------------------------------- | ----------------------------------------- |
+| `getInput(ctx, id, portIdx, fallback)`  | Read a scalar input on a port             |
+| `getState(ctx, id)`                     | Get the mutable `BlockState&` of a block  |
+| `setOutput(ctx, id, value, port=0)`     | Write a scalar to an output port          |
+| `updated(ctx, id, newVal, port=0)`      | Write an output and return the converge flag |
+| `param(block, vars, key, fallback)`     | Read a block parameter with substitution  |

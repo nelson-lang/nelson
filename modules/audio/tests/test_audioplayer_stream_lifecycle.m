@@ -12,6 +12,9 @@
 %=============================================================================
 skip_testsuite(iswasm(), ...
   'WebAssembly audio playback is queued through browser actions; this desktop lifecycle timing test targets PortAudio stream state.');
+% the hosted macOS runner has a virtual output device that does not consume samples in real time
+skip_testsuite(ismac() && strcmp(getenv('GITHUB_ACTIONS'), 'true'), ...
+  'The macOS GitHub runner audio device does not play in real time.');
 %=============================================================================
 % Sequences of non-blocking players: each one must play in real time,
 % whatever happened to the previous one (natural end, stop, delete).

@@ -82,13 +82,15 @@ TEST_CASE("continuous handlers update state and outputs")
         checkClose(h.output(0), 1.0 - 2.0 * M_PI * 0.1);
     }
     {
-        // The ALGEBRAIC phase recomputes the backward difference
-        // (u - u_prev) / dt from the current input at the sample, with no
-        // one-sample latch: INIT seeds u_prev = 0, so the first evaluation
-        // already reports (2.0 - 0) / 0.1.
+        // The first committed sample seeds u_prev with the input and reports 0;
+        // the next ALGEBRAIC recomputes (u - u_prev) / dt from the current input.
         auto h = statefulWithInput("derivative", json::object(), 2.0);
         h.dt = 0.1;
         h.run(0, Phase::INIT);
+        h.run(0, Phase::ALGEBRAIC);
+        checkClose(h.output(0), 0.0);
+        h.run(0, Phase::UPDATE);
+        h.setOutputValue(1, 4.0);
         h.run(0, Phase::ALGEBRAIC);
         checkClose(h.output(0), 20.0);
     }
@@ -99,8 +101,7 @@ TEST_CASE("continuous handlers update state and outputs")
             3.0);
         h.dt = 0.1;
         h.run(0, Phase::INIT);
-        h.run(0, Phase::UPDATE);
-        h.run(0, Phase::OUTPUT);
+        h.run(0, Phase::ALGEBRAIC);
         checkClose(h.output(0), 6.3);
     }
 }
@@ -118,8 +119,7 @@ TEST_CASE("discrete handlers update sampled state")
     {
         auto h = statefulWithInput("foh", { { nflow::kTs, 0.1 } }, 4.0);
         h.run(0, Phase::INIT);
-        h.run(0, Phase::UPDATE);
-        h.run(0, Phase::OUTPUT);
+        h.run(0, Phase::ALGEBRAIC);
         checkClose(h.output(0), 4.0);
     }
     {
@@ -128,8 +128,7 @@ TEST_CASE("discrete handlers update sampled state")
                 { nflow::kTs, 0.1 } },
             3.0);
         h.run(0, Phase::INIT);
-        h.run(0, Phase::UPDATE);
-        h.run(0, Phase::OUTPUT);
+        h.run(0, Phase::ALGEBRAIC);
         checkClose(h.output(0), 6.0);
     }
     {
@@ -146,7 +145,7 @@ TEST_CASE("discrete handlers update sampled state")
             5.0);
         h.run(0, Phase::INIT);
         h.run(0, Phase::UPDATE);
-        h.run(0, Phase::OUTPUT);
+        h.run(0, Phase::ALGEBRAIC);
         checkClose(h.output(0), 5.0);
     }
     {

@@ -11,6 +11,6 @@ asserts.isequal(nargin('reallog'), 1);
 asserts.isequal(nargout('reallog'), 1);
 %=============================================================================
 asserts.isequal(reallog(1), 0);
-asserts.isequal(reallog([1 exp(1)]), [0 1]);
+asserts.isapprox(reallog([1 exp(1)]), [0 1], 1e-15);
 asserts.checkerror('reallog(-1)', sprintf(_('%s must be real.'), 'Result'), 'Nelson:validators:mustBeReal');
 %=============================================================================

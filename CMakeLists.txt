@@ -860,9 +860,40 @@ add_subdirectory(locale)
 add_subdirectory(resources)
 add_subdirectory(desktop)
 # ==============================================================================
-# Module skeleton install
+# Install tools/ scripts used by CI and packaged installers
 # ==============================================================================
-include(ModuleSkeletonConfig)
+set(_tools_dest "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/tools")
+
+install(
+  DIRECTORY ${CMAKE_SOURCE_DIR}/tools/tests_all/
+  DESTINATION ${_tools_dest}/tests_all
+)
+
+install(
+  DIRECTORY ${CMAKE_SOURCE_DIR}/tools/benchmark_all/
+  DESTINATION ${_tools_dest}/benchmark_all
+)
+
+install(
+  DIRECTORY ${CMAKE_SOURCE_DIR}/tools/tests_result/
+  DESTINATION ${_tools_dest}/tests_result
+)
+
+install(
+  DIRECTORY ${CMAKE_SOURCE_DIR}/tools/module_CI/
+  DESTINATION ${_tools_dest}/module_CI
+)
+
+install(
+  DIRECTORY ${CMAKE_SOURCE_DIR}/tools/python_environment_CI/
+  DESTINATION ${_tools_dest}/python_environment_CI
+)
+
+install(
+  DIRECTORY ${CMAKE_SOURCE_DIR}/tools/julia_environment_CI/
+  DESTINATION ${_tools_dest}/julia_environment_CI
+)
+
 # ==============================================================================
 # Install documentation files
 # ==============================================================================

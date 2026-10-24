@@ -167,18 +167,50 @@ async function setSliderNearMaximum(page: import('@playwright/test').Page): Prom
   );
 }
 //=============================================================================
-async function saveToDashboardTemp(page: import('@playwright/test').Page): Promise<void> {
+// In the web host the application saves through the browser: the test turns the
+// File System Access picker off so the download fallback runs, and stores the
+// download where the test expects the model. The embedded WebView host keeps
+// the in-app file dialog.
+async function hostMode(page: import('@playwright/test').Page): Promise<string> {
+  return page.evaluate(async () => {
+    const raw = await (window as any).webui.call(
+      'rpc',
+      JSON.stringify({ id: 1, method: 'nflow.host.mode', params: {} })
+    );
+    const parsed = JSON.parse(String(raw));
+    return String(parsed.result?.mode ?? 'web');
+  });
+}
+//=============================================================================
+// Returns the path of the saved model. The in-app dialog starts in the engine's
+// current directory, so the test types the full target path as the file name.
+async function saveToDashboardTemp(
+  page: import('@playwright/test').Page,
+  target: string
+): Promise<string> {
+  if ((await hostMode(page)) === 'web') {
+    await page.evaluate(() => {
+      (window as any).showSaveFilePicker = undefined;
+    });
+    const downloading = page.waitForEvent('download');
+    await page.locator('.menubar-item[data-menu="file"]').click();
+    await page.locator('.menubar-item[data-action="saveAs"]').click();
+    const download = await downloading;
+    await download.saveAs(target);
+    await expect(page.locator('#statusBarInfo')).toContainText('Saved', { timeout: 10_000 });
+    return target;
+  }
   await page.locator('.menubar-item[data-menu="file"]').click();
   await page.locator('.menubar-item[data-action="saveAs"]').click();
   const dialog = page.getByRole('dialog');
   await expect(dialog).toBeVisible();
-  const temp = dialog.getByRole('option', { name: /temp/i });
-  if ((await temp.count()) > 0) await temp.dblclick();
-  const dashboardTemp = dialog.getByRole('option', { name: /nflow-dashboard-b2b/i });
-  if ((await dashboardTemp.count()) > 0) await dashboardTemp.dblclick();
-  await dialog.getByPlaceholder('File name').fill('dashboard-complete-runtime.nflow');
+  await dialog.getByPlaceholder('File name').fill(target.replace(/\\/g, '/'));
   await dialog.getByRole('button', { name: 'Save', exact: true }).click();
-  await expect(page.locator('#statusBarInfo')).toContainText('Saved', { timeout: 10_000 });
+  // a refused write reports "Save error: ..." in the status bar after the 30 s bridge timeout
+  // at the latest: wait past it so the failure names its cause
+  await expect(page.locator('#statusBarInfo')).toContainText(/Saved|error/, { timeout: 40_000 });
+  await expect(page.locator('#statusBarInfo')).toContainText('Saved');
+  return target;
 }
 //=============================================================================
 test('a dashboard control updates its bound parameter at the next major step', async ({ page }) => {
@@ -339,17 +371,17 @@ test('all dashboard blocks persist and interact during real simulations', async 
   await expect(page.locator('#statusBarInfo')).toContainText('Done', { timeout: 30_000 });
   expect(Number(await page.locator('.dashboard-display-value').textContent())).toBeGreaterThan(100);
 
-  await saveToDashboardTemp(page);
+  const savedModel = await saveToDashboardTemp(page, completeModel);
   await expect
     .poll(() => {
-      const saved = JSON.parse(fs.readFileSync(completeModel, 'utf8')) as any;
+      const saved = JSON.parse(fs.readFileSync(savedModel, 'utf8')) as any;
       return saved.blocks.find((block: any) => block.id === 'gain')?.params?.Gain;
     })
     .toBeGreaterThan(50);
 
   await page.reload();
   await page.waitForSelector('#svgCanvas');
-  await page.locator('#fileOpenInput').setInputFiles(completeModel);
+  await page.locator('#fileOpenInput').setInputFiles(savedModel);
   await expect(page.locator('#blockLayer .dashboard-block')).toHaveCount(20);
   await page.locator('#floatingToolbar [data-action="run"]').click();
   await expect(page.locator('#statusBarInfo')).toContainText('Done', { timeout: 30_000 });

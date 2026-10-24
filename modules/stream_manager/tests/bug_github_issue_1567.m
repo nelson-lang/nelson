@@ -12,11 +12,7 @@
 % <-- Short Description -->
 % UTF-16LE output despite encoding='UTF-8' in fprintf builtin (Windows)
 %=============================================================================
-testdir = fileparts(mfilename('fullpath'));
-if isempty(testdir)
-  testdir = pwd;
-end
-testfile = fullfile(testdir, 'bug_1567_results.txt');
+testfile = fullfile(tempdir(), ['bug_1567_results_', createGUID(), '.txt']);
 if isfile(testfile)
   rmfile(testfile);
 end

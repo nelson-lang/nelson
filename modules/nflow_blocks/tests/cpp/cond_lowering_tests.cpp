@@ -101,7 +101,9 @@ TEST_CASE("condGate emits the level guard and the trigger edge memory")
     auto ta = trig.args("g2");
     tc.emitStep(ta);
     CHECK(trig.contains("nfgh_g2"));
-    CHECK(trig.contains("nfgp_g2 <= 0.0 && in0_expr > 0.0"));
+    CHECK(trig.contains("s->nfgh_g2 != 0.0 && ("));
+    CHECK(trig.contains(
+        "(s->nfgp_g2 < 0.0 && in0_expr >= 0.0) || (s->nfgp_g2 == 0.0 && in0_expr > 0.0)"));
 }
 //=============================================================================
 TEST_CASE("condHold latches while its gate is open and replays the latch")
@@ -132,7 +134,9 @@ TEST_CASE("condLatch rewrites its gate's edge memory")
     latch.params = { { "gate", "sub__nfg" } };
     auto la = latch.args("l1");
     tc.emitStep(la);
-    CHECK(latch.contains("s->nfgp_sub__nfg = in0_expr;"));
+    // a control resting on zero keeps the side it arrived from, otherwise it is latched as is
+    CHECK(latch.contains("s->nfgp_sub__nfg = (in0_expr == 0.0 && s->nfgh_sub__nfg != 0.0) ?"));
+    CHECK(latch.contains(": (in0_expr);"));
     CHECK(latch.contains("s->nfgh_sub__nfg = 1.0;"));
 }
 //=============================================================================

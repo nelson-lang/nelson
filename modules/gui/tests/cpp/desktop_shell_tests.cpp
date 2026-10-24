@@ -485,7 +485,10 @@ testCurrentDirectoryWidget()
     check(field->text() == QDir::toNativeSeparators(repositoryDirectory),
         "a valid directory must be displayed with native separators after Enter");
 
-    const QString tempDirectory = QDir::cleanPath(repositoryDirectory + "/temp");
+    // a scratch directory, the gitignored <repo>/temp folder is absent on CI checkouts
+    QTemporaryDir scratchDirectory;
+    check(scratchDirectory.isValid(), "the recent-directory scratch directory must exist");
+    const QString tempDirectory = QDir::cleanPath(scratchDirectory.path());
     widget.setDirectories({ repositoryDirectory, tempDirectory });
     check(combo->count() == 2 && combo->itemData(0).toString() == repositoryDirectory,
         "the directory combo box must preserve recent-directory order and path data");

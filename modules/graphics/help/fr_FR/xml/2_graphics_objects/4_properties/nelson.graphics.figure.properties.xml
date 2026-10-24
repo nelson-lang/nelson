@@ -263,6 +263,11 @@
         <td>Type: on/off value. Valeurs prises en charge: 'on', 'off', true ou false.</td>
       </tr>
       <tr>
+        <td><b>SelectionHighlight</b></td>
+        <td>'off' masque le cadre dessine autour de l'axes sous le pointeur pour tous les axes de la figure ; les gestes de navigation restent disponibles.</td>
+        <td>Type: on/off value. Valeurs prises en charge: 'on', 'off', true ou false.</td>
+      </tr>
+      <tr>
         <td><b>Scrollable</b></td>
         <td>met a jour le rendu au prochain rafraichissement graphique.</td>
         <td>Type: on/off value. Valeurs prises en charge: 'on', 'off', true ou false.</td>
@@ -299,7 +304,7 @@
       </tr>
       <tr>
         <td><b>ToolBar</b></td>
-        <td>met a jour le rendu au prochain rafraichissement graphique.</td>
+        <td>'none' masque les outils de navigation et la barre de details du trace, dans la fenetre native et dans le panneau figure web ; les gestes souris et les raccourcis clavier restent disponibles.</td>
         <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'none', 'figure', 'auto'.</td>
       </tr>
       <tr>

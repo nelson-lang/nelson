@@ -249,6 +249,8 @@ public:
     void
     print(char const*, int);
     void
+    wake(void);
+    void
     set_prompt(std::string prompt);
     Replxx::ACTION_RESULT
     clear_screen(char32_t);

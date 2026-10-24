@@ -127,6 +127,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
+      <DebugInformationFormat>None</DebugInformationFormat>
       <WarningLevel>Level3</WarningLevel>
       <PrecompiledHeader>
       </PrecompiledHeader>
@@ -144,13 +145,14 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
     <ClCompile>
+      <DebugInformationFormat>None</DebugInformationFormat>
       <WarningLevel>Level3</WarningLevel>
       <PrecompiledHeader>
       </PrecompiledHeader>
@@ -167,7 +169,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
@@ -206,6 +208,9 @@
     <ClCompile Include="..\cpp\nflow_layoutBuiltin.cpp" />
     <ClCompile Include="..\cpp\nflow_lineNameBuiltin.cpp" />
     <ClCompile Include="..\cpp\nflow_rerouteBuiltin.cpp" />
+    <ClCompile Include="..\cpp\nflow_addlibrarypathBuiltin.cpp" />
+    <ClCompile Include="..\cpp\nflow_librarypathsBuiltin.cpp" />
+    <ClCompile Include="..\cpp\nflow_rmlibrarypathBuiltin.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -243,6 +248,9 @@
     <ClInclude Include="..\include\nflow_layoutBuiltin.hpp" />
     <ClInclude Include="..\include\nflow_lineNameBuiltin.hpp" />
     <ClInclude Include="..\include\nflow_rerouteBuiltin.hpp" />
+    <ClInclude Include="..\include\nflow_addlibrarypathBuiltin.hpp" />
+    <ClInclude Include="..\include\nflow_librarypathsBuiltin.hpp" />
+    <ClInclude Include="..\include\nflow_rmlibrarypathBuiltin.hpp" />
     <ClInclude Include="..\include\NFlowBuiltinHelpers.hpp" />
     <ClInclude Include="..\include\NFlowNelsonBridge.hpp" />
     <ClInclude Include="..\include\nlsNflow_engine_builtin_exports.h" />

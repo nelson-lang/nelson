@@ -236,8 +236,8 @@ TEST_CASE("multiportSwitch routes the control-selected data input")
     checkClose(run(1.0), 10.0);
     checkClose(run(2.0), 20.0);
     checkClose(run(3.0), 30.0);
-    // Rounds to nearest, clamps out-of-range to the first / last data port.
-    checkClose(run(1.6), 20.0);
+    // Truncates to the integer part, clamps out-of-range to the first / last data port.
+    checkClose(run(1.6), 10.0);
     checkClose(run(0.0), 10.0);
     checkClose(run(9.0), 30.0);
 }

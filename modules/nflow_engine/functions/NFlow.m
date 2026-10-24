@@ -17,6 +17,46 @@ classdef NFlow
       connection = __nflow_connectBlocks__(src, dst, varargin{:});
     end
 
+    function paths = addlibrarypath(folder)
+      % NFlow.addlibrarypath  Add an nflow block library search path.
+      %   NFlow.addlibrarypath(folder)
+      %   paths = NFlow.addlibrarypath(folder)
+      %
+      %   folder is a directory that holds one or more library sub-folders,
+      %   each with a library.json and its native library. The folder is added
+      %   to the search paths and scanned, so its blocks become available to
+      %   sim, code generation and the editor without restarting Nelson.
+      %
+      %   With an output, paths is the updated list of search paths (a cell
+      %   array of char).
+      narginchk(1, 1);
+      if nargout == 0
+        __nflow_addlibrarypath__(folder);
+      else
+        paths = __nflow_addlibrarypath__(folder);
+      end
+    end
+
+    function paths = librarypaths()
+      % NFlow.librarypaths  Return the nflow block library search paths.
+      %   paths = NFlow.librarypaths()
+      paths = __nflow_librarypaths__();
+    end
+
+    function paths = rmlibrarypath(folder)
+      % NFlow.rmlibrarypath  Remove an nflow block library search path.
+      %   NFlow.rmlibrarypath(folder)
+      %   paths = NFlow.rmlibrarypath(folder)
+      %
+      %   With an output, paths is the updated list of search paths.
+      narginchk(1, 1);
+      if nargout == 0
+        __nflow_rmlibrarypath__(folder);
+      else
+        paths = __nflow_rmlibrarypath__(folder);
+      end
+    end
+
     function figures = plotScopes(out)
       % NFlow.plotScopes  Open one figure per scope of a simulation result.
       %   figures = NFlow.plotScopes(out)

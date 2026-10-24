@@ -14,51 +14,51 @@
 %=============================================================================
 addpath([modulepath('interpreter', 'tests'), '/classdef']);
 %=============================================================================
-% ClassdefPoint.m line 20 declares magnitude, line 21 is its only statement.
+% ClassdefPoint.m line 29 declares magnitude, line 30 is its only statement.
 dbclear all
-dbstop in ClassdefPoint at 20
+dbstop in ClassdefPoint at 29
 bp = dbstatus();
 asserts.isequal(bp.name, 'ClassdefPoint');
 asserts.istrue(endsWith(bp.file, 'ClassdefPoint.m'));
-asserts.isequal(bp.line, 21);
+asserts.isequal(bp.line, 30);
 %=============================================================================
-% line 24 declares shift, line 25 is its first statement
+% line 33 declares shift, line 34 is its first statement
 dbclear all
-dbstop in ClassdefPoint at 24
+dbstop in ClassdefPoint at 33
 bp = dbstatus();
-asserts.isequal(bp.line, 25);
+asserts.isequal(bp.line, 34);
 %=============================================================================
-% line 31 declares the static method origin, line 32 is its first statement
+% line 40 declares the static method origin, line 41 is its first statement
 dbclear all
-dbstop in ClassdefPoint at 31
+dbstop in ClassdefPoint at 40
 bp = dbstatus();
-asserts.isequal(bp.line, 32);
+asserts.isequal(bp.line, 41);
 %=============================================================================
-% the constructor still answers for its own lines: 13 declares it, 14 opens the
+% the constructor still answers for its own lines: 22 declares it, 23 opens the
 % body, and both are reported as executable
 dbclear all
-dbstop in ClassdefPoint at 14
+dbstop in ClassdefPoint at 23
 bp = dbstatus();
-asserts.isequal(bp.line, 14);
+asserts.isequal(bp.line, 23);
 %=============================================================================
-% line 30 opens the methods (Static) block and line 36 is past the end of the
+% line 39 opens the methods (Static) block and line 45 is past the end of the
 % file: no method body covers either
 dbclear all
-asserts.checkerror('dbstop in ClassdefPoint at 30', ...
-  _('Cannot set breakpoint at line 30: no executable statement found.'), ...
+asserts.checkerror('dbstop in ClassdefPoint at 39', ...
+  _('Cannot set breakpoint at line 39: no executable statement found.'), ...
   'Nelson:dbstop:invalidArgument');
-asserts.checkerror('dbstop in ClassdefPoint at 36', ...
-  _('Cannot set breakpoint at line 36: no executable statement found.'), ...
+asserts.checkerror('dbstop in ClassdefPoint at 45', ...
+  _('Cannot set breakpoint at line 45: no executable statement found.'), ...
   'Nelson:dbstop:invalidArgument');
 %=============================================================================
 % a handle class exposes delete as the generated destructor protocol; the
-% written body, declared line 78 of ClassdefCounter.m, still owns line 79
+% written body, declared line 87 of ClassdefCounter.m, still owns line 88
 dbclear all
-dbstop in ClassdefCounter at 78
+dbstop in ClassdefCounter at 87
 bp = dbstatus();
 asserts.isequal(bp.name, 'ClassdefCounter');
 asserts.istrue(endsWith(bp.file, 'ClassdefCounter.m'));
-asserts.isequal(bp.line, 79);
+asserts.isequal(bp.line, 88);
 %=============================================================================
 dbclear all
 %=============================================================================

@@ -7,6 +7,10 @@
 set -e  # Exit immediately if a command exits with a non-zero status
 set -o pipefail  # Return value of a pipeline is the value of the last command
 
+# never wait on a dpkg or needrestart prompt, a CI job would hang until its timeout
+export DEBIAN_FRONTEND=noninteractive
+export NEEDRESTART_MODE=a
+
 # Function to print messages
 print_status() {
     echo -e "\n===> $1"
@@ -30,8 +34,11 @@ fi
 print_status "Updating package lists"
 apt-get update --fix-missing -y
 
-print_status "Upgrading existing packages"
-apt-get upgrade -y
+# the GitHub runner image is already current, the upgrade costs minutes and can prompt
+if [ "$GITHUB_ACTIONS" != "true" ]; then
+    print_status "Upgrading existing packages"
+    apt-get upgrade -y
+fi
 
 # Just 1.33 or higher is required
 print_status "Installing Just"
@@ -80,7 +87,7 @@ apt-get install -y apt-transport-https ca-certificates gnupg software-properties
 
 print_status "Installing math libraries"
 apt-get install -y libopenblas-openmp-dev liblapack-dev libfftw3-dev \
-                   libeigen3-dev
+                   libeigen3-dev libarpack2-dev
 
 print_status "Installing HDF5 and MATIO libraries"
 apt-get install -y libhdf5-dev libmatio-dev

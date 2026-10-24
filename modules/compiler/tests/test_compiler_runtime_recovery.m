@@ -21,7 +21,7 @@ function check_runtime_recovery()
   oldPath = path();
   restorePath = onCleanup(@() path(oldPath));
   addpath(fullfile(modulepath('compiler'), 'tests'));
-  work = tempname(fullfile(nelsonroot(), 'temp'));
+  work = tempname(tempdir());
   mkdir(work);
   cleanup = onCleanup(@() remove_work(work));
   first = build_fixture(work, 'first', false);
@@ -60,7 +60,7 @@ function installer = build_fixture(work, name, extra)
 end
 
 function remove_work(work)
-  allowed = fullpath(fullfile(nelsonroot(), 'temp'));
-  asserts.istrue(startsWith(fullpath(work), [allowed, '/']));
+  allowed = tempdir();
+  asserts.istrue(startsWith(fullpath(work), allowed));
   if isfolder(work); rmdir(work, 's'); end
 end

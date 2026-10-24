@@ -67,5 +67,16 @@ target_link_libraries(ode_solvers_tests
     sundials_sunnonlinsolnewton
 )
 
+# SUNDIALS headers from an MPI-enabled build (Ubuntu, Fedora) pull in <mpi.h>
+if(NOT WIN32)
+  find_package(MPI COMPONENTS CXX)
+  if(MPI_CXX_FOUND)
+    target_include_directories(ode_solvers_tests
+      PRIVATE ${MPI_CXX_INCLUDE_DIRS}
+    )
+    target_link_libraries(ode_solvers_tests PRIVATE ${MPI_CXX_LIBRARIES})
+  endif()
+endif()
+
 enable_testing()
 add_test(NAME ode_solvers_tests COMMAND ode_solvers_tests)

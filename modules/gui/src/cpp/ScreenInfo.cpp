@@ -18,6 +18,9 @@
 #include <QtGui/QFontDatabase>
 #include "QStringConverter.hpp"
 #include <cmath>
+#if defined(__linux__)
+#include <dlfcn.h>
+#endif
 #ifdef _WIN32
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
@@ -197,6 +200,45 @@ nativePrimaryDisplay(std::wstring& deviceName, int& x, int& y, int& width, int& 
     }
     if (previous != nullptr) {
         SetThreadDpiAwarenessContext(previous);
+    }
+    return found;
+#elif defined(__linux__)
+    // before Qt opens the display, X11 itself answers: loaded at run time, no link dependency
+    // the SONAME shipped by every distribution first, the development link name as a fallback
+    void* x11 = dlopen("libX11.so.6", RTLD_LAZY);
+    if (x11 == nullptr) {
+        x11 = dlopen("libX11.so", RTLD_LAZY);
+    }
+    if (x11 == nullptr) {
+        return false;
+    }
+    using OpenDisplayFunction = void* (*)(const char*);
+    using CloseDisplayFunction = int (*)(void*);
+    using DefaultScreenFunction = int (*)(void*);
+    using DisplaySizeFunction = int (*)(void*, int);
+    auto openDisplay = reinterpret_cast<OpenDisplayFunction>(dlsym(x11, "XOpenDisplay"));
+    auto closeDisplay = reinterpret_cast<CloseDisplayFunction>(dlsym(x11, "XCloseDisplay"));
+    auto defaultScreen = reinterpret_cast<DefaultScreenFunction>(dlsym(x11, "XDefaultScreen"));
+    auto displayWidth = reinterpret_cast<DisplaySizeFunction>(dlsym(x11, "XDisplayWidth"));
+    auto displayHeight = reinterpret_cast<DisplaySizeFunction>(dlsym(x11, "XDisplayHeight"));
+    bool found = false;
+    if (openDisplay && closeDisplay && defaultScreen && displayWidth && displayHeight) {
+        void* display = openDisplay(nullptr);
+        if (display != nullptr) {
+            const int screen = defaultScreen(display);
+            width = displayWidth(display, screen);
+            height = displayHeight(display, screen);
+            closeDisplay(display);
+            found = width > 0 && height > 0;
+        }
+    }
+    dlclose(x11);
+    if (found) {
+        // the same units Qt reports without an Xft.dpi setting: one logical pixel per pixel
+        deviceName.clear();
+        x = 0;
+        y = 0;
+        dpi = 96.0;
     }
     return found;
 #else

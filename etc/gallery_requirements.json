@@ -97,6 +97,10 @@
     {
       "name": "external-application",
       "baseline": false
+    },
+    {
+      "name": "blas",
+      "baseline": false
     }
   ]
 }

@@ -29,18 +29,28 @@ set /p NODE_VERSION=<"%BAT_PATH%\..\..\.nvmrc"
 nvm version >nul 2>&1
 if errorlevel 1 (
     echo nvm-windows is not installed or not available in PATH. Installing with winget...
-    winget install --id CoreyButler.NVMforWindows --exact
+    winget install --id CoreyButler.NVMforWindows --exact --accept-source-agreements --accept-package-agreements
     if errorlevel 1 (
         echo Failed to install nvm-windows. Please install nvm-windows manually.
         cd "%ORIGINAL_DIR%"
         exit /b 1
     )
 )
-if exist "%ProgramFiles%\nvm\nvm.exe" set "PATH=%ProgramFiles%\nvm;%PATH%"
-if exist "%APPDATA%\nvm\nvm.exe" set "PATH=%APPDATA%\nvm;%PATH%"
+rem Installer writes NVM_HOME/NVM_SYMLINK as REG_EXPAND_SZ; default install dir is %LOCALAPPDATA%\nvm
+for /f "tokens=2*" %%a in ('reg query "HKCU\Environment" /v NVM_HOME 2^>nul ^| find "REG_"') do set "NVM_HOME=%%b"
+if not defined NVM_HOME for /f "tokens=2*" %%a in ('reg query "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" /v NVM_HOME 2^>nul ^| find "REG_"') do set "NVM_HOME=%%b"
+for /f "tokens=2*" %%a in ('reg query "HKCU\Environment" /v NVM_SYMLINK 2^>nul ^| find "REG_"') do set "NVM_SYMLINK=%%b"
+if not defined NVM_SYMLINK for /f "tokens=2*" %%a in ('reg query "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" /v NVM_SYMLINK 2^>nul ^| find "REG_"') do set "NVM_SYMLINK=%%b"
+if not defined NVM_HOME if exist "%LOCALAPPDATA%\nvm\nvm.exe" set "NVM_HOME=%LOCALAPPDATA%\nvm"
+if not defined NVM_HOME if exist "%APPDATA%\nvm\nvm.exe" set "NVM_HOME=%APPDATA%\nvm"
+if not defined NVM_HOME if exist "%ProgramFiles%\nvm\nvm.exe" set "NVM_HOME=%ProgramFiles%\nvm"
+if defined NVM_HOME set "PATH=%NVM_HOME%;%PATH%"
+if defined NVM_SYMLINK set "PATH=%NVM_SYMLINK%;%PATH%"
 nvm version >nul 2>&1
 if errorlevel 1 (
     echo nvm-windows is not installed or not available in PATH.
+    if defined NVM_HOME echo NVM_HOME resolved to "%NVM_HOME%" but nvm could not be run from there.
+    if not defined NVM_HOME echo NVM_HOME not found in registry nor in "%LOCALAPPDATA%\nvm".
     cd "%ORIGINAL_DIR%"
     exit /b 1
 )

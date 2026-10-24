@@ -20,6 +20,8 @@ target_compile_options(nelson-runtime-installer
     -Wextra
     -Werror
     -pedantic
+    # GCC 13 reports a false overflow in the vendored picosha2 finish() at -O3
+    $<$<CXX_COMPILER_ID:GNU>:-Wno-stringop-overflow>
 )
 install(
   TARGETS nelson-runtime-installer

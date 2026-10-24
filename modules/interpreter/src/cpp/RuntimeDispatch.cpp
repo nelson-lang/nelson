@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "RuntimeDispatch.hpp"
+#include <atomic>
 #include <mutex>
 //=============================================================================
 namespace Nelson {
@@ -162,6 +163,37 @@ canRunIdleInterpreterTaskOnCallingThread()
 {
     RuntimeDispatchBackend localBackend = currentBackend();
     return !callBool(localBackend.hasGuiServices) || callBool(localBackend.isGuiThread);
+}
+//=============================================================================
+namespace {
+    std::mutex wakeupHookMutex;
+    InterpreterWakeupHook wakeupHook;
+    // Fast path for producers: skip the lock while no front end listens.
+    std::atomic<bool> wakeupHookInstalled { false };
+} // namespace
+//=============================================================================
+void
+setInterpreterWakeupHook(InterpreterWakeupHook hook)
+{
+    std::lock_guard<std::mutex> lock(wakeupHookMutex);
+    wakeupHook = std::move(hook);
+    wakeupHookInstalled.store(static_cast<bool>(wakeupHook), std::memory_order_release);
+}
+//=============================================================================
+void
+notifyInterpreterWakeup()
+{
+    if (!wakeupHookInstalled.load(std::memory_order_acquire)) {
+        return;
+    }
+    InterpreterWakeupHook hook;
+    {
+        std::lock_guard<std::mutex> lock(wakeupHookMutex);
+        hook = wakeupHook;
+    }
+    if (hook) {
+        hook();
+    }
 }
 //=============================================================================
 } // namespace Nelson

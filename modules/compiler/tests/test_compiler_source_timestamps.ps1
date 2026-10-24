@@ -2,11 +2,10 @@
 # SPDX-License-Identifier: LGPL-3.0-or-later
 param([Parameter(Mandatory)][string]$Directory)
 $ErrorActionPreference = 'Stop'
-$repo = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../..'))
-$allowed = [IO.Path]::GetFullPath((Join-Path $repo 'temp')) + [IO.Path]::DirectorySeparatorChar
+$allowed = [IO.Path]::GetTempPath()
 $target = (Resolve-Path -LiteralPath $Directory).Path
 if (-not $target.StartsWith($allowed, [StringComparison]::OrdinalIgnoreCase)) {
-    throw 'Source timestamp checks must stay under repository temp.'
+    throw 'Source timestamp checks must stay under temporary directory.'
 }
 foreach ($file in Get-ChildItem -LiteralPath $target -File) {
     if ($file.Attributes -band [IO.FileAttributes]::ReparsePoint) { throw 'Ordinary source files required.' }

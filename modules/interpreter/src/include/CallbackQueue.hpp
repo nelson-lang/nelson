@@ -13,6 +13,7 @@
 #include "nlsInterpreter_exports.h"
 #include "Evaluator.hpp"
 #include "QueueCommon.hpp"
+#include "RuntimeDispatch.hpp"
 #include "SingletonHelper.hpp"
 //=============================================================================
 namespace Nelson {
@@ -68,6 +69,8 @@ public:
     add(const GraphicCallback& graphicCallback)
     {
         enqueue(graphicCallback);
+        // A console prompt blocked on a key must wake to run the callback.
+        notifyInterpreterWakeup();
     }
     bool
     processCallback(Evaluator* eval)

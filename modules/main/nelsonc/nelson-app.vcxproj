@@ -137,6 +137,7 @@
       <AdditionalManifestFiles>$(MSBuildThisFileDirectory)Packager.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
     </Manifest>
     <ClCompile>
+      <DebugInformationFormat>None</DebugInformationFormat>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
@@ -149,7 +150,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <StackReserveSize>62914560</StackReserveSize>
@@ -161,6 +162,7 @@
       <AdditionalManifestFiles>$(MSBuildThisFileDirectory)Packager.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
     </Manifest>
     <ClCompile>
+      <DebugInformationFormat>None</DebugInformationFormat>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
@@ -173,7 +175,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <StackReserveSize>62914560</StackReserveSize>

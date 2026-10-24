@@ -128,7 +128,18 @@ function response = __web_figure_action__(handle, encoded, renderDisplayList)
       case 'floor'
         web_figure_floor(ax, request.enabled);
       case 'pick'
-        point = jsondecode(__web_figure_pick__(f, request.x, request.y));
+        % A figure or object that handles clicks itself gets no data point pick.
+        if isempty(get(f, 'WindowButtonDownFcn'))
+          point = jsondecode(__web_figure_pick__(f, request.x, request.y));
+        else
+          point = struct('found', false);
+        end
+        if isfield(point, 'found') && point.found && isfield(point, 'objectHandle')
+          picked = __web_graphics_handle__(point.objectHandle, 'object');
+          if isgraphics(picked) && ~isempty(get(picked, 'ButtonDownFcn'))
+            point = struct('found', false);
+          end
+        end
         response = jsonencode(struct('state', __web_figure_state_full__(handle), 'point', point));
         return;
       case 'step'

@@ -12,6 +12,6 @@ if ~ispc()
 end
 script = fullfile(nelsonroot(), 'modules', 'main', 'tests', 'test_nelsonc_performance_provenance.ps1');
 powershell = fullfile(getenv('WINDIR'), 'System32', 'WindowsPowerShell', 'v1.0', 'powershell.exe');
-[status, output] = system(['"', powershell, '" -NoProfile -NonInteractive -File "', script, '"']);
+[status, output] = system([powershell, ' -NoProfile -NonInteractive -File "', script, '"']);
 asserts.isequal(status, 0);
 asserts.istrue(contains(output, 'PASS performance runtime provenance controls'));

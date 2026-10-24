@@ -932,6 +932,13 @@ Replxx::ReplxxImpl::disable_bracketed_paste(void)
 }
 
 void
+Replxx::ReplxxImpl::wake(void)
+{
+    // Thread-safe by construction: a single event/pipe write, no shared state.
+    _terminal.wake();
+}
+
+void
 Replxx::ReplxxImpl::print(char const* str_, int size_)
 {
     std::unique_lock<std::mutex> l(_mutex);

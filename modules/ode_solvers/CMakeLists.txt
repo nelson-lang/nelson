@@ -231,6 +231,10 @@ if(ODE_SOLVERS_SRC)
     if(NOT WIN32)
       # SUNDIALS headers from an MPI-enabled build pull in <mpi.h>, which lives
       # outside the default include path (e.g. the OpenMPI include directory).
+      if(NOT MPI_FOUND)
+        # without the mpi module nothing searched MPI yet: the distribution SUNDIALS may need it
+        find_package(MPI QUIET COMPONENTS C CXX)
+      endif()
       target_include_directories(${module_library_name}
         PRIVATE
           ${MPI_CXX_INCLUDE_DIRS}

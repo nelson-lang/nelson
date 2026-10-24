@@ -267,6 +267,7 @@ function TreeNode({
         type="button"
         className={'figure-tree-label' + (node.handle === selected ? ' is-selected' : '')}
         style={{ paddingLeft: depth * 12 + 4 }}
+        data-handle={node.handle}
         onClick={() => onSelect(node.handle)}
       >
         {label}
@@ -403,7 +404,7 @@ export function FigureInspector({
         value={filter}
         onChange={(event) => setFilter(event.target.value)}
       />
-      <div className="figure-inspector-list">
+      <div className="figure-inspector-list" data-object={model?.handle ?? ''}>
         {model ? (
           properties.map((prop) => (
             <PropertyRow

@@ -52,6 +52,11 @@ getPartialLineAsPath(const std::wstring& line);
 NLSTEXT_COMPLETION_IMPEXP std::wstring
 getPartialLine(const std::wstring& line);
 //=============================================================================
+// True when completing line would list files (path, file command or quoted string).
+NLSTEXT_COMPLETION_IMPEXP bool
+isFileCompletionContext(
+    const std::wstring& line, const std::wstring& filepart, const std::wstring& textpart);
+//=============================================================================
 std::string
 getLookupSymbolFromCompletionExpression(const std::string& expression);
 //=============================================================================

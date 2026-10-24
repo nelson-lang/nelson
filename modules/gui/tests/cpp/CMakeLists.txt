@@ -41,6 +41,10 @@ target_include_directories(nelson_desktop_shell_tests
     "${GUI_DIR}/../nelson_manager/src/cpp"
 )
 
+# NelsonSettingsScope.hpp includes the generated Nelson_VERSION.h
+include("${REPOSITORY_DIR}/CMake/NelsonVersionHeaderForTests.cmake")
+nelson_tests_version_header(nelson_desktop_shell_tests "${REPOSITORY_DIR}")
+
 target_compile_definitions(nelson_desktop_shell_tests
   PRIVATE "NELSON_TEST_REPOSITORY_DIR=\"${REPOSITORY_DIR}\""
 )

@@ -3,8 +3,7 @@
 # SPDX-License-Identifier: LGPL-3.0-or-later
 param([string]$CMake = 'cmake')
 $ErrorActionPreference = 'Stop'
-$repo = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../..'))
-$root = Join-Path $repo ('temp/compiler-runtime-log-' + [Guid]::NewGuid().ToString('N'))
+$root = Join-Path ([IO.Path]::GetTempPath()) ('nelson-compiler-runtime-log-' + [Guid]::NewGuid().ToString('N'))
 New-Item -ItemType Directory -Path $root | Out-Null
 $ctest = Join-Path (Split-Path (Get-Command $CMake).Source -Parent) 'ctest'
 & $CMake -S (Join-Path $PSScriptRoot 'fixtures/runtime_log') -B (Join-Path $root 'build') *> (Join-Path $root 'configure.log')

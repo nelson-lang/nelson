@@ -12,6 +12,7 @@
 #include "ParquetRowGroupFilter.hpp"
 #include <arrow/array/util.h>
 #include <arrow/io/api.h>
+#include <arrow/util/config.h>
 #include <parquet/arrow/reader.h>
 //=============================================================================
 namespace Nelson {
@@ -105,13 +106,30 @@ ParquetRead(const std::wstring& filename, const stringVector& selectedNames,
             return {};
         }
     } else {
-        auto tableResult
-            = hasRowGroupSelection ? reader->ReadRowGroups(selectedRowGroups) : reader->ReadTable();
-        if (!tableResult.ok()) {
-            errorMessage = toWideError(tableResult.status().ToString());
+#if ARROW_VERSION_MAJOR >= 24
+        arrow::Result<std::shared_ptr<arrow::Table>> readResult;
+        if (hasRowGroupSelection) {
+            readResult = reader->ReadRowGroups(selectedRowGroups);
+        } else {
+            readResult = reader->ReadTable();
+        }
+        if (!readResult.ok()) {
+            errorMessage = toWideError(readResult.status().ToString());
             return {};
         }
-        arrowTable = std::move(*tableResult);
+        arrowTable = *readResult;
+#else
+        arrow::Status readStatus;
+        if (hasRowGroupSelection) {
+            readStatus = reader->ReadRowGroups(selectedRowGroups, &arrowTable);
+        } else {
+            readStatus = reader->ReadTable(&arrowTable);
+        }
+        if (!readStatus.ok()) {
+            errorMessage = toWideError(readStatus.ToString());
+            return {};
+        }
+#endif
     }
 
     arrowTable = applySelectedNames(arrowTable, selectedNames, errorMessage);

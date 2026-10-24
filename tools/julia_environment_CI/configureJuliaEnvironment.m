@@ -20,7 +20,8 @@ juliaExecutable = getenv('NLS_DEFAULT_JULIA_EXECUTABLE_TESTS');
 if ~isempty(juliaExecutable) && isfile(juliaExecutable)
   try
     je = jlenv('Version', juliaExecutable);
-  catch
+  catch e
+    disp(['jlenv(NLS_DEFAULT_JULIA_EXECUTABLE_TESTS) failed: ', e.message]);
   end
 end
 if ~(je.Version == "")
@@ -34,7 +35,8 @@ if (je.Version == "")
     if isfile(juliaExecutable)
       try
         je = jlenv('Version', juliaExecutable);
-      catch
+      catch e
+        disp(['jlenv(PATH julia) failed: ', e.message]);
       end
     end
   end

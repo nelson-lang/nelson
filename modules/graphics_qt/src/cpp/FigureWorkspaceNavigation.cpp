@@ -433,6 +433,11 @@ FigureWorkspaceQt::showIndicator(int64 handle)
         indicator->hide();
         return;
     }
+    // SelectionHighlight 'off' on the axes or its figure hides the hover frame.
+    if (!highlightsSelection(axis) || !highlightsSelection(window->goFig)) {
+        indicator->hide();
+        return;
+    }
     const auto box = axis->getClientAreaAsPixels();
     if (box.size() != 4) {
         indicator->hide();

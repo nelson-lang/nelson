@@ -19,6 +19,7 @@ Source: {#RootPath}modules\{#MODULE_NAME}\functions\private\*.m; DestDir: {app}\
 ; classdef model folders and external methods
 Source: {#RootPath}modules\{#MODULE_NAME}\functions\@tf\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\@tf\;Components: {#COMPONENT_CONTROL_SYSTEM};
 Source: {#RootPath}modules\{#MODULE_NAME}\functions\@ss\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\@ss\;Components: {#COMPONENT_CONTROL_SYSTEM};
+Source: {#RootPath}modules\{#MODULE_NAME}\functions\@zpk\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\@zpk\;Components: {#COMPONENT_CONTROL_SYSTEM};
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\examples\*; DestDir: {app}\modules\{#MODULE_NAME}\examples\; Flags: recursesubdirs;Components: {#COMPONENT_CONTROL_SYSTEM};
 ;==============================================================================

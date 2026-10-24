@@ -7,438 +7,320 @@
 #include <string.h>
 
 #define MAX_DIM 2
-typedef struct
-{
-    int n;
-    double D;
-    double C[MAX_DIM];
-    double A[MAX_DIM];
-} TfParams;
-static const TfParams tf_params_p1 = { 2, 0, { 1, 0 }, { -1, -0.5 } };
-static const TfParams tf_params_p2 = { 2, 0, { 1, 0 }, { -1, -0.5 } };
-static const TfParams tf_params_p3 = { 2, 0, { 1, 0 }, { -1, -0.5 } };
-typedef struct
-{
-    double kp;
-    double ki;
-    double kd;
-    double min;
-    double max;
-} PidParams;
-typedef struct
-{
-    double integ;
-    double prev;
-} PidState;
-static const PidParams pid_params_c1 = { 2, 0, 0, -INFINITY, INFINITY };
-static const PidParams pid_params_c2 = { 2, 1, 0, -INFINITY, INFINITY };
-static const PidParams pid_params_c3 = { 3, 1.5, 1.2, -INFINITY, INFINITY };
+typedef struct { int n; double D; double C[MAX_DIM]; double A[MAX_DIM]; } TfParams;
+static const TfParams tf_params_p1 = { 2, 0, {1, 0}, {-1, -0.5} };
+static const TfParams tf_params_p2 = { 2, 0, {1, 0}, {-1, -0.5} };
+static const TfParams tf_params_p3 = { 2, 0, {1, 0}, {-1, -0.5} };
+typedef struct { double kp; double ki; double kd; double min; double max; double n; } PidParams;
+typedef struct { double integ; double prev; } PidState;
+static const PidParams pid_params_c1 = { 2, 0, 0, -INFINITY, INFINITY, 0 };
+static const PidParams pid_params_c2 = { 2, 1, 0, -INFINITY, INFINITY, 0 };
+static const PidParams pid_params_c3 = { 3, 1.5, 1.2, -INFINITY, INFINITY, 0 };
 
-static void
-tf_deriv(int n, const double* A, const double* x, double u, double* dx)
-{
-    for (int i = 0; i < n - 1; i++) {
-        dx[i] = x[i + 1];
-    }
-    double last = u;
-    for (int j = 0; j < n; j++) {
-        last += A[j] * x[j];
-    }
-    dx[n - 1] = last;
+static void tf_deriv(int n, const double* A, const double* x, double u, double* dx) {
+  for (int i = 0; i < n - 1; i++) dx[i] = x[i + 1];
+  double last = u;
+  for (int j = 0; j < n; j++) last += A[j] * x[j];
+  dx[n - 1] = last;
 }
-static double
-tf_out(const TfParams* p, const double* x, double u)
-{
-    double y = p->D * u;
-    for (int i = 0; i < p->n; i++) {
-        y += p->C[i] * x[i];
-    }
-    return y;
+static double tf_out(const TfParams* p, const double* x, double u) {
+  double y = p->D * u;
+  for (int i = 0; i < p->n; i++) y += p->C[i] * x[i];
+  return y;
 }
-static double
-tf_step(const TfParams* p, double* x, double u, double dt)
-{
-    const int n = p->n;
-    double y = p->D * u;
-    for (int i = 0; i < n; i++) {
-        y += p->C[i] * x[i];
-    }
-    if (n > 0) {
-        double k1[MAX_DIM], k2[MAX_DIM], k3[MAX_DIM], k4[MAX_DIM], tmp[MAX_DIM];
-        tf_deriv(n, p->A, x, u, k1);
-        for (int i = 0; i < n; i++) {
-            tmp[i] = x[i] + 0.5 * dt * k1[i];
-        }
-        tf_deriv(n, p->A, tmp, u, k2);
-        for (int i = 0; i < n; i++) {
-            tmp[i] = x[i] + 0.5 * dt * k2[i];
-        }
-        tf_deriv(n, p->A, tmp, u, k3);
-        for (int i = 0; i < n; i++) {
-            tmp[i] = x[i] + dt * k3[i];
-        }
-        tf_deriv(n, p->A, tmp, u, k4);
-        for (int i = 0; i < n; i++) {
-            x[i] += (dt / 6.0) * (k1[i] + 2.0 * k2[i] + 2.0 * k3[i] + k4[i]);
-        }
-    }
-    return y;
+static double tf_step(const TfParams* p, double* x, double u, double dt) {
+  const int n = p->n;
+  double y = p->D * u;
+  for (int i = 0; i < n; i++) y += p->C[i] * x[i];
+  if (n > 0) {
+    double k1[MAX_DIM], k2[MAX_DIM], k3[MAX_DIM], k4[MAX_DIM], tmp[MAX_DIM];
+    tf_deriv(n, p->A, x, u, k1);
+    for (int i = 0; i < n; i++) tmp[i] = x[i] + 0.5 * dt * k1[i];
+    tf_deriv(n, p->A, tmp, u, k2);
+    for (int i = 0; i < n; i++) tmp[i] = x[i] + 0.5 * dt * k2[i];
+    tf_deriv(n, p->A, tmp, u, k3);
+    for (int i = 0; i < n; i++) tmp[i] = x[i] + dt * k3[i];
+    tf_deriv(n, p->A, tmp, u, k4);
+    for (int i = 0; i < n; i++)
+      x[i] += (dt / 6.0) * (k1[i] + 2.0 * k2[i] + 2.0 * k3[i] + k4[i]);
+  }
+  return y;
 }
 
-static double
-pid_step(const PidParams* p, PidState* s, double u, double dt)
-{
-    s->integ += u * dt;
-    if (s->integ < p->min) {
-        s->integ = p->min;
-    }
-    if (s->integ > p->max) {
-        s->integ = p->max;
-    }
-    double deriv = (u - s->prev) / fmax(dt, 1e-6);
+static double pid_step(const PidParams* p, PidState* s, double u, double dt) {
+  s->integ += u * dt;
+  if (s->integ < p->min) s->integ = p->min;
+  if (s->integ > p->max) s->integ = p->max;
+  double deriv;
+  if (p->n > 0.0) {
+    /* filtered: prev holds the filter state, read before it moves */
+    deriv = p->n * (u - s->prev);
+    s->prev += dt * p->n * (u - s->prev);
+  } else {
+    deriv = (u - s->prev) / fmax(dt, 1e-6);
     s->prev = u;
-    return p->kp * u + p->ki * s->integ + p->kd * deriv;
+  }
+  return p->kp * u + p->ki * s->integ + p->kd * deriv;
 }
 
-typedef struct
-{
-    PidState pid_c1;
-    double tf_p1[MAX_DIM];
-    PidState pid_c2;
-    double tf_p2[MAX_DIM];
-    PidState pid_c3;
-    double tf_p3[MAX_DIM];
+
+typedef struct {
+  PidState pid_c1;
+  double tf_p1[MAX_DIM];
+  PidState pid_c2;
+  double tf_p2[MAX_DIM];
+  PidState pid_c3;
+  double tf_p3[MAX_DIM];
 } ModelState;
 
-typedef struct
-{
-    double _unused;
+typedef struct {
+  double _unused;
 } ModelInput;
 
-typedef struct
-{
-    double p_plant_out;
-    double pi_plant_out;
-    double pid_plant_out;
-    double p_ctrl;
-    double pi_ctrl;
-    double pid_ctrl;
+typedef struct {
+  double p_plant_out;
+  double pi_plant_out;
+  double pid_plant_out;
+  double p_ctrl;
+  double pi_ctrl;
+  double pid_ctrl;
 } ModelOutput;
 
 static const int INPUT_COUNT = 0;
 static const int OUTPUT_COUNT = 6;
 static const char* input_names[] = {
-    "_unused",
+  "_unused",
 };
 static const char* output_names[] = {
-    "p_plant_out",
-    "pi_plant_out",
-    "pid_plant_out",
-    "p_ctrl",
-    "pi_ctrl",
-    "pid_ctrl",
+  "p_plant_out",
+  "pi_plant_out",
+  "pid_plant_out",
+  "p_ctrl",
+  "pi_ctrl",
+  "pid_ctrl",
 };
 
-void
-nflow_init(ModelState* s)
-{
-    if (!s) {
-        return;
-    }
-    s->pid_c1.integ = 0.0;
-    s->pid_c1.prev = 0.0;
-    for (int i = 0; i < MAX_DIM; i++) {
-        s->tf_p1[i] = 0.0;
-    }
-    s->pid_c2.integ = 0.0;
-    s->pid_c2.prev = 0.0;
-    for (int i = 0; i < MAX_DIM; i++) {
-        s->tf_p2[i] = 0.0;
-    }
-    s->pid_c3.integ = 0.0;
-    s->pid_c3.prev = 0.0;
-    for (int i = 0; i < MAX_DIM; i++) {
-        s->tf_p3[i] = 0.0;
-    }
+void nflow_init(ModelState* s) {
+  if (!s) return;
+  s->pid_c1.integ = 0.0;
+  s->pid_c1.prev = 0.0;
+  for (int i = 0; i < MAX_DIM; i++) s->tf_p1[i] = 0.0;
+  s->pid_c2.integ = 0.0;
+  s->pid_c2.prev = 0.0;
+  for (int i = 0; i < MAX_DIM; i++) s->tf_p2[i] = 0.0;
+  s->pid_c3.integ = 0.0;
+  s->pid_c3.prev = 0.0;
+  for (int i = 0; i < MAX_DIM; i++) s->tf_p3[i] = 0.0;
 }
 
-void
-nflow_step(ModelState* s, const ModelInput* in, ModelOutput* out, double t)
-{
-    const double dt = 0.01;
-    double out_r1 = 0.0;
-    double out_e1 = 0.0;
-    double out_c1 = 0.0;
-    double out_p1 = 0.0;
-    double out_e2 = 0.0;
-    double out_c2 = 0.0;
-    double out_p2 = 0.0;
-    double out_e3 = 0.0;
-    double out_c3 = 0.0;
-    double out_p3 = 0.0;
-    double out_sc1 = 0.0;
-    double out_sc2 = 0.0;
-    double out_ls_p_out = 0.0;
-    double out_ls_pi_out = 0.0;
-    double out_ls_pid_out = 0.0;
-    double out_ls_p_ctrl = 0.0;
-    double out_ls_pi_ctrl = 0.0;
-    double out_ls_pid_ctrl = 0.0;
+void nflow_step(ModelState* s, const ModelInput* in, ModelOutput* out, double t) {
+  const double dt = 0.01;
+  double out_r1 = 0.0;
+  double out_e1 = 0.0;
+  double out_c1 = 0.0;
+  double out_p1 = 0.0;
+  double out_e2 = 0.0;
+  double out_c2 = 0.0;
+  double out_p2 = 0.0;
+  double out_e3 = 0.0;
+  double out_c3 = 0.0;
+  double out_p3 = 0.0;
+  double out_sc1 = 0.0;
+  double out_sc2 = 0.0;
+  double out_ls_p_out = 0.0;
+  double out_ls_pi_out = 0.0;
+  double out_ls_pid_out = 0.0;
+  double out_ls_p_ctrl = 0.0;
+  double out_ls_pi_ctrl = 0.0;
+  double out_ls_pid_ctrl = 0.0;
 
-    out_p1 = tf_out(&tf_params_p1, s->tf_p1, out_c1);
-    out_p2 = tf_out(&tf_params_p2, s->tf_p2, out_c2);
-    out_p3 = tf_out(&tf_params_p3, s->tf_p3, out_c3);
-    // step r1
-    out_r1 = (t >= 1 ? 1.0 : 0.0);
-    // sum e1
-    out_e1 = out_r1 + -out_p1;
-    // sum e2
-    out_e2 = out_r1 + -out_p2;
-    // sum e3
-    out_e3 = out_r1 + -out_p3;
-    // scope sc1
-    out_sc1 = out_p1;
-    // labelSink ls_p_out
-    out_ls_p_out = out_p1;
-    if (out) {
-        out->p_plant_out = out_ls_p_out;
-    }
-    // labelSink ls_pi_out
-    out_ls_pi_out = out_p2;
-    if (out) {
-        out->pi_plant_out = out_ls_pi_out;
-    }
-    // labelSink ls_pid_out
-    out_ls_pid_out = out_p3;
-    if (out) {
-        out->pid_plant_out = out_ls_pid_out;
-    }
-    // pid c1
-    out_c1 = pid_step(&pid_params_c1, &s->pid_c1, out_e1, dt);
-    // pid c2
-    out_c2 = pid_step(&pid_params_c2, &s->pid_c2, out_e2, dt);
-    // pid c3
-    out_c3 = pid_step(&pid_params_c3, &s->pid_c3, out_e3, dt);
-    // tf p1
-    out_p1 = tf_step(&tf_params_p1, s->tf_p1, out_c1, dt);
-    // labelSink ls_p_ctrl
-    out_ls_p_ctrl = out_c1;
-    if (out) {
-        out->p_ctrl = out_ls_p_ctrl;
-    }
-    // tf p2
-    out_p2 = tf_step(&tf_params_p2, s->tf_p2, out_c2, dt);
-    // labelSink ls_pi_ctrl
-    out_ls_pi_ctrl = out_c2;
-    if (out) {
-        out->pi_ctrl = out_ls_pi_ctrl;
-    }
-    // tf p3
-    out_p3 = tf_step(&tf_params_p3, s->tf_p3, out_c3, dt);
-    // scope sc2
-    out_sc2 = out_c1;
-    // labelSink ls_pid_ctrl
-    out_ls_pid_ctrl = out_c3;
-    if (out) {
-        out->pid_ctrl = out_ls_pid_ctrl;
-    }
+  out_p1 = tf_out(&tf_params_p1, s->tf_p1, out_c1);
+  out_p2 = tf_out(&tf_params_p2, s->tf_p2, out_c2);
+  out_p3 = tf_out(&tf_params_p3, s->tf_p3, out_c3);
+  // step r1
+  out_r1 = (t >= 1 ? 1.0 : 0.0);
+  // sum e1
+  out_e1 = -out_p1 + out_r1;
+  // sum e2
+  out_e2 = -out_p2 + out_r1;
+  // sum e3
+  out_e3 = -out_p3 + out_r1;
+  // scope sc1
+  out_sc1 = out_p1;
+  // labelSink ls_p_out
+  out_ls_p_out = out_p1;
+  if (out) out->p_plant_out = out_ls_p_out;
+  // labelSink ls_pi_out
+  out_ls_pi_out = out_p2;
+  if (out) out->pi_plant_out = out_ls_pi_out;
+  // labelSink ls_pid_out
+  out_ls_pid_out = out_p3;
+  if (out) out->pid_plant_out = out_ls_pid_out;
+  // pid c1
+  out_c1 = pid_step(&pid_params_c1, &s->pid_c1, out_e1, dt);
+  // pid c2
+  out_c2 = pid_step(&pid_params_c2, &s->pid_c2, out_e2, dt);
+  // pid c3
+  out_c3 = pid_step(&pid_params_c3, &s->pid_c3, out_e3, dt);
+  // tf p1
+  out_p1 = tf_step(&tf_params_p1, s->tf_p1, out_c1, dt);
+  // labelSink ls_p_ctrl
+  out_ls_p_ctrl = out_c1;
+  if (out) out->p_ctrl = out_ls_p_ctrl;
+  // tf p2
+  out_p2 = tf_step(&tf_params_p2, s->tf_p2, out_c2, dt);
+  // labelSink ls_pi_ctrl
+  out_ls_pi_ctrl = out_c2;
+  if (out) out->pi_ctrl = out_ls_pi_ctrl;
+  // tf p3
+  out_p3 = tf_step(&tf_params_p3, s->tf_p3, out_c3, dt);
+  // scope sc2
+  out_sc2 = out_c1;
+  // labelSink ls_pid_ctrl
+  out_ls_pid_ctrl = out_c3;
+  if (out) out->pid_ctrl = out_ls_pid_ctrl;
 }
 
-void
-nflow_terminate(ModelState* s)
-{
-    (void)s;
+void nflow_terminate(ModelState* s) {
+  (void)s;
 }
+
 
 /* --- main.c --- */
 
 #include "model.c"
 
-typedef struct
-{
-    double* time;
-    double* values;
-    int count;
-    int capacity;
+typedef struct {
+  double* time;
+  double* values;
+  int count;
+  int capacity;
 } InputSeries;
 
-static void
-init_series(InputSeries* s)
-{
-    s->time = NULL;
-    s->values = NULL;
-    s->count = 0;
-    s->capacity = 0;
+static void init_series(InputSeries* s) {
+  s->time = NULL;
+  s->values = NULL;
+  s->count = 0;
+  s->capacity = 0;
 }
 
-static void
-free_series(InputSeries* s)
-{
-    free(s->time);
-    free(s->values);
-    s->time = NULL;
-    s->values = NULL;
-    s->count = 0;
-    s->capacity = 0;
+static void free_series(InputSeries* s) {
+  free(s->time);
+  free(s->values);
+  s->time = NULL;
+  s->values = NULL;
+  s->count = 0;
+  s->capacity = 0;
 }
 
-static int
-ensure_capacity(InputSeries* s, int needed)
-{
-    if (needed <= s->capacity) {
-        return 1;
-    }
-    int newCap = s->capacity ? s->capacity * 2 : 256;
-    while (newCap < needed) {
-        newCap *= 2;
-    }
-    double* newTime = (double*)realloc(s->time, sizeof(double) * newCap);
-    if (!newTime) {
-        return 0;
-    }
-    double* newValues = (double*)realloc(
-        s->values, sizeof(double) * newCap * (INPUT_COUNT > 0 ? INPUT_COUNT : 1));
-    if (!newValues) {
-        return 0;
-    }
-    s->time = newTime;
-    s->values = newValues;
-    s->capacity = newCap;
-    return 1;
+static int ensure_capacity(InputSeries* s, int needed) {
+  if (needed <= s->capacity) return 1;
+  int newCap = s->capacity ? s->capacity * 2 : 256;
+  while (newCap < needed) newCap *= 2;
+  double* newTime = (double*)realloc(s->time, sizeof(double) * newCap);
+  if (!newTime) return 0;
+  double* newValues = (double*)realloc(s->values, sizeof(double) * newCap * (INPUT_COUNT > 0 ? INPUT_COUNT : 1));
+  if (!newValues) return 0;
+  s->time = newTime;
+  s->values = newValues;
+  s->capacity = newCap;
+  return 1;
 }
 
-static int
-read_csv(const char* path, InputSeries* series)
-{
-    if (!path) {
-        return 0;
+static int read_csv(const char* path, InputSeries* series) {
+  if (!path) return 0;
+  FILE* f = fopen(path, "r");
+  if (!f) return 0;
+  char line[4096];
+  if (!fgets(line, sizeof(line), f)) { fclose(f); return 0; }
+  int colMap[128];
+  int colCount = 0;
+  char* token = strtok(line, ",\n\r");
+  while (token && colCount < 128) {
+    if (strcmp(token, "t") == 0 || strcmp(token, "time") == 0) colMap[colCount] = -1;
+    else {
+      int idx = -1;
+      for (int i = 0; i < INPUT_COUNT; i++) {
+        if (strcmp(token, input_names[i]) == 0) { idx = i; break; }
+      }
+      colMap[colCount] = idx;
     }
-    FILE* f = fopen(path, "r");
-    if (!f) {
-        return 0;
-    }
-    char line[4096];
-    if (!fgets(line, sizeof(line), f)) {
-        fclose(f);
-        return 0;
-    }
-    int colMap[128];
-    int colCount = 0;
-    char* token = strtok(line, ",\n\r");
-    while (token && colCount < 128) {
-        if (strcmp(token, "t") == 0 || strcmp(token, "time") == 0) {
-            colMap[colCount] = -1;
-        } else {
-            int idx = -1;
-            for (int i = 0; i < INPUT_COUNT; i++) {
-                if (strcmp(token, input_names[i]) == 0) {
-                    idx = i;
-                    break;
-                }
-            }
-            colMap[colCount] = idx;
-        }
-        colCount++;
-        token = strtok(NULL, ",\n\r");
-    }
-    while (fgets(line, sizeof(line), f)) {
-        if (!ensure_capacity(series, series->count + 1)) {
-            break;
-        }
-        double t = 0.0;
-        for (int i = 0; i < INPUT_COUNT; i++) {
-            series->values[series->count * (INPUT_COUNT > 0 ? INPUT_COUNT : 1) + i] = 0.0;
-        }
-        int col = 0;
-        token = strtok(line, ",\n\r");
-        while (token && col < colCount) {
-            double v = strtod(token, NULL);
-            if (colMap[col] == -1) {
-                t = v;
-            } else if (colMap[col] >= 0) {
-                series->values[series->count * (INPUT_COUNT > 0 ? INPUT_COUNT : 1) + colMap[col]]
-                    = v;
-            }
-            col++;
-            token = strtok(NULL, ",\n\r");
-        }
-        series->time[series->count] = t;
-        series->count += 1;
-    }
-    fclose(f);
-    return series->count;
-}
-
-static void
-fill_inputs(const InputSeries* series, int* idx, double t, ModelInput* in)
-{
-    if (!series || series->count == 0 || INPUT_COUNT == 0) {
-        return;
-    }
-    while (*idx + 1 < series->count && series->time[*idx + 1] <= t) {
-        *idx += 1;
-    }
-    int base = (*idx) * INPUT_COUNT;
+    colCount++;
+    token = strtok(NULL, ",\n\r");
+  }
+  while (fgets(line, sizeof(line), f)) {
+    if (!ensure_capacity(series, series->count + 1)) break;
+    double t = 0.0;
     for (int i = 0; i < INPUT_COUNT; i++) {
-        ((double*)in)[i] = series->values[base + i];
+      series->values[series->count * (INPUT_COUNT > 0 ? INPUT_COUNT : 1) + i] = 0.0;
     }
+    int col = 0;
+    token = strtok(line, ",\n\r");
+    while (token && col < colCount) {
+      double v = strtod(token, NULL);
+      if (colMap[col] == -1) t = v;
+      else if (colMap[col] >= 0) series->values[series->count * (INPUT_COUNT > 0 ? INPUT_COUNT : 1) + colMap[col]] = v;
+      col++;
+      token = strtok(NULL, ",\n\r");
+    }
+    series->time[series->count] = t;
+    series->count += 1;
+  }
+  fclose(f);
+  return series->count;
 }
 
-static void
-write_header(FILE* f)
-{
-    fprintf(f, "t");
+static void fill_inputs(const InputSeries* series, int* idx, double t, ModelInput* in) {
+  if (!series || series->count == 0 || INPUT_COUNT == 0) return;
+  while (*idx + 1 < series->count && series->time[*idx + 1] <= t) {
+    *idx += 1;
+  }
+  int base = (*idx) * INPUT_COUNT;
+  for (int i = 0; i < INPUT_COUNT; i++) {
+    ((double*)in)[i] = series->values[base + i];
+  }
+}
+
+static void write_header(FILE* f) {
+  fprintf(f, "t");
+  for (int i = 0; i < OUTPUT_COUNT; i++) fprintf(f, ",%s", output_names[i]);
+  fprintf(f, "\n");
+}
+
+int main(int argc, char** argv) {
+  double tEnd = 1e+01;
+  const char* inPath = NULL;
+  const char* outPath = NULL;
+  const double dt = 0.01;
+  for (int i = 1; i < argc; i++) {
+    if (strcmp(argv[i], "-t") == 0 && i + 1 < argc) tEnd = atof(argv[++i]);
+    else if (strcmp(argv[i], "-i") == 0 && i + 1 < argc) inPath = argv[++i];
+    else if (strcmp(argv[i], "-o") == 0 && i + 1 < argc) outPath = argv[++i];
+  }
+  ModelState state;
+  ModelInput in = {0};
+  ModelOutput out = {0};
+  nflow_init(&state);
+  InputSeries series;
+  init_series(&series);
+  int seriesIdx = 0;
+  if (inPath) read_csv(inPath, &series);
+  FILE* outFile = outPath ? fopen(outPath, "w") : stdout;
+  if (!outFile) outFile = stdout;
+  write_header(outFile);
+  const long __nsteps = (long)(tEnd / dt) + 1;
+  for (long __k = 0; __k <= __nsteps; ++__k) {
+    const double t = __k * dt;
+    if (t > tEnd + 1e-9) break;
+    if (inPath) fill_inputs(&series, &seriesIdx, t, &in);
+    nflow_step(&state, &in, &out, t);
+    fprintf(outFile, "%.17g", t);
     for (int i = 0; i < OUTPUT_COUNT; i++) {
-        fprintf(f, ",%s", output_names[i]);
+      fprintf(outFile, ",%.17g", ((double*)&out)[i]);
     }
-    fprintf(f, "\n");
-}
-
-int
-main(int argc, char** argv)
-{
-    double tEnd = 1e+01;
-    const char* inPath = NULL;
-    const char* outPath = NULL;
-    const double dt = 0.01;
-    for (int i = 1; i < argc; i++) {
-        if (strcmp(argv[i], "-t") == 0 && i + 1 < argc) {
-            tEnd = atof(argv[++i]);
-        } else if (strcmp(argv[i], "-i") == 0 && i + 1 < argc) {
-            inPath = argv[++i];
-        } else if (strcmp(argv[i], "-o") == 0 && i + 1 < argc) {
-            outPath = argv[++i];
-        }
-    }
-    ModelState state;
-    ModelInput in = { 0 };
-    ModelOutput out = { 0 };
-    nflow_init(&state);
-    InputSeries series;
-    init_series(&series);
-    int seriesIdx = 0;
-    if (inPath) {
-        read_csv(inPath, &series);
-    }
-    FILE* outFile = outPath ? fopen(outPath, "w") : stdout;
-    if (!outFile) {
-        outFile = stdout;
-    }
-    write_header(outFile);
-    for (double t = 0.0; t <= tEnd + 1e-9; t += dt) {
-        if (inPath) {
-            fill_inputs(&series, &seriesIdx, t, &in);
-        }
-        nflow_step(&state, &in, &out, t);
-        fprintf(outFile, "%.17g", t);
-        for (int i = 0; i < OUTPUT_COUNT; i++) {
-            fprintf(outFile, ",%.17g", ((double*)&out)[i]);
-        }
-        fprintf(outFile, "\n");
-    }
-    if (outPath && outFile && outFile != stdout) {
-        fclose(outFile);
-    }
-    free_series(&series);
-    return 0;
+    fprintf(outFile, "\n");
+  }
+  if (outPath && outFile && outFile != stdout) fclose(outFile);
+  free_series(&series);
+  return 0;
 }

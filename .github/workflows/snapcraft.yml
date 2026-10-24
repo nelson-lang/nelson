@@ -1,0 +1,78 @@
+name: "Snapcraft Build"
+
+on:
+  # the C/C++ CI calls this on master; the Run workflow button triggers it elsewhere
+  workflow_dispatch:
+  workflow_call:
+
+permissions:
+  checks: write
+  contents: read
+
+jobs:
+  Snapcraft:
+    name: Snapcraft ${{ matrix.arch }}
+    # core26 snaps build on the matching Ubuntu 26.04 runner
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: amd64
+            runner: ubuntu-26.04
+          - arch: arm64
+            runner: ubuntu-26.04-arm
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      # destructive mode: snapcraft installs the build packages of snap/snapcraft.yaml on the runner itself
+      - name: Install dependencies
+        # the 9.x track is the first with core26 support
+        run: sudo snap install snapcraft --classic --channel=9.x/stable
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install just
+        uses: extractions/setup-just@v4
+
+      - name: Get package version
+        uses: jaywcjlove/github-action-package@v2.1.0
+        id: json_version
+
+      - name: Update version
+        run: just update_version
+
+      # the amd64 runner enables the amd64v3 apt variant: apt then only fetches the amd64v3
+      # indexes and snapcraft cannot resolve the amd64 stage packages; the lists are also stale
+      - name: Refresh apt lists
+        run: |
+          # the variant can come from apt.conf.d or from an Architectures line of a .sources file
+          echo '#clear APT::Architecture-Variants;' | sudo tee /etc/apt/apt.conf.d/99zz-no-architecture-variants
+          sudo sed -i '/^Architectures:.*amd64v3/d' /etc/apt/sources.list.d/*.sources
+          sudo apt-get update
+          apt-config dump | grep -i 'Architecture'
+
+      - name: Build
+        run: sudo snapcraft pack --destructive-mode --verbose
+
+      - name: Create artifacts directory
+        run: mkdir -p "$GITHUB_WORKSPACE/artifacts"
+
+      - name: Copy snap in artifacts directory
+        run: mv "$GITHUB_WORKSPACE"/*_${{ matrix.arch }}.snap "$GITHUB_WORKSPACE/artifacts/"
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: nelson-github-action-artifacts-snapcraft-${{ matrix.arch }}-${{ steps.json_version.outputs.version }}.${{ github.run_number }}
+          path: artifacts/
+
+      - name: Install snap
+        run: sudo snap install "$GITHUB_WORKSPACE"/artifacts/nelson_*_${{ matrix.arch }}.snap --dangerous
+
+      # the installed snap runs the minimal tests, the job fails when one of them does
+      - name: Minimal tests
+        run: nelson --cli --no-ipc --quiet -e "if ~test_run('minimal_tests'), exit(1); end; exit(0);"

@@ -5,8 +5,7 @@ param(
     [switch]$Uninstall
 )
 $ErrorActionPreference = 'Stop'
-$repo = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../..'))
-$root = Join-Path $repo ('temp/runtime-lock-' + [Guid]::NewGuid().ToString('N'))
+$root = Join-Path ([IO.Path]::GetTempPath()) ('nelson-runtime-lock-' + [Guid]::NewGuid().ToString('N'))
 New-Item -ItemType Directory -Path $root | Out-Null
 $log = Join-Path $root 'install.log'
 $destination = Join-Path $root 'runtime'

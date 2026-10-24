@@ -211,6 +211,8 @@ private:
     void
     notifyPosted()
     {
+        // Wake a console prompt blocked on a key so it runs the task now.
+        notifyInterpreterWakeup();
         std::function<void()> hook;
         {
             std::lock_guard<std::mutex> lock(m_mutex);

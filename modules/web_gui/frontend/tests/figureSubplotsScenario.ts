@@ -50,6 +50,7 @@ export async function figureSubplotsScenario(page: Page, saveLabel = 'Save as…
       .not.toContain('Pending');
   };
   await page.goto('/');
+  await page.getByRole('tab', { name: 'Command Window', exact: true }).click();
   await expect(page.locator('.console-host').first()).toContainText('connected:', {
     timeout: 120000,
   });
@@ -57,7 +58,8 @@ export async function figureSubplotsScenario(page: Page, saveLabel = 'Save as…
     "close('all'); f=figure('Name','Subplots test','WindowStyle','docked'); a1=subplot(2,2,1); plot(1:5); a2=subplot(2,2,2); plot3([0 1 2],[0 1 0],[0 1 2]); a3=subplot(2,2,3); surf(peaks(25)); title('Surface peaks'); a4=subplot(2,2,4); plot(5:-1:1); camva(a3,15); drawnow(); p0=a3.CameraPosition; t0=a3.CameraTarget; others=[a1.CameraPosition;a2.CameraPosition;a4.CameraPosition]"
   );
   await show();
-  await expect(page.getByRole('group', { name: 'Figure navigation' })).toHaveCount(0);
+  // the navigation tools are always shown, the details bar is the opt in part
+  await expect(page.getByRole('group', { name: 'Figure navigation' })).toHaveCount(1);
   await expect(page.locator('.figure-workspace-legend')).toHaveCount(0);
   await expect(page.locator('.figure-workspace-status')).toHaveCount(0);
   await showFigureBars(page);
@@ -102,15 +104,17 @@ export async function figureSubplotsScenario(page: Page, saveLabel = 'Save as…
   // Filled-to-wireframe must keep labels from all four subplots visible.
   await show();
   await page.getByRole('button', { name: 'Properties', exact: true }).click();
+  // the lower left subplot holds the only surface of the figure
   await page
-    .getByRole('combobox', { name: 'Axes', exact: true })
-    .selectOption({ label: 'Surface peaks' });
+    .getByRole('tree', { name: 'Object browser' })
+    .getByRole('button', { name: 'surface', exact: true })
+    .click();
   await waitForFigureLayout(page);
   const labels = page.locator('canvas[data-figure-layer="text-overlay"]');
   for (const faceColor of ['none', 'flat']) {
-    const color = page.getByRole('textbox', { name: 'FaceColor', exact: true });
-    await color.fill(faceColor);
-    await color.press('Enter');
+    // a surface FaceColor is an enumeration in the property grid
+    const color = page.getByRole('combobox', { name: 'FaceColor', exact: true });
+    await color.selectOption(faceColor);
     await expect(color).toHaveValue(faceColor);
     await expect(page.locator('.figure-workspace-status')).not.toContainText('Pending');
     await run(`asserts.isequal(get(findobj(a3,'Type','surface'),'FaceColor'),'${faceColor}')`);

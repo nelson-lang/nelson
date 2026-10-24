@@ -23,6 +23,31 @@ For the most up-to-date list of dependencies and build configurations, refer to 
 
 ---
 
+## 🔁 Continuous Integration
+
+GitHub Actions builds and tests Nelson on every push and pull request. The main pipeline is [`ccpp.yml`](https://github.com/nelson-lang/nelson/blob/master/.github/workflows/ccpp.yml): it builds Windows x64, macOS arm64 and Ubuntu x64, then runs the test suite on the installed packages. Other workflows run next to it:
+
+- `cpp-tests.yml` builds and runs the C++ unit tests (doctest) of each module.
+- `frontend.yml` runs the TypeScript unit and e2e tests. It runs on master, or when a frontend directory changes.
+- `prettier.yml` checks the formatting and the spelling.
+
+Some builds are not part of the push pipeline. They are started by hand, from the **Run workflow** button in the Actions tab, or with the [GitHub CLI](https://cli.github.com/):
+
+| Workflow                 | What it builds                                  | Command                                                                 |
+| ------------------------ | ----------------------------------------------- | ----------------------------------------------------------------------- |
+| `ccpp_fedora.yml`        | Fedora 44 build and tests (no display)          | `gh workflow run ccpp_fedora.yml --ref <branch> --repo nelson-lang/nelson`        |
+| `ccpp_windows_cmake.yml` | Windows x64 with CMake instead of `nelson.sln`  | `gh workflow run ccpp_windows_cmake.yml --ref <branch> --repo nelson-lang/nelson` |
+| `minimal.yml`            | Ubuntu 24.04 with `MINIMAL_BUILD=ON`            | `gh workflow run minimal.yml --ref <branch> --repo nelson-lang/nelson`            |
+
+Replace `<branch>` with the branch to build. GitHub only lists a manual workflow once its file exists on the default branch (master). To follow a run:
+
+```bash
+gh run list --workflow ccpp_fedora.yml --repo nelson-lang/nelson --limit 3
+gh run watch <run-id> --repo nelson-lang/nelson
+```
+
+---
+
 ## 🛠️ Code Formatting and Style
 
 To maintain consistent formatting across the codebase, we use **[clang-format](https://clang.llvm.org/docs/ClangFormat.html)** for `.xml`, `.json`, and `.md` files.

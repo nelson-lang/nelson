@@ -64,9 +64,45 @@ GOWindow::setFigureGeometryFromInnerPosition(int x, int y, int width, int height
         windowTop = 0;
     }
     setGeometry(x, windowTop, width + chromeWidth, height + chromeHeight);
-    if (goFig) {
+    requestedInnerWidth = width;
+    requestedInnerHeight = height;
+    drawingAreaRefitDone = false;
+    // the drawing area reported the size during setGeometry on most platforms: when it has
+    // not (Cocoa resizes later), the size is applied now and the report must still run the
+    // SizeChangedFcn
+    if (goFig && (goFig->getWidth() != width || goFig->getHeight() != height)) {
         goFig->setRenderingSize(width, height);
+        goFig->expectSizeReport();
     }
+}
+//=============================================================================
+void
+GOWindow::refitDrawingAreaToRequest()
+{
+    if (drawingAreaRefitDone || requestedInnerWidth <= 0 || requestedInnerHeight <= 0
+        || isDockedInDesktop()) {
+        return;
+    }
+    QWidget* drawingArea = centralWidget();
+    if (!drawingArea) {
+        return;
+    }
+    if (layout()) {
+        layout()->activate();
+    }
+    int deltaWidth = requestedInnerWidth - drawingArea->width();
+    int deltaHeight = requestedInnerHeight - drawingArea->height();
+    if (deltaWidth == 0 && deltaHeight == 0) {
+        return;
+    }
+    drawingAreaRefitDone = true;
+    QRect currentGeometry = geometry();
+    int top = currentGeometry.y() - deltaHeight;
+    if (top < 0) {
+        top = 0;
+    }
+    adjustGeometryToDrawingArea(
+        currentGeometry.x(), top, requestedInnerWidth, requestedInnerHeight);
 }
 //=============================================================================
 void
@@ -100,6 +136,9 @@ GOWindow::presentNativeWindow()
         // Re-apply after show() so the window lands where Position asks even if
         // the platform realized it at a default placement first.
         setGeometry(targetGeometry);
+        // The realized window knows its real chrome: fit the drawing area to the
+        // requested Position before the geometry is read back.
+        refitDrawingAreaToRequest();
         if (qtchild) {
             qtchild->repaint();
         }

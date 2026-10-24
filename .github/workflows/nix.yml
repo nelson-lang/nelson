@@ -1,0 +1,64 @@
+name: "Nix Build"
+
+on:
+  # the Run workflow button in the Actions tab, this build is not part of the push CI
+  workflow_dispatch:
+  workflow_call:
+
+permissions:
+  checks: write
+  contents: read
+
+jobs:
+  Nix:
+    name: Nix (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-26.04
+            extra_cmake_flags: ""
+          - os: ubuntu-24.04-arm
+            extra_cmake_flags: ""
+          - os: macos-latest
+            extra_cmake_flags: "-DCMAKE_OSX_ARCHITECTURES=arm64"
+    defaults:
+      run:
+        # every command runs inside the flake development shell
+        shell: nix develop --command bash -e {0}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      # the toolchain, the libraries, Node.js and Julia come from flake.nix
+      - name: Install dependencies
+        uses: cachix/install-nix-action@v31
+
+      - name: Get package version
+        uses: jaywcjlove/github-action-package@v2.1.0
+        id: json_version
+
+      - name: Update version
+        run: just update_version
+
+      - name: Configure
+        run: |
+          just config "-DCMAKE_BUILD_TYPE=Release ${{ matrix.extra_cmake_flags }} -G Ninja ."
+
+      - name: Build
+        run: just build
+
+      - name: Set Python Environment for Nelson
+        run: just setup_python
+
+      - name: Set Julia Environment for Nelson
+        run: just setup_julia
+
+      - name: Build help
+        run: just build_help
+
+      - name: Minimal tests
+        run: just minimal_tests

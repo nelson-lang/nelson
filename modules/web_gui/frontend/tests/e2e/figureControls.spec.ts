@@ -32,13 +32,14 @@ test.beforeEach(async ({ page }) => {
   ).toBeVisible();
 });
 //=============================================================================
-test('pushbutton activates once after a complete pointer click', async ({ page }) => {
+// The control activates on pointer down (see FigureControls) and only once per click.
+test('pushbutton activates once on pointer down, not again on release', async ({ page }) => {
   const button = page.locator('.figure-panel').getByRole('button', { name: 'Push me' });
   await button.hover();
   await page.mouse.down();
-  expect(await actions(page)).toEqual([]);
-  await page.mouse.up();
   await expect.poll(() => actions(page)).toEqual([{ handle: 9001, value: 0, text: 'Push me' }]);
+  await page.mouse.up();
+  expect(await actions(page)).toEqual([{ handle: 9001, value: 0, text: 'Push me' }]);
   await expect(button).toBeVisible();
 });
 //=============================================================================

@@ -43,6 +43,7 @@ export async function figureWorkspaceScenario(page: Page) {
     await expect(page.locator('.statusbar__state')).toHaveText('Ready', { timeout: 60000 });
   };
   await page.goto('/');
+  await page.getByRole('tab', { name: 'Command Window', exact: true }).click();
   await expect(page.locator('.console-host').first()).toContainText('connected:', {
     timeout: 120000,
   });
@@ -55,21 +56,31 @@ export async function figureWorkspaceScenario(page: Page) {
   await showFigureBars(figure);
   await figure.getByRole('button', { name: 'Properties', exact: true }).click();
   const inspector = figure.getByRole('complementary', { name: 'Figure properties' });
-  await expect(inspector.getByLabel('Plot title', { exact: true })).toBeVisible();
+  const browser = inspector.getByRole('tree', { name: 'Object browser' });
+  await expect(browser.getByRole('button', { name: 'line (Helix)', exact: true })).toBeVisible();
   expect(await inspector.evaluate((element) => element.scrollWidth <= element.clientWidth)).toBe(
     true
   );
-  await inspector.getByLabel('Plot title', { exact: true }).fill('Titre édité');
-  await inspector.getByLabel('Plot title', { exact: true }).press('Enter');
-  await expect(inspector.getByLabel('Plot title', { exact: true })).toHaveValue('Titre édité');
-  await inspector.getByLabel('Line width', { exact: true }).fill('3');
-  await inspector.getByLabel('Line width', { exact: true }).press('Enter');
-  await expect(inspector.getByLabel('Line width', { exact: true })).toHaveValue('3');
+  // the title text object is listed under its string once it has one
+  await run("title(ax,'Titre')");
+  await showFigure();
+  await browser.getByRole('button', { name: 'text (Titre)', exact: true }).click();
+  const titleString = inspector.getByLabel('String', { exact: true });
+  await titleString.fill('Titre édité');
+  await titleString.press('Enter');
+  await expect(titleString).toHaveValue('Titre édité');
+  await browser.getByRole('button', { name: 'line (Helix)', exact: true }).click();
+  // the text object has a LineWidth too: wait for a line only property before editing
+  await expect(inspector.getByLabel('Marker', { exact: true })).toBeVisible();
+  const lineWidth = inspector.getByLabel('LineWidth', { exact: true });
+  await lineWidth.fill('3');
+  await lineWidth.press('Enter');
+  await expect(lineWidth).toHaveValue('3');
   await run(
     "asserts.isequal(ax.Title.String,'Titre édité'); asserts.isequal(h.LineWidth,3); view(ax,12,40); h.LineWidth=2.5; drawnow()"
   );
   await showFigure();
-  await expect(inspector.getByLabel('Line width', { exact: true })).toHaveValue('2.5');
+  await expect(lineWidth).toHaveValue('2.5');
   await expect(inspector.getByRole('slider', { name: /Azimuth/ })).toHaveValue('12');
   await expect(inspector.getByRole('slider', { name: /Elevation/ })).toHaveValue('40');
   await figure.getByRole('combobox', { name: 'View preset' }).selectOption('xy');
@@ -154,8 +165,16 @@ export async function figureWorkspaceScenario(page: Page) {
     .toBeLessThan(1);
   const drawingBox = await drawing.boundingBox();
   if (!drawingBox) throw new Error('Inspection surface is missing');
-  await page.mouse.click(drawingBox.x + drawingBox.width / 2, drawingBox.y + drawingBox.height / 2);
-  await expect(figure.locator('.figure-workspace-status')).toContainText('Point 2 · X 5 · Y 5');
+  // a click that lands before the first frame is drawn picks nothing: click again until it does
+  await expect
+    .poll(async () => {
+      await page.mouse.click(
+        drawingBox.x + drawingBox.width / 2,
+        drawingBox.y + drawingBox.height / 2
+      );
+      return figure.locator('.figure-workspace-status').innerText();
+    })
+    .toContain('Point 2 · X 5 · Y 5');
   await expect(figure.locator('.figure-inspected-point')).toBeVisible();
   await run('close(pickFigure)');
 }

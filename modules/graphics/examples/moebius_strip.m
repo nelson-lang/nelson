@@ -16,7 +16,7 @@ x = radius .* cos(angleGrid);
 y = radius .* sin(angleGrid);
 z = 0.5 * widthGrid .* sin(angleGrid / 2);
 
-figureHandle = figure('Name', 'Moebius strip', 'NumberTitle', 'off');
+figureHandle = figure('SelectionHighlight', 'off', 'Name', 'Moebius strip', 'NumberTitle', 'off');
 axesHandle = axes('Parent', figureHandle);
 surfaceHandle = surf(axesHandle, x, y, z, angleGrid);
 set(surfaceHandle, 'EdgeColor', 'none');

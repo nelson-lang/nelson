@@ -5,11 +5,12 @@
 // The real handler is written against the full Nelson::NFlow types so it has
 // access to the SimCtx helpers (getInput, getState, etc.).
 //
-// Build this file as a shared library alongside library.json.
+// Build this file as a shared library alongside library.json by running
+// builder.m (it uses Nelson's dlgeneratemake / dlmake build tools).
 // The output filename must match the "native" field in library.json:
 //   Windows : nflow_cumprod.dll
-//   Linux   : nflow_cumprod.so     (CMakeLists.txt strips the lib prefix)
-//   macOS   : nflow_cumprod.dylib  (CMakeLists.txt strips the lib prefix)
+//   Linux   : nflow_cumprod.so     (the 'lib' prefix is stripped)
+//   macOS   : nflow_cumprod.dylib  (the 'lib' prefix is stripped)
 //=============================================================================
 // SPDX-License-Identifier: LGPL-3.0-or-later
 //=============================================================================

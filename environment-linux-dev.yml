@@ -1,39 +1,58 @@
 name: nelson
 channels:
   - conda-forge
-  - defaults
 channel_priority: strict
 dependencies:
-  # Build dependencies
+  # Build tools
   - cmake
+  - ninja
+  - just
+  - pkg-config
   - cxx-compiler
-  - gcc=13.3.0=h9576a4e_1 # recent version of gcc is buggy
-  - gcc_impl_linux-64=13.3.0=hfea6d02_1
-  - gcc_linux-64=13.3.0=hc28eda2_7
-  # Host dependencies
-  - mesalib
-  - qt-main
-  - fftw
+  # GUI, graphics and help (qt6-main bundles qtbase, qtdeclarative, qtsvg and qttools)
+  - qt6-main
+  - libgl-devel
+  - libegl-devel
+  - libopengl-devel
+  # Numerics
   - openblas
+  - fftw
+  - eigen
+  - sundials
+  - highs
+  - qhull
+  - tbb-devel
   - openmpi
   - openmpi-mpicc
   - openmpi-mpicxx
-  - libmatio=1.5.26
+  # Data formats
+  # conda-forge still carries a 1.5.6 build the solver may pick: Mat_GetDir needs 1.5.26
+  - libmatio>=1.5.26
   - hdf5
-  - portaudio
+  - libnetcdf
+  - libarrow
+  - libparquet
+  - libxml2
+  - libxml2-devel
+  - libxslt
+  # System libraries
   - libgit2
   - libcurl
   - gettext
   - icu
-  - libxml2
-  - libxslt
-  - libsndfile
   - libffi
   - libzlib
+  # Images
   - giflib
   - libtiff
-  - eigen
+  - libjpeg-turbo
+  - libpng
+  - libwebp
+  # Audio (taglib is not packaged on conda-forge, the audio metadata stay optional)
+  - portaudio
+  - libsndfile
   - jack
-  - pkg-config
-  - mesa-libgl-devel-cos6-x86_64
-  - xorg-x11-server-xvfb-cos6-x86_64
+  - alsa-lib
+  # Python engine (the CI runs 3.14, conda-forge 3.15 has no embed libraries CMake finds)
+  - python=3.14
+  - numpy

@@ -14,6 +14,8 @@
 #include <QtGui/QPixmap>
 #include <QtGui/QRegion>
 #include <QtGui/QSurfaceFormat>
+#include <QtGui/QOpenGLExtraFunctions>
+#include <QtOpenGL/QOpenGLFramebufferObject>
 #include <QtWidgets/QApplication>
 #include <QtCore/QCoreApplication>
 #include <QtCore/QElapsedTimer>
@@ -265,6 +267,76 @@ BaseFigureQt::syncFigureSize(int logicalWidth, int logicalHeight)
     hfig->resizeGL(glWidth, glHeight);
 }
 //=============================================================================
+QImage
+BaseFigureQt::grabCurrentFrameWithoutRender()
+{
+    if (!initializedGL || glWidth <= 0 || glHeight <= 0) {
+        return QImage();
+    }
+    // makeCurrent() binds the widget framebuffer, which still holds the last frame: nothing is
+    // drawn here
+    makeCurrent();
+    QImage image;
+    // the widget framebuffer can be multisampled (setSamples below), glReadPixels on it is a GL
+    // error: blit it into a single sample framebuffer first, as QOpenGLWidget::grabFramebuffer()
+    // does
+    if (QOpenGLFramebufferObject::hasOpenGLFramebufferBlit()) {
+        // a multisample resolve needs the same internal format on both sides
+        QOpenGLFramebufferObjectFormat resolvedFormat;
+        resolvedFormat.setInternalTextureFormat(textureFormat());
+        QOpenGLFramebufferObject resolved(glWidth, glHeight, resolvedFormat);
+        // the context functions, not the static gl* entry points: with the software opengl32sw.dll
+        // those belong to another library and see no current context
+        QOpenGLExtraFunctions* functions = context()->extraFunctions();
+        // drain pending errors, bounded so a dead context can not loop forever
+        for (int i = 0; i < 16 && functions->glGetError() != GL_NO_ERROR; ++i) { }
+        functions->glBindFramebuffer(GL_READ_FRAMEBUFFER, defaultFramebufferObject());
+        functions->glBindFramebuffer(GL_DRAW_FRAMEBUFFER, resolved.handle());
+        functions->glBlitFramebuffer(
+            0, 0, glWidth, glHeight, 0, 0, glWidth, glHeight, GL_COLOR_BUFFER_BIT, GL_NEAREST);
+        if (functions->glGetError() == GL_NO_ERROR) {
+            image = resolved.toImage();
+        }
+        functions->glBindFramebuffer(GL_FRAMEBUFFER, defaultFramebufferObject());
+    }
+    doneCurrent();
+    // a null image makes the caller fall back to grabFramebuffer()
+    if (image.isNull()) {
+        return QImage();
+    }
+    image.setDevicePixelRatio(devicePixelRatioF());
+    return image;
+}
+//=============================================================================
+bool
+BaseFigureQt::hasCleanRenderedFrame()
+{
+    // A frame already painted on screen, at the expected size, with no pending
+    // invalidation: reading it back needs no new render.
+    return initializedGL && paintSerial > 0 && hfig && !hfig->isRenderingStateInvalid()
+        && hasExpectedRenderingSize();
+}
+//=============================================================================
+QImage
+BaseFigureQt::grabFrameReusingLastRender()
+{
+    // grabFramebuffer() forces a full GL re-render (paintGL/glDrawArrays). On a
+    // GPU-less host (CI) that render runs on Apple's software OpenGL and can crash
+    // with SIGBUS. When a clean frame is already present, read it back instead;
+    // otherwise fall back to grabFramebuffer() so the first/dirty frame is rendered.
+    // Only macOS draws into the widget framebuffer through the same OpenGL library: elsewhere
+    // the framebuffer holds uninitialized memory, so the re-render and its fallbacks stay.
+#if defined(__APPLE__)
+    if (hasCleanRenderedFrame()) {
+        QImage image = grabCurrentFrameWithoutRender();
+        if (!image.isNull()) {
+            return image;
+        }
+    }
+#endif
+    return grabFramebuffer();
+}
+//=============================================================================
 bool
 BaseFigureQt::hasExpectedRenderingSize()
 {
@@ -301,13 +373,28 @@ BaseFigureQt::resizeEvent(QResizeEvent* e)
 {
     const bool initialResize = firstTime;
     firstTime = false;
+    if (!e->spontaneous() && !figureRequestsSize(hfig, e->size())) {
+        if (GOWindow* parentWindow = dynamic_cast<GOWindow*>(parentWidget())) {
+            if (parentWindow->isVisible()) {
+                parentWindow->refitDrawingAreaToRequest();
+            }
+        }
+    }
     const bool interactiveResize
         = !initialResize && (e->spontaneous() || !figureRequestsSize(hfig, e->size()));
     if (interactiveResize) {
         if (!resizing) {
             resizeStartSize = e->oldSize();
             if (initializedGL) {
+                // Reuse the last rendered frame instead of grabFramebuffer(), which
+                // forces a full GL re-render during Qt's geometry animation. On a GPU-less
+                // host (CI) that render runs on Apple's software OpenGL and crashes in
+                // glDrawArrays (SIGBUS). Reading the existing framebuffer is safe.
+#if defined(__APPLE__)
+                resizeSnapshot = grabCurrentFrameWithoutRender();
+#else
                 resizeSnapshot = grabFramebuffer();
+#endif
             }
         }
         resizing = true;
@@ -370,7 +457,7 @@ BaseFigureQt::getFrame()
         return renderFigureToImage(this, hfig);
     }
     if (isVisible()) {
-        QImage image = grabFramebuffer().convertToFormat(QImage::Format_ARGB32);
+        QImage image = grabFrameReusingLastRender().convertToFormat(QImage::Format_ARGB32);
         bool renderedByQt = false;
         // A uniform framebuffer is either a plain figure or a GL surface that was
         // not rendered (black in a disconnected remote session or at a fractional
@@ -423,7 +510,7 @@ BaseFigureQt::getOpenGLFrame()
     if (glWidth <= 0 || glHeight <= 0) {
         syncFigureSize(width(), height());
     }
-    return grabFramebuffer().convertToFormat(QImage::Format_ARGB32);
+    return grabFrameReusingLastRender().convertToFormat(QImage::Format_ARGB32);
 }
 //=============================================================================
 bool
@@ -488,9 +575,9 @@ BaseFigureQt::prerenderFirstFrame()
     }
     // Render one frame into the framebuffer object while the native window is hidden.
     // QOpenGLWidget initializes its GL context on the first on-screen paint, so otherwise
-    // the window maps with a black framebuffer. grabFramebuffer() forces initializeGL and
-    // paintGL now.
-    grabFramebuffer();
+    // the window maps with a black framebuffer. No clean frame exists yet, so this forces
+    // initializeGL and paintGL; an already-rendered frame is reused instead of re-rendered.
+    grabFrameReusingLastRender();
 }
 //=============================================================================
 void

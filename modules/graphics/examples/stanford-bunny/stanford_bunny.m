@@ -10,7 +10,7 @@
 tic();
 bunny_directory = [modulepath('graphics', 'root'), '/examples/stanford-bunny/'];
 load([bunny_directory, 'stanford-bunny.nh5']);
-f = figure('Visible', 'off', 'DrawLater', 'on', 'Color', [1, 1, 1]);
+f = figure('SelectionHighlight', 'off', 'Visible', 'off', 'DrawLater', 'on', 'Color', [1, 1, 1]);
 patch('Faces', Faces, 'Vertices', Vertices, 'FaceVertexCData', Colors, ...
   'EdgeColor', 'white', ...
   'FaceColor', 'interp', 'FaceAlpha', 1);

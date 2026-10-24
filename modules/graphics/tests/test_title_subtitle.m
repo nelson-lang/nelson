@@ -9,7 +9,10 @@
 %=============================================================================
 % <--ADV-CLI MODE-->
 %=============================================================================
-f = figure();
+% Pin the calibration geometry for 573x460 on a 1024x768 CI runner.
+set(groot, 'DefaultFigurePosition', [423 180 1074 646]);
+%=============================================================================
+f = figure('Visible', 'off');
 plot([0 1]);
 [t, s] = title('Straight Line', 'Slope = 1, y-Intercept = 0', 'Color', 'blue');
 asserts.isequal(t.String, 'Straight Line');
@@ -24,7 +27,7 @@ asserts.isequal(t.FontSize, s.FontSize);
 asserts.isequal(t.FontWeight, 'bold');
 asserts.isequal(s.FontWeight, 'normal');
 %=============================================================================
-f = figure();
+f = figure('Visible', 'off');
 plot([0 1]);
 ax = gca();
 [t, s] = title('Straight Line', 'Slope = 1');

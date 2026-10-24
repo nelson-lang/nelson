@@ -122,6 +122,9 @@ private:
     bool repaintInProgress = false;
     bool repaintDeferred = false;
     bool firstContentPresentationPending = false;
+    int requestedInnerWidth = 0;
+    int requestedInnerHeight = 0;
+    bool drawingAreaRefitDone = false;
     //=============================================================================
     void
     changeEvent(QEvent* event) override;
@@ -260,6 +263,10 @@ public:
     grabFrameImage(bool rawOpenGL = false, bool wait = true);
     void
     ensureBaseFigureWidget();
+    // Re-fits the drawing area to the last requested Position once the realized
+    // window chrome is known (called from the canvas resize that misses the request).
+    void
+    refitDrawingAreaToRequest();
 #ifdef _MSC_VER
     void
     serviceNativeResize(bool force, const QSize& oldWindowSize = QSize());

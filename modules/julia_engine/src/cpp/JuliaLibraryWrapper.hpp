@@ -18,6 +18,14 @@
 #include <cstdio>
 #include <julia.h>
 //=============================================================================
+// Julia >= 1.13 removed the jl_function_t typedef (it was always jl_value_t).
+#ifndef JULIA_VERSION_MINOR
+#define JULIA_VERSION_MINOR 0
+#endif
+#if JULIA_VERSION_MAJOR > 1 || (JULIA_VERSION_MAJOR == 1 && JULIA_VERSION_MINOR >= 13)
+typedef jl_value_t jl_function_t;
+#endif
+//=============================================================================
 bool
 isJuliaLibraryLoaded();
 //=============================================================================

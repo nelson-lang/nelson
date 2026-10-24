@@ -69,9 +69,9 @@ namespace NFlow {
         const std::function<bool()>& isCancelled = nullptr,
         const std::function<bool()>& isPaused = nullptr);
     //=============================================================================
-    // Register the built-in block handlers (and scan NFLOW_DEV_PLUGIN_SCAN_PATH)
-    // exactly once. Called by runSimulation and by the code generators so block
-    // codegen templates resolve even when no simulation ran first.
+    // Register the built-in block handlers exactly once. Called by runSimulation
+    // and by the code generators so block codegen templates resolve even when no
+    // simulation ran first.
     NLSNFLOW_ENGINE_IMPEXP void
     ensureBuiltinsRegistered();
     //=============================================================================

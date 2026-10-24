@@ -85,6 +85,7 @@ createWaitBarFigure()
     args << ArrayOf::characterArray(L"Name");
     args << ArrayOf::characterArray(L"");
     args << ArrayOf::characterArray(L"Tag");
+    args << ArrayOf::characterArray(L"");
     args << ArrayOf::characterArray(L"WindowStyle");
     args << ArrayOf::characterArray(L"normal");
     args << ArrayOf::characterArray(L"Interruptible");

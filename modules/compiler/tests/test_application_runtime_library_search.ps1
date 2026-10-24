@@ -3,8 +3,7 @@
 # SPDX-License-Identifier: LGPL-3.0-or-later
 param([string]$CMake = 'cmake')
 $ErrorActionPreference = 'Stop'
-$repo = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../..'))
-$root = Join-Path $repo ('temp/compiler-runtime-library-search-' + [Guid]::NewGuid().ToString('N'))
+$root = Join-Path ([IO.Path]::GetTempPath()) ('nelson-compiler-runtime-library-search-' + [Guid]::NewGuid().ToString('N'))
 $source = Join-Path $PSScriptRoot 'fixtures/runtime_library_search'
 New-Item -ItemType Directory -Path $root | Out-Null
 "RUNTIME_LIBRARY_SEARCH_TEST=$root"

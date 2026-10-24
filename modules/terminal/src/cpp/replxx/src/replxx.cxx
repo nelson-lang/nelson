@@ -389,6 +389,12 @@ Replxx::write(char const* str, int length)
 }
 
 void
+Replxx::wake()
+{
+    _impl->wake();
+}
+
+void
 Replxx::set_prompt(std::string prompt)
 {
     return (_impl->set_prompt(std::move(prompt)));

@@ -307,6 +307,7 @@ GOFigure::registerProperties()
     registerProperty(new GOCallbackProperty, GO_CLOSE_REQUEST_FCN_PROPERTY_NAME_STR);
     registerProperty(new GOCallbackProperty, GO_SIZE_CHANGED_FCN_PROPERTY_NAME_STR);
     registerProperty(new GOOnOffProperty, GO_RESIZE_PROPERTY_NAME_STR);
+    registerProperty(new GOOnOffProperty, GO_SELECTION_HIGHLIGHT_PROPERTY_NAME_STR);
     registerProperty(new GOScalarProperty, GO_DEVICE_PIXEL_RATIO_PROPERTY_NAME_STR, false, false);
     registerProperty(new GOWindowStateProperty, GO_WINDOW_STATE_PROPERTY_NAME_STR);
     registerCommonProperties(this);
@@ -337,6 +338,7 @@ GOFigure::initializeProperties()
     setRestrictedStringDefault(GO_BUSY_ACTION_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_QUEUE_STR);
     setRestrictedStringDefault(GO_WINDOW_STATE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_NORMAL_STR);
     setRestrictedStringDefault(GO_RESIZE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
+    setRestrictedStringDefault(GO_SELECTION_HIGHLIGHT_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
     // Default the device pixel ratio to the display scale, so a figure captured
     // without a realized window reports the resolution the Qt backend uses. A
     // realized window later overwrites it with the exact widget ratio. It stays 1.0
@@ -849,9 +851,10 @@ GOFigure::refreshChildrenLayout()
 void
 GOFigure::resizeGL(int width, int height)
 {
-    if ((m_width == width) && (m_height == height)) {
+    if ((m_width == width) && (m_height == height) && !m_sizeReportExpected) {
         return;
     }
+    m_sizeReportExpected = false;
     _resized = true;
     double geoX = 0;
     double geoY = 0;

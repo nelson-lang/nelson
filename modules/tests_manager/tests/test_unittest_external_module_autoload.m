@@ -10,14 +10,13 @@
 % <--WEIGHT 4-->
 skip_if_no_native_unittest_runner();
 %=============================================================================
-moduleRoot = fileparts(fileparts(nfilename('fullpath')));
-repoRoot = fileparts(fileparts(moduleRoot));
+moduleRoot = modulepath('tests_manager');
 savedPath = path();
 previousForceNativeRunner = getenv('NELSON_UNITTEST_FORCE_NATIVE_RUNNER');
 setenv('NELSON_UNITTEST_FORCE_NATIVE_RUNNER', 'TRUE');
 addpath(fullfile(moduleRoot, 'functions'));
 addpath(fullfile(moduleRoot, 'tests'));
-testRoot = fullfile(repoRoot, 'temp', ['external_autoload_', createGUID()]);
+testRoot = fullfile(tempdir(), ['external_autoload_', createGUID()]);
 mkdir(testRoot);
 cleanup = onCleanup(@() cleanupExternalIdentity(testRoot, savedPath, previousForceNativeRunner));
 relativeRoots = {'source', 'modules/some-directory/1.0.0', 'modules/.nmm-tmp/staged'};
