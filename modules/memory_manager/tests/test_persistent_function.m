@@ -13,6 +13,6 @@ function r = test_persistent_function()
     calls = 0;
   end
   disp(['nb calls to test_persistent_function: ', int2str(calls)]);
-  r= calls;
+  r = calls;
   calls = calls + 1;
 end

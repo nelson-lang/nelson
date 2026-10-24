@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -18,8 +18,9 @@ h5LoadInteger(hid_t fid, const std::string& location, const std::string& variabl
 {
     bool bSuccess = false;
     if (isEmpty) {
-        VariableValue = ArrayOf::emptyConstructor(dims);
+        VariableValue = ArrayOf::empty(dims);
         VariableValue.promoteType(destClass);
+        bSuccess = true;
     } else {
         std::string h5path;
         if (location == "/") {
@@ -45,7 +46,7 @@ h5LoadInteger(hid_t fid, const std::string& location, const std::string& variabl
         if (!error.empty()) {
             return false;
         }
-        if (!VariableValue.getDimensions().equals(dims)) {
+        if (!VariableValue.dimensions().equals(dims)) {
             return false;
         }
         VariableValue.promoteType(destClass);

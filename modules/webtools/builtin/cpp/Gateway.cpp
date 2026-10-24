@@ -16,20 +16,20 @@ using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"webtools";
 //=============================================================================
-#if defined(WITH_LIBCURL) || defined(WITH_LIBGIT2)
+// nlsBuildConfig.h defines WITH_LIBCURL / WITH_LIBGIT2 as 0 or 1; the
+// WebAssembly build provides webREST without libcurl (NELSON_WEBTOOLS_WASM).
+#if WITH_LIBCURL || WITH_LIBGIT2 || defined(NELSON_WEBTOOLS_WASM)
 static const nlsGateway gateway[] = {
-#ifdef WITH_LIBCURL
+#if WITH_LIBCURL || defined(NELSON_WEBTOOLS_WASM)
     { "webREST", (ptrBuiltin)Nelson::WebtoolsGateway::webRESTBuiltin, 1, 5,
         CPP_BUILTIN_WITH_EVALUATOR },
 #endif
-#ifdef WITH_LIBGIT2
+#if WITH_LIBGIT2
     { "repo", (ptrBuiltin)Nelson::WebtoolsGateway::repoBuiltin, 1, 2 },
 #endif
 };
 //=============================================================================
-NLSGATEWAYFUNC(gateway)
-NLSGATEWAYINFO(gateway)
-NLSGATEWAYREMOVE(gateway)
-NLSGATEWAYNAME()
+NLS_GATEWAY_FUNC(gateway)
+NLS_GATEWAY_REMOVE(gateway)
 #endif
 //=============================================================================

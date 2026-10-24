@@ -8,7 +8,7 @@
     <syntax_item>imwrite(A, filename)</syntax_item>
     <syntax_item>imwrite(A, map, filename)</syntax_item>
     <syntax_item>imwrite(..., fmt)</syntax_item>
-    <syntax_item>imwrite(..., , propertyName, propertyValue)</syntax_item>
+    <syntax_item>imwrite(..., propertyName, propertyValue)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -45,26 +45,38 @@
     <p>
       <b>imwrite(A, filename)</b> writes image data<b>A</b> to the file specified by <b>filename</b>
     </p>
+    <p>Writable formats are PNG, JPEG/JFIF, GIF, WebP, TIFF, BMP/DIB, TGA, PBM, PGM,
+    PPM/PNM and PCX. The format is selected from <b>fmt</b>, or from the filename extension.</p>
+    <p><b>A</b> may be logical, single, double, uint8 or uint16. A two-dimensional array is
+    grayscale unless a K-by-3 colormap in [0, 1] is supplied; a direct-color image is
+    M-by-N-by-3. The alpha matrix must be exactly M-by-N. Floating-point and
+    logical data are normalized to 8 bits; uint8 data is used directly. An indexed image remains
+    indexed when each palette entry has a consistent alpha value. uint16 input is accepted only
+    for grayscale PNG, TIFF and PGM. Other formats report an explicit error.</p>
+    <p>Files are replaced atomically after successful encoding, so an encoding error does not
+    leave a partially written destination.</p>
     <p />
     <p>Property name:</p>
     <p />
     <p>
-      <b>Quality</b>: quality of output file: scalar in the range [0, 100] (75 as default).</p>
+      <b>Quality</b>: JPEG or WebP quality in [0, 100] (75 by default).</p>
     <p>
-      <b>Alpha</b>: matrix of values in the range [0, 1]: Transparency of each pixel.</p>
+      <b>Alpha</b>: M-by-N per-pixel matrix; floating-point values use [0, 1], uint8 values use [0, 255].</p>
     <p>
-      <b>Comment</b>: character vector, string scalar, cell array of character vectors or string array: Comment added to image.</p>
+      <b>Comment</b>: text stored when the selected codec supports this metadata.</p>
     <p>
-      <b>Author</b>: character vector or string scalar: Author information.</p>
+      <b>Author</b>: author text stored when the selected codec supports this metadata.</p>
+    <p>PNG, JPEG and TIFF store <b>Comment</b> and <b>Author</b>; GIF stores <b>Comment</b>.
+    Other codecs ignore these properties without failing the image write.</p>
     <p />
     <p>Properties for <b>gif</b> format:</p>
     <p />
     <p>
-      <b>WriteMode</b>:</p>
+      <b>WriteMode</b>: <b>overwrite</b> (default) or <b>append</b>.</p>
     <p>
-      <b>LoopCount</b>:</p>
+      <b>LoopCount</b>: animation loop count; <b>Inf</b> repeats indefinitely.</p>
     <p>
-      <b>DelayTime</b>:</p>
+      <b>DelayTime</b>: frame delay in seconds, in [0, 655].</p>
   </description>
   <used_function />
   <bibliography />
@@ -79,11 +91,21 @@ A = rand(69, 69);
 A(:,:,2) = rand(69,69);
 A(:,:,3) = rand(69,69);
 imshow(A);
-imwrite(A, [tempdir, '69x69-RGB.png']);]]></example_item_data>
+imwrite(A, [tempdir, '69x69-RGB.png']);
+close(f);]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description>gif animation</example_item_description>
+      <example_item_description>WebP with alpha and a 16-bit PNG.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[rgb = rand(16, 16, 3);
+alpha = rand(16, 16);
+gray16 = uint16(reshape(0:255, 16, 16) * 257);
+imwrite(rgb, [tempdir, 'image.webp'], 'Quality', 90, 'Alpha', alpha);
+imwrite(gray16, [tempdir, 'image16.png']);]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>GIF animation with complete animation options.</example_item_description>
       <example_item_img
         src="../../images/imwrite_gif.gif"
         align="middle"
@@ -91,34 +113,15 @@ imwrite(A, [tempdir, '69x69-RGB.png']);]]></example_item_data>
       />
       <example_item_data
         runnable="adv-cli"
-      ><![CDATA[movie_directory = [modulepath('graphics'), '/examples/', 'movie/'];
-sequences = {'dance', 8; 'leap', 9};
-frameIdx = 0;
-filename_gif = [tempdir, 'gif_animation.gif'];
-for s = 1:size(sequences, 1)
-    action = sequences{s, 1};
-    nb_frames_action = sequences{s, 2};
-    for i = 1:nb_frames_action
-        % Construct the filename for the current frame
-        filename = fullfile(movie_directory, sprintf('%s_%d.png', action, i));
-        % Read the image and store it in the movie structure
-        [image, map] = imread(filename);
-        % Read the image
-        [A, map] = imread(filename);
-        if frameIdx == 1
-            imwrite(A,map,filename_gif,"gif", 'LoopCount', Inf, 'DelayTime', 1);
-        else
-            imwrite(A,map,filename_gif,"gif", 'WriteMode', "append", 'DelayTime', 1)
-        end
-        frameIdx = frameIdx + 1;
-    end
-end
-if ispc()
-  unix(filename_gif);
-else
-  unix(['xdg-open ', filename_gif]);
-end
-]]></example_item_data>
+      ><![CDATA[firstFrame = uint8(zeros(32, 32, 3));
+firstFrame(:, :, 1) = 255;
+secondFrame = uint8(zeros(32, 32, 3));
+secondFrame(:, :, 3) = 255;
+filename_gif = [tempname(), '.gif'];
+imwrite(firstFrame, filename_gif, 'gif', 'WriteMode', 'overwrite', ...
+        'LoopCount', Inf, 'DelayTime', 0.25);
+imwrite(secondFrame, filename_gif, 'gif', 'WriteMode', 'append', ...
+        'DelayTime', 0.50);]]></example_item_data>
     </example_item>
   </examples>
   <see_also>
@@ -126,7 +129,7 @@ end
       <link linkend="${graphics_io}imread">imread</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${graphics}imshow">imshow</link>
+      <link linkend="${graphics}4_images/imshow">imshow</link>
     </see_also_item>
     <see_also_item>
       <link linkend="${graphics_io}imformats">imformats</link>
@@ -140,6 +143,10 @@ end
     <history_item>
       <history_version>1.13.0</history_version>
       <history_description>gif animation, pcx format added</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>WebP, portable codecs and 16-bit grayscale writing added</history_description>
     </history_item>
   </history>
   <authors>

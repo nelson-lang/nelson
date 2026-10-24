@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="307" height="207" viewBox="-153.5 -103.5 307 207">
+  <rect x="-153.5" y="-103.5" width="307" height="207" rx="39.33" fill="#EAF7EC" stroke="#A6DDB0" stroke-width="3.25"/>
+  <g transform="matrix(1 0 0 -1 0 0)">
+    <g transform="translate(50 -20) rotate(0)">
+    <path d="M38.302 32.139 A50 50 0 0 1 -38.302 32.139" fill="none" stroke="#1E6B2E" stroke-width="3.25"/>
+    </g>
+    <g transform="translate(-50 -20) rotate(0)">
+    <path d="M38.302 32.139 A50 50 0 0 1 -38.302 32.139" fill="none" stroke="#1E6B2E" stroke-width="3.25"/>
+    </g>
+    <g transform="translate(0,-60) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32" fill="#1E6B2E">Torque2</text></g>
+    <polygon points="-80,28 -72,18 -92,8 -80,28" fill="#1E6B2E" stroke="#1E6B2E" stroke-width="6.5" stroke-linejoin="round"/>
+    <polygon points="80,28 72,18 92,8 80,28" fill="#1E6B2E" stroke="#1E6B2E" stroke-width="3.25" stroke-linejoin="round"/>
+  </g>
+</svg>

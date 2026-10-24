@@ -7,80 +7,85 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('logm'), 1);
-assert_isequal(nargout('logm'), 1);
+% <--REUSE PROCESS-->
+asserts.isequal(nargin('logm'), 1);
+asserts.isequal(nargout('logm'), 1);
 %=============================================================================
 R = logm([1, 2; 3, 4]);
-REF = [  -0.3504 + 2.3911i   0.9294 - 1.0938i
-1.3940 - 1.6406i   1.0436 + 0.7505i];
-assert_isapprox(R, REF, 1e-4);
-assert_isequal(class(R), 'double');
+REF = [-0.3504 + 2.3911i 0.9294 - 1.0938i
+  1.3940 - 1.6406i 1.0436 + 0.7505i];
+asserts.isapprox(R, REF, 1e-4);
+asserts.isequal(class(R), 'double');
 %=============================================================================
 R = logm(single([1, 2; 3, 4]));
-REF = [  -0.3504 + 2.3911i   0.9294 - 1.0938i
-1.3940 - 1.6406i   1.0436 + 0.7505i];
+REF = [-0.3504 + 2.3911i 0.9294 - 1.0938i
+  1.3940 - 1.6406i 1.0436 + 0.7505i];
 REF = single(REF);
-assert_isapprox(abs(R), abs(REF), 1e-4);
-assert_isequal(class(R), 'single');
+asserts.isapprox(abs(R), abs(REF), 1e-4);
+asserts.isequal(class(R), 'single');
 %=============================================================================
 R = logm([]);
 REF = [];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = logm(100);
 REF = 4.6052;
-assert_isapprox(R, REF, 1e-4);
+asserts.isapprox(R, REF, 1e-4);
 %=============================================================================
-assert_checkerror('R = logm(NaN);', _('Input must be finite.'));
+asserts.istrue(isnan(logm(NaN)));
 %=============================================================================
-assert_checkerror('R = logm(inf);', _('Input must be finite.'));
+asserts.istrue(isnan(logm(inf)));
 %=============================================================================
 R = logm(i);
 REF = 0.0000 + 1.5708i;
-assert_isapprox(R, REF, 1e-4);
+asserts.isapprox(R, REF, 1e-4);
 %=============================================================================
-M = [1 -1 -1;0 1 -1; 0 0 1];
+M = [1 -1 -1; 0 1 -1; 0 0 1];
 R = logm(M);
 % singular values
 %=============================================================================
-M = [1 -1;0 1];
+M = [1 -1; 0 1];
 R = logm(M);
 % singular values
 %=============================================================================
 M = eye(100);
 R = logm(M);
 REF = zeros(100, 100);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 M = [1 1 0; 0 0 2; 0 0 -1] + i;
 R = expm(logm(M));
-assert_isapprox(abs(real(R)), abs(real(M)), 1e-4);
-assert_isapprox(abs(imag(R)), abs(imag(M)), 1e-4);
+asserts.isapprox(abs(real(R)), abs(real(M)), 1e-4);
+asserts.isapprox(abs(imag(R)), abs(imag(M)), 1e-4);
 %=============================================================================
-assert_checkerror('logm([1 2])', _('Square matrix expected.'));
+asserts.checkerror('logm([1 2])', sprintf(_('%s expected.'), 'Square matrix'));
 %=============================================================================
 M = [0 1; 0 0];
 R = logm(M);
 % singular values
 %=============================================================================
 M = [2.7183, 1.7183, 1.0862;
-0, 1.0000, 1.2642;
-0, 0, 0.3679];
+  0, 1.0000, 1.2642;
+  0, 0, 0.3679];
 R = logm(M);
 REF = [1, 1, 0.0001;
-0, 0, 1.9999;
-0, 0, -0.9999];
-assert_isapprox(R, REF, 1e-4);
+  0, 0, 1.9999;
+  0, 0, -0.9999];
+asserts.isapprox(R, REF, 1e-4);
 %=============================================================================
-M = [-1 2 ; 4 -1];
+M = [-1 2; 4 -1];
 R = logm(M);
-REF = [0.9730+1.5708i, -0.2613-1.1107i;
--0.5226-2.2214i, 0.9730+1.5708i];
-assert_isapprox(R, REF, 1e-4);
+REF = [0.9730 + 1.5708i, -0.2613 - 1.1107i;
+  -0.5226 - 2.2214i, 0.9730 + 1.5708i];
+asserts.isapprox(real(R), real(REF), 1e-4);
+asserts.isapprox(abs(imag(R)), abs(imag(REF)), 1e-4);
 %=============================================================================
-M = expm(logm([-1 2 ; 4 -1]));
+M = expm(logm([-1 2; 4 -1]));
 R = logm(M);
-REF = [ 0.9730+1.5708i, -0.2613-1.1107i;
--0.5226-2.2214i, 0.9730+1.5708i];
-assert_isapprox(R, REF, 1e-4);
+REF = [0.9730 + 1.5708i, -0.2613 - 1.1107i;
+  -0.5226 - 2.2214i, 0.9730 + 1.5708i];
+asserts.isapprox(real(R), real(REF), 1e-4);
+asserts.isapprox(abs(imag(R)), abs(imag(REF)), 1e-4);
+%=============================================================================
+asserts.isapprox(logm(diag([1 4])), diag([0 log(4)]), 1e-12);
 %=============================================================================

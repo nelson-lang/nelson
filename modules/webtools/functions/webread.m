@@ -9,10 +9,10 @@
 %=============================================================================
 function varargout = webread(varargin)
   if nargin < 1
-    error(_('Wrong number of input arguments.'));
+    error('Nelson:notEnoughInputs', 'Not enough input arguments.');
   end
   if nargout > 2
-    error(_('Wrong number of output arguments.'));
+    error('Nelson:tooManyOutputs', 'Too many output arguments.');
   end
   url = getArgumentAsCharactersVector(varargin{1});
   options = [];
@@ -30,7 +30,7 @@ function varargout = webread(varargin)
     options_position = -1;
   end
   if ~(options_position == -1 || options_position == nargin)
-    error(_('weboptions must be last argument.'));
+    error('Nelson:webtools:weboptionsMustBeLast', 'weboptions must be last argument.');
   end
   if options_position == -1
     last = nargin;
@@ -45,7 +45,7 @@ function varargout = webread(varargin)
   if strcmp(options.MediaType, 'auto') == 1
     options.MediaType = 'application/x-www-form-urlencoded';
   end
-  tmpfile = webREST(url, [], tmpfile, st, options);
+  [tmpfile, responseContentType] = webREST(url, [], tmpfile, st, options);
   if isa(options.ContentReader, 'function_handle')
     reader = options.ContentReader;
     switch nargout
@@ -59,11 +59,13 @@ function varargout = webread(varargin)
         [res1, res2] = reader(tmpfile);
         varargout{1} = res1;
         varargout{2} = res2;
-      otherwise
-        error(_('Wrong number of output arguments.'));
       end
     else
-      res = convertContentType(tmpfile, options.ContentType, options.CharacterEncoding);
+      contentType = options.ContentType;
+      if strcmp(contentType, 'auto')
+        contentType = contentTypeFromMediaType(responseContentType);
+      end
+      res = convertContentType(tmpfile, contentType, options.CharacterEncoding);
       switch nargout
         case 0
           if length(res) > 0
@@ -76,8 +78,6 @@ function varargout = webread(varargin)
         case 2
           varargout{1} = res{1};
           varargout{2} = res{2};
-        otherwise
-          error(_('Wrong number of output arguments.'));
         end
       end
       if isfile(tmpfile)
@@ -85,6 +85,21 @@ function varargout = webread(varargin)
       end
     end
     %=============================================================================
+function contentType = contentTypeFromMediaType(responseContentType)
+  % Maps the Content-Type header of the response to a ContentType value.
+  % Unknown or missing media types, or a decoder absent from this mode (imread
+  % needs a graphical mode), keep 'auto', the content sniffing path.
+  contentType = 'auto';
+  mediaType = lower(strtrim(strtok(responseContentType, ';')));
+  if startsWith(mediaType, 'image/') && exist('imread') ~= 0
+    contentType = 'image';
+  elseif startsWith(mediaType, 'audio/') && exist('audioread') ~= 0
+    contentType = 'audio';
+  elseif endsWith(mediaType, '/json') || endsWith(mediaType, '+json')
+    contentType = 'json';
+  end
+end
+%=============================================================================
 function res = convertContentType(filename, contentType, characterEncoding)
   res = {};
   switch contentType
@@ -93,6 +108,13 @@ function res = convertContentType(filename, contentType, characterEncoding)
     case 'text'
       txt = fileread(filename, 'char', 'native', characterEncoding);
       res = {txt};
+    case 'image'
+      [img, map] = imread(filename);
+      if isempty(map)
+        res = {img};
+      else
+        res = {img, map};
+      end
     case 'audio'
       [y, fs] = audioread(filename);
       res = {y, fs};
@@ -105,6 +127,11 @@ function res = convertContentType(filename, contentType, characterEncoding)
       txt = fileread(filename, 'char', 'native', characterEncoding);
       json = jsondecode(txt);
       res = {json};
+    case 'table'
+      res = {readtable(filename)};
+    case 'xmldom'
+      txt = fileread(filename, 'char', 'native', characterEncoding);
+      res = {txt};
     case 'raw'
       fid = fopen(filename, 'r');
       data = fread(fid, 'uint8');
@@ -151,7 +178,7 @@ function res = autoConvert(filename, characterEncoding)
     lasterror('reset');
     res = {};
   end
-  
+
   try
     fid = fopen(filename, 'r');
     data = fread(fid, 'uint8');
@@ -168,7 +195,7 @@ function str = getArgumentAsCharactersVector(arg)
   str = arg;
   supported = (isstring(str) && isscalar(str)) || (ischar(str) && (size(str, 1) == 1));
   if (~supported)
-    error(_('Invalid type for #1 input argument: ''char'' or ''string'' expected.'));
+    error('Nelson:types:wrongArgumentTypeExpected', 'Wrong type for argument #%d: %s expected.', 1, '''char'' or ''string''');
   end
   str = convertStringsToChars(str);
 end

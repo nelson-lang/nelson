@@ -23,7 +23,7 @@ function [status, pathcmake] = findcmake()
   else
     cmake_name = 'cmake';
   end
-  r = searchenv(cmake_name,'PATH');
+  r = searchenv(cmake_name, 'PATH');
   if ~isempty(r)
     status = true;
     pathcmake = r{1};

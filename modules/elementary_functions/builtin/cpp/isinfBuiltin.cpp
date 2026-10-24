@@ -20,8 +20,7 @@ Nelson::ElementaryFunctionsGateway::isinfBuiltin(int nLhs, const ArrayOfVector& 
     ArrayOfVector retval;
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
-    if (argIn[0].isSparse() || argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct()
-        || argIn[0].isClassType()) {
+    if (argIn[0].isCell() || argIn[0].isHandle() || argIn[0].isStruct() || argIn[0].isClassType()) {
         OverloadRequired("isinf");
     }
     retval << IsInf(argIn[0]);

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,10 +9,11 @@
 //=============================================================================
 #include "h5ReadBitfield.hpp"
 #include "h5ReadHelpers.hpp"
-#include "Exception.hpp"
+#include "NelsonException.hpp"
 #include "NewWithException.hpp"
 #include "Error.hpp"
 #include "i18n.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -28,7 +29,7 @@ h5ReadBitfield(hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, 
     }
     hsize_t sizeType = H5Tget_size(type_id);
     int rank;
-    Dimensions dims = getDimensions(dspace_id, rank);
+    Dimensions dims = dimensions(dspace_id, rank);
     if ((rank == 0) && (storageSize == 0)) {
         dims = Dimensions(0, 0);
     }
@@ -52,20 +53,19 @@ h5ReadBitfield(hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, 
         dataType = H5Tcopy(H5T_NATIVE_B64);
     } break;
     default: {
-        error = _W("Type not managed.");
+        error = _W("Type not supported.");
         return res;
     } break;
     }
     if (dims.isEmpty(false)) {
-        res = ArrayOf::emptyConstructor(dims);
+        res = ArrayOf::empty(dims);
         res.promoteType(outputClass);
     } else {
         void* ptr = nullptr;
         try {
-            ptr = ArrayOf::allocateArrayOf(
-                outputClass, dims.getElementCount(), stringVector(), false);
-        } catch (Exception& e) {
-            error = e.getMessage();
+            ptr = ArrayOf::allocateArrayOf(outputClass, dims.elementCount(), stringVector(), false);
+        } catch (NelsonException& e) {
+            error = e.message();
             return {};
         }
         hid_t memspace = H5I_INVALID_HID;
@@ -78,20 +78,21 @@ h5ReadBitfield(hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, 
             try {
                 h5_dims
                     = (hsize_t*)new_with_exception<hsize_t>((size_t)rank * sizeof(hsize_t), false);
-            } catch (Exception&) {
+            } catch (NelsonException&) {
                 throw;
             }
             try {
                 h5_maxdims
                     = (hsize_t*)new_with_exception<hsize_t>((size_t)rank * sizeof(hsize_t), false);
-            } catch (Exception&) {
+            } catch (NelsonException&) {
                 throw;
             }
 
             if (H5Sget_simple_extent_dims(dspace_id, h5_dims, h5_maxdims) < 0) {
                 delete[] h5_dims;
                 delete[] h5_maxdims;
-                Error("Impossible to read dimensions and maximum size of data set.");
+                Error("Nelson:hdf5:readDimensionsFailed",
+                    "Impossible to read dimensions and maximum size of data set.");
                 return {};
             }
             memspace = H5Screate_simple(rank, h5_dims, nullptr);
@@ -103,9 +104,11 @@ h5ReadBitfield(hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, 
             ArrayOf(outputClass, dims, ptr);
             res = ArrayOf();
             if (asAttribute) {
-                error = _W("Cannot read attribute.");
+                error = resolveMessageTemplate(
+                    L"Nelson:hdf5:cannotReadAttribute", L"Cannot read attribute.");
             } else {
-                error = _W("Cannot read data set.");
+                error = resolveMessageTemplate(
+                    L"Nelson:hdf5:cannotReadDataSet", L"Cannot read data set.");
                 H5Sclose(memspace);
             }
         } else {

@@ -10,8 +10,8 @@
 % <--PYTHON ENVIRONMENT REQUIRED-->
 %=============================================================================
 py_dict = pyrun("my_dict = {'apple': 1, 'banana': 2, 'orange': 3}", "my_dict")
-assert_istrue(isa(py_dict, 'py.dict'));
+asserts.istrue(isa(py_dict, 'py.dict'));
 %=============================================================================
 py_int = pyrun("A = 1", "A")
-assert_istrue(isa(py_int, 'py.int'));
+asserts.istrue(isa(py_int, 'py.int'));
 %=============================================================================

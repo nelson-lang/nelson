@@ -16,5 +16,5 @@ namespace Nelson {
 ArrayOfVector
 UniqueStringRows(const ArrayOf& input, int nLhs);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

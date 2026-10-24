@@ -9,6 +9,7 @@
 //=============================================================================
 #include <algorithm>
 #include <fstream>
+#include <numeric>
 #include <regex>
 #include <mz_os.h>
 #include "Zip.hpp"
@@ -16,6 +17,7 @@
 #include "ZipHelpers.hpp"
 #include "characters_encoding.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "FileSystemWrapper.hpp"
 #include "StringHelpers.hpp"
@@ -169,7 +171,6 @@ ListFiles(const std::wstring& directory, bool bSubdirectories)
 static void
 prepareFilesToZip(const wstringVector& names, const std::wstring& rootpath,
     wstringVector& localFiles, wstringVector& filesInZip)
-
 {
     wstringVector filteredNames = names;
     std::sort(filteredNames.begin(), filteredNames.end());
@@ -214,7 +215,7 @@ prepareFilesToZip(const wstringVector& names, const std::wstring& rootpath,
         } else if (FileSystemWrapper::Path::is_regular_file(fullname.generic_wstring())) {
             res.emplace_back(fullname.generic_wstring());
         } else {
-            Error(_W("Invalid value."));
+            Error(L"Nelson:zip:invalidValue", L"Invalid value.");
         }
         std::wstring pathwstr;
         if (rootpath == L"." && path.wstring() != L".") {
@@ -244,16 +245,31 @@ prepareFilesToZip(const wstringVector& names, const std::wstring& rootpath,
 void
 Zip(const std::wstring& zipFilename, const wstringVector& names, const std::wstring& rootpath,
     wstringVector& entrynames)
-
+{
+    Zip(zipFilename, names, rootpath, entrynames, false);
+}
+//=============================================================================
+void
+Zip(const std::wstring& zipFilename, const wstringVector& names, const std::wstring& rootpath,
+    wstringVector& entrynames, bool reproducible)
 {
     if (!rootpath.empty() && !FileSystemWrapper::Path::is_directory(rootpath)) {
-        Error(_W("Invalid root path."));
+        Error(L"Nelson:zip:invalidRootPath", L"Invalid root path.");
     }
     wstringVector localFiles;
     wstringVector filesInZip;
     prepareFilesToZip(names, rootpath, localFiles, filesInZip);
     if (localFiles.empty()) {
-        Error(_W("Nothing to zip."));
+        Error(L"Nelson:zip:nothingToZip", L"Nothing to zip.");
+    }
+    std::vector<size_t> order(localFiles.size());
+    std::iota(order.begin(), order.end(), 0);
+    if (reproducible) {
+        if (nfs::exists(nfs::path(zipFilename))) {
+            Error(L"Nelson:nelsonc:archive", L"Application archive must not already exist.");
+        }
+        std::sort(order.begin(), order.end(),
+            [&](size_t left, size_t right) { return filesInZip[left] < filesInZip[right]; });
     }
     Nelson::Zipper zipFile;
     if (FileSystemWrapper::Path::is_regular_file(zipFilename)) {
@@ -262,9 +278,9 @@ Zip(const std::wstring& zipFilename, const wstringVector& names, const std::wstr
     }
     zipFile.open(wstring_to_utf8(zipFilename).c_str(), false);
     if (!zipFile.isOpen()) {
-        Error(_W("Cannot write file:") + L" " + zipFilename);
+        Error(L"Nelson:zip:cannotWriteFile", L"Cannot write file: %s", zipFilename);
     }
-    for (size_t k = 0; k < localFiles.size(); ++k) {
+    for (size_t k : order) {
         std::wstring filename = localFiles[k];
         std::wstring entry = filesInZip[k];
         if (FileSystemWrapper::Path::is_directory(filename)) {
@@ -276,7 +292,7 @@ Zip(const std::wstring& zipFilename, const wstringVector& names, const std::wstr
             if (StringHelpers::starts_with(entry, L"/")) {
                 entry = entry.substr(1);
             }
-            zipFile.addEntry(wstring_to_utf8(entry).c_str(), attributes);
+            zipFile.addEntry(wstring_to_utf8(entry).c_str(), attributes, reproducible);
             zipFile.closeEntry();
             entrynames.push_back(entry);
 
@@ -288,21 +304,21 @@ Zip(const std::wstring& zipFilename, const wstringVector& names, const std::wstr
 #endif
             if (!file.is_open()) {
                 zipFile.close();
-                Error(_W("Cannot read file:") + L" " + filename);
+                Error(L"Nelson:file_archiver:cannotReadFile", L"Cannot read file: %s", filename);
             }
             uint32_t attributes;
             mz_os_get_file_attribs(wstring_to_utf8(filename).c_str(), &attributes);
             if (StringHelpers::starts_with(entry, L"/")) {
                 entry = entry.substr(1);
             }
-            if (zipFile.addEntry(wstring_to_utf8(entry).c_str(), attributes)) {
+            if (zipFile.addEntry(wstring_to_utf8(entry).c_str(), attributes, reproducible)) {
                 zipFile << file;
                 file.close();
                 zipFile.closeEntry();
                 entrynames.push_back(entry);
             } else {
                 zipFile.close();
-                Error(_W("Cannot add entry:") + L" " + entry);
+                Error(L"Nelson:zip:cannotAddEntry", L"Cannot add entry: %s", entry);
             }
         }
     }

@@ -23,12 +23,7 @@ RandomLaggedFibonacci607::RandomLaggedFibonacci607()
     setSeed(seed);
 }
 //=============================================================================
-RandomLaggedFibonacci607::~RandomLaggedFibonacci607()
-{
-
-    uniform_real_generator(true);
-    normal_real_generator(true);
-}
+RandomLaggedFibonacci607::~RandomLaggedFibonacci607() = default;
 //=============================================================================
 std::wstring
 RandomLaggedFibonacci607::getGeneratorName()
@@ -57,21 +52,23 @@ RandomLaggedFibonacci607::getValuesAsDouble(
     case RNG_DISTRIBUTION_UNIFORM_REAL: {
         indexType k = 0;
         while (k < nbElements) {
-            ar[k] = (*uniform_real_generator())();
+            ar[k] = uniform01();
             k++;
         }
     } break;
     case RNG_DISTRIBUTION_UNIFORM_INT: {
         indexType k = 0;
         while (k < nbElements) {
-            ar[k] = static_cast<double>(static_cast<int>(std::floor(uniform01() * maxInt)) + 1);
+            ar[k] = static_cast<double>(minInt
+                + static_cast<int64>(
+                    std::floor(uniform01() * static_cast<double>(maxInt - minInt + 1))));
             k++;
         }
     } break;
     case RNG_DISTRIBUTION_NORMAL: {
         indexType k = 0;
         while (k < nbElements) {
-            ar[k] = (*normal_real_generator())();
+            ar[k] = normal();
             k++;
         }
     } break;
@@ -93,21 +90,23 @@ RandomLaggedFibonacci607::getValuesAsSingle(
     case RNG_DISTRIBUTION_UNIFORM_REAL: {
         indexType k = 0;
         while (k < nbElements) {
-            ar[k] = static_cast<single>((*uniform_real_generator())());
+            ar[k] = static_cast<single>(uniform01());
             k++;
         }
     } break;
     case RNG_DISTRIBUTION_UNIFORM_INT: {
         indexType k = 0;
         while (k < nbElements) {
-            ar[k] = static_cast<single>(static_cast<int>(std::floor(uniform01() * maxInt)) + 1);
+            ar[k] = static_cast<single>(minInt
+                + static_cast<int64>(
+                    std::floor(uniform01() * static_cast<double>(maxInt - minInt + 1))));
             k++;
         }
     } break;
     case RNG_DISTRIBUTION_NORMAL: {
         indexType k = 0;
         while (k < nbElements) {
-            ar[k] = static_cast<single>((*normal_real_generator())());
+            ar[k] = static_cast<single>(normal());
             k++;
         }
     } break;
@@ -152,14 +151,14 @@ RandomLaggedFibonacci607::getStateSize()
 }
 //=============================================================================
 void
-RandomLaggedFibonacci607::setMinMaxUniformIntDistribution(int _min, int _max)
+RandomLaggedFibonacci607::setMinMaxUniformIntDistribution(int64 _min, int64 _max)
 {
     minInt = _min;
     maxInt = _max;
 }
 //=============================================================================
 void
-RandomLaggedFibonacci607::getMinMaxUniformIntDistribution(int& _min, int& _max)
+RandomLaggedFibonacci607::getMinMaxUniformIntDistribution(int64& _min, int64& _max)
 {
     _min = minInt;
     _max = maxInt;

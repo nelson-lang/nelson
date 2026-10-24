@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>imerode</keyword>
+  <short_description>Erode a binary or grayscale image or volume.</short_description>
+  <syntax>
+    <syntax_item>J = imerode(I, SE)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>I</param_name>
+      <param_description>Input binary or grayscale image, or 3-D volume.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>SE</param_name>
+      <param_description>Structuring element structure or logical neighborhood.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>J</param_name>
+      <param_description>Eroded image or volume.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Erode a binary or grayscale image. With a 3-D structuring element, imerode erodes a 3-D volume.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Erode a binary image</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[BW=false(64,64); BW(20:44,20:44)=true;
+J=imerode(BW,strel('disk',5));
+figure; subplot(1,2,1); imagesc(BW); g=linspace(0,1,64)'; colormap([g g g]); title('Input');
+subplot(1,2,2); imagesc(J); g=linspace(0,1,64)'; colormap([g g g]); title('Eroded');]]></example_item_data>
+      <example_item_img
+        src="../../../images/imerode_1.png"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}imdilate">imdilate</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}imopen">imopen</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}imclose">imclose</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}strel">strel</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

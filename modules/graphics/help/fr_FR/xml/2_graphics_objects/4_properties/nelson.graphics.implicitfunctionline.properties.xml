@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>implicitfunctionline properties</keyword>
+  <short_description>Proprietes de l'objet graphique implicitfunctionline.</short_description>
+  <description>
+    <p>Cette page documente les proprietes visibles retournees par <b>properties</b> pour un objet graphique <b>implicitfunctionline</b>.</p>
+    <table>
+      <tr>
+        <th>Propriete</th>
+        <th>Action</th>
+        <th>Type et valeurs prises en charge</th>
+      </tr>
+      <tr>
+        <td><b>Annotation</b></td>
+        <td>met a jour les metadonnees d'annotation utilisees par l'inspection graphique.</td>
+        <td>Type: objet annotation graphique ou handle vide. Valeurs prises en charge: handle d'annotation ou handle vide.</td>
+      </tr>
+      <tr>
+        <td><b>BeingDeleted</b></td>
+        <td>indique l'etat de suppression de l'objet.</td>
+        <td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'off', 'on'.</td>
+      </tr>
+      <tr>
+        <td><b>BusyAction</b></td>
+        <td>controle la file des callbacks pendant l'execution d'un autre callback.</td>
+        <td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'queue', 'cancel'.</td>
+      </tr>
+      <tr>
+        <td><b>ButtonDownFcn</b></td>
+        <td>s'execute quand l'objet recoit un evenement bouton souris.</td>
+        <td>Type: valeur de callback. Valeurs prises en charge: [], fonction handle, vecteur de caracteres, string scalaire ou cellule de callback.</td>
+      </tr>
+      <tr>
+        <td><b>Children</b></td>
+        <td>stocke les handles graphiques enfants.</td>
+        <td>Type: vecteur de handles graphiques. Valeurs prises en charge: vecteur vide ou handles enfants.</td>
+      </tr>
+      <tr>
+        <td><b>Clipping</b></td>
+        <td>controle le rognage dans les axes parents.</td>
+        <td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>Color</b></td>
+        <td>definit la couleur de la courbe implicite.</td>
+        <td>Type: triplet RGB ou nom de couleur. Valeurs prises en charge: triplet RGB, nom court de couleur ou nom long de couleur.</td>
+      </tr>
+      <tr>
+        <td><b>ColorMode</b></td>
+        <td>'auto' laisse Nelson recalculer la propriete associee; 'manual' preserve la valeur affectee.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>ContextMenu</b></td>
+        <td>attache un menu contextuel a l'objet.</td>
+        <td>Type: handle graphique scalaire. Valeurs prises en charge: [] ou handle uicontextmenu.</td>
+      </tr>
+      <tr>
+        <td><b>ContourMatrix</b></td>
+        <td>stocke les donnees de segments de contour generees.</td>
+        <td>Type: matrice numerique. Valeurs prises en charge: [] ou matrice de contour.</td>
+      </tr>
+      <tr>
+        <td><b>CreateFcn</b></td>
+        <td>s'execute a la creation de l'objet.</td>
+        <td>Type: valeur de callback. Valeurs prises en charge: [], fonction handle, vecteur de caracteres, string scalaire ou cellule de callback.</td>
+      </tr>
+      <tr>
+        <td><b>DataTipTemplate</b></td>
+        <td>met a jour le contenu des infobulles de donnees.</td>
+        <td>Type: objet modele d'infobulle ou handle vide. Valeurs prises en charge: handle de modele d'infobulle ou handle vide.</td>
+      </tr>
+      <tr>
+        <td><b>DeleteFcn</b></td>
+        <td>s'execute a la suppression de l'objet.</td>
+        <td>Type: valeur de callback. Valeurs prises en charge: [], fonction handle, vecteur de caracteres, string scalaire ou cellule de callback.</td>
+      </tr>
+      <tr>
+        <td><b>DisplayName</b></td>
+        <td>definit le libelle utilise par les legendes et l'identification d'objet.</td>
+        <td>Type: valeur texte. Valeurs prises en charge: vecteur ligne de caracteres ou string scalaire.</td>
+      </tr>
+      <tr>
+        <td><b>EdgeAlpha</b></td>
+        <td>definit la transparence de ligne de contour interne.</td>
+        <td>Type: scalaire numerique. Valeurs prises en charge: valeurs dans [0, 1].</td>
+      </tr>
+      <tr>
+        <td><b>EdgeColor</b></td>
+        <td>definit la couleur de ligne de contour interne.</td>
+        <td>Type: valeur de couleur. Valeurs prises en charge: triplet RGB, nom court ou long de couleur, 'flat', 'interp' ou 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>FaceAlpha</b></td>
+        <td>definit la transparence de contour rempli interne.</td>
+        <td>Type: scalaire numerique ou valeur texte. Valeurs prises en charge: valeurs dans [0, 1], 'flat' ou 'interp'.</td>
+      </tr>
+      <tr>
+        <td><b>FaceColor</b></td>
+        <td>definit la couleur de contour rempli interne.</td>
+        <td>Type: valeur de couleur. Valeurs prises en charge: triplet RGB, nom court ou long de couleur, 'flat', 'interp' ou 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>Fill</b></td>
+        <td>controle le remplissage de contour interne.</td>
+        <td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'off', 'on'.</td>
+      </tr>
+      <tr>
+        <td><b>Floating</b></td>
+        <td>controle si les contours utilisent leur niveau comme coordonnee z.</td>
+        <td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'off', 'on'.</td>
+      </tr>
+      <tr>
+        <td><b>Function</b></td>
+        <td>definit la fonction echantillonnee pour generer la courbe implicite.</td>
+        <td>Type: fonction handle. Valeurs prises en charge: fonction handle scalaire avec deux entrees.</td>
+      </tr>
+      <tr>
+        <td><b>HandleVisibility</b></td>
+        <td>controle la decouverte du handle.</td>
+        <td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off', 'callback'.</td>
+      </tr>
+      <tr>
+        <td><b>HitTest</b></td>
+        <td>controle si l'objet peut recevoir des evenements pointeur.</td>
+        <td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>Interruptible</b></td>
+        <td>controle si les callbacks peuvent etre interrompus.</td>
+        <td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>LabelColor</b></td>
+        <td>definit la couleur des libelles de contour internes.</td>
+        <td>Type: valeur de couleur. Valeurs prises en charge: triplet RGB, nom court ou long de couleur, 'flat', 'interp' ou 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>LabelFormat</b></td>
+        <td>definit le format des libelles de contour internes.</td>
+        <td>Type: valeur texte ou fonction handle. Valeurs prises en charge: texte de format, string scalaire ou fonction handle.</td>
+      </tr>
+      <tr>
+        <td><b>LabelSpacing</b></td>
+        <td>definit l'espacement entre les libelles de contour internes.</td>
+        <td>Type: scalaire numerique. Valeurs prises en charge: valeurs finies non negatives.</td>
+      </tr>
+      <tr>
+        <td><b>LevelList</b></td>
+        <td>stocke le niveau zero implicite utilise pour le dessin.</td>
+        <td>Type: vecteur numerique. Valeurs prises en charge: niveaux reels finis.</td>
+      </tr>
+      <tr>
+        <td><b>LevelListMode</b></td>
+        <td>stocke le mode automatique ou manuel des niveaux de contour internes.</td>
+        <td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>LevelStep</b></td>
+        <td>definit l'espacement des niveaux de contour internes.</td>
+        <td>Type: scalaire numerique. Valeurs prises en charge: valeurs finies positives.</td>
+      </tr>
+      <tr>
+        <td><b>LevelStepMode</b></td>
+        <td>stocke le mode automatique ou manuel de l'espacement de niveaux interne.</td>
+        <td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>LineColor</b></td>
+        <td>definit la couleur de ligne de contour interne.</td>
+        <td>Type: valeur de couleur. Valeurs prises en charge: triplet RGB, nom court ou long de couleur, 'flat', 'interp' ou 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>LineStyle</b></td>
+        <td>definit le style de ligne de la courbe implicite.</td>
+        <td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: '-', '--', ':', '-.' ou 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>LineStyleMode</b></td>
+        <td>'auto' laisse Nelson recalculer la propriete associee; 'manual' preserve la valeur affectee.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>LineWidth</b></td>
+        <td>definit la largeur de ligne de la courbe implicite.</td>
+        <td>Type: scalaire numerique. Valeurs prises en charge: valeurs finies positives.</td>
+      </tr>
+      <tr>
+        <td><b>Marker</b></td>
+        <td>definit le marqueur de la courbe implicite.</td>
+        <td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: noms de marqueurs comme 'none', 'o', '+', '*', '.', 'x', 'square' ou 'diamond'.</td>
+      </tr>
+      <tr>
+        <td><b>MarkerEdgeColor</b></td>
+        <td>definit la couleur de bord du marqueur.</td>
+        <td>Type: triplet RGB ou nom de couleur. Valeurs prises en charge: 'auto', 'none', triplet RGB ou nom de couleur.</td>
+      </tr>
+      <tr>
+        <td><b>MarkerFaceColor</b></td>
+        <td>definit la couleur de remplissage du marqueur.</td>
+        <td>Type: triplet RGB ou nom de couleur. Valeurs prises en charge: 'auto', 'none', triplet RGB ou nom de couleur.</td>
+      </tr>
+      <tr>
+        <td><b>MarkerMode</b></td>
+        <td>'auto' laisse Nelson recalculer la propriete associee; 'manual' preserve la valeur affectee.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>MarkerSize</b></td>
+        <td>definit la taille du marqueur.</td>
+        <td>Type: scalaire numerique. Valeurs prises en charge: valeurs finies positives.</td>
+      </tr>
+      <tr>
+        <td><b>MeshDensity</b></td>
+        <td>definit le nombre de points d'echantillonnage dans chaque direction.</td>
+        <td>Type: entier positif scalaire. Valeurs prises en charge: entiers superieurs a un.</td>
+      </tr>
+      <tr>
+        <td><b>Parent</b></td>
+        <td>definit les axes parents.</td>
+        <td>Type: handle graphique scalaire. Valeurs prises en charge: handle d'axes.</td>
+      </tr>
+      <tr>
+        <td><b>PickableParts</b></td>
+        <td>controle quelles parties peuvent recevoir les evenements pointeur.</td>
+        <td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'visible', 'all', 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>Selected</b></td>
+        <td>definit l'etat de selection de l'objet.</td>
+        <td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'off', 'on'.</td>
+      </tr>
+      <tr>
+        <td><b>SelectionHighlight</b></td>
+        <td>controle la mise en evidence de selection.</td>
+        <td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>SeriesIndex</b></td>
+        <td>stocke l'ordre de serie.</td>
+        <td>Type: entier scalaire. Valeurs prises en charge: valeur entiere finie.</td>
+      </tr>
+      <tr>
+        <td><b>ShowText</b></td>
+        <td>controle l'affichage des libelles de contour internes.</td>
+        <td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'off', 'on'.</td>
+      </tr>
+      <tr>
+        <td><b>SourceTable</b></td>
+        <td>lie les donnees de l&apos;objet a une table; les proprietes de variables selectionnent les colonnes.</td>
+        <td>Type: table. Valeurs prises en charge: table vide ou table fournissant les variables liees.</td>
+      </tr>
+      <tr>
+        <td><b>Tag</b></td>
+        <td>stocke un texte utilisateur pour identifier l'objet.</td>
+        <td>Type: valeur texte. Valeurs prises en charge: vecteur ligne de caracteres ou string scalaire.</td>
+      </tr>
+      <tr>
+        <td><b>TextList</b></td>
+        <td>definit les niveaux de contour internes qui recoivent des libelles.</td>
+        <td>Type: vecteur numerique. Valeurs prises en charge: niveaux reels finis.</td>
+      </tr>
+      <tr>
+        <td><b>TextListMode</b></td>
+        <td>stocke le mode automatique ou manuel des niveaux internes etiquetes.</td>
+        <td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>TextStep</b></td>
+        <td>definit l'espacement entre les niveaux de contour internes etiquetes.</td>
+        <td>Type: scalaire numerique. Valeurs prises en charge: valeurs finies positives.</td>
+      </tr>
+      <tr>
+        <td><b>TextStepMode</b></td>
+        <td>stocke le mode automatique ou manuel de l'espacement des libelles internes.</td>
+        <td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>Type</b></td>
+        <td>indique le type d'objet graphique.</td>
+        <td>Type: texte en lecture seule. Valeurs prises en charge: 'implicitfunctionline'.</td>
+      </tr>
+      <tr>
+        <td><b>UserData</b></td>
+        <td>stocke des donnees utilisateur sur l'objet.</td>
+        <td>Type: toute valeur Nelson. Valeurs prises en charge: toute valeur.</td>
+      </tr>
+      <tr>
+        <td><b>Visible</b></td>
+        <td>controle la visibilite de l'objet.</td>
+        <td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>XData</b></td>
+        <td>stocke les coordonnees x echantillonnees.</td>
+        <td>Type: matrice numerique. Valeurs prises en charge: matrice numerique reelle compatible avec YData et ZData.</td>
+      </tr>
+      <tr>
+        <td><b>XDataMode</b></td>
+        <td>stocke le mode automatique ou manuel des donnees x.</td>
+        <td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>XDataSource</b></td>
+        <td>stocke l'expression source des donnees x.</td>
+        <td>Type: valeur texte. Valeurs prises en charge: vecteur ligne de caracteres ou string scalaire.</td>
+      </tr>
+      <tr>
+        <td><b>XRange</b></td>
+        <td>definit l'intervalle x echantillonne.</td>
+        <td>Type: vecteur numerique a deux elements. Valeurs prises en charge: limites finies croissantes.</td>
+      </tr>
+      <tr>
+        <td><b>XRangeMode</b></td>
+        <td>selectionne le mode automatique ou manuel des limites x.</td>
+        <td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>XVariable</b></td>
+        <td>met a jour l&apos;etat stocke de l&apos;objet.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: texte vide ou nom de variable d&apos;espace de travail/table.</td>
+      </tr>
+      <tr>
+        <td><b>YData</b></td>
+        <td>stocke les coordonnees y echantillonnees.</td>
+        <td>Type: matrice numerique. Valeurs prises en charge: matrice numerique reelle compatible avec XData et ZData.</td>
+      </tr>
+      <tr>
+        <td><b>YDataMode</b></td>
+        <td>stocke le mode automatique ou manuel des donnees y.</td>
+        <td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>YDataSource</b></td>
+        <td>stocke l'expression source des donnees y.</td>
+        <td>Type: valeur texte. Valeurs prises en charge: vecteur ligne de caracteres ou string scalaire.</td>
+      </tr>
+      <tr>
+        <td><b>YRange</b></td>
+        <td>definit l'intervalle y echantillonne.</td>
+        <td>Type: vecteur numerique a deux elements. Valeurs prises en charge: limites finies croissantes.</td>
+      </tr>
+      <tr>
+        <td><b>YRangeMode</b></td>
+        <td>selectionne le mode automatique ou manuel des limites y.</td>
+        <td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>YVariable</b></td>
+        <td>met a jour l&apos;etat stocke de l&apos;objet.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: texte vide ou nom de variable d&apos;espace de travail/table.</td>
+      </tr>
+      <tr>
+        <td><b>ZData</b></td>
+        <td>stocke les valeurs de fonction echantillonnees.</td>
+        <td>Type: matrice numerique. Valeurs prises en charge: matrice numerique reelle compatible avec XData et YData.</td>
+      </tr>
+      <tr>
+        <td><b>ZDataMode</b></td>
+        <td>'auto' laisse Nelson recalculer la propriete associee; 'manual' conserve la valeur affectee.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>ZDataSource</b></td>
+        <td>stocke l'expression source des donnees z.</td>
+        <td>Type: valeur texte. Valeurs prises en charge: vecteur ligne de caracteres ou string scalaire.</td>
+      </tr>
+      <tr>
+        <td><b>ZLocation</b></td>
+        <td>definit le plan z utilise pour dessiner le contour interne.</td>
+        <td>Type: scalaire numerique ou valeur texte. Valeurs prises en charge: scalaire fini, 'zmin' ou 'zmax'.</td>
+      </tr>
+      <tr>
+        <td><b>ZVariable</b></td>
+        <td>met a jour l&apos;etat stocke de l&apos;objet.</td>
+        <td>Type: chaine scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: texte vide ou nom de variable d&apos;espace de travail/table.</td>
+      </tr>
+    </table>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Inspecter les proprietes de ligne implicite.</example_item_description>
+      <example_item_data><![CDATA[h = fimplicit(@(x, y) x.^2 + y.^2 - 1);
+names = properties(h);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/7_surfaces_volumes_polygons/fimplicit">fimplicit</link></see_also_item>
+    <see_also_item><link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.functioncontour.properties">proprietes de functioncontour</link></see_also_item>
+  </see_also>
+</xmldoc>

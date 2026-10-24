@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="306.5" height="236.5" viewBox="-153.25 -133.25 306.5 236.5">
+  <rect x="-153.25" y="-133.25" width="306.5" height="236.5" rx="44.935" fill="#E8F0FE" stroke="#9DB8F0" stroke-width="3.25"/>
+  <g transform="matrix(1 0 0 -1 0 0)">
+    <polyline points="-90,-60 -10,-60" fill="none" stroke="#1A3E8C" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-10,-60 -10,60" fill="none" stroke="#1A3E8C" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="10,80 10,39" fill="none" stroke="#1A3E8C" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="10,20 10,-21" fill="none" stroke="#1A3E8C" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="10,-40 10,-81" fill="none" stroke="#1A3E8C" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="10,60 91,60" fill="none" stroke="#1A3E8C" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="10,0 90,0" fill="none" stroke="#1A3E8C" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="10,-60 90,-60" fill="none" stroke="#1A3E8C" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="40,0 60,5 60,-5 40,0" fill="#1A3E8C" stroke="#1A3E8C" stroke-width="3.25" stroke-linejoin="round"/>
+    <g transform="translate(0,110) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32" fill="#1A3E8C">NMOS</text></g>
+  </g>
+</svg>

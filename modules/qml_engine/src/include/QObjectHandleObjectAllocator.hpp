@@ -13,7 +13,7 @@
 #include "nlsQml_engine_exports.h"
 #include "QObjectHandleObject.hpp"
 #include "Error.hpp"
-#include "PredefinedErrorMessages.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -25,10 +25,10 @@ QObjectHandleObjectAllocator(QObject* qobj)
         qObjectHandle = new QObjectHandleObject(qobj);
     } catch (const std::bad_alloc&) {
         qObjectHandle = nullptr;
-        Error(ERROR_MEMORY_ALLOCATION);
+        Error(L"Nelson:outOfMemory", L"Memory allocation error... You may have run out of memory!");
     }
     return qObjectHandle;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

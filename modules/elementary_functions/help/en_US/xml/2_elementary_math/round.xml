@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>round</keyword>
+  <short_description>Round to nearest integer</short_description>
+  <syntax>
+    <syntax_item>C = round(A)</syntax_item>
+    <syntax_item>C = round(A, N)</syntax_item>
+    <syntax_item>C = round(A, N, 'decimals')</syntax_item>
+    <syntax_item>C = round(A, N, 'significant')</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>a variable</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>N</param_name>
+      <param_description>number of digits: real integer scalar.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>type</param_name>
+      <param_description>'decimals' (default) or 'significant'.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>C</param_name>
+      <param_description>result of round.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>round</b> rounds the elements to the nearest integers.</p>
+    <p>
+      <b>round(A, N)</b> rounds to <b>N</b> digits to the right of the decimal point (<b>N</b> may be negative). This is the same as <b>round(A, N, 'decimals')</b>.</p>
+    <p>
+      <b>round(A, N, 'significant')</b> rounds to <b>N</b> significant digits; here <b>N</b> must be positive.</p>
+    <p>
+      Sparse single and sparse single complex inputs are supported. Only stored nonzero entries
+      are rounded and the result keeps the sparse storage and the input precision.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[round(pi)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Round to a number of decimal or significant digits.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[round(3.14159, 2)
+round(12345, 2, 'significant')]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Round a sparse single matrix to nearest integers.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[S = sparse(single([1.2 0; -2.7 3.1]));
+C = round(S)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${elementary_functions}floor">floor</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${elementary_functions}fix">fix</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${elementary_functions}ceil">ceil</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>sparse single and sparse single complex inputs supported.</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>round(A, N) and the 'decimals' / 'significant' options added.</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

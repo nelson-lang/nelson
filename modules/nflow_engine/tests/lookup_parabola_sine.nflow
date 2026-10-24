@@ -1,0 +1,82 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Allan CORNET",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "comments": "1-D lookup (|x| squared) applied to a sine amplitude 2.",
+  "name": "lookup_parabola_sine",
+  "blocks": [
+    {
+      "id": "s1",
+      "type": "sine",
+      "x": 40,
+      "y": 180,
+      "rotation": 0,
+      "params": {
+        "Amplitude": 2,
+        "Frequency": 0.2,
+        "Phase": 0
+      }
+    },
+    {
+      "id": "lu",
+      "type": "lookup1D",
+      "x": 220,
+      "y": 180,
+      "rotation": 0,
+      "params": {
+        "BreakpointsForDimension1": [
+          -2,
+          -1,
+          0,
+          1,
+          2
+        ],
+        "Table": [
+          4,
+          1,
+          0,
+          1,
+          4
+        ],
+        "InterpMethod": "Linear point-slope",
+        "ExtrapMethod": "Linear"
+      }
+    },
+    {
+      "id": "tw",
+      "type": "toWorkspace",
+      "x": 400,
+      "y": 180,
+      "rotation": 0,
+      "params": {
+        "VariableName": "lookup_parabola_sine_out",
+        "MaxDataPoints": "inf",
+        "Decimation": 1,
+        "SaveFormat": "Array",
+        "SampleTime": "-1"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "s1",
+      "to": "lu",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "lu",
+      "to": "tw",
+      "fromIndex": 0,
+      "toIndex": 0
+    }
+  ],
+  "variables": "",
+  "runtime": 10,
+  "sampleTime": 0.02,
+  "autoRoute": true
+}

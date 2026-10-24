@@ -10,22 +10,17 @@
 % <--ADV-CLI MODE-->
 % <--WITH DISPLAY-->
 %=============================================================================
-assert_isequal(nargin('QObject_undefine'), 2);
-assert_isequal(nargout('QObject_undefine'), 0);
+asserts.isequal(nargin('QObject_undefine'), 2);
+asserts.isequal(nargout('QObject_undefine'), 0);
 %=============================================================================
-if semver(qt_version(), '>=6.0')
-  qml_file = [modulepath('qml_engine', 'tests'), '/test_qvariant_qt6.qml'];
-else
-  qml_file = [modulepath('qml_engine', 'tests'), '/test_qvariant_qt5.qml'];
-end
+qml_file = [modulepath('qml_engine', 'tests'), '/test_qvariant_qt6.qml'];
 qobj = qml_loadfile(qml_file);
 %=============================================================================
 qobj.toto = 1;
-assert_isequal(qobj.toto, 1);
-assert_checkerror('qobj.toto = ''1'';', _('Expected a real value scalar.'));
+asserts.isequal(qobj.toto, 1);
+asserts.checkerror('qobj.toto = ''1'';', _('A scalar expected.'));
 QObject_undefine(qobj, 'toto');
 qobj.toto = '1';
-assert_isequal(qobj.toto, '1');
+asserts.isequal(qobj.toto, '1');
 
 %=============================================================================
-

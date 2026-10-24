@@ -22,5 +22,5 @@ Cast(Evaluator* eval, const ArrayOf& arrayIn, const std::string& classname, bool
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
 Cast(Evaluator* eval, const ArrayOf& arrayIn, const ArrayOf& likeThis);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

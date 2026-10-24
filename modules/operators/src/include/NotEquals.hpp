@@ -20,5 +20,5 @@ namespace Nelson {
 NLSOPERATORS_IMPEXP ArrayOf
 NotEquals(const ArrayOf& A, const ArrayOf& B, bool& needToOverload);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

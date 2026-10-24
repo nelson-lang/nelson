@@ -17,5 +17,5 @@ namespace Nelson {
 NLSMODULES_MANAGER_IMPEXP void
 RemoveGateway(Evaluator* eval, const std::wstring& dynlibname);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

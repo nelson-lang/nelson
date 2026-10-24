@@ -12,6 +12,7 @@
 #include "JuliaEngine.hpp"
 #include "characters_encoding.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "JuliaTypesHelpers.hpp"
 //=============================================================================
@@ -23,12 +24,12 @@ JuliaRun(Interface* io, bool haveEventsLoop, const void* voidJuliaObjectHandle,
     const ArrayOfVector& values)
 {
     if (!initializeJuliaEngine()) {
-        Error(_W("Julia engine not initialized."));
+        Error(L"Nelson:Julia:notInitialized", L"Julia engine not initialized.");
     }
 
     jl_module_t* jl_main_module = (jl_module_t*)NLSjl_eval_string("Main");
     if (!jl_main_module) {
-        Error(_W("Main module not found."));
+        Error(L"Nelson:Julia:moduleNotFound", L"Main module not found.");
     }
 
     ArrayOfVector retval;
@@ -39,8 +40,8 @@ JuliaRun(Interface* io, bool haveEventsLoop, const void* voidJuliaObjectHandle,
 
     for (size_t i = 0; i < names.size(); ++i) {
         if (!jl_create_main_global_variable(names[i], values[i])) {
-            jl_value_t* exception = NLSjl_exception_occurred();
-            if (exception) {
+            jl_value_t* NelsonException = NLSjl_exception_occurred();
+            if (NelsonException) {
                 jl_module_t* jl_base_module_local = (jl_module_t*)NLSjl_eval_string("Base");
                 jl_function_t* sprint_func_local
                     = NLSjl_get_function(jl_base_module_local, "sprint");
@@ -48,7 +49,7 @@ JuliaRun(Interface* io, bool haveEventsLoop, const void* voidJuliaObjectHandle,
                     = NLSjl_get_function(jl_base_module_local, "showerror");
 
                 jl_value_t* error_string
-                    = NLSjl_call2(sprint_func_local, showerror_func, exception);
+                    = NLSjl_call2(sprint_func_local, showerror_func, NelsonException);
                 std::string error_msg = NLSjl_string_ptr(error_string);
 
                 jl_value_t* err = NLSjl_eval_string("get_stderr()");
@@ -58,11 +59,13 @@ JuliaRun(Interface* io, bool haveEventsLoop, const void* voidJuliaObjectHandle,
                         error_msg += "\n" + txt;
                     }
                 }
-                error_msg = _("Error in Julia: ") + "\n" + error_msg;
-                Error(error_msg);
+                error_msg = formatI18nMessage(
+                    resolveMessageTemplate("Nelson:julia_engine:errorJuliaS", "Error in Julia: %s"),
+                    "\n" + error_msg);
+                Error("Nelson:jlrun:runFailed", error_msg);
                 return {};
             }
-            Error(_W("Cannot convert Nelson variable to Julia."));
+            Error(L"Nelson:Julia:conversionFailed", L"Cannot convert Nelson variable to Julia.");
             return {};
         }
     }
@@ -74,13 +77,14 @@ JuliaRun(Interface* io, bool haveEventsLoop, const void* voidJuliaObjectHandle,
 
     jl_value_t* result = NLSjl_eval_string(lines.c_str());
     if (!result) {
-        jl_value_t* exception = NLSjl_exception_occurred();
-        if (exception) {
+        jl_value_t* NelsonException = NLSjl_exception_occurred();
+        if (NelsonException) {
             jl_module_t* jl_base_module_local = (jl_module_t*)NLSjl_eval_string("Base");
             jl_function_t* sprint_func_local = NLSjl_get_function(jl_base_module_local, "sprint");
             jl_function_t* showerror_func = NLSjl_get_function(jl_base_module_local, "showerror");
 
-            jl_value_t* error_string = NLSjl_call2(sprint_func_local, showerror_func, exception);
+            jl_value_t* error_string
+                = NLSjl_call2(sprint_func_local, showerror_func, NelsonException);
             std::string error_msg = NLSjl_string_ptr(error_string);
 
             jl_value_t* err = NLSjl_eval_string("get_stderr()");
@@ -90,8 +94,10 @@ JuliaRun(Interface* io, bool haveEventsLoop, const void* voidJuliaObjectHandle,
                     error_msg += "\n" + txt;
                 }
             }
-            error_msg = _("Error in Julia: ") + "\n" + error_msg;
-            Error(error_msg);
+            error_msg = formatI18nMessage(
+                resolveMessageTemplate("Nelson:julia_engine:errorJuliaS", "Error in Julia: %s"),
+                "\n" + error_msg);
+            Error("Nelson:jlrun:runFailed", error_msg);
             return {};
         }
     }
@@ -106,7 +112,7 @@ JuliaRun(Interface* io, bool haveEventsLoop, const void* voidJuliaObjectHandle,
             std::string name = wstring_to_utf8(variableName);
             jl_value_t* x_value = NLSjl_get_global(jl_main_module, NLSjl_symbol(name.c_str()));
             if (!x_value) {
-                Error(_W("Variable not found: ") + variableName);
+                Error(L"Nelson:Julia:variableNotFound", L"Variable not found: %s", variableName);
             }
             retval << jl_value_tToArrayOf(x_value);
         }
@@ -115,5 +121,5 @@ JuliaRun(Interface* io, bool haveEventsLoop, const void* voidJuliaObjectHandle,
     return retval;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

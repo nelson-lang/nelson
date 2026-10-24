@@ -7,22 +7,22 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('isfloat'), 1);
-assert_isequal(nargout('isfloat'), 1);
+asserts.isequal(nargin('isfloat'), 1);
+asserts.isequal(nargout('isfloat'), 1);
 %=============================================================================
 A = 3;
 res = isfloat(A);
-assert_istrue(res);
+asserts.istrue(res);
 %=============================================================================
 A = single(3);
 res = isfloat(A);
-assert_istrue(res);
+asserts.istrue(res);
 %=============================================================================
 A = 'Nelson';
 res = isfloat(A);
-assert_isfalse(res);
+asserts.isfalse(res);
 %=============================================================================
 A = sparse(3);
 res = isfloat(A);
-assert_istrue(res);
+asserts.istrue(res);
 %=============================================================================

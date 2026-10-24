@@ -7,9 +7,9 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_checkerror('pow2db ([-50 70])', _('Input argument value must be non-negative.'));
+asserts.checkerror('pow2db ([-50 70])', _('Input argument value must be nonnegative.'));
 %=============================================================================
 R = pow2db([100, 60, 20, 10, 0]);
-REF = [20.0000   17.7815   13.0103   10.0000      -Inf];
-assert_isapprox(R, REF, 1e-4);
+REF = [20.0000 17.7815 13.0103 10.0000 -Inf];
+asserts.isapprox(R, REF, 1e-4);
 %=============================================================================

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>tscollection.vertcat</keyword>
+  <short_description>Fonction pour objets de serie temporelle.</short_description>
+  <syntax>
+    <syntax_item>vertcat(...)</syntax_item>
+  </syntax>
+  <description>
+    <p>
+      <b>vertcat</b> opere sur les objets timeseries, tscollection ou les metadonnees tsdata.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_data runnable="cli"><![CDATA[ts1 = timeseries([1], [10], 'Name', 'speed');
+ts2 = timeseries([2], [11], 'Name', 'speed');
+tsc = [tscollection(ts1); tscollection(ts2)];
+tsc.Time
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${time}timeseries">timeseries</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}tscollection">tscollection</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

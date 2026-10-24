@@ -12,7 +12,9 @@
 #include "Operators.hpp"
 #include "FindCommonType.hpp"
 #include "OverloadHelpers.hpp"
+#include "BinaryOperatorHelpers.hpp"
 #include "OverloadRequired.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -25,22 +27,21 @@ Evaluator::andOperator(const ArrayOfVector& args)
     bool isComplex = false;
 
     ArrayOf res;
-    if (FindCommonType(args, commonType, isSparse, isComplex, commonTypeName)) {
+    if (FindCommonType(args, commonType, isSparse, isComplex, commonTypeName) && !isSparse) {
         bool overloadWasFound = false;
-        res = callOverloadedFunction(this,
-            NelsonConfiguration::getInstance()->getOverloadLevelCompatibility(), args,
-            AND_OPERATOR_STR, commonTypeName, commonType, overloadWasFound);
+        res = callOperatorOverload(
+            this, args, AND_OPERATOR_STR, commonTypeName, commonType, overloadWasFound);
         if (overloadWasFound) {
             return res;
         }
     }
     if (isComplex) {
-        Error(_("Operands must be real."));
+        Error("Nelson:interpreter:operandsMustBeReal", "Operands must be real.");
     }
 
     if (isSparse
         && (commonType != NLS_DOUBLE && commonType != NLS_DCOMPLEX && commonType != NLS_LOGICAL)) {
-        Error(_("Attempt to convert to unimplemented sparse type"), "Nelson:UnableToConvert");
+        Error("Nelson:UnableToConvert", "Attempt to convert to unimplemented sparse type");
     }
 
     bool neeDToOverload = false;
@@ -56,19 +57,6 @@ Evaluator::andOperator(const ArrayOfVector& args)
     }
     OverloadRequired(AND_OPERATOR_STR);
     return {};
-}
-//=============================================================================
-ArrayOf
-Evaluator::andOperator(AbstractSyntaxTreePtr t)
-{
-    callstack.pushID((size_t)t->getContext());
-    ArrayOfVector args;
-    args.reserve(2);
-    args.push_back(expression(t->down));
-    args.push_back(expression(t->down->right));
-    ArrayOf retval = andOperator(args);
-    callstack.popID();
-    return retval;
 }
 //=============================================================================
 } // namespace Nelson

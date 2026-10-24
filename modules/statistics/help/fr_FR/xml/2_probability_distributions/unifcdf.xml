@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>unifcdf</keyword>
+  <short_description>Fonction de repartition uniforme continue</short_description>
+  <syntax><syntax_item>p = unifcdf(x)</syntax_item><syntax_item>p = unifcdf(x, a, b)</syntax_item><syntax_item>p = unifcdf(..., &apos;upper&apos;)</syntax_item></syntax>
+  <param_input><param_input_item><param_name>x</param_name><param_description>tableau numerique reel.</param_description></param_input_item><param_input_item><param_name>a</param_name><param_description>borne inferieure, 0 par defaut.</param_description></param_input_item><param_input_item><param_name>b</param_name><param_description>borne superieure, 1 par defaut.</param_description></param_input_item></param_input>
+  <param_output><param_output_item><param_name>p</param_name><param_description>probabilites cumulees ou de queue superieure.</param_description></param_output_item></param_output>
+  <description><p><b>unifcdf</b> calcule par defaut les probabilites de queue inferieure uniforme continue et les probabilites de queue superieure avec <b>&apos;upper&apos;</b>.</p></description>
+  <examples><example_item><example_item_type>nelson</example_item_type><example_item_description /><example_item_data runnable="cli"><![CDATA[x = 0:0.25:1;
+p = unifcdf(x);
+q = unifcdf(x, 'upper');]]></example_item_data></example_item></examples>
+  <see_also><see_also_item><link linkend="${statistics}unifpdf">unifpdf</link></see_also_item><see_also_item><link linkend="${statistics}unifinv">unifinv</link></see_also_item></see_also>
+  <history><history_item><history_version>2.0.0</history_version><history_description>version initiale</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

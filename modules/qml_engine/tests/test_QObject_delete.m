@@ -10,10 +10,11 @@
 % <--ADV-CLI MODE-->
 % <--WITH DISPLAY-->
 %=============================================================================
-h1 = msgbox({'Operation' 'Completed'});
-h2 = msgbox({'Operation' 'Completed'});
-H = [h1, h2];
-delete(H);
-assert_isfalse(isvalid(H(1)));
-assert_isfalse(isvalid(H(2)));
+qml_file_ok = [modulepath('qml_engine', 'tests'), '/test_qml_loadfile_window_qt6.qml'];
+qobj1 = qml_loadfile(qml_file_ok);
+qobj2 = qml_loadfile(qml_file_ok);
+Q = [qobj1, qobj2];
+delete(Q);
+asserts.isfalse(isvalid(Q(1)));
+asserts.isfalse(isvalid(Q(2)));
 %=============================================================================

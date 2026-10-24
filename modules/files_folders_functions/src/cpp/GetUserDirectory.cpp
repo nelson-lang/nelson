@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -19,7 +19,7 @@ static std::wstring userDir;
 ArrayOf
 UserDir()
 {
-    return ArrayOf::characterArrayConstructor(GetUserDirectory());
+    return ArrayOf::characterArray(GetUserDirectory());
 }
 //=============================================================================
 std::wstring
@@ -39,8 +39,8 @@ GetUserDirectory()
         }
         FileSystemWrapper::Path pwd { str };
 #else
-        char* home = getenv("HOME");
-        FileSystemWrapper::Path pwd { std::string(home) };
+        const char* home = getenv("HOME");
+        FileSystemWrapper::Path pwd { home != nullptr ? std::string(home) : std::string() };
 #endif
         userDir = pwd.getFinalPathname().generic_wstring();
         if (!StringHelpers::ends_with(userDir, L"\\")

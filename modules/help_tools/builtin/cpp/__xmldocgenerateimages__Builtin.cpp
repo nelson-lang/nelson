@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -14,23 +14,28 @@
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
-// __xmlgenerateimages__(xmlFileOrDir, outputDir)
+// __xmlgenerateimages__(xmlFileOrDir, outputDir, force)
 ArrayOfVector
 Nelson::HelpToolsGateway::__xmlgenerateimages__Builtin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     std::wstring errorMessage;
-    nargincheck(argIn, 2, 2);
+    nargincheck(argIn, 2, 3);
     nargoutcheck(nLhs, 0, 3);
 
-    std::wstring xmlFileOrDir = argIn[0].getContentAsWideString();
-    std::wstring outputDir = argIn[1].getContentAsWideString();
+    std::wstring xmlFileOrDir = argIn[0].asWideString();
+    std::wstring outputDir = argIn[1].asWideString();
+    bool force = false;
+    if (argIn.size() == 3) {
+        force = argIn[2].asLogicalScalar();
+    }
     wstringVector outputScriptFilenames;
-    bool res = xmlDocGenerateImages(xmlFileOrDir, outputDir, outputScriptFilenames, errorMessage);
+    bool res
+        = xmlDocGenerateImages(xmlFileOrDir, outputDir, outputScriptFilenames, errorMessage, force);
 
-    retval << ArrayOf::logicalConstructor(res);
-    retval << ArrayOf::toCellArrayOfCharacterColumnVectors(outputScriptFilenames);
-    retval << ArrayOf::characterArrayConstructor(errorMessage);
+    retval << ArrayOf::logicalScalar(res);
+    retval << ArrayOf::cellArrayFromArrayOfCharacterColumnVectors(outputScriptFilenames);
+    retval << ArrayOf::characterArray(errorMessage);
 
     return retval;
 }

@@ -1,0 +1,705 @@
+{
+  "version": "2.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Allan CORNET",
+    "created": "2026-08-08",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "comments": "Gallery of the 20 built-in dashboard blocks",
+  "name": "Dashboard Gallery Demo",
+  "blocks": [
+    {
+      "id": "dashboard_scope",
+      "type": "dashboardScope",
+      "x": 640,
+      "y": 1280,
+      "width": 200,
+      "rotation": 0,
+      "params": {
+        "LabelPosition": "Hide",
+        "Binding": {
+          "kind": "signal",
+          "blockPath": [
+            "gallery_gain"
+          ],
+          "outputPortIndex": 1,
+          "frameProcessingMode": "sample"
+        },
+        "ShowInitialText": "on",
+        "TimeSpan": "auto",
+        "LegendPosition": "Top",
+        "ScaleAtStop": "on",
+        "UpdateMode": "Wrap",
+        "NormalizeYAxis": "off",
+        "TicksPosition": "Outside",
+        "TickLabels": "All",
+        "Grid": "All",
+        "Border": "on",
+        "Markers": "off",
+        "FontColor": [
+          0,
+          0,
+          0
+        ],
+        "YLimits": [
+          -3,
+          3
+        ],
+        "Colors": []
+      }
+    },
+    {
+      "id": "dashboard_display",
+      "type": "dashboardDisplay",
+      "x": 80,
+      "y": 1280,
+      "rotation": 0,
+      "params": {
+        "LabelPosition": "Hide",
+        "Binding": {
+          "kind": "signal",
+          "blockPath": [
+            "gallery_gain"
+          ],
+          "outputPortIndex": 1,
+          "frameProcessingMode": "sample"
+        },
+        "ShowInitialText": "on",
+        "Format": "short",
+        "Alignment": "Center",
+        "Opacity": "1",
+        "Layout": "Preserve dimensions",
+        "FormatString": "%d",
+        "GridColor": [
+          0.502,
+          0.502,
+          0.502
+        ],
+        "ShowGrid": "on"
+      }
+    },
+    {
+      "id": "dashboard_edit",
+      "type": "dashboardEdit",
+      "x": 360,
+      "y": 1280,
+      "rotation": 0,
+      "params": {
+        "LabelPosition": "Hide",
+        "Binding": {
+          "kind": "parameter",
+          "blockPath": [
+            "gallery_gain"
+          ],
+          "paramName": "Gain",
+          "element": ""
+        },
+        "ShowInitialText": "on",
+        "Alignment": "Center",
+        "Opacity": "1",
+        "DashboardValue": 1
+      }
+    },
+    {
+      "id": "dashboard_gauge",
+      "type": "dashboardGauge",
+      "x": 80,
+      "y": 80,
+      "rotation": 0,
+      "params": {
+        "LabelPosition": "Top",
+        "Binding": {
+          "kind": "signal",
+          "blockPath": [
+            "gallery_gain"
+          ],
+          "outputPortIndex": 1,
+          "frameProcessingMode": "sample"
+        },
+        "ShowInitialText": "on",
+        "ScaleColors": [],
+        "Limits": [
+          0,
+          -1,
+          100
+        ],
+        "FontColor": [
+          0,
+          0,
+          0
+        ],
+        "Opacity": "1",
+        "ScaleDirection": "Clockwise"
+      }
+    },
+    {
+      "id": "dashboard_half_gauge",
+      "type": "dashboardHalfGauge",
+      "x": 80,
+      "y": 320,
+      "rotation": 0,
+      "params": {
+        "LabelPosition": "Top",
+        "Binding": {
+          "kind": "signal",
+          "blockPath": [
+            "gallery_gain"
+          ],
+          "outputPortIndex": 1,
+          "frameProcessingMode": "sample"
+        },
+        "ShowInitialText": "on",
+        "ScaleColors": [],
+        "Limits": [
+          0,
+          -1,
+          100
+        ],
+        "FontColor": [
+          0,
+          0,
+          0
+        ],
+        "Opacity": "1",
+        "ScaleDirection": "Clockwise"
+      }
+    },
+    {
+      "id": "dashboard_knob",
+      "type": "dashboardKnob",
+      "x": 360,
+      "y": 320,
+      "rotation": 0,
+      "params": {
+        "LabelPosition": "Top",
+        "Binding": {
+          "kind": "parameter",
+          "blockPath": [
+            "gallery_gain"
+          ],
+          "paramName": "Gain",
+          "element": ""
+        },
+        "ShowInitialText": "on",
+        "ScaleType": "Linear",
+        "Limits": [
+          0,
+          -1,
+          100
+        ],
+        "DashboardValue": 1
+      }
+    },
+    {
+      "id": "dashboard_lamp",
+      "type": "dashboardLamp",
+      "x": 640,
+      "y": 320,
+      "rotation": 0,
+      "params": {
+        "LabelPosition": "Hide",
+        "Binding": {
+          "kind": "signal",
+          "blockPath": [
+            "gallery_gain"
+          ],
+          "outputPortIndex": 1,
+          "frameProcessingMode": "sample"
+        },
+        "ShowInitialText": "on",
+        "ColorDefault": [
+          0.7529411764705882,
+          0.7529411764705882,
+          0.7529411764705882
+        ],
+        "StateColors": [
+          {
+            "Value": 0,
+            "Color": [
+              0.39215686274509803,
+              0.8313725490196079,
+              0.07450980392156863
+            ]
+          }
+        ],
+        "Opacity": "1"
+      }
+    },
+    {
+      "id": "dashboard_linear_gauge",
+      "type": "dashboardLinearGauge",
+      "x": 920,
+      "y": 320,
+      "rotation": 0,
+      "params": {
+        "LabelPosition": "Top",
+        "Binding": {
+          "kind": "signal",
+          "blockPath": [
+            "gallery_gain"
+          ],
+          "outputPortIndex": 1,
+          "frameProcessingMode": "sample"
+        },
+        "ShowInitialText": "on",
+        "ScaleColors": [],
+        "Limits": [
+          0,
+          -1,
+          100
+        ],
+        "FontColor": [
+          0,
+          0,
+          0
+        ],
+        "Opacity": "1",
+        "ScaleDirection": "Clockwise"
+      }
+    },
+    {
+      "id": "dashboard_multi_state_image",
+      "type": "dashboardMultiStateImage",
+      "x": 80,
+      "y": 560,
+      "rotation": 0,
+      "params": {
+        "LabelPosition": "Top",
+        "Binding": {
+          "kind": "signal",
+          "blockPath": [
+            "gallery_gain"
+          ],
+          "outputPortIndex": 1,
+          "frameProcessingMode": "sample"
+        },
+        "ShowInitialText": "on",
+        "States": [
+          {
+            "State": 0,
+            "Size": [
+              0,
+              0
+            ],
+            "Image": "",
+            "Thumbnail": ""
+          }
+        ],
+        "DefaultImage": {
+          "Size": [
+            0,
+            0
+          ],
+          "Image": "",
+          "Thumbnail": ""
+        },
+        "ScaleMode": "Fill with fixed aspect ratio"
+      }
+    },
+    {
+      "id": "dashboard_push_button",
+      "type": "dashboardPushButton",
+      "x": 360,
+      "y": 560,
+      "rotation": 0,
+      "params": {
+        "LabelPosition": "Hide",
+        "Binding": {
+          "kind": "parameter",
+          "blockPath": [
+            "gallery_gain"
+          ],
+          "paramName": "Gain",
+          "element": ""
+        },
+        "ShowInitialText": "on",
+        "ButtonText": "Button",
+        "OnValue": "1",
+        "Opacity": "1",
+        "ButtonType": "Momentary",
+        "Icon": "None",
+        "CustomIcon": "",
+        "IconAlignment": "Left",
+        "IconOnColor": [
+          0,
+          0.39215686274509803,
+          0
+        ],
+        "IconOffColor": [
+          0,
+          1,
+          0
+        ],
+        "IconColor": "Off",
+        "DashboardValue": 1
+      }
+    },
+    {
+      "id": "dashboard_quarter_gauge",
+      "type": "dashboardQuarterGauge",
+      "x": 640,
+      "y": 560,
+      "rotation": 0,
+      "params": {
+        "LabelPosition": "Top",
+        "Binding": {
+          "kind": "signal",
+          "blockPath": [
+            "gallery_gain"
+          ],
+          "outputPortIndex": 1,
+          "frameProcessingMode": "sample"
+        },
+        "ShowInitialText": "on",
+        "ScaleColors": [],
+        "Limits": [
+          0,
+          -1,
+          100
+        ],
+        "FontColor": [
+          0,
+          0,
+          0
+        ],
+        "Opacity": "1",
+        "ScaleDirection": "Clockwise"
+      }
+    },
+    {
+      "id": "dashboard_radio_button",
+      "type": "dashboardRadioButton",
+      "x": 920,
+      "y": 560,
+      "rotation": 0,
+      "params": {
+        "LabelPosition": "Top",
+        "Binding": {
+          "kind": "parameter",
+          "blockPath": [
+            "gallery_gain"
+          ],
+          "paramName": "Gain",
+          "element": ""
+        },
+        "ShowInitialText": "on",
+        "ButtonGroupName": "Group",
+        "States": [
+          {
+            "Value": 0,
+            "Label": "Label1"
+          },
+          {
+            "Value": 1,
+            "Label": "Label2"
+          },
+          {
+            "Value": 2,
+            "Label": "Label3"
+          }
+        ],
+        "UseEnumeratedDataType": "off",
+        "EnumeratedDataType": "",
+        "Opacity": "1",
+        "DashboardValue": 1
+      }
+    },
+    {
+      "id": "dashboard_rocker_switch",
+      "type": "dashboardRockerSwitch",
+      "x": 80,
+      "y": 800,
+      "rotation": 0,
+      "params": {
+        "LabelPosition": "Top",
+        "Binding": {
+          "kind": "parameter",
+          "blockPath": [
+            "gallery_gain"
+          ],
+          "paramName": "Gain",
+          "element": ""
+        },
+        "ShowInitialText": "on",
+        "States": [
+          {
+            "Value": 0,
+            "Label": "Off"
+          },
+          {
+            "Value": 1,
+            "Label": "On"
+          }
+        ],
+        "DashboardValue": 1
+      }
+    },
+    {
+      "id": "dashboard_rotary_switch",
+      "type": "dashboardRotarySwitch",
+      "x": 360,
+      "y": 800,
+      "rotation": 0,
+      "params": {
+        "LabelPosition": "Top",
+        "Binding": {
+          "kind": "parameter",
+          "blockPath": [
+            "gallery_gain"
+          ],
+          "paramName": "Gain",
+          "element": ""
+        },
+        "ShowInitialText": "on",
+        "States": [
+          {
+            "Value": 0,
+            "Label": "Off"
+          },
+          {
+            "Value": 1,
+            "Label": "Low"
+          },
+          {
+            "Value": 2,
+            "Label": "Medium"
+          },
+          {
+            "Value": 3,
+            "Label": "High"
+          }
+        ],
+        "UseEnumeratedDataType": "off",
+        "EnumeratedDataType": "",
+        "DashboardValue": 1
+      }
+    },
+    {
+      "id": "dashboard_slider",
+      "type": "dashboardSlider",
+      "x": 640,
+      "y": 800,
+      "rotation": 0,
+      "params": {
+        "LabelPosition": "Top",
+        "Binding": {
+          "kind": "parameter",
+          "blockPath": [
+            "gallery_gain"
+          ],
+          "paramName": "Gain",
+          "element": ""
+        },
+        "ShowInitialText": "on",
+        "ScaleType": "Linear",
+        "Limits": [
+          0,
+          -1,
+          100
+        ],
+        "DashboardValue": 1
+      }
+    },
+    {
+      "id": "dashboard_slider_switch",
+      "type": "dashboardSliderSwitch",
+      "x": 920,
+      "y": 800,
+      "rotation": 0,
+      "params": {
+        "LabelPosition": "Top",
+        "Binding": {
+          "kind": "parameter",
+          "blockPath": [
+            "gallery_gain"
+          ],
+          "paramName": "Gain",
+          "element": ""
+        },
+        "ShowInitialText": "on",
+        "States": [
+          {
+            "Value": 0,
+            "Label": "Off"
+          },
+          {
+            "Value": 1,
+            "Label": "On"
+          }
+        ],
+        "DashboardValue": 1
+      }
+    },
+    {
+      "id": "dashboard_toggle_switch",
+      "type": "dashboardToggleSwitch",
+      "x": 80,
+      "y": 1040,
+      "rotation": 0,
+      "params": {
+        "LabelPosition": "Top",
+        "Binding": {
+          "kind": "parameter",
+          "blockPath": [
+            "gallery_gain"
+          ],
+          "paramName": "Gain",
+          "element": ""
+        },
+        "ShowInitialText": "on",
+        "States": [
+          {
+            "Value": 0,
+            "Label": "Off"
+          },
+          {
+            "Value": 1,
+            "Label": "On"
+          }
+        ],
+        "DashboardValue": 1
+      }
+    },
+    {
+      "id": "dashboard_callback_button",
+      "type": "dashboardCallbackButton",
+      "x": 360,
+      "y": 1040,
+      "rotation": 0,
+      "params": {
+        "LabelPosition": "Top",
+        "Binding": null,
+        "ShowInitialText": "off",
+        "ButtonText": "Callback Button",
+        "ButtonType": "Momentary",
+        "ClickFcn": "disp('Dashboard callback clicked');",
+        "OnValue": 1,
+        "PressDelay": "500",
+        "PressFcn": "",
+        "RepeatInterval": "0",
+        "AutoActivate": true,
+        "fixedAspectRatio": "off"
+      }
+    },
+    {
+      "id": "dashboard_check_box",
+      "type": "dashboardCheckBox",
+      "x": 640,
+      "y": 1040,
+      "rotation": 0,
+      "params": {
+        "LabelPosition": "Hide",
+        "Binding": {
+          "kind": "parameter",
+          "blockPath": [
+            "gallery_gain"
+          ],
+          "paramName": "Gain",
+          "element": ""
+        },
+        "ShowInitialText": "on",
+        "Label": "Label",
+        "Values": [
+          0,
+          1
+        ],
+        "Opacity": "1",
+        "DashboardValue": 1
+      }
+    },
+    {
+      "id": "dashboard_combo_box",
+      "type": "dashboardComboBox",
+      "x": 920,
+      "y": 1040,
+      "rotation": 0,
+      "params": {
+        "LabelPosition": "Hide",
+        "Binding": {
+          "kind": "parameter",
+          "blockPath": [
+            "gallery_gain"
+          ],
+          "paramName": "Gain",
+          "element": ""
+        },
+        "ShowInitialText": "on",
+        "States": [
+          {
+            "Value": 0,
+            "Label": "Label1"
+          },
+          {
+            "Value": 1,
+            "Label": "Label2"
+          },
+          {
+            "Value": 2,
+            "Label": "Label3"
+          }
+        ],
+        "UseEnumeratedDataType": "off",
+        "EnumeratedDataType": "",
+        "Opacity": "1",
+        "DashboardValue": 1
+      }
+    },
+    {
+      "id": "gallery_source",
+      "type": "sine",
+      "x": 1200,
+      "y": 80,
+      "rotation": 0,
+      "params": {
+        "Amplitude": 40,
+        "Frequency": 0.3,
+        "Phase": 0
+      }
+    },
+    {
+      "id": "gallery_gain",
+      "type": "gain",
+      "x": 1340,
+      "y": 80,
+      "rotation": 0,
+      "params": {
+        "Gain": 1
+      }
+    },
+    {
+      "id": "gallery_sink",
+      "type": "display",
+      "x": 1500,
+      "y": 90,
+      "rotation": 0,
+      "params": {
+        "Label": "Display",
+        "Format": "short",
+        "Decimation": 1,
+        "Floating": false,
+        "width": 120,
+        "height": 60
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "gallery_source",
+      "to": "gallery_gain",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "gallery_gain",
+      "to": "gallery_sink",
+      "fromIndex": 0,
+      "toIndex": 0
+    }
+  ],
+  "variables": "",
+  "sampleTime": 0.01,
+  "runtime": 10,
+  "solver": "auto"
+}

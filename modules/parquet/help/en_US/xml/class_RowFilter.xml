@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nelson.io.RowFilter</keyword>
+  <short_description>Object that stores a row filter expression.</short_description>
+  <syntax>
+    <syntax_item>rf = rowfilter(names)</syntax_item>
+    <syntax_item>expr = rf.VariableName operator value</syntax_item>
+    <syntax_item>T = expr.apply(T)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>names</param_name>
+      <param_description>variable names specified as a string array or cell array of character vectors.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>T</param_name>
+      <param_description>a table or timetable.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>rf</param_name>
+      <param_description>a <b>nelson.io.RowFilter</b> object.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>expr</param_name>
+      <param_description>a <b>nelson.io.RowFilter</b> object containing a filter expression.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>nelson.io.RowFilter</b> stores the variable names and expression used to select rows.</p>
+    <p>Variable names are accessed with dot notation. Relational and logical operators create a filter expression. The expression is evaluated when <b>apply</b> is called or when the object is used as a <b>RowFilter</b> argument for Parquet reading functions.</p>
+    <p>The <b>variables</b> method returns the names referenced by the expression.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[T = table([1; 2; 3; 4], [10; 20; 30; 40], ...
+  'VariableNames', {'Id', 'Value'});
+rf = rowfilter({'Id', 'Value'});
+expr = rf.Id > 1 & rf.Value <= 30;
+expr.variables()
+R = expr.apply(T)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${parquet}rowfilter">rowfilter</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${parquet}parquetread">parquetread</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

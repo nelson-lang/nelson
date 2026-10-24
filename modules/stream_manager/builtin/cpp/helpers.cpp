@@ -7,12 +7,13 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <cwctype>
 #include "helpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-NelsonType
-precisionFromString(const std::wstring& str, bool& bOK)
+static NelsonType
+precisionNameToType(const std::wstring& str, bool& bOK)
 {
     bOK = true;
     if (str == L"logical") {
@@ -53,6 +54,42 @@ precisionFromString(const std::wstring& str, bool& bOK)
     }
     if (str == L"char" || (str == L"*char")) {
         return NLS_CHAR;
+    }
+    bOK = false;
+    return NLS_UINT8;
+}
+//=============================================================================
+NelsonType
+precisionFromString(const std::wstring& str, bool& bOK)
+{
+    std::wstring s = str;
+    // 'source=>dest': the destination determines the stored class.
+    size_t arrow = s.find(L"=>");
+    if (arrow != std::wstring::npos) {
+        s = s.substr(arrow + 2);
+    }
+    // '*type' shorthand: read/store using the same (source) class.
+    if (!s.empty() && s[0] == L'*') {
+        s = s.substr(1);
+    }
+    NelsonType result = precisionNameToType(s, bOK);
+    if (bOK) {
+        return result;
+    }
+    // 'type*N' block-count form (e.g. 'char*1'). Aliases such as 'real*8' are
+    // resolved above.
+    size_t star = s.find(L'*');
+    if (star != std::wstring::npos && star + 1 < s.size()) {
+        bool allDigits = true;
+        for (size_t i = star + 1; i < s.size(); ++i) {
+            if (iswdigit(s[i]) == 0) {
+                allDigits = false;
+                break;
+            }
+        }
+        if (allDigits) {
+            return precisionNameToType(s.substr(0, star), bOK);
+        }
     }
     bOK = false;
     return NLS_UINT8;

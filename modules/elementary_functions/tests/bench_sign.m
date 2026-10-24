@@ -7,6 +7,6 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-V = cos(linspace(-pi,pi,1e6));
-tic();R = sign(V);toc()
+V = cos(linspace(-pi, pi, 1e6));
+tic(); R = sign(V); toc()
 %=============================================================================

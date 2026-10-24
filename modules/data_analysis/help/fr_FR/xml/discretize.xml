@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>discretize</keyword>
+  <short_description>Regrouper des donnees numeriques en intervalles.</short_description>
+  <syntax>
+    <syntax_item>Y = discretize(X, edges)</syntax_item>
+    <syntax_item>Y = discretize(X, edges, values)</syntax_item>
+    <syntax_item>C = discretize(X, edges, 'categorical', names)</syntax_item>
+    <syntax_item>C = discretize(T, 'month', 'categorical')</syntax_item>
+    <syntax_item>C = discretize(D, 'hour', 'categorical', format)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>discretize</b> affecte chaque valeur numerique de <b>X</b> a un intervalle defini par des bornes consecutives.</p>
+    <p>Les valeurs datetime peuvent etre regroupees par mois calendaire avec des libelles categoriels mois-annee.</p>
+    <p>Les valeurs duration peuvent etre regroupees par heure avec des libelles d'intervalles formates en minutes ou en temps.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Creer des intervalles categoriels.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[X = [5 15 25 NaN];
+C = discretize(X, [0 10 20 30], 'categorical', {'small', 'medium', 'large'})]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Regrouper des donnees normalement distribuees en intervalles categoriels.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[rng(1);
+X = randn(1000, 1);
+edges = std(X) * (-3:3);
+C = discretize(X, edges, 'categorical', ...
+  {'-3sigma', '-2sigma', '-sigma', 'sigma', '2sigma', '3sigma'});
+ratio = nnz(C == '-sigma' | C == 'sigma') / numel(C)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Regrouper des valeurs datetime par mois.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[T = datetime(2016, 1, [31; 60; 335]);
+C = discretize(T, 'month', 'categorical')]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Regrouper des valeurs duration par heure.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[D = minutes([30; 90; 150; 210]);
+C = discretize(D, 'hour', 'categorical', 'hh:mm:ss')]]></example_item_data>
+    </example_item>
+  </examples>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

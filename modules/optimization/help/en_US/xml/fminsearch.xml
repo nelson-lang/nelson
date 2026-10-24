@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>fminsearch</keyword>
+  <short_description>Unconstrained derivative-free minimization.</short_description>
+  <syntax>
+    <syntax_item>x = fminsearch(fun, x0)</syntax_item>
+    <syntax_item>[x, fval, exitflag, output] = fminsearch(fun, x0, options)</syntax_item>
+    <syntax_item>x = fminsearch(problem)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>fun</param_name>
+      <param_description>function handle or function name returning a scalar value.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>x0</param_name>
+      <param_description>initial point.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>options</param_name>
+      <param_description>structure or solver options created with optimset or optimoptions.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>x</param_name>
+      <param_description>estimated minimizer.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>fval</param_name>
+      <param_description>objective value at x.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>exitflag</param_name>
+      <param_description>positive on convergence, zero on iteration or evaluation limit, negative when stopped by a callback.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>output</param_name>
+      <param_description>diagnostic structure.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>fminsearch</b> uses the Nelder-Mead simplex method. Supported controls include TolX, TolFun, MaxIter, MaxFunEvals, Display, OutputFcn and PlotFcns. A problem structure can contain objective, x0 and options fields.</p>
+  </description>
+  <used_function>
+    <used_function_item>optimset</used_function_item>
+    <used_function_item>optimoptions</used_function_item>
+  </used_function>
+  <bibliography>J. A. Nelder and R. Mead, "A simplex method for function minimization", The Computer Journal, 1965.
+J. C. Lagarias, J. A. Reeds, M. H. Wright and P. E. Wright, "Convergence properties of the Nelder-Mead simplex method in low dimensions", SIAM Journal on Optimization, 1998.</bibliography>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[opts = optimset('TolX', 1e-8, 'TolFun', 1e-8);
+[x, fval] = fminsearch(@(x) (x(1) - 1)^2 + (x(2) + 2)^2, [0 0], opts)
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${optimization}fminbnd">fminbnd</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${optimization}optimset">optimset</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

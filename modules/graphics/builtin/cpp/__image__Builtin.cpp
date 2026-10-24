@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "__image__Builtin.hpp"
+#include "GOHelpers.hpp"
 #include "GOConstructorHelpers.hpp"
 #include "GOImage.hpp"
 //=============================================================================
@@ -19,9 +20,9 @@ ArrayOfVector
 __image__Builtin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    retval << ArrayOf::graphicsObjectConstructor(GOCommonConstructorHelper(new GOImage, argIn));
+    retval << graphicsObjectHandle(GOCommonConstructorHelper(new GOImage, argIn));
     return retval;
 }
 //=============================================================================
-}
+} // namespace Nelson::GraphicsGateway
 //=============================================================================

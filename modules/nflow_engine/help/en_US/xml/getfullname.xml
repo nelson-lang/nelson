@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>getfullname</keyword>
+  <short_description>Return the full path of a block or model from its handle.</short_description>
+  <syntax>
+    <syntax_item>path = getfullname(handle)</syntax_item>
+  </syntax>
+  <param_input><param_input_item><param_name>handle</param_name><param_description>a numeric handle (block or model), a char block path, or a cell array of handles.</param_description></param_input_item></param_input>
+  <param_output><param_output_item><param_name>path</param_name><param_description>the full path: 'model/BlockName' for a block handle, 'model' for a model handle. A cell array of handles yields a cell array of paths.</param_description></param_output_item></param_output>
+  <description>
+    <p><b>getfullname</b> returns the full path that identifies the block or
+    model named by a handle. A block handle yields <b>'model/BlockName'</b>; a
+    model handle yields <b>'model'</b>.</p>
+    <p>It is the inverse of <b>getNFlowBlockHandle</b>. A char path is already
+    a full name and is returned unchanged. A cell array of handles yields a cell
+    array of paths of the same shape.</p>
+    <p>An unknown handle raises an error.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data><![CDATA[new_system('demo');
+add_block('nflow/math/gain', 'demo/Gain');
+h = getNFlowBlockHandle('demo/Gain');
+path = getfullname(h)
+bdclose('demo');]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${nflow_engine}getNFlowBlockHandle">getNFlowBlockHandle</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}get_param">get_param</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}find_system">find_system</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}bdroot">bdroot</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>1.0.0</history_version><history_description>initial version</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

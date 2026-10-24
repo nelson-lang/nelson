@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>reckon</keyword>
+  <short_description>Point à une distance sphérique et un azimut donnés.</short_description>
+  <syntax>
+    <syntax_item>[lat2, lon2] = reckon(lat1, lon1, arclen, az)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>lat1</param_name>
+      <param_description>latitude du point de départ, en degrés.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>lon1</param_name>
+      <param_description>longitude du point de départ, en degrés.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>arclen</param_name>
+      <param_description>distance sphérique à parcourir, en degrés d&apos;arc.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>az</param_name>
+      <param_description>azimut de la direction de déplacement, en degrés dans le sens horaire depuis le nord.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>lat2</param_name>
+      <param_description>latitude du point d&apos;arrivée, en degrés.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>lon2</param_name>
+      <param_description>longitude du point d&apos;arrivée, en degrés.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>reckon</b> calcule la latitude et la longitude atteintes en partant du
+      point <b>(lat1, lon1)</b> et en parcourant la distance de grand cercle
+      <b>arclen</b> selon l&apos;azimut initial <b>az</b> sur une sphère. Tous les
+      angles sont exprimés en degrés. Les entrées sont diffusées entre elles, de
+      sorte qu&apos;un point de départ scalaire peut être combiné avec des
+      vecteurs de distances et d&apos;azimuts.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[[lat, lon] = reckon(0, 0, 10, 90)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${geometry}ellipse1">ellipse1</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item><history_version>2.0.0</history_version><history_description>Version initiale.</history_description></history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

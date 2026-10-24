@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>boxchart</keyword>
+  <short_description>Display box chart for grouped numeric data.</short_description>
+  <syntax>
+    <syntax_item>boxchart(ydata)</syntax_item>
+    <syntax_item>boxchart(xgroupdata, ydata)</syntax_item>
+    <syntax_item>boxchart(..., 'GroupByColor', cgroupdata)</syntax_item>
+    <syntax_item>boxchart(tbl, yvar)</syntax_item>
+    <syntax_item>boxchart(tbl, xvar, yvar)</syntax_item>
+    <syntax_item>boxchart(parent, ...)</syntax_item>
+    <syntax_item>boxchart(..., propertyName, propertyValue)</syntax_item>
+    <syntax_item>h = boxchart(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>boxchart</b> displays box charts for numeric data. The returned value is one or more graphics objects with <b>Type</b> set to <b>boxchart</b>.</p>
+    <p>The chart computes quartiles, median, whiskers, caps, outliers, and optional notches for each numeric group. NaN values are ignored when statistics are computed.</p>
+    <p>See <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.boxchart.properties">boxchart properties</link> for the complete property list.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Single box chart.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = figure();
+boxchart([1 2 3 4 12], 'BoxFaceColor', [0.2 0.5 0.8]);
+]]></example_item_data>
+      <example_item_img src="../../../../images/boxchart_1.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Grouped box chart.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = figure();
+g = categorical({'A', 'A', 'A', 'B', 'B', 'B'});
+y = [1 2 8 4 5 15];
+boxchart(g, y, 'MarkerStyle', 'x');
+]]></example_item_data>
+      <example_item_img src="../../../../images/boxchart_2.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Color groups.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = figure();
+x = [1 1 2 2 2 1];
+y = [10 20 3 4 100 15];
+c = categorical({'red', 'blue', 'red', 'blue', 'red', 'blue'});
+boxchart(x, y, 'GroupByColor', c);
+]]></example_item_data>
+      <example_item_img src="../../../../images/boxchart_3.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Box charts for the columns of a matrix.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = figure();
+Y = magic(10);
+boxchart(Y);
+xlabel('Column');
+ylabel('Value');
+]]></example_item_data>
+      <example_item_img src="../../../../images/boxchart_4.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Notches and jittered outliers.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = figure();
+x = [ones(1, 8), 2 * ones(1, 8), 3 * ones(1, 8)];
+y = [1 2 3 4 5 6 7 30, 4 5 6 7 8 9 10 11, 2 3 4 5 20 21 22 23];
+boxchart(x, y, 'Notch', 'on', 'JitterOutliers', 'on');
+xlabel('Group');
+ylabel('Value');
+]]></example_item_data>
+      <example_item_img src="../../../../images/boxchart_5.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Outlier marker and box hinges.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = figure();
+boxchart([1 2 3 4 100]);
+xlabel('Sample');
+ylabel('Value');
+]]></example_item_data>
+      <example_item_img src="../../../../images/boxchart_6.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.boxchart.properties">boxchart properties</link>
+    </see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/4_data_distribution_plots/boxplot">boxplot</link></see_also_item>
+  </see_also>
+</xmldoc>

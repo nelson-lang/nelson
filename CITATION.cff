@@ -19,26 +19,21 @@ repository: 'https://github.com/nelson-lang/nelson'
 repository-artifact: >-
   https://github.com/nelson-lang/nelson/releases
 abstract: >-
-  Let's Nelson! Matrix language for engineering and
-  scientific applications.
+  Nelson is an array programming language for
+  engineering and scientific computing.
 
 
-  Nelson is an array programming language providing a
-  powerful open computing environment for engineering
-  and scientific applications using modern C/C++
-  libraries (Boost, Eigen, …) and others state of art
-  numerical libraries.
+  It provides an interpreter, a high-level language,
+  plotting tools, and numerical libraries such as
+  Boost and Eigen.
 
 
-  It has sophisticated data structures (including
-  cell, struct, linear systems, …), an interpreter
-  and a high level programming language.
+  It supports data structures such as cell arrays,
+  structs, and linear systems.
 
 
-  Nelson has been developed to be an open/modular
-  system where an user can define these own data
-  types and operations on these data types by using
-  overload.
+  Its module and overload mechanisms let users add
+  data types and operations.
 keywords:
   - programming-language
   - data-science

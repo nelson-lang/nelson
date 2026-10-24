@@ -16,7 +16,8 @@ namespace Nelson {
 namespace ConsoleGateway {
     ArrayOfVector
     consoleboxBuiltin(int nLhs, const ArrayOfVector& argIn);
-};
+    //=============================================================================
+} // namespace ConsoleGateway
 //=============================================================================
 }; // namespace Nelson
 //=============================================================================

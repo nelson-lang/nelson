@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "InterpolationND.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "nlsBuildConfig.h"
 #include "omp_for_loop.hpp"
@@ -45,7 +46,7 @@ parseNDMethod(const std::wstring& method)
     if (method == L"cubic" || method == L"makima" || method == L"spline" || method == L"pchip") {
         return InterpolationNDMethod::CUBIC;
     }
-    Error(_W("Unsupported interpolation method."));
+    Error(L"Nelson:interp:unsupportedMethod", L"Unsupported interpolation method.");
     return InterpolationNDMethod::LINEAR;
 }
 //=============================================================================
@@ -68,11 +69,11 @@ isFloatingNumeric(const ArrayOf& value)
 }
 //=============================================================================
 static std::vector<indexType>
-getDimensionsVector(const Dimensions& dims)
+dimensionsVector(const Dimensions& dims)
 {
     std::vector<indexType> values;
-    for (indexType k = 0; k < dims.getLength(); k++) {
-        values.push_back(dims.getAt(k, false));
+    for (indexType k = 0; k < dims.length(); k++) {
+        values.push_back(dims.at(k, false));
     }
     return values;
 }
@@ -80,13 +81,13 @@ getDimensionsVector(const Dimensions& dims)
 static bool
 sameDimensions(const ArrayOf& a, const ArrayOf& b)
 {
-    Dimensions da = a.getDimensions();
-    Dimensions db = b.getDimensions();
-    if (da.getLength() != db.getLength()) {
+    Dimensions da = a.dimensions();
+    Dimensions db = b.dimensions();
+    if (da.length() != db.length()) {
         return false;
     }
-    for (indexType k = 0; k < da.getLength(); k++) {
-        if (da.getAt(k, false) != db.getAt(k, false)) {
+    for (indexType k = 0; k < da.length(); k++) {
+        if (da.at(k, false) != db.at(k, false)) {
             return false;
         }
     }
@@ -96,10 +97,10 @@ sameDimensions(const ArrayOf& a, const ArrayOf& b)
 static bool
 isQueryVectorLike(const ArrayOf& value)
 {
-    Dimensions dims = value.getDimensions();
+    Dimensions dims = value.dimensions();
     indexType nonSingleton = 0;
-    for (indexType k = 0; k < dims.getLength(); k++) {
-        if (dims.getAt(k, false) > 1) {
+    for (indexType k = 0; k < dims.length(); k++) {
+        if (dims.at(k, false) > 1) {
             nonSingleton++;
         }
     }
@@ -188,8 +189,8 @@ template <class T>
 static T
 getScalarPart(const ArrayOf& value, bool imaginary)
 {
-    if (value.getElementCount() != 1) {
-        Error(_W("Scalar extrapolation value expected."));
+    if (value.elementCount() != 1) {
+        Error(L"Nelson:interp:invalidExtrapolation", L"Scalar extrapolation value expected.");
     }
     if (!value.isComplex()) {
         if (imaginary) {
@@ -197,14 +198,14 @@ getScalarPart(const ArrayOf& value, bool imaginary)
         }
         ArrayOf promoted(value);
         promoted.promoteType(std::is_same<T, single>::value ? NLS_SINGLE : NLS_DOUBLE);
-        return std::is_same<T, single>::value ? static_cast<T>(promoted.getContentAsSingleScalar())
-                                              : static_cast<T>(promoted.getContentAsDoubleScalar());
+        return std::is_same<T, single>::value ? static_cast<T>(promoted.asSingleScalar())
+                                              : static_cast<T>(promoted.asDoubleScalar());
     }
-    if (value.getDataClass() == NLS_SCOMPLEX) {
-        const single* data = (const single*)value.getDataPointer();
+    if (value.dataClass() == NLS_SCOMPLEX) {
+        const single* data = (const single*)value.dataPointer();
         return static_cast<T>(imaginary ? data[1] : data[0]);
     }
-    const double* data = (const double*)value.getDataPointer();
+    const double* data = (const double*)value.dataPointer();
     return static_cast<T>(imaginary ? data[1] : data[0]);
 }
 //=============================================================================
@@ -394,6 +395,101 @@ evaluateNDComplex(const std::vector<const T*>& grids, const std::vector<indexTyp
 }
 //=============================================================================
 template <class T>
+static bool
+isUniformGrid(const T* grid, indexType count)
+{
+    // Only used to seed the cell index: uniformIndex() corrects it against the
+    // actual grid values, so a loose tolerance keeps results bit-identical.
+    if (count < 2) {
+        return false;
+    }
+    T step = (grid[count - 1] - grid[0]) / static_cast<T>(count - 1);
+    if (!(step > static_cast<T>(0)) || !std::isfinite((double)step)) {
+        return false;
+    }
+    T tolerance = step / static_cast<T>(16);
+    for (indexType k = 1; k < count - 1; k++) {
+        if (std::abs(grid[k] - (grid[0] + static_cast<T>(k) * step)) > tolerance) {
+            return false;
+        }
+    }
+    return true;
+}
+//=============================================================================
+template <class T>
+static inline indexType
+uniformIndex(const T* grid, indexType count, T invStep, T query)
+{
+    // Same cell as findLeftIndexND(), without the binary search.
+    T t = (query - grid[0]) * invStep;
+    indexType last = count - 2;
+    if (!(t > static_cast<T>(0))) {
+        return 0;
+    }
+    if (t >= static_cast<T>(last)) {
+        return last;
+    }
+    indexType left = static_cast<indexType>(t);
+    if (left > 0 && query < grid[left]) {
+        left--;
+    } else if (left < last && query >= grid[left + 1]) {
+        left++;
+    }
+    return left;
+}
+//=============================================================================
+template <class T>
+static bool
+evaluate2DLinearUniform(const std::vector<const T*>& grids, const std::vector<indexType>& gridSize,
+    const T* values, indexType pageCount, const std::vector<const T*>& queries,
+    const std::vector<indexType>& querySize, indexType totalQueries, bool queryAsGrid,
+    InterpolationNDExtrapolation extrapolation, T extrapolationValue, T* output)
+{
+    const T* gridY = grids[0];
+    const T* gridX = grids[1];
+    const indexType ny = gridSize[0];
+    const indexType nx = gridSize[1];
+    if (!isUniformGrid(gridY, ny) || !isUniformGrid(gridX, nx)) {
+        return false;
+    }
+    const T invStepY = static_cast<T>(ny - 1) / (gridY[ny - 1] - gridY[0]);
+    const T invStepX = static_cast<T>(nx - 1) / (gridX[nx - 1] - gridX[0]);
+    const T* queryY = queries[0];
+    const T* queryX = queries[1];
+    const indexType pageStride = ny * nx;
+    const bool extrapolate = extrapolation == InterpolationNDExtrapolation::EXTRAPOLATE;
+    const T outsideValue = extrapolation == InterpolationNDExtrapolation::CONSTANT
+        ? extrapolationValue
+        : numericNaNND<T>();
+    OMP_PARALLEL_FOR_LOOP(totalQueries)
+    for (ompIndexType qi = 0; qi < (ompIndexType)totalQueries; qi++) {
+        T qy = queryAsGrid ? queryY[(indexType)qi % querySize[0]] : queryY[qi];
+        T qx = queryAsGrid ? queryX[(indexType)qi / querySize[0]] : queryX[qi];
+        if (!extrapolate
+            && !(qy >= gridY[0] && qy <= gridY[ny - 1] && qx >= gridX[0] && qx <= gridX[nx - 1])) {
+            for (indexType page = 0; page < pageCount; page++) {
+                output[qi + totalQueries * page] = outsideValue;
+            }
+            continue;
+        }
+        indexType iy = uniformIndex(gridY, ny, invStepY, qy);
+        indexType ix = uniformIndex(gridX, nx, invStepX, qx);
+        T fy = (qy - gridY[iy]) / (gridY[iy + 1] - gridY[iy]);
+        T fx = (qx - gridX[ix]) / (gridX[ix + 1] - gridX[ix]);
+        T wy0 = static_cast<T>(1) - fy;
+        T wx0 = static_cast<T>(1) - fx;
+        const T* v = values + iy + ix * ny;
+        for (indexType page = 0; page < pageCount; page++) {
+            // Same summation order as the generic stencil loop.
+            output[qi + totalQueries * page]
+                = wy0 * wx0 * v[0] + fy * wx0 * v[1] + wy0 * fx * v[ny] + fy * fx * v[ny + 1];
+            v += pageStride;
+        }
+    }
+    return true;
+}
+//=============================================================================
+template <class T>
 static ArrayOf
 evaluateTypedND(const ArrayOf& V, const std::vector<ArrayOf>& gridArrays,
     const std::vector<ArrayOf>& queryArrays, InterpolationNDMethod method,
@@ -405,8 +501,8 @@ evaluateTypedND(const ArrayOf& V, const std::vector<ArrayOf>& gridArrays,
     std::vector<const T*> grids(nd);
     std::vector<const T*> queries(nd);
     for (indexType dim = 0; dim < nd; dim++) {
-        grids[dim] = (const T*)gridArrays[dim].getDataPointer();
-        queries[dim] = (const T*)queryArrays[dim].getDataPointer();
+        grids[dim] = (const T*)gridArrays[dim].dataPointer();
+        queries[dim] = (const T*)queryArrays[dim].dataPointer();
     }
 
     std::vector<indexType> strides(nd + 1, 1);
@@ -414,7 +510,7 @@ evaluateTypedND(const ArrayOf& V, const std::vector<ArrayOf>& gridArrays,
         strides[dim] = strides[dim - 1] * gridSize[dim - 1];
     }
     indexType gridCount = strides[nd];
-    indexType pageCount = V.getElementCount() / gridCount;
+    indexType pageCount = V.elementCount() / gridCount;
 
     NelsonType outputType;
     if (std::is_same<T, single>::value) {
@@ -424,13 +520,16 @@ evaluateTypedND(const ArrayOf& V, const std::vector<ArrayOf>& gridArrays,
     }
     void* output = ArrayOf::allocateArrayOf(outputType, totalQueries * pageCount);
     if (V.isComplex()) {
-        evaluateNDComplex<T>(grids, gridSize, (const T*)V.getDataPointer(), pageCount, strides,
+        evaluateNDComplex<T>(grids, gridSize, (const T*)V.dataPointer(), pageCount, strides,
             queries, querySize, totalQueries, queryAsGrid, method, extrapolation,
             getScalarPart<T>(extrapolationValue, false), getScalarPart<T>(extrapolationValue, true),
             (T*)output);
-    } else {
-        evaluateNDReal<T>(grids, gridSize, (const T*)V.getDataPointer(), pageCount, strides,
-            queries, querySize, totalQueries, queryAsGrid, method, extrapolation,
+    } else if (nd != 2 || method != InterpolationNDMethod::LINEAR
+        || !evaluate2DLinearUniform<T>(grids, gridSize, (const T*)V.dataPointer(), pageCount,
+            queries, querySize, totalQueries, queryAsGrid, extrapolation,
+            getScalarPart<T>(extrapolationValue, false), (T*)output)) {
+        evaluateNDReal<T>(grids, gridSize, (const T*)V.dataPointer(), pageCount, strides, queries,
+            querySize, totalQueries, queryAsGrid, method, extrapolation,
             getScalarPart<T>(extrapolationValue, false), (T*)output);
     }
     return ArrayOf(outputType, Dimensions(outputDims), output);
@@ -439,19 +538,22 @@ evaluateTypedND(const ArrayOf& V, const std::vector<ArrayOf>& gridArrays,
 ArrayOf
 InterpolationND(const ArrayOfVector& argIn)
 {
-    if (argIn.size() < 8 || ((argIn.size() - 4) % 2) != 0) {
-        Error(_W("Wrong number of input arguments."));
+    if (argIn.size() < 8) {
+        Error(L"Nelson:notEnoughInputs", L"Not enough input arguments.");
+    }
+    if (((argIn.size() - 4) % 2) != 0) {
+        Error(L"Nelson:wrongNumberOfInputs", L"Wrong number of input arguments.");
     }
     const ArrayOf& Vinput = argIn[0];
     if (!isFloatingNumeric(Vinput) || Vinput.isSparse()) {
-        Error(_W("dense single or double sample values expected."));
+        Error(L"Nelson:types:denseSampleValuesExpected",
+            L"dense single or double sample values expected.");
     }
-    InterpolationNDMethod method = parseNDMethod(argIn[1].getContentAsWideString());
-    InterpolationNDExtrapolation extrapolation
-        = parseNDExtrapolation(argIn[2].getContentAsWideString());
+    InterpolationNDMethod method = parseNDMethod(argIn[1].asWideString());
+    InterpolationNDExtrapolation extrapolation = parseNDExtrapolation(argIn[2].asWideString());
     indexType nd = ((indexType)argIn.size() - 4) / 2;
     if (nd < 1) {
-        Error(_W("At least one interpolation dimension expected."));
+        Error(L"Nelson:interp:noDimension", L"At least one interpolation dimension expected.");
     }
 
     ArrayOf V(Vinput);
@@ -462,28 +564,32 @@ InterpolationND(const ArrayOfVector& argIn)
     std::vector<ArrayOf> queries(nd);
     std::vector<indexType> gridSize(nd);
     std::vector<indexType> querySize(nd);
-    Dimensions valueDims = V.getDimensions();
+    Dimensions valueDims = V.dimensions();
     for (indexType dim = 0; dim < nd; dim++) {
-        gridSize[dim] = valueDims.getDimensionLength(dim);
+        gridSize[dim] = valueDims.dimensionLength(dim);
         grids[dim] = argIn[4 + dim];
         queries[dim] = argIn[4 + nd + dim];
         if (!isFloatingNumeric(grids[dim]) || grids[dim].isSparse() || grids[dim].isComplex()
             || !isFloatingNumeric(queries[dim]) || queries[dim].isSparse()
             || queries[dim].isComplex()) {
-            Error(_W("real dense single or double grids and query points expected."));
+            Error(L"Nelson:types:realDenseGridsExpected",
+                L"real dense single or double grids and query points expected.");
         }
-        if (grids[dim].getElementCount() != gridSize[dim]) {
-            Error(_W("Grid vector length and sample value size are incompatible."));
+        if (grids[dim].elementCount() != gridSize[dim]) {
+            Error(L"Nelson:interp:gridSizeMismatch",
+                L"Grid vector length and sample value size are incompatible.");
         }
         grids[dim].promoteType(useSingle ? NLS_SINGLE : NLS_DOUBLE);
         queries[dim].promoteType(useSingle ? NLS_SINGLE : NLS_DOUBLE);
         if (useSingle) {
-            if (!strictlyIncreasing((const single*)grids[dim].getDataPointer(), gridSize[dim])) {
-                Error(_W("Grid vectors must be strictly increasing."));
+            if (!strictlyIncreasing((const single*)grids[dim].dataPointer(), gridSize[dim])) {
+                Error(L"Nelson:interp:gridNotIncreasing",
+                    L"Grid vectors must be strictly increasing.");
             }
         } else {
-            if (!strictlyIncreasing((const double*)grids[dim].getDataPointer(), gridSize[dim])) {
-                Error(_W("Grid vectors must be strictly increasing."));
+            if (!strictlyIncreasing((const double*)grids[dim].dataPointer(), gridSize[dim])) {
+                Error(L"Nelson:interp:gridNotIncreasing",
+                    L"Grid vectors must be strictly increasing.");
             }
         }
     }
@@ -491,22 +597,22 @@ InterpolationND(const ArrayOfVector& argIn)
     bool queryAsGrid = false;
     std::vector<indexType> outputDims;
     if (queries.empty()) {
-        Error(_W("Query points expected."));
+        Error(L"Nelson:interp:queryPointsExpected", L"Query points expected.");
     }
     bool sameSize = true;
     for (indexType dim = 1; dim < nd; dim++) {
         sameSize = sameSize && sameDimensions(queries[0], queries[dim]);
     }
     if (sameSize) {
-        outputDims = getDimensionsVector(queries[0].getDimensions());
-        querySize.assign(nd, queries[0].getElementCount());
+        outputDims = dimensionsVector(queries[0].dimensions());
+        querySize.assign(nd, queries[0].elementCount());
     } else {
         queryAsGrid = true;
         for (indexType dim = 0; dim < nd; dim++) {
             if (!isQueryVectorLike(queries[dim])) {
-                Error(_W("Query arrays must have the same size."));
+                Error(L"Nelson:dimagree:queryArraysSize", L"Query arrays must have the same size.");
             }
-            querySize[dim] = queries[dim].getElementCount();
+            querySize[dim] = queries[dim].elementCount();
             outputDims.push_back(querySize[dim]);
         }
     }
@@ -519,10 +625,10 @@ InterpolationND(const ArrayOfVector& argIn)
     for (indexType dim = 0; dim < nd; dim++) {
         gridCount *= gridSize[dim];
     }
-    indexType pageCount = V.getElementCount() / gridCount;
+    indexType pageCount = V.elementCount() / gridCount;
     if (pageCount > 1) {
-        for (indexType dim = nd; dim < valueDims.getLength(); dim++) {
-            outputDims.push_back(valueDims.getAt(dim, false));
+        for (indexType dim = nd; dim < valueDims.length(); dim++) {
+            outputDims.push_back(valueDims.at(dim, false));
         }
     }
 
@@ -534,5 +640,5 @@ InterpolationND(const ArrayOfVector& argIn)
         gridSize, querySize, totalQueries, queryAsGrid);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

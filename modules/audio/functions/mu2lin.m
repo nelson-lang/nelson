@@ -9,14 +9,24 @@
 %=============================================================================
 function y = mu2lin(mu)
   % https://en.wikipedia.org/wiki/%CE%9C-law_algorithm
-  mu = 255 - mu;
-  sig = double(mu > 127);
-  f = rem(mu, 16);
-  e = fix(mu / 16) - 8 * sig + 1;    
-  y = pow2(f, e + 2);
-  e_table = [0 132 396 924 1980 4092 8316 16764];    
-  e(:) = e_table(e);
-  scale_factor = 1 / 32768;    
-  y = scale_factor * (1 - 2 * sig) .* (e + y);
+  code = 255 - mu;
+  signMask = code > 127;
+  segment = floor(code ./ 16);
+  exponent = segment - 8 * double(signMask) + 1;
+  mantissa = rem(code, 16);
+  magnitude = muLawMagnitude(mantissa, exponent);
+  y = applyMuLawSign(magnitude, signMask) ./ 32768;
+end
+%=============================================================================
+function magnitude = muLawMagnitude(mantissa, exponent)
+  segmentBias = [0 132 396 924 1980 4092 8316 16764];
+  bias = exponent;
+  bias(:) = segmentBias(exponent);
+  magnitude = bias + pow2(mantissa, exponent + 2);
+end
+%=============================================================================
+function y = applyMuLawSign(magnitude, signMask)
+  y = magnitude;
+  y(signMask) = -y(signMask);
 end
 %=============================================================================

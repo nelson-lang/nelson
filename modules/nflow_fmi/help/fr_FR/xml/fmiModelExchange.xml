@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>fmiModelExchange</keyword>
+  <short_description>Importe et intègre une FMU FMI 2.0 ou 3.0 Model Exchange.</short_description>
+  <syntax>
+    <syntax_item>result = fmiModelExchange(fmu, tStop)</syntax_item>
+    <syntax_item>result = fmiModelExchange(fmu, tStop, dt)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>fmu</param_name>
+      <param_description>une chaîne de caractères&#160;: le chemin d'une archive <b>.fmu</b>, ou d'un répertoire de FMU déjà extrait. La FMU doit fournir l'interface Model Exchange.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>tStop</param_name>
+      <param_description>un scalaire réel strictement positif&#160;: l'instant d'arrêt. La simulation débute à l'instant <b>0</b>.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>dt</param_name>
+      <param_description>un scalaire réel strictement positif optionnel&#160;: le pas d'intégration fixe. En son absence il vaut par défaut <b>tStop / 1000</b>. Le Model Exchange demande en général un pas plus fin que la co-simulation, car Nelson intègre lui-même les états.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>result</param_name>
+      <param_description>une structure scalaire avec les champs <b>time</b> (N x 1), <b>outputNames</b> (1 x nOut) et <b>outputs</b> (N x nOut).</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>fmiModelExchange</b> importe une <b>unité de maquette fonctionnelle</b> (FMU) conforme à l'interface <b>FMI 2.0</b> ou <b>3.0</b> <b>Model Exchange</b> et l'intègre avec le solveur de Nelson.</p>
+    <p>La différence essentielle avec <b>fmiCoSimulate</b> est de savoir qui possède le solveur. Une FMU de co-simulation contient son propre solveur et est avancée par <b>doStep</b>. Une FMU Model Exchange n'expose que les équations du modèle (dérivées des états, sorties et indicateurs d'événement)&#160;; c'est l'outil importateur qui fournit le solveur. <b>fmiModelExchange</b> intègre les états continus de la FMU avec une méthode de Runge-Kutta d'ordre 4 à pas fixe et gère les événements d'état détectés en fin de pas (passage en mode événement, exécution du point fixe de mise à jour discrète, relecture des états continus).</p>
+    <p>Aucune entrée externe n'est appliquée&#160;: les paramètres et entrées conservent leurs valeurs initiales. Une erreur est levée lorsque la FMU ne fournit pas l'interface Model Exchange.</p>
+  </description>
+
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Intégrer l'oscillateur de Van der Pol comme FMU Model Exchange.</example_item_description>
+      <example_item_data runnable="cli"
+        ><![CDATA[fmu = [modulepath('nflow_fmi', 'root'), '/examples/VanDerPol.fmu'];
+r = fmiModelExchange(fmu, 20, 0.01);
+plot(r.time, r.outputs); legend(r.outputNames);]]></example_item_data>
+    </example_item>
+  </examples>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${nflow_fmi}fmiCoSimulate">fmiCoSimulate</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${nflow_fmi}fmiInfo">fmiInfo</link>
+    </see_also_item>
+  </see_also>
+
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

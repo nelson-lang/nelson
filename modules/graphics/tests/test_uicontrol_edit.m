@@ -9,11 +9,13 @@
 %=============================================================================
 % <--ADV-CLI MODE-->
 %=============================================================================
-f = figure();
+figure();
 h = uicontrol('Style', 'edit', 'String', 'Click Me!', 'Position', [100, 100, 100, 50]);
-assert_isequal(h.String, 'Click Me!');
-pause(2);
+asserts.isequal(h.String, 'Click Me!');
+drawnow();
+pause(0.1);
 h.String = 'Hello World!';
-assert_isequal(h.String, 'Hello World!');
-pause(2);
+asserts.isequal(h.String, 'Hello World!');
+drawnow();
+pause(0.1);
 %=============================================================================

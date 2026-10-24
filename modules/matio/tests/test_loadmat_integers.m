@@ -7,72 +7,72 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-mat_dir = [fileparts(nfilename('fullpathext'),'path'), '/mat/'];
+mat_dir = [fileparts(nfilename('fullpathext'), 'path'), '/mat/'];
 %=============================================================================
-M_signed = [1   -4    7; -9    6   -3];
-M_unsigned = [1   0   7;   0   6   0];
+M_signed = [1 -4 7; -9 6 -3];
+M_unsigned = [1 0 7; 0 6 0];
 %=============================================================================
 clear int8matrix
 loadmat([mat_dir, 'test_int8matrix_v6.1_GLNX86.mat']);
-assert_isequal(int8matrix, int8(M_signed))
+asserts.isequal(int8matrix, int8(M_signed))
 %=============================================================================
 clear int8matrix
 loadmat([mat_dir, 'test_int8matrix_v7.1_GLNX86.mat']);
-assert_isequal(int8matrix, int8(M_signed))
+asserts.isequal(int8matrix, int8(M_signed))
 %=============================================================================
 clear int16matrix
 loadmat([mat_dir, 'test_int16matrix_v6.1_GLNX86.mat']);
-assert_isequal(int16matrix, int16(M_signed))
+asserts.isequal(int16matrix, int16(M_signed))
 %=============================================================================
 clear int16matrix
 loadmat([mat_dir, 'test_int16matrix_v7.1_GLNX86.mat']);
-assert_isequal(int16matrix, int16(M_signed))
+asserts.isequal(int16matrix, int16(M_signed))
 %=============================================================================
 clear int32matrix
 loadmat([mat_dir, 'test_int32matrix_v6.1_GLNX86.mat']);
-assert_isequal(int32matrix, int32(M_signed))
+asserts.isequal(int32matrix, int32(M_signed))
 %=============================================================================
 clear int32matrix
 loadmat([mat_dir, 'test_int32matrix_v7.1_GLNX86.mat']);
-assert_isequal(int32matrix, int32(M_signed))
+asserts.isequal(int32matrix, int32(M_signed))
 %=============================================================================
 clear int64matrix
 loadmat([mat_dir, 'test_int64matrix_v6.1_GLNX86.mat']);
-assert_isequal(int64matrix, int64(M_signed))
+asserts.isequal(int64matrix, int64(M_signed))
 %=============================================================================
 clear int64matrix
 loadmat([mat_dir, 'test_int64matrix_v7.1_GLNX86.mat']);
-assert_isequal(int64matrix, int64(M_signed))
+asserts.isequal(int64matrix, int64(M_signed))
 %=============================================================================
 clear uint8matrix
 loadmat([mat_dir, 'test_uint8matrix_v6.1_GLNX86.mat']);
-assert_isequal(uint8matrix, uint8(M_unsigned))
+asserts.isequal(uint8matrix, uint8(M_unsigned))
 %=============================================================================
 clear uint8matrix
 loadmat([mat_dir, 'test_uint8matrix_v7.1_GLNX86.mat']);
-assert_isequal(uint8matrix, uint8(M_unsigned))
+asserts.isequal(uint8matrix, uint8(M_unsigned))
 %=============================================================================
 clear uint16matrix
 loadmat([mat_dir, 'test_uint16matrix_v6.1_GLNX86.mat']);
-assert_isequal(uint16matrix, uint16(M_unsigned))
+asserts.isequal(uint16matrix, uint16(M_unsigned))
 %=============================================================================
 clear uint16matrix
 loadmat([mat_dir, 'test_uint16matrix_v7.1_GLNX86.mat']);
-assert_isequal(uint16matrix, uint16(M_unsigned))
+asserts.isequal(uint16matrix, uint16(M_unsigned))
 %=============================================================================
 clear uint32matrix
 loadmat([mat_dir, 'test_uint32matrix_v6.1_GLNX86.mat']);
-assert_isequal(uint32matrix, uint32(M_unsigned))
+asserts.isequal(uint32matrix, uint32(M_unsigned))
 %=============================================================================
 clear uint32matrix
 loadmat([mat_dir, 'test_uint32matrix_v7.1_GLNX86.mat']);
-assert_isequal(uint32matrix, uint32(M_unsigned))
+asserts.isequal(uint32matrix, uint32(M_unsigned))
 %=============================================================================
 clear uint64matrix
 loadmat([mat_dir, 'test_uint64matrix_v6.1_GLNX86.mat']);
-assert_isequal(uint64matrix, uint64(M_unsigned))
+asserts.isequal(uint64matrix, uint64(M_unsigned))
 %=============================================================================
 clear uint64matrix
 loadmat([mat_dir, 'test_uint64matrix_v7.1_GLNX86.mat']);
-assert_isequal(uint64matrix, uint64(M_unsigned))
+asserts.isequal(uint64matrix, uint64(M_unsigned))
 %=============================================================================

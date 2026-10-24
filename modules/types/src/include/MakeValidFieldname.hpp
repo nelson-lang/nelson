@@ -13,9 +13,12 @@
 #include "nlsTypes_exports.h"
 //=============================================================================
 namespace Nelson {
+// The prefix is used when the source name cannot start a field name.
 NLSTYPES_IMPEXP std::string
 MakeValidFieldname(const std::string& fieldname, const std::string& defaultPrefix = "x");
+// The prefix is used when the source name cannot start a field name.
 NLSTYPES_IMPEXP std::wstring
 MakeValidFieldname(const std::wstring& fieldname, const std::wstring& defaultPrefix = L"x");
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

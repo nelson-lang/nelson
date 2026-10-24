@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>ncwriteschema</keyword>
+  <short_description>Ajoute des definitions de schema dans un fichier netCDF.</short_description>
+  <syntax>
+    <syntax_item>ncwriteschema(filename, schema)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>Chemin du fichier netCDF a creer, ouvrir ou modifier.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>schema</param_name>
+      <param_description>Structure decrivant dimensions, variables, groupes et attributs. Elle peut suivre la forme retournee par ncinfo lorsque c'est applicable.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>none</param_name>
+      <param_description>Cette fonction ne retourne pas de valeur.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>ncwriteschema cree les definitions de schema decrites par une structure Nelson.</p>
+    <p>Elle sert a reproduire une organisation de metadonnees avant d'ecrire les donnees des variables.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Exemple copiable pour ncwriteschema.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[source = [tempdir(), 'help_ncwriteschema_source.nc'];
+target = [tempdir(), 'help_ncwriteschema_target.nc'];
+nccreate(source, 'temperature', 'Dimensions', {'x', 3});
+info = ncinfo(source);
+ncwriteschema(target, info);
+copyInfo = ncinfo(target);
+copyInfo.Variables(1).Name]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${netcdf}ncinfo">ncinfo</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${netcdf}nccreate">nccreate</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -7,18 +7,18 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('issingle'), 1);
-assert_isequal(nargout('issingle'), 1);
+asserts.isequal(nargin('issingle'), 1);
+asserts.isequal(nargout('issingle'), 1);
 %=============================================================================
 A = 3.6;
 res = issingle(A);
-assert_isfalse(res);
+asserts.isfalse(res);
 %=============================================================================
-B = single([1 ; 3]);
+B = single([1; 3]);
 res = issingle(B);
-assert_istrue(res);
+asserts.istrue(res);
 %=============================================================================
-B = sparse([1 ; 3]);
+B = sparse([1; 3]);
 res = issingle(B);
-assert_isfalse(res);
+asserts.isfalse(res);
 %=============================================================================

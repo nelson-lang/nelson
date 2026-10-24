@@ -204,17 +204,17 @@ class hash256_one_by_one {
 
     void finish() {
         byte_t temp[64];
-        std::fill(temp, temp + 64, 0);
+        std::fill(temp, temp + 64, static_cast<byte_t>(0));
         std::size_t remains = buffer_.size();
         std::copy(buffer_.begin(), buffer_.end(), temp);
         temp[remains] = 0x80;
 
         if (remains > 55) {
-            std::fill(temp + remains + 1, temp + 64, 0);
+            std::fill(temp + remains + 1, temp + 64, static_cast<byte_t>(0));
             detail::hash256_block(h_, temp, temp + 64);
-            std::fill(temp, temp + 64 - 4, 0);
+            std::fill(temp, temp + 64 - 4, static_cast<byte_t>(0));
         } else {
-            std::fill(temp + remains + 1, temp + 64 - 4, 0);
+            std::fill(temp + remains + 1, temp + 64 - 4, static_cast<byte_t>(0));
         }
 
         write_data_bit_length(&(temp[56]));

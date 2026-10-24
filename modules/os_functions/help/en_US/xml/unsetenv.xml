@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>unsetenv</keyword>
+  <short_description
+  >Remove an environment variable.</short_description>
+  <syntax>
+    <syntax_item>unsetenv(env_name)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>env_name</param_name>
+      <param_description
+      >string scalar or character vector: environment variable name.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p>
+      <b>unsetenv</b> removes the environment variable <b>env_name</b> from the current process environment.</p>
+    <p>If the variable does not exist, <b>unsetenv</b> has no effect.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[setenv('MY_ENV_VAR', 'funvalue')
+isenv('MY_ENV_VAR')
+unsetenv('MY_ENV_VAR')
+isenv('MY_ENV_VAR')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${os_functions}setenv">setenv</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${os_functions}getenv">getenv</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${os_functions}isenv">isenv</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -12,43 +12,43 @@ function varargout = ss2tf(varargin)
   % Transform state space model to transfer function
   % [num, den] = ss2tf(A, B, C, D)
   % [num, den] = ss2tf(A, B, C, D, iu)
-  
+
   narginchk(4, 5);
   nargoutchk(0, 2);
-  
+
   % Extract inputs
   A = varargin{1};
   B = varargin{2};
   C = varargin{3};
   D = varargin{4};
-  
+
   % Validate state-space matrices
   msg = checkABCDE(A, B, C, D);
   if ~isempty(msg)
-    error(msg.message, msg.identifier);
+    error(msg.identifier, msg.message);
   end
-  
+
   nu = size(B, 2);
-  
+
   % Validate and handle input index (iu)
   if nargin == 4
     if nu <= 1
       iu = 1;
     else
-      error(_('Single input system expected.'));
+      error('Nelson:control_system:invalidType', '%s expected.', 'Single input system');
     end
   else
     iu = varargin{5};
     validateInputIndex(iu, nu);
   end
-  
+
   % Compute transfer function coefficients
   [numerator, denominator] = computeTransferFunctionCoefficients(A, B, C, D, iu);
-  
+
   % Only real parts for coefficients are desired
   numerator = real(numerator);
   denominator = real(denominator);
-  
+
   % Output results
   varargout{1} = removeLeadingZeroColumns(numerator);
   if nargout > 1
@@ -59,14 +59,14 @@ end
 function validateInputIndex(iu, nu)
   % Validate input index (iu)
   if ~isnumeric(iu) || ~isscalar(iu) || iu < 1 || iu > nu
-    error(_('Index out of bounds or not a scalar.'));
+    error('Nelson:control_system:invalidIndex', 'Index out of bounds or not a scalar.');
   end
 end
 %=============================================================================
 function [numerator, denominator] = computeTransferFunctionCoefficients(A, B, C, D, iu)
   % Compute transfer function coefficients
   denominator = poly(A);
-  
+
   if ~isempty(B) && iu >= 1 && iu <= size(B, 2)
     numerator = computeNumerator(A, B, C, D, denominator, iu);
   else
@@ -92,12 +92,12 @@ function V = computeNumerator(A, B, C, D, denominator, iu)
   mc = size(D, 1);
   nc = length(A);
   V = zeros(mc, nc + 1);
-  
+
   for k = 1:mc
     p = A - B(:, iu) * C(k, :);
     V(k, :) = poly(p) - poly(A) + D(k, iu) * denominator;
   end
-  
+
   if isvector(V)
     idx = find(V);
     if ~isempty(idx)

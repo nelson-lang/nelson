@@ -10,8 +10,8 @@
 % <--ADV-CLI MODE-->
 %=============================================================================
 f = figure();
-assert_istrue(isgraphics(f));
-assert_istrue(isgraphics(f, 'figure'));
-assert_isfalse(isgraphics(f, 'figure1'));
-assert_isfalse(isgraphics(3));
+asserts.istrue(isgraphics(f));
+asserts.istrue(isgraphics(f, 'figure'));
+asserts.isfalse(isgraphics(f, 'figure1'));
+asserts.isfalse(isgraphics(3));
 %=============================================================================

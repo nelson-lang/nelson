@@ -8,6 +8,6 @@
     <p
     >The Help Tools module provides functions to create, convert, and manage documentation for Nelson.</p>
     <p
-    >It supports generating help content in multiple formats, including HTML, Markdown, PDF, and website-ready formats, enabling developers to maintain and distribute comprehensive documentation efficiently.</p>
+    >It generates help content in formats such as HTML, Markdown, PDF, and website-ready output for maintaining and distributing documentation.</p>
   </chapter_description>
 </xmldoc>

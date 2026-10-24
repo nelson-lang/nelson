@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,11 +9,11 @@
 //=============================================================================
 #include "historyBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "HistoryManager.hpp"
 #include "NelsonConfiguration.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -24,17 +24,17 @@ historyBuiltin_size_one_rhs(
     ArrayOfVector retval;
     ArrayOf arg1 = argIn[0];
     if (arg1.isRowVectorCharacterArray()) {
-        std::wstring str = arg1.getContentAsWideString();
+        std::wstring str = arg1.asWideString();
         if (str == L"size") {
-            retval << ArrayOf::doubleConstructor(
+            retval << ArrayOf::doubleScalar(
                 static_cast<double>(ptrHistoryManager->getLastNCommandsSize()));
         } else if (str == L"enable_save") {
-            retval << ArrayOf::logicalConstructor(ptrHistoryManager->getSaveEnabled());
+            retval << ArrayOf::logicalScalar(ptrHistoryManager->getSaveEnabled());
         } else if (str == L"filename") {
-            retval << ArrayOf::characterArrayConstructor(ptrHistoryManager->getFilename());
+            retval << ArrayOf::characterArray(ptrHistoryManager->getFilename());
         } else if (str == L"get") {
             wstringVector res = ptrHistoryManager->get();
-            retval << ArrayOf::toCellArrayOfCharacterColumnVectors(res);
+            retval << ArrayOf::cellArrayFromArrayOfCharacterColumnVectors(res);
         } else if (str == L"display") {
             if (nLhs == 0) {
                 wstringVector lines = ptrHistoryManager->get();
@@ -49,38 +49,38 @@ historyBuiltin_size_one_rhs(
                     }
                 }
             } else {
-                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                Error(L"Nelson:tooManyOutputs", L"Too many output arguments.");
             }
         } else if (str == L"save") {
             if (nLhs == 0) {
                 ptrHistoryManager->saveToFile();
             } else {
-                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                Error(L"Nelson:tooManyOutputs", L"Too many output arguments.");
             }
         } else if (str == L"load") {
             if (nLhs == 0) {
                 ptrHistoryManager->loadFromFile();
             } else {
-                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                Error(L"Nelson:tooManyOutputs", L"Too many output arguments.");
             }
         } else if (str == L"clear") {
             if (nLhs == 0) {
                 ptrHistoryManager->clear(true);
             } else {
-                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                Error(L"Nelson:tooManyOutputs", L"Too many output arguments.");
             }
         } else if (str == L"duplicated") {
-            retval << ArrayOf::logicalConstructor(ptrHistoryManager->getAllowDuplicatedLines());
+            retval << ArrayOf::logicalScalar(ptrHistoryManager->getAllowDuplicatedLines());
         } else if (str == L"saveafter") {
-            retval << ArrayOf::doubleConstructor(
+            retval << ArrayOf::doubleScalar(
                 static_cast<double>(ptrHistoryManager->getSaveAfterNCommands()));
         } else if (str == L"removeexit") {
-            retval << ArrayOf::logicalConstructor(ptrHistoryManager->getRemoveExit());
+            retval << ArrayOf::logicalScalar(ptrHistoryManager->getRemoveExit());
         } else {
-            Error(ERROR_WRONG_ARGUMENT_2_VALUE);
+            Error(L"Nelson:invalidValue", L"Wrong value for #%d argument.", (2));
         }
     } else {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE);
+        Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1), L"string");
     }
     return retval;
 }
@@ -100,7 +100,7 @@ historyBuiltin_no_rhs(
             }
         }
     } else {
-        retval << ArrayOf::toCellArrayOfCharacterColumnVectors(res);
+        retval << ArrayOf::cellArrayFromArrayOfCharacterColumnVectors(res);
     }
     return retval;
 }
@@ -112,234 +112,258 @@ historyBuiltin_two_rhs(HistoryManager* ptrHistoryManager, int nLhs, const ArrayO
     ArrayOf arg1 = argIn[0];
     ArrayOf arg2 = argIn[1];
     if (arg1.isRowVectorCharacterArray()) {
-        std::wstring str = arg1.getContentAsWideString();
+        std::wstring str = arg1.asWideString();
         if (str == L"size") {
             nargoutcheck(nLhs, 0, 0);
             if (arg2.isScalar()) {
-                if (arg2.getDataClass() == NLS_DOUBLE) {
-                    double dvalue = arg2.getContentAsDoubleScalar();
+                if (arg2.dataClass() == NLS_DOUBLE) {
+                    double dvalue = arg2.asDoubleScalar();
                     if (!std::isfinite(dvalue)) {
-                        Error(ERROR_WRONG_ARGUMENT_2_FINITE_SCALAR_INTEGER_VALUE_EXPECTED);
+                        Error(L"Nelson:expectedFinite", L"%s must be finite.", L"Argument #2");
                     }
                     if (dvalue < 0) {
-                        Error(ERROR_WRONG_ARGUMENT_2_POSITIVE_VALUE_EXPECTED);
+                        Error(L"Nelson:expectedNonnegative", L"%s must be nonnegative.",
+                            L"Argument #2");
                     }
                     auto ivalue = static_cast<size_t>(dvalue);
                     if (static_cast<double>(ivalue) != dvalue) {
-                        Error(ERROR_WRONG_ARGUMENT_2_SCALAR_INTEGER_VALUE_EXPECTED);
+                        Error(L"Nelson:expectedInteger", L"%s must be an integer.", L"Argument #2");
                     }
                     ptrHistoryManager->setLastNCommandsSize(ivalue);
                 } else {
-                    Error(ERROR_WRONG_ARGUMENT_1_TYPE_DOUBLE_EXPECTED);
+                    Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1),
+                        L"double");
                 }
             } else {
-                Error(ERROR_WRONG_ARGUMENT_2_SIZE_SCALAR_EXPECTED);
+                Error(L"Nelson:scalarExpected", L"Wrong size for argument #%d: scalar expected.",
+                    (2));
             }
         } else if (str == L"enable_save") {
             nargoutcheck(nLhs, 0, 0);
             if (arg2.isScalar()) {
                 if (arg2.isLogical()) {
-                    logical bEnable = arg2.getContentAsLogicalScalar();
+                    logical bEnable = arg2.asLogicalScalar();
                     ptrHistoryManager->setSaveEnabled(bEnable ? true : false);
                 } else {
-                    Error(ERROR_WRONG_ARGUMENT_2_TYPE_LOGICAL_EXPECTED);
+                    Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (2),
+                        L"logical");
                 }
             } else {
-                Error(ERROR_WRONG_ARGUMENT_2_SIZE_SCALAR_EXPECTED);
+                Error(L"Nelson:scalarExpected", L"Wrong size for argument #%d: scalar expected.",
+                    (2));
             }
         } else if (str == L"delete") {
             nargoutcheck(nLhs, 0, 0);
-            if (arg2.getDataClass() == NLS_DOUBLE) {
+            if (arg2.dataClass() == NLS_DOUBLE) {
                 if (arg2.isScalar()) {
-                    double dvalue = arg2.getContentAsDoubleScalar();
+                    double dvalue = arg2.asDoubleScalar();
                     if (!std::isfinite(dvalue)) {
-                        Error(ERROR_WRONG_ARGUMENT_2_FINITE_SCALAR_INTEGER_VALUE_EXPECTED);
+                        Error(L"Nelson:expectedFinite", L"%s must be finite.", L"Argument #2");
                     }
                     if (dvalue < 0) {
-                        Error(ERROR_WRONG_ARGUMENT_2_POSITIVE_VALUE_EXPECTED);
+                        Error(L"Nelson:expectedNonnegative", L"%s must be nonnegative.",
+                            L"Argument #2");
                     }
                     auto ivalue = static_cast<size_t>(dvalue);
                     if (static_cast<double>(ivalue) != dvalue) {
-                        Error(ERROR_WRONG_ARGUMENT_2_SCALAR_INTEGER_VALUE_EXPECTED);
+                        Error(L"Nelson:expectedInteger", L"%s must be an integer.", L"Argument #2");
                     }
                     ptrHistoryManager->remove(ivalue);
                 } else {
-                    Dimensions sze(arg2.getDimensions());
+                    Dimensions sze(arg2.dimensions());
                     Dimensions supported(1, 2);
                     if (sze.equals(supported)) {
-                        auto* dvalues = (double*)arg2.getDataPointer();
+                        auto* dvalues = (double*)arg2.dataPointer();
                         double dvalue1 = dvalues[0];
                         double dvalue2 = dvalues[1] + 1;
                         if (!std::isfinite(dvalue1) || !std::isfinite(dvalue2)) {
-                            Error(ERROR_WRONG_ARGUMENT_2_FINITE_SCALAR_INTEGER_VALUE_EXPECTED);
+                            Error(L"Nelson:expectedFinite", L"%s must be finite.", L"Argument #2");
                         }
                         if (dvalue1 < 0 || dvalue2 < 0) {
-                            Error(ERROR_WRONG_ARGUMENT_2_POSITIVE_VALUE_EXPECTED);
+                            Error(L"Nelson:expectedNonnegative", L"%s must be nonnegative.",
+                                L"Argument #2");
                         }
                         auto ivalue1 = static_cast<size_t>(dvalue1);
                         auto ivalue2 = static_cast<size_t>(dvalue2);
                         if ((static_cast<double>(ivalue1) != dvalue1)
                             || (static_cast<double>(ivalue2) != dvalue2)) {
-                            Error(ERROR_WRONG_ARGUMENT_2_SCALAR_INTEGER_VALUE_EXPECTED);
+                            Error(L"Nelson:expectedInteger", L"%s must be an integer.",
+                                L"Argument #2");
                         }
                         if (ivalue2 <= ivalue1) {
-                            Error(ERROR_WRONG_ARGUMENT_2_A_MUST_BE_HIGHER_THAN_B);
+                            Error(L"Nelson:invalidValue", L"Wrong value for #%d argument.", (2));
                         }
                         if ((ivalue1 >= ptrHistoryManager->getCurrentSize())
                             || (ivalue2 >= ptrHistoryManager->getCurrentSize())) {
-                            Error(ERROR_WRONG_ARGUMENT_2_A_MUST_BE_HIGHER_THAN_B);
+                            Error(L"Nelson:invalidValue", L"Wrong value for #%d argument.", (2));
                         } else {
                             ptrHistoryManager->remove(ivalue1, ivalue2);
                         }
                     } else {
-                        Error(ERROR_WRONG_ARGUMENT_2_SIZE_A_B_VECTOR_EXPECTED);
+                        Error(L"Nelson:history:invalidRange", L"[a, b] range expected.");
                     }
                 }
             } else {
-                Error(ERROR_WRONG_ARGUMENT_2_TYPE_DOUBLE_EXPECTED);
+                Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (2),
+                    L"double");
             }
         } else if (str == L"append") {
             nargoutcheck(nLhs, 0, 0);
             if (arg2.isRowVectorCharacterArray()) {
-                ptrHistoryManager->appendLine(arg2.getContentAsWideString());
+                ptrHistoryManager->appendLine(arg2.asWideString());
             } else if (arg2.isCellArrayOfCharacterVectors()) {
                 ArrayOf cell(arg2);
-                auto* arg = (ArrayOf*)(cell.getDataPointer());
-                indexType elementCount = arg2.getElementCount();
+                auto* arg = (ArrayOf*)(cell.dataPointer());
+                indexType elementCount = arg2.elementCount();
                 for (indexType k = 0; k < elementCount; k++) {
-                    ptrHistoryManager->appendLine(arg[k].getContentAsWideString());
+                    ptrHistoryManager->appendLine(arg[k].asWideString());
                 }
             } else {
-                Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_OR_CELL_EXPECTED);
+                Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (2),
+                    L"string or cell");
             }
         } else if (str == L"filename") {
             nargoutcheck(nLhs, 0, 0);
             if (arg2.isRowVectorCharacterArray()) {
-                std::wstring filename = arg2.getContentAsWideString();
+                std::wstring filename = arg2.asWideString();
                 ptrHistoryManager->setFilename(filename);
             } else {
-                Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
+                Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (2),
+                    L"string");
             }
         } else if (str == L"load") {
             nargoutcheck(nLhs, 0, 0);
             if (arg2.isRowVectorCharacterArray()) {
-                std::wstring filename = arg2.getContentAsWideString();
+                std::wstring filename = arg2.asWideString();
                 ptrHistoryManager->loadFromFile(filename);
             } else {
-                Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
+                Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (2),
+                    L"string");
             }
         } else if (str == L"save") {
             nargoutcheck(nLhs, 0, 0);
             if (arg2.isRowVectorCharacterArray()) {
-                std::wstring filename = arg2.getContentAsWideString();
+                std::wstring filename = arg2.asWideString();
                 ptrHistoryManager->saveToFile(filename);
             } else {
-                Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
+                Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (2),
+                    L"string");
             }
         } else if (str == L"duplicated") {
             nargoutcheck(nLhs, 0, 0);
             if (arg2.isScalar()) {
                 if (arg2.isLogical()) {
-                    logical bDuplicated = arg2.getContentAsLogicalScalar();
+                    logical bDuplicated = arg2.asLogicalScalar();
                     ptrHistoryManager->setAllowDuplicatedLines(bDuplicated ? true : false);
                 } else {
-                    Error(ERROR_WRONG_ARGUMENT_2_TYPE_LOGICAL_EXPECTED);
+                    Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (2),
+                        L"logical");
                 }
             } else {
-                Error(ERROR_WRONG_ARGUMENT_2_SIZE_SCALAR_EXPECTED);
+                Error(L"Nelson:scalarExpected", L"Wrong size for argument #%d: scalar expected.",
+                    (2));
             }
         } else if (str == L"removeexit") {
             nargoutcheck(nLhs, 0, 0);
             if (arg2.isScalar()) {
                 if (arg2.isLogical()) {
-                    logical bRemove = arg2.getContentAsLogicalScalar();
+                    logical bRemove = arg2.asLogicalScalar();
                     ptrHistoryManager->setRemoveExit(bRemove ? true : false);
                 } else {
-                    Error(ERROR_WRONG_ARGUMENT_2_TYPE_LOGICAL_EXPECTED);
+                    Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (2),
+                        L"logical");
                 }
             } else {
-                Error(ERROR_WRONG_ARGUMENT_2_SIZE_SCALAR_EXPECTED);
+                Error(L"Nelson:scalarExpected", L"Wrong size for argument #%d: scalar expected.",
+                    (2));
             }
         } else if (str == L"get") {
             nargoutcheck(nLhs, 0, 1);
-            if (arg2.getDataClass() == NLS_DOUBLE) {
+            if (arg2.dataClass() == NLS_DOUBLE) {
                 if (arg2.isScalar()) {
-                    double dvalue = arg2.getContentAsDoubleScalar();
+                    double dvalue = arg2.asDoubleScalar();
                     if (!std::isfinite(dvalue)) {
-                        Error(ERROR_WRONG_ARGUMENT_2_SCALAR_INTEGER_VALUE_EXPECTED);
+                        Error(L"Nelson:expectedFinite", L"%s must be finite.", L"Argument #2");
                     }
                     if (dvalue < 0) {
-                        Error(ERROR_WRONG_ARGUMENT_2_POSITIVE_VALUE_EXPECTED);
+                        Error(L"Nelson:expectedNonnegative", L"%s must be nonnegative.",
+                            L"Argument #2");
                     }
                     auto ivalue = static_cast<size_t>(dvalue);
                     if (static_cast<double>(ivalue) != dvalue) {
-                        Error(ERROR_WRONG_ARGUMENT_2_SCALAR_INTEGER_VALUE_EXPECTED);
+                        Error(L"Nelson:expectedInteger", L"%s must be an integer.", L"Argument #2");
                     }
                     std::wstring line = ptrHistoryManager->get(ivalue);
-                    retval << ArrayOf::characterArrayConstructor(line);
+                    retval << ArrayOf::characterArray(line);
                 } else {
-                    Dimensions sze(arg2.getDimensions());
+                    Dimensions sze(arg2.dimensions());
                     Dimensions supported(1, 2);
                     if (sze.equals(supported)) {
-                        auto* dvalues = (double*)arg2.getDataPointer();
+                        auto* dvalues = (double*)arg2.dataPointer();
                         double dvalue1 = dvalues[0];
                         double dvalue2 = dvalues[1] + 1;
                         if (!std::isfinite(dvalue1) || !std::isfinite(dvalue2)) {
-                            Error(ERROR_WRONG_ARGUMENT_2_SCALAR_INTEGER_VALUE_EXPECTED);
+                            Error(L"Nelson:expectedFinite", L"%s must be finite.", L"Argument #2");
                         }
                         if (dvalue1 < 0 || dvalue2 < 0) {
-                            Error(ERROR_WRONG_ARGUMENT_2_POSITIVE_VALUE_EXPECTED);
+                            Error(L"Nelson:expectedNonnegative", L"%s must be nonnegative.",
+                                L"Argument #2");
                         }
                         auto ivalue1 = static_cast<size_t>(dvalue1);
                         auto ivalue2 = static_cast<size_t>(dvalue2);
                         if ((static_cast<double>(ivalue1) != dvalue1)
                             || (static_cast<double>(ivalue2) != dvalue2)) {
-                            Error(ERROR_WRONG_ARGUMENT_2_SCALAR_INTEGER_VALUE_EXPECTED);
+                            Error(L"Nelson:expectedInteger", L"%s must be an integer.",
+                                L"Argument #2");
                         }
                         if (ivalue2 <= ivalue1) {
-                            Error(ERROR_WRONG_ARGUMENT_2_A_MUST_BE_HIGHER_THAN_B);
+                            Error(L"Nelson:invalidValue", L"Wrong value for #%d argument.", (2));
                         }
                         if ((ivalue1 >= ptrHistoryManager->getCurrentSize())
                             || (ivalue2 >= ptrHistoryManager->getCurrentSize())) {
-                            Error(ERROR_WRONG_ARGUMENT_2_A_MUST_BE_HIGHER_THAN_B);
+                            Error(L"Nelson:invalidValue", L"Wrong value for #%d argument.", (2));
                         } else {
                             wstringVector res = ptrHistoryManager->get(ivalue1, ivalue2);
-                            retval << ArrayOf::toCellArrayOfCharacterColumnVectors(res);
+                            retval << ArrayOf::cellArrayFromArrayOfCharacterColumnVectors(res);
                         }
                     } else {
-                        Error(ERROR_WRONG_ARGUMENT_2_SIZE_A_B_VECTOR_EXPECTED);
+                        Error(L"Nelson:history:invalidRange", L"[a, b] range expected.");
                     }
-                }
-            } else if (str == L"saveafter") {
-                nargoutcheck(nLhs, 0, 0);
-                if (arg2.isScalar()) {
-                    if (arg2.getDataClass() == NLS_DOUBLE) {
-                        double dvalue = arg2.getContentAsDoubleScalar();
-                        if (!std::isfinite(dvalue)) {
-                            Error(ERROR_WRONG_ARGUMENT_2_SCALAR_INTEGER_VALUE_EXPECTED);
-                        }
-                        if (dvalue < 0) {
-                            Error(ERROR_WRONG_ARGUMENT_2_SCALAR_INTEGER_VALUE_EXPECTED);
-                        }
-                        auto ivalue = static_cast<size_t>(dvalue);
-                        if (static_cast<double>(ivalue) != dvalue) {
-                            Error(ERROR_WRONG_ARGUMENT_2_SCALAR_INTEGER_VALUE_EXPECTED);
-                        }
-                        ptrHistoryManager->setSaveAfterNCommands(ivalue);
-                    } else {
-                        Error(ERROR_WRONG_ARGUMENT_2_TYPE_DOUBLE_EXPECTED);
-                    }
-                } else {
-                    Error(ERROR_WRONG_ARGUMENT_2_SIZE_SCALAR_EXPECTED);
                 }
             } else {
-                Error(ERROR_WRONG_ARGUMENT_1_VALUE);
+                Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (2),
+                    L"double");
+            }
+        } else if (str == L"saveafter") {
+            nargoutcheck(nLhs, 0, 0);
+            if (arg2.isScalar()) {
+                if (arg2.dataClass() == NLS_DOUBLE) {
+                    double dvalue = arg2.asDoubleScalar();
+                    if (!std::isfinite(dvalue)) {
+                        Error(L"Nelson:expectedFinite", L"%s must be finite.", L"Argument #2");
+                    }
+                    if (dvalue < 0) {
+                        Error(L"Nelson:expectedNonnegative", L"%s must be nonnegative.",
+                            L"Argument #2");
+                    }
+                    auto ivalue = static_cast<size_t>(dvalue);
+                    if (static_cast<double>(ivalue) != dvalue) {
+                        Error(L"Nelson:expectedInteger", L"%s must be an integer.", L"Argument #2");
+                    }
+                    ptrHistoryManager->setSaveAfterNCommands(ivalue);
+                } else {
+                    Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (2),
+                        L"double");
+                }
+            } else {
+                Error(L"Nelson:scalarExpected", L"Wrong size for argument #%d: scalar expected.",
+                    (2));
             }
         } else {
-            Error(ERROR_WRONG_ARGUMENT_1_VALUE);
+            Error(L"Nelson:invalidValue", L"Wrong value for #%d argument.", (1));
         }
     } else {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+        Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1), L"string");
     }
     return retval;
 }
@@ -351,7 +375,7 @@ Nelson::HistoryManagerGateway::historyBuiltin(Evaluator* eval, int nLhs, const A
     auto* ptrHistoryManager
         = static_cast<HistoryManager*>(NelsonConfiguration::getInstance()->getHistoryManager());
     if (ptrHistoryManager == nullptr) {
-        Error(_W("History manager not enabled."));
+        Error(L"Nelson:history:notEnabled", L"History manager not enabled.");
     }
     nargoutcheck(nLhs, 0, 1);
     switch (argIn.size()) {
@@ -365,7 +389,7 @@ Nelson::HistoryManagerGateway::historyBuiltin(Evaluator* eval, int nLhs, const A
         return historyBuiltin_two_rhs(ptrHistoryManager, nLhs, argIn);
     } break;
     default: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(L"Nelson:tooManyInputs", L"Too many input arguments.");
     } break;
     }
     return retval;

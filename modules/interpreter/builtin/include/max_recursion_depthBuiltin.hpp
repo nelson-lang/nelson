@@ -15,5 +15,6 @@
 namespace Nelson::InterpreterGateway {
 ArrayOfVector
 max_recursion_depthBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
   //=============================================================================

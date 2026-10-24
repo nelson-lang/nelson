@@ -8,9 +8,9 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 R = horzcat(logical(zeros(0, 0)), true);
-assert_isequal(R, true);
+asserts.isequal(R, true);
 R = horzcat(logical(zeros(1, 0)), true);
-assert_isequal(R, true);
+asserts.isequal(R, true);
 R = horzcat(logical(zeros(0, 1)), true);
-assert_isequal(R, true);
+asserts.isequal(R, true);
 %=============================================================================

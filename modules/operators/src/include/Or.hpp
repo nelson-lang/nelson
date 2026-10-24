@@ -14,7 +14,6 @@
 //=============================================================================
 namespace Nelson {
 /**
- * Element-wise or of two arrays: C = or(A, B).
  * C = A | B
  */
 NLSOPERATORS_IMPEXP ArrayOf

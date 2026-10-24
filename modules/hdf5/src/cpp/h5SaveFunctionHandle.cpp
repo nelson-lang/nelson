@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -17,13 +17,14 @@
 #include "h5SaveCell.hpp"
 #include "AnonymousMacroFunctionDef.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 bool
-h5SaveFunctionHandle(hid_t fid, const std::string& location, const std::string& variableName,
-    const ArrayOf& VariableValue, bool useCompression)
+h5SaveFunctionHandle(Evaluator* eval, hid_t fid, const std::string& location,
+    const std::string& variableName, const ArrayOf& VariableValue, bool useCompression)
 {
     bool bSuccess = false;
     std::string h5path;
@@ -41,25 +42,25 @@ h5SaveFunctionHandle(hid_t fid, const std::string& location, const std::string& 
         return false;
     }
 
-    function_handle fh = VariableValue.getContentAsFunctionHandle();
+    function_handle fh = VariableValue.asFunctionHandle();
     if (!fh.anonymousHandle) {
-        Error(_("Invalid function handle."));
+        Error("Nelson:h5save:invalidFunctionHandle", "Invalid function handle.");
     }
     AnonymousMacroFunctionDef* anonymousFunction
         = reinterpret_cast<AnonymousMacroFunctionDef*>(fh.anonymousHandle);
     std::string anonymousContent = anonymousFunction->getContent();
     bool isFunctionHandle = anonymousFunction->isFunctionHandle();
 
-    ArrayOf isFunctionHandleArrayOf = ArrayOf::logicalConstructor(isFunctionHandle);
-    bSuccess = h5SaveVariable(fid, h5path + std::string("/"), "is_function_handle",
+    ArrayOf isFunctionHandleArrayOf = ArrayOf::logicalScalar(isFunctionHandle);
+    bSuccess = h5SaveVariable(eval, fid, h5path + std::string("/"), "is_function_handle",
         isFunctionHandleArrayOf, useCompression);
     if (!bSuccess) {
         return false;
     }
 
-    ArrayOf anonymousElement = ArrayOf::characterArrayConstructor(anonymousContent);
+    ArrayOf anonymousElement = ArrayOf::characterArray(anonymousContent);
     bSuccess = h5SaveVariable(
-        fid, h5path + std::string("/"), "function_handle", anonymousElement, useCompression);
+        eval, fid, h5path + std::string("/"), "function_handle", anonymousElement, useCompression);
     if (!bSuccess) {
         return false;
     }
@@ -70,31 +71,39 @@ h5SaveFunctionHandle(hid_t fid, const std::string& location, const std::string& 
         std::vector<ArrayOf> variables = anonymousFunction->getVariables();
 
         Dimensions dimsNames(1, names.size());
-        ArrayOf fieldnames = ArrayOf::stringArrayConstructor(names, dimsNames);
+        ArrayOf fieldnames = ArrayOf::stringArray(names, dimsNames);
         bSuccess = h5SaveStringArray(
-            fid, h5path + std::string("/"), "variable_names", fieldnames, useCompression);
+            eval, fid, h5path + std::string("/"), "variable_names", fieldnames, useCompression);
         if (!bSuccess) {
             return false;
         }
 
         Dimensions dimsArguments(1, arguments.size());
-        ArrayOf argumentsArrayOf = ArrayOf::stringArrayConstructor(arguments, dimsArguments);
+        ArrayOf argumentsArrayOf = ArrayOf::stringArray(arguments, dimsArguments);
         bSuccess = h5SaveStringArray(
-            fid, h5path + std::string("/"), "arguments", argumentsArrayOf, useCompression);
+            eval, fid, h5path + std::string("/"), "arguments", argumentsArrayOf, useCompression);
         if (!bSuccess) {
             return false;
         }
 
         Dimensions dimsVariables(1, variables.size());
         ArrayOf* cell = static_cast<ArrayOf*>(ArrayOf::allocateArrayOf(
-            NLS_CELL_ARRAY, dimsVariables.getElementCount(), stringVector(), false));
+            NLS_CELL_ARRAY, dimsVariables.elementCount(), stringVector(), false));
         ArrayOf cellArrayOf = ArrayOf(NLS_CELL_ARRAY, dimsVariables, cell);
         for (size_t k = 0; k < variables.size(); k++) {
             cell[k] = variables[k];
         }
 
-        bSuccess
-            = h5SaveCell(fid, h5path + std::string("/"), "variables", cellArrayOf, useCompression);
+        bSuccess = h5SaveCell(
+            eval, fid, h5path + std::string("/"), "variables", cellArrayOf, useCompression);
+        if (!bSuccess) {
+            return false;
+        }
+
+        // the body as written (func2str), optional when loading
+        ArrayOf definition = ArrayOf::characterArray(anonymousFunction->getDefinitionText());
+        bSuccess = h5SaveVariable(
+            eval, fid, h5path + std::string("/"), "definition", definition, useCompression);
         if (!bSuccess) {
             return false;
         }

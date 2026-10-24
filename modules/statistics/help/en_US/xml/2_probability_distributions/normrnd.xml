@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>normrnd</keyword>
+  <short_description>Normal random numbers</short_description>
+  <syntax>
+    <syntax_item>r = normrnd(mu, sigma)</syntax_item>
+    <syntax_item>r = normrnd(mu, sigma, sz)</syntax_item>
+    <syntax_item>r = normrnd(mu, sigma, sz1, ..., szN)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>mu</param_name>
+      <param_description>real scalar or array: mean.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>sigma</param_name>
+      <param_description>real scalar or array: standard deviation.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>sz</param_name>
+      <param_description>size vector or size scalars for the output.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>r</param_name>
+      <param_description>array: random values.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>normrnd</b> generates random numbers from normal distributions using Nelson&apos;s global random generator.</p>
+    <p>Scalar parameters are expanded to the requested output size. Negative standard deviations produce NaN values.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[rng(0);
+r = normrnd(0, 1, 3, 4);
+r2 = normrnd([0 10], [1 2]);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${statistics}normcdf">normcdf</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}norminv">norminv</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

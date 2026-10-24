@@ -72,6 +72,9 @@ private:
     int
     lineNumberAtPosition(int y) const;
 
+    bool
+    isCommentOnlyLine(int lineNumber) const;
+
 signals:
     void
     breakpointToggled(int line, bool added);

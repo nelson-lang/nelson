@@ -12,23 +12,27 @@ function buildhelpmd(varargin)
   % buildhelpmd(destdir) build help of Nelson
   % buildhelpmd(destdir, module_name) build help of a module loaded in Nelson
   %
-  if (nargin() > 2 || nargin() < 1)
-    error(_('Wrong number of input arguments.'));
+  if nargin() < 1
+    error('Nelson:notEnoughInputs', 'Not enough input arguments.');
+  end
+  if nargin() > 2
+    error('Nelson:tooManyInputs', 'Too many input arguments.');
   end
   destinationdir = varargin{1};
   if nargin() == 1
     is_nelson_help = true;
     helpForNelsonOnly(destinationdir);
-    run([nelsonroot() '/modules/' 'modules.m']);
-    funcList = @(x) x{1};
-    modules_help_list = string(cellfun(funcList, modules_list, 'UniformOutput', false));
+    modules_help_list = get_builtin_help_modules();
     locales = {};
+    modules = {};
     for m = modules_help_list(:)'
       module_path = [nelsonroot() '/modules/' m{1}];
       l = buildHelpFromPath(destinationdir, m{1}, module_path);
       locales = [locales, l];
+      if ~isempty(l)
+        modules{end + 1} = m{1};
+      end
     end
-    modules = modules_help_list;
   else
     is_nelson_help = false;
     module = varargin{2};
@@ -51,19 +55,21 @@ function locales = buildHelpFromPath(destinationdir, module, module_path)
       if isdir(dstbuild)
         [res, msg] = rmdir(dstbuild, 's');
         if ~res
-          error(msg);
+          error('Nelson:buildhelpmd:removeDirectoryFailed', msg);
         end
       end
       [res, msg] = mkdir(dstbuild);
       if ~res
-        error(msg);
+        error('Nelson:buildhelpmd:makeDirectoryFailed', msg);
       end
-      p = xmldoctomd(src, dstbuild, module);
+      % index every module of this language so that cross-module links resolve
+      index_dirs = help_xml_index_directories(k{1}, {src});
+      p = xmldoctomd(src, dstbuild, module, true, index_dirs);
       if p
         msg = sprintf(_("help '%s' (%s) generated."), module, k{1});
         disp(msg);
       else
-        disp([module, _(' file was not generated.')]);
+        disp(sprintf(_('%s file was not generated.'), module));
       end
       locales{end + 1} = locale;
     end
@@ -102,7 +108,8 @@ function buildSummary(destinationdir, locales, modules_help_list, is_nelson_help
     if is_nelson_help
       end_summary = {'* [Changelogs](./changelogs/CHANGELOG.md)';
                      '';
-                     '    * [Changelog v1.x.x](changelogs/CHANGELOG.md)';
+                     '    * [Changelog v2.x.x](changelogs/CHANGELOG.md)';
+                     '    * [Changelog v1.x.x](changelogs/CHANGELOG-1.x.x.md)';
                      '    * [Changelog v0.7.x](changelogs/CHANGELOG-0.7.x.md)';
                      '    * [Changelog v0.6.x](changelogs/CHANGELOG-0.6.x.md)';
                      '    * [Changelog v0.5.x](changelogs/CHANGELOG-0.5.x.md)';
@@ -142,6 +149,7 @@ function helpForNelsonOnly(destinationdir)
       copyfile([dir_src, '/', src_files{k}], [dir_dst, '/', dst_files{k}]);
     end
     changelogs = {'CHANGELOG.md', ...
+    'CHANGELOG-1.x.x.md', ...
     'CHANGELOG-0.1.x.md', ...
     'CHANGELOG-0.2.x.md', ...
     'CHANGELOG-0.3.x.md', ...
@@ -154,7 +162,7 @@ function helpForNelsonOnly(destinationdir)
     for k = 1:length(changelogs)
       copyfile([nelsonroot(), '/', changelogs{k}], [changelogs_dir, '/', changelogs{k}]);
     end
-    
+
     licenses = {'gpl-3.0.md', 'lgpl-3.0.md', 'license.md'};
     licenses_dir = [dir_dst, '/license'];
     mkdir(licenses_dir);
@@ -163,6 +171,7 @@ function helpForNelsonOnly(destinationdir)
     end
     content = fileread([dir_dst, '/', 'README.md']);
     content = strrep(content, '(CHANGELOG.md)', '(./changelogs/CHANGELOG.md)');
+    content = strrep(content, '(CHANGELOG-1.x.x.md)', '(./changelogs/CHANGELOG-1.x.x.md)');
     content = strrep(content, '(CHANGELOG-0.7.x.md)', '(./changelogs/CHANGELOG-0.7.x.md)');
     content = strrep(content, '(CHANGELOG-0.6.x.md)', '(./changelogs/CHANGELOG-0.6.x.md)');
     content = strrep(content, '(CHANGELOG-0.5.x.md)', '(./changelogs/CHANGELOG-0.5.x.md)');
@@ -172,6 +181,16 @@ function helpForNelsonOnly(destinationdir)
     content = strrep(content, '(CHANGELOG-0.1.x.md)', '(./changelogs/CHANGELOG-0.1.x.md)');
     content = strrep(content, '(license.md)', '(./license/license.md)');
     filewrite([dir_dst, '/', 'README.md'], content);
+    % changelogs are copied verbatim from the repository root: BUILDING.md is
+    % not part of the manual, point to the online copy instead.
+    for k = 1:length(changelogs)
+      changelog_file = [changelogs_dir, '/', changelogs{k}];
+      content = fileread(changelog_file);
+      if contains(content, '(./BUILDING.md)')
+        content = strrep(content, '(./BUILDING.md)', '(https://github.com/nelson-lang/nelson/blob/master/BUILDING.md)');
+        filewrite(changelog_file, content);
+      end
+    end
   end
 end
 %=============================================================================

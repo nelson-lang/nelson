@@ -7,17 +7,19 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
+%=============================================================================
 A = rand(2, 4);
 R = A(A > 1);
-assert_istrue(isempty(R));
-assert_isequal(size(R), [0 1]);
+asserts.istrue(isempty(R));
+asserts.isequal(size(R), [0 1]);
 %=============================================================================
 A = rand(2, 4);
 A(A > 1, 2)
-assert_istrue(isempty(R));
-assert_isequal(size(R), [0 1]);
+asserts.istrue(isempty(R));
+asserts.isequal(size(R), [0 1]);
 %=============================================================================
-A(A(:,1)>1, :)
-assert_istrue(isempty(R));
-assert_isequal(size(R), [0 1]);
+A(A(:, 1) > 1, :)
+asserts.istrue(isempty(R));
+asserts.isequal(size(R), [0 1]);
 %=============================================================================

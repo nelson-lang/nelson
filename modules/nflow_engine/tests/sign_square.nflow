@@ -1,0 +1,65 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Allan CORNET",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "comments": "Sign of a sine: +/-1 square wave via zero crossings.",
+  "name": "sign_square",
+  "blocks": [
+    {
+      "id": "s1",
+      "type": "sine",
+      "x": 40,
+      "y": 180,
+      "rotation": 0,
+      "params": {
+        "Amplitude": 1,
+        "Frequency": 0.2,
+        "Phase": 0
+      }
+    },
+    {
+      "id": "g1",
+      "type": "sign",
+      "x": 220,
+      "y": 180,
+      "rotation": 0,
+      "params": {}
+    },
+    {
+      "id": "tw",
+      "type": "toWorkspace",
+      "x": 400,
+      "y": 180,
+      "rotation": 0,
+      "params": {
+        "VariableName": "sign_square_out",
+        "MaxDataPoints": "inf",
+        "Decimation": 1,
+        "SaveFormat": "Array",
+        "SampleTime": "-1"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "s1",
+      "to": "g1",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "g1",
+      "to": "tw",
+      "fromIndex": 0,
+      "toIndex": 0
+    }
+  ],
+  "variables": "",
+  "runtime": 10,
+  "sampleTime": 0.05,
+  "autoRoute": true
+}

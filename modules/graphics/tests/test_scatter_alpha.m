@@ -12,9 +12,9 @@
 f = figure();
 x = [3.6 3.5 5 6.2 4 2];
 y = [14 5.5 12 6 8 9];
-sz = 100*[6 101 20 3 15 20];
+sz = 100 * [6 101 20 3 15 20];
 c = [1 2 3 4 5 7];
-s = scatter(x,y,sz,c,'filled','MarkerEdgeColor','k','MarkerFaceAlpha',.5);
+s = scatter(x, y, sz, c, 'filled', 'MarkerEdgeColor', 'k', 'MarkerFaceAlpha', .5);
 xlim([1 7]);
 ylim([1 16]);
 %=============================================================================

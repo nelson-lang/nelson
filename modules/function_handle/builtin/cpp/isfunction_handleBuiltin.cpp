@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -21,9 +21,9 @@ Nelson::FunctionHandleGateway::isfunction_handleBuiltin(int nLhs, const ArrayOfV
     nargincheck(argIn, 1, 1);
     ArrayOf arg1 = argIn[0];
     if (arg1.isFunctionHandle()) {
-        retval << ArrayOf::logicalConstructor(true);
+        retval << ArrayOf::logicalScalar(true);
     } else {
-        retval << ArrayOf::logicalConstructor(false);
+        retval << ArrayOf::logicalScalar(false);
     }
     return retval;
 }

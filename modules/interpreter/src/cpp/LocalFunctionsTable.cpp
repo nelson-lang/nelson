@@ -30,12 +30,29 @@ LocalFunctionsTable::find(const std::string& key, FunctionDefPtr& dest)
 bool
 LocalFunctionsTable::add(const std::string& key, const FunctionDefPtr val)
 {
-    FunctionDefPtr v = nullptr;
-    if (find(key, v)) {
-        return false;
-    }
     cachedLocalFunctionsTable.insertSymbol(key, val);
     return true;
+}
+//=============================================================================
+void
+LocalFunctionsTable::remove(const std::string& key)
+{
+    cachedLocalFunctionsTable.deleteSymbol(key);
+}
+//=============================================================================
+std::vector<std::pair<std::string, FunctionDefPtr>>
+LocalFunctionsTable::getAll()
+{
+    std::vector<std::pair<std::string, FunctionDefPtr>> functions;
+    std::vector<std::string> names = cachedLocalFunctionsTable.getAllSymbols();
+    functions.reserve(names.size());
+    for (const std::string& name : names) {
+        FunctionDefPtr value = nullptr;
+        if (find(name, value)) {
+            functions.emplace_back(name, value);
+        }
+    }
+    return functions;
 }
 //=============================================================================
 } // namespace Nelson

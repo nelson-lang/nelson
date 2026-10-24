@@ -10,18 +10,18 @@
 arch = computer('arch');
 %=============================================================================
 R = rotz(90);
-REF = [ 0    -1     0;     1     0     0;     0     0     1];
+REF = [0 -1 0; 1 0 0; 0 0 1];
 if strcmp(arch, 'win32')
-  assert_isapprox(R, REF, 1e-15);
+  asserts.isapprox(R, REF, 1e-15);
 else
-  assert_isequal(R, REF);
+  asserts.isequal(R, REF);
 end
 %=============================================================================
 R = rotz(180);
-REF = [   -1     0     0;     0    -1     0;     0     0     1];
+REF = [-1 0 0; 0 -1 0; 0 0 1];
 if strcmp(arch, 'win32')
-  assert_isapprox(R, REF, 1e-15);
+  asserts.isapprox(R, REF, 1e-15);
 else
-  assert_isequal(R, REF);
+  asserts.isequal(R, REF);
 end
 %=============================================================================

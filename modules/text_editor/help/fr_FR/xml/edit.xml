@@ -40,7 +40,7 @@
   </examples>
   <see_also>
     <see_also_item>
-      <link linkend="${text_editor}smartindent">smartindent</link>
+      <link linkend="${interpreter}smartindent">smartindent</link>
     </see_also_item>
   </see_also>
   <history>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>rats</keyword>
+  <short_description>Affichage rationnel.</short_description>
+  <syntax>
+    <syntax_item>S = rats(X)</syntax_item>
+    <syntax_item>S = rats(X, len)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description
+      >Tableau d'entrée : réel ou complexe, scalaire, vecteur ou matrice (single ou double).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>len</param_name>
+      <param_description
+      >Largeur de champ : scalaire. La valeur par défaut est <b>13</b>.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>S</param_name>
+      <param_description>Tableau de caractères des approximations rationnelles.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>S = rats(X)</b> utilise <b>rat</b> pour afficher les approximations rationnelles des éléments de <b
+      >X</b> dans un champ de largeur fixe.</p>
+    <p>La longueur de chaîne de chaque élément est <b>len + 1</b> afin de tenir compte du caractère <b
+      >'/'</b> inséré entre le numérateur et le dénominateur. Des astérisques sont utilisées pour les éléments qui ne peuvent pas être affichés dans l'espace alloué.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[S = rats(1 ./ (1:5))]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${elementary_functions}rat">rat</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${display_format}format">format</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -9,14 +9,15 @@
 //=============================================================================
 #include "GetQObjectHandleObject.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
+#include "HandleState.hpp"
 #include "QVariantArrayOf.hpp"
 #include "QObjectHandleObject.hpp"
 #include "characters_encoding.hpp"
 #include <QtQml/QQmlComponent>
-#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -24,14 +25,14 @@ ArrayOf
 GetQObjectHandleObject(const ArrayOf& A, const std::wstring& propertyName)
 {
     ArrayOf res;
-    HandleGenericObject* hlObj = A.getContentAsHandleScalar();
-    if (hlObj->getCategory() != NLS_HANDLE_QOBJECT_CATEGORY_STR) {
-        Error(_W("QObject handle expected."));
+    HandleGenericObject* hlObj = A.asHandleScalar();
+    if (hlObj->category() != NLS_HANDLE_QOBJECT_CATEGORY_STR) {
+        Error(L"Nelson:QObject:notHandle", L"QObject handle expected.");
     }
     QObjectHandleObject* qmlhandleobj = (QObjectHandleObject*)hlObj;
-    void* ptr = qmlhandleobj->getPointer();
+    void* ptr = qmlhandleobj->pointer();
     if (ptr == nullptr) {
-        Error(_W("QObject valid handle expected."));
+        Error(L"Nelson:QObject:invalidHandle", L"QObject valid handle expected.");
     }
     QObject* qobj = (QObject*)ptr;
     if (propertyName == utf8_to_wstring(QOBJECT_PROPERTY_PARENT_STR)) {
@@ -39,48 +40,50 @@ GetQObjectHandleObject(const ArrayOf& A, const std::wstring& propertyName)
         if (qparent) {
             nelson_handle nh_found = HandleManager::getInstance()->findByPointerValue(qparent);
             if (nh_found != -1) {
-                res = ArrayOf::handleConstructor(nh_found);
+                res = ArrayOf::handle(nh_found);
             } else {
                 QObjectHandleObject* qmlHandle = nullptr;
                 try {
                     qmlHandle = new QObjectHandleObject(qparent);
                 } catch (const std::bad_alloc&) {
                     qmlHandle = nullptr;
-                    Error(ERROR_MEMORY_ALLOCATION);
+                    Error(L"Nelson:outOfMemory",
+                        L"Memory allocation error... You may have run out of memory!");
                 }
-                res = ArrayOf::handleConstructor(qmlHandle);
+                res = ArrayOf::handle(qmlHandle);
             }
         } else {
-            Error(_W("No parent."));
+            Error(L"Nelson:QObject:noParent", L"No parent.");
         }
     } else if (propertyName == utf8_to_wstring(QOBJECT_PROPERTY_CLASSNAME_STR)) {
         std::string name = std::string(qobj->metaObject()->className());
-        res = ArrayOf::characterArrayConstructor(name);
+        res = ArrayOf::characterArray(name);
     } else if (propertyName == utf8_to_wstring(QOBJECT_PROPERTY_CHILDREN_STR)) {
-        QObjectList childs = qobj->children();
-        int nbChilds = childs.size();
-        if (nbChilds == 0) {
+        QObjectList children = qobj->children();
+        int nbChildren = children.size();
+        if (nbChildren == 0) {
             Dimensions dims(0, 0);
-            res = ArrayOf::emptyConstructor(dims);
+            res = ArrayOf::empty(dims);
             res.promoteType(NLS_HANDLE);
         } else {
-            Dimensions dims(1, nbChilds);
-            nelson_handle* nh = (nelson_handle*)ArrayOf::allocateArrayOf(
-                NLS_HANDLE, nbChilds, stringVector(), false);
-            for (int k = 0; k < nbChilds; k++) {
+            Dimensions dims(1, nbChildren);
+            HandleRef* nh = (HandleRef*)ArrayOf::allocateArrayOf(
+                NLS_HANDLE, nbChildren, stringVector(), false);
+            for (int k = 0; k < nbChildren; k++) {
                 nelson_handle nh_found
-                    = HandleManager::getInstance()->findByPointerValue(childs[k]);
+                    = HandleManager::getInstance()->findByPointerValue(children[k]);
                 if (nh_found != -1) {
-                    nh[k] = nh_found;
+                    nh[k] = HandleManager::getInstance()->getHandleRef(nh_found);
                 } else {
                     QObjectHandleObject* qmlHandle = nullptr;
                     try {
-                        qmlHandle = new QObjectHandleObject(childs[k]);
+                        qmlHandle = new QObjectHandleObject(children[k]);
                     } catch (const std::bad_alloc&) {
                         qmlHandle = nullptr;
-                        Error(ERROR_MEMORY_ALLOCATION);
+                        Error(L"Nelson:outOfMemory",
+                            L"Memory allocation error... You may have run out of memory!");
                     }
-                    nh[k] = HandleManager::getInstance()->addHandle(qmlHandle);
+                    nh[k] = HandleManager::getInstance()->addHandleRef(qmlHandle);
                 }
             }
             res = ArrayOf(NLS_HANDLE, dims, (void*)nh);
@@ -92,5 +95,5 @@ GetQObjectHandleObject(const ArrayOf& A, const std::wstring& propertyName)
     return res;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "__line__Builtin.hpp"
+#include "GOHelpers.hpp"
 #include "GOConstructorHelpers.hpp"
 #include "GOLineSeries.hpp"
 //=============================================================================
@@ -19,10 +20,9 @@ ArrayOfVector
 __line__Builtin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    retval << ArrayOf::graphicsObjectConstructor(
-        GOCommonConstructorHelper(new GOLineSeries, argIn));
+    retval << graphicsObjectHandle(GOCommonConstructorHelper(new GOLineSeries, argIn));
     return retval;
 }
 //=============================================================================
-}
+} // namespace Nelson::GraphicsGateway
 //=============================================================================

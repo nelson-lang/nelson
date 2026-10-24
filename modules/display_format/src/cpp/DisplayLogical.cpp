@@ -15,31 +15,31 @@
 #include "DisplayLogical.hpp"
 #include "NelsonConfiguration.hpp"
 #include "DisplayVariableHelpers.hpp"
-#include "FormatHelpers.hpp"
-#include "i18n.hpp"
+#include "DisplaySparseHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static void
-DisplayEmptyLogical(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
+// Nelson displays a logical value as the word true or false (not 1 and 0),
+// right-aligned on the width of "false"; format + shows one character.
+//=============================================================================
+static size_t
+logicalValueWidth(NumericFormatDisplay currentNumericFormat);
+//=============================================================================
+static std::wstring
+logicalValueText(logical value, NumericFormatDisplay currentNumericFormat);
 //=============================================================================
 static void
 Display2dLogical(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 static void
-DisplayEmptySparseLogical(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
+DisplayNdLogical(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::wstring& name,
+    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 static void
 Display2dSparseLogical(size_t evaluatorID, Interface* io, const ArrayOf& A,
     const std::wstring& name, NumericFormatDisplay currentNumericFormat,
     LineSpacingDisplay currentLineSpacing, bool asDisp);
-//=============================================================================
-static void
-DisplayNdLogical(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 void
 DisplayLogical(
@@ -52,19 +52,13 @@ DisplayLogical(
 
     DisplayVariableHeader(io, A, name, asDisp);
     if (A.isEmpty()) {
-        if (A.isSparse()) {
-            DisplayEmptySparseLogical(io, A, name, currentNumericFormat, currentLineSpacing);
-        } else {
-            DisplayEmptyLogical(io, A, name, currentNumericFormat, currentLineSpacing);
-        }
+        // nothing after the header
+    } else if (A.isSparse()) {
+        Display2dSparseLogical(
+            evaluatorID, io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
     } else if (A.isScalar() || A.is2D() || A.isRowVector()) {
-        if (A.isSparse()) {
-            Display2dSparseLogical(
-                evaluatorID, io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
-        } else {
-            Display2dLogical(
-                evaluatorID, io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
-        }
+        Display2dLogical(
+            evaluatorID, io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
     } else {
         DisplayNdLogical(
             evaluatorID, io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
@@ -72,10 +66,24 @@ DisplayLogical(
     DisplayVariableFooter(io, asDisp);
 }
 //=============================================================================
-void
-DisplayEmptyLogical(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
+size_t
+logicalValueWidth(NumericFormatDisplay currentNumericFormat)
 {
+    if (currentNumericFormat == NLS_NUMERIC_FORMAT_PLUS) {
+        return std::wstring(L"+").length();
+    }
+    return LENGTH_BLANKS_AT_BOL + std::wstring(L"false").length();
+}
+//=============================================================================
+std::wstring
+logicalValueText(logical value, NumericFormatDisplay currentNumericFormat)
+{
+    if (currentNumericFormat == NLS_NUMERIC_FORMAT_PLUS) {
+        return value ? L"+" : L" ";
+    }
+    return BLANKS_AT_BOL
+        + completeWithBlanksAtBeginning(
+            value ? L"true" : L"false", std::wstring(L"false").length());
 }
 //=============================================================================
 void
@@ -83,23 +91,21 @@ Display2dLogical(size_t evaluatorID, Interface* io, const ArrayOf& A, const std:
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
     sizeType termWidth = io->getTerminalWidth();
-    size_t lengthLogicalString;
-    if (currentNumericFormat == NLS_NUMERIC_FORMAT_PLUS) {
-        lengthLogicalString = std::wstring(L"+").length();
-    } else {
-        lengthLogicalString = std::wstring(L"false").length();
+    size_t valueWidth = logicalValueWidth(currentNumericFormat);
+    indexType colsPerPage
+        = static_cast<indexType>(floor((termWidth - 1) / (static_cast<single>(valueWidth))));
+    if (colsPerPage < 1) {
+        colsPerPage = 1;
     }
-    indexType colsPerPage = static_cast<indexType>(
-        floor((termWidth - 1) / (static_cast<single>(lengthLogicalString))));
 
-    indexType rows = A.getRows();
-    indexType columns = A.getColumns();
+    indexType rows = A.rows();
+    indexType columns = A.columns();
 
     indexType pageCount
         = static_cast<indexType>(ceil(columns / (static_cast<single>(colsPerPage))));
-    bool withColumsHeader = (rows * columns > 1) && pageCount > 1;
+    bool withColumnsHeader = (rows * columns > 1) && pageCount > 1;
 
-    logical* data = (logical*)A.getDataPointer();
+    const logical* data = (const logical*)A.dataPointer();
     bool continueDisplay = true;
     indexType block_page = 0;
     std::wstring buffer;
@@ -116,7 +122,8 @@ Display2dLogical(size_t evaluatorID, Interface* io, const ArrayOf& A, const std:
                 buffer.append(L"\n");
             }
         }
-        if (withColumsHeader) {
+        if (withColumnsHeader) {
+            buffer.append(columnsHeader(k * colsPerPage + 1, k * colsPerPage + colsInThisPage));
             if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
                 buffer.append(L"\n\n");
             } else {
@@ -130,24 +137,7 @@ Display2dLogical(size_t evaluatorID, Interface* io, const ArrayOf& A, const std:
             }
             for (indexType j = 0; j < colsInThisPage; j++) {
                 indexType idx = i + (k * colsPerPage + j) * rows;
-                std::wstring valueAsString;
-                if (currentNumericFormat == NLS_NUMERIC_FORMAT_PLUS) {
-                    if (data[idx]) {
-                        valueAsString = L"+";
-                    } else {
-                        valueAsString = L" ";
-                    }
-                    io->outputMessage(valueAsString);
-                } else {
-                    if (data[idx]) {
-                        valueAsString = L"true";
-                    } else {
-                        valueAsString = L"false";
-                    }
-                    buffer.append(BLANKS_AT_BOL);
-                    buffer.append(
-                        completeWithBlanksAtBeginning(valueAsString, lengthLogicalString));
-                }
+                buffer.append(logicalValueText(data[idx], currentNumericFormat));
             }
             buffer.append(L"\n");
             if (block_page >= io->getTerminalHeight()) {
@@ -174,21 +164,23 @@ DisplayNdLogical(size_t evaluatorID, Interface* io, const ArrayOf& A, const std:
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
     sizeType termWidth = io->getTerminalWidth();
-    Dimensions dims = A.getDimensions();
+    Dimensions dims = A.dimensions();
 
-    Dimensions wdims(dims.getLength());
-    indexType rows(A.getRows());
-    indexType columns(A.getColumns());
+    Dimensions wdims(dims.length());
+    indexType rows(A.rows());
+    indexType columns(A.columns());
     indexType offset = 0;
 
-    size_t lengthLogicalString;
-    if (currentNumericFormat == NLS_NUMERIC_FORMAT_PLUS) {
-        lengthLogicalString = std::wstring(L"+").length();
-    } else {
-        lengthLogicalString = std::wstring(L"false").length();
+    size_t valueWidth = logicalValueWidth(currentNumericFormat);
+    indexType colsPerPage
+        = static_cast<indexType>(floor((termWidth - 1) / (static_cast<single>(valueWidth))));
+    if (colsPerPage < 1) {
+        colsPerPage = 1;
     }
+    int pageCount = static_cast<int>(ceil(columns / (static_cast<single>(colsPerPage))));
+    bool withColumnsHeader = (rows * columns > 1) && pageCount > 1;
 
-    logical* data = (logical*)A.getDataPointer();
+    const logical* data = (const logical*)A.dataPointer();
     if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
         io->outputMessage(L"\n");
     }
@@ -203,23 +195,19 @@ DisplayNdLogical(size_t evaluatorID, Interface* io, const ArrayOf& A, const std:
         }
 
         io->outputMessage(name + L"(:,:");
-        for (indexType m = 2; m < dims.getLength(); m++) {
+        for (indexType m = 2; m < dims.length(); m++) {
             io->outputMessage(fmt::format(",{0:d}", static_cast<int>(wdims[m]) + 1));
         }
         io->outputMessage(L") =\n");
         if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
             io->outputMessage(L"\n");
         }
-        indexType colsPerPage = static_cast<indexType>(
-            floor((termWidth - 1) / (static_cast<single>(lengthLogicalString))));
-        int pageCount = static_cast<int>(ceil(columns / (static_cast<single>(colsPerPage))));
-        bool withColumsHeader = (rows * columns > 1) && pageCount > 1;
         for (int k = 0;
             k < pageCount && !NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID);
             k++) {
             indexType colsInThisPage = columns - colsPerPage * k;
             colsInThisPage = (colsInThisPage > colsPerPage) ? colsPerPage : colsInThisPage;
-            if (withColumsHeader) {
+            if (withColumnsHeader) {
                 std::wstring msg
                     = columnsHeader(k * colsPerPage + 1, k * colsPerPage + colsInThisPage);
                 if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
@@ -234,30 +222,14 @@ DisplayNdLogical(size_t evaluatorID, Interface* io, const ArrayOf& A, const std:
                 io->outputMessage(msg);
             }
             for (indexType i = 0; i < rows; i++) {
+                std::wstring line;
                 for (indexType j = 0; j < colsInThisPage
                     && !NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID);
                     j++) {
                     indexType idx = i + (k * colsPerPage + j) * rows + offset;
-                    std::wstring valueAsString;
-                    if (currentNumericFormat == NLS_NUMERIC_FORMAT_PLUS) {
-                        if (data[idx]) {
-                            valueAsString = L"+";
-                        } else {
-                            valueAsString = L" ";
-                        }
-                        io->outputMessage(valueAsString);
-                    } else {
-                        if (data[idx]) {
-                            valueAsString = L"true";
-                        } else {
-                            valueAsString = L"false";
-                        }
-                        std::wstring msg
-                            = completeWithBlanksAtBeginning(valueAsString, lengthLogicalString);
-                        io->outputMessage(BLANKS_AT_BOL + msg);
-                    }
+                    line.append(logicalValueText(data[idx], currentNumericFormat));
                 }
-                io->outputMessage(L"\n");
+                io->outputMessage(line + L"\n");
             }
         }
         offset += rows * columns;
@@ -269,68 +241,34 @@ DisplayNdLogical(size_t evaluatorID, Interface* io, const ArrayOf& A, const std:
 }
 //=============================================================================
 void
-DisplayEmptySparseLogical(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing)
-{
-}
-//=============================================================================
-void
 Display2dSparseLogical(size_t evaluatorID, Interface* io, const ArrayOf& A,
     const std::wstring& name, NumericFormatDisplay currentNumericFormat,
     LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
-    indexType nbRows = A.getRows();
-    indexType nbCols = A.getColumns();
-
-    if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
-        io->outputMessage(L"\n");
-    }
-
-    if (A.getNonzeros() == 0) {
-        std::wstring format = _W("All zero sparse: {0}");
-        std::wstring msg = fmt::format(format, A.getDimensions().toWideString());
-        io->outputMessage(BLANKS_AT_BOL + msg + L"\n");
+    if (!DisplaySparseBeginning(io, A, currentLineSpacing, asDisp)) {
         return;
     }
-    Eigen::SparseMatrix<double, 0, signedIndexType>* spMat
-        = (Eigen::SparseMatrix<double, 0, signedIndexType>*)A.getSparseDataPointer();
-
-    std::wstring formatIndex = L"({},{})";
-    std::wstring indexAsString = fmt::format(formatIndex, (long long)nbRows, (long long)nbCols);
-    size_t maxLenIndexString = indexAsString.length();
-
+    Eigen::SparseMatrix<logical, 0, signedIndexType>* spMat
+        = (Eigen::SparseMatrix<logical, 0, signedIndexType>*)A.sparseDataPointer();
     for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
         if (NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID)) {
             break;
         }
-        for (Eigen::SparseMatrix<double, 0, signedIndexType>::InnerIterator it(*spMat, k); it;
+        for (Eigen::SparseMatrix<logical, 0, signedIndexType>::InnerIterator it(*spMat, k); it;
             ++it) {
             if (NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID)) {
                 break;
             }
             std::wstring asStr;
             if (currentNumericFormat == NLS_NUMERIC_FORMAT_PLUS) {
-                if (it.value()) {
-                    asStr = L"+";
-                } else {
-                    asStr = L" ";
-                }
+                asStr = it.value() ? L"+" : L" ";
             } else {
-                if (it.value()) {
-                    asStr = L"true";
-                } else {
-                    asStr = L"false";
-                }
+                asStr = it.value() ? L"true" : L"false";
             }
-            std::wstring indexAsString
-                = fmt::format(formatIndex, (long long)(it.row() + 1), (long long)(it.col() + 1));
-            io->outputMessage(BLANKS_AT_BOL + centerText(indexAsString, maxLenIndexString)
-                + BLANKS_BETWEEN + asStr + L"\n");
+            io->outputMessage(sparseIndexText(A, it.row() + 1, it.col() + 1) + asStr + L"\n");
         }
     }
-    if (currentLineSpacing == NLS_LINE_SPACING_LOOSE && asDisp) {
-        io->outputMessage(L"\n");
-    }
+    DisplaySparseEnd(io, currentLineSpacing, asDisp);
 }
 //=============================================================================
 } // namespace Nelson

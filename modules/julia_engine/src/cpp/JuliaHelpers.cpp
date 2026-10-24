@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -19,6 +19,9 @@ namespace Nelson {
 bool
 jl_can_be_converted(const std::string& jlTypeStr1, const std::string& jlTypeStr2)
 {
+    // The evaluated type objects and the freshly allocated dummy array are unrooted
+    // while convert() runs (and allocates); keep the collector off around them.
+    NLSjlGcDisableGuard gcGuard;
     jl_module_t* jl_base_module = (jl_module_t*)NLSjl_eval_string("Base");
 
     jl_value_t* jl_type_1 = (jl_value_t*)NLSjl_eval_string(jlTypeStr1);
@@ -33,6 +36,9 @@ jl_can_be_converted(const std::string& jlTypeStr1, const std::string& jlTypeStr2
 std::string
 jl_get_type_of_as_string(jl_value_t* value)
 {
+    // typeof()/string() below allocate; keep `result` (the typeof output) alive
+    // across the string() call, which would otherwise be free to collect it.
+    NLSjlGcDisableGuard gcGuard;
     jl_module_t* jl_base_module = (jl_module_t*)NLSjl_eval_string("Base");
     jl_function_t* typeof_func = NLSjl_get_function(jl_base_module, "typeof");
     jl_value_t* result = NLSjl_call1(typeof_func, value);
@@ -45,6 +51,10 @@ jl_get_type_of_as_string(jl_value_t* value)
 std::string
 jl_value_tRepresentation(jl_value_t* value, bool& fails, int nbRows, int nbColumns)
 {
+    // The IOBuffer / IOContext / MIME temporaries and show() output are held in
+    // bare locals across many allocating calls; keep the collector off so none of
+    // them is freed before the buffer is turned into a string.
+    NLSjlGcDisableGuard gcGuard;
     jl_module_t* jl_base_module = (jl_module_t*)NLSjl_eval_string("Base");
     if (!jl_base_module) {
         fails = true;
@@ -113,12 +123,17 @@ jl_value_tRepresentation(jl_value_t* value, bool& fails, int nbRows, int nbColum
 }
 //=============================================================================
 std::vector<std::string>
-jl_value_tgetFieldnames(jl_value_t* value)
+jl_value_tfieldnames(jl_value_t* value)
 {
     std::vector<std::string> fieldNames;
     if (!value) {
         return fieldNames;
     }
+
+    // `field_names` (the fieldnames() tuple) and the per-field values are unrooted
+    // while string() is called on each in the loop below; disable collection so the
+    // tuple cannot be freed out from under jl_get_nth_field().
+    NLSjlGcDisableGuard gcGuard;
 
     jl_module_t* jl_base_module = (jl_module_t*)NLSjl_eval_string("Base");
     if (!jl_base_module) {
@@ -199,7 +214,12 @@ jl_value_tgetMethodOrPropertyNames(
         return propertyNames;
     }
 
-    stringVector fieldnames = jl_value_tgetFieldnames(value);
+    // propertynames() on a module such as Base returns thousands of symbols. The
+    // getproperty()/isa() calls below allocate and could free the unrooted
+    // `properties` array mid-loop, so hold the collector off for the whole loop.
+    NLSjlGcDisableGuard gcGuard;
+
+    stringVector fieldnames = jl_value_tfieldnames(value);
 
     jl_module_t* jl_base_module = (jl_module_t*)NLSjl_eval_string("Base");
     if (!jl_base_module) {
@@ -306,6 +326,7 @@ isModule(jl_value_t* value)
     if (!value) {
         return false;
     }
+    NLSjlGcDisableGuard gcGuard;
     jl_module_t* jl_base_module = (jl_module_t*)NLSjl_eval_string("Base");
     if (!jl_base_module) {
         return false;
@@ -322,5 +343,88 @@ isModule(jl_value_t* value)
     return (is_module && NLSjl_unbox_bool(is_module));
 }
 //=============================================================================
+bool
+isJuliaDataFrame(jl_value_t* value)
+{
+    if (!value) {
+        return false;
+    }
+    // typeof(df) prints as "DataFrame" when DataFrames was loaded with "using" and as
+    // "DataFrames.DataFrame" with "import" (as jl_ensure_dataframes does). Accept both.
+    // This never loads the package: without DataFrames no such value exists.
+    std::string typeOf = jl_get_type_of_as_string(value);
+    return typeOf == "DataFrame" || StringHelpers::ends_with(typeOf, ".DataFrame");
 }
+//=============================================================================
+bool
+jl_ensure_dataframes()
+{
+    // "import" is only allowed at top level, so it is wrapped in @eval (which
+    // lowers to a Core.eval call) to make it usable inside the try expression.
+    jl_value_t* loaded = NLSjl_eval_string("try; @eval import DataFrames; true; catch; false; end");
+    if (NLSjl_exception_occurred()) {
+        NLSjl_exception_clear();
+        return false;
+    }
+    if (!loaded || !NLSjl_unbox_bool(loaded)) {
+        return false;
+    }
+    // Small Main helpers that hide the DataFrames-specific indexing syntax from
+    // the C++ side (the "!" column selector and Symbol construction). Defining
+    // them again is idempotent and cheap.
+    NLSjl_eval_string("function __nelson_new_dataframe__()\n"
+                      "    return DataFrames.DataFrame()\n"
+                      "end");
+    // A Nelson table column arrives either as an array (an N-by-1 matrix, which
+    // vec() flattens to a length-N vector) or, for a single-row table, as a
+    // boxed scalar (wrapped into a one-element vector).
+    NLSjl_eval_string("function __nelson_df_setcol__(df, name, col)\n"
+                      "    v = isa(col, AbstractArray) ? vec(col) : [col]\n"
+                      "    df[!, Symbol(name)] = v\n"
+                      "    return df\n"
+                      "end");
+    NLSjl_eval_string("function __nelson_df_names__(df)\n"
+                      "    return String.(DataFrames.names(df))\n"
+                      "end");
+    NLSjl_eval_string("function __nelson_df_ncol__(df)\n"
+                      "    return DataFrames.ncol(df)\n"
+                      "end");
+    NLSjl_eval_string("function __nelson_df_getcol__(df, i)\n"
+                      "    return df[!, i]\n"
+                      "end");
+    NLSjl_eval_string("function __nelson_stringify_col__(col)\n"
+                      "    return String.(string.(col))\n"
+                      "end");
+    // Helpers for columns whose element type is Union{Missing, T}. __kind__
+    // classifies the non-missing element type (1 real, 2 complex, 3 other/text);
+    // the materializers replace each missing with the matching Nelson gap: NaN
+    // for a numeric column, and the mask marks the missing rows of a text column.
+    NLSjl_eval_string("function __nelson_col_kind__(col)\n"
+                      "    T = Base.nonmissingtype(eltype(col))\n"
+                      "    if T <: Complex\n"
+                      "        return 2\n"
+                      "    elseif T <: Real\n"
+                      "        return 1\n"
+                      "    else\n"
+                      "        return 3\n"
+                      "    end\n"
+                      "end");
+    NLSjl_eval_string("function __nelson_col_realmissing__(col)\n"
+                      "    return Float64[ismissing(x) ? NaN : Float64(x) for x in col]\n"
+                      "end");
+    NLSjl_eval_string("function __nelson_col_complexmissing__(col)\n"
+                      "    return ComplexF64[ismissing(x) ? ComplexF64(NaN, NaN) : ComplexF64(x) "
+                      "for x in col]\n"
+                      "end");
+    NLSjl_eval_string("function __nelson_col_missingmask__(col)\n"
+                      "    return Bool[ismissing(x) for x in col]\n"
+                      "end");
+    if (NLSjl_exception_occurred()) {
+        NLSjl_exception_clear();
+        return false;
+    }
+    return true;
+}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

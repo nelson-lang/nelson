@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>poisslike</keyword>
+  <short_description>Poisson negative log-likelihood</short_description>
+  <syntax><syntax_item>nlogL = poisslike(lambda, x)</syntax_item><syntax_item>[nlogL, avar] = poisslike(lambda, x)</syntax_item></syntax>
+  <param_input>
+    <param_input_item><param_name>lambda</param_name><param_description>nonnegative scalar: Poisson rate parameter.</param_description></param_input_item>
+    <param_input_item><param_name>x</param_name><param_description>nonnegative integer finite real nonempty array: sample counts.</param_description></param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>nlogL</param_name><param_description>scalar: negative log-likelihood.</param_description></param_output_item>
+    <param_output_item><param_name>avar</param_name><param_description>scalar: asymptotic variance estimate.</param_description></param_output_item>
+  </param_output>
+  <description><p><b>poisslike</b> returns the negative log-likelihood for Poisson distribution data and the asymptotic variance estimate.</p></description>
+  <examples><example_item><example_item_type>nelson</example_item_type><example_item_description /><example_item_data runnable="cli"><![CDATA[x = [0 1 2 3 5 8];
+[nlogL, avar] = poisslike(3, x);]]></example_item_data></example_item></examples>
+  <see_also><see_also_item><link linkend="${statistics}poissfit">poissfit</link></see_also_item><see_also_item><link linkend="${statistics}poisspdf">poisspdf</link></see_also_item><see_also_item><link linkend="${statistics}poisscdf">poisscdf</link></see_also_item></see_also>
+  <history><history_item><history_version>2.0.0</history_version><history_description>initial version</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

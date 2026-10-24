@@ -9,21 +9,33 @@
 %=============================================================================
 R = intmin('int8') .* intmin('int8');
 REF = intmax('int8');
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = int8([1 2]) .* 3;
-REF =  int8([3 6]);
-assert_isequal(R, REF);
+REF = int8([3 6]);
+asserts.isequal(R, REF);
 %=============================================================================
 R = 3 .* int8([1 2]);
-REF =  int8([3 6]);
-assert_isequal(R, REF);
+REF = int8([3 6]);
+asserts.isequal(R, REF);
 %=============================================================================
 R = int8([1 2]) .* int8([3, 4]);
 REF = int8([3 8]);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 msg = _('Integers can only be combined with integers of the same class, or scalar doubles.');
-assert_checkerror('R = single(3) .* int8([1 2]);', msg);
-assert_checkerror('R = int8([1 2]) .* single(3);', msg);
+asserts.checkerror('R = single(3) .* int8([1 2]);', msg);
+asserts.checkerror('R = int8([1 2]) .* single(3);', msg);
+%=============================================================================
+R = char(65) .* int8([1 2]);
+REF = int8([65 127]);
+asserts.isequal(class(R), 'int8');
+asserts.isequal(R, REF);
+%=============================================================================
+R = int8([1 2]) .* char(65);
+REF = int8([65 127]);
+asserts.isequal(class(R), 'int8');
+asserts.isequal(R, REF);
+%=============================================================================
+asserts.checkerror('R = char([65 66]) .* int8(1);', msg);
 %=============================================================================

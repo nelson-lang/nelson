@@ -1,0 +1,87 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Allan CORNET",
+    "created": "2026-08-02",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "comments": "To Workspace demo: a sine signal is logged to the base-workspace variable 'simout' (Structure With Time). After the run, inspect simout.time and simout.signals.values in Nelson.",
+  "name": "To Workspace Demo",
+  "blocks": [
+    {
+      "id": "src",
+      "type": "sine",
+      "x": 60,
+      "y": 220,
+      "rotation": 0,
+      "params": {
+        "Amplitude": 1,
+        "Frequency": 1,
+        "Phase": 0
+      }
+    },
+    {
+      "id": "sc",
+      "type": "scope",
+      "x": 220,
+      "y": 60,
+      "rotation": 0,
+      "params": {
+        "TMin": "",
+        "TMax": "",
+        "YMin": "",
+        "YMax": "",
+        "width": 320,
+        "height": 220,
+        "ShowTickLabels": false
+      }
+    },
+    {
+      "id": "tw",
+      "type": "toWorkspace",
+      "x": 220,
+      "y": 316,
+      "rotation": 0,
+      "params": {
+        "VariableName": "simout",
+        "MaxDataPoints": "inf",
+        "Decimation": 1,
+        "SaveFormat": "Structure With Time",
+        "SampleTime": "-1"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "src",
+      "to": "sc",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [140, 260],
+        [200, 260],
+        [200, 100],
+        [220, 100]
+      ]
+    },
+    {
+      "from": "src",
+      "to": "tw",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [140, 260],
+        [200, 260],
+        [200, 340],
+        [220, 340]
+      ]
+    }
+  ],
+  "variables": "",
+  "runtime": 10,
+  "sampleTime": 0.01,
+  "autoRoute": true,
+  "locked": false
+}

@@ -54,5 +54,5 @@ formatComplexBank(single realPart, single imagPart, bool trim)
     return formatBank(realPart, trim);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

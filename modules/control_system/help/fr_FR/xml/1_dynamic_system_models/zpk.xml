@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>zpk</keyword>
+  <short_description>Construit un modèle zéros-pôles-gain.</short_description>
+  <syntax>
+    <syntax_item>sys = zpk()</syntax_item>
+    <syntax_item>sys = zpk(&apos;s&apos;)</syntax_item>
+    <syntax_item>sys = zpk(z, p, k)</syntax_item>
+    <syntax_item>sys = zpk(z, p, k, Ts)</syntax_item>
+    <syntax_item>sys = zpk(sysIn)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>z</param_name>
+      <param_description>zéros : un vecteur (ou un tableau de cellules de vecteurs).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>p</param_name>
+      <param_description>pôles : un vecteur (ou un tableau de cellules de vecteurs).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>k</param_name>
+      <param_description>gain scalaire.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Ts</param_name>
+      <param_description>Temps d&apos;échantillonnage Ts, par défaut : en secondes</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>sysIn</param_name>
+      <param_description>modèle LTI.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>sys</param_name>
+      <param_description>Modèle zéros-pôles-gain de sortie.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>sys = zpk(z, p, k)</b> crée un modèle zéros-pôles-gain en temps continu.</p>
+    <p>Le modèle représente la fonction de transfert <b>k * (s - z(1))...(s - z(end)) / ((s - p(1))...(s - p(end)))</b> où <b>z</b> sont les zéros, <b>p</b> les pôles et <b>k</b> le gain scalaire.</p>
+    <p>Lorsque vous incluez le paramètre <b>Ts</b>, il permet de créer un modèle zéros-pôles-gain en temps discret.</p>
+    <p><b>sys = zpk(sysIn)</b> convertit le modèle LTI <b>sysIn</b> (<b>tf</b> ou <b>ss</b>) en un modèle zéros-pôles-gain.</p>
+    <p>Les zéros et pôles complexes d&apos;un système réel doivent être fournis par paires conjuguées. Le modèle est affiché sous forme factorisée.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[z = -1;
+p = [-2 -3];
+k = 5;
+sys = zpk(z, p, k)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[sys = zpk(-1, [-2 -3], 5);
+G = tf(sys)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${control_system}tf">tf</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${control_system}ss">ss</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

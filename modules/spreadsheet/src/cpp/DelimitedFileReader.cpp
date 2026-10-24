@@ -22,15 +22,14 @@
 #include "StringHelpers.hpp"
 #include "i18n.hpp"
 #include "CSVSeparatorDetector.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 struct ComplexPatterns
 {
-    // Regex for special values (Inf, NaN)
     static inline const std::string special_re = R"((?:[Nn][Aa][Nn]|[Ii][Nn][Ff]))";
 
-    // Full regex patterns combining numbers and special values
     static inline const std::regex full_complex { R"(([+-]?(?:\d*\.?\d+|)" + special_re
             + R"())([+-](?:\d*\.?\d+|)" + special_re + R"())[ij])",
         std::regex::optimize };
@@ -207,8 +206,10 @@ delimitedFileReader(const std::wstring& filename, const std::wstring& delimiter,
 #endif
                 {
                     hasFailed = true;
-                    errorMessage = fmt::format(
-                        _W("Unable to parse numeric value at row {0}, column {1}."), R + 1, C + 1);
+                    errorMessage = formatI18nMessage(
+                        Nelson::resolveMessageTemplate(L"Nelson:spreadsheet:unableParseNumericAt",
+                            L"Unable to parse numeric value at row %d, column %d."),
+                        R + 1, C + 1);
                 }
             }
         }
@@ -233,8 +234,10 @@ delimitedFileReader(const std::wstring& filename, const std::wstring& delimiter,
 #pragma omp critical
 #endif
                 {
-                    errorMessage = fmt::format(
-                        _W("Unable to parse numeric value at row {0}, column {1}."), R + 1, C + 1);
+                    errorMessage = formatI18nMessage(
+                        Nelson::resolveMessageTemplate(L"Nelson:spreadsheet:unableParseNumericAt",
+                            L"Unable to parse numeric value at row %d, column %d."),
+                        R + 1, C + 1);
                     hasFailed = true;
                 }
             }

@@ -6,7 +6,7 @@
   <chapter>String type</chapter>
   <chapter_description>
     <p
-    >The String Type module provides comprehensive tools for creating, manipulating, and analyzing text in Nelson.</p>
+    >The String Type module provides functions for creating, manipulating, and analyzing text in Nelson.</p>
     <p
     >It supports conversion between character arrays and string arrays, concatenation, trimming, justification, and case conversion.</p>
     <p

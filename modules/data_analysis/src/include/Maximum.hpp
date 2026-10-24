@@ -13,9 +13,6 @@
 #include "nlsData_analysis_exports.h"
 //=============================================================================
 namespace Nelson {
-/**
- * max operation.
- */
 //=============================================================================
 // C = max(A, B);
 NLSDATA_ANALYSIS_IMPEXP ArrayOf

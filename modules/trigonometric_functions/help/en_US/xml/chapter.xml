@@ -6,10 +6,10 @@
   <chapter>Trigonometric functions</chapter>
   <chapter_description>
     <p
-    >The Trigonometric Functions module provides a comprehensive set of functions for performing trigonometric calculations in Nelson.</p>
+    >The Trigonometric Functions module provides functions for trigonometric calculations in Nelson.</p>
     <p
     >It includes standard trigonometric functions such as sine, cosine, and tangent, as well as their inverses and hyperbolic counterparts. The module supports angle measurements in both degrees and radians, allowing for flexible computations based on user preferences.</p>
     <p
-    >Additionally, the module offers utility functions for converting between degrees and radians, facilitating seamless integration of trigonometric calculations into various mathematical and engineering applications.</p>
+    >The module also provides utilities for converting between degrees and radians in mathematical and engineering calculations.</p>
   </chapter_description>
 </xmldoc>

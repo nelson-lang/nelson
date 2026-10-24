@@ -17,7 +17,7 @@ N = 1000000;
 TOTAL_SUM = 0;
 %=============================================================================
 comm = MPI_Comm_object('MPI_COMM_WORLD');
-comm_rank = MPI_Comm_rank (comm);
+comm_rank = MPI_Comm_rank(comm);
 comm_size = MPI_Comm_size(comm);
 %=============================================================================
 TAG = 1000 + comm_rank;
@@ -35,7 +35,7 @@ else
 end
 %=============================================================================
 S1 = TOTAL_SUM;
-for i = (comm_rank * M) + 1 : subsum
+for i = (comm_rank * M) + 1:subsum
   S1 = S1 + i;
 end
 disp(['Partial summation ', mat2str(S1), ' on process ', int2str(comm_rank)]);
@@ -44,10 +44,10 @@ if (comm_rank != master)
   MPI_Send(S1, master, TAG, comm);
 else
   TOTAL_SUM = S1;
-  range = [1: comm_size - 1];
+  range = [1:comm_size - 1];
   for source = range
     TAG = 1000 + source;
-    s2 = MPI_Recv (source, TAG, comm);
+    s2 = MPI_Recv(source, TAG, comm);
     TOTAL_SUM = TOTAL_SUM + s2;
   end
 end
@@ -61,5 +61,4 @@ if MPI_Initialized()
   MPI_Finalize();
 end
 %=============================================================================
-exit
 %=============================================================================

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>dummyvar</keyword>
+  <short_description>Cree des variables indicatrices depuis des variables de groupe.</short_description>
+  <syntax>
+    <syntax_item>D = dummyvar(group)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>dummyvar</b> cree une matrice numerique de colonnes indicatrices pour les variables de groupe dans <b>group</b>.</p>
+    <p>Chaque colonne de matrice numerique, vecteur categoriel, vecteur texte ou element de cellule dans <b>group</b> contribue un bloc de variables indicatrices. Les valeurs de groupe manquantes produisent des lignes <b>NaN</b> dans leur bloc.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[Colors = categorical({'Red'; 'Blue'; 'Green'; 'Red'; 'Green'; 'Blue'});
+D = dummyvar(Colors)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}grp2idx">grp2idx</link></see_also_item>
+    <see_also_item><link linkend="${statistics}anova1">anova1</link></see_also_item>
+    <see_also_item><link linkend="${statistics}x2fx">x2fx</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

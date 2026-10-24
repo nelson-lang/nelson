@@ -1,0 +1,83 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Allan CORNET",
+    "created": "2026-08-05",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "comments": "Acausal thermal RC demo: a heated thermal mass (HeatCapacitor) loses heat through a thermal resistance to a fixed ambient temperature. The body temperature relaxes exponentially toward ambient -- a first-order thermal (RC) response. The heat-port nodes are the physical connections. The Scope plots the body temperature; ToWorkspace exports it.",
+  "name": "Acausal Thermal Heatsink",
+  "blocks": [
+    {
+      "id": "B",
+      "type": "HeatCapacitor",
+      "params": { "C": 2, "T0": 100 },
+      "x": 150,
+      "y": 90,
+      "rotation": 270
+    },
+    {
+      "id": "R",
+      "type": "ThermalResistor",
+      "params": { "R": 1 },
+      "x": 150,
+      "y": 280,
+      "rotation": 90
+    },
+    {
+      "id": "A",
+      "type": "FixedTemperature",
+      "params": { "T": 20 },
+      "x": 150,
+      "y": 430,
+      "rotation": 90
+    },
+    {
+      "id": "TS",
+      "type": "TemperatureSensor",
+      "params": {},
+      "x": 150,
+      "y": 560,
+      "rotation": 90
+    },
+    {
+      "id": "tw",
+      "type": "toWorkspace",
+      "params": { "VariableName": "T" },
+      "inputs": 1,
+      "outputs": 0,
+      "x": 310,
+      "y": 130,
+      "rotation": 0
+    },
+    {
+      "id": "sc",
+      "type": "scope",
+      "params": {
+        "TMin": "",
+        "TMax": "",
+        "YMin": "",
+        "YMax": "",
+        "width": 320,
+        "height": 220,
+        "ShowTickLabels": true
+      },
+      "x": 310,
+      "y": 300,
+      "rotation": 0
+    }
+  ],
+  "connections": [
+    { "from": "TS", "to": "tw", "fromIndex": 0, "toIndex": 0 },
+    { "from": "TS", "to": "sc", "fromIndex": 0, "toIndex": 0 }
+  ],
+  "solver": "dae",
+  "runtime": 6,
+  "sampleTime": 0.05,
+  "physicalWires": [
+    { "pins": ["B.port", "R.a", "TS.port"] },
+    { "pins": ["R.b", "A.port"] }
+  ]
+}

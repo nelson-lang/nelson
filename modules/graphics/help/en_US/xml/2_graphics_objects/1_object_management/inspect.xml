@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>inspect</keyword>
+  <short_description>Open the property inspector for graphics objects.</short_description>
+  <syntax>
+    <syntax_item>inspect</syntax_item>
+    <syntax_item>inspect(obj)</syntax_item>
+    <syntax_item>inspect([obj1 obj2])</syntax_item>
+    <syntax_item>inspect('-close')</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>obj</param_name>
+      <param_description>A graphics object, or a vector of graphics objects. The first object is selected in the inspector; the others remain available in the object browser.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output />
+  <description>
+    <p><b>inspect</b> opens the property inspector, a panel hosted inside the figure window that lists the properties of the selected object and lets you edit them. The same inspector is available on the Qt desktop, the webview and the WebAssembly builds.</p>
+    <p><b>inspect</b> with no argument opens the inspector for the current figure.</p>
+    <p><b>inspect(obj)</b> opens the inspector and selects <b>obj</b>. An object browser shows the figure, its axes and their children (lines, surfaces, patches, titles, labels, ...); selecting an entry displays its full list of properties.</p>
+    <p>Editable properties are shown with the appropriate editor: a drop-down list for enumerated values, a color picker for colors, a check box for on/off values and a text field for numbers, vectors and strings. Read-only properties are shown but cannot be changed. Large or structured values (for example data arrays) are summarised, such as <b>1x100 double</b>.</p>
+    <p>Changes apply immediately to the object. The inspector also tracks changes made from a script or through mouse and keyboard interaction, so the displayed values stay in sync.</p>
+    <p><b>inspect('-close')</b> closes the property inspector.</p>
+    <p>The property inspector can also be opened from the figure toolbar with the <b>Properties</b> button.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Inspect the current axes of a plot.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[
+f = figure();
+plot(1:10, (1:10) .^ 2);
+inspect(gca());
+inspect('-close');
+close(f);
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Inspect a specific plotted object.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[
+f = figure();
+p = plot(1:10, sin(1:10), 'LineWidth', 2);
+inspect(p);
+inspect('-close');
+close(f);
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/1_object_management/figure">figure</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/1_object_management/findobj">findobj</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/1_object_management/gca">gca</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

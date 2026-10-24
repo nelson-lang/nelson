@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>fminunc</keyword>
+  <short_description>Minimisation non lin&#233;aire sans contrainte.</short_description>
+  <syntax>
+    <syntax_item>x = fminunc(fun, x0)</syntax_item>
+    <syntax_item>x = fminunc(fun, x0, options)</syntax_item>
+    <syntax_item>x = fminunc(problem)</syntax_item>
+    <syntax_item>[x, fval, exitflag, output, grad, hessian] = fminunc(___)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>fun</param_name><param_description>Fonction objectif retournant un scalaire r&#233;el. Lorsque les options de gradient sont activ&#233;es, elle peut aussi retourner le gradient et le Hessien.</param_description></param_input_item>
+    <param_input_item><param_name>x0</param_name><param_description>Point initial scalaire, vectoriel ou matriciel.</param_description></param_input_item>
+    <param_input_item><param_name>options</param_name><param_description>Options cr&#233;&#233;es avec optimoptions ou optimset.</param_description></param_input_item>
+    <param_input_item><param_name>problem</param_name><param_description>Structure contenant les champs objective, x0, solver et options.</param_description></param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>x</param_name><param_description>Minimiseur calcul&#233;.</param_description></param_output_item>
+    <param_output_item><param_name>fval</param_name><param_description>Valeur de l&apos;objectif en x.</param_description></param_output_item>
+    <param_output_item><param_name>exitflag</param_name><param_description>Indicateur de terminaison.</param_description></param_output_item>
+    <param_output_item><param_name>output</param_name><param_description>Structure de diagnostics avec iterations, funcCount, stepsize, algorithm, firstorderopt et message.</param_description></param_output_item>
+    <param_output_item><param_name>grad</param_name><param_description>Gradient en x.</param_description></param_output_item>
+    <param_output_item><param_name>hessian</param_name><param_description>Hessien approch&#233; ou fourni par l&apos;utilisateur en x.</param_description></param_output_item>
+  </param_output>
+  <description>
+    <p><b>fminunc</b> minimise une fonction objectif scalaire non lin&#233;aire sans contrainte.</p>
+    <p>L&apos;algorithme par d&#233;faut <b>quasi-newton</b> utilise BFGS, DFP, la plus forte pente ou BFGS &#224; m&#233;moire limit&#233;e selon les options <b>HessianApproximation</b> et <b>HessUpdate</b>. L&apos;algorithme <b>trust-region</b> utilise les gradients utilisateur, les Hessiennes objectif optionnelles, les fonctions de produit Hessien-vecteur et le gradient conjugu&#233; tronqu&#233;.</p>
+    <p>Les modes d&apos;affichage accept&#233;s sont <b>off</b>, <b>none</b>, <b>final</b>, <b>final-detailed</b>, <b>notify</b>, <b>notify-detailed</b>, <b>iter</b> et <b>iter-detailed</b>.</p>
+  </description>
+  <used_function>
+    <used_function_item>optimoptions</used_function_item>
+    <used_function_item>optimset</used_function_item>
+  </used_function>
+  <bibliography>Broyden, C. G., The convergence of a class of double-rank minimization algorithms, IMA Journal of Applied Mathematics, 1970.
+Fletcher, R., Practical Methods of Optimization, Wiley, 1987.
+Liu, D. C. et Nocedal, J., On the limited memory BFGS method for large scale optimization, Mathematical Programming, 1989.
+Nocedal, J. et Wright, S. J., Numerical Optimization, Springer, 2006.</bibliography>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Minimiser un polyn&#244;me quadratique.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[fun = @(x) 3*x(1)^2 + 2*x(1)*x(2) + x(2)^2 - 4*x(1) + 5*x(2);
+[x, fval] = fminunc(fun, [1, 1])
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Utiliser un gradient avec l&apos;algorithme trust-region.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[function [f, g] = rosenwithgrad(x)
+  f = 100*(x(2) - x(1)^2)^2 + (1 - x(1))^2;
+  g = [-400*(x(2)-x(1)^2)*x(1) - 2*(1-x(1)); 200*(x(2)-x(1)^2)];
+end
+opts = optimoptions('fminunc', 'Algorithm', 'trust-region', 'SpecifyObjectiveGradient', true);
+x = fminunc(@rosenwithgrad, [-1; 2], opts)
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${optimization}fmincon">fmincon</link></see_also_item>
+    <see_also_item><link linkend="${optimization}optimoptions">optimoptions</link></see_also_item>
+    <see_also_item><link linkend="${optimization}fminsearch">fminsearch</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>2.0.0</history_version><history_description>version initiale</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "parsestringBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "ParserInterface.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
@@ -22,33 +23,40 @@ Nelson::InterpreterGateway::parsestringBuiltin(
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 1, 1);
     std::string command;
-    if (argIn[0].isRowVectorCharacterArray()) {
-        command = argIn[0].getContentAsCString();
+    if (argIn[0].isRowVectorCharacterArray() || argIn[0].isScalarStringArray()) {
+        command = argIn[0].asUtf8String();
     } else {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+        Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1), L"string");
     }
+    ParserContext parserContext;
     ParserState parserState = ParseError;
-    Exception previousException(eval->getLastErrorException());
+    NelsonException previousException(eval->getLastErrorException());
     try {
-        parserState = parseString(eval->lexerContext, command + "\n");
-    } catch (const Exception&) {
+        parserContext = parseStringResult(eval->lexerContext, command + "\n");
+        parserState = parserContext.state();
+        if (parserState == ParseError) {
+            eval->setLastErrorException(previousException);
+        }
+    } catch (const NelsonException&) {
         parserState = ParseError;
         eval->setLastErrorException(previousException);
     }
     switch (parserState) {
     case ScriptBlock: {
-        retval << ArrayOf::characterArrayConstructor("script");
+        retval << ArrayOf::characterArray("script");
     } break;
     case FuncDef: {
-        MacroFunctionDef* cp = getParsedFunctionDef();
-        if (cp) {
-            retval << ArrayOf::characterArrayConstructor("function");
+        if (parserContext.macroFunctionDef != nullptr) {
+            retval << ArrayOf::characterArray("function");
         } else {
-            retval << ArrayOf::characterArrayConstructor("script");
+            retval << ArrayOf::characterArray("script");
         }
     } break;
+    case ClassDef: {
+        retval << ArrayOf::characterArray("classdef");
+    } break;
     default: {
-        retval << ArrayOf::characterArrayConstructor("error");
+        retval << ArrayOf::characterArray("error");
     } break;
     }
     return retval;

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>uicontextmenu</keyword>
+  <short_description>Creer un objet graphique de menu contextuel.</short_description>
+  <syntax>
+    <syntax_item>cm = uicontextmenu()</syntax_item>
+    <syntax_item>cm = uicontextmenu(parent)</syntax_item>
+    <syntax_item>cm = uicontextmenu(propertyName, propertyValue, ...)</syntax_item>
+    <syntax_item>cm = uicontextmenu(parent, propertyName, propertyValue, ...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>parent</param_name>
+      <param_description>Objet graphique figure. Si cet argument est omis, la figure courante est utilisee.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName</param_name>
+      <param_description>Nom de propriete : chaine scalaire ou vecteur ligne de caracteres.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyValue</param_name>
+      <param_description>Valeur compatible avec le nom de propriete.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>cm</param_name>
+      <param_description>Objet graphique de menu contextuel.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>uicontextmenu</b> cree un menu contextuel qui peut etre assigne a la propriete <b>ContextMenu</b> des figures, axes, controles et autres objets graphiques.</p>
+    <p>Les entrees de menu sont creees avec <b>uimenu</b> en utilisant le menu contextuel comme parent.</p>
+    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.uicontextmenu.properties">proprietes de uicontextmenu</link> pour la liste complete des proprietes.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Associer un menu contextuel a des axes.</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[
+f = figure();
+ax = axes('Parent', f);
+cm = uicontextmenu(f);
+uimenu(cm, 'Text', 'Reset view', 'MenuSelectedFcn', 'disp(''reset'')');
+ax.ContextMenu = cm;
+]]></example_item_data>
+    </example_item>
+  </examples>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.uicontextmenu.properties">proprietes de uicontextmenu</link>
+    </see_also_item>
+  </see_also>
+</xmldoc>

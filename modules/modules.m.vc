@@ -15,6 +15,7 @@ modules_list = {
 {'interpreter', true};
 {'error_manager', true};
 {'console', true};
+{'text_completion', true};
 {'display_format', true};
 {'characters_encoding', true};
 {'localization', true};
@@ -31,6 +32,7 @@ modules_list = {
 {'data_structures', true};
 {'dictionary', true};
 {'table', true};
+{'categorical', true};
 {'overload', true};
 {'operators', true};
 {'constructors_functions', true};
@@ -40,6 +42,7 @@ modules_list = {
 {'linear_algebra', true};
 {'statistics', true};
 {'data_analysis', true};
+{'ode_solvers', true};
 {'polynomial_functions', true};
 {'geometry', true};
 {'control_system', true};
@@ -54,9 +57,13 @@ modules_list = {
 {'time', true};
 {'stream_manager', true};
 {'hdf5', true};
+{'preferences', true};
+{'netcdf', true};
 {'matio', true};
 {'xml', true};
 {'json', true};
+{'ai', true};
+{'parquet', true};
 {'spreadsheet', true};
 {'mpi', true};
 {'parallel', true};
@@ -70,19 +77,26 @@ modules_list = {
 {'graphics_io', true};
 {'image_processing', true};
 {'webtools', true};
-{'sio_client', true};
+{'webview', true};
 {'dynamic_link', true};
 {'mex', true};
 {'f2c', true};
-{'nig', true};
 {'validators', true};
-{'com_engine', true};
 {'python_engine', true};
 {'julia_engine', true};
+{'gpu_engine', true};
 {'debugger', true};
 {'profiler', true};
 {'tests_manager', true};
 {'assert_functions', true};
 {'help_tools', true};
+{'optimization', true};
+{'nflow_blocks', true};
+{'nflow_engine', true};
+{'nflow_fmi', true};
+{'nflow_gui', true};
+{'nmm_gui', true};
+{'compiler', true};
+{'notebook', true};
 };
 % ============================================================================

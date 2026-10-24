@@ -37,7 +37,7 @@ VariableRowCharactersTableModel::VariableRowCharactersTableModel(
 
     initializeDimensions();
     initializeEditData();
-    saveCurrentStateForUndo();
+    clearUndoState();
 }
 //=============================================================================
 int
@@ -102,15 +102,13 @@ VariableRowCharactersTableModel::data(const QModelIndex& index, int role) const
 QVariant
 VariableRowCharactersTableModel::getDisplayValue(int row, int col) const
 {
-    // Check edit data first
     const int idx = indexToFlat(row, col);
     if (idx >= 0 && idx < m_editData.size() && m_editData[idx].isValid()) {
         return m_editData[idx];
     }
 
-    // Check original array data
     if (row < m_rows && col < m_cols && hasOriginalData()) {
-        return QVariant(wstringToQString(m_array.getContentAsWideString()));
+        return QVariant(wstringToQString(m_array.asWideString()));
     }
     return QVariant();
 }
@@ -130,7 +128,6 @@ VariableRowCharactersTableModel::setData(const QModelIndex& index, const QVarian
         return false;
     }
 
-    // Only support double arrays for now
     if (!m_array.isRowVectorCharacterArray()) {
         emit errorOccurred(tr("Can only edit row characters arrays."));
         return false;
@@ -138,30 +135,27 @@ VariableRowCharactersTableModel::setData(const QModelIndex& index, const QVarian
 
     std::wstring item = value.toString().toStdWString();
 
-    // Set the value in the array
     if (!setArrayValue(row, col, item)) {
         return false;
     }
 
-    // Update edit tracking
     updateEditData(row, col, value);
 
     m_pendingChanges = true;
-    schedulePeristenceUpdate();
+    schedulePersistenceUpdate();
 
-    // Only emit for the specific cell that changed
     emit dataChanged(index, index);
 
     return true;
 }
 //=============================================================================
 void
-VariableRowCharactersTableModel::schedulePeristenceUpdate()
+VariableRowCharactersTableModel::schedulePersistenceUpdate()
 {
     if (!m_persistenceTimer) {
         m_persistenceTimer = new QTimer(this);
         m_persistenceTimer->setSingleShot(true);
-        m_persistenceTimer->setInterval(100); // 100ms delay
+        m_persistenceTimer->setInterval(100);
         connect(m_persistenceTimer, &QTimer::timeout, this,
             &VariableRowCharactersTableModel::performBatchedPersistence);
     }
@@ -175,7 +169,7 @@ VariableRowCharactersTableModel::performBatchedPersistence()
     if (m_pendingChanges) {
         persistChangesToContext();
         m_pendingChanges = false;
-        emit modelChanged(); // Only emit once per batch
+        emit modelChanged();
     }
 }
 //=============================================================================
@@ -188,7 +182,6 @@ VariableRowCharactersTableModel::flags(const QModelIndex& index) const
 
     Qt::ItemFlags flags = Qt::ItemIsSelectable | Qt::ItemIsEnabled;
 
-    // Only allow editing of double arrays
     if (m_array.isRowVectorCharacterArray()) {
         flags |= Qt::ItemIsEditable;
     }
@@ -211,9 +204,15 @@ VariableRowCharactersTableModel::refreshFromArray(ArrayOf& value)
 {
     m_array = value;
     beginResetModel();
+    rebuildModelFromCurrentArray();
+    endResetModel();
+}
+//=============================================================================
+void
+VariableRowCharactersTableModel::rebuildModelFromCurrentArray()
+{
     initializeDimensions();
     initializeEditData();
-    endResetModel();
 }
 //=============================================================================
 bool
@@ -224,19 +223,16 @@ VariableRowCharactersTableModel::pasteDataFromClipboard(
         return false;
     }
 
-    // Parse the paste text
     const PasteData pasteData = parsePasteText(text);
     if (!pasteData.isValid) {
         emit errorOccurred(tr("Invalid paste data format"));
         return false;
     }
 
-    // Validate the paste operation
     if (!validatePasteData(pasteData, startRow, startCol)) {
         return false;
     }
 
-    // Apply the paste data
     return applyPasteData(pasteData, startRow, startCol);
 }
 //=============================================================================
@@ -246,7 +242,6 @@ VariableRowCharactersTableModel::pasteDataFromExcel(int startRow, int startCol, 
     return pasteDataFromClipboard(startCol, startRow, text);
 }
 //=============================================================================
-
 bool
 VariableRowCharactersTableModel::canPasteAt(int startRow, int startCol, const QString& text) const
 {
@@ -291,7 +286,7 @@ VariableRowCharactersTableModel::validateArrayState() const
 bool
 VariableRowCharactersTableModel::hasOriginalData() const
 {
-    return m_array.isRowVectorCharacterArray() && m_array.getDataPointer() != nullptr;
+    return m_array.isRowVectorCharacterArray() && m_array.dataPointer() != nullptr;
 }
 //=============================================================================
 bool
@@ -303,7 +298,7 @@ VariableRowCharactersTableModel::isValidPosition(int row, int col) const
 bool
 VariableRowCharactersTableModel::setArrayValue(int row, int col, const std::wstring& value)
 {
-    m_array = ArrayOf::characterArrayConstructor(value);
+    m_array = ArrayOf::characterArray(value);
     return true;
 }
 //=============================================================================
@@ -324,6 +319,8 @@ VariableRowCharactersTableModel::persistChangesToContext()
     }
 
     try {
+        // Writes target the base scope: the editor reads variables from the base
+        // scope, so persisting elsewhere would silently desynchronize the view.
         m_evaluator->getContext()->getCurrentScope()->insertVariable(
             wstring_to_utf8(QStringTowstring(m_variableName)), m_array);
         WorkspaceBrowser::updateWorkspaceBrowser();
@@ -340,7 +337,7 @@ VariableRowCharactersTableModel::indexToFlat(int row, int col) const
     }
     return row + col * m_rows_display;
 }
-
+//=============================================================================
 std::pair<int, int>
 VariableRowCharactersTableModel::flatToIndex(int flatIndex) const
 {
@@ -363,7 +360,6 @@ VariableRowCharactersTableModel::parsePasteText(const QString& text) const
         return result;
     }
 
-    // Split into rows, handling different line endings
     const QStringList rows = text.split(QRegularExpression(R"(\r\n|\r|\n)"), Qt::SkipEmptyParts);
 
     if (rows.isEmpty()) {
@@ -398,7 +394,6 @@ VariableRowCharactersTableModel::validatePasteData(
         return false;
     }
 
-    // Check if paste would exceed reasonable limits
     const int endRow = startRow + data.rows - 1;
     const int endCol = startCol + data.cols - 1;
 
@@ -428,7 +423,7 @@ VariableRowCharactersTableModel::applyPasteData(const PasteData& data, int start
     bool success = setData(targetIndex, value, Qt::EditRole);
     if (success) {
         m_pendingChanges = true;
-        schedulePeristenceUpdate();
+        schedulePersistenceUpdate();
         emit dataChanged(targetIndex, targetIndex);
     }
 
@@ -517,7 +512,7 @@ VariableRowCharactersTableModel::createArrayFromSelection(
     Dimensions newDims(bounds.maxRow - bounds.minRow + 1, bounds.maxCol - bounds.minCol + 1);
     ArrayOf newVar;
 
-    ArrayOf* ptr = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_STRING_ARRAY, newDims.getElementCount());
+    ArrayOf* ptr = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_STRING_ARRAY, newDims.elementCount());
     newVar = ArrayOf(NLS_STRING_ARRAY, newDims, ptr);
 
     for (int r = bounds.minRow; r <= bounds.maxRow; ++r) {
@@ -525,8 +520,8 @@ VariableRowCharactersTableModel::createArrayFromSelection(
             QModelIndex idx = index(r, c);
             QVariant val = data(idx, Qt::DisplayRole);
             double num = val.toDouble();
-            ptr[(r - bounds.minRow) + (c - bounds.minCol) * newDims.getRows()]
-                = ArrayOf::characterArrayConstructor(QStringTowstring(val.toString()));
+            ptr[(r - bounds.minRow) + (c - bounds.minCol) * newDims.rows()]
+                = ArrayOf::characterArray(QStringTowstring(val.toString()));
         }
     }
     return newVar;
@@ -536,13 +531,13 @@ bool
 VariableRowCharactersTableModel::isValidSelectionForExtraction(
     const QModelIndexList& selectedIndexes) const
 {
-    return !selectedIndexes.isEmpty() && (m_array.getDataClass() == NLS_STRING_ARRAY);
+    return !selectedIndexes.isEmpty() && (m_array.dataClass() == NLS_STRING_ARRAY);
 }
 //=============================================================================
 bool
 VariableRowCharactersTableModel::shouldDisplayAsTable() const
 {
-    return (m_array.getDataClass() == NLS_STRING_ARRAY) && !m_array.isSparse() && m_array.is2D();
+    return (m_array.dataClass() == NLS_STRING_ARRAY) && !m_array.isSparse() && m_array.is2D();
 }
 //=============================================================================
 VariableRowCharactersTableModel::SelectionBounds
@@ -569,56 +564,5 @@ VariableRowCharactersTableModel::getSelectionBounds(const QModelIndexList& selec
     return bounds;
 }
 //=============================================================================
-void
-VariableRowCharactersTableModel::redo()
-{
-    // For single-level undo/redo, redo is the same as undo
-    // since we swap the current and stored states
-    undo();
-}
-//=============================================================================
-void
-VariableRowCharactersTableModel::undo()
-{
-    if (!m_hasUndoState) {
-        return; // No undo state available
-    }
-
-    try {
-        m_isPerformingUndo = true;
-
-        // Store current state as redo state (reuse the same variable)
-        ArrayOf redoArray = m_array;
-        redoArray.ensureSingleOwner();
-
-        // Restore the previous state
-        beginResetModel();
-        m_array = m_undoArray;
-        m_array.ensureSingleOwner();
-
-        // Update dimensions
-        initializeDimensions();
-        initializeEditData();
-
-        endResetModel();
-
-        // Store the current (now previous) state for redo
-        m_undoArray = std::move(redoArray);
-        // m_hasUndoState remains true for redo
-
-        // Persist the restored state
-        persistChangesToContext();
-
-        // Notify views of the change
-        emit modelChanged();
-
-        m_isPerformingUndo = false;
-
-    } catch (const std::exception& e) {
-        m_isPerformingUndo = false;
-        emit errorOccurred(tr("Failed to undo: %1").arg(e.what()));
-    }
-}
-//=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

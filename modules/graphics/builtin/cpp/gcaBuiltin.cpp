@@ -22,20 +22,20 @@ gcaBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOfVector retval;
     nargincheck(argIn, 0, 0);
     nargoutcheck(nLhs, 0, 1);
-    if (getCurrentFigure() == -1) {
-        createNewFigure();
+    if (getCurrentFigure() == -1 || !isVisibleGraphicsHandle(getCurrentFigure())) {
+        createNewFigure(false);
     }
     GOFigure* fig = getCurrentGOFigure();
-    unsigned current = fig->findGoProperty(GO_CURRENT_AXES_PROPERTY_NAME_STR);
-    if (current == 0 || isDeletedGraphicsObject(current)) {
+    int64 current = fig->findGoProperty(GO_CURRENT_AXES_PROPERTY_NAME_STR);
+    if (current == 0 || isDeletedGraphicsObject(current) || !isVisibleGraphicsHandle(current)) {
         ArrayOfVector arg2;
         axesBuiltin(0, arg2);
         current = fig->findGoProperty(GO_CURRENT_AXES_PROPERTY_NAME_STR);
         fig->setRenderingStateInvalid(true);
     }
-    retval << ArrayOf::graphicsObjectConstructor(current);
+    retval << graphicsObjectHandle(current);
     return retval;
 }
 //=============================================================================
-}
+} // namespace Nelson::GraphicsGateway
 //=============================================================================

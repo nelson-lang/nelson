@@ -12,7 +12,7 @@ function varargout = ls(varargin)
   opts = {};
   for k = 1:nargin
     opts = [opts, convertStringsToChars(varargin{k})];
-  end 
+  end
   try
     if isunix()
       if (nargout == 0)
@@ -34,7 +34,7 @@ end
 % ======================================================
 function listing = windowsLs(nOut, opts)
   if numel(opts) > 1
-    error('Nelson:ls:TooManyInputArguments', _('Too many input arguments.'));
+    error('Nelson:tooManyInputs', 'Too many input arguments.');
   end
   if numel(opts) == 0
     lsPath = './';
@@ -51,13 +51,21 @@ function listing = windowsLs(nOut, opts)
 end
 % ======================================================
 function varargout = unixLs(nOut, opts)
+  if iswasm()
+    if nOut > 0
+      varargout{1} = portableLs(opts);
+    else
+      disp(portableLs(opts));
+    end
+    return;
+  end
   nOpts = numel(opts);
   lsPath = './';
   args = {};
-  
+
   if numel(opts) > 0
     pathStr = opts{1};
-    
+
     % Check if the path contains wildcards
     if contains(pathStr, '*') || contains(pathStr, '?')
       lsPath = fileparts(pathStr);
@@ -100,5 +108,23 @@ function varargout = unixLs(nOut, opts)
   else
     disp(listing);
   end
+end
+% ======================================================
+function listing = portableLs(opts)
+  if numel(opts) > 1
+    error('Nelson:tooManyInputs', 'Too many input arguments.');
+  end
+  if numel(opts) == 0
+    lsPath = './';
+  else
+    lsPath = opts{1};
+  end
+  d = dir(lsPath);
+  if isempty(d)
+    listing = char([]);
+    return;
+  end
+  names = {d.name};
+  listing = sprintf('%s\n', names{:});
 end
 % ======================================================

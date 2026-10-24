@@ -19,6 +19,10 @@ NLSFILE_ARCHIVER_IMPEXP
 void
 Zip(const std::wstring& zipFilename, const wstringVector& names, const std::wstring& rootpath,
     wstringVector& filenames);
+NLSFILE_ARCHIVER_IMPEXP
+void
+Zip(const std::wstring& zipFilename, const wstringVector& names, const std::wstring& rootpath,
+    wstringVector& filenames, bool reproducible);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

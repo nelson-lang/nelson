@@ -21,7 +21,7 @@
   <description>
     <p>find CMake path.</p>
     <p
-    >CMake is used internaly to generate makefiles used to build dynamic libraries on fly.</p>
+    >CMake is used internally to generate makefiles used to build dynamic libraries on fly.</p>
   </description>
   <used_function />
   <bibliography />

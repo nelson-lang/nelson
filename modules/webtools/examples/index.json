@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "file": "webread_demo_1.m",
+      "title": "Read audio from the web",
+      "description": "Download, decode and play a short public audio resource.",
+      "tags": [
+        "http",
+        "audio"
+      ],
+      "requirements": [
+        "network",
+        "audio-output"
+      ]
+    },
+    {
+      "file": "webread_demo_2.m",
+      "title": "Configure a content reader",
+      "description": "Use a callback while downloading and decoding a public resource.",
+      "tags": [
+        "http",
+        "options"
+      ],
+      "requirements": [
+        "network",
+        "audio-output"
+      ]
+    },
+    {
+      "file": "webread_demo_3.m",
+      "title": "Read structured web data",
+      "description": "Retrieve and inspect a structured response.",
+      "tags": [
+        "http",
+        "json"
+      ],
+      "requirements": [
+        "network"
+      ]
+    },
+    {
+      "file": "webread_demo_4.m",
+      "title": "Inspect a web response",
+      "description": "Download one image referenced by a structured response.",
+      "tags": [
+        "http",
+        "response"
+      ],
+      "requirements": [
+        "network"
+      ]
+    },
+    {
+      "file": "websave_demo.m",
+      "title": "Download to a temporary file",
+      "description": "Save one public map image in the temporary directory.",
+      "tags": [
+        "http",
+        "files"
+      ],
+      "requirements": [
+        "network"
+      ]
+    },
+    {
+      "file": "ollama/ollama_demo.m",
+      "title": "Call a local model server",
+      "description": "Send a fixed prompt to a running local model service.",
+      "tags": [
+        "ai",
+        "http"
+      ],
+      "requirements": [
+        "external-application"
+      ]
+    }
+  ]
+}

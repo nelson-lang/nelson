@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>spectralcluster</keyword>
+  <short_description>Spectral clustering.</short_description>
+  <syntax>
+    <syntax_item>idx = spectralcluster(X, k)</syntax_item>
+    <syntax_item>idx = spectralcluster(S, k, 'Distance', 'precomputed')</syntax_item>
+    <syntax_item>idx = spectralcluster(..., Name, Value)</syntax_item>
+    <syntax_item>[idx, V, D] = spectralcluster(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>spectralcluster</b> partitions observations by constructing a similarity graph, computing a graph Laplacian embedding, and clustering the embedded rows.</p>
+    <p>Name-value arguments include Distance, P, Cov, Scale, SimilarityGraph, NumNeighbors, KNNGraphType, Radius, KernelScale, LaplacianNormalization, and ClusterMethod.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Cluster two separated groups.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[X = [0 0; 0 1; 1 0; 10 10; 10 11; 11 10];
+idx = spectralcluster(X, 2, 'NumNeighbors', 5, 'KernelScale', 2)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}kmeans">kmeans</link></see_also_item>
+    <see_also_item><link linkend="${statistics}kmedoids">kmedoids</link></see_also_item>
+    <see_also_item><link linkend="${statistics}pdist">pdist</link></see_also_item>
+    <see_also_item><link linkend="${statistics}evalclusters">evalclusters</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,0 +1,576 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>text</keyword>
+  <short_description
+  >creates text descriptions to data points.</short_description>
+  <syntax>
+    <syntax_item>text(x, y, txt)</syntax_item>
+    <syntax_item>text(x, y, z, txt)</syntax_item>
+    <syntax_item>text(... , propertyName, propertyValue)</syntax_item>
+    <syntax_item>text(propertyName, propertyValue)</syntax_item>
+    <syntax_item>text(ax, ...)</syntax_item>
+    <syntax_item>go = text(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>x</param_name>
+      <param_description>x-coordinates: vector or matrix.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>y</param_name>
+      <param_description>y-coordinates: vector or matrix.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>z</param_name>
+      <param_description>z-coordinates: vector or matrix.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>parent</param_name>
+      <param_description
+      >a scalar graphics object value: parent container, specified as a axes.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>text</param_name>
+      <param_description
+      >Text to display: character vector, string scalar, string array or cell array.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName</param_name>
+      <param_description
+      >a scalar string or row vector character.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyValue</param_name>
+      <param_description>a value.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>go</param_name>
+      <param_description>a graphics object: text type.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>figure</b> creates figure.</p>
+
+    <p>See <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.text.properties">text properties</link> for the complete property list.</p>
+    <p>The <b>Interpreter</b> property selects how the <b>String</b> is parsed: <b>&apos;tex&apos;</b> (default) renders a subset of TeX markup (the special characters below, plus <b>^{ }</b> superscripts and <b>_{ }</b> subscripts); <b>&apos;none&apos;</b> draws the text verbatim.</p>
+    <p>The <b>&apos;latex&apos;</b> value is accepted, but a full LaTeX math layout engine (<b>\frac</b>, <b>\sqrt</b>, <b>\int</b> with limits, matrices, and so on) is not yet implemented. It falls back to the <b>&apos;tex&apos;</b> pipeline after removing a surrounding pair of <b>$...$</b> math delimiters, so known symbols and super/subscripts are rendered while unsupported constructs appear as their source text. A full LaTeX interpreter is planned for a future release.</p>
+    <p>lists of the supported special characters for the &apos;tex&apos; interpreter:</p>
+    <p>Superscript: ^{ } &apos;text^{superscript}&apos;
+    </p>
+    <p>Subscript: _{ } &apos;text_{subscript}&apos;
+    </p>
+    <p />
+    <table style="width:100%">
+      <tr>
+        <th>Character Sequence</th>
+        <th>Symbol</th>
+      </tr>
+      <tr>
+        <th>\alpha</th>
+        <th>α</th>
+      </tr>
+      <tr>
+        <th>\upsilon</th>
+        <th>υ</th>
+      </tr>
+      <tr>
+        <th>\sim</th>
+        <th>~</th>
+      </tr>
+      <tr>
+        <th>\angle</th>
+        <th>∠</th>
+      </tr>
+      <tr>
+        <th>\phi</th>
+        <th>ϕ</th>
+      </tr>
+      <tr>
+        <th>\leq</th>
+        <th>≤</th>
+      </tr>
+      <tr>
+        <th>\ast</th>
+        <th>*</th>
+      </tr>
+      <tr>
+        <th>\chi</th>
+        <th>χ</th>
+      </tr>
+      <tr>
+        <th>\infty</th>
+        <th>∞</th>
+      </tr>
+      <tr>
+        <th>\beta</th>
+        <th>β</th>
+      </tr>
+      <tr>
+        <th>\psi</th>
+        <th>ψ</th>
+      </tr>
+      <tr>
+        <th>\clubsuit</th>
+        <th>♣</th>
+      </tr>
+      <tr>
+        <th>\gamma</th>
+        <th>γ</th>
+      </tr>
+      <tr>
+        <th>\omega</th>
+        <th>ω</th>
+      </tr>
+      <tr>
+        <th>\diamondsuit</th>
+        <th>♦</th>
+      </tr>
+      <tr>
+        <th>\delta</th>
+        <th>δ</th>
+      </tr>
+      <tr>
+        <th>\Gamma</th>
+        <th>Γ</th>
+      </tr>
+      <tr>
+        <th>\heartsuit</th>
+        <th>♥</th>
+      </tr>
+      <tr>
+        <th>\epsilon</th>
+        <th>ϵ</th>
+      </tr>
+      <tr>
+        <th>\Delta</th>
+        <th>Δ</th>
+      </tr>
+      <tr>
+        <th>\spadesuit</th>
+        <th>♠</th>
+      </tr>
+      <tr>
+        <th>\zeta</th>
+        <th>ζ</th>
+      </tr>
+      <tr>
+        <th>\Theta</th>
+        <th>Θ</th>
+      </tr>
+      <tr>
+        <th>\leftrightarrow</th>
+        <th>↔</th>
+      </tr>
+      <tr>
+        <th>\eta</th>
+        <th>η</th>
+      </tr>
+      <tr>
+        <th>\Lambda</th>
+        <th>Λ</th>
+      </tr>
+      <tr>
+        <th>\leftarrow</th>
+        <th>←</th>
+      </tr>
+      <tr>
+        <th>\theta</th>
+        <th>θ</th>
+      </tr>
+      <tr>
+        <th>\Xi</th>
+        <th>Ξ</th>
+      </tr>
+      <tr>
+        <th>\Leftarrow</th>
+        <th>⇐</th>
+      </tr>
+      <tr>
+        <th>\vartheta</th>
+        <th>ϑ</th>
+      </tr>
+      <tr>
+        <th>\Pi</th>
+        <th>Π</th>
+      </tr>
+      <tr>
+        <th>\uparrow</th>
+        <th>↑</th>
+      </tr>
+      <tr>
+        <th>\iota</th>
+        <th>ι</th>
+      </tr>
+      <tr>
+        <th>\Sigma</th>
+        <th>Σ</th>
+      </tr>
+      <tr>
+        <th>\rightarrow</th>
+        <th>-&gt;
+        </th>
+      </tr>
+      <tr>
+        <th>\kappa</th>
+        <th>κ</th>
+      </tr>
+      <tr>
+        <th>\Upsilon</th>
+        <th>ϒ</th>
+      </tr>
+      <tr>
+        <th>\Rightarrow</th>
+        <th>⇒</th>
+      </tr>
+      <tr>
+        <th>\lambda</th>
+        <th>λ</th>
+      </tr>
+      <tr>
+        <th>\Phi</th>
+        <th>Φ</th>
+      </tr>
+      <tr>
+        <th>\downarrow</th>
+        <th>↓</th>
+      </tr>
+      <tr>
+        <th>\mu</th>
+        <th>µ</th>
+      </tr>
+      <tr>
+        <th>\Psi</th>
+        <th>Ψ</th>
+      </tr>
+      <tr>
+        <th>\circ</th>
+        <th>º</th>
+      </tr>
+      <tr>
+        <th>\nu</th>
+        <th>ν</th>
+      </tr>
+      <tr>
+        <th>\Omega</th>
+        <th>Ω</th>
+      </tr>
+      <tr>
+        <th>\pm</th>
+        <th>±</th>
+      </tr>
+      <tr>
+        <th>\xi</th>
+        <th>ξ</th>
+      </tr>
+      <tr>
+        <th>\forall</th>
+        <th>∀</th>
+      </tr>
+      <tr>
+        <th>\geq</th>
+        <th>≥</th>
+      </tr>
+      <tr>
+        <th>\pi</th>
+        <th>π</th>
+      </tr>
+      <tr>
+        <th>\exists</th>
+        <th>∃</th>
+      </tr>
+      <tr>
+        <th>\propto</th>
+        <th>∝</th>
+      </tr>
+      <tr>
+        <th>\rho</th>
+        <th>ρ</th>
+      </tr>
+      <tr>
+        <th>\ni</th>
+        <th>∍</th>
+      </tr>
+      <tr>
+        <th>\partial</th>
+        <th>∂</th>
+      </tr>
+      <tr>
+        <th>\sigma</th>
+        <th>σ</th>
+      </tr>
+      <tr>
+        <th>\cong</th>
+        <th>≅</th>
+      </tr>
+      <tr>
+        <th>\bullet</th>
+        <th>•</th>
+      </tr>
+      <tr>
+        <th>\varsigma</th>
+        <th>ς</th>
+      </tr>
+      <tr>
+        <th>\approx</th>
+        <th>≈</th>
+      </tr>
+      <tr>
+        <th>\div</th>
+        <th>÷</th>
+      </tr>
+      <tr>
+        <th>\tau</th>
+        <th>τ</th>
+      </tr>
+      <tr>
+        <th>\Re</th>
+        <th>ℜ</th>
+      </tr>
+      <tr>
+        <th>\neq</th>
+        <th>≠</th>
+      </tr>
+      <tr>
+        <th>\equiv</th>
+        <th>≡</th>
+      </tr>
+      <tr>
+        <th>\oplus</th>
+        <th>⊕</th>
+      </tr>
+      <tr>
+        <th>\aleph</th>
+        <th>ℵ</th>
+      </tr>
+      <tr>
+        <th>\Im</th>
+        <th>ℑ</th>
+      </tr>
+      <tr>
+        <th>\cup</th>
+        <th>∪</th>
+      </tr>
+      <tr>
+        <th>\wp</th>
+        <th>℘</th>
+      </tr>
+      <tr>
+        <th>\otimes</th>
+        <th>⊗</th>
+      </tr>
+      <tr>
+        <th>\subseteq</th>
+        <th>⊆</th>
+      </tr>
+      <tr>
+        <th>\oslash</th>
+        <th>∅</th>
+      </tr>
+      <tr>
+        <th>\cap</th>
+        <th>∩</th>
+      </tr>
+      <tr>
+        <th>\in</th>
+        <th>∈</th>
+      </tr>
+      <tr>
+        <th>\supseteq</th>
+        <th>⊇</th>
+      </tr>
+      <tr>
+        <th>\supset</th>
+        <th>⊃</th>
+      </tr>
+      <tr>
+        <th>\lceil</th>
+        <th>⌈</th>
+      </tr>
+      <tr>
+        <th>\subset</th>
+        <th>⊂</th>
+      </tr>
+      <tr>
+        <th>\int</th>
+        <th>∫</th>
+      </tr>
+      <tr>
+        <th>\cdot</th>
+        <th>·</th>
+      </tr>
+      <tr>
+        <th>\o</th>
+        <th>ο</th>
+      </tr>
+      <tr>
+        <th>\rfloor</th>
+        <th>⌋</th>
+      </tr>
+      <tr>
+        <th>\neg</th>
+        <th>¬</th>
+      </tr>
+      <tr>
+        <th>\nabla</th>
+        <th>∇</th>
+      </tr>
+      <tr>
+        <th>\lfloor</th>
+        <th>⌊</th>
+      </tr>
+      <tr>
+        <th>\times</th>
+        <th>x</th>
+      </tr>
+      <tr>
+        <th>\ldots</th>
+        <th>...</th>
+      </tr>
+      <tr>
+        <th>\perp</th>
+        <th>⊥</th>
+      </tr>
+      <tr>
+        <th>\surd</th>
+        <th>√</th>
+      </tr>
+      <tr>
+        <th>\prime</th>
+        <th>´</th>
+      </tr>
+      <tr>
+        <th>\wedge</th>
+        <th>∧</th>
+      </tr>
+      <tr>
+        <th>\varpi</th>
+        <th>ϖ</th>
+      </tr>
+      <tr>
+        <th>\0</th>
+        <th>∅</th>
+      </tr>
+      <tr>
+        <th>\rceil</th>
+        <th>⌉</th>
+      </tr>
+      <tr>
+        <th>\rangle</th>
+        <th>〉</th>
+      </tr>
+      <tr>
+        <th>\mid</th>
+        <th>|</th>
+      </tr>
+      <tr>
+        <th>\vee</th>
+        <th>∨</th>
+      </tr>
+      <tr>
+        <th>\langle</th>
+        <th>〈</th>
+      </tr>
+      <tr>
+        <th>\copyright</th>
+        <th>©</th>
+      </tr>
+    </table>
+
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure(1)
+t = text(0.5, 0.5, 'text here');
+s = t.FontSize;
+t.FontSize = 12;
+t.Color = 'red';
+]]></example_item_data>
+      <example_item_img
+        src="../../../../images/text_1.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[figure();
+ha = {'left', 'center', 'right'};
+va = {'bottom', 'middle', 'top'};
+color = {'red', 'green', 'blue'};
+x = [0.25 0.5 0.75];
+y = x;
+for t = 0:45:359;
+  for nh = 1:numel (ha)
+    for nv = 1:numel (va)
+      text (x(nh), y(nv), 'Nelson', ...
+      'Rotation', t, ...
+      'HorizontalAlignment', ha{nh}, ...
+      'VerticalAlignment', va{nv}, ...
+      'Color', color{nv});
+    end
+  end
+end
+axis([0 1 0 1]);
+title ('Text alignment and rotation (0:45:360 degrees)');
+xlabel('Horizontal alignment');
+ylabel ('Vertical alignment');]]></example_item_data>
+      <example_item_img
+        src="../../../../images/text_2.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[figure();
+h1 = text(0.5, 0.5, 'Nelson \copyright')
+h1.String
+% Nelson is full unicode, so
+h2 = text(0.5, 0.3, 'OR Nelson ©')
+h2.String]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.text.properties">text properties</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}3_labels_styling/4_labels_annotations/title">title</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>1.7.0</history_version>
+      <history_description
+      >CreateFcn, DeleteFcn callback added.</history_description>
+    </history_item>
+    <history_item>
+      <history_version>--</history_version>
+      <history_description>BeingDeleted property added.</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

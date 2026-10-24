@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>time</module_name>
+  <chapter>Duration and Calendar Duration</chapter>
+  <chapter_description>
+    <p>Functions for fixed-length and calendar-based durations.</p>
+  </chapter_description>
+</xmldoc>

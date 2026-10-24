@@ -1,0 +1,410 @@
+/* ============================================================================
+   Copyright (c) 2016-present Allan CORNET (Nelson)
+   ============================================================================
+   This file is part of Nelson.
+   ============================================================================
+   LICENCE_BLOCK_BEGIN
+   SPDX-License-Identifier: LGPL-3.0-or-later
+   LICENCE_BLOCK_END
+   ============================================================================
+   Collapsible bottom console panel (legacy layout, no docking framework).
+   ============================================================================ */
+
+.bottom-panel {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--nflow-border);
+  background: var(--nflow-sidebar-background);
+  min-height: 0;
+}
+
+.bottom-panel-resize {
+  height: 4px;
+  cursor: ns-resize;
+  flex: 0 0 auto;
+}
+
+.bottom-panel.collapsed .bottom-panel-resize {
+  cursor: default;
+}
+
+.bottom-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: 32px;
+  padding: 0 8px;
+  font-size: 11px;
+  letter-spacing: 0;
+  color: var(--nflow-foreground);
+  opacity: 0.85;
+  cursor: default;
+  user-select: none;
+  flex: 0 0 auto;
+}
+
+.bottom-panel-tab {
+  position: relative;
+  height: 32px;
+  padding: 0 9px;
+  border: 0;
+  background: transparent;
+  color: var(--nflow-foreground-secondary);
+  cursor: pointer;
+  font-size: 11px;
+}
+
+.bottom-panel-tab.active {
+  color: var(--nflow-foreground);
+  font-weight: 600;
+}
+
+.bottom-panel-tab.active::after {
+  content: '';
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: 0;
+  height: 2px;
+  background: var(--accent);
+}
+
+.bottom-panel-count {
+  display: inline-grid;
+  place-items: center;
+  min-width: 16px;
+  height: 16px;
+  margin-left: 3px;
+  padding: 0 4px;
+  border-radius: 8px;
+  background: var(--nflow-list-hover-background);
+  font-size: 9px;
+}
+
+.bottom-panel-count.active {
+  color: #ffffff;
+  background: var(--nflow-error, #e05252);
+}
+
+.bottom-panel-spacer {
+  flex: 1;
+}
+
+.bottom-panel-toggle {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 2px;
+}
+
+.bottom-panel-chevron {
+  transition: transform 0.15s ease;
+}
+
+.bottom-panel-content {
+  overflow: hidden;
+  transition: height 0.15s ease;
+  border-top: 1px solid var(--nflow-border);
+}
+
+.bottom-panel-view {
+  display: none;
+  width: 100%;
+  height: 100%;
+}
+
+.bottom-panel-view.active {
+  display: block;
+}
+
+.bottom-panel.collapsed .bottom-panel-content {
+  border-top: none;
+}
+
+.nf-console-panel {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  font-family: Consolas, 'Courier New', monospace;
+  font-size: 12px;
+  padding: 4px 8px;
+  box-sizing: border-box;
+  background: var(--nflow-editor-background, transparent);
+  color: var(--nflow-foreground, inherit);
+  user-select: text;
+}
+
+.nf-console-empty {
+  opacity: 0.6;
+  padding: 4px;
+}
+
+.nf-console-entry {
+  display: flex;
+  gap: 8px;
+  padding: 1px 0;
+  white-space: pre-wrap;
+}
+
+.nf-console-time {
+  opacity: 0.55;
+  flex: 0 0 auto;
+}
+
+.nf-console-warn {
+  color: var(--nflow-warning, #c8a000);
+}
+
+.nf-console-error {
+  color: var(--nflow-error, #e05252);
+}
+
+.nf-console-success {
+  color: var(--nflow-success, #3fa34d);
+}
+
+.nf-panel-context-menu {
+  min-width: 140px;
+}
+
+.nf-panel-context-menu .context-menu-item {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  text-align: left;
+}
+
+.nf-diagnostics-panel {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.nf-diagnostics-toolbar {
+  min-height: 34px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 3px 8px;
+  border-bottom: 1px solid var(--nflow-border);
+  background: var(--nflow-sidebar-background);
+  box-sizing: border-box;
+}
+
+.nf-diagnostics-filters {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  min-width: 0;
+}
+
+.nf-diagnostics-filter {
+  height: 26px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0 7px;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  background: transparent;
+  color: var(--nflow-foreground-secondary);
+  font: inherit;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.nf-diagnostics-filter:hover {
+  background: var(--nflow-list-hover-background);
+}
+
+.nf-diagnostics-filter.active {
+  border-color: var(--nflow-input-border);
+  background: var(--nflow-list-hover-background);
+  color: var(--nflow-foreground);
+}
+
+.nf-diagnostics-filter:not(.active) .nf-diagnostic-icon {
+  color: var(--nflow-foreground-secondary);
+  opacity: 0.55;
+}
+
+.nf-diagnostics-filter-count {
+  min-width: 12px;
+  color: var(--nflow-foreground-secondary);
+  text-align: right;
+  font-size: 10px;
+}
+
+.nf-diagnostics-copy,
+.nf-diagnostics-clear {
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  background: transparent;
+  color: var(--nflow-foreground-secondary);
+  cursor: pointer;
+}
+
+.nf-diagnostics-copy {
+  margin-left: auto;
+}
+
+.nf-diagnostics-copy:hover:not(:disabled),
+.nf-diagnostics-clear:hover:not(:disabled) {
+  border-color: var(--nflow-input-border);
+  background: var(--nflow-list-hover-background);
+  color: var(--nflow-foreground);
+}
+
+.nf-diagnostics-copy:disabled,
+.nf-diagnostics-clear:disabled {
+  cursor: default;
+  opacity: 0.35;
+}
+
+.nf-diagnostics-copy svg,
+.nf-diagnostics-clear svg,
+.nf-diagnostic-icon svg {
+  width: 15px;
+  height: 15px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.nf-diagnostics-list {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.nf-diagnostics-empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-height: 64px;
+  padding: 12px 20px;
+  color: var(--nflow-foreground-secondary);
+  text-align: center;
+  font-size: 12px;
+}
+
+.nf-diagnostics-empty strong {
+  color: var(--nflow-foreground);
+  font-weight: 600;
+}
+
+.nf-diagnostics-empty-icon {
+  display: grid;
+  place-items: center;
+  color: var(--accent);
+}
+
+.nf-diagnostic-row {
+  width: 100%;
+  min-height: 34px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--nflow-border);
+  background: transparent;
+  color: var(--nflow-foreground);
+}
+
+.nf-diagnostic-main {
+  min-width: 0;
+  min-height: 33px;
+  flex: 1;
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 9px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.nf-diagnostic-main:hover:not(:disabled),
+.nf-diagnostic-help:hover {
+  background: var(--nflow-list-hover-background);
+}
+
+.nf-diagnostic-main:disabled {
+  cursor: default;
+}
+
+.nf-diagnostic-help {
+  width: 32px;
+  min-height: 32px;
+  align-self: stretch;
+  border: 0;
+  border-left: 1px solid var(--nflow-border);
+  background: transparent;
+  color: var(--accent);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.nf-diagnostic-main:focus-visible,
+.nf-diagnostic-help:focus-visible {
+  outline: 1px solid var(--accent);
+  outline-offset: -1px;
+}
+
+.nf-diagnostic-error .nf-diagnostic-icon {
+  color: var(--nflow-error, #e05252);
+}
+
+.nf-diagnostic-warning .nf-diagnostic-icon {
+  color: var(--nflow-warning, #c8a000);
+}
+
+.nf-diagnostic-info .nf-diagnostic-icon {
+  color: var(--accent);
+}
+
+.nf-diagnostic-message {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  /* The row is a button, whose UA default suppresses selection; re-enable it on
+     the message so users can drag-select the text (the click guard skips
+     navigation while a selection exists). */
+  user-select: text;
+  cursor: text;
+}
+
+.nf-diagnostics-source-filter {
+  height: 24px;
+  max-width: 120px;
+  border: 1px solid var(--nflow-input-border);
+  border-radius: 3px;
+  background: var(--nflow-input-background, transparent);
+  color: var(--nflow-foreground);
+  font: inherit;
+  font-size: 11px;
+  padding: 0 4px;
+}
+
+.nf-diagnostic-source {
+  color: var(--nflow-foreground-secondary);
+  font-size: 10px;
+}

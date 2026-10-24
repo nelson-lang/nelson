@@ -14,5 +14,6 @@
 namespace Nelson::CoreGateway {
 ArrayOfVector
 namelengthmaxBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

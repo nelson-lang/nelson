@@ -8,11 +8,13 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <nlohmann/json.hpp>
+#include <algorithm>
 #include <clocale>
 #include <fstream>
 #include <regex>
 #include "Localization.hpp"
 #include "characters_encoding.hpp"
+#include "FileSystemWrapper.hpp"
 #include "NelsonConfiguration.hpp"
 #include "i18n.hpp"
 //=============================================================================
@@ -75,15 +77,24 @@ Localization::initLanguageSupported()
         std::wstring localesPath = config->getNelsonRootDirectory() + L"/locale/";
         std::filesystem::path dir = localesPath;
         if (std::filesystem::is_directory(dir.wstring())) {
-            std::wregex localeRegex(L"nelson-([a-z]{2}_[A-Z]{2})\\.json");
+            // A language is advertised by its user-interface catalog "nelson-ui-<locale>.json".
+            // The error catalog "nelson-errors-<locale>.json" is intentionally NOT a marker (it
+            // may be absent or English-only) and "errors"/"ui" must never be read as a locale.
+            std::wregex uiRegex(L"nelson-ui-([a-z]{2}_[A-Z]{2})\\.json");
             try {
                 for (std::filesystem::directory_iterator p(dir.native()), end; p != end; ++p) {
 
                     if (std::filesystem::is_regular_file(p->path())) {
                         std::wstring filename = p->path().filename().wstring();
                         std::wsmatch match;
-                        if (std::regex_match(filename, match, localeRegex)) {
-                            std::wstring localeCode = match[1];
+                        std::wstring localeCode;
+                        if (std::regex_match(filename, match, uiRegex)) {
+                            localeCode = match[1];
+                        }
+                        if (!localeCode.empty()
+                            && std::find(
+                                   LanguageSupported.begin(), LanguageSupported.end(), localeCode)
+                                == LanguageSupported.end()) {
                             LanguageSupported.push_back(localeCode);
                         }
                     }
@@ -135,6 +146,9 @@ Localization::setLanguage(const std::wstring& lang, bool save)
             jsonFile.close();
         }
         data["language"] = wstring_to_utf8(lang);
+        if (!FileSystemWrapper::Path::is_directory(prefDir)) {
+            FileSystemWrapper::Path::create_directories(prefDir);
+        }
 #ifdef _MSC_VER
         std::ofstream out(prefFile);
 #else

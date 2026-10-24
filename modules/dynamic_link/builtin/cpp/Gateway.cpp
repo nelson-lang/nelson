@@ -45,12 +45,18 @@
 #include "libpointer_setdatatypeBuiltin.hpp"
 #include "libpointer_usedBuiltin.hpp"
 #include "dllibisloadedBuiltin.hpp"
+#include "libraryDependenciesBuiltin.hpp"
+#include "librarySearchPathsBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"dynamic_link";
 //=============================================================================
 static const nlsGateway gateway[] = {
+    { "__library_search_paths__", (ptrBuiltin)Nelson::DynamicLinkGateway::librarySearchPathsBuiltin,
+        1, -1 },
+    { "__library_dependencies__",
+        (ptrBuiltin)Nelson::DynamicLinkGateway::libraryDependenciesBuiltin, 1, 1 },
     { OVERLOAD_FUNCTION_NAME(NLS_HANDLE_DLSYM_CATEGORY_STR, "display"),
         (ptrBuiltin)Nelson::DynamicLinkGateway::dlsym_displayBuiltin, 0, 2,
         CPP_BUILTIN_WITH_EVALUATOR, NLS_OVERLOAD_AUTO_OFF },
@@ -154,11 +160,7 @@ static const nlsGateway gateway[] = {
     { "isNull", (ptrBuiltin)Nelson::DynamicLinkGateway::isNullBuiltin, 1, 1 },
 };
 //=============================================================================
-NLSGATEWAYFUNC(gateway)
+NLS_GATEWAY_FUNC(gateway)
 //=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+NLS_GATEWAY_REMOVE(gateway)
 //=============================================================================

@@ -7,13 +7,13 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_istrue(ismatrix(1))
+asserts.istrue(ismatrix(1))
 %=============================================================================
-assert_istrue(ismatrix(zeros(1, 3)))
+asserts.istrue(ismatrix(zeros(1, 3)))
 %=============================================================================
-assert_istrue(ismatrix(zeros(0, 3)))
+asserts.istrue(ismatrix(zeros(0, 3)))
 %=============================================================================
-assert_isfalse(ismatrix(zeros(1, 3, 2)))
+asserts.isfalse(ismatrix(zeros(1, 3, 2)))
 %=============================================================================
-assert_istrue(ismatrix('Hello, World!'))
+asserts.istrue(ismatrix('Hello, World!'))
 %=============================================================================

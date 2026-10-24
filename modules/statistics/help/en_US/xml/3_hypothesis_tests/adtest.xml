@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>adtest</keyword>
+  <short_description>Anderson-Darling goodness-of-fit test.</short_description>
+  <syntax>
+    <syntax_item>h = adtest(x)</syntax_item>
+    <syntax_item>h = adtest(x, Name, Value)</syntax_item>
+    <syntax_item>[h, p] = adtest(...)</syntax_item>
+    <syntax_item>[h, p, adstat, cv] = adtest(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>adtest</b> performs an Anderson-Darling goodness-of-fit test. <b>NaN</b> observations are omitted.</p>
+    <p>Name-value arguments include <b>Distribution</b>, <b>Alpha</b>, <b>MCTol</b>, and <b>Asymptotic</b>. Supported distribution families are norm, exp, ev, logn, and weibull. <b>MCTol</b> is accepted for syntax compatibility; this implementation uses a deterministic approximation.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[x = [1 2 3 4 5];
+[h, p, adstat, cv] = adtest(x)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}jbtest">jbtest</link></see_also_item>
+    <see_also_item><link linkend="${statistics}lillietest">lillietest</link></see_also_item>
+    <see_also_item><link linkend="${statistics}kstest">kstest</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

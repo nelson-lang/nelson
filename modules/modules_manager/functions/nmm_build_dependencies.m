@@ -10,7 +10,7 @@
 function nmm_build_dependencies(MODULE_PATH)
   module_json = [MODULE_PATH, '/module.json'];
   if ~isfile(module_json)
-    error(_('module.json is missing.'));
+    nmm_error('ModuleJsonMissing', 'module.json is missing.');
   end
   data = jsondecode(module_json, '-file');
   if any(contains(fieldnames(data), 'dependencies'))
@@ -21,7 +21,7 @@ function nmm_build_dependencies(MODULE_PATH)
       if r || isdir(dependencies.(n{1}))
         nmm('install', dependencies.(n{1}))
       else
-        nmm('install', n, dependencies.(n{1}))
+        nmm('install', n{1}, dependencies.(n{1}))
       end
     end
   end

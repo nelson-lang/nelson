@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -28,9 +28,9 @@ setLayoutOptions(GOAxis* ax, int64 axHandle, int tileNum, int spanRows, int span
     GOGenericProperty* tileProp = opts->findProperty(GO_TILE_PROPERTY_NAME_STR, false);
     if (tileProp) {
         if (!edgeTile.empty()) {
-            tileProp->set(ArrayOf::characterArrayConstructor(edgeTile));
+            tileProp->set(ArrayOf::characterArray(edgeTile));
         } else {
-            tileProp->set(ArrayOf::doubleConstructor((double)tileNum));
+            tileProp->set(ArrayOf::doubleScalar((double)tileNum));
         }
     }
     GOTwoVectorProperty* spanProp
@@ -42,5 +42,5 @@ setLayoutOptions(GOAxis* ax, int64 axHandle, int tileNum, int spanRows, int span
     ax->setGoProperty(GO_LAYOUT_PROPERTY_NAME_STR, optsHandle);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

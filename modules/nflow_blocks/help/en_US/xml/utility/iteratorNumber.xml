@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>iteratorNumber</keyword>
+  <keyword_alias>block:iteratorNumber</keyword_alias>
+  <short_description>outputs the current iteration index inside a For/While iterator subsystem</short_description>
+  <syntax>
+    <syntax_item>Block type: iteratorNumber</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>input ports</param_name>
+      <param_description>0 input port(s) declared.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>output ports</param_name>
+      <param_description>1 output port(s) declared.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <img src="../../../../libraries/utility/exports/iteratorNumber.svg" align="middle"/>
+    </p>
+    <p>
+      <b>Description</b>
+    </p>
+    <p>Placed inside a For Iterator or While Iterator subsystem, this source block outputs the current iteration index of the enclosing loop: 1 on the first pass, 2 on the second, and so on. Outside an iterator subsystem it outputs 0.</p>
+    <p>The value lets the body of the loop depend on which pass is running (for example, building a running sum, or forming a loop-termination condition for a While Iterator).</p>
+    <p>
+      <b>Output(s)</b>
+    </p>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Port</th>
+          <th>Role</th>
+          <th>Side</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Port_1</td>
+          <td>Current 1-based iteration index (0 outside an iterator body).</td>
+          <td>right</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Block Characteristics</b>
+    </p>
+    <table border="1">
+      <tbody>
+        <tr>
+          <td>Block type</td>
+          <td>iteratorNumber</td>
+        </tr>
+        <tr>
+          <td>Family</td>
+          <td>Utility blocks</td>
+        </tr>
+        <tr>
+          <td>Phases</td>
+          <td>OUTPUT</td>
+        </tr>
+        <tr>
+          <td>Code generation</td>
+          <td>native only (not generated)</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>See <b>For / While Iterator subsystems</b> for the full loop semantics.</p>
+    <p>
+      <b>Implementation Sources</b>
+    </p>
+    <source_code label="Manifest" path="modules/nflow_blocks/libraries/utility/library.json" language="json"/>
+    <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/routing/iterator.cpp" language="cpp"/>
+  </description>
+  <used_function/>
+  <bibliography/>
+  <see_also>
+    <see_also_item>
+      <link linkend="${nflow_blocks}utility/iteratorCondition">iteratorCondition</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${nflow_blocks}utility/subsystem">subsystem</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

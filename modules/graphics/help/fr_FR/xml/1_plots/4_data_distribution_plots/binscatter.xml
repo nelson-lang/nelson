@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>binscatter</keyword>
+  <short_description>Afficher un nuage de points regroupe par bins.</short_description>
+  <syntax>
+    <syntax_item>binscatter(x, y)</syntax_item>
+    <syntax_item>binscatter(x, y, n)</syntax_item>
+    <syntax_item>binscatter(..., &apos;XLimits&apos;, limites, &apos;YLimits&apos;, limites)</syntax_item>
+    <syntax_item>binscatter(..., Nom, Valeur)</syntax_item>
+    <syntax_item>binscatter(parent, ...)</syntax_item>
+    <syntax_item>h = binscatter(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>binscatter</b> compte les points dans des bins bidimensionnels et affiche les comptes avec un objet graphique natif binscatter.</p>
+    <p><b>Values</b>, <b>XBinEdges</b> et <b>YBinEdges</b> sont des proprietes calculees en lecture seule.</p>
+    <p>Lorsque les axes sont zoomes, le chart recalcule des bins plus petits afin que la region visible conserve approximativement la densite de bins demandee.</p>
+    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.binscatter.properties">proprietes de binscatter</link> pour la liste complete des proprietes.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Afficher une densite de points par bins.</example_item_description>
+      <example_item_data><![CDATA[rng(0);
+x = randn(1000, 1);
+y = x + 0.5 * randn(1000, 1);
+h = binscatter(x, y, [30 30]);
+h.FaceAlpha = 0.9;]]></example_item_data>
+      <example_item_img src="../../../../images/binscatter_1.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Inspecter les valeurs et les bords de bins calcules.</example_item_description>
+      <example_item_data><![CDATA[x = [0.1 0.2 0.8 1.2 1.8 1.9];
+y = [0.1 0.9 0.8 1.2 1.1 1.9];
+h = binscatter(x, y, [2 2], 'XLimits', [0 2], 'YLimits', [0 2]);
+h.Values
+h.XBinEdges
+h.YBinEdges]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.binscatter.properties">proprietes de binscatter</link>
+    </see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/4_data_distribution_plots/scatter">scatter</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/4_data_distribution_plots/histogram2">histogram2</link></see_also_item>
+  </see_also>
+</xmldoc>

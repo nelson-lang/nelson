@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>xmlwrite</keyword>
+  <short_description>Serialize an XML document object</short_description>
+  <syntax>
+    <syntax_item>txt = xmlwrite(doc)</syntax_item>
+    <syntax_item>xmlwrite(filename, doc)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>doc</param_name>
+      <param_description>an XML document object returned by xmlread, or XML text.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>a string: path to the output XML file.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>txt</param_name>
+      <param_description>a string containing serialized XML.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>xmlwrite converts an XML document object to text or writes it to a file.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[xml_filename = [modulepath('xml'), '/tests/test_xml.xml'];
+doc = xmlread(xml_filename);
+out_filename = [tempdir(), 'xmlwrite_example.xml'];
+xmlwrite(out_filename, doc);
+isfile(out_filename)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${xml}xmlread">xmlread</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${xml}writestruct">writestruct</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

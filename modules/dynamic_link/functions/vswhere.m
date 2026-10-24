@@ -10,23 +10,23 @@
 function r = vswhere()
   % https://github.com/Microsoft/vswhere
   if ~ispc()
-    error(_('Not implemented on this platform.'));
+    error('Nelson:vswhere:notImplemented', 'Not implemented on this platform.');
   end
   arch = computer('arch');
-  if (strcmp(arch, 'win64') == true || strcmp(arch, 'woa64') == true) 
-    pathvswhere =  [getenv('ProgramFiles(x86)'), '\Microsoft Visual Studio\Installer\vswhere.exe'];
+  if (strcmp(arch, 'win64') == true || strcmp(arch, 'woa64') == true)
+    pathvswhere = [getenv('ProgramFiles(x86)'), '\Microsoft Visual Studio\Installer\vswhere.exe'];
   else
-    pathvswhere =  [getenv('ProgramFiles'), '\Microsoft Visual Studio\Installer\vswhere.exe'];
+    pathvswhere = [getenv('ProgramFiles'), '\Microsoft Visual Studio\Installer\vswhere.exe'];
   end
   if ~isfile(pathvswhere)
-    error(_('vswhere not found.'));
+    error('Nelson:vswhere:notFound', 'vswhere not found.');
   end
   jsonfile = [tempdir(), 'vswhere.json'];
   cmd = ['"', pathvswhere, '"', ' -format json'];
   [status, message] = unix(cmd);
   status = (status == 0);
   if (status == false)
-    error(_('Cannot read vswhere result.'));
+    error('Nelson:vswhere:cannotReadResult', 'Cannot read vswhere result.');
   end
   r = jsondecode(message);
 end

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -20,7 +20,7 @@ Nelson::DynamicLinkGateway::dllibisloadedBuiltin(int nLhs, const ArrayOfVector& 
     ArrayOfVector retval;
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 2);
-    std::wstring libraryname = argIn[0].getContentAsWideString();
+    std::wstring libraryname = argIn[0].asWideString();
     return findDynamicLinkLibraryObject(libraryname, nLhs);
 }
 //=============================================================================

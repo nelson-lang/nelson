@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @file BS_thread_pool.hpp
  * @author Barak Shoshany (baraksh@gmail.com) (https://baraksh.com/)
  * @version 5.0.0
@@ -611,7 +611,7 @@ private:
 
 #ifdef __cpp_exceptions
 /**
- * @brief An exception that will be thrown by `wait()`, `wait_for()`, and `wait_until()` if the user
+ * @brief An NelsonException that will be thrown by `wait()`, `wait_for()`, and `wait_until()` if the user
  * tries to call them from within a thread of the same pool, which would result in a deadlock. Only
  * used if the flag `BS:tp::wait_deadlock_checks` is enabled in the template parameter of
  * `BS::thread_pool`.
@@ -1470,7 +1470,7 @@ public:
 
 #ifndef __cpp_exceptions
     static_assert(!wait_deadlock_checks_enabled,
-        "Wait deadlock checks cannot be enabled if exception handling is disabled.");
+        "Wait deadlock checks cannot be enabled if NelsonException handling is disabled.");
 #endif
 
     // ============================

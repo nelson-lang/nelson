@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>iqr</keyword>
+  <short_description>Interquartile range.</short_description>
+  <syntax>
+    <syntax_item>r = iqr(A)</syntax_item>
+    <syntax_item>r = iqr(A, dim)</syntax_item>
+    <syntax_item>r = iqr(A, vecdim)</syntax_item>
+    <syntax_item>r = iqr(A, 'all')</syntax_item>
+    <syntax_item>[r, q] = iqr(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>iqr</b> returns the difference between the third and first quartiles. The optional second output contains the first and third quartiles.</p>
+    <p>Dimensions can be a scalar dimension, a vector of dimensions, or <b>all</b>.</p>
+    <p><b>A</b> can be a real numeric array, a <b>datetime</b> array or a <b>duration</b> array. For datetime input data, the interquartile range <b>r</b> is a duration and the quartiles <b>q</b> are datetime values. For duration input data, <b>r</b> and <b>q</b> are durations. <b>NaT</b> values are omitted like <b>NaN</b> values.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[A = [2 5 6 10 11 13];
+[r, q] = iqr(A)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>datetime and duration input data</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[t = datetime(2024, 1, [1 3 5 7 30]);
+[r, q] = iqr(t)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}quantile">quantile</link></see_also_item>
+    <see_also_item><link linkend="${statistics}prctile">prctile</link></see_also_item>
+    <see_also_item><link linkend="${statistics}mad">mad</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>datetime and duration input data supported.</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

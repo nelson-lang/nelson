@@ -7,17 +7,22 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('pause'), 1);
-assert_isequal(nargout('pause'), 1);
+% <--WEIGHT 2-->
+asserts.isequal(nargin('pause'), 1);
+asserts.isequal(nargout('pause'), 1);
 %=============================================================================
 s = pause('query');
-assert_isequal(s, 'on');
+asserts.isequal(s, 'on');
 %=============================================================================
-tic();pause(5);t = toc();
-assert_istrue(t > 4);
+tic(); pause(0.2); t = toc();
+asserts.istrue(t > 0.1);
+asserts.istrue(t < 2);
+%=============================================================================
+tic(); pause(0.01); t = toc();
+asserts.istrue(t < 0.5);
 %=============================================================================
 pause('off')
-tic();pause(30);t = toc();
-assert_istrue(t < 1);
+tic(); pause(30); t = toc();
+asserts.istrue(t < 1);
 %=============================================================================
 pause('on');

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -14,9 +14,10 @@
 namespace Nelson {
 //=============================================================================
 matvar_t*
-SaveMatioCell(const std::string& variableName, const ArrayOf& variableValue, mat_ft matVersion)
+SaveMatioCell(Evaluator* eval, const std::string& variableName, const ArrayOf& variableValue,
+    mat_ft matVersion)
 {
-    Dimensions variableDims = variableValue.getDimensions();
+    Dimensions variableDims = variableValue.dimensions();
     indexType rank;
     size_t* dims = convertDimensionsForMatVar(variableDims, rank);
     if (dims == nullptr) {
@@ -24,19 +25,19 @@ SaveMatioCell(const std::string& variableName, const ArrayOf& variableValue, mat
     }
     void* ptrValue = nullptr;
     if (!variableDims.isEmpty(false)) {
-        ptrValue = const_cast<void*>(variableValue.getDataPointer());
+        ptrValue = const_cast<void*>(variableValue.dataPointer());
     }
 
-    indexType nbElements = variableDims.getElementCount();
+    indexType nbElements = variableDims.elementCount();
     matvar_t** cellElements = nullptr;
     try {
         cellElements = (matvar_t**)new matvar_t*[nbElements];
     } catch (const std::bad_alloc&) {
         return nullptr;
     }
-    auto* elements = (ArrayOf*)variableValue.getDataPointer();
+    auto* elements = (ArrayOf*)variableValue.dataPointer();
     for (indexType i = 0; i < nbElements; ++i) {
-        cellElements[i] = SaveMatioVariable(variableName, elements[i], matVersion);
+        cellElements[i] = SaveMatioVariable(eval, variableName, elements[i], matVersion);
         if (cellElements[i] == nullptr) {
             delete[] cellElements;
             delete[] dims;

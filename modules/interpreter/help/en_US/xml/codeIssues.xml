@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>codeIssues</keyword>
+  <short_description>Collect Nelson code analyzer issues as tables.</short_description>
+  <syntax>
+    <syntax_item>ci = codeIssues()</syntax_item>
+    <syntax_item>ci = codeIssues(names)</syntax_item>
+    <syntax_item>ci = codeIssues(names, Name, Value)</syntax_item>
+    <syntax_item>export(ci, filename)</syntax_item>
+    <syntax_item>ci = fix(ci)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>names</param_name>
+      <param_description>a string, string array, or cell array of character vectors: files or folders to analyze.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>CodeAnalyzerConfiguration</param_name>
+      <param_description>a string: JSON configuration file.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>IncludeSubfolders</param_name>
+      <param_description>a logical scalar: true to recursively analyze folders.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>ci</param_name>
+      <param_description>a codeIssues object. Its Issues and SuppressedIssues properties are Nelson tables.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>codeIssues</b> runs the Nelson code analyzer and stores active and suppressed diagnostics in table properties.</p>
+    <p>The JSON configuration file uses the same version 2 format as <b>checkcode</b>: <b>extends</b>, <b>files.include</b>, <b>files.exclude</b>, <b>rules</b>, and <b>ci.failOn</b>.</p>
+    <p>The <b>export</b> method writes JSON, CSV, or text according to the output file extension.</p>
+    <p>The <b>fix</b> method applies only trivial automatic fixes in this version: trailing whitespace and missing final newline.</p>
+  </description>
+  <used_function>codeAnalyzerRules</used_function>
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Analyze a folder recursively with a JSON configuration.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[ci = codeIssues([nelsonroot(), '/modules/interpreter/functions'], ...
+  'CodeAnalyzerConfiguration', [nelsonroot(), '/nelson-lint.json'], ...
+  'IncludeSubfolders', true);
+ci.Issues]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Configuration file shape.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[{
+  "version": 2,
+  "files": {
+    "include": ["**/*.m", "**/*.xml"],
+    "exclude": [".git", "build", "target", "bin", "x64", "generated"]
+  },
+  "rules": {
+    "NLS0001": { "level": "error" },
+    "NLS0013": { "level": "error" },
+    "NLS0012": { "level": "warning", "options": { "maxLineLength": 120 } }
+  },
+  "ci": { "failOn": "warning" }
+}]]></example_item_data>
+    </example_item>
+  </examples>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

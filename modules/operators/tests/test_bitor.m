@@ -11,9 +11,9 @@ A = uint8([0 1; 0 1]);
 B = uint8([0 0; 1 1]);
 R = bitor(A, B);
 REF = uint8([0 1; 1 1]);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-assert_isequal(bitor(false, true), true)
+asserts.isequal(bitor(false, true), true)
 %=============================================================================
-assert_isequal(bitor([], true), [])
+asserts.isequal(bitor([], true), [])
 %=============================================================================

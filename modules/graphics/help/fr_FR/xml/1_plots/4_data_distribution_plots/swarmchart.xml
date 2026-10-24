@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>swarmchart</keyword>
+  <short_description>Afficher un swarm chart 2-D.</short_description>
+  <syntax>
+    <syntax_item>swarmchart(x, y)</syntax_item>
+    <syntax_item>swarmchart(x, y, sz, c)</syntax_item>
+    <syntax_item>swarmchart(..., propertyName, propertyValue)</syntax_item>
+    <syntax_item>h = swarmchart(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>swarmchart</b> affiche les points avec un objet scatter. L'objet retourne conserve les donnees <b>XData</b> et <b>YData</b> originales et utilise les proprietes de jitter de scatter pour les positions x affichees.</p>
+    <p>Les proprietes prises en charge sont <b>XJitter</b>, <b>XJitterWidth</b> et <b>ColorVariable</b>. Les autres arguments sont transmis a <b>scatter</b>.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Afficher des observations groupees.</example_item_description>
+      <example_item_data><![CDATA[swarmchart([1 1 1 2 2 2], [4 5 3 7 6 8], 'filled');]]></example_item_data>
+      <example_item_img src="../../../../images/swarmchart_1.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/4_data_distribution_plots/scatter">scatter</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/4_data_distribution_plots/swarmchart3">swarmchart3</link></see_also_item>
+  </see_also>
+</xmldoc>

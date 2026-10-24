@@ -11,6 +11,7 @@
 #include <chrono>
 #include "timeitBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "AnonymousMacroFunctionDef.hpp"
@@ -33,36 +34,41 @@ Nelson::TimeGateway::timeitBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     nargoutcheck(nLhs, 0, 1);
 
     if (argIn.size() < 1) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(L"Nelson:notEnoughInputs", L"Not enough input arguments.");
     }
     int nLhsTimeIt = -1;
     if (argIn.size() > 1) {
-        nLhsTimeIt = argIn[1].getContentAsInteger32Scalar();
+        nLhsTimeIt = argIn[1].asInt32Scalar();
     }
     if (!argIn[0].isFunctionHandle()) {
         Error(L"Nelson:timeit:InvalidFunctionHandle",
-            _W("First argument must be a function handle that takes no input argument."));
+            L"First argument must be a function handle that takes no input argument.");
     }
 
     if (eval == nullptr) {
-        Error(_W("evaluator is not defined."));
+        Error(L"Nelson:time:evaluatorDefined", L"evaluator is not defined.");
     }
     AnonymousMacroFunctionDef* funcDef = nullptr;
-    function_handle fh = argIn[0].getContentAsFunctionHandle();
+    function_handle fh = argIn[0].asFunctionHandle();
     if (fh.anonymousHandle == nullptr) {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_FUNCTION_HANDLE_EXPECTED);
+        Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1),
+            L"function handle");
     }
     if (fh.anonymousHandle != nullptr) {
         funcDef = reinterpret_cast<AnonymousMacroFunctionDef*>(fh.anonymousHandle);
     }
     if (funcDef == nullptr) {
-        Error(_W("Function not found."));
+        Error(L"Nelson:time:functionFound", L"Function not found.");
     }
 
     if (argIn.size() > 2) {
         if (funcDef->inputArgCount() != -1) {
-            if (funcDef->inputArgCount() != argIn.size() - 2) {
-                Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+            size_t suppliedInputs = argIn.size() - 2;
+            if (suppliedInputs < (size_t)funcDef->inputArgCount()) {
+                Error(L"Nelson:notEnoughInputs", L"Not enough input arguments.");
+            }
+            if (suppliedInputs > (size_t)funcDef->inputArgCount()) {
+                Error(L"Nelson:tooManyInputs", L"Too many input arguments.");
             }
         }
     }
@@ -83,9 +89,9 @@ Nelson::TimeGateway::timeitBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     double estimatedRunningTime = numberOuterIterations * numberInnerIterations * rawTime;
     double longTime = 15;
     if (estimatedRunningTime > longTime) {
-        double minimunOuterIterations = 3;
+        double minimumOuterIterations = 3;
         numberOuterIterations = ceil(longTime / (numberInnerIterations * rawTime));
-        numberOuterIterations = std::max(numberOuterIterations, minimunOuterIterations);
+        numberOuterIterations = std::max(numberOuterIterations, minimumOuterIterations);
     }
 
     std::vector<double> runtime;
@@ -98,7 +104,7 @@ Nelson::TimeGateway::timeitBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     double median = runtime[runtime.size() / 2];
     double t = median / numberInnerIterations;
     t = std::max(t, 0.);
-    retval << ArrayOf::doubleConstructor(t);
+    retval << ArrayOf::doubleScalar(t);
     return retval;
 }
 //=============================================================================

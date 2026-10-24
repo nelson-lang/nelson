@@ -26,5 +26,5 @@ LUMatrixFactorizationSingleReal(const ArrayOf& A, int nLhs);
 NLSLINEAR_ALGEBRA_IMPEXP ArrayOfVector
 LUMatrixFactorizationSingleComplex(const ArrayOf& A, int nLhs);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

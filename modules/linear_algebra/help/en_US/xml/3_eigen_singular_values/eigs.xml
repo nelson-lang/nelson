@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>eigs</keyword>
+  <short_description>Selected eigenvalues and eigenvectors of a sparse matrix.</short_description>
+  <syntax>
+    <syntax_item>d = eigs(A)</syntax_item>
+    <syntax_item>d = eigs(A, k)</syntax_item>
+    <syntax_item>d = eigs(A, k, which)</syntax_item>
+    <syntax_item>d = eigs(A, k, sigma)</syntax_item>
+    <syntax_item>[V, D] = eigs(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>a sparse double, single, complex double, or complex single square matrix.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>k</param_name>
+      <param_description>a positive integer smaller than the matrix dimension. Default is 6.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>which</param_name>
+      <param_description
+      >a string selecting eigenvalues: &apos;lm&apos;, &apos;sm&apos;, &apos;lr&apos;, &apos;sr&apos;, &apos;li&apos;, &apos;si&apos;, &apos;la&apos;, or &apos;sa&apos;.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>sigma</param_name>
+      <param_description
+      >a finite scalar. Eigenvalues nearest to sigma are computed by shift-invert mode. Complex sigma values are supported for complex sparse matrices.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>d</param_name>
+      <param_description>selected eigenvalues returned as a dense column vector.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>V</param_name>
+      <param_description>dense matrix whose columns are the selected eigenvectors.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>D</param_name>
+      <param_description>dense diagonal matrix containing the selected eigenvalues.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>eigs</b> computes a subset of eigenvalues and, optionally, the corresponding eigenvectors of a sparse floating-point square matrix.</p>
+    <p>For a matrix <b>A</b>, the returned eigenpairs satisfy:</p>
+    <latex>A\mathbf{v} = \lambda\mathbf{v}</latex>
+    <p>
+      <b>eigs(A, k, which)</b> selects eigenvalues by magnitude, real part, or imaginary part. The values &apos;la&apos; and &apos;sa&apos; are accepted as aliases for largest and smallest algebraic values on symmetric real matrices.</p>
+    <p>
+      <b>eigs(A, k, sigma)</b> selects eigenvalues nearest to the scalar <b>sigma</b>.</p>
+    <p>
+      When the optional ARPACK backend is not available, <b>eigs</b> uses a dense fallback for small sparse matrices. Larger sparse matrices still require ARPACK to avoid excessive memory use.</p>
+    <p>
+      Sparse single and sparse single-complex inputs are accepted. The selected eigenproblem is computed through the double-precision sparse backend, and dense outputs are converted back to single or single-complex when applicable.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[A = sparse([4 1 0; 1 3 0; 0 0 2]);
+d = eigs(A, 2)
+[V, D] = eigs(A, 2)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[A = sparse(diag([1 2 4 8 16]));
+d = eigs(A, 2, 3.5)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[A = sparse(diag([1 + 1i, 2 - 1i, 4 + 2i]));
+d = eigs(A, 2, 2 + 0.5i)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[A = sparse(single(diag([1 + 1i, 2 - 1i, 4 + 2i])));
+d = eigs(A, 2)
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${linear_algebra}eig">eig</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${linear_algebra}svds">svds</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>dense fallback added for small sparse matrices when ARPACK is unavailable.</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>sparse single and sparse single-complex inputs supported through the sparse double-precision backend.</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

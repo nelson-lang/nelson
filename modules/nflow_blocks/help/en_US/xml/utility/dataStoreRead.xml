@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>dataStoreRead</keyword>
+  <keyword_alias>block:dataStoreRead</keyword_alias>
+  <short_description>Outputs the value of the named data store.</short_description>
+  <syntax>
+    <syntax_item>Block type: dataStoreRead</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>input ports</param_name>
+      <param_description>No input ports (this block has none).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>output ports</param_name>
+      <param_description>1 output port(s) declared.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Outputs the value of the named data store.</p>
+    <table border="1">
+      <tbody>
+        <tr><td>Module</td><td><code>nflow_blocks</code></td></tr>
+        <tr><td>Library</td><td>Utility</td></tr>
+        <tr><td>Type</td><td><code>dataStoreRead</code></td></tr>
+        <tr><td>Label</td><td>Data Store Read</td></tr>
+      </tbody>
+    </table>
+    <p><img src="../../../../libraries/utility/exports/dataStoreRead.svg" align="middle"/></p>
+    <p><b>Description</b></p>
+    <p>Outputs the current value of the named memory <code>DataStoreName</code> (0 if the store was never declared or written). The read happens in the OUTPUT phase, so it returns the value written on the previous step. No input, one output. Native only; scalar.</p>
+    <p><b>Ports</b></p>
+    <p>This block has no input ports.</p>
+    <p><b>Output(s)</b></p>
+    <table border="1">
+      <thead><tr><th>Port</th><th>Role</th><th>Side</th><th>Position</th></tr></thead>
+      <tbody>
+        <tr><td>Port_1</td><td>Numeric signal produced by the block.</td><td>right</td><td>x=70, y=30</td></tr>
+      </tbody>
+    </table>
+    <p><b>Parameters</b></p>
+    <table border="1">
+      <thead><tr><th>Parameter</th><th>Default value</th></tr></thead>
+      <tbody>
+        <tr><td><code>DataStoreName</code></td><td>A</td></tr>
+      </tbody>
+    </table>
+    <p><b>Block Characteristics</b></p>
+    <table border="1">
+      <tbody>
+        <tr><td>Block type</td><td>dataStoreRead</td></tr>
+        <tr><td>Family</td><td>Utility</td></tr>
+        <tr><td>Rendered size</td><td>70 x 60</td></tr>
+        <tr><td>Phases</td><td>OUTPUT</td></tr>
+        <tr><td>Internal state or history</td><td>no</td></tr>
+        <tr><td>Signal data type</td><td>double numeric values</td></tr>
+      </tbody>
+    </table>
+    <p><b>Algorithms</b></p>
+    <ul>
+      <li>OUTPUT: out = store[DataStoreName] (0 if absent).</li>
+    </ul>
+    <p><b>Extended Capabilities</b></p>
+    <p>Native runtime only (this block is not code-generated).</p>
+    <p>Code generation: supported for C and Rust.</p>
+    <p><b>Implementation Sources</b></p>
+    <source_code label="Manifest" path="modules/nflow_blocks/libraries/utility/library.json" language="json"/>
+    <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/routing/dataStore.cpp" language="cpp"/>
+  </description>
+  <used_function/>
+  <bibliography/>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>See the dataStoreMemory example, which reads 'M' back to a scope.</example_item_description>
+      <example_item_data><![CDATA[% See the dataStoreMemory example for a complete Memory/Write/Read wiring.]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${nflow_blocks}utility/dataStoreMemory">dataStoreMemory</link></see_also_item>
+    <see_also_item><link linkend="${nflow_blocks}utility/dataStoreWrite">dataStoreWrite</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

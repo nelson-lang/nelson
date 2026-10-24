@@ -17,5 +17,5 @@ namespace Nelson {
 NLSLINEAR_ALGEBRA_IMPEXP ArrayOf
 ExpMatrix(const ArrayOf& A);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

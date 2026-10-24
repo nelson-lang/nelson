@@ -7,18 +7,17 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
+skip_testsuite(~findcmake(), 'C toolchain (cmake) not available')
 if ispc() && ~havecompiler()
   configuremsvc();
 end
 %=============================================================================
 if exist('mxDuplicateArray') == 0
-  test_dir = [tempdir(), 'mxDuplicateArray_sparse'];
-  if isdir(test_dir)
-    rmdir(test_dir,'s');
-  end
+  test_dir = tempname();
   mkdir(test_dir);
   status = copyfile('mxDuplicateArray.c', test_dir);
-  assert_istrue(status);
+  asserts.istrue(status);
   cd(test_dir);
   mex('mxDuplicateArray.c');
   addpath(pwd())
@@ -29,16 +28,16 @@ j = [900 1000 30];
 v = [10 100 20];
 S = sparse(i, j, v, 1300, 1500, 30);
 R = mxDuplicateArray(S);
-assert_isequal(R, S);
-assert_isequal(nzmax(R), nzmax(S));
+asserts.isequal(R, S);
+asserts.isequal(nzmax(R), nzmax(S));
 %=============================================================================
 i = [800 1100 20];
 j = [900 1000 30];
 v = [true true true];
 S = sparse(i, j, v, 1300, 1500, 30);
 R = mxDuplicateArray(S);
-assert_isequal(R, S);
-assert_isequal(nzmax(R), nzmax(S));
+asserts.isequal(R, S);
+asserts.isequal(nzmax(R), nzmax(S));
 %=============================================================================
 % separated complex representation
 i = [800 1100 20];
@@ -46,6 +45,6 @@ j = [900 1000 30];
 v = complex([10 100 20], 1);
 S = sparse(i, j, v, 1300, 1500, 30);
 R = mxDuplicateArray(S);
-assert_isequal(R, S);
-assert_isequal(nzmax(R), nzmax(S));
+asserts.isequal(R, S);
+asserts.isequal(nzmax(R), nzmax(S));
 %=============================================================================

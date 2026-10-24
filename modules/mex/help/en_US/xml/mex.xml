@@ -51,13 +51,13 @@
     <p
     >Nelson includes an interface to allow legacy mex-files to be compiled and linked with Nelson.</p>
     <p
-    >A mex file is a type of computer file that provides an interface between Octave or the reference commercial software and functions written in C, C++.</p>
+    >A mex file is a type of computer file that provides an interface between Octave or the host numerical environment and functions written in C, C++.</p>
     <p
-    >Nelson have also his own C++ API to manage more easily internal nelson&apos;s objects.</p>
+    >Nelson also provides its own C++ API to manage internal Nelson objects.</p>
     <p />
     <p>PREDEFINED C MACRO:</p>
     <p>
-      <b>MX_IS_NELSON</b> macro is defined to easily detect if Nelson is used in C code.</p>
+      The <b>MX_IS_NELSON</b> macro detects whether Nelson is used in C code.</p>
     <p>
       <b>MX_HAS_INTERLEAVED_COMPLEX</b> macro is defined if C MEX API used is &apos;-R2018a&apos;.</p>
     <p />

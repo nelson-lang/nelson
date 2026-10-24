@@ -1,0 +1,42 @@
+
+#ifndef XLNT_CMAKE_EXPORT_H
+#define XLNT_CMAKE_EXPORT_H
+
+#ifdef XLNT_CMAKE_STATIC_DEFINE
+#  define XLNT_API
+#  define XLNT_CMAKE_NO_EXPORT
+#else
+#  ifndef XLNT_API
+#    ifdef xlnt_EXPORTS
+        /* We are building this library */
+#      define XLNT_API __declspec(dllexport)
+#    else
+        /* We are using this library */
+#      define XLNT_API __declspec(dllimport)
+#    endif
+#  endif
+
+#  ifndef XLNT_CMAKE_NO_EXPORT
+#    define XLNT_CMAKE_NO_EXPORT
+#  endif
+#endif
+
+#ifndef XLNT_DEPRECATED
+#  define XLNT_DEPRECATED __declspec(deprecated)
+#endif
+
+#ifndef XLNT_DEPRECATED_EXPORT
+#  define XLNT_DEPRECATED_EXPORT XLNT_API XLNT_DEPRECATED
+#endif
+
+#ifndef XLNT_DEPRECATED_NO_EXPORT
+#  define XLNT_DEPRECATED_NO_EXPORT XLNT_CMAKE_NO_EXPORT XLNT_DEPRECATED
+#endif
+
+#if 0 /* DEFINE_NO_DEPRECATED */
+#  ifndef XLNT_NO_DEPRECATED
+#    define XLNT_NO_DEPRECATED
+#  endif
+#endif
+
+#endif /* XLNT_CMAKE_EXPORT_H */

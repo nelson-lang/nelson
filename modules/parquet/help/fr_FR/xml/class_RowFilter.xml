@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nelson.io.RowFilter</keyword>
+  <short_description>Objet qui stocke une expression de filtre de lignes.</short_description>
+  <syntax>
+    <syntax_item>rf = rowfilter(names)</syntax_item>
+    <syntax_item>expr = rf.VariableName operator value</syntax_item>
+    <syntax_item>T = expr.apply(T)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>names</param_name>
+      <param_description>noms de variables specifies comme tableau de chaines ou cellule de vecteurs de caracteres.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>T</param_name>
+      <param_description>une table ou timetable.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>rf</param_name>
+      <param_description>un objet <b>nelson.io.RowFilter</b>.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>expr</param_name>
+      <param_description>un objet <b>nelson.io.RowFilter</b> contenant une expression de filtre.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>nelson.io.RowFilter</b> stocke les noms de variables et l&apos;expression utilisee pour selectionner des lignes.</p>
+    <p>Les noms de variables sont accessibles par notation par point. Les operateurs relationnels et logiques creent une expression de filtre. L&apos;expression est evaluee quand <b>apply</b> est appele ou quand l&apos;objet est utilise comme argument <b>RowFilter</b> pour les fonctions de lecture Parquet.</p>
+    <p>La methode <b>variables</b> retourne les noms references par l&apos;expression.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[T = table([1; 2; 3; 4], [10; 20; 30; 40], ...
+  'VariableNames', {'Id', 'Value'});
+rf = rowfilter({'Id', 'Value'});
+expr = rf.Id > 1 & rf.Value <= 30;
+expr.variables()
+R = expr.apply(T)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${parquet}rowfilter">rowfilter</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${parquet}parquetread">parquetread</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

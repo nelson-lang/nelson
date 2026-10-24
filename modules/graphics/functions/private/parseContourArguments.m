@@ -10,7 +10,7 @@
 function [ax, contourProperties] = parseContourArguments(inputArguments, filled)
   inputArguments = convertStringToCharArgs(inputArguments);
   if isempty(inputArguments)
-    error(_('Wrong number of input arguments.'));
+    error('Nelson:notEnoughInputs', 'Not enough input arguments.');
   end
 
   ax = [];
@@ -19,7 +19,7 @@ function [ax, contourProperties] = parseContourArguments(inputArguments, filled)
     inputArguments = inputArguments(2:end);
   end
   if isempty(inputArguments)
-    error(_('Wrong number of input arguments.'));
+    error('Nelson:notEnoughInputs', 'Not enough input arguments.');
   end
 
   [dataArguments, propertyArguments] = splitContourPropertyPairs(inputArguments);
@@ -27,7 +27,7 @@ function [ax, contourProperties] = parseContourArguments(inputArguments, filled)
   propertiesList = struct();
   if filled
     propertiesList.FaceColor = 'flat';
-    propertiesList.EdgeColor = [0 0 0];
+    propertiesList.EdgeColor = graphicsDefaultEdgeColor();
   else
     propertiesList.FaceColor = 'none';
   end
@@ -39,7 +39,7 @@ function [ax, contourProperties] = parseContourArguments(inputArguments, filled)
       propertiesList.LineStyle = ps;
       if isempty(cs)
         if filled
-          propertiesList.EdgeColor = [0 0 0];
+          propertiesList.EdgeColor = graphicsDefaultEdgeColor();
         else
           propertiesList.EdgeColor = 'flat';
         end
@@ -51,6 +51,11 @@ function [ax, contourProperties] = parseContourArguments(inputArguments, filled)
 
   [X, Y, Z, levels] = parseContourDataArguments(dataArguments);
   validateContourData(X, Y, Z);
+  % Logical Z (e.g. a mask from a comparison) is contoured as 0/1.
+  if islogical(Z)
+    Z = double(Z);
+  end
+  warnContourNotRendered(Z);
 
   if ~isempty(X)
     propertiesList.XData = X;
@@ -67,7 +72,13 @@ function [ax, contourProperties] = parseContourArguments(inputArguments, filled)
         propertiesList.FillBelowLevel = 'on';
       end
     end
-    propertiesList.LevelList = normalizeContourLevels(Z, levels);
+    levels = normalizeContourLevels(Z, levels);
+    % A count of levels asked over data with no finite value normalizes to
+    % nothing. Writing that empty list would flip LevelListMode to manual;
+    % leaving the property alone keeps the automatic mode.
+    if ~isempty(levels)
+      propertiesList.LevelList = levels;
+    end
   end
 
   contourProperties = reshape([fieldnames(propertiesList)'; struct2cell(propertiesList)'], 1, []);
@@ -96,8 +107,10 @@ function [X, Y, Z, levels] = parseContourDataArguments(dataArguments)
     Y = dataArguments{2};
     Z = dataArguments{3};
     levels = dataArguments{4};
+  elseif nbArguments < 1
+    error('Nelson:notEnoughInputs', 'Not enough input arguments.');
   else
-    error(_('Wrong number of input arguments.'));
+    error('Nelson:tooManyInputs', 'Too many input arguments.');
   end
 end
 %=============================================================================
@@ -113,10 +126,10 @@ function [dataArguments, propertyArguments] = splitContourPropertyPairs(inputArg
     dataArguments = inputArguments;
     propertyArguments = {};
   else
-    dataArguments = inputArguments(1:propertyStart-1);
+    dataArguments = inputArguments(1:propertyStart - 1);
     propertyArguments = inputArguments(propertyStart:end);
     if mod(length(propertyArguments), 2) ~= 0
-      error(_('Name-value arguments must appear in pairs.'));
+      error('Nelson:graphics:nameValuePair', 'Name-value arguments must be paired.');
     end
   end
 end
@@ -129,7 +142,7 @@ function propertyPairs = canonicalizeContourPropertyPairs(propertyPairs)
   for k = 1:2:length(propertyPairs)
     canonicalName = canonicalContourPropertyName(propertyPairs{k});
     if isempty(canonicalName)
-      error(_('Invalid contour property name.'));
+      error('Nelson:graphics:invalidPropertyName', 'Invalid property name.');
     end
     propertyPairs{k} = canonicalName;
   end
@@ -139,9 +152,9 @@ function canonicalName = canonicalContourPropertyName(name)
   canonicalName = '';
   names = {'BeingDeleted', 'BusyAction', 'Children', 'ContourMatrix', 'CreateFcn', ...
     'DeleteFcn', 'DisplayName', 'EdgeAlpha', 'EdgeColor', 'FaceAlpha', ...
-    'FaceColor', 'Floating', 'Interruptible', 'LabelColor', 'LabelFormat', ...
+    'FaceColor', 'Fill', 'Floating', 'Interruptible', 'LabelColor', 'LabelFormat', ...
     'LabelSpacing', 'LevelList', 'LevelListMode', 'LevelStep', 'LevelStepMode', ...
-    'LineStyle', 'LineWidth', 'Parent', 'ShowText', 'Tag', 'TextList', ...
+    'LineColor', 'LineStyle', 'LineWidth', 'Parent', 'ShowText', 'Tag', 'TextList', ...
     'TextListMode', 'TextStep', 'TextStepMode', 'Type', 'UserData', 'Visible', ...
     'XData', 'XDataMode', 'YData', 'YDataMode', 'ZData', 'ZLocation'};
   for k = 1:length(names)

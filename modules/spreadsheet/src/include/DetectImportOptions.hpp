@@ -31,6 +31,12 @@ public:
     int RowNamesColumn;
     std::vector<std::string> VariableNames;
     std::vector<double> DataLines;
+    // Per-variable settings carried by an explicit import-options object. When
+    // VariableTypes is non-empty each entry declares the target type of the
+    // matching column; a type other than "char"/"auto" bypasses auto-detection.
+    std::vector<std::string> VariableTypes;
+    std::vector<std::string> VariableInputFormats;
+    std::vector<std::string> VariableWhitespaceRules;
 };
 #ifdef _MSC_VER
 #pragma warning(pop)
@@ -43,5 +49,5 @@ NLSSPREADSHEET_IMPEXP void
 analyzeFileFormatImportOptions(std::wstring filename, size_t sampleSize,
     detectImportOptions& options, std::string& errorMessage);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

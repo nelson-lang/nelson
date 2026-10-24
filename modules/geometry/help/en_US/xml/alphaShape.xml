@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>alphaShape</keyword>
+  <short_description>Alpha shape object</short_description>
+  <syntax>
+    <syntax_item>SHP = alphaShape(P)</syntax_item>
+    <syntax_item>SHP = alphaShape(x, y)</syntax_item>
+    <syntax_item>SHP = alphaShape(x, y, z)</syntax_item>
+    <syntax_item>SHP = alphaShape(..., alpha)</syntax_item>
+    <syntax_item>SHP = alphaShape(..., 'HoleThreshold', value, 'RegionThreshold', value)</syntax_item>
+    <syntax_item>K = boundaryFacets(SHP)</syntax_item>
+    <syntax_item>A = area(SHP)</syntax_item>
+    <syntax_item>plot(SHP)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>alphaShape</b> stores points and alpha parameters for boundary and shape queries.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Create and plot an alpha shape.</example_item_description>
+      <example_item_data runnable="gui"><![CDATA[P = [0 0; 1 0; 1 1; 0 1; 0.4 0.6];
+SHP = alphaShape(P);
+A = area(SHP);
+plot(SHP)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${geometry}boundary">boundary</link></see_also_item>
+    <see_also_item><link linkend="${geometry}convhull">convhull</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item><history_version>2.0.0</history_version><history_description>Initial version.</history_description></history_item>
+  </history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

@@ -7,21 +7,21 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function varargout = rref (varargin)
+function varargout = rref(varargin)
   narginchk(1, 2);
   nargoutchk(0, 2);
   A = varargin{1};
-  if (ndims (A) > 2)
-    error (_('Inputs must be 2-D.'));
+  if (ndims(A) > 2)
+    error('Nelson:rref:inputMustBe2D', 'Inputs must be 2-D.');
   end
-  [rows, cols] = size (A);
-  
+  [rows, cols] = size(A);
+
   if (nargin == 2)
     tol = varargin{2};
   else
     tol = max(rows, cols) * eps(class(A)) * norm(A, inf);
   end
-  
+
   if isempty(A)
     varargout{1} = A;
     if nargout > 1
@@ -29,10 +29,10 @@ function varargout = rref (varargin)
     end
     return
   end
-  used = zeros (1, cols);
+  used = zeros(1, cols);
   r = 1;
   for c = 1:cols
-    [m, p] = max(abs(A(r:rows,c)));
+    [m, p] = max(abs(A(r:rows, c)));
     if (m > tol)
       used(1, c) = 1;
       ccols = c:cols;
@@ -49,7 +49,11 @@ function varargout = rref (varargin)
   end
   varargout{1} = A;
   if nargout > 1
-    varargout{2} = find(used);
+    pivots = find(used);
+    if isempty(pivots)
+      pivots = zeros(1, 0);
+    end
+    varargout{2} = pivots;
   end
 end
 %=============================================================================

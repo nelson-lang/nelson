@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>xmldoctotypst</keyword>
+  <short_description
+  >Converts xml Nelson help files to Typst sources.</short_description>
+  <syntax>
+    <syntax_item
+    >status = xmldoctotypst(source_dirs, destination_dir, main_title, overwrite)</syntax_item>
+    <syntax_item
+    >[status, msg] = xmldoctotypst(source_dirs, destination_dir, main_title, overwrite)</syntax_item>
+    <syntax_item
+    >[status, msg] = xmldoctotypst(source_dirs, destination_dir, main_title, overwrite, index_dirs)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>source_dirs</param_name>
+      <param_description
+      >a cell of string: list of xml directories.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>destination_dir</param_name>
+      <param_description>a string: directory destination.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>main_title</param_name>
+      <param_description>a string: title of main document.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>overwrite</param_name>
+      <param_description
+      >a logical: force overwrite if file destination already exists</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>index_dirs</param_name>
+      <param_description
+      >a cell of string: XML help roots of other modules, used to resolve cross-module links (optional).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>status</param_name>
+      <param_description>a logical: files generated or not.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>msg</param_name>
+      <param_description>a string: error message when generation fails.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>xmldoctotypst</b> converts xml Nelson help files to Typst sources.</p>
+    <p>Each help page becomes a <code>.typ</code> file whose title carries the label <code>&lt;module:page&gt;</code>. The destination directory also receives <code>main.typ</code> (chapters, list of functions, and every page included one heading level below), <code>toc.typ</code> (table of contents) and <code>nelson_help.typ</code> (shared helpers imported by the pages).</p>
+    <p>Cross-references use the <code>nlink</code> helper: a reference becomes a link when the target page is part of the compiled document and plain text otherwise. LaTeX fragments are typeset with the <code>mitex</code> Typst package (<code>latex</code> helper). A <code>source_code</code> element with <code>start</code> and <code>end</code> bounds is printed as a code listing; without bounds, the whole file is only cited by its path (<code>source-ref</code> helper), which keeps the manual compact.</p>
+    <p>Compile the result with the typst compiler: <code>typst compile main.typ</code>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[source = [modulepath('help_tools'), '/help/en_US/xml'];
+destination = [tempdir(), 'help_tools_typst'];
+status = xmldoctotypst(source, destination, 'help_tools')
+dir(destination)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${help_tools}xmldocbuild">xmldocbuild</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${help_tools}buildhelptypst">buildhelptypst</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${help_tools}xmldoctomd">xmldoctomd</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

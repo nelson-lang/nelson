@@ -33,17 +33,15 @@ This is a nuspec. It mostly adheres to https://docs.nuget.org/create/Nuspec-Refe
     <licenseUrl>https://raw.githubusercontent.com/nelson-lang/nelson/master/lgpl-3.0.md</licenseUrl>
     <packageSourceUrl>https://github.com/nelson-lang/nelson/tree/master/chocolatey</packageSourceUrl>
     <tags>nelson development science education matrix</tags>
-    <summary>Let's Nelson! matrix language for engineering and scientific application</summary>
+    <summary>Nelson numerical computing language for engineering and scientific applications</summary>
     <description>
-Nelson is an array programming language providing a powerful open computing environment for
-engineering and scientific applications using modern C/C++ libraries (Boost, Eigen, …)
-and others state of art numerical libraries.
+Nelson is an array programming language for engineering and scientific computing.
+It includes an interpreter, a high-level language, plotting tools, and numerical
+libraries such as Eigen.
 
-It has sophisticated data structures (including cell, struct, linear systems, …),
-an interpreter and a high level programming language.
+It supports data structures such as cell arrays, structs, and linear systems.
 
-Nelson has been developed to be an open/modular system where an user can define
-these own data types and operations on these data types by using overload.
+Its module and overload mechanisms let users add data types and operations.
 
 ![Nelson environment](https://github.com/nelson-lang/nelson-website/blob/master/images/Nelson-windows.png?raw=true)
 
@@ -113,7 +111,7 @@ these own data types and operations on these data types by using overload.
 
 - Profiling and Code coverage tools for Nelson's language:
 
-  Nelson has a built-in profiler that is very useful to profile your code and find out what script or function is taking the most time.
+  Nelson has a built-in profiler for finding scripts or functions that dominate run time.
 
 - [Nelson cloud](https://www.npmjs.com/package/nelson-cloud):
   Instant access to Nelson anywhere from an web browser.

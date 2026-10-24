@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>interpolationPrelookup</keyword>
+  <keyword_alias>block:interpolationPrelookup</keyword_alias>
+  <short_description>Interpole une Table statique a partir du couple [k, f] issu d un prelookup.</short_description>
+  <syntax>
+    <syntax_item>Type de bloc : interpolationPrelookup</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>ports d entree</param_name>
+      <param_description>1 port(s) d entree declare(s).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>ports de sortie</param_name>
+      <param_description>1 port(s) de sortie declare(s).</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Interpole une Table statique a partir du couple [k, f] issu d un prelookup.</p>
+    <table border="1">
+      <tbody>
+        <tr><td>Module</td><td><code>nflow_blocks</code></td></tr>
+        <tr><td>Bibliotheque</td><td>Tables de correspondance</td></tr>
+        <tr><td>Type</td><td><code>interpolationPrelookup</code></td></tr>
+        <tr><td>Libelle</td><td>Interpolation Using Prelookup</td></tr>
+      </tbody>
+    </table>
+    <p><img src="../../../../libraries/lookup/exports/interpolationPrelookup.svg" align="middle"/></p>
+    <p><b>Description</b></p>
+    <p>Interpole la <code>Table</code> statique a l'aide du couple indice/fraction produit par un bloc <code>prelookup</code>. Le port d'entree 0 est le vecteur a 2 elements <code>[k, f]</code> ; la sortie est <code>tbl[k] + f * (tbl[k+1] - tbl[k])</code>, soit une interpolation lineaire a l'intervalle partage. k est borne a un indice de table valide. Partager un seul <code>prelookup</code> entre plusieurs de ces blocs evite de refaire la recherche d'intervalle par table.</p>
+    <p>Execution native (l'entree a 2 elements sera generee en code ulterieurement).</p>
+    <p><b>Ports</b></p>
+    <p><b>Entree(s)</b></p>
+    <table border="1">
+      <thead><tr><th>Port</th><th>Role</th><th>Cote</th><th>Position</th></tr></thead>
+      <tbody>
+        <tr><td>Port_1</td><td>Signal numerique lu par le bloc.</td><td>gauche</td><td>x=0, y=40</td></tr>
+      </tbody>
+    </table>
+    <p><b>Sortie(s)</b></p>
+    <table border="1">
+      <thead><tr><th>Port</th><th>Role</th><th>Cote</th><th>Position</th></tr></thead>
+      <tbody>
+        <tr><td>Port_1</td><td>Signal numerique produit par le bloc.</td><td>droite</td><td>x=90, y=40</td></tr>
+      </tbody>
+    </table>
+    <p><b>Parametres</b></p>
+    <table border="1">
+      <thead><tr><th>Parametre</th><th>Valeur par defaut</th></tr></thead>
+      <tbody>
+        <tr><td><code>Table</code></td><td>[0 1 4 9 16]</td></tr>
+      </tbody>
+    </table>
+    <p><b>Caracteristiques du bloc</b></p>
+    <table border="1">
+      <tbody>
+        <tr><td>Type de bloc</td><td>interpolationPrelookup</td></tr>
+        <tr><td>Famille</td><td>Tables de correspondance</td></tr>
+        <tr><td>Taille rendue</td><td>90 x 80</td></tr>
+        <tr><td>Phases</td><td>ALGEBRAIC</td></tr>
+        <tr><td>Etat interne ou historique</td><td>non</td></tr>
+        <tr><td>Type de donnees du signal</td><td>valeurs numeriques double</td></tr>
+      </tbody>
+    </table>
+    <p><b>Algorithmes</b></p>
+    <ul>
+      <li>ALGEBRAIC : out = tbl[k] + f * (tbl[k+1] - tbl[k]).</li>
+    </ul>
+    <p><b>Equation ou regle</b></p>
+    <latex>y = t_k + f\,(t_{k+1} - t_k)</latex>
+    <p><b>Capacites etendues</b></p>
+    <p><b>Sources d implementation</b></p>
+    <p>Generation de code : prise en charge pour C et Rust.</p>
+    <source_code label="Manifest" path="modules/nflow_blocks/libraries/lookup/library.json" language="json"/>
+    <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/lookup/interpolationPrelookup.cpp" language="cpp"/>
+  </description>
+  <used_function/>
+  <bibliography/>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Voir l'exemple prelookup, qui cable prelookup vers ce bloc.</example_item_description>
+      <example_item_data><![CDATA[% See the prelookup example for a complete Prelookup -> Interpolation wiring.]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${nflow_blocks}lookup/prelookup">prelookup</link></see_also_item>
+    <see_also_item><link linkend="${nflow_blocks}lookup/lookup1D">lookup1D</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <chapter>Discrete blocks</chapter>
+  <chapter_description>
+    <p>Sampled blocks that store values, histories, or discrete states.</p>
+  </chapter_description>
+</xmldoc>

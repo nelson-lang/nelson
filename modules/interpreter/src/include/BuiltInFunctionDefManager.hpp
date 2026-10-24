@@ -9,6 +9,8 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <atomic>
+#include <cstdint>
 #include <vector>
 #include <unordered_map>
 #include <string>
@@ -28,9 +30,17 @@ public:
         const std::wstring& dynlibname, const std::wstring& modulename, size_t builtinPrototype,
         bool interleavedComplex,
         FunctionOverloadAutoMode builtinOverloadAutoMode = NLS_OVERLOAD_AUTO_ON);
+    bool
+    addLazyGateway(const std::string& name, int argc_in, int argc_out,
+        const std::wstring& dynlibname, const std::wstring& modulename, size_t builtinPrototype,
+        FunctionOverloadAutoMode builtinOverloadAutoMode = NLS_OVERLOAD_AUTO_ON);
+    bool
+    setCallerContextAccess(ptrBuiltin fptr, bool callerContextAccess);
 
     bool
     remove(const std::string& name);
+    bool
+    removeByFilename(const std::wstring& dynlibname);
     bool
     remove(FunctionDefPtr ptr);
     bool
@@ -54,14 +64,29 @@ public:
     bool
     find(const std::string& name, std::wstring& path);
 
+    // Incremented whenever the set of registered builtin names changes; lets
+    // clients (completion) cache derived lists until the table really moves.
+    uint64_t
+    generation() const
+    {
+        return _generation.load(std::memory_order_relaxed);
+    }
+
 private:
     bool
     add(FunctionDefPtr ptr);
+
+    void
+    bumpGeneration()
+    {
+        _generation.fetch_add(1, std::memory_order_relaxed);
+    }
 
     BuiltInFunctionDefManager();
     static BuiltInFunctionDefManager* m_pInstance;
     std::vector<FunctionDefPtr> builtinVector;
     std::unordered_map<std::string, FunctionDefPtr> builtinHashMap;
+    std::atomic<uint64_t> _generation { 0 };
 };
 //=============================================================================
 } // namespace Nelson

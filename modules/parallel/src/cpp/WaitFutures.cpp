@@ -8,10 +8,8 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <limits>
-#include <thread>
 #include <chrono>
 #include "WaitFutures.hpp"
-#include "ProcessEventsDynamicFunction.hpp"
 #include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson {
@@ -76,13 +74,9 @@ WaitFutures(Evaluator* eval, const std::vector<FutureObject*>& futures, THREAD_S
             return false;
         }
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(50));
-
-        if (eval != nullptr && eval->haveEventsLoop()) {
-            ProcessEventsDynamicFunctionWithoutWait();
-        }
+        FutureObject::waitForAnyStateChange(std::chrono::milliseconds(50));
     }
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

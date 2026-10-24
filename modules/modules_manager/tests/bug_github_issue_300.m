@@ -12,5 +12,5 @@
 % <-- Short Description -->
 % nmm returns wrong error
 %=============================================================================
-assert_checkerror('nmm()', _('Wrong number of input arguments.'))
+asserts.checkerror('nmm()', _('Wrong number of input arguments.'))
 %=============================================================================

@@ -7,7 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function  varargout = cart2pol(varargin)
+function varargout = cart2pol(varargin)
   narginchk(2, 3);
   nargoutchk(0, 3);
   x = varargin{1};
@@ -27,7 +27,7 @@ function  varargout = cart2pol(varargin)
     if (nargin == 3)
       varargout{3} = z;
     else
-      error('Nelson:unassignedOutputs', _('Three input arguments expected to return three ouput arguments.'));
+      error('Nelson:trigonometric:threeInputsForThreeOutputs', 'Three input arguments expected to return three output arguments.');
     end
   end
 end

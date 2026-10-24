@@ -32,6 +32,20 @@ SetVariableEnvironmentW(const std::wstring& envVarName, const std::wstring& Valu
 }
 //=============================================================================
 NLSOS_FUNCTIONS_IMPEXP bool
+RemoveVariableEnvironmentW(const std::wstring& envVarName)
+{
+#ifdef _MSC_VER
+    if (::SetEnvironmentVariableW(envVarName.c_str(), nullptr) != 0
+        || ::GetLastError() == ERROR_ENVVAR_NOT_FOUND) {
+        return true;
+    }
+#else
+    return RemoveVariableEnvironmentU(wstring_to_utf8(envVarName));
+#endif
+    return false;
+}
+//=============================================================================
+NLSOS_FUNCTIONS_IMPEXP bool
 SetVariableEnvironmentU(const std::string& envVarName, const std::string& Value)
 {
     bool bRes = false;
@@ -45,6 +59,20 @@ SetVariableEnvironmentU(const std::string& envVarName, const std::string& Value)
     }
 #endif
     return bRes;
+}
+//=============================================================================
+NLSOS_FUNCTIONS_IMPEXP bool
+RemoveVariableEnvironmentU(const std::string& envVarName)
+{
+#ifdef _MSC_VER
+    if (::SetEnvironmentVariableA(envVarName.c_str(), nullptr) != 0
+        || ::GetLastError() == ERROR_ENVVAR_NOT_FOUND) {
+        return true;
+    }
+#else
+    return unsetenv(envVarName.c_str()) == 0;
+#endif
+    return false;
 }
 //=============================================================================
 } // namespace Nelson

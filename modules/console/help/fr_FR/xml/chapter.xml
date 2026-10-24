@@ -6,10 +6,10 @@
   <chapter>Console</chapter>
   <chapter_description>
     <p
-    >Le module Console gère l&apos;interaction avec la fenêtre de commande de Nelson.</p>
+    >Le module Console gere l&apos;interaction avec la fenetre de commande de Nelson.</p>
     <p
-    >Il fournit des outils pour contrôler l&apos;affichage, gérer les entrées utilisateur et interroger les propriétés du terminal.</p>
+    >Il fournit des outils pour controler l&apos;affichage, gerer les entrees utilisateur et interroger les proprietes du terminal.</p>
     <p
-    >Ces fonctionnalités permettent aux scripts et applications de communiquer directement avec l&apos;utilisateur via la console, facilitant la construction de workflows interactifs et l&apos;adaptation de la sortie à l&apos;environnement terminal actuel.</p>
+    >Ces fonctions permettent aux scripts et applications de communiquer avec l&apos;utilisateur par la console et d&apos;adapter la sortie au terminal courant.</p>
   </chapter_description>
 </xmldoc>

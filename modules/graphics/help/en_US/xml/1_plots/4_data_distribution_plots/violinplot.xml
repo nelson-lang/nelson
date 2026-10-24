@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>violinplot</keyword>
+  <short_description>Display distributions as violin shapes.</short_description>
+  <syntax>
+    <syntax_item>violinplot(y)</syntax_item>
+    <syntax_item>violinplot(xgroupdata, y)</syntax_item>
+    <syntax_item>violinplot('EvaluationPoints', evalPoints, 'DensityValues', densityValues)</syntax_item>
+    <syntax_item>violinplot(..., propertyName, propertyValue)</syntax_item>
+    <syntax_item>h = violinplot(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>violinplot</b> displays distributions as violin shapes and returns one or more <b>violinplot</b> graphics objects.</p>
+    <p>For vector data, the returned object keeps <b>XData</b> as group positions and <b>YData</b> as the original values. For matrix data, one object is returned for each column.</p>
+    <p>With <b>EvaluationPoints</b> and <b>DensityValues</b> and no sample data, <b>violinplot</b> draws precomputed densities: one violin per column, at positions 1, 2, ... Both arguments are then required, and they cannot be combined with sample data.</p>
+    <p>Each violin outlines a Gaussian kernel density estimate of its values, evaluated on 100 points from min(y) - 3h to max(y) + 3h. The bandwidth follows the normal reference rule with a robust scale: h = (MAD / 0.6745) * (4 / (3 n))^(1/5), where MAD is the median absolute deviation. When the MAD is zero the data range is used as the scale, and constant data use h = 1.</p>
+    <p>The <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.violinplot.properties">violinplot properties</link> page lists the supported object properties.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Display grouped distributions.</example_item_description>
+      <example_item_data><![CDATA[violinplot([1 1 1 2 2 2], [1 2 2 3 4 5]);]]></example_item_data>
+      <example_item_img src="../../../../images/violinplot_1.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/4_data_distribution_plots/boxchart">boxchart</link></see_also_item>
+    <see_also_item><link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.violinplot.properties">violinplot properties</link></see_also_item>
+  </see_also>
+</xmldoc>

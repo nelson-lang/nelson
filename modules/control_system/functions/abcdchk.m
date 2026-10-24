@@ -10,20 +10,20 @@
 function varargout = abcdchk(varargin)
   narginchk(0, 5);
   nargoutchk(0, 6);
-  
+
   if nargin < 5, E = []; else E = varargin{5}; end
   if nargin < 4, D = []; else D = varargin{4}; end
   if nargin < 3, C = []; else C = varargin{3}; end
   if nargin < 2, B = []; else B = varargin{2}; end
   if nargin < 1, A = []; else A = varargin{1}; end
-  
+
   [ME, NE] = size(E);
   E_MODIFIED = E;
   [MD, ND] = size(D);
   D_MODIFIED = D;
   [MC, NC] = size(C);
-  C_MODIFIED = C; 
-  [MB, NB] = size(B); 
+  C_MODIFIED = C;
+  [MB, NB] = size(B);
   B_MODIFIED = B;
   [MA, NA] = size(A);
   A_MODIFIED = A;
@@ -33,21 +33,21 @@ function varargout = abcdchk(varargin)
     C_MODIFIED = zeros(MC, NC, 'like', C);
   end
   if (MB == 0) && (NB == 0) && (MA == 0 || ND == 0)
-    MB = MA; 
-    NB = ND; 
-    B_MODIFIED = zeros(MB, NB,'like', B);
+    MB = MA;
+    NB = ND;
+    B_MODIFIED = zeros(MB, NB, 'like', B);
   end
   if (MD == 0) && (ND == 0) && (MC == 0 || NB == 0)
     MD = MC;
-    ND = NB; 
+    ND = NB;
     D_MODIFIED = zeros(MD, ND, 'like', D);
   end
   if (MA == 0) && (NA == 0) && (MB == 0 || NC == 0)
     MA = MB;
-    NA = NC; 
+    NA = NC;
     A_MODIFIED = zeros(MA, NA, 'like', A);
   end
-  
+
   msg.message = '';
   msg.identifier = '';
   msg = msg(zeros(0, 1));
@@ -62,18 +62,18 @@ function varargout = abcdchk(varargin)
   elseif (ND ~= NB) && (nargin >= 4)
     msg = checkABCDE(A, B, C, D, E);
   end
-  
+
   if (nargin > 4)
     if (~((MA == ME) && (NA == NE)) && isempty(E))
-      msg.message = _('Matrices A and E should have an identical size.');
+      msg.message = sprintf(_('Matrices %s and %s should have an identical size.'), 'A', 'E');
       msg.identifier = 'Nelson:control_system:AAndESizeMismatch';
     end
   else
     ME = MA;
-    NE = NA; 
+    NE = NA;
     E_MODIFIED = zeros(MA, NA, 'like', A);
   end
-  
+
   varargout{1} = msg;
   if nargout > 1
     varargout{2} = A_MODIFIED;
@@ -90,6 +90,6 @@ function varargout = abcdchk(varargin)
   if nargout > 5
     varargout{6} = E_MODIFIED;
   end
-  
+
 end
 %=============================================================================

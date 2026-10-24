@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>coneplot</keyword>
+  <short_description>Afficher des directions vectorielles 3-D avec des fleches de style cone.</short_description>
+  <syntax>
+    <syntax_item>coneplot(X, Y, Z, U, V, W)</syntax_item>
+    <syntax_item>coneplot(X, Y, Z, U, V, W, cx, cy, cz)</syntax_item>
+    <syntax_item>coneplot(parent, ...)</syntax_item>
+    <syntax_item>h = coneplot(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>coneplot</b> affiche des directions vectorielles 3-D echantillonnees au moyen d&apos;un objet patch.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Afficher des vecteurs sur une grille 3-D.</example_item_description>
+      <example_item_data><![CDATA[% Grille 3D
+[x, y, z] = meshgrid(-2:0.5:2, -2:0.5:2, -2:0.5:2);
+
+% Champ vectoriel synthétique (rotation + divergence)
+u = -y;
+v = x;
+w = z * 0.2;
+
+% Positions des cônes
+[cx, cy, cz] = meshgrid(-1.5:1:1.5, -1.5:1:1.5, -1.5:1:1.5);
+
+figure
+hcone = coneplot(x, y, z, u, v, w, cx, cy, cz, 0.4);
+hcone.FaceColor = 'blue';
+hcone.EdgeColor = 'none';
+
+camlight right
+lighting gouraud
+view(30, 40)
+daspect([1 1 1])
+axis tight
+grid on]]></example_item_data>
+      <example_item_img src="../../../../images/coneplot_1.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/5_vector_fields/quiver3">quiver3</link></see_also_item>
+  </see_also>
+</xmldoc>

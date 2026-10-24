@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nelson.compiler.BuildOptions</keyword>
+  <keyword_alias>nelson.compiler.BuildOptions</keyword_alias>
+  <short_description>Configurer la construction d'une application native.</short_description>
+  <syntax>
+    <syntax_item>options = nelson.compiler.BuildOptions(AppFile)</syntax_item>
+    <syntax_item>options = nelson.compiler.BuildOptions(AppFile, Name, Value, ...)</syntax_item>
+    <syntax_item>options = nelson.compiler.BuildOptions(AppFile, settings)</syntax_item>
+    <syntax_item>values = struct(options)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>AppFile</param_name><param_description>Fichier .m d'entree existant : vecteur ligne de caracteres ou string scalaire.</param_description></param_input_item>
+    <param_input_item><param_name>settings</param_name><param_description>Structure scalaire contenant les noms et valeurs des options prises en charge.</param_description></param_input_item>
+  </param_input>
+  <param_output><param_output_item><param_name>options</param_name><param_description>Objet valeur scalaire avec proprietes modifiables et validees.</param_description></param_output_item></param_output>
+  <description>
+    <p>Charger le module optionnel compiler, par exemple avec <b>ncc('--help')</b>. <b>ncc('options', AppFile, ...)</b> le charge et construit ce meme objet. Le constructeur valide les options sans produire d'executable.</p>
+    <p>Les noms complets sont insensibles a la casse. Les noms inconnus et le remplacement de AppFile dans settings sont rejetes. Les affectations ulterieures sont aussi validees. Les textes acceptent un vecteur ligne de caracteres ou un string scalaire ; les options logiques acceptent true, false, les nombres zero ou un, et les textes on ou off.</p>
+    <p><b>AppFile</b> : script ou fonction d'entree existant. Les chemins relatifs sont ancres au dossier courant lors de leur affectation. Les motifs AdditionalFiles sont developpes lors de l'analyse ou de la construction, sans figer leur contenu au moment de la configuration.</p>
+    <p><b>ExecutableName</b> : par defaut, nom du fichier d'entree sans extension. Il doit etre un identifiant. Les noms de peripheriques Windows sont rejetes sous Windows. Ne pas ajouter .exe.</p>
+    <p><b>ExecutableVersion</b> : <b>1.0.0.0</b> par defaut. Un a quatre composants decimaux entre 0 et 65535 ; les composants finaux omis valent zero. Par exemple, 2.0 devient 2.0.0.0. Sous Windows, cette option renseigne les versions natives du fichier et du produit. Ailleurs, la valeur est validee sans ecriture de ressources Windows.</p>
+    <p>Le texte de version est limite a 23 caracteres, separateurs compris.</p>
+    <p><b>OutputDir</b> : par defaut, ExecutableName suivi de <b>standaloneApplication</b>, relatif au dossier de construction de l'objet. Modifier ExecutableName ensuite ne modifie pas OutputDir. Un dossier existant peut etre utilise, mais l'executable et le dossier runtime cibles ne doivent pas deja exister.</p>
+    <p><b>AdditionalFiles</b> : cellule vide par defaut. Fichier, dossier recursif, motif de fichiers, tableau de strings ou cellule de chemins textuels. Inclure ainsi les ressources et le code resolu dynamiquement que l'analyse statique ne peut pas deduire.</p>
+    <p><b>AutoDetectDataFiles</b> : true par defaut. Inclut les references de donnees reconnues et resolues statiquement. False desactive cette detection, sans retirer les AdditionalFiles explicites.</p>
+    <p><b>CustomHelpTextFile</b> : vide par defaut. Fichier texte existant optionnel, affiche par l'option --help de l'application deployee.</p>
+    <p><b>Mode</b> : <b>auto</b> par defaut, <b>cli</b> ou <b>gui</b>. Selectionne les capacites du runtime ; gui inclut le support graphique. <b>NoConsole</b> : false par defaut ; true selectionne une application Windows sans console et est rejete sur les autres plateformes. Cette option est independante de Mode, n'active pas les graphiques et ne redirige pas la sortie vers un journal.</p>
+    <p><b>RuntimeMode</b> : <b>bundled</b> par defaut, copie le runtime selectionne a cote de l'executable ; <b>installed</b> reutilise une installation compatible sans copier de runtime. <b>Verbose</b> : false par defaut ; affiche les details de construction.</p>
+    <p>Les options sont des objets valeur. Modifier une copie ne change pas l'original. <b>struct(options)</b> retourne toutes les proprietes. Pour reconstruire l'objet, passer values.AppFile en premier argument et retirer AppFile de la structure settings.</p>
+    <p><b>RuntimeLogFile</b> : vide par defaut (desactive). Un nom non vide active un journal UTF-8 en ajout contenant l'initialisation du runtime, les sorties standard et d'erreur, sans supprimer l'affichage console. Les chemins relatifs sont resolus a cote de l'executable, pas dans le dossier appelant. Le dossier parent doit exister et etre accessible en ecriture ; les variables d'environnement ne sont pas developpees. Une erreur d'ouverture ou de fin d'ecriture renvoie le code 2, sauf si l'application a deja echoue. Les flux et processus concurrents peuvent entrelacer leurs blocs ; les lignes completes et l'ordre global ne sont pas garantis. La capture conserve les caracteres UTF-8 incomplets jusqu'a la lecture suivante avant de les ajouter. Une sortie mal formee ou tronquee est conservee en octets bruts. L'ajout partage sur un systeme de fichiers reseau depend de ce systeme. Les entrees-sorties du journal ne sont actives que sur demande ; sous Windows, le runtime doit proposer l'interface de capture.</p>
+    <p><b>ExecutableIcon</b> est vide par defaut. Sous Windows, choisir une image existante pour remplacer l'icone native pendant la construction. Voir <link linkend="${compiler}compiler.build.StandaloneApplicationOptions">compiler.build.StandaloneApplicationOptions</link> pour les formats, la transparence, les tailles et les limites de plateforme. La forme commande est <b>--executable-icon image</b>.</p>
+    <p><b>EmbedArchive</b> vaut true par defaut. False correspond a <b>-C</b> ou <b>--external-archive</b> et produit un .nca adjacent a distribuer avec l'executable, dans les deux modes de runtime. Voir <link linkend="${compiler}compiler.build.StandaloneApplicationOptions">compiler.build.StandaloneApplicationOptions</link> pour les controles d'integrite, le renommage et les limites.</p>
+    <p><b>TreatInputsAsNumeric</b> (false par defaut) active une conversion unique des arguments de fonction par la builtin str2double. Les formes de commande sont <b>-n</b> et <b>--numeric-inputs</b>. Le texte invalide donne NaN, aucun argument n'est execute comme du code et argv('user') conserve le texte original. Voir <link linkend="${compiler}compiler.build.StandaloneApplicationOptions">compiler.build.StandaloneApplicationOptions</link> pour les valeurs prises en charge et le runtime requis.</p>
+    <p><b>SupportPackages</b> vaut {'autodetect'} par defaut. Utiliser 'none' ou les noms de paquets nmm enregistres pour filtrer les dependances a la construction. L'option de commande repetable est <b>--support-package nom</b>. Voir <link linkend="${compiler}compiler.build.StandaloneApplicationOptions">compiler.build.StandaloneApplicationOptions</link> pour les exclusions, les conflits avec les fichiers explicites et les limites.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Configurer sans construire</example_item_description>
+      <example_item_data runnable="false"><![CDATA[ncc('--help');
+entry = fullfile(modulepath('compiler'), 'examples', 'standalone', 'app_entry.m');
+options = nelson.compiler.BuildOptions(entry, 'RuntimeMode', 'installed');
+options.ExecutableVersion = '2.0';
+values = struct(options);
+copy = nelson.compiler.BuildOptions(values.AppFile, rmfield(values, 'AppFile'));]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${modules_manager}ncc">ncc</link></see_also_item>
+    <see_also_item><link linkend="${compiler}nelson.compiler.build">nelson.compiler.build</link></see_also_item>
+    <see_also_item><link linkend="${compiler}nelson.compiler.analyze">nelson.compiler.analyze</link></see_also_item>
+    <see_also_item><link linkend="${compiler}compiler_standalone_tutorial">compiler_standalone_tutorial</link></see_also_item>
+  </see_also>
+  <history />
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

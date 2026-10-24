@@ -9,31 +9,34 @@
 %=============================================================================
 addpath([fileparts(nfilename('fullpathext'), 'path'), '/loadsavebin']);
 %=============================================================================
+test_saveload_file = [tempname(), '.bin'];
+%=============================================================================
 % unicode characters
 A = 'NelSon 象形字';
-savebin([tempdir(), 'test_saveload_char.bin'], 'A');
+savebin(test_saveload_file, 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), 'test_saveload_char.bin']);
-assert_isequal(A, REF);
+loadbin(test_saveload_file);
+asserts.isequal(A, REF);
 %=============================================================================
 % unicode
 A = ['NelSon';
-'is    ';
-'not   ';
-'LensOn'];
-savebin([tempdir(), 'test_saveload_char.bin'], 'A');
+  'is    ';
+  'not   ';
+  'LensOn'];
+savebin(test_saveload_file, 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), 'test_saveload_char.bin']);
-assert_isequal(A, REF);
+loadbin(test_saveload_file);
+asserts.isequal(A, REF);
 %=============================================================================
 % nd array char
 A = ones(3, 4, 6);
 A = char(A);
-savebin([tempdir(), 'test_saveload_char.bin'], 'A');
+savebin(test_saveload_file, 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), 'test_saveload_char.bin']);
-assert_isequal(A, REF);
+loadbin(test_saveload_file);
+asserts.isequal(A, REF);
+rmfile(test_saveload_file);
 %=============================================================================

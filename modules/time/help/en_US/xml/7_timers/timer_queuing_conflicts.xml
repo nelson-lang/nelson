@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>Timer Queuing Conflicts</keyword>
+  <keyword_alias>handling timer queuing conflicts</keyword_alias>
+  <keyword_alias>timer busy mode</keyword_alias>
+  <short_description>Control what happens when timer callbacks are still queued when a fixed-rate timer fires again.</short_description>
+  <description>
+    <p>Timer callback execution is serialized by the evaluator. A fixed-rate timer can fire again while a previous <b>TimerFcn</b> callback is still queued or running. The <b>BusyMode</b> property controls how Nelson resolves this conflict.</p>
+    <table border="1">
+      <tr>
+        <th>BusyMode</th>
+        <th>Behavior</th>
+      </tr>
+      <tr>
+        <td>drop</td>
+        <td>Keep at most one pending callback for the timer. Extra firings are discarded.</td>
+      </tr>
+      <tr>
+        <td>queue</td>
+        <td>Queue each firing. The timer can continue executing callbacks after the scheduled firing times have passed.</td>
+      </tr>
+      <tr>
+        <td>error</td>
+        <td>Stop the timer and execute <b>ErrorFcn</b>, then <b>StopFcn</b> if those callbacks are defined.</td>
+      </tr>
+    </table>
+    <p><b>BusyMode</b> applies to <b>fixedRate</b> execution. For <b>fixedDelay</b> and <b>fixedSpacing</b>, the next firing is scheduled after the callback completes, so callbacks do not pile up in the same way.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Use queue mode when every scheduled firing should be kept.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[t = timer('ExecutionMode', 'fixedRate', ...
+  'BusyMode', 'queue', ...
+  'Period', 0.02, ...
+  'TasksToExecute', 3, ...
+  'TimerFcn', @(src, event) sleep(0.03));
+start(t);
+wait(t);
+get(t, 'TasksExecuted')
+delete(t);]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Use error mode to stop when the callback queue cannot keep up.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[t = timer('ExecutionMode', 'fixedRate', ...
+  'BusyMode', 'error', ...
+  'Period', 0.02, ...
+  'TasksToExecute', 5, ...
+  'TimerFcn', @(src, event) sleep(0.03), ...
+  'ErrorFcn', @(src, event) disp('timer queue conflict'));
+start(t);
+wait(t);
+get(t, 'Running')
+delete(t);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${time}timer">timer</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}Timer Callback Functions">Timer Callback Functions</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}timer.set">set</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

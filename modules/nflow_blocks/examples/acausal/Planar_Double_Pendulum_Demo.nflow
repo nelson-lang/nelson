@@ -1,0 +1,116 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Allan CORNET",
+    "created": "2026-08-05",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "comments": "Planar 2-D multibody demo: a double pendulum -- two rigid bodies joined by revolute joints, hanging from a fixed world frame -- swings under gravity. Its motion is chaotic and highly sensitive to initial conditions. Constraints are Baumgarte-stabilised. (Planar island: simulation only, no code generation.) The Scope plots a tip coordinate; ToWorkspace exports it.",
+  "name": "Planar Double Pendulum",
+  "blocks": [
+    {
+      "id": "wld",
+      "type": "PlanarWorld",
+      "params": { "gravity": 9.81 },
+      "x": 0,
+      "y": 210,
+      "rotation": 180
+    },
+    {
+      "id": "r0",
+      "type": "PlanarBody",
+      "params": {
+        "m": 1,
+        "I": 0.08333333333333333,
+        "x0": 0.5,
+        "y0": 0,
+        "phi0": 0,
+        "frames": { "prox": [-0.5, 0], "dist": [0.5, 0] }
+      },
+      "x": 400,
+      "y": 210,
+      "rotation": 0
+    },
+    {
+      "id": "r1",
+      "type": "PlanarBody",
+      "params": {
+        "m": 1,
+        "I": 0.08333333333333333,
+        "x0": 1.5,
+        "y0": 0,
+        "phi0": 0,
+        "frames": { "prox": [-0.5, 0], "dist": [0.5, 0] }
+      },
+      "x": 800,
+      "y": 210,
+      "rotation": 0
+    },
+    {
+      "id": "j0",
+      "type": "PlanarRevolute",
+      "params": {},
+      "x": 200,
+      "y": 210,
+      "rotation": 0
+    },
+    {
+      "id": "j1",
+      "type": "PlanarRevolute",
+      "params": {},
+      "x": 600,
+      "y": 210,
+      "rotation": 0
+    },
+    {
+      "id": "sp",
+      "type": "PlanarPositionSensor",
+      "params": { "axis": "phi" },
+      "x": 800,
+      "y": 490,
+      "rotation": 90
+    },
+    {
+      "id": "tw",
+      "type": "toWorkspace",
+      "params": { "VariableName": "phi1" },
+      "inputs": 1,
+      "outputs": 0,
+      "x": 950,
+      "y": 130,
+      "rotation": 0
+    },
+    {
+      "id": "sc",
+      "type": "scope",
+      "params": {
+        "TMin": "",
+        "TMax": "",
+        "YMin": "",
+        "YMax": "",
+        "width": 320,
+        "height": 220,
+        "ShowTickLabels": true
+      },
+      "x": 950,
+      "y": 300,
+      "rotation": 0
+    }
+  ],
+  "connections": [
+    { "from": "sp", "to": "tw", "fromIndex": 0, "toIndex": 0 },
+    { "from": "sp", "to": "sc", "fromIndex": 0, "toIndex": 0 }
+  ],
+  "solver": "dae",
+  "runtime": 2,
+  "sampleTime": 0.01,
+  "physicalWires": [
+    { "pins": ["j0.a", "wld.frame"] },
+    { "pins": ["r0.prox", "j0.b"] },
+    { "pins": ["j1.a", "r0.dist"] },
+    { "pins": ["r1.prox", "j1.b"] },
+    { "pins": ["sp.a", "r1.com"] }
+  ]
+}

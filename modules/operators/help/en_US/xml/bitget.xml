@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>bitget</keyword>
+  <short_description>Get selected bits.</short_description>
+  <syntax>
+    <syntax_item>C = bitget(A, bit)</syntax_item>
+    <syntax_item>C = bitget(A, bit, assumedtype)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>A</param_name><param_description>Integer array, or nonnegative integer-valued double array.</param_description></param_input_item>
+    <param_input_item><param_name>bit</param_name><param_description>Positive integer bit position.</param_description></param_input_item>
+    <param_input_item><param_name>assumedtype</param_name><param_description>Integer type name used for double input.</param_description></param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>C</param_name><param_description>Array containing zero or one values.</param_description></param_output_item>
+  </param_output>
+  <description>
+    <p><b>C = bitget(A, bit)</b> returns the value of the selected bit in each element of <b>A</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item><example_item_type>nelson</example_item_type><example_item_description /><example_item_data runnable="cli"><![CDATA[R = bitget(uint8([1 2 3]), 1)]]></example_item_data></example_item>
+  </examples>
+  <see_also><see_also_item><link linkend="${operators}bitand">bitand</link></see_also_item></see_also>
+  <history><history_item><history_version>2.0.0</history_version><history_description>initial version</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

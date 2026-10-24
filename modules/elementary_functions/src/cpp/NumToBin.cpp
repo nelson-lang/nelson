@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include <bitset>
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "NumToBin.hpp"
 #include "Transpose.hpp"
@@ -26,36 +27,36 @@ NumToBin(ArrayOf A, bool& needToOverload)
         return res;
     }
     if (A.isComplex()) {
-        Error(_W("First argument must be real."));
+        Error(L"Nelson:validators:mustBeReal", L"%s must be real.", L"First argument");
     }
     if (A.isSparse()) {
         A.makeDense();
     }
-    NelsonType dataClass = A.getDataClass();
+    NelsonType dataClass = A.dataClass();
     bool needToConvert
         = (dataClass != NLS_LOGICAL) && (dataClass != NLS_SINGLE) && (dataClass != NLS_DOUBLE);
     if (needToConvert) {
         A.promoteType(NLS_DOUBLE);
     }
     if (A.isEmpty(false)) {
-        res = ArrayOf::characterArrayConstructor("");
+        res = ArrayOf::characterArray("");
     } else {
-        Dimensions dims = A.getDimensions();
+        Dimensions dims = A.dimensions();
         stringVector vs;
-        vs.reserve(dims.getElementCount());
+        vs.reserve(dims.elementCount());
         size_t len = 0;
-        switch (A.getDataClass()) {
+        switch (A.dataClass()) {
         case NLS_LOGICAL: {
-            auto* values = (logical*)A.getDataPointer();
-            indexType elementCount = dims.getElementCount();
+            auto* values = (logical*)A.dataPointer();
+            indexType elementCount = dims.elementCount();
             for (indexType k = 0; k < elementCount; ++k) {
                 std::string cstr = std::bitset<1>(values[k]).to_string();
                 vs.push_back(cstr);
             }
         } break;
         case NLS_DOUBLE: {
-            auto* values = (double*)A.getDataPointer();
-            indexType elementCount = dims.getElementCount();
+            auto* values = (double*)A.dataPointer();
+            indexType elementCount = dims.elementCount();
             for (indexType k = 0; k < elementCount; ++k) {
                 unsigned long long bits = *reinterpret_cast<unsigned long long*>(&values[k]);
                 std::string cstr = std::bitset<64>(bits).to_string();
@@ -63,8 +64,8 @@ NumToBin(ArrayOf A, bool& needToOverload)
             }
         } break;
         case NLS_SINGLE: {
-            auto* values = (single*)A.getDataPointer();
-            indexType elementCount = dims.getElementCount();
+            auto* values = (single*)A.dataPointer();
+            indexType elementCount = dims.elementCount();
             for (indexType k = 0; k < elementCount; ++k) {
                 unsigned long bits = *reinterpret_cast<unsigned long*>(&values[k]);
                 std::string cstr = std::bitset<32>(bits).to_string();
@@ -76,7 +77,7 @@ NumToBin(ArrayOf A, bool& needToOverload)
             return res;
         } break;
         }
-        res = ArrayOf::characterVectorToCharacterArray(vs);
+        res = ArrayOf::characterArrayFromRows(vs);
     }
     return res;
 }

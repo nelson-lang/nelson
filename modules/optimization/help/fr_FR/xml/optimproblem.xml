@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>optimproblem</keyword>
+  <short_description>Créer un objet problème d'optimization.</short_description>
+  <syntax>
+    <syntax_item>prob = optimproblem()</syntax_item>
+    <syntax_item>prob = optimproblem(name, value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>name, value</param_name>
+      <param_description>propriétés du problème, par exemple Objective, Constraints, Description ou ObjectiveSense.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>prob</param_name>
+      <param_description>objet problème d'optimization.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>optimproblem</b> crée un modèle problem-based. Il peut être converti avec prob2struct ou résolu directement pour les modèles sans contrainte pris en charge.</p>
+  </description>
+  <used_function>
+    <used_function_item>optimvar</used_function_item>
+    <used_function_item>solve</used_function_item>
+    <used_function_item>prob2struct</used_function_item>
+  </used_function>
+  <bibliography>J. Nocedal and S. J. Wright, Numerical Optimization, Springer, 2006.</bibliography>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[x = optimvar('x');
+prob = optimproblem('Objective', (x - 2)^2);
+[sol, fval] = solve(prob)
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${optimization}optimvar">optimvar</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${optimization}solve">solve</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

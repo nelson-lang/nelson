@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>cpp_api</keyword>
+  <short_description>Conventions de l&apos;API C++ des valeurs pour les types noyau de Nelson.</short_description>
+  <syntax>
+    <syntax_item>ArrayOf::doubleScalar(value)</syntax_item>
+    <syntax_item>value.asDoubleScalar()</syntax_item>
+    <syntax_item>value.rows()</syntax_item>
+  </syntax>
+  <description>
+    <p>L&apos;API C++ des valeurs est utilisée par les modules natifs, le code d&apos;extension et les intégrations embarquées pour créer, inspecter et extraire des valeurs Nelson. Le point d&apos;entrée principal est le header public <b>ArrayOf.hpp</b>, qui expose les macros <b>NELSON_ARRAYOF_API_VERSION</b> pour les vérifications de version.</p>
+    <p>Les fonctions de fabrique de <b>ArrayOf</b> décrivent directement la valeur créée. Les exemples courants incluent <b>doubleScalar</b>, <b>singleScalar</b>, <b>logicalScalar</b>, <b>int32Scalar</b>, <b>doubleRowVector</b>, <b>doubleMatrix2d</b>, <b>cellArray</b>, <b>structArray</b>, <b>stringArray</b>, <b>table</b> et <b>handle</b>.</p>
+    <p>Les accesseurs de propriétés simples utilisent des noms courts comme <b>rows</b>, <b>columns</b>, <b>elementCount</b>, <b>dimensions</b>, <b>dataClass</b>, <b>fieldNames</b> et <b>referenceCount</b>. Ces fonctions doivent rester peu coûteuses et ne doivent pas masquer d&apos;allocation.</p>
+    <p>Les noms commençant par <b>as</b> extraient une valeur C++ existante depuis une valeur Nelson, par exemple <b>asDoubleScalar</b>, <b>asUtf8String</b>, <b>asWideString</b>, <b>asIndexVector</b> et <b>asFunctionHandle</b>.</p>
+    <p>Les noms commençant par <b>to</b> créent une nouvelle représentation. Les noms commençant par <b>toAllocated</b>, comme <b>toAllocatedUtf8CString</b>, rendent l&apos;allocation et la propriété explicites.</p>
+    <p>Les mutations et les tests d&apos;état suivent les préfixes verbaux habituels : <b>setX</b> modifie une propriété, <b>isX</b> teste un état et <b>makeX</b> transforme la valeur en place.</p>
+    <p>L&apos;API conserve les chemins rapides : stockage scalaire inline, dimensions mises en cache dans <b>Data</b>, propriété par copy-on-write et accès pointeur sans allocation cachée. Les pointeurs retournés par les valeurs restent valides uniquement tant que la valeur propriétaire et l&apos;état de son stockage restent valides.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>C++</example_item_type>
+      <example_item_description>Créer et inspecter une valeur scalaire.</example_item_description>
+      <example_item_data><![CDATA[ArrayOf value = ArrayOf::doubleScalar(3.0);
+double scalar = value.asDoubleScalar();
+indexType rows = value.rows();
+indexType cols = value.columns();]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>C++</example_item_type>
+      <example_item_description>Créer un tableau de cellules et lire des propriétés simples.</example_item_description>
+      <example_item_data><![CDATA[ArrayOfVector items;
+items << ArrayOf::doubleScalar(1.0);
+items << ArrayOf::stringArray("name");
+ArrayOf cells = ArrayOf::cellArray(items);
+indexType count = cells.elementCount();]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${types}class">class</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${types}isa">isa</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

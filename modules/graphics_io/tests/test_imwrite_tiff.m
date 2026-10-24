@@ -12,12 +12,12 @@
 imfmt = imformats('tiff');
 skip_testsuite(isempty(imfmt), _('No TIFF format supported.'))
 %=============================================================================
-path_dest = [tempdir(), 'imwrite_tests_tiff'];
-[res, msg] = rmdir(path_dest, 's');
+path_dest = tempname();
 mkdir(path_dest);
+path_dest = [path_dest, '/'];
 images_path = [modulepath('graphics', 'tests'), '/images/'];
 [img, map, alpha] = imread([images_path, 'winter-fox-64x64-indexed8.png']);
 %=============================================================================
 imwrite(img, map, [path_dest, 'image-tiff.tiff'], 'tiff');
-assert_istrue(isfile([path_dest, 'image-tiff.tiff']));
+asserts.istrue(isfile([path_dest, 'image-tiff.tiff']));
 %=============================================================================

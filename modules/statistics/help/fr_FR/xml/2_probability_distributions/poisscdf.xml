@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>poisscdf</keyword>
+  <short_description>Fonction de repartition de Poisson</short_description>
+  <syntax><syntax_item>p = poisscdf(x, lambda)</syntax_item><syntax_item>p = poisscdf(x, lambda, &apos;upper&apos;)</syntax_item></syntax>
+  <param_input><param_input_item><param_name>x</param_name><param_description>tableau numerique reel.</param_description></param_input_item><param_input_item><param_name>lambda</param_name><param_description>parametre de taux non negatif.</param_description></param_input_item></param_input>
+  <param_output><param_output_item><param_name>p</param_name><param_description>probabilites cumulees ou de queue superieure.</param_description></param_output_item></param_output>
+  <description><p><b>poisscdf</b> calcule par defaut les probabilites de queue inferieure de Poisson et les probabilites de queue superieure avec <b>&apos;upper&apos;</b>.</p></description>
+  <examples><example_item><example_item_type>nelson</example_item_type><example_item_description /><example_item_data runnable="cli"><![CDATA[x = 0:10;
+p = poisscdf(x, 4);
+q = poisscdf(x, 4, 'upper');]]></example_item_data></example_item></examples>
+  <see_also><see_also_item><link linkend="${statistics}poisspdf">poisspdf</link></see_also_item><see_also_item><link linkend="${statistics}poissinv">poissinv</link></see_also_item></see_also>
+  <history><history_item><history_version>2.0.0</history_version><history_description>version initiale</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

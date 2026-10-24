@@ -16,5 +16,5 @@ namespace Nelson {
 bool
 RepositoryIsSHA1(const std::wstring& localPath, const std::wstring& sha1Str);
 //=============================================================================
-};
+} // namespace Nelson
 //=============================================================================

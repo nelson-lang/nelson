@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>uniquetol</keyword>
+  <short_description>Valeurs uniques à une tolérance près.</short_description>
+  <syntax>
+    <syntax_item>C = uniquetol(A)</syntax_item>
+    <syntax_item>C = uniquetol(A, tol)</syntax_item>
+    <syntax_item>C = uniquetol(___, nom, valeur)</syntax_item>
+    <syntax_item>[C, ia, ic] = uniquetol(___)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>tableau plein réel de type single ou double.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>tol</param_name>
+      <param_description>tolérance scalaire positive ou nulle. La valeur par défaut est 1e-12 pour du double et 1e-6 pour du single. Deux valeurs u et v sont dans la tolérance si abs(u-v) &lt;= tol*DataScale.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>nom, valeur</param_name>
+      <param_description>une ou plusieurs paires nom-valeur : 'ByRows' (logique, traite chaque ligne de A comme un seul élément), 'OutputAllIndices' (logique, renvoie ia sous forme de tableau de cellules contenant tous les indices de chaque groupe), 'DataScale' (scalaire ou vecteur par colonne utilisé à la place de la mise à l'échelle automatique).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>C</param_name>
+      <param_description>valeurs uniques de A à la tolérance près, triées par ordre croissant.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>ia</param_name>
+      <param_description>vecteur d'indices tel que C = A(ia). Lorsque 'OutputAllIndices' est vrai, ia est un tableau de cellules où ia{k} liste tous les indices de A appartenant au k-ème groupe.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>ic</param_name>
+      <param_description>vecteur d'indices tel que A est à la tolérance près de C(ic).</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>uniquetol</b> retourne les valeurs uniques de <b>A</b> en utilisant la tolérance <b>tol</b>. Deux éléments sont considérés égaux lorsque leur différence absolue est inférieure ou égale à <b>tol</b> mise à l'échelle par les données. Par défaut la mise à l'échelle est la plus grande valeur absolue de <b>A</b>, ou la plus grande valeur absolue de chaque colonne lorsque <b>'ByRows'</b> est vrai.</p>
+    <p>La sortie <b>C</b> est triée par ordre croissant et, pour chaque groupe de valeurs proches, conserve la plus petite.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description></example_item_description>
+      <example_item_data runnable="cli"><![CDATA[[C, ia, ic] = uniquetol([2 1 2 1.0000001], 1e-6)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${data_analysis}ismembertol">ismembertol</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${data_analysis}unique">unique</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

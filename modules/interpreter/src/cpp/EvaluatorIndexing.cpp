@@ -12,88 +12,489 @@
 #endif
 //=============================================================================
 #include "Evaluator.hpp"
+#include "ClassdefHandleObject.hpp"
+#include "ClassdefParser.hpp"
+#include "ClassdefPropertyAccess.hpp"
+#include "ClassdefMixinNames.hpp"
+#include "ContainersMapFastPaths.hpp"
 #include "Error.hpp"
-#include "PredefinedErrorMessages.hpp"
+#include "ErrorID.hpp"
+#include "i18n.hpp"
+#include "FunctionsInMemory.hpp"
 #include "Operators.hpp"
 #include "characters_encoding.hpp"
 #include "OverloadName.hpp"
 #include "ClassName.hpp"
-#include "Warning.hpp"
+#include "ClassToString.hpp"
+#include "StringHelpers.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-ArrayOf
-Evaluator::simpleSubindexExpression(ArrayOf& r, AbstractSyntaxTreePtr t)
+#define EVALUATOR_INDEXING_FIELD_SUBS "subs"
+#define EVALUATOR_INDEXING_FIELD_TYPE "type"
+#define EVALUATOR_INDEXING_FUNCTION_BRACE_ASSIGN "braceAssign"
+#define EVALUATOR_INDEXING_FUNCTION_BRACE_REFERENCE "braceReference"
+#define EVALUATOR_INDEXING_FUNCTION_DELETE "delete"
+#define EVALUATOR_INDEXING_FUNCTION_INVOKE "invoke"
+#define EVALUATOR_INDEXING_FUNCTION_ISVALID "isvalid"
+#define EVALUATOR_INDEXING_FUNCTION_DOT_ASSIGN "dotAssign"
+#define EVALUATOR_INDEXING_FUNCTION_DOT_REFERENCE "dotReference"
+#define EVALUATOR_INDEXING_FUNCTION_PAREN_ASSIGN "parenAssign"
+#define EVALUATOR_INDEXING_FUNCTION_PAREN_REFERENCE "parenReference"
+//=============================================================================
+namespace {
+    //=============================================================================
+    // A class counts as user-defined when the file backing its subsref method lives
+    // outside the Nelson installation tree. Native Nelson classes ship their methods
+    // under the Nelson root; user classes are loaded from an arbitrary path.
+    bool
+    classSubsrefIsUserDefined(const std::wstring& subsrefFile)
+    {
+        if (subsrefFile.empty()) {
+            return false;
+        }
+        const std::wstring nelsonRoot
+            = NelsonConfiguration::getInstance()->getNelsonRootDirectory();
+        if (nelsonRoot.empty()) {
+            return false;
+        }
+        auto normalizePath = [](std::wstring path) {
+            for (wchar_t& c : path) {
+                if (c == L'\\') {
+                    c = L'/';
+                } else if (c >= L'A' && c <= L'Z') {
+                    c = static_cast<wchar_t>(c - L'A' + L'a');
+                }
+            }
+            return path;
+        };
+        const std::wstring file = normalizePath(subsrefFile);
+        const std::wstring root = normalizePath(nelsonRoot);
+        return file.compare(0, root.size(), root) != 0;
+    }
+    //=============================================================================
+} // namespace
+//=============================================================================
+ArrayOfVector
+Evaluator::bytecodeGetHandle(ArrayOf r, const std::string& fieldname, const ArrayOfVector& params)
 {
-    switch (t->opNum) {
-    case OP_PARENS: {
-        ArrayOfVector m = expressionList(t->down, r);
-        if (m.empty()) {
-            Error(ERROR_INDEX_EXPRESSION_EXPECTED);
-        }
-        if (m.size() == 1) {
-            if (r.isClassType()) {
-                Error(ERROR_NEED_OVERLOAD);
+    return getHandle(r, fieldname, params);
+}
+//=============================================================================
+bool
+Evaluator::bytecodeInvokeObjectMethodIfExists(const ArrayOf& r, const std::string& methodName,
+    const ArrayOfVector& params, int nLhs, ArrayOfVector& result)
+{
+    // isKey(M, key) and M.isKey(key) on a char-key map in native storage
+    if (nLhs <= 1 && params.size() == 1 && methodName == "isKey"
+        && tryContainersMapIsKey(r, params[0], result)) {
+        return true;
+    }
+    Context* _context = this->getContext();
+    FunctionDef* funcDef = nullptr;
+    std::string currentType = r.isHandle() ? r.handleCategory()
+        : r.isClassType()                  ? r.classType()
+                                           : "";
+    if (currentType.empty()) {
+        return false;
+    }
+    std::string directMethod = getOverloadFunctionName(currentType, methodName);
+    bool canUseDirectMethod = true;
+    if (r.isClassType() || r.isHandle()) {
+        if (classdefLoadClass(currentType)) {
+            // obj.staticMethod(args): a Static method reached through an instance is called without
+            // the object as first argument. This runs before the instance-method resolution, which
+            // would otherwise pick up a static method implemented by an external file.
+            std::string staticMethod;
+            FunctionDef* staticFuncDef = nullptr;
+            if (classdefResolveStaticMethodFunction(
+                    currentType, methodName, staticMethod, getClassdefAccessContext())
+                && _context->lookupFunction(staticMethod, staticFuncDef) && staticFuncDef != nullptr
+                && ((staticFuncDef->type() == NLS_BUILT_IN_FUNCTION)
+                    || (staticFuncDef->type() == NLS_MACRO_FUNCTION))) {
+                int requestedOutputs
+                    = (nLhs == 1 && staticFuncDef->outputArgCount() == 0) ? 0 : nLhs;
+                result = staticFuncDef->evaluateFunction(this, params, requestedOutputs);
+                return true;
             }
-            try {
-                return r.getVectorSubset(m[0]);
-            } catch (const Exception&) {
-                return ArrayOf::emptyConstructor();
+            canUseDirectMethod = classdefResolveMethodFunction(
+                currentType, methodName, directMethod, getClassdefAccessContext());
+            if (!canUseDirectMethod && classdefHasMethodDefinition(currentType, methodName)) {
+                Error("Nelson:interpreter:noSuchProperty", "No such property: %s", methodName);
             }
         }
-        try {
-            return r.getNDimSubset(m);
-        } catch (const Exception&) {
-            return ArrayOf::emptyConstructor();
-        }
     }
-    case OP_BRACES: {
-        ArrayOfVector m = expressionList(t->down, r);
-        if (m.empty()) {
-            Error(ERROR_INDEX_EXPRESSION_EXPECTED);
+    if (canUseDirectMethod && lookupOverloadFunctionCached(_context, directMethod, funcDef)) {
+        if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION)
+                || (funcDef->type() == NLS_MACRO_FUNCTION))) {
+            Error(L"Nelson:interpreter:invalidTypeFunction", L"Type function not valid.");
         }
-        if (m.size() == 1) {
-            try {
-                return r.getVectorContents(m[0]);
-            } catch (const Exception&) {
-                return ArrayOf::emptyConstructor();
+        ArrayOfVector argIn;
+        argIn.reserve(params.size() + 1);
+        argIn.push_back(r);
+        for (const ArrayOf& a : params) {
+            argIn.push_back(a);
+        }
+        int requestedOutputs = nLhs == 1 && funcDef->outputArgCount() == 0 ? 0 : nLhs;
+        result = funcDef->evaluateFunction(this, argIn, requestedOutputs);
+        return true;
+    }
+    if (!isObjectMethod(r, methodName)) {
+        return false;
+    }
+    directMethod = getOverloadFunctionName(currentType, methodName);
+    canUseDirectMethod = true;
+    if (r.isClassType() || r.isHandle()) {
+        if (classdefLoadClass(currentType)) {
+            canUseDirectMethod = classdefResolveMethodFunction(
+                currentType, methodName, directMethod, getClassdefAccessContext());
+            if (!canUseDirectMethod && classdefHasMethodDefinition(currentType, methodName)) {
+                Error("Nelson:interpreter:noSuchProperty", "No such property: %s", methodName);
             }
         }
-        try {
-            return r.getNDimContents(m);
-        } catch (const Exception&) {
-            return ArrayOf::emptyConstructor();
-        }
     }
-    case OP_DOT: {
-        try {
-            if (r.isGraphicsObject()) {
-                ArrayOfVector params;
-                ArrayOfVector rv = getHandle(r, t->down->text, params);
-                return rv.empty() ? ArrayOf::emptyConstructor() : rv[0];
+    if (canUseDirectMethod && lookupOverloadFunctionCached(_context, directMethod, funcDef)) {
+        if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION)
+                || (funcDef->type() == NLS_MACRO_FUNCTION))) {
+            Error(L"Nelson:interpreter:invalidTypeFunction", L"Type function not valid.");
+        }
+        ArrayOfVector argIn;
+        argIn.reserve(params.size() + 1);
+        argIn.push_back(r);
+        for (const ArrayOf& a : params) {
+            argIn.push_back(a);
+        }
+        int requestedOutputs = nLhs == 1 && funcDef->outputArgCount() == 0 ? 0 : nLhs;
+        result = funcDef->evaluateFunction(this, argIn, requestedOutputs);
+        return true;
+    }
+    std::string functionNameCurrentType
+        = getOverloadFunctionName(currentType, EVALUATOR_INDEXING_FUNCTION_INVOKE);
+    if (!lookupOverloadFunctionCached(_context, functionNameCurrentType, funcDef)) {
+        return false;
+    }
+    if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION))) {
+        Error(L"Nelson:interpreter:invalidTypeFunction", L"Type function not valid.");
+    }
+    ArrayOfVector argIn;
+    argIn.push_back(r);
+    argIn.push_back(ArrayOf::characterArray(methodName));
+    for (const ArrayOf& a : params) {
+        argIn.push_back(a);
+    }
+    int requestedOutputs = nLhs == 1 && funcDef->outputArgCount() == 0 ? 0 : nLhs;
+    result = funcDef->evaluateFunction(this, argIn, requestedOutputs);
+    return true;
+}
+//=============================================================================
+bool
+Evaluator::bytecodeInvokeObjectMethodIfExistsWithInputs(const ArrayOf& r,
+    const std::string& methodName, const ArrayOfVector& argIn, int nLhs, ArrayOfVector& result)
+{
+    Context* _context = this->getContext();
+    FunctionDef* funcDef = nullptr;
+    std::string currentType = r.isHandle() ? r.handleCategory()
+        : r.isClassType()                  ? r.classType()
+                                           : "";
+    if (currentType.empty()) {
+        return false;
+    }
+    std::string directMethod = getOverloadFunctionName(currentType, methodName);
+    bool canUseDirectMethod = true;
+    if (r.isClassType() || r.isHandle()) {
+        if (classdefLoadClass(currentType)) {
+            canUseDirectMethod = classdefResolveMethodFunction(
+                currentType, methodName, directMethod, getClassdefAccessContext());
+            if (!canUseDirectMethod && classdefHasMethodDefinition(currentType, methodName)) {
+                Error("Nelson:interpreter:noSuchProperty", "No such property: %s", methodName);
             }
-            return r.getField(t->down->text);
-        } catch (const Exception&) {
-            return ArrayOf::emptyConstructor();
         }
     }
-    case OP_DOTDYN: {
-        std::string field;
-        try {
-            ArrayOf fname(expression(t->down));
-            field = fname.getContentAsCString();
-        } catch (const Exception&) {
-            Error(ERROR_DYNAMIC_FIELD_STRING_EXPECTED);
-        }
-        try {
-            return r.getField(field);
-        } catch (const Exception&) {
-            return ArrayOf::emptyConstructor();
+    if (!canUseDirectMethod || !lookupOverloadFunctionCached(_context, directMethod, funcDef)) {
+        return false;
+    }
+    if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION))) {
+        Error(L"Nelson:interpreter:invalidTypeFunction", L"Type function not valid.");
+    }
+    int requestedOutputs = nLhs == 1 && funcDef->outputArgCount() == 0 ? 0 : nLhs;
+    result = funcDef->evaluateFunction(this, argIn, requestedOutputs);
+    return true;
+}
+//=============================================================================
+void
+Evaluator::bytecodeSetHandle(
+    ArrayOf r, const std::string& fieldname, const ArrayOfVector& fieldvalue)
+{
+    setHandle(r, fieldname, fieldvalue);
+}
+//=============================================================================
+ArrayOfVector
+Evaluator::bytecodeExtractClass(const ArrayOf& r, const stringVector& subtypes,
+    const ArrayOfVector& subsindices, bool& haveFunction, int nLhs)
+{
+    return extractClass(r, subtypes, subsindices, haveFunction, nLhs);
+}
+//=============================================================================
+ArrayOf
+Evaluator::bytecodeAssignClass(const ArrayOf& r, const stringVector& subtypes,
+    const ArrayOfVector& subsindices, const ArrayOf& value, bool& haveFunction)
+{
+    haveFunction = false;
+    if (r.isHandle() && subtypes.size() == 1 && subtypes.front() == "()"
+        && r.handleCategory() == NLS_HANDLE_CONTAINERS_MAP_CATEGORY_STR) {
+        // hot path: keyed write on a char-key map backed by native storage
+        std::string key;
+        if (containersMapCharKey(subsindices, key)) {
+            ClassdefHandleObject* object = nullptr;
+            ContainersMapObject* nativeMap = containersMapNativeStorage(r, &object);
+            // only a char-key map stores a char key directly; numeric-key maps
+            // also use native storage but must validate the key type first
+            if (nativeMap != nullptr && object != nullptr
+                && object->getProperty("KeyTypeValue").asUtf8String() == "char") {
+                const std::string valueType = object->getProperty("ValueTypeValue").asUtf8String();
+                if (valueType == "any" || ClassName(value) == valueType) {
+                    nativeMap->set(key, value);
+                    haveFunction = true;
+                    return r;
+                }
+            }
         }
     }
-    default:
-        return ArrayOf::emptyConstructor();
+    // Within a classic (struct-based) class's own method, obj.field = value writes
+    // the object's data field directly rather than through its overloaded subsasgn.
+    if (r.isClassType() && r.dataClass() == NLS_CLASS_ARRAY && subtypes.size() == 1
+        && subtypes.front() == "." && subsindices.size() == 1
+        && subsindices.front().isRowVectorCharacterArray()
+        && getClassdefAccessContext() == r.classType()) {
+        haveFunction = true;
+        ArrayOf result = r;
+        ArrayOfVector fieldValue;
+        fieldValue.push_back(value);
+        result.setFieldAsList(subsindices.front().asUtf8String(), fieldValue);
+        return result;
     }
+    // Within a user-defined class's own method, obj(i) on an object of that class uses the built-in
+    // structural assignment, not the overloaded subsasgn, like the read side. This also covers the
+    // write-back of a decomposed obj(i).field = val chain. Native Nelson classes drive structural
+    // indexing through their own subsasgn and are excluded by the user-defined test.
+    if ((r.isClassType() || r.isHandle()) && subtypes.size() == 1 && subtypes.front() == "()") {
+        const std::string ownClass = r.isHandle() ? r.handleCategory() : r.classType();
+        if (!ownClass.empty() && getClassdefAccessContext() == ownClass
+            && !classdefHasMethodDefinition(
+                ownClass, EVALUATOR_INDEXING_FUNCTION_PAREN_REFERENCE)) {
+            std::string resolvedSubsasgn;
+            FunctionDef* subsasgnDef = nullptr;
+            if (classdefResolveMethodFunction(
+                    ownClass, SUBSASGN_OPERATOR_STR, resolvedSubsasgn, getClassdefAccessContext())
+                && getContext()->lookupFunction(resolvedSubsasgn, subsasgnDef)
+                && subsasgnDef != nullptr && subsasgnDef->type() == NLS_MACRO_FUNCTION
+                && classSubsrefIsUserDefined(subsasgnDef->getFilename())) {
+                return {};
+            }
+        }
+    }
+    std::string currentClass = r.isGraphicsObject() ? ClassToString(r.dataClass())
+        : r.isHandle()                              ? r.handleCategory()
+                                                    : ClassName(r);
+    bool isClassdefObject = (r.isClassType() || r.isHandle()) && classdefLoadClass(currentClass);
+    FunctionDef* funcDef = nullptr;
+    std::string functionName = getOverloadFunctionName(currentClass, SUBSASGN_OPERATOR_STR);
+    if (r.isHandle() && !isClassdefObject) {
+        // Native handle objects (e.g. gpuArray) are not classdef classes but may still provide an
+        // overloaded subsasgn. Dispatch to it when present, otherwise use the default assignment.
+        FunctionDef* handleSubsasgn = nullptr;
+        if (!lookupOverloadFunctionCached(getContext(), functionName, handleSubsasgn)) {
+            return {};
+        }
+    }
+    bool useClassSpecificSubsasgn = true;
+    if (isClassdefObject) {
+        // builtin('subsasgn', obj, S, val) clears withOverload so the assignment uses the default
+        // class-array subsasgn. A subsasgn that falls back to builtin('subsasgn', ...) relies on
+        // this to avoid infinite recursion.
+        useClassSpecificSubsasgn
+            = withOverload && classdefHasMethod(currentClass, SUBSASGN_OPERATOR_STR);
+        if (useClassSpecificSubsasgn) {
+            // subsasgn may be inherited from a superclass: resolve the implementing overload (e.g.
+            // base_subsasgn) along the inheritance chain. The exact lookup below misses the
+            // inherited method and would use the generic class-array subsasgn.
+            std::string resolvedSubsasgn;
+            if (classdefResolveMethodFunction(currentClass, SUBSASGN_OPERATOR_STR, resolvedSubsasgn,
+                    getClassdefAccessContext())) {
+                functionName = resolvedSubsasgn;
+            }
+        }
+        if (subtypes.size() == 1 && subtypes.front() == "." && subsindices.size() == 1
+            && subsindices.front().isRowVectorCharacterArray()) {
+            std::string propertyName = subsindices.front().asUtf8String();
+            if (isDirectPropertyAccess(currentClass, propertyName, useClassSpecificSubsasgn)) {
+                if (classdefIsBuiltinClass(currentClass)
+                    && !classdefCanSetProperty(
+                        currentClass, propertyName, getClassdefAccessContext(), true, this)) {
+                    Error(L"Nelson:interpreter:readOnlyProperty",
+                        L"Cannot set read-only property of %s.", utf8_to_wstring(currentClass));
+                }
+                useClassSpecificSubsasgn = false;
+                const ClassdefPropertyDefinition* plainProperty = r.isClassType()
+                    ? classdefPlainStoredProperty(currentClass, propertyName, true)
+                    : nullptr;
+                if (plainProperty != nullptr) {
+                    // plain stored property: assign directly, the generic subsasgn
+                    // builtin would redo these checks and copy every stored value
+                    haveFunction = true;
+                    ArrayOf res = r;
+                    ArrayOfVector propertyValue;
+                    if (plainProperty->validationExpression.empty()) {
+                        propertyValue << value;
+                    } else {
+                        propertyValue << classdefValidatePropertyValue(this, *plainProperty, value);
+                    }
+                    res.setFieldAsList(propertyName, propertyValue);
+                    return res;
+                }
+            } else if (!classdefHasMethodDefinition(currentClass, propertyName)
+                && classdefHasMethodDefinition(
+                    currentClass, EVALUATOR_INDEXING_FUNCTION_DOT_ASSIGN)) {
+                const std::string dotAsgnMethod
+                    = classdefIsA(currentClass, NLS_MIXIN_INDEXING_REDEFINES_DOT)
+                    ? std::string("__nls_ridx_dot_asgn__")
+                    : std::string(EVALUATOR_INDEXING_FUNCTION_DOT_ASSIGN);
+                if (classdefResolveMethodFunction(
+                        currentClass, dotAsgnMethod, functionName, getClassdefAccessContext())
+                    && lookupOverloadFunctionCached(getContext(), functionName, funcDef)) {
+                    haveFunction = true;
+                    if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION)
+                            || (funcDef->type() == NLS_MACRO_FUNCTION))) {
+                        Error(
+                            L"Nelson:interpreter:invalidTypeFunction", L"Type function not valid.");
+                    }
+                    ArrayOfVector args;
+                    args.push_back(r);
+                    args.push_back(ArrayOf::characterArray(propertyName));
+                    args.push_back(value);
+                    CallStack backupCallStack = callstack;
+                    int requestedOutputs = r.isHandle() && funcDef->outputArgCount() == 0 ? 0 : 1;
+                    ArrayOfVector rv = funcDef->evaluateFunction(this, args, requestedOutputs);
+                    callstack = backupCallStack;
+                    return rv.empty() ? r : rv[0];
+                }
+            }
+        }
+        if (!useClassSpecificSubsasgn && subtypes.size() == 1 && subtypes.front() == "()"
+            && subsindices.size() == 1
+            && classdefHasMethodDefinition(
+                currentClass, EVALUATOR_INDEXING_FUNCTION_PAREN_ASSIGN)) {
+            // RedefinesParen declares parenAssign protected; route through the public
+            // dispatcher which builds the IndexingOperation and calls the protected hook.
+            const std::string parenAsgnMethod
+                = classdefIsA(currentClass, NLS_MIXIN_INDEXING_REDEFINES_PAREN)
+                ? std::string("__nls_ridx_paren_asgn__")
+                : std::string(EVALUATOR_INDEXING_FUNCTION_PAREN_ASSIGN);
+            if (classdefResolveMethodFunction(
+                    currentClass, parenAsgnMethod, functionName, getClassdefAccessContext())
+                && lookupOverloadFunctionCached(getContext(), functionName, funcDef)) {
+                haveFunction = true;
+                if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION)
+                        || (funcDef->type() == NLS_MACRO_FUNCTION))) {
+                    Error(L"Nelson:interpreter:invalidTypeFunction", L"Type function not valid.");
+                }
+                ArrayOfVector args;
+                args.push_back(r);
+                args.push_back(subsindices.front());
+                args.push_back(value);
+                CallStack backupCallStack = callstack;
+                int requestedOutputs = r.isHandle() && funcDef->outputArgCount() == 0 ? 0 : 1;
+                ArrayOfVector rv = funcDef->evaluateFunction(this, args, requestedOutputs);
+                callstack = backupCallStack;
+                return rv.empty() ? r : rv[0];
+            }
+        }
+        if (!useClassSpecificSubsasgn && subtypes.size() == 1 && subtypes.front() == "{}"
+            && subsindices.size() == 1
+            && classdefHasMethodDefinition(
+                currentClass, EVALUATOR_INDEXING_FUNCTION_BRACE_ASSIGN)) {
+            const std::string braceAsgnMethod
+                = classdefIsA(currentClass, NLS_MIXIN_INDEXING_REDEFINES_BRACE)
+                ? std::string("__nls_ridx_brace_asgn__")
+                : std::string(EVALUATOR_INDEXING_FUNCTION_BRACE_ASSIGN);
+            if (classdefResolveMethodFunction(
+                    currentClass, braceAsgnMethod, functionName, getClassdefAccessContext())
+                && lookupOverloadFunctionCached(getContext(), functionName, funcDef)) {
+                haveFunction = true;
+                if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION)
+                        || (funcDef->type() == NLS_MACRO_FUNCTION))) {
+                    Error(L"Nelson:interpreter:invalidTypeFunction", L"Type function not valid.");
+                }
+                ArrayOfVector args;
+                args.push_back(r);
+                args.push_back(subsindices.front());
+                args.push_back(value);
+                CallStack backupCallStack = callstack;
+                int requestedOutputs = r.isHandle() && funcDef->outputArgCount() == 0 ? 0 : 1;
+                ArrayOfVector rv = funcDef->evaluateFunction(this, args, requestedOutputs);
+                callstack = backupCallStack;
+                return rv.empty() ? r : rv[0];
+            }
+        }
+    }
+    if (!useClassSpecificSubsasgn && isClassdefObject && r.isHandle() && subtypes.size() == 1
+        && subtypes.front() == "." && subsindices.size() == 1
+        && subsindices.front().isRowVectorCharacterArray()) {
+        // default h.name = value (builtin('subsasgn', ...)): the handle property write
+        setHandle(r, subsindices.front().asUtf8String(), { value });
+        haveFunction = true;
+        return r;
+    }
+    if (!useClassSpecificSubsasgn
+        || !lookupOverloadFunctionCached(getContext(), functionName, funcDef)) {
+        if (isClassdefObject && !subtypes.empty() && subtypes.front() == "()") {
+            if (classdefIsA(currentClass, NLS_MIXIN_SCALAR)) {
+                RaiseError("Indexed assignment with parentheses is not supported for '"
+                        + currentClass + "' objects.",
+                    "Nelson:class:parenAssignScalar");
+            }
+            return {};
+        }
+        functionName
+            = getOverloadFunctionName(std::string(NLS_CLASS_ARRAY_STR), SUBSASGN_OPERATOR_STR);
+        if (!lookupOverloadFunctionCached(getContext(), functionName, funcDef)) {
+            return {};
+        }
+    }
+    haveFunction = true;
+    if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION) || (funcDef->type() == NLS_MACRO_FUNCTION))) {
+        Error(L"Nelson:interpreter:invalidTypeFunction", L"Type function not valid.");
+    }
+
+    stringVector fieldnames = { EVALUATOR_INDEXING_FIELD_TYPE, EVALUATOR_INDEXING_FIELD_SUBS };
+    Dimensions dims(1, subtypes.size());
+    auto* elements = static_cast<ArrayOf*>(
+        ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, dims.elementCount(), fieldnames, false));
+    ArrayOf substruct = ArrayOf(NLS_STRUCT_ARRAY, dims, elements, false, fieldnames);
+
+    ArrayOfVector typesVector;
+    ArrayOfVector subsVector;
+    typesVector.reserve(subtypes.size());
+    subsVector.reserve(subsindices.size());
+    for (const auto& t : subtypes) {
+        typesVector.push_back(ArrayOf::characterArray(t));
+    }
+    for (const auto& t : subsindices) {
+        subsVector.push_back(t);
+    }
+    substruct.setFieldAsList(EVALUATOR_INDEXING_FIELD_TYPE, typesVector);
+    substruct.setFieldAsList(EVALUATOR_INDEXING_FIELD_SUBS, subsVector);
+
+    ArrayOfVector args;
+    args.push_back(r);
+    args.push_back(substruct);
+    args.push_back(value);
+
+    CallStack backupCallStack = callstack;
+    ArrayOfVector rv = funcDef->evaluateFunction(this, args, 1);
+    callstack = backupCallStack;
+    return rv.empty() ? ArrayOf::empty() : rv[0];
 }
 //=============================================================================
 //!
@@ -171,9 +572,9 @@ Evaluator::simpleSubindexExpression(ArrayOf& r, AbstractSyntaxTreePtr t)
 //@@Cell Indexing
 // The second form of indexing operates, to a large extent, in
 // the same manner as the array indexing, but it is by no means
-// interchangable.  As the name implies, @|cell|-indexing applies
+// interchangeable.  As the name implies, @|cell|-indexing applies
 // only to @|cell| arrays.  For those familiar with @|C|, cell-
-// indexing is equivalent to pointer derefencing in @|C|.  First,
+// indexing is equivalent to pointer dereferencing in @|C|.  First,
 // the syntax:
 //@[
 //  variable{index_1,index_2,...,index_n}
@@ -253,7 +654,7 @@ Evaluator::simpleSubindexExpression(ArrayOf& r, AbstractSyntaxTreePtr t)
 // x.red = 430;
 // x.green = 240;
 // x.blue = 53;
-// x.yello = 105
+// x.yellow = 105
 //@>
 // Then we can index into the structure @|x| using a dynamic field
 // reference:
@@ -277,537 +678,263 @@ Evaluator::simpleSubindexExpression(ArrayOf& r, AbstractSyntaxTreePtr t)
 // a value of pi.
 //!
 ArrayOfVector
-Evaluator::rhsExpression(AbstractSyntaxTreePtr t, int nLhs)
-{
-    ArrayOf r;
-    ArrayOfVector m;
-    ArrayOfVector rv;
-    Dimensions rhsDimensions;
-    FunctionDef* funcDef = nullptr;
-    callstack.pushID((size_t)t->getContext());
-    // Try to satisfy the rhs expression with what functions we have already
-    // loaded.
-    if (context->lookupVariable(t->text, r)) {
-        if (t->down == nullptr) {
-            callstack.popID();
-            return ArrayOfVector(r);
-        }
-        AbstractSyntaxTreePtr tt = t->down;
-        if (tt->opNum == OP_PARENS && tt->down == nullptr && tt->right != nullptr) {
-            tt = tt->right;
-            if (tt->opNum == OP_DOT) {
-                rv = ArrayOfVector(r.getField(tt->down->text));
-                callstack.popID();
-                return rv;
-            }
-        }
-    } else {
-        if (lookupFunction(t->text, funcDef)) {
-            if (funcDef->outputArgCount() == 0) {
-                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS, utf8_to_wstring(funcDef->getName()));
-            }
-            m = functionExpression(funcDef, t, 1, false);
-            callstack.popID();
-            return m;
-        }
-        /* try for method of handle */
-        if (t->down && t->down->opNum == OP_PARENS) {
-            funcDef = nullptr;
-            m = functionExpression(funcDef, t, 1, false);
-            callstack.popID();
-            return m;
-        }
-        Error(utf8_to_wstring(_("Undefined variable or function:") + " " + t->text));
-    }
-
-    t = t->down;
-    while (t != nullptr) {
-        rhsDimensions = r.getDimensions();
-        if (!rv.empty()) {
-            Error(_W("Cannot reindex an expression that returns multiple values."));
-        }
-        if (t->opNum == (OP_PARENS)) {
-            bool isFinished = false;
-            rhsExpressionParens(rhsDimensions, rv, t, r, nLhs, isFinished);
-            if (isFinished) {
-                return rv;
-            }
-        }
-        if (t->opNum == (OP_BRACES)) {
-            rhsExpressionBraces(rhsDimensions, rv, t, r, nLhs);
-        }
-        if (t->opNum == (OP_DOT)) {
-            rhsExpressionDot(rv, t, r, nLhs);
-        }
-        if (t->opNum == (OP_DOTDYN)) {
-            rhsExpressionDynDot(rv, t, r, nLhs);
-        }
-        t = t->right;
-    }
-    if (rv.empty()) {
-        if (nLhs != 0) {
-            rv.push_back(r);
-        }
-    }
-    callstack.popID();
-    return rv;
-}
-//=============================================================================
-void
-Evaluator::rhsExpressionParens(Dimensions& rhsDimensions, ArrayOfVector& rv,
-    AbstractSyntaxTreePtr& t, ArrayOf& r, int nLhs, bool& isFinished)
-{
-    isFinished = false;
-    ArrayOfVector m = expressionList(t->down, r);
-    if (rhsDimensions.getLength() > (indexType)m.size()) {
-        Dimensions nDim;
-        if (m.size() >= 2) {
-            size_t d = 0;
-            for (d = 0; d < m.size() - 1; d++) {
-                nDim[d] = rhsDimensions[d];
-            }
-            indexType L = 1;
-            for (indexType k = d; k < rhsDimensions.getLength(); k++) {
-                L = L * rhsDimensions[k];
-            }
-            nDim[d] = L;
-            r.reshape(nDim);
-            rhsDimensions = r.getDimensions();
-            m = expressionList(t->down, r);
-        }
-    }
-    if (r.isFunctionHandle()) {
-        if (t->right != nullptr && t->right->opNum != OP_PARENS) {
-            Error(_("Invalid indexing."));
-        }
-        std::string extractionFunctionName
-            = getOverloadFunctionName(NLS_FUNCTION_HANDLE_STR, SUBSREF_OPERATOR_STR);
-        FunctionDef* funcDef = nullptr;
-        if (lookupFunction(extractionFunctionName, funcDef)) {
-            CallStack backupCallStack = this->callstack;
-            ArrayOfVector paramsIn(m);
-            paramsIn.push_front(r);
-            rv = funcDef->evaluateFunction(this, paramsIn, nLhs);
-            callstack = backupCallStack;
-            callstack.popID();
-            isFinished = true;
-            return;
-        }
-    }
-    if (m.size() == 0) {
-        if (t->right == nullptr) {
-            callstack.popID();
-            rv = ArrayOfVector(r);
-            isFinished = true;
-            return;
-        }
-        Error(_W("index expected."));
-
-    } else if (m.size() == 1) {
-        if (r.isClassType()) {
-            stringVector substype;
-            substype.push_back("()");
-            ArrayOfVector subsindices;
-            ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, m.size() + 1);
-            ArrayOf cell = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, m.size()), elements);
-            for (size_t k = 0; k < m.size(); k++) {
-                elements[k] = m[k];
-            }
-            subsindices.push_back(cell);
-
-            bool haveFunction;
-            ArrayOfVector rr = extractClass(r, substype, subsindices, haveFunction);
-            if (haveFunction) {
-                r = rr[0];
-            } else {
-                r = r.getVectorSubset(m[0]);
-            }
-        } else {
-            r = r.getVectorSubset(m[0]);
-        }
-    } else {
-        if (r.isClassType()) {
-            stringVector substype;
-            ArrayOfVector subsindices;
-            substype.push_back("()");
-            ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, m.size() + 1);
-            ArrayOf cell = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, m.size()), elements);
-            for (size_t k = 0; k < m.size(); k++) {
-                elements[k] = m[k];
-            }
-            subsindices.push_back(cell);
-
-            bool haveFunction;
-            ArrayOfVector rr = extractClass(r, substype, subsindices, haveFunction);
-            if (haveFunction) {
-                r = rr[0];
-            } else {
-                r = r.getNDimSubset(m);
-            }
-        } else {
-            r = r.getNDimSubset(m);
-        }
-    }
-}
-//=============================================================================
-void
-Evaluator::rhsExpressionBraces(
-    Dimensions& rhsDimensions, ArrayOfVector& rv, AbstractSyntaxTreePtr& t, ArrayOf& r, int nLhs)
-{
-    ArrayOfVector m = expressionList(t->down, r);
-    if (rhsDimensions.getLength() > (indexType)m.size()) {
-        Dimensions nDim;
-        if (m.size() >= 2) {
-            size_t d = 0;
-            for (d = 0; d < m.size() - 1; d++) {
-                nDim[d] = rhsDimensions[d];
-            }
-            indexType L = 1;
-            for (indexType k = d; k < rhsDimensions.getLength(); k++) {
-                L = L * rhsDimensions[k];
-            }
-            nDim[d] = L;
-            r.reshape(nDim);
-            rhsDimensions = r.getDimensions();
-            m = expressionList(t->down, r);
-        }
-    }
-    if (m.size() == 0) {
-        Error(ERROR_INDEX_EXPRESSION_EXPECTED);
-    } else if (m.size() == 1) {
-        if (r.isClassType()) {
-            stringVector substype;
-            ArrayOfVector subsindices;
-            substype.push_back("{}");
-            ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, m.size() + 1);
-            ArrayOf cell = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, m.size()), elements);
-            for (size_t k = 0; k < m.size(); k++) {
-                elements[k] = m[k];
-            }
-            subsindices.push_back(cell);
-
-            bool haveFunction;
-            ArrayOfVector rr = extractClass(r, substype, subsindices, haveFunction);
-            if (haveFunction) {
-                rv = rr[0];
-            } else {
-                rv = r.getVectorContentsAsList(m[0]);
-            }
-        } else {
-            rv = r.getVectorContentsAsList(m[0]);
-        }
-    } else {
-        if (r.isClassType()) {
-            stringVector substype;
-            ArrayOfVector subsindices;
-            substype.push_back("{}");
-            ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, m.size() + 1);
-            ArrayOf cell = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, m.size()), elements);
-            for (size_t k = 0; k < m.size(); k++) {
-                elements[k] = m[k];
-            }
-            subsindices.push_back(cell);
-
-            bool haveFunction;
-            ArrayOfVector rr = extractClass(r, substype, subsindices, haveFunction);
-            if (haveFunction) {
-                rv = rr[0];
-            } else {
-                rv = r.getNDimContentsAsList(m);
-            }
-        } else {
-            rv = r.getNDimContentsAsList(m);
-        }
-    }
-
-    if (rv.size() == 1) {
-        r = rv[0];
-        rv = ArrayOfVector();
-    } else if (rv.size() == 0) {
-        r = ArrayOf::emptyConstructor();
-
-        if (nLhs == 1) {
-            Error(ERROR_EMPTY_EXPRESSION);
-        }
-    }
-}
-//=============================================================================
-void
-Evaluator::rhsExpressionDot(ArrayOfVector& rv, AbstractSyntaxTreePtr& t, ArrayOf& r, int nLhs)
-{
-    std::string fieldname = t->down->text;
-
-    if (r.isClassType()) {
-        stringVector substype;
-        ArrayOfVector subsindices;
-        substype.push_back(".");
-        subsindices.push_back(ArrayOf::characterArrayConstructor(fieldname));
-        if (t->right != nullptr) {
-            if (t->right->opNum == OP_DOT) {
-                substype.push_back(".");
-                if (t->right->down && !t->right->down->text.empty()) {
-                    subsindices.push_back(ArrayOf::characterArrayConstructor(t->right->down->text));
-                }
-            } else if (t->right->opNum == OP_BRACES) {
-                substype.push_back("{}");
-            } else if (t->right->opNum == OP_PARENS) {
-                substype.push_back("()");
-            }
-            ArrayOfVector childrendIndices = expressionList(t->right->down, r);
-            ArrayOf* elements
-                = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, childrendIndices.size());
-            ArrayOf cell
-                = ArrayOf(NLS_CELL_ARRAY, Dimensions(1, childrendIndices.size()), elements);
-            for (size_t k = 0; k < childrendIndices.size(); k++) {
-                elements[k] = childrendIndices[k];
-            }
-            subsindices.push_back(cell);
-            t = t->right;
-        }
-        bool haveFunction;
-        rv = extractClass(r, substype, subsindices, haveFunction);
-        if (!haveFunction) {
-            rv = r.getFieldAsList(fieldname);
-        }
-    } else if (r.isHandle() || r.isGraphicsObject()) {
-        ArrayOfVector params;
-        logical isValidMethod = false;
-        try {
-            isValidMethod = isObjectMethod(r, fieldname);
-        } catch (const Exception&) {
-            if (r.isHandle()) {
-                Error(_("Please define: ")
-                    + getOverloadFunctionName(r.getHandleCategory(), "ismethod"));
-            }
-            isValidMethod = false;
-        }
-        if (isValidMethod != 0U) {
-            if (t->right != nullptr) {
-                params = expressionList(t->right->down, r);
-                t = t->right;
-            }
-        }
-        if (isValidMethod) {
-            rv = invokeMethod(r, fieldname, params);
-        } else {
-            rv = getHandle(r, fieldname, params);
-        }
-
-    } else {
-        rv = r.getFieldAsList(fieldname);
-    }
-    if (rv.size() == 1) {
-        r = rv[0];
-        rv = ArrayOfVector();
-    } else if (rv.size() == 0) {
-        r = ArrayOf::emptyConstructor();
-        rv = ArrayOfVector();
-    }
-}
-//=============================================================================
-void
-Evaluator::rhsExpressionDynDot(ArrayOfVector& rv, AbstractSyntaxTreePtr& t, ArrayOf& r, int nLhs)
-{
-    std::string field;
-    try {
-        ArrayOf fname(expression(t->down));
-        field = fname.getContentAsCString();
-    } catch (const Exception&) {
-        Error(ERROR_DYNAMIC_FIELD_STRING_EXPECTED);
-    }
-    if (r.isClassType()) {
-        ArrayOfVector v;
-
-        stringVector substype;
-        ArrayOfVector subsindices;
-        substype.push_back(".");
-        subsindices.push_back(ArrayOf::characterArrayConstructor(field));
-
-        bool haveFunction;
-        rv = extractClass(r, substype, subsindices, haveFunction);
-        if (!haveFunction) {
-            rv = r.getFieldAsList(field);
-        }
-    } else if (r.isHandle()) {
-        ArrayOfVector v;
-        rv = getHandle(r, field, v);
-    } else {
-        rv = r.getFieldAsList(field);
-    }
-    if (rv.size() <= 1) {
-        r = rv[0];
-        rv = ArrayOfVector();
-    }
-}
-//=============================================================================
-ArrayOf
-Evaluator::rhsExpressionSimple(AbstractSyntaxTreePtr t)
-{
-    ArrayOf r;
-    ArrayOfVector m;
-    bool isVar = false;
-    bool isFun = false;
-    FunctionDef* funcDef = nullptr;
-    callstack.pushID((size_t)t->getContext());
-    // Try to satisfy the rhs expression with what functions we have already
-    // loaded.
-    isVar = context->lookupVariable(t->text, r);
-    if (isVar && (t->down == nullptr)) {
-        callstack.popID();
-        return r;
-    }
-    if (!isVar) {
-        isFun = lookupFunction(t->text, funcDef);
-    }
-    if (!isVar && isFun && funcDef != nullptr) {
-        m = functionExpression(funcDef, t, 1, false);
-        if (m.empty()) {
-            callstack.popID();
-            return ArrayOf::emptyConstructor();
-        }
-        callstack.popID();
-        return m[0];
-    }
-    if (!isVar) {
-        Error(utf8_to_wstring(_("Undefined variable:") + " " + t->text));
-    }
-    if (!isFun) {
-        Error(utf8_to_wstring(_("Undefined function:") + " " + t->text));
-    }
-    callstack.popID();
-    return r;
-}
-//=============================================================================
-indexType
-Evaluator::countLeftHandSides(AbstractSyntaxTreePtr t)
-{
-    ArrayOf lhs;
-    if (t == nullptr) {
-        Error(_W("Syntax error."));
-    }
-    if (!context->lookupVariable(t->text, lhs)) {
-        lhs = ArrayOf::emptyConstructor();
-    }
-    AbstractSyntaxTreePtr s = t->down;
-    if (s == nullptr) {
-        return 1;
-    }
-    callstack.pushID((size_t)s->getContext());
-    while (s->right != nullptr) {
-        if (!lhs.isEmpty()) {
-            lhs = simpleSubindexExpression(lhs, s);
-        }
-        s = s->right;
-    }
-    // We are down to the last subindexing expression...
-    // We have to special case this one
-    Dimensions rhsDimensions(lhs.getDimensions());
-    ArrayOfVector m;
-    if (s->opNum == (OP_PARENS)) {
-        m = expressionList(s->down, lhs);
-        if (m.size() == 0) {
-            Error(ERROR_INDEX_EXPRESSION_EXPECTED);
-        }
-        if (m.size() == 1) {
-            // m[0] should have only one element...
-            m[0].toOrdinalType();
-            if (m[0].getElementCount() > 1) {
-                Error(ERROR_PARENTHETICAL_EXPRESSION);
-            }
-            callstack.popID();
-            return (m[0].getElementCount());
-        }
-        size_t i = 0;
-        indexType outputCount = 1;
-        while (i < m.size()) {
-            m[i].toOrdinalType();
-            outputCount *= m[i].getElementCount();
-            i++;
-        }
-        if (outputCount > 1) {
-            Error(ERROR_PARENTHETICAL_EXPRESSION);
-        }
-        callstack.popID();
-        return (outputCount);
-    }
-    if (s->opNum == (OP_BRACES)) {
-        m = expressionList(s->down, lhs);
-        if (m.size() == 0) {
-            Error(ERROR_INDEX_EXPRESSION_EXPECTED);
-        }
-        if (m.size() == 1) {
-            // m[0] should have only one element...
-            m[0].toOrdinalType();
-            callstack.popID();
-            return (m[0].getElementCount());
-        }
-        size_t i = 0;
-        indexType outputCount = 1;
-        while (i < m.size()) {
-            m[i].toOrdinalType();
-            outputCount *= m[i].getElementCount();
-            i++;
-        }
-        callstack.popID();
-        return (outputCount);
-    }
-    if (s->opNum == (OP_DOT)) {
-        callstack.popID();
-        return lhs.getElementCount();
-    }
-    callstack.popID();
-    return static_cast<indexType>(1);
-}
-//=============================================================================
-ArrayOfVector
 Evaluator::extractClass(const ArrayOf& r, const stringVector& subtypes,
-    const ArrayOfVector& subsindices, bool& haveFunction)
+    const ArrayOfVector& subsindices, bool& haveFunction, int nLhs)
 {
     haveFunction = false;
-    std::string currentClass = ClassName(r);
+    // Inside a classic (struct-based) class's own method, a dot field access reads the object's
+    // data field directly, not through the overloaded subsref.
+    if (r.isClassType() && r.dataClass() == NLS_CLASS_ARRAY && subtypes.size() == 1
+        && subtypes.front() == "." && subsindices.size() == 1
+        && subsindices.front().isRowVectorCharacterArray()
+        && getClassdefAccessContext() == r.classType()) {
+        const std::string field = subsindices.front().asUtf8String();
+        for (const std::string& existing : r.fieldNames()) {
+            if (existing == field) {
+                haveFunction = true;
+                ArrayOfVector fieldValues = r.fieldAsList(field);
+                return fieldValues.empty() ? ArrayOfVector { ArrayOf::empty() }
+                                           : ArrayOfVector { fieldValues[0] };
+            }
+        }
+    }
+    // Inside a class's own subsref/subsasgn, parenthesis indexing on an object of
+    // that class uses the built-in subset instead of re-entering the overloaded
+    // subsref, so f(1) inside subsref does not recurse.
+    if ((r.isClassType() || r.isHandle()) && subtypes.size() == 1 && subtypes.front() == "()") {
+        const std::string ownClass = r.isHandle() ? r.handleCategory() : r.classType();
+        if (!ownClass.empty() && getClassdefAccessContext() == ownClass) {
+            const std::string currentFunction = getCurrentFunctionName();
+            if (currentFunction == SUBSREF_OPERATOR_STR
+                || currentFunction == SUBSASGN_OPERATOR_STR) {
+                return {};
+            }
+            // User-defined classes use the built-in object-array subset for obj(i) in every method,
+            // so a method such as feval doing f(1) reads the first element instead of recursing. A
+            // class is user-defined when its subsref is a macro outside the Nelson installation
+            // tree. Native classes (table, datetime, ...) implement structural indexing through
+            // their overloaded subsref and keep it inside their own methods.
+            if (!classdefHasMethodDefinition(
+                    ownClass, EVALUATOR_INDEXING_FUNCTION_PAREN_REFERENCE)) {
+                std::string resolvedSubsref;
+                FunctionDef* subsrefDef = nullptr;
+                if (classdefResolveMethodFunction(
+                        ownClass, SUBSREF_OPERATOR_STR, resolvedSubsref, getClassdefAccessContext())
+                    && getContext()->lookupFunction(resolvedSubsref, subsrefDef)
+                    && subsrefDef != nullptr && subsrefDef->type() == NLS_MACRO_FUNCTION
+                    && classSubsrefIsUserDefined(subsrefDef->getFilename())) {
+                    return {};
+                }
+            }
+        }
+    }
+    if (r.isHandle() && subtypes.size() == 1 && subtypes.front() == "()" && nLhs <= 1
+        && r.handleCategory() == NLS_HANDLE_CONTAINERS_MAP_CATEGORY_STR) {
+        // hot path: keyed read on a char-key map backed by native storage
+        std::string key;
+        if (containersMapCharKey(subsindices, key)) {
+            ClassdefHandleObject* object = nullptr;
+            ContainersMapObject* nativeMap = containersMapNativeStorage(r, &object);
+            // char-key maps only; a numeric-key map rejects a char key upstream
+            if (nativeMap != nullptr && object != nullptr
+                && object->getProperty("KeyTypeValue").asUtf8String() == "char") {
+                ArrayOf value;
+                if (!nativeMap->lookup(key, value)) {
+                    Error(L"Nelson:Containers:Map:NoKey",
+                        L"The specified key is not present in this container.");
+                }
+                haveFunction = true;
+                ArrayOfVector result;
+                result.push_back(value);
+                return result;
+            }
+        }
+    }
+    if (r.isClassType() && subtypes.size() == 1 && subtypes.front() == "()"
+        && classdefLoadClass(r.classType())
+        && !classdefHasMethod(r.classType(), SUBSREF_OPERATOR_STR)
+        && !classdefHasMethodDefinition(
+            r.classType(), EVALUATOR_INDEXING_FUNCTION_PAREN_REFERENCE)) {
+        // no paren-read hooks: skip the overload-name construction and lookups,
+        // the caller applies its direct subset fallback
+        return {};
+    }
+    std::string currentClass = r.isGraphicsObject() ? ClassToString(r.dataClass())
+        : r.isHandle()                              ? r.handleCategory()
+                                                    : ClassName(r);
     Context* _context = this->getContext();
     FunctionDef* funcDef = nullptr;
     std::string functionNameSimpleExtractClass
         = getOverloadFunctionName(currentClass, SUBSREF_OPERATOR_STR);
-    if (_context->lookupFunction(functionNameSimpleExtractClass, funcDef)) {
+    if ((r.isClassType() || r.isHandle()) && classdefLoadClass(currentClass)) {
+        // builtin('subsref', obj, S) clears withOverload: it performs default structural indexing
+        // and must not re-enter the overloaded subsref, which would recurse when a class uses
+        // builtin('subsref', ...) as its fallback. Forcing useClassSpecificSubsref off routes
+        // dot/paren/brace access to the default path below.
+        bool useClassSpecificSubsref
+            = withOverload && classdefHasMethod(currentClass, SUBSREF_OPERATOR_STR);
+        if (useClassSpecificSubsref) {
+            // subsref may be inherited from a superclass: resolve the implementing overload (e.g.
+            // base_subsref) along the inheritance chain. The gate above already walks the chain, so
+            // without this the generic dispatch would look up a missing name and fall back to
+            // default property lookup.
+            std::string resolvedSubsref;
+            if (classdefResolveMethodFunction(currentClass, SUBSREF_OPERATOR_STR, resolvedSubsref,
+                    getClassdefAccessContext())) {
+                functionNameSimpleExtractClass = resolvedSubsref;
+            }
+        }
+        if (subtypes.size() == 1 && subtypes.front() == "." && subsindices.size() == 1
+            && subsindices.front().isRowVectorCharacterArray()) {
+            std::string propertyName = subsindices.front().asUtf8String();
+            if (isDirectPropertyAccess(currentClass, propertyName, useClassSpecificSubsref)) {
+                return {};
+            }
+            if (!classdefHasMethodDefinition(currentClass, propertyName)
+                && classdefHasMethodDefinition(
+                    currentClass, EVALUATOR_INDEXING_FUNCTION_DOT_REFERENCE)) {
+                // RedefinesDot declares dotReference protected; route via the public
+                // dispatcher (builds the IndexingOperation, calls the protected hook).
+                const std::string dotRefMethod
+                    = classdefIsA(currentClass, NLS_MIXIN_INDEXING_REDEFINES_DOT)
+                    ? std::string("__nls_ridx_dot_ref__")
+                    : std::string(EVALUATOR_INDEXING_FUNCTION_DOT_REFERENCE);
+                if (classdefResolveMethodFunction(currentClass, dotRefMethod,
+                        functionNameSimpleExtractClass, getClassdefAccessContext())
+                    && lookupOverloadFunctionCached(
+                        _context, functionNameSimpleExtractClass, funcDef)) {
+                    haveFunction = true;
+                    if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION)
+                            || (funcDef->type() == NLS_MACRO_FUNCTION))) {
+                        Error(
+                            L"Nelson:interpreter:invalidTypeFunction", L"Type function not valid.");
+                    }
+                    ArrayOfVector argIn;
+                    argIn.push_back(r);
+                    argIn.push_back(ArrayOf::characterArray(propertyName));
+                    CallStack backupCallStack = callstack;
+                    ArrayOfVector rv = funcDef->evaluateFunction(this, argIn, nLhs);
+                    if (!rv.empty()) {
+                        rv[0].name("");
+                    }
+                    callstack = backupCallStack;
+                    return rv;
+                }
+            }
+        }
+        if (!useClassSpecificSubsref && subtypes.size() == 1 && subtypes.front() == "()"
+            && subsindices.size() == 1
+            && classdefHasMethodDefinition(
+                currentClass, EVALUATOR_INDEXING_FUNCTION_PAREN_REFERENCE)) {
+            // RedefinesParen subclasses declare parenReference protected: route through the public
+            // dispatcher, which builds a nelson.indexing.IndexingOperation and calls the protected
+            // hook. classdefIsA runs only on this slow path (the class already defines
+            // parenReference).
+            const std::string parenRefMethod
+                = classdefIsA(currentClass, NLS_MIXIN_INDEXING_REDEFINES_PAREN)
+                ? std::string("__nls_ridx_paren_ref__")
+                : std::string(EVALUATOR_INDEXING_FUNCTION_PAREN_REFERENCE);
+            if (classdefResolveMethodFunction(currentClass, parenRefMethod,
+                    functionNameSimpleExtractClass, getClassdefAccessContext())
+                && lookupOverloadFunctionCached(
+                    _context, functionNameSimpleExtractClass, funcDef)) {
+                haveFunction = true;
+                if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION)
+                        || (funcDef->type() == NLS_MACRO_FUNCTION))) {
+                    Error(L"Nelson:interpreter:invalidTypeFunction", L"Type function not valid.");
+                }
+                ArrayOfVector argIn;
+                argIn.push_back(r);
+                argIn.push_back(subsindices.front());
+                CallStack backupCallStack = callstack;
+                ArrayOfVector rv = funcDef->evaluateFunction(this, argIn, nLhs);
+                if (!rv.empty()) {
+                    rv[0].name("");
+                }
+                callstack = backupCallStack;
+                return rv;
+            }
+        }
+        if (!useClassSpecificSubsref && subtypes.size() == 1 && subtypes.front() == "{}"
+            && subsindices.size() == 1
+            && classdefHasMethodDefinition(
+                currentClass, EVALUATOR_INDEXING_FUNCTION_BRACE_REFERENCE)) {
+            // RedefinesBrace declares braceReference protected; route via the public
+            // dispatcher (builds the IndexingOperation, calls the protected hook).
+            const std::string braceRefMethod
+                = classdefIsA(currentClass, NLS_MIXIN_INDEXING_REDEFINES_BRACE)
+                ? std::string("__nls_ridx_brace_ref__")
+                : std::string(EVALUATOR_INDEXING_FUNCTION_BRACE_REFERENCE);
+            if (classdefResolveMethodFunction(currentClass, braceRefMethod,
+                    functionNameSimpleExtractClass, getClassdefAccessContext())
+                && lookupOverloadFunctionCached(
+                    _context, functionNameSimpleExtractClass, funcDef)) {
+                haveFunction = true;
+                if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION)
+                        || (funcDef->type() == NLS_MACRO_FUNCTION))) {
+                    Error(L"Nelson:interpreter:invalidTypeFunction", L"Type function not valid.");
+                }
+                ArrayOfVector argIn;
+                argIn.push_back(r);
+                argIn.push_back(subsindices.front());
+                CallStack backupCallStack = callstack;
+                ArrayOfVector rv = funcDef->evaluateFunction(this, argIn, nLhs);
+                if (!rv.empty()) {
+                    rv[0].name("");
+                }
+                callstack = backupCallStack;
+                return rv;
+            }
+        }
+        if (!useClassSpecificSubsref) {
+            // the class defines no subsref anywhere (declared methods, @-dir
+            // and path files are all covered by the check above), so the
+            // generic overload lookup below cannot succeed: skip its repeated
+            // negative resolution
+            return {};
+        }
+    }
+    if (lookupOverloadFunctionCached(_context, functionNameSimpleExtractClass, funcDef)) {
         haveFunction = true;
         if (!((funcDef->type() == NLS_BUILT_IN_FUNCTION)
                 || (funcDef->type() == NLS_MACRO_FUNCTION))) {
-            Error(_W("Type function not valid."));
+            Error(L"Nelson:interpreter:invalidTypeFunction", L"Type function not valid.");
         }
-        int nLhs = 1;
-
         ArrayOfVector argIn;
         argIn.push_back(r);
 
-        stringVector fieldnames = { "type", "subs" };
+        stringVector fieldnames = { EVALUATOR_INDEXING_FIELD_TYPE, EVALUATOR_INDEXING_FIELD_SUBS };
         ArrayOfVector fieldvalues;
 
         Dimensions dims(1, subtypes.size());
 
         auto* elements = static_cast<ArrayOf*>(
-            ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, dims.getElementCount(), fieldnames, false));
+            ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, dims.elementCount(), fieldnames, false));
         ArrayOf substruct = ArrayOf(NLS_STRUCT_ARRAY, dims, elements, false, fieldnames);
 
-        ArrayOfVector typesVector(subtypes.size());
-        ArrayOfVector subsVector(subsindices.size());
+        ArrayOfVector typesVector;
+        ArrayOfVector subsVector;
+        typesVector.reserve(subtypes.size());
+        subsVector.reserve(subsindices.size());
 
         for (auto& t : subtypes) {
-            typesVector.push_back(ArrayOf::characterArrayConstructor(t));
+            typesVector.push_back(ArrayOf::characterArray(t));
         }
         for (auto& t : subsindices) {
             subsVector.push_back(t);
         }
         if (!typesVector.empty()) {
-            substruct.setFieldAsList("type", typesVector);
-            substruct.setFieldAsList("subs", subsVector);
+            substruct.setFieldAsList(EVALUATOR_INDEXING_FIELD_TYPE, typesVector);
+            substruct.setFieldAsList(EVALUATOR_INDEXING_FIELD_SUBS, subsVector);
         }
 
         argIn.push_back(substruct);
 
         CallStack backupCallStack = callstack;
         ArrayOfVector rv = funcDef->evaluateFunction(this, argIn, nLhs);
-        rv[0].name("");
+        if (!rv.empty()) {
+            rv[0].name("");
+        }
         callstack = backupCallStack;
         return rv;
     }
@@ -815,24 +942,37 @@ Evaluator::extractClass(const ArrayOf& r, const stringVector& subtypes,
 }
 //=============================================================================
 ArrayOf
+Evaluator::bytecodeEndReference(const ArrayOf& v, indexType index, size_t count)
+{
+    return EndReference(v, index, count);
+}
+//=============================================================================
+ArrayOf
 Evaluator::EndReference(const ArrayOf& v, indexType index, size_t count)
 {
-    Dimensions dim(v.getDimensions());
+    Dimensions dim(v.dimensions());
     ArrayOf res;
     bool useStandardMethod = true;
     if (v.isClassType()) {
         bool needToBeOverloaded = false;
         res = EndOverloadReference(v, index, count, needToBeOverloaded);
         useStandardMethod = needToBeOverloaded;
-        if (useStandardMethod) {
-            Warning(L"Nelson:End:Overloading:missing", _W("numel and size need to be overloaded."));
-        }
     }
     if (useStandardMethod) {
         if (count == 1) {
-            return ArrayOf::doubleConstructor(static_cast<double>(dim.getElementCount()));
+            return ArrayOf::doubleScalar(static_cast<double>(dim.elementCount()));
         }
-        return ArrayOf::doubleConstructor(static_cast<double>(dim.getDimensionLength(index)));
+        if (index + 1 == static_cast<indexType>(count)
+            && static_cast<indexType>(count) < dim.length()) {
+            // the last of fewer subscripts than dimensions spans the trailing
+            // dimensions: A(end,end) on a 2x3x4 array is A(2,12)
+            double folded = 1;
+            for (indexType k = index; k < dim.length(); ++k) {
+                folded *= static_cast<double>(dim.dimensionLength(k));
+            }
+            return ArrayOf::doubleScalar(folded);
+        }
+        return ArrayOf::doubleScalar(static_cast<double>(dim.dimensionLength(index)));
     }
     return res;
 }
@@ -846,12 +986,12 @@ Evaluator::EndOverloadReference(
     std::string functionNameEndClass = getOverloadFunctionName(currentClass, "end");
     Context* _context = this->getContext();
     FunctionDef* funcDef = nullptr;
-    _context->lookupFunction(functionNameEndClass, funcDef);
+    lookupOverloadFunctionCached(_context, functionNameEndClass, funcDef);
     if (funcDef) {
         ArrayOfVector input;
         input << v;
-        input << ArrayOf::doubleConstructor((double)index + 1);
-        input << ArrayOf::doubleConstructor((double)count);
+        input << ArrayOf::doubleScalar((double)index + 1);
+        input << ArrayOf::doubleScalar((double)count);
         int nLhs = 1;
         CallStack backupCallStack = callstack;
         ArrayOfVector res = funcDef->evaluateFunction(this, input, nLhs);

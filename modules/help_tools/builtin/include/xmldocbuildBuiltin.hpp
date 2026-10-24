@@ -14,5 +14,6 @@
 namespace Nelson::HelpToolsGateway {
 ArrayOfVector
 xmldocbuildBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

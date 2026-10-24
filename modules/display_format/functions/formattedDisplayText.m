@@ -10,7 +10,7 @@
 function result = formattedDisplayText(varargin)
   nbArgsValid = mod(nargin, 2) == 1;
   if ~nbArgsValid
-    error(_('Wrong number of input arguments.'));
+    error('Nelson:display_format:wrongNumberInputArguments', 'Wrong number of input arguments.');
   end
   currentFormat = format();
   usedFormat = setFormatWithArguments(currentFormat, varargin);
@@ -21,29 +21,28 @@ end
 %=============================================================================
 function newFormat = setFormatWithArguments(currentFormat, args)
   newFormat = currentFormat;
-  for i = 2 : 2 : length(args) - 1
+  for i = 2:2:length(args) - 1
     validField = false;
     name = lower(args{i});
     value = args{i + 1};
     switch name
       case 'numericformat'
-      validateNumericFormat(value, i + 1);
-      newFormat.NumericFormat = value;
-      validField = true;
+        validateNumericFormat(value, i + 1);
+        newFormat.NumericFormat = value;
+        validField = true;
 
       case 'linespacing'
-      validateLineSpacing(value, i + 1);
-      newFormat.LineSpacing = value;
-      validField = true;
+        validateLineSpacing(value, i + 1);
+        newFormat.LineSpacing = value;
+        validField = true;
 
       case {'suppressmarkup', 'usetruefalseforlogical'}
-      % not managed -> ignored
-      validField = true;
-    
+        % not managed -> ignored
+        validField = true;
+
     end
     if ~validField
-      msg = sprintf(_('Invalid name-value argument: %s.'), args{i});
-      error(msg);
+      error('Nelson:display_format:invalidNameValueArgument', 'Invalid name-value argument: %s.', args{i});
     end
   end
 end
@@ -51,7 +50,7 @@ end
 function r = formatVariable(variable, usedFormat)
   format(usedFormat);
   c = evalc('disp(variable)');
-  if (strcmp(usedFormat.LineSpacing, 'loose')  && ~isempty(c))
+  if (strcmp(usedFormat.LineSpacing, 'loose') && ~isempty(c))
     c(end) = [];
   end
   r = string(c);
@@ -59,22 +58,22 @@ end
 %=============================================================================
 function validateNumericFormat(str, pos)
   mustBeMember(lower(str), [...
-  "short", ...
-  "long", ...
-  "shorte", ...
-  "longe", ...
-  "shortg", ...
-  "longg", ...
-  "shorteng", ...
-  "longeng", ...
-  "+", ...
-  "bank", ...
-  "hex", ...
-  "rational"], pos);
+    "short", ...
+    "long", ...
+    "shorte", ...
+    "longe", ...
+    "shortg", ...
+    "longg", ...
+    "shorteng", ...
+    "longeng", ...
+    "+", ...
+    "bank", ...
+    "hex", ...
+    "rational"], pos);
 end
 %=============================================================================
 function validateLineSpacing(str, pos)
-  mustBeMember(lower(str),["loose","compact"], pos);
+  mustBeMember(lower(str), ["loose", "compact"], pos);
 end
 %=============================================================================
 

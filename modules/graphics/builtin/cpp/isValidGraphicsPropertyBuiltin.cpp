@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -20,12 +20,12 @@ GraphicsGateway::isValidGraphicsPropertyBuiltin(int nLhs, const ArrayOfVector& a
     nargincheck(argIn, 2, 2);
     nargoutcheck(nLhs, 0, 1);
 
-    std::wstring GOTypename = argIn[0].getContentAsWideString();
-    std::wstring GOPropertyName = argIn[1].getContentAsWideString();
+    std::wstring GOTypename = argIn[0].asWideString();
+    std::wstring GOPropertyName = argIn[1].asWideString();
 
     bool isValidPropertyName = IsValidGraphicsProperty(GOTypename, GOPropertyName);
 
-    retval << ArrayOf::logicalConstructor(isValidPropertyName);
+    retval << ArrayOf::logicalScalar(isValidPropertyName);
     return retval;
 }
 //=============================================================================

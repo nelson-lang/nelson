@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -13,6 +13,7 @@
 #include "FileSystemWrapper.hpp"
 #include "ChangeDirectory.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "characters_encoding.hpp"
 #include "PathFunctionIndexerManager.hpp"
@@ -38,7 +39,7 @@ Cd(const std::wstring& newpath)
 {
     FileSystemWrapper::Path previous_pwd = FileSystemWrapper::Path::current_path();
     ChangeDirectory(newpath, true, true);
-    return ArrayOf::characterArrayConstructor(previous_pwd.generic_wstring());
+    return ArrayOf::characterArray(previous_pwd.generic_wstring());
 }
 //=============================================================================
 ArrayOf
@@ -62,8 +63,11 @@ ChangeDirectory(const std::wstring& newpath, bool doException, bool trimPath)
         return true;
     }
     if (doException) {
-        std::wstring msg = fmt::format(_W("Cannot change directory '{0}'."), pathApplied);
-        Error(msg);
+        std::wstring msg = formatI18nMessage(
+            resolveMessageTemplate(L"Nelson:files_folders_functions:cannotChangeDirectoryS",
+                L"Cannot change directory '%s'."),
+            pathApplied);
+        Error(L"Nelson:cd:changeFailed", msg);
     }
 
     return false;

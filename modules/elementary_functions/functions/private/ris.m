@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function R = ris(nSize, className)
-  paramSeq = -2*(1:nSize) + (nSize + 1.5);
+  paramSeq = -2 * (1:nSize) + (nSize + 1.5);
   % pass empty ySeq so cauchy treats y as x and className is used correctly
   R = cauchy(paramSeq, [], className);
 end

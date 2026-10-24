@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "file": "julia_interop.m",
+      "title": "Exchange data with Julia",
+      "description": "Send an array to Julia and retrieve a computed scalar.",
+      "tags": [
+        "interop",
+        "arrays"
+      ],
+      "requirements": [
+        "julia"
+      ]
+    }
+  ]
+}

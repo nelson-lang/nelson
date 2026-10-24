@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>ode</keyword>
+  <short_description>Interface objet pour problemes EDO.</short_description>
+  <syntax>
+    <syntax_item>problem = ode(nom, valeur)</syntax_item>
+    <syntax_item>result = solve(problem, tfinal)</syntax_item>
+    <syntax_item>result = solve(problem, t0, tfinal)</syntax_item>
+    <syntax_item>[f, data] = solutionFcn(problem, tfinal)</syntax_item>
+  </syntax>
+  <description>
+    <p>
+      <b>ode</b> stocke un probleme differentiel et les reglages utilises par <b>solve</b> et <b>solutionFcn</b>.</p>
+    <table style="width:100%">
+      <tr>
+        <th>Appel</th>
+        <th>Role</th>
+      </tr>
+      <tr>
+        <td>
+          <b>solve(problem, tfinal)</b>
+        </td>
+        <td>Integre de <b>InitialTime</b> a <b>tfinal</b>.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>solve(problem, t0, tfinal)</b>
+        </td>
+        <td>Integre depuis <b>t0</b>; ce temps de depart remplace <b>InitialTime</b> pour cet appel.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>solutionFcn(problem, tfinal)</b>
+        </td>
+        <td>Retourne une fonction d'interpolation et l'objet resultat correspondant.</td>
+      </tr>
+    </table>
+    <p>Principales proprietes de l'objet:</p>
+    <table style="width:100%">
+      <tr>
+        <th>Propriete</th>
+        <th>Valeurs acceptees</th>
+        <th>Effet</th>
+      </tr>
+      <tr>
+        <td>
+          <b>EquationType</b>
+        </td>
+        <td>
+          <b>'standard'</b>, <b>'fullyimplicit'</b></td>
+        <td>
+          <b>'standard'</b> utilise <b>ODEFcn(t,y)</b>. <b>'fullyimplicit'</b> utilise des residus <b>ODEFcn(t,y,yp)</b>.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Solver</b>
+        </td>
+        <td>
+          <b>'auto'</b>, <b>'autoswitch'</b>, <b>'nonstiff'</b>, <b>'stiff'</b>, noms de solveurs</td>
+        <td>Selectionne la methode d'integration. <b>'auto'</b> choisit selon le type de probleme. <b>'autoswitch'</b> peut redemarrer avec une methode raide quand une raideur est detectee.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>SolverOptions</b>
+        </td>
+        <td>Objet d'options correspondant au solveur</td>
+        <td>Stocke les tolerances, la fonction de sortie, les bornes de pas et les reglages propres au solveur.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>Parameters</b>
+        </td>
+        <td>Vecteur numerique ou tableau de cellules</td>
+        <td>Passe apres les arguments standards aux callbacks d'equation, d'evenement, de sortie et de reponse d'evenement. Un tableau de cellules est developpe en un argument par cellule.</td>
+      </tr>
+      <tr>
+        <td>
+          <b>SeparateComplexParts</b>
+        </td>
+        <td>
+          <b>'off'</b>, <b>'on'</b></td>
+        <td>Avec <b>'on'</b>, les etats complexes sont integres via parties reelles et imaginaires separees, tandis que les resultats retournent a la forme complexe d'origine.</td>
+      </tr>
+    </table>
+    <p>Familles de solveurs:</p>
+    <table style="width:100%">
+      <tr>
+        <th>Famille</th>
+        <th>Valeurs de solveur</th>
+        <th>Notes</th>
+      </tr>
+      <tr>
+        <td>Non raide</td>
+        <td>
+          <b>'ode23'</b>, <b>'ode45'</b>, <b>'ode78'</b>, <b>'ode89'</b>, <b>'ode113'</b></td>
+        <td>Pour les problemes explicites lisses.</td>
+      </tr>
+      <tr>
+        <td>Raide ou matrice de masse</td>
+        <td>
+          <b>'ode15s'</b>, <b>'ode23s'</b>, <b>'ode23t'</b>, <b>'ode23tb'</b></td>
+        <td>Pour les modes rapides amortis, les matrices de masse ou les jacobiens utiles.</td>
+      </tr>
+      <tr>
+        <td>Totalement implicite</td>
+        <td>
+          <b>'ode15i'</b>, <b>'idas'</b></td>
+        <td>
+          <b>'idas'</b> est disponible seulement quand Nelson est construit avec le backend optionnel SUNDIALS.</td>
+      </tr>
+      <tr>
+        <td>Backend optionnel</td>
+        <td>
+          <b>'cvodesnonstiff'</b>, <b>'cvodesstiff'</b>, <b>'idas'</b></td>
+        <td>
+          <b>NELSON_SUNDIALS_RUNTIME</b> peut valoir <b>OFF</b> pour forcer le fallback interne ou <b>ON</b> pour autoriser le backend quand il est compile.</td>
+      </tr>
+    </table>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Utiliser InitialTime avec un temps final.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[problem = ode('ODEFcn', @(t,y) -y, 'InitialTime', 2, 'InitialValue', 1);
+result = solve(problem, 3)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Construire une fonction d'interpolation.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[problem = ode('ODEFcn', @(t,y) -y, 'InitialValue', 1);
+f = solutionFcn(problem, 1);
+yhalf = f(0.5)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Resoudre un probleme residuel totalement implicite.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[problem = ode('EquationType', 'fullyimplicit', ...
+  'ODEFcn', @(t,y,yp) yp + y, ...
+  'InitialValue', 1, ...
+  'InitialSlope', -1);
+result = solve(problem, 1)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Passer des parametres supplementaires a une fonction de probleme.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[problem = ode('ODEFcn', @(t,y,a) a .* y, ...
+  'InitialValue', 1, ...
+  'Parameters', 2);
+result = solve(problem, 0, 1)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Resoudre un probleme en separant les parties complexes en interne.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[problem = ode('ODEFcn', @(t,y) y .* t + 2 * 1i, ...
+  'InitialValue', 1 + 1i, ...
+  'SeparateComplexParts', 'on');
+result = solve(problem, 0, 2)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ode_solvers}nelson.ode.options.CVODESNonstiff">nelson.ode.options.CVODESNonstiff</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}nelson.ode.options.CVODESStiff">nelson.ode.options.CVODESStiff</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}nelson.ode.options.IDAS">nelson.ode.options.IDAS</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}odeJacobian">odeJacobian</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}odeMassMatrix">odeMassMatrix</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}odeEvent">odeEvent</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

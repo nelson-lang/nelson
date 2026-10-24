@@ -30,28 +30,27 @@ VariableCellTableModel::VariableCellTableModel(
 
     initializeDimensions();
     initializeEditData();
-    saveCurrentStateForUndo();
+    clearUndoState();
 }
 //=============================================================================
 void
 VariableCellTableModel::initializeDimensions()
 {
-    m_rows = static_cast<int>(m_array.getRows());
-    m_cols = static_cast<int>(m_array.getColumns());
+    m_rows = static_cast<int>(m_array.rows());
+    m_cols = static_cast<int>(m_array.columns());
 
-    // Handle empty arrays
     if (m_rows == 0) {
         m_rows = 1;
         m_rows_display = DEFAULT_EMPTY_SIZE;
     } else {
-        m_rows_display = std::max(m_rows * 2, MIN_DISPLAY_SIZE);
+        m_rows_display = std::max(m_rows + DISPLAY_MARGIN, MIN_DISPLAY_SIZE);
     }
 
     if (m_cols == 0) {
         m_cols = 1;
         m_cols_display = DEFAULT_EMPTY_SIZE;
     } else {
-        m_cols_display = std::max(m_cols * 2, MIN_DISPLAY_SIZE);
+        m_cols_display = std::max(m_cols + DISPLAY_MARGIN, MIN_DISPLAY_SIZE);
     }
 }
 //=============================================================================
@@ -108,9 +107,9 @@ VariableCellTableModel::getCellDisplayValue(int row, int col) const
     }
 
     if (row < m_rows && col < m_cols && hasOriginalData()) {
-        const ArrayOf* ptr = static_cast<const ArrayOf*>(m_array.getDataPointer());
+        const ArrayOf* ptr = static_cast<const ArrayOf*>(m_array.dataPointer());
         const int arrayIdx = row + col * m_rows;
-        if (ptr && arrayIdx < m_array.getElementCount()) {
+        if (ptr && arrayIdx < m_array.elementCount()) {
             return formatCellForDisplay(ptr[arrayIdx]);
         }
     }
@@ -127,9 +126,9 @@ VariableCellTableModel::getCellEditValue(int row, int col) const
     }
 
     if (row < m_rows && col < m_cols && hasOriginalData()) {
-        const ArrayOf* ptr = static_cast<const ArrayOf*>(m_array.getDataPointer());
+        const ArrayOf* ptr = static_cast<const ArrayOf*>(m_array.dataPointer());
         const int arrayIdx = row + col * m_rows;
-        if (ptr && arrayIdx < m_array.getElementCount()) {
+        if (ptr && arrayIdx < m_array.elementCount()) {
             return formatCellForEdit(ptr[arrayIdx]);
         }
     }
@@ -153,59 +152,59 @@ VariableCellTableModel::formatCellForDisplay(const ArrayOf& cellArray) const
     if (cellArray.isEmpty() && cellArray.isDoubleType()) {
         return QVariant(tr("[]"));
     }
-    switch (cellArray.getDataClass()) {
+    switch (cellArray.dataClass()) {
     case NLS_UINT8: {
         if (cellArray.isScalar()) {
-            uint8 val = cellArray.getContentAsUnsignedInteger8Scalar();
+            uint8 val = cellArray.asUint8Scalar();
             return QVariant(QString::number(val));
         }
     } break;
     case NLS_UINT16: {
         if (cellArray.isScalar()) {
-            uint16 val = cellArray.getContentAsUnsignedInteger16Scalar();
+            uint16 val = cellArray.asUint16Scalar();
             return QVariant(QString::number(val));
         }
     } break;
     case NLS_UINT32: {
         if (cellArray.isScalar()) {
-            uint32 val = cellArray.getContentAsUnsignedInteger32Scalar();
+            uint32 val = cellArray.asUint32Scalar();
 
             return QVariant(QString::number(val));
         }
     } break;
     case NLS_UINT64: {
         if (cellArray.isScalar()) {
-            uint64 val = cellArray.getContentAsUnsignedInteger64Scalar();
+            uint64 val = cellArray.asUint64Scalar();
             return QVariant(QString::number(val));
         }
     } break;
     case NLS_INT8: {
         if (cellArray.isScalar()) {
-            int8 val = cellArray.getContentAsInteger8Scalar();
+            int8 val = cellArray.asInt8Scalar();
             return QVariant(QString::number(val));
         }
     } break;
     case NLS_INT16: {
         if (cellArray.isScalar()) {
-            int16 val = cellArray.getContentAsInteger16Scalar();
+            int16 val = cellArray.asInt16Scalar();
             return QVariant(QString::number(val));
         }
     } break;
     case NLS_INT32: {
         if (cellArray.isScalar()) {
-            int32 val = cellArray.getContentAsInteger32Scalar();
+            int32 val = cellArray.asInt32Scalar();
             return QVariant(QString::number(val));
         }
     } break;
     case NLS_INT64: {
         if (cellArray.isScalar()) {
-            int64 val = cellArray.getContentAsInteger64Scalar();
+            int64 val = cellArray.asInt64Scalar();
             return QVariant(QString::number(val));
         }
     } break;
     case NLS_SINGLE: {
         if (cellArray.isScalar() && !cellArray.isSparse()) {
-            single val = cellArray.getContentAsSingleScalar();
+            single val = cellArray.asSingleScalar();
             if (std::isnan(val)) {
                 return QVariant(tr("NaN"));
             } else if (std::isfinite(val)) {
@@ -221,7 +220,7 @@ VariableCellTableModel::formatCellForDisplay(const ArrayOf& cellArray) const
     } break;
     case NLS_SCOMPLEX: {
         if (cellArray.isScalar() && !cellArray.isSparse()) {
-            std::complex<single> val = cellArray.getContentAsSingleComplexScalar();
+            std::complex<single> val = cellArray.asSingleComplexScalar();
             return QVariant(QString("%1%2%3i")
                     .arg(val.real(), 0, 'g', 6)
                     .arg(val.imag() >= 0 ? "+" : "")
@@ -230,7 +229,7 @@ VariableCellTableModel::formatCellForDisplay(const ArrayOf& cellArray) const
     } break;
     case NLS_DOUBLE: {
         if (cellArray.isScalar() && !cellArray.isSparse()) {
-            double val = cellArray.getContentAsDoubleScalar();
+            double val = cellArray.asDoubleScalar();
             if (std::isnan(val)) {
                 return QVariant(tr("NaN"));
             } else if (std::isfinite(val)) {
@@ -246,7 +245,7 @@ VariableCellTableModel::formatCellForDisplay(const ArrayOf& cellArray) const
     } break;
     case NLS_DCOMPLEX: {
         if (cellArray.isScalar() && !cellArray.isSparse()) {
-            std::complex<double> val = cellArray.getContentAsDoubleComplexScalar();
+            std::complex<double> val = cellArray.asDoubleComplexScalar();
             return QVariant(QString("%1%2%3i")
                     .arg(val.real(), 0, 'g', 6)
                     .arg(val.imag() >= 0 ? "+" : "")
@@ -255,17 +254,17 @@ VariableCellTableModel::formatCellForDisplay(const ArrayOf& cellArray) const
     } break;
     case NLS_CHAR: {
         if (cellArray.isRowVectorCharacterArray()) {
-            return QVariant(wstringToQString(cellArray.getContentAsWideString()));
+            return QVariant(wstringToQString(cellArray.asWideString()));
         }
     } break;
     case NLS_STRING_ARRAY: {
         if (cellArray.isScalar()) {
-            return QVariant(wstringToQString(cellArray.getContentAsWideString()));
+            return QVariant(wstringToQString(cellArray.asWideString()));
         }
     } break;
     case NLS_LOGICAL: {
         if (cellArray.isScalar() && !cellArray.isSparse()) {
-            bool val = cellArray.getContentAsLogicalScalar();
+            bool val = cellArray.asLogicalScalar();
             return QVariant(val ? "true" : "false");
         }
     } break;
@@ -274,8 +273,7 @@ VariableCellTableModel::formatCellForDisplay(const ArrayOf& cellArray) const
     }
     std::wstring classname;
     ClassName(cellArray, classname);
-    return wstringToQString(
-        L"[" + cellArray.getDimensions().toWideString() + L" " + classname + L"]");
+    return wstringToQString(L"[" + cellArray.dimensions().toWideString() + L" " + classname + L"]");
 }
 //=============================================================================
 QVariant
@@ -291,59 +289,59 @@ VariableCellTableModel::formatCellForEdit(const QVariant& cellData) const
 QVariant
 VariableCellTableModel::formatCellForEdit(const ArrayOf& cellArray) const
 {
-    switch (cellArray.getDataClass()) {
+    switch (cellArray.dataClass()) {
     case NLS_UINT8: {
         if (cellArray.isScalar()) {
-            uint8 val = cellArray.getContentAsUnsignedInteger8Scalar();
+            uint8 val = cellArray.asUint8Scalar();
             return QVariant(QString::number(val));
         }
     } break;
     case NLS_UINT16: {
         if (cellArray.isScalar()) {
-            uint16 val = cellArray.getContentAsUnsignedInteger16Scalar();
+            uint16 val = cellArray.asUint16Scalar();
             return QVariant(QString::number(val));
         }
     } break;
     case NLS_UINT32: {
         if (cellArray.isScalar()) {
-            uint32 val = cellArray.getContentAsUnsignedInteger32Scalar();
+            uint32 val = cellArray.asUint32Scalar();
 
             return QVariant(QString::number(val));
         }
     } break;
     case NLS_UINT64: {
         if (cellArray.isScalar()) {
-            uint64 val = cellArray.getContentAsUnsignedInteger64Scalar();
+            uint64 val = cellArray.asUint64Scalar();
             return QVariant(QString::number(val));
         }
     } break;
     case NLS_INT8: {
         if (cellArray.isScalar()) {
-            int8 val = cellArray.getContentAsInteger8Scalar();
+            int8 val = cellArray.asInt8Scalar();
             return QVariant(QString::number(val));
         }
     } break;
     case NLS_INT16: {
         if (cellArray.isScalar()) {
-            int16 val = cellArray.getContentAsInteger16Scalar();
+            int16 val = cellArray.asInt16Scalar();
             return QVariant(QString::number(val));
         }
     } break;
     case NLS_INT32: {
         if (cellArray.isScalar()) {
-            int32 val = cellArray.getContentAsInteger32Scalar();
+            int32 val = cellArray.asInt32Scalar();
             return QVariant(QString::number(val));
         }
     } break;
     case NLS_INT64: {
         if (cellArray.isScalar()) {
-            int64 val = cellArray.getContentAsInteger64Scalar();
+            int64 val = cellArray.asInt64Scalar();
             return QVariant(QString::number(val));
         }
     } break;
     case NLS_SINGLE: {
         if (cellArray.isScalar()) {
-            single val = cellArray.getContentAsSingleScalar();
+            single val = cellArray.asSingleScalar();
             if (std::isnan(val)) {
                 return QVariant("");
             }
@@ -352,7 +350,7 @@ VariableCellTableModel::formatCellForEdit(const ArrayOf& cellArray) const
     } break;
     case NLS_SCOMPLEX: {
         if (cellArray.isScalar()) {
-            std::complex<single> val = cellArray.getContentAsSingleComplexScalar();
+            std::complex<single> val = cellArray.asSingleComplexScalar();
             return QVariant(QString("%1%2%3i")
                     .arg(val.real(), 0, 'g', 15)
                     .arg(val.imag() >= 0 ? "+" : "")
@@ -361,7 +359,7 @@ VariableCellTableModel::formatCellForEdit(const ArrayOf& cellArray) const
     } break;
     case NLS_DOUBLE: {
         if (cellArray.isScalar()) {
-            double val = cellArray.getContentAsDoubleScalar();
+            double val = cellArray.asDoubleScalar();
             if (std::isnan(val)) {
                 return QVariant("");
             }
@@ -370,7 +368,7 @@ VariableCellTableModel::formatCellForEdit(const ArrayOf& cellArray) const
     } break;
     case NLS_DCOMPLEX: {
         if (cellArray.isScalar()) {
-            std::complex<double> val = cellArray.getContentAsDoubleComplexScalar();
+            std::complex<double> val = cellArray.asDoubleComplexScalar();
             return QVariant(QString("%1%2%3i")
                     .arg(val.real(), 0, 'g', 15)
                     .arg(val.imag() >= 0 ? "+" : "")
@@ -379,17 +377,17 @@ VariableCellTableModel::formatCellForEdit(const ArrayOf& cellArray) const
     } break;
     case NLS_CHAR: {
         if (cellArray.isRowVectorCharacterArray()) {
-            return QVariant(wstringToQString(cellArray.getContentAsWideString()));
+            return QVariant(wstringToQString(cellArray.asWideString()));
         }
     } break;
     case NLS_STRING_ARRAY: {
         if (cellArray.isScalar()) {
-            return QVariant(wstringToQString(cellArray.getContentAsWideString()));
+            return QVariant(wstringToQString(cellArray.asWideString()));
         }
     } break;
     case NLS_LOGICAL: {
         if (cellArray.isScalar()) {
-            bool val = cellArray.getContentAsLogicalScalar();
+            bool val = cellArray.asLogicalScalar();
             return QVariant(val ? "true" : "false");
         }
     } break;
@@ -423,18 +421,18 @@ VariableCellTableModel::setData(const QModelIndex& index, const QVariant& value,
     bool asStr = false;
     try {
         results = EvaluateCommand(m_evaluator, 1, command, L"");
-    } catch (Exception&) {
+    } catch (NelsonException&) {
         emitError = true;
         const int idx = row + col * m_rows;
-        if (idx >= 0 && idx < m_array.getElementCount()) {
-            ArrayOf* data = (ArrayOf*)(m_array.getDataPointer());
+        if (idx >= 0 && idx < m_array.elementCount()) {
+            ArrayOf* data = (ArrayOf*)(m_array.dataPointer());
             if (data) {
-                NelsonType destinationType = data[idx].getDataClass();
+                NelsonType destinationType = data[idx].dataClass();
                 emitError = false;
                 if (destinationType == NLS_CHAR || destinationType == NLS_STRING_ARRAY) {
                     asStr = true;
                     results.clear();
-                    results << ArrayOf::characterArrayConstructor(command);
+                    results << ArrayOf::characterArray(command);
                 }
             }
         }
@@ -459,15 +457,15 @@ VariableCellTableModel::setData(const QModelIndex& index, const QVariant& value,
             return false;
         }
     }
-    ArrayOf* data = (ArrayOf*)(m_array.getDataPointer());
+    ArrayOf* data = (ArrayOf*)(m_array.dataPointer());
     if (data) {
         const int idx = row + col * m_rows;
-        if (idx >= 0 && idx < m_array.getElementCount()) {
-            NelsonType destinationType = data[idx].getDataClass();
-            if (resultArray.getDataClass() != destinationType) {
+        if (idx >= 0 && idx < m_array.elementCount()) {
+            NelsonType destinationType = data[idx].dataClass();
+            if (resultArray.dataClass() != destinationType) {
                 try {
                     resultArray.promoteType(destinationType);
-                } catch (const Exception&) {
+                } catch (const NelsonException&) {
                     emit errorOccurred(tr("Cannot convert value to the required type."));
                     return false;
                 }
@@ -479,18 +477,15 @@ VariableCellTableModel::setData(const QModelIndex& index, const QVariant& value,
         return false;
     }
 
-    // Set the value in the array
     if (!setCellValue(row, col, resultArray)) {
         return false;
     }
 
-    // Update edit tracking
     updateEditData(row, col, value);
 
     m_pendingChanges = true;
-    schedulePeristenceUpdate();
+    schedulePersistenceUpdate();
 
-    // Only emit for the specific cell that changed
     emit dataChanged(index, index);
 
     return true;
@@ -501,17 +496,17 @@ VariableCellTableModel::parseInputToArrayOf(const QString& input, int row, int c
 {
     if (input.isEmpty()) {
         Dimensions dims(0, 0);
-        return ArrayOf::emptyConstructor(dims);
+        return ArrayOf::empty(dims);
     }
     QString trimmed = input.trimmed();
     std::wstring command = trimmed.toStdWString();
     ArrayOfVector results;
     try {
         results = EvaluateCommand(m_evaluator, 1, command, L"");
-    } catch (Exception&) {
+    } catch (NelsonException&) {
     }
     if (results.size() != 1) {
-        return ArrayOf::characterArrayConstructor(QStringTowstring(trimmed));
+        return ArrayOf::characterArray(QStringTowstring(trimmed));
     }
     ArrayOf value = results[0];
     value.name("");
@@ -521,13 +516,13 @@ VariableCellTableModel::parseInputToArrayOf(const QString& input, int row, int c
 bool
 VariableCellTableModel::setCellValue(int row, int col, const ArrayOf& cellValue)
 {
-    ArrayOf* data = (ArrayOf*)(m_array.getDataPointer());
+    ArrayOf* data = (ArrayOf*)(m_array.dataPointer());
     if (!data) {
         return false;
     }
 
     const int idx = row + col * m_rows;
-    if (idx >= 0 && idx < m_array.getElementCount()) {
+    if (idx >= 0 && idx < m_array.elementCount()) {
         data[idx] = cellValue;
         return true;
     }
@@ -538,20 +533,16 @@ VariableCellTableModel::setCellValue(int row, int col, const ArrayOf& cellValue)
 bool
 VariableCellTableModel::expandArrayIfNeeded(int row, int col)
 {
-    // Check if we need to expand the actual array data
     const bool needsArrayResize = (row >= m_rows || col >= m_cols);
 
-    // Check if we need to expand the display
     const bool needsDisplayExpansion = (row >= m_rows_display || col >= m_cols_display);
 
-    // Handle array resize first (this is the expensive operation)
     if (needsArrayResize) {
         if (!resizeArray(row, col)) {
             return false;
         }
     }
 
-    // Handle display expansion without model reset for small expansions
     if (needsDisplayExpansion) {
         return expandDisplay(row, col);
     }
@@ -565,49 +556,41 @@ VariableCellTableModel::expandDisplay(int row, int col)
     const int oldRowsDisplay = m_rows_display;
     const int oldColsDisplay = m_cols_display;
 
-    // Calculate new display size
     int newRowsDisplay = m_rows_display;
     int newColsDisplay = m_cols_display;
 
     if (row >= m_rows_display) {
-        newRowsDisplay = std::max((row + 1) * 2, MIN_DISPLAY_SIZE);
+        newRowsDisplay = std::max(row + 1 + DISPLAY_MARGIN, MIN_DISPLAY_SIZE);
     }
     if (col >= m_cols_display) {
-        newColsDisplay = std::max((col + 1) * 2, MIN_DISPLAY_SIZE);
+        newColsDisplay = std::max(col + 1 + DISPLAY_MARGIN, MIN_DISPLAY_SIZE);
     }
 
-    // For reasonable expansions, use insertRows/insertColumns instead of reset
     const int rowsToAdd = newRowsDisplay - oldRowsDisplay;
     const int colsToAdd = newColsDisplay - oldColsDisplay;
 
-    // Threshold for when to use reset vs incremental updates
     const int RESET_THRESHOLD = 1000;
 
     if (rowsToAdd * newColsDisplay + colsToAdd * oldRowsDisplay > RESET_THRESHOLD) {
-        // Large expansion - use reset
         beginResetModel();
         m_rows_display = newRowsDisplay;
         m_cols_display = newColsDisplay;
         resizeEditData(oldRowsDisplay, oldColsDisplay);
         endResetModel();
     } else {
-        // Small expansion - use incremental updates
 
-        // Add columns first
         if (colsToAdd > 0) {
             beginInsertColumns(QModelIndex(), oldColsDisplay, newColsDisplay - 1);
             m_cols_display = newColsDisplay;
             endInsertColumns();
         }
 
-        // Add rows
         if (rowsToAdd > 0) {
             beginInsertRows(QModelIndex(), oldRowsDisplay, newRowsDisplay - 1);
             m_rows_display = newRowsDisplay;
             endInsertRows();
         }
 
-        // Resize edit data efficiently
         resizeEditData(oldRowsDisplay, oldColsDisplay);
     }
 
@@ -618,7 +601,7 @@ bool
 VariableCellTableModel::resizeArray(int row, int col)
 {
     if (row < m_rows && col < m_cols) {
-        return true; // No resize needed
+        return true;
     }
 
     const int newRows = std::max(m_rows, row + 1);
@@ -626,23 +609,18 @@ VariableCellTableModel::resizeArray(int row, int col)
     const size_t newSize = static_cast<size_t>(newRows) * newCols;
 
     try {
-        // Create new dimensions
         Dimensions newDims(newRows, newCols);
 
-        // Create new array with the larger size
-        ArrayOf* ptr
-            = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, newDims.getElementCount());
+        ArrayOf* ptr = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, newDims.elementCount());
         ArrayOf newArray = ArrayOf(NLS_CELL_ARRAY, newDims, ptr);
-        ArrayOf* newData = (ArrayOf*)newArray.getDataPointer();
+        ArrayOf* newData = (ArrayOf*)newArray.dataPointer();
 
-        // Initialize new cells with empty values
         Dimensions dims(0, 0);
-        for (size_t k = 0; k < newDims.getElementCount(); ++k) {
-            newData[k] = ArrayOf::emptyConstructor(dims);
+        for (size_t k = 0; k < newDims.elementCount(); ++k) {
+            newData[k] = ArrayOf::empty(dims);
         }
 
-        // Copy existing data efficiently
-        if (const ArrayOf* oldData = (const ArrayOf*)m_array.getDataPointer()) {
+        if (const ArrayOf* oldData = (const ArrayOf*)m_array.dataPointer()) {
             for (int c = 0; c < m_cols; ++c) {
                 const size_t oldColStart = static_cast<size_t>(c) * m_rows;
                 const size_t newColStart = static_cast<size_t>(c) * newRows;
@@ -652,7 +630,6 @@ VariableCellTableModel::resizeArray(int row, int col)
             }
         }
 
-        // Replace the array
         m_array = std::move(newArray);
 
         m_rows = newRows;
@@ -672,15 +649,13 @@ VariableCellTableModel::resizeEditData(int oldRows, int oldCols)
     const int oldSize = oldRows * oldCols;
 
     if (newSize <= oldSize) {
-        return; // No expansion needed
+        return;
     }
 
-    // Use reserve and resize for better performance
     QVector<QVariant> newEditData;
     newEditData.reserve(newSize);
     newEditData.resize(newSize);
 
-    // Copy existing data more efficiently
     if (!m_editData.isEmpty() && oldRows > 0 && oldCols > 0) {
         const int copyRows = std::min(oldRows, m_rows_display);
         const int copyCols = std::min(oldCols, m_cols_display);
@@ -689,7 +664,6 @@ VariableCellTableModel::resizeEditData(int oldRows, int oldCols)
             const int oldColStart = c * oldRows;
             const int newColStart = c * m_rows_display;
 
-            // Copy entire columns at once when possible
             for (int r = 0; r < copyRows; ++r) {
                 if (oldColStart + r < m_editData.size()) {
                     newEditData[newColStart + r] = std::move(m_editData[oldColStart + r]);
@@ -702,12 +676,12 @@ VariableCellTableModel::resizeEditData(int oldRows, int oldCols)
 }
 //=============================================================================
 void
-VariableCellTableModel::schedulePeristenceUpdate()
+VariableCellTableModel::schedulePersistenceUpdate()
 {
     if (!m_persistenceTimer) {
         m_persistenceTimer = new QTimer(this);
         m_persistenceTimer->setSingleShot(true);
-        m_persistenceTimer->setInterval(100); // 100ms delay
+        m_persistenceTimer->setInterval(100);
         connect(m_persistenceTimer, &QTimer::timeout, this,
             &VariableCellTableModel::performBatchedPersistence);
     }
@@ -733,7 +707,7 @@ VariableCellTableModel::flags(const QModelIndex& index) const
     }
 
     Qt::ItemFlags flags = Qt::ItemIsSelectable | Qt::ItemIsEnabled;
-    if (m_array.getDataClass() == NLS_CELL_ARRAY) {
+    if (m_array.dataClass() == NLS_CELL_ARRAY) {
         if (isCellScalarOrEditable(index.row(), index.column())) {
             flags |= Qt::ItemIsEditable;
         }
@@ -746,10 +720,10 @@ bool
 VariableCellTableModel::isCellScalarOrEditable(int row, int col) const
 {
     if (row < m_rows && col < m_cols && hasOriginalData()) {
-        const ArrayOf* ptr = static_cast<const ArrayOf*>(m_array.getDataPointer());
+        const ArrayOf* ptr = static_cast<const ArrayOf*>(m_array.dataPointer());
         const int arrayIdx = row + col * m_rows;
 
-        if (ptr && arrayIdx < m_array.getElementCount()) {
+        if (ptr && arrayIdx < m_array.elementCount()) {
             const ArrayOf& cellArray = ptr[arrayIdx];
             if (cellArray.isRowVectorCharacterArray()) {
                 return true;
@@ -774,15 +748,21 @@ VariableCellTableModel::refreshFromArray(ArrayOf& value)
 {
     m_array = value;
     beginResetModel();
+    rebuildModelFromCurrentArray();
+    endResetModel();
+}
+//=============================================================================
+void
+VariableCellTableModel::rebuildModelFromCurrentArray()
+{
     initializeDimensions();
     initializeEditData();
-    endResetModel();
 }
 //=============================================================================
 bool
 VariableCellTableModel::hasOriginalData() const
 {
-    return m_array.getDataClass() == NLS_CELL_ARRAY && m_array.getDataPointer() != nullptr;
+    return m_array.dataClass() == NLS_CELL_ARRAY && m_array.dataPointer() != nullptr;
 }
 //=============================================================================
 bool
@@ -808,6 +788,8 @@ VariableCellTableModel::persistChangesToContext()
     }
 
     try {
+        // Writes target the base scope: the editor reads variables from the base
+        // scope, so persisting elsewhere would silently desynchronize the view.
         m_evaluator->getContext()->getCurrentScope()->insertVariable(
             wstring_to_utf8(QStringTowstring(m_variableName)), m_array);
         WorkspaceBrowser::updateWorkspaceBrowser();
@@ -840,7 +822,7 @@ VariableCellTableModel::flatToIndex(int flatIndex) const
 bool
 VariableCellTableModel::shouldDisplayAsTable() const
 {
-    return (m_array.getDataClass() == NLS_CELL_ARRAY) && m_array.is2D();
+    return (m_array.dataClass() == NLS_CELL_ARRAY) && m_array.is2D();
 }
 //=============================================================================
 VariableCellTableModel::SelectionBounds
@@ -867,59 +849,10 @@ VariableCellTableModel::getSelectionBounds(const QModelIndexList& selectedIndexe
     return bounds;
 }
 //=============================================================================
-void
-VariableCellTableModel::redo()
-{
-    undo();
-}
-//=============================================================================
-void
-VariableCellTableModel::undo()
-{
-    if (!m_hasUndoState) {
-        return; // No undo state available
-    }
-
-    try {
-        m_isPerformingUndo = true;
-
-        // Store current state as redo state (reuse the same variable)
-        ArrayOf redoArray = m_array;
-        redoArray.ensureSingleOwner();
-
-        // Restore the previous state
-        beginResetModel();
-        m_array = m_undoArray;
-        m_array.ensureSingleOwner();
-
-        // Update dimensions
-        initializeDimensions();
-        initializeEditData();
-
-        endResetModel();
-
-        // Store the current (now previous) state for redo
-        m_undoArray = std::move(redoArray);
-        // m_hasUndoState remains true for redo
-
-        // Persist the restored state
-        persistChangesToContext();
-
-        // Notify views of the change
-        emit modelChanged();
-
-        m_isPerformingUndo = false;
-
-    } catch (const std::exception& e) {
-        m_isPerformingUndo = false;
-        emit errorOccurred(tr("Failed to undo: %1").arg(e.what()));
-    }
-}
-//=============================================================================
 bool
 VariableCellTableModel::isStructureCompatible(const ArrayOf& value)
 {
-    return value.getDataClass() == NLS_CELL_ARRAY;
+    return value.dataClass() == NLS_CELL_ARRAY;
 }
 //=============================================================================
 void
@@ -937,13 +870,11 @@ VariableCellTableModel::pasteDataFromClipboard(int startRow, int startCol, const
         return false;
     }
 
-    // Parse the clipboard text into a 2D structure
     QStringList lines = text.split('\n', Qt::KeepEmptyParts);
     if (lines.isEmpty()) {
         return false;
     }
 
-    // Remove trailing empty line if present (common in clipboard data)
     if (!lines.isEmpty() && lines.last().isEmpty()) {
         lines.removeLast();
     }
@@ -952,27 +883,22 @@ VariableCellTableModel::pasteDataFromClipboard(int startRow, int startCol, const
         return false;
     }
 
-    // Parse each line into columns (assume tab-separated, fall back to spaces)
     QVector<QStringList> pasteMatrix;
     int maxCols = 0;
 
     for (const QString& line : lines) {
         QStringList columns;
 
-        // Try tab-separated first (most common for Excel/spreadsheet data)
         if (line.contains('\t')) {
             columns = line.split('\t', Qt::KeepEmptyParts);
         } else {
-            // Fall back to space-separated, but be smarter about it
             // Only split on multiple spaces to preserve single spaces in values
             columns = line.split(QRegularExpression("\\s{2,}"), Qt::KeepEmptyParts);
 
-            // If that didn't work well, try single space
             if (columns.size() == 1 && line.contains(' ')) {
                 columns = line.split(' ', Qt::KeepEmptyParts);
             }
 
-            // If still just one column, treat the whole line as a single value
             if (columns.size() == 1) {
                 columns = QStringList() << line;
             }
@@ -985,7 +911,6 @@ VariableCellTableModel::pasteDataFromClipboard(int startRow, int startCol, const
     const int pasteRows = pasteMatrix.size();
     const int pasteCols = maxCols;
 
-    // Check if paste would exceed reasonable bounds
     const int endRow = startRow + pasteRows - 1;
     const int endCol = startCol + pasteCols - 1;
 
@@ -995,19 +920,15 @@ VariableCellTableModel::pasteDataFromClipboard(int startRow, int startCol, const
         return false;
     }
 
-    // Save state for undo
     saveCurrentStateForUndo();
 
     try {
-        // Expand array if needed
         if (!expandArrayIfNeeded(endRow, endCol)) {
             return false;
         }
 
-        // Track changes for batch update
         QVector<QPair<QModelIndex, QModelIndex>> changedRanges;
 
-        // Paste the data
         bool anyChanges = false;
         for (int row = 0; row < pasteRows; ++row) {
             const QStringList& rowData = pasteMatrix[row];
@@ -1019,10 +940,9 @@ VariableCellTableModel::pasteDataFromClipboard(int startRow, int startCol, const
                 if (col < rowData.size()) {
                     cellText = rowData[col];
                 } else {
-                    cellText = ""; // Fill missing columns with empty
+                    cellText = "";
                 }
 
-                // Parse and set the cell value
                 ArrayOf newCellValue = parseInputToArrayOf(cellText, targetRow, targetCol);
 
                 if (setCellValue(targetRow, targetCol, newCellValue)) {
@@ -1033,11 +953,9 @@ VariableCellTableModel::pasteDataFromClipboard(int startRow, int startCol, const
         }
 
         if (anyChanges) {
-            // Batch persistence
             m_pendingChanges = true;
-            schedulePeristenceUpdate();
+            schedulePersistenceUpdate();
 
-            // Emit dataChanged for the entire pasted region
             QModelIndex topLeft = index(startRow, startCol);
             QModelIndex bottomRight = index(endRow, endCol);
             emit dataChanged(topLeft, bottomRight);
@@ -1046,7 +964,7 @@ VariableCellTableModel::pasteDataFromClipboard(int startRow, int startCol, const
         }
 
     } catch (const std::exception&) {
-        // If anything fails, we've already saved undo state, so this is recoverable
+        // undo state is saved before the paste, so the failure is recoverable
         return false;
     }
 
@@ -1060,13 +978,11 @@ VariableCellTableModel::pasteDataFromExcel(int startRow, int startCol, const QSt
         return false;
     }
 
-    // Parse the clipboard text into a 2D structure
     QStringList lines = text.split('\n', Qt::KeepEmptyParts);
     if (lines.isEmpty()) {
         return false;
     }
 
-    // Remove trailing empty line if present (common in clipboard data)
     if (!lines.isEmpty() && lines.last().isEmpty()) {
         lines.removeLast();
     }
@@ -1075,27 +991,22 @@ VariableCellTableModel::pasteDataFromExcel(int startRow, int startCol, const QSt
         return false;
     }
 
-    // Parse each line into columns (assume tab-separated, fall back to spaces)
     QVector<QStringList> pasteMatrix;
     int maxCols = 0;
 
     for (const QString& line : lines) {
         QStringList columns;
 
-        // Try tab-separated first (most common for Excel/spreadsheet data)
         if (line.contains('\t')) {
             columns = line.split('\t', Qt::KeepEmptyParts);
         } else {
-            // Fall back to space-separated, but be smarter about it
             // Only split on multiple spaces to preserve single spaces in values
             columns = line.split(QRegularExpression("\\s{2,}"), Qt::KeepEmptyParts);
 
-            // If that didn't work well, try single space
             if (columns.size() == 1 && line.contains(' ')) {
                 columns = line.split(' ', Qt::KeepEmptyParts);
             }
 
-            // If still just one column, treat the whole line as a single value
             if (columns.size() == 1) {
                 columns = QStringList() << line;
             }
@@ -1108,7 +1019,6 @@ VariableCellTableModel::pasteDataFromExcel(int startRow, int startCol, const QSt
     const int pasteRows = pasteMatrix.size();
     const int pasteCols = maxCols;
 
-    // Check if paste would exceed reasonable bounds
     const int endRow = startRow + pasteRows - 1;
     const int endCol = startCol + pasteCols - 1;
 
@@ -1118,19 +1028,15 @@ VariableCellTableModel::pasteDataFromExcel(int startRow, int startCol, const QSt
         return false;
     }
 
-    // Save state for undo
     saveCurrentStateForUndo();
 
     try {
-        // Expand array if needed
         if (!expandArrayIfNeeded(endRow, endCol)) {
             return false;
         }
 
-        // Track changes for batch update
         QVector<QPair<QModelIndex, QModelIndex>> changedRanges;
 
-        // Paste the data
         bool anyChanges = false;
         for (int row = 0; row < pasteRows; ++row) {
             const QStringList& rowData = pasteMatrix[row];
@@ -1142,10 +1048,9 @@ VariableCellTableModel::pasteDataFromExcel(int startRow, int startCol, const QSt
                 if (col < rowData.size()) {
                     cellText = rowData[col];
                 } else {
-                    cellText = ""; // Fill missing columns with empty
+                    cellText = "";
                 }
 
-                // Parse and set the cell value
                 ArrayOf newCellValue = parseInputToArrayOf(cellText, targetRow, targetCol);
 
                 if (setCellValue(targetRow, targetCol, newCellValue)) {
@@ -1156,11 +1061,9 @@ VariableCellTableModel::pasteDataFromExcel(int startRow, int startCol, const QSt
         }
 
         if (anyChanges) {
-            // Batch persistence
             m_pendingChanges = true;
-            schedulePeristenceUpdate();
+            schedulePersistenceUpdate();
 
-            // Emit dataChanged for the entire pasted region
             QModelIndex topLeft = index(startRow, startCol);
             QModelIndex bottomRight = index(endRow, endCol);
             emit dataChanged(topLeft, bottomRight);
@@ -1169,21 +1072,19 @@ VariableCellTableModel::pasteDataFromExcel(int startRow, int startCol, const QSt
         }
 
     } catch (const std::exception&) {
-        // If anything fails, we've already saved undo state, so this is recoverable
+        // undo state is saved before the paste, so the failure is recoverable
         return false;
     }
 
     return false;
 }
 //=============================================================================
-
 bool
 VariableCellTableModel::canPasteAt(int startRow, int startCol, const QString& text) const
 {
     return false;
 }
 //=============================================================================
-
 QSize
 VariableCellTableModel::getPasteSize(const QString& text) const
 {
@@ -1196,7 +1097,6 @@ VariableCellTableModel::getPasteSize(const QString& text) const
         return QSize(0, 0);
     }
 
-    // Remove trailing empty line if present
     if (!lines.isEmpty() && lines.last().isEmpty()) {
         lines.removeLast();
     }
@@ -1208,19 +1108,16 @@ VariableCellTableModel::getPasteSize(const QString& text) const
     const int rows = lines.size();
     int maxCols = 0;
 
-    // Find the maximum number of columns across all rows
     for (const QString& line : lines) {
-        int cols = 1; // At least one column
+        int cols = 1;
 
         if (line.contains('\t')) {
             cols = line.split('\t', Qt::KeepEmptyParts).size();
         } else if (line.contains(' ')) {
-            // Try multiple spaces first
             QStringList parts = line.split(QRegularExpression("\\s{2,}"), Qt::KeepEmptyParts);
             if (parts.size() > 1) {
                 cols = parts.size();
             } else {
-                // Fall back to single space
                 parts = line.split(' ', Qt::KeepEmptyParts);
                 cols = parts.size();
             }
@@ -1247,16 +1144,13 @@ VariableCellTableModel::createArrayFromSelection(const QModelIndexList& selected
     Dimensions newDims(bounds.maxRow - bounds.minRow + 1, bounds.maxCol - bounds.minCol + 1);
     ArrayOf newVar;
 
-    ArrayOf* ptr = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, newDims.getElementCount());
+    ArrayOf* ptr = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, newDims.elementCount());
     newVar = ArrayOf(NLS_CELL_ARRAY, newDims, ptr);
 
     for (int r = bounds.minRow; r <= bounds.maxRow; ++r) {
         for (int c = bounds.minCol; c <= bounds.maxCol; ++c) {
             QModelIndex idx = index(r, c);
             QVariant val = data(idx, Qt::DisplayRole);
-            // double num = val.toDouble();
-            // ptr[(r - bounds.minRow) + (c - bounds.minCol) * newDims.getRows()]
-            //     = ArrayOf::characterArrayConstructor(QStringTowstring(val.toString()));
         }
     }
     return newVar;
@@ -1287,7 +1181,7 @@ VariableCellTableModel::insertRowAt(int row)
 
         ArrayOf* ptr = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, total);
         ArrayOf* dst = ptr;
-        ArrayOf* src = (ArrayOf*)(m_array.getDataPointer());
+        ArrayOf* src = (ArrayOf*)(m_array.dataPointer());
 
         Dimensions dimsEmpty(0, 0);
         for (int c = 0; c < cols; ++c) {
@@ -1295,7 +1189,7 @@ VariableCellTableModel::insertRowAt(int row)
                 dst[r + c * newRows] = src[r + c * m_rows];
             }
 
-            dst[row + c * newRows] = ArrayOf::emptyConstructor(dimsEmpty);
+            dst[row + c * newRows] = ArrayOf::empty(dimsEmpty);
 
             for (int r = row; r < m_rows; ++r) {
                 dst[r + 1 + c * newRows] = src[r + c * m_rows];
@@ -1332,7 +1226,7 @@ VariableCellTableModel::insertColumnAt(int col)
         ArrayOf newArray;
         ArrayOf* ptr = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, total);
         ArrayOf* dst = ptr;
-        ArrayOf* src = (ArrayOf*)(m_array.getDataPointer());
+        ArrayOf* src = (ArrayOf*)(m_array.dataPointer());
 
         for (int c = 0; c < col; ++c) {
             for (int r = 0; r < rows; ++r) {
@@ -1342,7 +1236,7 @@ VariableCellTableModel::insertColumnAt(int col)
 
         Dimensions dimsEmpty(0, 0);
         for (int r = 0; r < rows; ++r) {
-            dst[r + col * rows] = ArrayOf::emptyConstructor(dimsEmpty);
+            dst[r + col * rows] = ArrayOf::empty(dimsEmpty);
         }
 
         for (int c = col; c < m_cols; ++c) {
@@ -1386,7 +1280,7 @@ VariableCellTableModel::deleteRowAt(int row)
         ArrayOf newArray;
         ArrayOf* ptr = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, total);
         ArrayOf* dst = ptr;
-        ArrayOf* src = (ArrayOf*)(m_array.getDataPointer());
+        ArrayOf* src = (ArrayOf*)(m_array.dataPointer());
 
         for (int c = 0; c < cols; ++c) {
             int k = 0;
@@ -1432,7 +1326,7 @@ VariableCellTableModel::deleteColumnAt(int col)
         ArrayOf newArray;
         ArrayOf* ptr = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, total);
         ArrayOf* dst = ptr;
-        ArrayOf* src = (ArrayOf*)(m_array.getDataPointer());
+        ArrayOf* src = (ArrayOf*)(m_array.dataPointer());
 
         int k = 0;
         for (int c = 0; c < m_cols; ++c) {
@@ -1472,12 +1366,12 @@ VariableCellTableModel::expandDisplayIfNeeded(int row, int col)
     int newColsDisplay = m_cols_display;
 
     if (row >= m_rows_display) {
-        newRowsDisplay = std::max((row + 1) * 2, MIN_DISPLAY_SIZE);
+        newRowsDisplay = std::max(row + 1 + DISPLAY_MARGIN, MIN_DISPLAY_SIZE);
         needsExpansion = true;
     }
 
     if (col >= m_cols_display) {
-        newColsDisplay = std::max((col + 1) * 2, MIN_DISPLAY_SIZE);
+        newColsDisplay = std::max(col + 1 + DISPLAY_MARGIN, MIN_DISPLAY_SIZE);
         needsExpansion = true;
     }
 
@@ -1507,5 +1401,5 @@ VariableCellTableModel::expandDisplayIfNeeded(int row, int col)
     return true;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

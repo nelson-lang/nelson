@@ -15,4 +15,3 @@
 #include RootPath + "bin/qt.iss"
 #include RootPath + "modules/modules.iss"
 #include RootPath + "tools/tools.iss"
-;==============================================================================

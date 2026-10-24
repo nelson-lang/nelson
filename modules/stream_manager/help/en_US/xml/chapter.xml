@@ -10,6 +10,6 @@
     <p
     >It supports reading and writing text and binary data to files, handling file positions, detecting end-of-file conditions, and managing file errors.</p>
     <p
-    >The module also enables logging of session activity, and loading and saving workspace data, facilitating robust and flexible file I/O operations within scripts and applications.</p>
+    >The module also supports session logging and workspace load/save operations for controlled file I/O in scripts and applications.</p>
   </chapter_description>
 </xmldoc>

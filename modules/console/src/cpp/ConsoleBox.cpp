@@ -11,6 +11,7 @@
 #ifdef _MSC_VER
 #include "DynamicLibrary.hpp"
 #include "NelsonConfiguration.hpp"
+#include "RuntimeDispatch.hpp"
 #include <mutex>
 #include <filesystem>
 #include <string>
@@ -29,7 +30,6 @@ template <typename FuncPtr>
 FuncPtr
 getFunctionPointer(const char* functionName)
 {
-    // return nullptr if library wasn't loaded
     if (nlsGuiHandleDynamicLibrary == nullptr) {
         return nullptr;
     }
@@ -53,7 +53,6 @@ ConsoleBoxShow(bool show)
     }
     if (ShowConsoleWindowPtr != nullptr) {
         ShowConsoleWindowPtr(show);
-        // return current visible state (keep previous behavior)
         return ConsoleBoxIsVisible();
     }
     return false;
@@ -102,12 +101,14 @@ ConsoleBoxIsVisible()
 #endif
     return false;
 }
-
 //=============================================================================
 #ifdef _MSC_VER
 bool
 initGuiDynamicLibrary()
 {
+    if (!Nelson::hasGuiServices()) {
+        return false;
+    }
     std::call_once(guiLibraryInitFlag, []() {
         const std::wstring fullpathGuiSharedLibrary
             = L"libnlsGui" + Nelson::get_dynamic_library_extensionW();
@@ -123,5 +124,5 @@ initGuiDynamicLibrary()
 }
 #endif
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -9,7 +9,6 @@ dependencies:
   - libgfortran
   - mesalib
   - qt-main
-  - boost
   - fftw
   - openblas
   - openmpi

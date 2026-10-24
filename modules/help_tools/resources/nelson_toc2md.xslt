@@ -54,6 +54,10 @@
     </xsl:if>
   </xsl:template>
 
+  <!-- "block:" aliases are lookup-only entries (doc, nflow block help):
+       they stay in the TOC XML and index.json but are never rendered. -->
+  <xsl:template match="keyword[starts-with(@name, 'block:')]"/>
+
   <xsl:template match="keyword">
     <xsl:param name="indent"/>
     <xsl:value-of select="$indent"/>

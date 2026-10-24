@@ -9,9 +9,9 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function varargout = balreal(varargin)
-  narginchk(3,3);
+  narginchk(3, 3);
   nargoutchk(0, 6);
-  
+
   A = varargin{1};
   B = varargin{2};
   C = varargin{3};
@@ -19,10 +19,10 @@ function varargout = balreal(varargin)
   cD = size(D, 2);
   D = zeros(rD, cD);
   sysIn = ss(A, B, C, D);
-  
+
   [sysOut, g, Ti, T] = balreal(sysIn);
   [abal, bbal, cbal] = ssdata(sysOut);
-  
+
   varargout{1} = abal;
   if nargout > 1
     varargout{2} = bbal;

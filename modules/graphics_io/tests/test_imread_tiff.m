@@ -15,8 +15,8 @@ skip_testsuite(isempty(imfmt), _('No TIFF format supported.'))
 images_path = [modulepath('graphics', 'tests'), '/images/'];
 %=============================================================================
 f = figure();
-[img, map, alpha] = imread([images_path,'f14.tiff']);
-assert_isequal(size(img), [   480   640     3]);
-assert_isequal(size(alpha), [0, 0]);
+[img, map, alpha] = imread([images_path, 'f14.tiff']);
+asserts.isequal(size(img), [480 640 3]);
+asserts.isequal(size(alpha), [0, 0]);
 imshow(img, map);
 %=============================================================================

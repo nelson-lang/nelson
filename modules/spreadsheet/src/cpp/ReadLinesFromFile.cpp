@@ -52,5 +52,5 @@ readLinesFromFile(const std::wstring& filename, const detectImportOptions& optio
     return normalizedStream;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

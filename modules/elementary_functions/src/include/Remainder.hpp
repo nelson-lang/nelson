@@ -13,10 +13,8 @@
 #include "nlsElementary_functions_exports.h"
 //=============================================================================
 namespace Nelson {
-/**
- * remainder operation.
- */
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
 Remainder(ArrayOf A, ArrayOf B);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

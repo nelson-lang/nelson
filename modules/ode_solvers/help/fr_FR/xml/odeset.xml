@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>odeset</keyword>
+  <short_description>Creer ou modifier des options EDO.</short_description>
+  <syntax>
+    <syntax_item>options = odeset()</syntax_item>
+    <syntax_item>options = odeset(nom, valeur)</syntax_item>
+    <syntax_item>options = odeset(anciennesOptions, nom, valeur)</syntax_item>
+  </syntax>
+  <description>
+    <p>
+      <b>odeset</b> cree une structure d'options pour les solveurs EDO.</p>
+    <table style="width:100%">
+      <tr>
+        <th>Groupe</th>
+        <th>Options</th>
+        <th>Role</th>
+      </tr>
+      <tr>
+        <td>Tolerances</td>
+        <td><b>RelTol</b>, <b>AbsTol</b>, <b>NormControl</b></td>
+        <td>Controle l erreur adaptative.</td>
+      </tr>
+      <tr>
+        <td>Pas et sorties</td>
+        <td><b>InitialStep</b>, <b>MaxStep</b>, <b>MinStep</b>, <b>Refine</b>, <b>OutputFcn</b>, <b>OutputSel</b>, <b>Stats</b></td>
+        <td>Controle les pas publics, les callbacks de sortie et les statistiques.</td>
+      </tr>
+      <tr>
+        <td>Evenements et contraintes</td>
+        <td><b>Events</b>, <b>NonNegative</b></td>
+        <td>Localise les zeros et contraint certaines composantes.</td>
+      </tr>
+      <tr>
+        <td>Systemes raides</td>
+        <td><b>Mass</b>, <b>Jacobian</b>, <b>JPattern</b>, <b>JConstant</b>, <b>BDF</b>, <b>MaxOrder</b>, <b>MassSingular</b>, <b>MStateDependence</b>, <b>MvPattern</b></td>
+        <td>Donne des informations structurelles aux solveurs raides ou implicites.</td>
+      </tr>
+    </table>
+    <p>Les options courantes incluent <b>RelTol</b>, <b>AbsTol</b>, <b>InitialStep</b>, <b>MaxStep</b>, <b>MinStep</b>, <b>Refine</b>, <b>Stats</b>, <b>Events</b>, <b>OutputFcn</b>, <b>OutputSel</b>, <b>NonNegative</b>, <b>Mass</b>, <b>Jacobian</b>, <b>JPattern</b>, <b>JConstant</b>, <b>BDF</b>, <b>MaxOrder</b>, <b>MassSingular</b>, <b>MStateDependence</b> et <b>MvPattern</b>. Les options explicites de taille de pas doivent etre positives.</p>
+    <p>Quand l'intervalle de temps contient seulement deux valeurs, <b>Refine</b> ajoute des points de sortie dans chaque pas accepte. Avec des intervalles plus longs, les points de temps demandes definissent les points de sortie publics. <b>OutputFcn</b> est appelee sur ces points raffines ou demandes; retourner un scalaire <b>true</b> arrete l'integration au point de sortie courant. <b>Stats</b> a <b>on</b> affiche les compteurs de pas et d'evaluations. <b>NormControl</b> a <b>on</b> utilise une norme vectorielle dans le test d'erreur adaptatif. <b>Vectorized</b> a <b>on</b> autorise les appels vectorises du membre de droite pendant la construction du jacobien par differences finies. <b>JPattern</b> fournit le motif non nul utilise par les entrees raides et l'entree implicite quand un jacobien par differences finies est necessaire. <b>JConstant</b> a <b>on</b> reutilise le jacobien dans chaque pas lineairement implicite.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Points de sortie raffines.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[options = odeset('Refine', 4, 'MaxStep', 0.5);
+[t, y] = ode45(@(t,y) y, [0 1], 1, options)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Statistiques et jacobien pour une entree raide.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[f = @(t,y) -1000 * (y - cos(t)) - sin(t);
+options = odeset('Jacobian', -1000, 'Stats', 'on');
+[t, y] = ode15s(f, [0 0.5], 1, options)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Controle par norme vectorielle.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[options = odeset('NormControl', 'on');
+[t, y] = ode45(@(t,y) [y(1); -2*y(2)], [0 1], [1; 1], options)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Motif de jacobien par differences finies.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[pattern = [1 0; 0 1];
+options = odeset('JPattern', pattern, 'Vectorized', 'on');
+[t, y] = ode15s(@(t,y) [-10*y(1,:); -20*y(2,:)], [0 0.2], [1; 2], options)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Indication de jacobien constant.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[options = odeset('Jacobian', -25, 'JConstant', 'on');
+[t, y] = ode15s(@(t,y) -25*y, [0 0.2], 1, options)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Fonction de sortie aux points demandes.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[out = @(t,y,flag) false;
+options = odeset('OutputFcn', out);
+[t, y] = ode45(@(t,y) y, [0 0.25 0.5], 1, options)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ode_solvers}odeget">odeget</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}ode45">ode45</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}ode15s">ode15s</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

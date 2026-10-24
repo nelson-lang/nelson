@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>pareto</keyword>
+  <short_description>Display Pareto chart.</short_description>
+  <syntax>
+    <syntax_item>pareto(y)</syntax_item>
+    <syntax_item>pareto(y, threshold)</syntax_item>
+    <syntax_item>pareto(y, labels)</syntax_item>
+    <syntax_item>pareto(y, labels, threshold)</syntax_item>
+    <syntax_item>pareto(parent, ...)</syntax_item>
+    <syntax_item>h = pareto(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>pareto</b> sorts nonnegative values in descending order, displays bars, and overlays a cumulative line. <b>threshold</b> is a scalar between 0 and 1 that controls how many sorted labels are displayed.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Create a Pareto chart.</example_item_description>
+      <example_item_data><![CDATA[pareto([5 20 10], {'A', 'B', 'C'});]]></example_item_data>
+      <example_item_img src="../../../../images/pareto_1.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/6_discrete_data_plots/bar">bar</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/1_line_plots/plot">plot</link></see_also_item>
+  </see_also>
+</xmldoc>

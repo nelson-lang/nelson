@@ -7,12 +7,13 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--WEIGHT 2-->
 [status, pathcmake] = findcmake();
 if status
-  assert_istrue(status);
-  assert_istrue(isfile(pathcmake));
+  asserts.istrue(status);
+  asserts.istrue(isfile(pathcmake));
 else
-  assert_isfalse(status);
-  assert_isequal(pathcmake, '');
+  asserts.isfalse(status);
+  asserts.isequal(pathcmake, '');
 end
 %=============================================================================

@@ -10,6 +10,7 @@
 #pragma once
 //=============================================================================
 #include <string>
+#include <type_traits>
 #include "StringHelpers.hpp"
 #include "Types.hpp"
 #include "ArrayOf.hpp"
@@ -21,25 +22,29 @@
 namespace Nelson {
 //=============================================================================
 std::wstring
-summarizeCellMissingEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth,
+summarizeCellMissingEntry(const ArrayOf& A, size_t beginningLineLength, size_t termWidth,
     NumericFormatDisplay currentNumericFormat, bool asStructElement);
 //=============================================================================
 std::wstring
-summarizeCellStringEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth,
+summarizeCellObjectEntry(
+    const ArrayOf& A, size_t beginningLineLength, size_t termWidth, bool asStructElement);
+//=============================================================================
+std::wstring
+summarizeCellStringEntry(const ArrayOf& A, size_t beginningLineLength, size_t termWidth,
     NumericFormatDisplay currentNumericFormat, bool asStructElement);
 //=============================================================================
 std::wstring
-summarizeCellLogicalEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth,
+summarizeCellLogicalEntry(const ArrayOf& A, size_t beginningLineLength, size_t termWidth,
     NumericFormatDisplay currentNumericFormat, bool asStructElement);
 //=============================================================================
 template <class T>
 std::wstring
-summarizeCellIntegerEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth,
+summarizeCellIntegerEntry(const ArrayOf& A, size_t beginningLineLength, size_t termWidth,
     NumericFormatDisplay currentNumericFormat, bool asStructElement)
 {
     std::wstring msg;
     if (A.isRowVector() || A.isScalar()) {
-        const T* values = (static_cast<const T*>(A.getDataPointer()));
+        const T* values = (static_cast<const T*>(A.dataPointer()));
         if (asStructElement) {
             if (!A.isScalar()) {
                 msg.append(L"[");
@@ -49,7 +54,7 @@ summarizeCellIntegerEntry(const ArrayOf& A, size_t beginingLineLength, size_t te
         }
         FormatDisplayInformation formatInfo = computeFormatInfo(A, currentNumericFormat);
         formatInfo.trim = true;
-        for (indexType k = 0; k < A.getElementCount(); ++k) {
+        for (indexType k = 0; k < A.elementCount(); ++k) {
             std::wstring numberAsStr;
             switch (currentNumericFormat) {
             case NLS_NUMERIC_FORMAT_BANK:
@@ -72,8 +77,8 @@ summarizeCellIntegerEntry(const ArrayOf& A, size_t beginingLineLength, size_t te
             } break;
             }
             msg.append(numberAsStr);
-            if (k < A.getElementCount() - 1) {
-                msg.append(L"  ");
+            if (k < A.elementCount() - 1) {
+                msg.append(L" ");
             }
             if (msg.size() + 1 > termWidth) {
                 if (asStructElement) {
@@ -102,7 +107,7 @@ summarizeCellIntegerEntry(const ArrayOf& A, size_t beginingLineLength, size_t te
 //=============================================================================
 template <class T>
 std::wstring
-summarizeCellRealEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth,
+summarizeCellRealEntry(const ArrayOf& A, size_t beginningLineLength, size_t termWidth,
     NumericFormatDisplay currentNumericFormat, bool asStructElement)
 {
     std::wstring msg;
@@ -114,7 +119,7 @@ summarizeCellRealEntry(const ArrayOf& A, size_t beginingLineLength, size_t termW
         }
     } else {
         if (A.isRowVector() || A.isScalar()) {
-            const T* values = (static_cast<const T*>(A.getDataPointer()));
+            const T* values = (static_cast<const T*>(A.dataPointer()));
             if (asStructElement) {
                 if (!A.isScalar()) {
                     msg.append(L"[");
@@ -122,10 +127,14 @@ summarizeCellRealEntry(const ArrayOf& A, size_t beginingLineLength, size_t termW
             } else {
                 msg.append(L"[");
             }
-            FormatDisplayInformation formatInfo = computeFormatInfo(A, currentNumericFormat);
-            formatInfo.trim = true;
-            for (indexType k = 0; k < A.getElementCount(); ++k) {
-                std::wstring numberAsStr = formatScalarNumber((double)values[k], false, formatInfo);
+            // each element is displayed with its own scalar format: [1.5000 2]
+            constexpr bool asSingle = std::is_same<T, single>::value;
+            for (indexType k = 0; k < A.elementCount(); ++k) {
+                FormatDisplayInformation formatInfo
+                    = computeFormatInfo((double)values[k], asSingle, currentNumericFormat);
+                formatInfo.trim = true;
+                std::wstring numberAsStr
+                    = formatScalarNumber((double)values[k], asSingle, formatInfo);
                 if (currentNumericFormat == NLS_NUMERIC_FORMAT_RATIONAL) {
                     size_t nbCharsLimit = 6;
                     if (StringHelpers::contains(numberAsStr, L"/")) {
@@ -139,8 +148,8 @@ summarizeCellRealEntry(const ArrayOf& A, size_t beginingLineLength, size_t termW
                     }
                 }
                 msg.append(numberAsStr);
-                if (k < A.getElementCount() - 1) {
-                    msg.append(L"  ");
+                if (k < A.elementCount() - 1) {
+                    msg.append(L" ");
                 }
                 if (msg.size() + 1 > termWidth) {
                     if (asStructElement) {
@@ -170,77 +179,59 @@ summarizeCellRealEntry(const ArrayOf& A, size_t beginingLineLength, size_t termW
 //=============================================================================
 template <class T>
 std::wstring
-summarizeCellComplexEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth,
+summarizeCellComplexEntry(const ArrayOf& A, size_t beginningLineLength, size_t termWidth,
     NumericFormatDisplay currentNumericFormat, bool asStructElement)
 {
-    std::wstring msg;
-    if (A.isSparse()) {
+    if (A.isSparse() || !(A.isRowVector() || A.isScalar())) {
         if (asStructElement) {
-            msg = lightDescription(A, L"[", L"]");
-        } else {
-            msg = lightDescription(A, L"", L"");
+            return lightDescription(A, L"[", L"]");
         }
-    } else {
-        if (A.isRowVector() || A.isScalar()) {
-            const double* ap = static_cast<const double*>(A.getDataPointer());
-            if (asStructElement) {
-                if (!A.isScalar()) {
-                    msg.append(L"[");
-                }
-            } else {
-                msg.append(L"[");
+        return lightDescription(A, L"", L"");
+    }
+    const T* ap = static_cast<const T*>(A.dataPointer());
+    constexpr bool asSingle = std::is_same<T, single>::value;
+    std::wstring msg;
+    for (indexType k = 0; k < A.elementCount(); ++k) {
+        FormatDisplayInformation formatInfo = A.isScalar()
+            ? computeFormatInfo(A, currentNumericFormat)
+            : computeFormatInfo(
+                  (double)ap[2 * k], (double)ap[2 * k + 1], asSingle, currentNumericFormat);
+        formatInfo.trim = true;
+        std::wstring numberAsStr = formatScalarComplexNumber(
+            (double)ap[2 * k], (double)ap[2 * k + 1], asSingle, formatInfo);
+        if (currentNumericFormat == NLS_NUMERIC_FORMAT_BANK) {
+            size_t nbCharsLimit = (8 * 2) + 3;
+            if (StringHelpers::contains(numberAsStr, L"/")) {
+                nbCharsLimit++;
             }
-            FormatDisplayInformation formatInfo = computeFormatInfo(A, currentNumericFormat);
-            formatInfo.trim = true;
-            for (indexType k = 0; k < A.getElementCount() * 2; k = k + 2) {
-                std::wstring numberAsStr = formatScalarComplexNumber(
-                    (double)ap[k], (double)ap[k + 1], false, formatInfo);
-                if (currentNumericFormat == NLS_NUMERIC_FORMAT_BANK) {
-                    size_t nbCharsLimit = (8 * 2) + 3;
-                    if (StringHelpers::contains(numberAsStr, L"/")) {
-                        nbCharsLimit++;
-                    }
-                    if (StringHelpers::contains(numberAsStr, L"-")) {
-                        nbCharsLimit++;
-                    }
-                    if (numberAsStr.length() > nbCharsLimit) {
-                        if (asStructElement) {
-                            return lightDescription(A, L"[", L"]");
-                        } else {
-                            return lightDescription(A, L"", L"");
-                        }
-                    }
-                }
-                msg.append(numberAsStr);
-                if (k < A.getElementCount() - 1) {
-                    msg.append(L"  ");
-                }
-                if (msg.size() + 1 > termWidth) {
-                    if (asStructElement) {
-                        return lightDescription(A, L"[", L"]");
-                    } else {
-                        return lightDescription(A, L"", L"");
-                    }
-                }
+            if (StringHelpers::contains(numberAsStr, L"-")) {
+                nbCharsLimit++;
             }
-            if (asStructElement) {
-                if (!A.isScalar()) {
-                    msg.append(L"]");
-                }
-            } else {
-                msg.append(L"]");
+            if (numberAsStr.length() > nbCharsLimit) {
+                msg.clear();
+                break;
             }
-        } else {
-            if (asStructElement) {
-                msg = lightDescription(A, L"[", L"]");
-            } else {
-                msg = lightDescription(A, L"", L"");
-            }
+        }
+        if (k > 0) {
+            msg.append(L" ");
+        }
+        msg.append(numberAsStr);
+        if (msg.size() + 3 > termWidth) {
+            msg.clear();
+            break;
         }
     }
-    return msg;
+    if (msg.empty()) {
+        if (asStructElement) {
+            return lightDescription(A, L"[", L"]");
+        }
+        return lightDescription(A, L"", L"");
+    }
+    if (asStructElement && A.isScalar()) {
+        return msg;
+    }
+    return L"[" + msg + L"]";
 }
 //=============================================================================
-
-}
+} // namespace Nelson
 //=============================================================================

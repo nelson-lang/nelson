@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>withinrange</keyword>
+  <short_description>Trouver les lignes d&apos;une timetable dans une plage de temps.</short_description>
+  <syntax><syntax_item>[tf, tfRow] = withinrange(TT, timeSpec)</syntax_item></syntax>
+  <param_input>
+    <param_input_item><param_name>TT</param_name><param_description>Timetable d&apos;entree.</param_description></param_input_item>
+    <param_input_item><param_name>timeSpec</param_name><param_description>Specification de plage de temps.</param_description></param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>tf</param_name><param_description>Scalaire logique.</param_description></param_output_item>
+    <param_output_item><param_name>tfRow</param_name><param_description>Selecteur logique de lignes.</param_description></param_output_item>
+  </param_output>
+  <description><p><b>withinrange</b> teste si les temps de lignes sont dans une plage de temps specifiee.</p></description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_data runnable="cli"><![CDATA[TT = timetable(seconds([1; 2; 3]), [10; 20; 30], 'VariableNames', {'A'});
+withinrange(TT, seconds([1; 2]))
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${table}containsrange">containsrange</link></see_also_item>
+    <see_also_item><link linkend="${table}overlapsrange">overlapsrange</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>2.0.0</history_version><history_description>version initiale</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

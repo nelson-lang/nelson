@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>uisave</keyword>
+  <short_description>Saves workspace variables to a file selected from a dialog box.</short_description>
+  <syntax>
+    <syntax_item>uisave</syntax_item>
+    <syntax_item>uisave(variables)</syntax_item>
+    <syntax_item>uisave(variables, file)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>variables</param_name>
+      <param_description>Variable name, string array, or cell array of variable names. If omitted, the workspace is saved.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p>uisave asks for a destination file and saves variables from the caller workspace using the existing save behavior.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Preview a variable save dialog layout.</example_item_description>
+      <example_item_data><![CDATA[f = dialog('Name', 'Save Variables', 'WindowStyle', 'normal', 'Position', [100 100 400 220]);
+uicontrol(f, 'Style', 'text', 'String', 'Variables:', 'Position', [30 156 120 22]);
+uicontrol(f, 'Style', 'listbox', 'String', {'x', 'y', 'results'}, 'Value', 1, 'Position', [30 70 250 82]);
+uicontrol(f, 'Style', 'pushbutton', 'String', 'Save', 'Position', [210 28 70 24]);
+uicontrol(f, 'Style', 'pushbutton', 'String', 'Cancel', 'Position', [292 28 70 24]);]]></example_item_data>
+      <example_item_img
+        src="../images/uisave_example.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Save several named variables.</example_item_description>
+      <example_item_data><![CDATA[x = 1:5;
+y = x .^ 2;
+uisave({'x', 'y'}, 'series.nh5')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${gui}uiopen">uiopen</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${gui}uiputfile">uiputfile</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>Updated dialog API help.</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

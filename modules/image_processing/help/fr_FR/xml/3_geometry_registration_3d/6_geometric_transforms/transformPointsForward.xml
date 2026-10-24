@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>transformPointsForward</keyword>
+  <short_description>Applique une transformation geometrique directe a des points.</short_description>
+  <syntax>
+    <syntax_item>[x, y] = transformPointsForward(tform, u, v)</syntax_item>
+    <syntax_item>X = transformPointsForward(tform, U)</syntax_item>
+    <syntax_item>[x, y, z] = transformPointsForward(tform, u, v, w)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>tform</param_name>
+      <param_description>Structure de transformation geometrique creee par affine2d, affine3d ou projective2d.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>u, v, w</param_name>
+      <param_description>Tableaux de coordonnees de meme taille. Fournir u et v pour une transformation 2-D, ou u, v et w pour une transformation 3-D.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>U</param_name>
+      <param_description>Matrice de points compactee avec une colonne par dimension : N-by-2 en 2-D, N-by-3 en 3-D.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>x, y, z</param_name>
+      <param_description>Tableaux de coordonnees transformees, de meme taille que les entrees correspondantes.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>X</param_name>
+      <param_description>Matrice compactee des points transformes, de meme taille que U.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Applique la transformation geometrique directe contenue dans <b>tform</b> a un ensemble de points, selon la convention vecteur ligne <b>[x ... 1] = [u ... 1] * tform.T</b>. Pour une transformation projective, le resultat est normalise par sa coordonnee homogene.</p>
+    <p>Les points peuvent etre fournis soit comme des tableaux de coordonnees distincts de meme taille, soit comme une seule matrice compactee avec une colonne par dimension.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Rotation de points de 30 degres</example_item_description>
+      <example_item_data
+        ><![CDATA[tform = affine2d([cosd(30) sind(30) 0; -sind(30) cosd(30) 0; 0 0 1]);
+[x, y] = transformPointsForward(tform, 1, 0)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}transformPointsInverse">transformPointsInverse</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}affine2d">affine2d</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}affine3d">affine3d</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}projective2d">projective2d</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

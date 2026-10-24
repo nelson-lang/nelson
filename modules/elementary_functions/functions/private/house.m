@@ -8,58 +8,75 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function [houseVector, houseBeta, houseSigma] = house(inputVector, mode, className)
-  [numRows, numCols] = size(inputVector);
+  numRows = size(inputVector, 1);
+  numCols = size(inputVector, 2);
   if numCols > 1
-    error(_('Argument must be a column vector.'));
+    error('Nelson:validators:mustBeColumn', '%s must be a column vector.', 'Argument');
   end
-  
-  % robust default for mode
-  if nargin < 2 || isempty(mode) || ~isnumeric(mode) || ~isscalar(mode)
-    mode = 0;
+
+  if nargin < 2
+    activeMode = 0;
+  else
+    activeMode = normalizedMode(mode);
   end
   if nargin < 3 || isempty(className)
-    className = 'double';
+    outputClass = 'double';
+  else
+    outputClass = className;
   end
-  
+
   houseVector = inputVector;
   tailNorm = norm(inputVector(2:numRows));
   totalNorm = norm([inputVector(1); tailNorm]);
-  
+
   if totalNorm == 0
-    houseBeta = ones(className);
-    houseSigma = zeros(className);
+    houseBeta = ones(outputClass);
+    houseSigma = zeros(outputClass);
     return
   end
-  
-  signVal = sign(inputVector(1));
-  if signVal == 0
-    signVal = 1;
-  end
-  s_pre = totalNorm * signVal;
-  
-  if mode == 2
-    if ~any(imag(inputVector))
-      if s_pre < 0
-        mode = 0;
-      else
-        mode = 1;
-      end
-    else
-      mode = 0;
-    end
-  end
-  
-  if mode == 0
-    houseSigma = -s_pre;
+
+  signedNorm = totalNorm * leadingSign(inputVector(1));
+  activeMode = resolveMode(activeMode, inputVector, signedNorm);
+
+  if activeMode == 0
+    houseSigma = -signedNorm;
     houseVector(1) = houseVector(1) - houseSigma;
   else
-    houseSigma = s_pre;
-    houseVector(1) = -tailNorm^2 / (inputVector(1) + houseSigma)';
+    houseSigma = signedNorm;
+    houseVector(1) = -tailNorm ^ 2 / (inputVector(1) + houseSigma)';
     if houseVector(1) == 0
-      houseBeta = ones(className);
+      houseBeta = ones(outputClass);
       return
     end
   end
-  houseBeta = -1/(houseSigma'*houseVector(1));
+  houseBeta = -1 / (houseSigma' * houseVector(1));
+end
+%=============================================================================
+function activeMode = normalizedMode(mode)
+  if isempty(mode) || ~isnumeric(mode) || ~isscalar(mode)
+    activeMode = 0;
+  else
+    activeMode = mode;
+  end
+end
+%=============================================================================
+function signValue = leadingSign(firstValue)
+  signValue = sign(firstValue);
+  if signValue == 0
+    signValue = 1;
+  end
+end
+%=============================================================================
+function activeMode = resolveMode(activeMode, inputVector, signedNorm)
+  if activeMode ~= 2
+    return
+  end
+  if any(imag(inputVector))
+    activeMode = 0;
+  elseif signedNorm < 0
+    activeMode = 0;
+  else
+    activeMode = 1;
+  end
 end
 %=============================================================================

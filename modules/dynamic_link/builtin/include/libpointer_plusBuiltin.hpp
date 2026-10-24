@@ -15,5 +15,6 @@
 namespace Nelson::DynamicLinkGateway {
 ArrayOfVector
 libpointer_plusBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

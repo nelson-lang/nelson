@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>fitrtree</keyword>
+  <short_description>Ajuste un arbre de regression.</short_description>
+  <syntax>
+    <syntax_item>mdl = fitrtree(X, Y)</syntax_item>
+    <syntax_item>mdl = fitrtree(X, Y, Name, Value)</syntax_item>
+    <syntax_item>yfit = predict(mdl, Xnew)</syntax_item>
+    <syntax_item>[yfit, node] = predict(mdl, Xnew)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>fitrtree</b> cree un objet <b>RegressionTree</b> a partir des predicteurs numeriques <b>X</b> et de la reponse numerique <b>Y</b>.</p>
+    <p>Les arguments nom-valeur incluent <b>MaxNumSplits</b>, <b>MinLeafSize</b>, <b>MinParentSize</b>, <b>PredictorNames</b> et <b>ResponseName</b>. Les predicteurs numeriques sont separes par des tests binaires de seuil qui reduisent l'erreur quadratique.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[X = [0; 1; 2; 3; 4; 5];
+Y = [1; 1.2; 3; 3.2; 9; 9.1];
+mdl = fitrtree(X, Y, 'MaxNumSplits', 2);
+yfit = predict(mdl, [1.5; 4.5])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}fitctree">fitctree</link></see_also_item>
+    <see_also_item><link linkend="${statistics}fitlm">fitlm</link></see_also_item>
+    <see_also_item><link linkend="${statistics}fitglm">fitglm</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

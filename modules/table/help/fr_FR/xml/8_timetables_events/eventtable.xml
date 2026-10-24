@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>eventtable</keyword>
+  <short_description>Creer une table d'evenements pour un timetable.</short_description>
+  <syntax>
+    <syntax_item>E = eventtable(eventTimes)</syntax_item>
+    <syntax_item>E = eventtable(TT)</syntax_item>
+    <syntax_item>E = eventtable(___, 'EventLabels', labels)</syntax_item>
+    <syntax_item>E = eventtable(___, 'EventLengths', lengths)</syntax_item>
+    <syntax_item>E = eventtable(___, 'EventEnds', ends)</syntax_item>
+    <syntax_item>E = eventtable(___, 'EventLabelsVariable', name)</syntax_item>
+    <syntax_item>E = eventtable(___, 'EventLengthsVariable', name)</syntax_item>
+    <syntax_item>E = eventtable(___, 'EventEndsVariable', name)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>eventTimes</param_name><param_description>Vecteur datetime ou duration contenant les temps de debut des evenements.</param_description></param_input_item>
+    <param_input_item><param_name>TT</param_name><param_description>Timetable dont les temps de lignes deviennent les temps d'evenements et dont les variables deviennent les variables d'evenements.</param_description></param_input_item>
+    <param_input_item><param_name>labels</param_name><param_description>Etiquettes d'evenements. Une valeur scalaire est etendue a tous les evenements.</param_description></param_input_item>
+    <param_input_item><param_name>lengths</param_name><param_description>Valeurs duration qui indiquent les durees d'evenements.</param_description></param_input_item>
+    <param_input_item><param_name>ends</param_name><param_description>Valeurs datetime ou duration qui indiquent les fins d'evenements.</param_description></param_input_item>
+    <param_input_item><param_name>name</param_name><param_description>Nom ou indice d'une variable du timetable d'entree contenant les etiquettes, durees ou fins d'evenements. Valide seulement si la premiere entree est un timetable.</param_description></param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>E</param_name><param_description>Eventtable : un timetable dont les temps de lignes sont les temps d'evenements.</param_description></param_output_item>
+  </param_output>
+  <description>
+    <p><b>eventtable</b> cree une eventtable qui peut etre attachee a un timetable avec <b>Properties.Events</b> ; <b>syncevents</b> copie ensuite ses variables dans le timetable.</p>
+    <p>Quand l'entree est un vecteur de temps, les etiquettes, durees et fins d'evenements sont indiquees par des arguments nom-valeur. Les variables supplementaires sont fournies en creant d'abord un timetable puis en le passant a <b>eventtable</b> : toute entree positionnelle apres la premiere est une erreur.</p>
+    <p>Une eventtable est un timetable : les temps d'evenements sont ses temps de lignes (<b>E.Properties.RowTimes</b>, ou <b>E.Time</b>) et non une variable ; <b>size</b>, <b>width</b>, l'indexation et la concatenation se comportent comme pour un timetable.</p>
+    <p><b>E.Properties</b> commence par <b>EventLabelsVariable</b>, <b>EventLengthsVariable</b> et <b>EventEndsVariable</b>, les noms des variables contenant les etiquettes, durees et fins d'evenements ([] si non definies). On peut leur affecter un nom ou un indice de variable, ou []. Une variable renommee ou supprimee n'est plus utilisee.</p>
+    <p>Creee a partir de temps d'evenements sans etiquettes, l'eventtable recoit les etiquettes "Event 1", "Event 2", ... dans une variable <b>EventLabels</b>. Creee a partir d'un timetable, aucune variable ne sert d'etiquettes sauf indication contraire.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_data runnable="cli"><![CDATA[eventTimes = datetime(2022, 11, [3; 5; 10; 14]);
+eventType = {'Hail'; 'Rain'; 'Snow'; 'Rain'};
+eventLength = hours([1.2; 36; 18; 20]);
+E = eventtable(eventTimes, ...
+  'EventLabels', eventType, ...
+  'EventLengths', eventLength)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_data runnable="cli"><![CDATA[t = datetime(2022, 11, (1:15)');
+temperature = [36; 31; 37; 36; 38; 32; 35; 34; 32; 30; 39; 34; 31; 40; 34];
+humidity = [45; 76; 43; 46; 72; 54; 50; 45; 72; 58; 54; 58; 73; 78; 66];
+TT = timetable(t, temperature, humidity, 'VariableNames', {'Temperature', 'Humidity'});
+eventTimes = t([3; 5; 10; 14]);
+eventType = {'Hail'; 'Rain'; 'Snow'; 'Rain'};
+eventLength = hours([1.2; 36; 18; 20]);
+precipitation = [12.7; 114.3; 25.4; 177.8];
+eventData = timetable(eventTimes, eventType, eventLength, precipitation, ...
+  'VariableNames', {'EventType', 'EventLength', 'Precipitation'});
+E = eventtable(eventData, ...
+  'EventLabelsVariable', 'EventType', ...
+  'EventLengthsVariable', 'EventLength');
+TT.Properties.Events = E;
+stackedplot(TT)
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${table}timetable">timetable</link></see_also_item>
+    <see_also_item><link linkend="${table}syncevents">syncevents</link></see_also_item>
+    <see_also_item><link linkend="${table}extractevents">extractevents</link></see_also_item>
+    <see_also_item><link linkend="${graphics}stackedplot">stackedplot</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>2.0.0</history_version><history_description>version initiale</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

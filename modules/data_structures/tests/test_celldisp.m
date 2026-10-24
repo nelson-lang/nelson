@@ -16,10 +16,10 @@ C{1}{1} =
 
  
 ';
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================
-C = {'row1',[1 2 3],3+4i;
-     'row2',[2 4;1 3],{'innercells',42}};
+C = {'row1', [1 2 3], 3 + 4i;
+     'row2', [2 4; 1 3], {'innercells', 42}};
 R = evalc('celldisp(C)');
 REF = ' 
 C{1,1} =
@@ -62,7 +62,11 @@ C{2,3}{2} =
 
  
 ';
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================
 
 
+DisplayText = evalc('celldisp({1, ''a''})');
+asserts.istrue(contains(DisplayText, '{1}'));
+asserts.istrue(contains(DisplayText, '{2}'));
+%=============================================================================

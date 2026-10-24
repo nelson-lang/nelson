@@ -21,7 +21,7 @@ public:
     Calendar(uint64 y, uint8 m);
     ~Calendar();
     std::wstring
-    getAsFormatedText();
+    getAsFormattedText();
     ArrayOf
     get();
     wstringVector
@@ -37,5 +37,6 @@ private:
     uint64 y = 0;
     uint8 m = 0;
 };
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

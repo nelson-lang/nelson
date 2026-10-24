@@ -108,7 +108,7 @@ Implemented features:
 
 - timeout `--timeout` CLI argument and `system` with timeout return error code `258` on Windows and `134` others platforms.
 
-- `test_run` catchs error code about test aborted (timeout).
+- `test_run` catches error code about test aborted (timeout).
 
 - `exit` does not allow value > 255 on Linux and MacOS.
 
@@ -209,7 +209,7 @@ Implemented features:
 
 - Nelson uses [`simdutf`](https://github.com/simdutf/simdutf) library to convert characters encoding faster.
 
-- shorcuts `&&` and `||` reworked.
+- shortcuts `&&` and `||` reworked.
 
 - assign behavior with empty matrix.
 
@@ -326,7 +326,7 @@ Implemented features:
 ### Fixed
 
 - [#689](https://github.com/nelson-lang/nelson/issues/689): `c = computer` returns an error.
-- [#691](https://github.com/nelson-lang/nelson/issues/691): help generation crashs if copyright tag is empty.
+- [#691](https://github.com/nelson-lang/nelson/issues/691): help generation crashes if copyright tag is empty.
 - [#35](https://github.com/nelson-lang/nelson/issues/35): datenum does not support vectorization.
 - `or`, `and` do not manage matrix operator scalar case.
 
@@ -429,7 +429,7 @@ Implemented features:
 
 - [#648](https://github.com/nelson-lang/nelson/issues/648): Ubuntu 18.04 CI failed.
 
-- [#651](https://github.com/nelson-lang/nelson/issues/651): MacOs monterey crashs at exit with mpi module.
+- [#651](https://github.com/nelson-lang/nelson/issues/651): MacOs monterey crashes at exit with mpi module.
 
 ## 0.6.4 (2022-04-24)
 
@@ -479,7 +479,7 @@ Implemented features:
 
 - add information for Software Center (Linux desktop, icons).
 
-- `nelson` Main script to start Nelson (superceed others scripts).
+- `nelson` Main script to start Nelson (supersede others scripts).
 
 - `isunicodesupported` function: Detect whether the current terminal supports Unicode.
 

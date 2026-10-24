@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -63,8 +63,8 @@ ArrayOfMin(const ArrayOf& a)
         return 0;
     }
     _a.promoteType(NLS_DOUBLE);
-    const double* v = (const double*)_a.getDataPointer();
-    indexType len = a.getElementCount();
+    const double* v = (const double*)_a.dataPointer();
+    indexType len = a.elementCount();
     double min = 0;
     bool first = true;
 #if WITH_OPENMP
@@ -91,8 +91,8 @@ ArrayOfMax(const ArrayOf& a)
         return 0;
     }
     _a.promoteType(NLS_DOUBLE);
-    const double* v = (const double*)_a.getDataPointer();
-    indexType len = _a.getElementCount();
+    const double* v = (const double*)_a.dataPointer();
+    indexType len = _a.elementCount();
     double max = 0;
     bool first = true;
 #if WITH_OPENMP
@@ -111,5 +111,5 @@ ArrayOfMax(const ArrayOf& a)
     return max;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

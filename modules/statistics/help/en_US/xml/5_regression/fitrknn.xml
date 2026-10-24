@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>fitrknn</keyword>
+  <short_description>Fit a k-nearest-neighbor regression model.</short_description>
+  <syntax>
+    <syntax_item>mdl = fitrknn(X, Y)</syntax_item>
+    <syntax_item>mdl = fitrknn(X, Y, Name, Value)</syntax_item>
+    <syntax_item>yfit = predict(mdl, Xnew)</syntax_item>
+    <syntax_item>[yfit, D] = predict(mdl, Xnew)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>fitrknn</b> creates a <b>RegressionKNN</b> object from numeric predictors <b>X</b> and numeric response <b>Y</b>.</p>
+    <p>Name-value arguments include <b>NumNeighbors</b>, <b>Distance</b>, <b>DistanceWeight</b>, <b>Standardize</b>, <b>P</b>, <b>Scale</b>, <b>PredictorNames</b>, and <b>ResponseName</b>. Prediction returns weighted neighbor response averages.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[X = [0 0; 0 1; 1 0; 5 5; 5 6; 6 5];
+Y = [1; 1.2; 1.1; 10; 10.2; 10.1];
+mdl = fitrknn(X, Y, 'NumNeighbors', 3);
+yfit = predict(mdl, [0.2 0.1; 5.2 5.1])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}fitcknn">fitcknn</link></see_also_item>
+    <see_also_item><link linkend="${statistics}fitrtree">fitrtree</link></see_also_item>
+    <see_also_item><link linkend="${statistics}knnsearch">knnsearch</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

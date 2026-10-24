@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>optim.options.SolverOptions</keyword>
+  <short_description>Solver options object.</short_description>
+  <syntax>
+    <syntax_item>options = optimoptions(solver)</syntax_item>
+    <syntax_item>options = optimoptions(problem)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>solver</param_name>
+      <param_description>solver name or problem object used by optimoptions.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Name, Value</param_name>
+      <param_description>solver option names and values.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>options</param_name>
+      <param_description>solver options object.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>optim.options.SolverOptions stores solver option values created by optimoptions.</p>
+    <p>The object is passed to optimization solvers or to solve through the problem-based workflow.</p>
+  </description>
+  <used_function>
+    <used_function_item>optimoptions</used_function_item>
+  </used_function>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Create options for fminsearch.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[opts = optimoptions('fminsearch', 'Display', 'off')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${optimization}optimoptions">optimoptions</link></see_also_item>
+    <see_also_item><link linkend="${optimization}solve">solve</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

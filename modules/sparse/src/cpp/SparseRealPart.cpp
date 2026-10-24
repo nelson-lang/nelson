@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -12,10 +12,11 @@
 #include "SparseRealPart.hpp"
 #include "ClassName.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "SparseType.hpp"
 #include <Eigen/Sparse>
-#include "PredefinedErrorMessages.hpp"
+#include <vector>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -24,17 +25,17 @@ SparseRealPart(ArrayOf a)
 {
     ArrayOf res;
     if (!a.isSparse()) {
-        Error(_W("Sparse expected."));
+        Error(L"Nelson:types:sparseExpected", L"Sparse expected.");
     }
-    switch (a.getDataClass()) {
+    switch (a.dataClass()) {
     case NLS_LOGICAL: {
         try {
-            indexType rows = a.getDimensionLength(0);
-            indexType cols = a.getDimensionLength(1);
+            indexType rows = a.dimensionLength(0);
+            indexType cols = a.dimensionLength(1);
             Eigen::SparseMatrix<double, 0, signedIndexType>* spmatDST
                 = new Eigen::SparseMatrix<double, 0, signedIndexType>(rows, cols);
             Eigen::SparseMatrix<logical, 0, signedIndexType>* spmatSRC
-                = (Eigen::SparseMatrix<logical, 0, signedIndexType>*)a.getSparseDataPointer();
+                = (Eigen::SparseMatrix<logical, 0, signedIndexType>*)a.sparseDataPointer();
             for (indexType k = 0; k < (indexType)spmatSRC->outerSize(); ++k) {
                 for (Eigen::SparseMatrix<logical, 0, signedIndexType>::InnerIterator it(
                          *spmatSRC, k);
@@ -47,41 +48,77 @@ SparseRealPart(ArrayOf a)
             spmatDST->finalize();
             spmatDST->makeCompressed();
             void* pRes = (void*)spmatDST;
-            res = ArrayOf(NLS_DOUBLE, a.getDimensions(), pRes, true);
+            res = ArrayOf(NLS_DOUBLE, a.dimensions(), pRes, true);
         } catch (const std::bad_alloc&) {
-            Error(ERROR_MEMORY_ALLOCATION);
+            Error(L"Nelson:outOfMemory",
+                L"Memory allocation error... You may have run out of memory!");
         }
     } break;
     case NLS_DOUBLE: {
         return ArrayOf(a);
     } break;
+    case NLS_SINGLE: {
+        return ArrayOf(a);
+    } break;
     case NLS_DCOMPLEX: {
         try {
-            indexType rows = a.getDimensionLength(0);
-            indexType cols = a.getDimensionLength(1);
+            indexType rows = a.dimensionLength(0);
+            indexType cols = a.dimensionLength(1);
             Eigen::SparseMatrix<double, 0, signedIndexType>* spmatDST
                 = new Eigen::SparseMatrix<double, 0, signedIndexType>(rows, cols);
             Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>* spmatSRC
-                = (Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>*)a.getSparseDataPointer();
+                = (Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>*)a.sparseDataPointer();
+            std::vector<Eigen::Triplet<double, signedIndexType>> triplets;
+            triplets.reserve(spmatSRC->nonZeros());
             for (indexType k = 0; k < (indexType)spmatSRC->outerSize(); ++k) {
                 for (Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>::InnerIterator it(
                          *spmatSRC, k);
                     it; ++it) {
                     if (it.value().real() != 0.) {
-                        spmatDST->coeffRef(it.row(), it.col()) = it.value().real();
+                        triplets.emplace_back(it.row(), it.col(), it.value().real());
                     }
                 }
             }
-            spmatDST->finalize();
+            spmatDST->setFromTriplets(triplets.begin(), triplets.end());
             spmatDST->makeCompressed();
             void* pRes = (void*)spmatDST;
-            res = ArrayOf(NLS_DOUBLE, a.getDimensions(), pRes, true);
+            res = ArrayOf(NLS_DOUBLE, a.dimensions(), pRes, true);
         } catch (const std::bad_alloc&) {
-            Error(ERROR_MEMORY_ALLOCATION);
+            Error(L"Nelson:outOfMemory",
+                L"Memory allocation error... You may have run out of memory!");
+        }
+    } break;
+    case NLS_SCOMPLEX: {
+        try {
+            indexType rows = a.dimensionLength(0);
+            indexType cols = a.dimensionLength(1);
+            Eigen::SparseMatrix<single, 0, signedIndexType>* spmatDST
+                = new Eigen::SparseMatrix<single, 0, signedIndexType>(rows, cols);
+            Eigen::SparseMatrix<singlecomplex, 0, signedIndexType>* spmatSRC
+                = (Eigen::SparseMatrix<singlecomplex, 0, signedIndexType>*)a.sparseDataPointer();
+            std::vector<Eigen::Triplet<single, signedIndexType>> triplets;
+            triplets.reserve(spmatSRC->nonZeros());
+            for (indexType k = 0; k < (indexType)spmatSRC->outerSize(); ++k) {
+                for (Eigen::SparseMatrix<singlecomplex, 0, signedIndexType>::InnerIterator it(
+                         *spmatSRC, k);
+                    it; ++it) {
+                    if (it.value().real() != 0.f) {
+                        triplets.emplace_back(it.row(), it.col(), it.value().real());
+                    }
+                }
+            }
+            spmatDST->setFromTriplets(triplets.begin(), triplets.end());
+            spmatDST->makeCompressed();
+            void* pRes = (void*)spmatDST;
+            res = ArrayOf(NLS_SINGLE, a.dimensions(), pRes, true);
+        } catch (const std::bad_alloc&) {
+            Error(L"Nelson:outOfMemory",
+                L"Memory allocation error... You may have run out of memory!");
         }
     } break;
     default: {
-        Error(_("Cannot do real with current type '") + ClassName(a) + "'.");
+        Error("Nelson:types:realUnsupportedType", "Cannot do real with current type '%s'.",
+            ClassName(a));
     } break;
     }
     return res;

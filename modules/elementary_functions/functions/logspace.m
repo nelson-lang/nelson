@@ -8,8 +8,11 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function l = logspace(varargin)
-  if (nargin ~= 2 && nargin ~= 3)
-    error(_('Wrong number of input arguments.'));
+  if nargin < 2
+    error('Nelson:notEnoughInputs', 'Not enough input arguments.');
+  end
+  if nargin > 3
+    error('Nelson:tooManyInputs', 'Too many input arguments.');
   end
   if nargin == 2
     n = 50;

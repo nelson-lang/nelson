@@ -24,7 +24,7 @@ namespace ElementaryFunctionsGateway {
     ArrayOfVector
     dec2binBuiltin(int nLhs, const ArrayOfVector& argIn);
     //=============================================================================
-}
+} // namespace ElementaryFunctionsGateway
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

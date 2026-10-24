@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>polarplot</keyword>
+  <short_description>Trace des donnees en coordonnees polaires.</short_description>
+  <syntax>
+    <syntax_item>polarplot(rho)</syntax_item>
+    <syntax_item>polarplot(theta, rho)</syntax_item>
+    <syntax_item>polarplot(theta, rho, LineSpec)</syntax_item>
+    <syntax_item>polarplot(..., propertyName, propertyValue, ...)</syntax_item>
+    <syntax_item>polarplot(ax, ...)</syntax_item>
+    <syntax_item>go = polarplot(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>theta</param_name>
+      <param_description>Angles en radians : vecteur ou matrice.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>rho</param_name>
+      <param_description>Coordonnees radiales : vecteur ou matrice numerique reel.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>LineSpec</param_name>
+      <param_description>Style de ligne, marqueur et/ou couleur : vecteur de caracteres ou chaine scalaire.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName</param_name>
+      <param_description>Nom de propriete de ligne : chaine scalaire ou vecteur ligne de caracteres.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyValue</param_name>
+      <param_description>Valeur affectee a la propriete de ligne precedente.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description>Axes polaires cible ou objet axes. Un axes classique est initialise comme axes polaire.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>go</param_name>
+      <param_description>Vecteur colonne d&apos;objets graphiques de type ligne.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>polarplot(theta, rho)</b> trace les valeurs de rayon <b>rho</b> aux angles <b>theta</b>. Les angles de donnees sont exprimes en radians.</p>
+    <p><b>polarplot(rho)</b> trace <b>rho</b> avec des angles regulierement espaces de 0 a 2*pi. Si <b>rho</b> est complexe, <b>angle(rho)</b> est utilise pour les angles et <b>abs(rho)</b> pour les rayons.</p>
+    <p>Si <b>rho</b> est une matrice, chaque colonne est tracee comme une ligne separee. Un vecteur <b>theta</b> peut etre combine avec une matrice <b>rho</b> quand sa longueur correspond a une dimension de <b>rho</b>.</p>
+    <p>Les objets ligne retournes conservent les echantillons polaires dans leurs proprietes <b>ThetaData</b> et <b>RData</b>. Les donnees cartesiennes <b>XData</b> et <b>YData</b> sont gerees par le rendu polaire.</p>
+    <p>Les fonctions de limites et de graduations angulaires utilisent les degres : <b>thetalim</b>, <b>thetaticks</b> et <b>thetaticklabels</b>.</p>
+    <p>Quand aucun axes polaire n&apos;est courant, <b>polarplot</b> en cree un. Si un axes classique est fourni, il est initialise comme axes polaire.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Tracer une courbe polaire avec une specification de ligne.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[
+theta = linspace(0, 2*pi, 200);
+rho = 1 + 0.5*cos(4*theta);
+polarplot(theta, rho, 'r-', 'LineWidth', 2);
+]]></example_item_data>
+      <example_item_img src="../../../../images/polarplot_1.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Tracer plusieurs colonnes de rayons sur le meme axes polaire.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[
+theta = linspace(0, 2*pi, 100)';
+rho = [sin(theta).^2, cos(theta).^2];
+go = polarplot(theta, rho);
+rticks([0 0.5 1]);
+thetaticks(0:45:360);
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Utiliser un axes polaire explicite.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[
+f = figure();
+ax = polaraxes('Parent', f);
+polarplot(ax, linspace(0, pi, 50), linspace(0, 2, 50), 'o-');
+rlim(ax, [0 2]);
+thetalim(ax, [0 180]);
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/2_polar_plots/polaraxes">polaraxes</link></see_also_item>
+    <see_also_item><link linkend="${graphics}3_labels_styling/1_axes_appearance/rlim">rlim</link></see_also_item>
+    <see_also_item><link linkend="${graphics}3_labels_styling/1_axes_appearance/rticks">rticks</link></see_also_item>
+    <see_also_item><link linkend="${graphics}3_labels_styling/1_axes_appearance/thetalim">thetalim</link></see_also_item>
+    <see_also_item><link linkend="${graphics}3_labels_styling/1_axes_appearance/thetaticks">thetaticks</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/1_line_plots/plot">plot</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/1_line_plots/line">line</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -27,6 +27,10 @@
 #include "tanmBuiltin.hpp"
 #include "atan2Builtin.hpp"
 #include "atanhBuiltin.hpp"
+#include "wrapTo180Builtin.hpp"
+#include "wrapTo360Builtin.hpp"
+#include "wrapToPiBuiltin.hpp"
+#include "wrapTo2PiBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -47,13 +51,13 @@ static const nlsGateway gateway[] = {
     { "tanm", (ptrBuiltin)Nelson::TrigonometricGateway::tanmBuiltin, 1, 1 },
     { "atan2", (ptrBuiltin)Nelson::TrigonometricGateway::atan2Builtin, 1, 2 },
     { "atanh", (ptrBuiltin)Nelson::TrigonometricGateway::atanhBuiltin, 1, 1 },
+    { "wrapTo180", (ptrBuiltin)Nelson::TrigonometricGateway::wrapTo180Builtin, 1, 1 },
+    { "wrapTo360", (ptrBuiltin)Nelson::TrigonometricGateway::wrapTo360Builtin, 1, 1 },
+    { "wrapToPi", (ptrBuiltin)Nelson::TrigonometricGateway::wrapToPiBuiltin, 1, 1 },
+    { "wrapTo2Pi", (ptrBuiltin)Nelson::TrigonometricGateway::wrapTo2PiBuiltin, 1, 1 },
 };
 //=============================================================================
-NLSGATEWAYFUNC(gateway)
+NLS_GATEWAY_FUNC(gateway)
 //=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+NLS_GATEWAY_REMOVE(gateway)
 //=============================================================================

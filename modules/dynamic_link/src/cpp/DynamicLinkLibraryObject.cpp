@@ -21,21 +21,20 @@
 #include "DynamicLinkLibraryObject.hpp"
 #include "DynamicLibrary.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "GetCurrentDirectory.hpp"
 #include "GetVariableEnvironment.hpp"
 #include "characters_encoding.hpp"
-
 #ifdef _MSC_VER
 #define NOMINMAX
 #include <windows.h>
 #endif
 //=============================================================================
 namespace fs = std::filesystem;
-
+//=============================================================================
 namespace Nelson {
 //=============================================================================
-// Helper: run command and capture stdout
 static std::string
 runCommandCaptureOutput(const std::string& cmd)
 {
@@ -59,7 +58,6 @@ runCommandCaptureOutput(const std::string& cmd)
 #endif
     return result;
 }
-
 //=============================================================================
 DynamicLinkLibraryObject::DynamicLinkLibraryObject(const std::wstring& libraryPath)
     : HandleGenericObject(NLS_HANDLE_DLLIB_CATEGORY_STR, this, false)
@@ -82,25 +80,27 @@ DynamicLinkLibraryObject::DynamicLinkLibraryObject(const std::wstring& libraryPa
             std::string libpath = wstring_to_utf8(_libraryPath);
             library_handle h = load_dynamic_library(libpath);
             if (!h) {
-                Error(utf8_to_wstring(get_dynamic_library_error()));
+                RaiseError(utf8_to_wstring(get_dynamic_library_error()),
+                    L"Nelson:dlopen:cannotLoadLibrary");
             } else {
                 _shared_library = h;
             }
         } else {
-            Error(_W("Cannot load library: ") + libraryPath);
+            Error(L"Nelson:dlopen:cannotLoadLibrary", L"Cannot load library: %s", libraryPath);
         }
     } else {
         // ../path/ppp/libNelson.so
         try {
             dirPath = fs::absolute(dirPath);
         } catch (const fs::filesystem_error&) {
-            Error(_W("Cannot load library: ") + libraryPath);
+            Error(L"Nelson:dlopen:cannotLoadLibrary", L"Cannot load library: %s", libraryPath);
         }
         filePath = dirPath / fs::path(filename);
         std::string libpath = wstring_to_utf8(filePath.generic_wstring());
         library_handle h = load_dynamic_library(libpath);
         if (!h) {
-            Error(utf8_to_wstring(get_dynamic_library_error()));
+            RaiseError(
+                utf8_to_wstring(get_dynamic_library_error()), L"Nelson:dlopen:cannotLoadLibrary");
         } else {
             _shared_library = h;
             _libraryPath = filePath.generic_wstring();
@@ -141,7 +141,6 @@ DynamicLinkLibraryObject::getAvailableSymbols(std::string& errorMessage)
         return symbols;
     }
 #ifdef _MSC_VER
-    // Parse PE export table from file
     std::ifstream ifs(path, std::ios::binary);
     if (!ifs) {
         errorMessage = "Cannot open file for reading.";
@@ -172,10 +171,8 @@ DynamicLinkLibraryObject::getAvailableSymbols(std::string& errorMessage)
     const DWORD exportRVA = opt.DataDirectory[IMAGE_DIRECTORY_ENTRY_EXPORT].VirtualAddress;
     const DWORD exportSize = opt.DataDirectory[IMAGE_DIRECTORY_ENTRY_EXPORT].Size;
     if (exportRVA == 0) {
-        // no exports
         return symbols;
     }
-    // helper to convert rva to file offset
     auto rva_to_offset = [&](DWORD rva) -> size_t {
         auto fileHeader = &nt->FileHeader;
         IMAGE_SECTION_HEADER* firstSection = IMAGE_FIRST_SECTION(const_cast<IMAGE_NT_HEADERS*>(nt));
@@ -224,7 +221,6 @@ DynamicLinkLibraryObject::getAvailableSymbols(std::string& errorMessage)
     symbols.erase(std::unique(symbols.begin(), symbols.end()), symbols.end());
     return symbols;
 #else
-    // POSIX: try to use nm to list dynamic/exported symbols
     std::string cmd = "nm -g \"" + path + "\" 2>/dev/null";
     std::string out = runCommandCaptureOutput(cmd);
     if (out.empty()) {
@@ -233,7 +229,6 @@ DynamicLinkLibraryObject::getAvailableSymbols(std::string& errorMessage)
         out = runCommandCaptureOutput(cmd);
     }
     if (out.empty()) {
-        // try objdump -T (for shared objects)
         cmd = "objdump -T \"" + path + "\" 2>/dev/null";
         out = runCommandCaptureOutput(cmd);
     }
@@ -245,11 +240,9 @@ DynamicLinkLibraryObject::getAvailableSymbols(std::string& errorMessage)
     std::istringstream iss(out);
     std::string line;
     while (std::getline(iss, line)) {
-        // attempt to extract last token which is symbol name for nm
         if (line.empty()) {
             continue;
         }
-        // trim
         while (!line.empty() && (line.back() == '\r' || line.back() == '\n')) {
             line.pop_back();
         }
@@ -263,18 +256,14 @@ DynamicLinkLibraryObject::getAvailableSymbols(std::string& errorMessage)
             continue;
         }
         std::string sym;
-        // For objdump -T, symbol is last column too
         sym = parts.back();
-        // skip common markers like '*' or version info
         if (sym.size() > 0 && sym[0] == '_') {
             // on some systems exported symbols have leading underscore; keep as-is
         }
-        // basic validation: symbol should be alnum or punctuation
         if (!sym.empty()) {
             symbols.push_back(sym);
         }
     }
-    // unique and sort
     std::sort(symbols.begin(), symbols.end());
     symbols.erase(std::unique(symbols.begin(), symbols.end()), symbols.end());
     return symbols;
@@ -291,14 +280,14 @@ bool
 DynamicLinkLibraryObject::get(const std::wstring& propertyName, ArrayOf& res)
 {
     if (propertyName == L"Path") {
-        res = ArrayOf::characterArrayConstructor(_libraryPath);
+        res = ArrayOf::characterArray(_libraryPath);
         return true;
     }
     return false;
 }
-//======================================================================== =
+//=============================================================================
 bool
-DynamicLinkLibraryObject::isWriteableProperty(const std::wstring& propertyName)
+DynamicLinkLibraryObject::isWritableProperty(const std::wstring& propertyName)
 {
     return false;
 }
@@ -317,13 +306,13 @@ DynamicLinkLibraryObject::isProperty(const std::wstring& propertyName)
 }
 //=============================================================================
 wstringVector
-DynamicLinkLibraryObject::getProperties()
+DynamicLinkLibraryObject::properties()
 {
     return _propertiesNames;
 }
 //=============================================================================
 wstringVector
-DynamicLinkLibraryObject::getMethods()
+DynamicLinkLibraryObject::methods()
 {
     return {};
 }

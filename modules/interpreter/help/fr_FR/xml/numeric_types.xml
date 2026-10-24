@@ -66,6 +66,14 @@
     <p
     >Par défaut, Nelson infère automatiquement le type double et vous n&apos;avez pas besoin de spécifier ce suffixe explicitement. exemple : A = 3.14</p>
     <p
+    >Vous pouvez aussi écrire des littéraux entiers en hexadécimal, avec le préfixe 0x ou 0X, ou en binaire, avec le préfixe 0b ou 0B. exemple : 0xFF, 0X1A, 0b1010, 0B1111</p>
+    <p
+    >Sans suffixe de type, la valeur est stockée dans le plus petit type entier non signé pouvant contenir tous ses chiffres, chaque chiffre hexadécimal comptant pour quatre bits et chaque chiffre binaire pour un bit. Par exemple 0xFF est un uint8, 0x100 un uint16, 0x10000 un uint32 et 0x100000000 un uint64.</p>
+    <p
+    >Un suffixe de type entier optionnel peut suivre les chiffres pour choisir le type exact : u8, u16, u32, u64 pour les entiers non signés et s8, s16, s32, s64 pour les entiers signés (le suffixe est insensible à la casse). Avec un suffixe signé, les chiffres sont interprétés comme un motif binaire en complément à deux, ainsi 0xFFs8 vaut -1 et 0x80s8 vaut -128.</p>
+    <p
+    >Un littéral comportant plus de chiffres que le type choisi ou implicite ne peut contenir, ou contenant un chiffre ou un suffixe invalide, provoque une erreur.</p>
+    <p
     >Sauf si vous avez des besoins spécifiques ou devez dissiper une ambiguïté entre types, vous n&apos;avez souvent pas besoin de préciser explicitement le type des littéraux numériques.</p>
     <p
     >Cependant, lorsque vous créez un tableau numérique de grands entiers dans Nelson, surtout lorsqu&apos;ils dépassent la précision maximale représentable par double (plus grands que flintmax), Nelson stocke par défaut ces valeurs en double précision à virgule flottante.</p>
@@ -99,6 +107,19 @@ single(3.1415)
       ><![CDATA[
 R1 = uint64([72057594035891654 81997179153022975])
 R2 = [72057594035891654u64 81997179153022975u64]
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>littéraux entiers hexadécimaux et binaires</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[
+A = 0xFF
+class(A)
+B = 0b1010
+C = 0x100000000
+D = 0xFFs8
 ]]></example_item_data>
     </example_item>
   </examples>
@@ -140,6 +161,10 @@ R2 = [72057594035891654u64 81997179153022975u64]
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>ajout des littéraux entiers hexadécimaux (0x) et binaires (0b)</history_description>
     </history_item>
   </history>
   <authors>

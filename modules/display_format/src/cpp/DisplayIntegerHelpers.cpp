@@ -94,6 +94,5 @@ formatInteger(const void* ptrScalar, NelsonType integerType, indexType index,
     return L"";
 }
 //=============================================================================
-
-}
+} // namespace Nelson
 //=============================================================================

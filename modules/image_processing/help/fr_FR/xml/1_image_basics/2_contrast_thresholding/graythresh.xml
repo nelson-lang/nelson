@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>graythresh</keyword>
+  <short_description>Calcule un seuil global par la methode d Otsu.</short_description>
+  <syntax>
+    <syntax_item>level = graythresh(I)</syntax_item>
+    <syntax_item>[level, effectiveness] = graythresh(I)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>I</param_name>
+      <param_description>Image d'entree utilisee pour calculer le seuil d'histogramme.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>level</param_name>
+      <param_description>Seuil normalise dans l'intervalle [0, 1].</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>effectiveness</param_name>
+      <param_description>Mesure d'efficacite de separabilite dans l'intervalle [0, 1].</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Calcule un seuil global par la methode d Otsu. La seconde sortie optionnelle est une mesure d efficacite comprise entre 0 et 1.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Calculer et appliquer un seuil global</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[[X,Y]=meshgrid(linspace(-1,1,96),linspace(-1,1,64));
+I=exp(-4*(X.^2+Y.^2));
+[level,effectiveness]=graythresh(I);
+BW=I>level;
+figure; subplot(1,2,1); imagesc(I); g=linspace(0,1,64)'; colormap([g g g]); title('Input');
+subplot(1,2,2); imagesc(BW); g=linspace(0,1,64)'; colormap([g g g]); title('Thresholded');]]></example_item_data>
+      <example_item_img
+        src="../../../images/graythresh_1.png"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}imbinarize">imbinarize</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}adaptthresh">adaptthresh</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}imhist">imhist</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

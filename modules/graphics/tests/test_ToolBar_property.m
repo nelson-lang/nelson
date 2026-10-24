@@ -10,13 +10,15 @@
 % <--ADV-CLI MODE-->
 %=============================================================================
 f = figure();
-assert_isequal(f.ToolBar, 'auto');
+asserts.isequal(f.ToolBar, 'auto');
 f.ToolBar = 'none';
-assert_isequal(f.ToolBar, 'none');
-sleep(2);
+asserts.isequal(f.ToolBar, 'none');
+drawnow();
+pause(0.1);
 f.ToolBar = 'figure';
-assert_isequal(f.ToolBar, 'figure');
-sleep(2);
+asserts.isequal(f.ToolBar, 'figure');
+drawnow();
+pause(0.1);
 f.ToolBar = 'auto';
-assert_isequal(f.ToolBar, 'auto');
+asserts.isequal(f.ToolBar, 'auto');
 %=============================================================================

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -8,9 +8,10 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "h5ReadArray.hpp"
-#include "Exception.hpp"
+#include "NelsonException.hpp"
 #include "NewWithException.hpp"
 #include "i18n.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -26,15 +27,15 @@ h5ReadArrayFloat(hid_t attr_id, hid_t type, hid_t stype, const Dimensions& dimsO
     } else if (H5Tequal(type, H5T_NATIVE_DOUBLE) == 0) {
         outputClass = NLS_DOUBLE;
     } else {
-        error = _W("Type not managed.");
+        error = _W("Type not supported.");
         return {};
     }
     if (dimsOutput.isEmpty(false)) {
-        res = ArrayOf::emptyConstructor(dimsOutput);
+        res = ArrayOf::empty(dimsOutput);
         res.promoteType(outputClass);
     } else {
         ptrVoid = ArrayOf::allocateArrayOf(
-            outputClass, dimsOutput.getElementCount(), stringVector(), false);
+            outputClass, dimsOutput.elementCount(), stringVector(), false);
     }
     herr_t status = H5I_INVALID_HID;
     if (asAttribute) {
@@ -44,9 +45,11 @@ h5ReadArrayFloat(hid_t attr_id, hid_t type, hid_t stype, const Dimensions& dimsO
     }
     if (status < 0) {
         if (asAttribute) {
-            error = _W("Cannot read attribute.");
+            error = resolveMessageTemplate(
+                L"Nelson:hdf5:cannotReadAttribute", L"Cannot read attribute.");
         } else {
-            error = _W("Cannot read data set.");
+            error = resolveMessageTemplate(
+                L"Nelson:hdf5:cannotReadDataSet", L"Cannot read data set.");
         }
         ArrayOf(outputClass, dimsOutput, ptrVoid);
         res = ArrayOf();
@@ -83,11 +86,11 @@ h5ReadArrayInteger(hid_t attr_id, hid_t type, hid_t stype, const Dimensions& dim
         outputClass = NLS_INT8;
     }
     if (dimsOutput.isEmpty(false)) {
-        res = ArrayOf::emptyConstructor(dimsOutput);
+        res = ArrayOf::empty(dimsOutput);
         res.promoteType(outputClass);
     } else {
         ptrVoid = ArrayOf::allocateArrayOf(
-            outputClass, dimsOutput.getElementCount(), stringVector(), false);
+            outputClass, dimsOutput.elementCount(), stringVector(), false);
     }
     herr_t status = H5I_INVALID_HID;
 
@@ -99,9 +102,11 @@ h5ReadArrayInteger(hid_t attr_id, hid_t type, hid_t stype, const Dimensions& dim
 
     if (status < 0) {
         if (asAttribute) {
-            error = _W("Cannot read attribute.");
+            error = resolveMessageTemplate(
+                L"Nelson:hdf5:cannotReadAttribute", L"Cannot read attribute.");
         } else {
-            error = _W("Cannot read data set.");
+            error = resolveMessageTemplate(
+                L"Nelson:hdf5:cannotReadDataSet", L"Cannot read data set.");
         }
         ArrayOf(outputClass, dimsOutput, ptrVoid);
         res = ArrayOf();
@@ -128,8 +133,8 @@ h5ReadArray(hid_t attr_id, hid_t type, hid_t aspace, bool asAttribute, std::wstr
     hsize_t* dimsAsHsize;
     try {
         dimsAsHsize = new_with_exception<hsize_t>((size_t)ndims, false);
-    } catch (Exception& e) {
-        error = e.getMessage();
+    } catch (NelsonException& e) {
+        error = e.message();
         H5Sclose(aspace);
         return res;
     }
@@ -159,7 +164,7 @@ h5ReadArray(hid_t attr_id, hid_t type, hid_t aspace, bool asAttribute, std::wstr
         res = h5ReadArrayFloat(attr_id, type, stype, dimsOutput, asAttribute, error);
     } break;
     default: {
-        error = _W("Type not managed.");
+        error = _W("Type not supported.");
     } break;
     }
     H5Tclose(stype);

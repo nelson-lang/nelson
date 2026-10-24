@@ -10,7 +10,7 @@
 #include "function_handle_fieldnamesBuiltin.hpp"
 #include "ArrayOf.hpp"
 #include "Error.hpp"
-#include "PredefinedErrorMessages.hpp"
+#include "ErrorID.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -22,8 +22,7 @@ Nelson::FunctionHandleGateway::function_handle_fieldnamesBuiltin(
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 1, 1);
-    // we do not allow to display the fields
-    Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRUCT_EXPECTED);
+    Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1), L"struct");
     return retval;
 }
 //=============================================================================

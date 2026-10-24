@@ -23,7 +23,7 @@ serde_json = { workspace = true }
 rust-yaml = "0.0.5"
 walkdir = { workspace = true }
 anyhow = { workspace = true }
-toml_edit = "*"
+toml_edit = "0.25"
 rayon = "1"
 
 [dev-dependencies]

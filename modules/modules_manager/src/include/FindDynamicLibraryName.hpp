@@ -16,5 +16,6 @@ namespace Nelson {
 NLSMODULES_MANAGER_IMPEXP std::wstring
 FindDynamicLibraryName(const std::wstring& directoryName, const std::wstring& initialLibraryName,
     bool bCaseSensitive = false);
-}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

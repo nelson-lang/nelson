@@ -23,7 +23,11 @@
 #include "cumsumBuiltin.hpp"
 #include "cumprodBuiltin.hpp"
 #include "isbetweenBuiltin.hpp"
+#include "ismembertolBuiltin.hpp"
 #include "allbetweenBuiltin.hpp"
+#include "accumarrayBuiltin.hpp"
+#include "__movwindow__Builtin.hpp"
+#include "__islocalextrema__Builtin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -39,20 +43,22 @@ static const nlsGateway gateway[] = {
     { "cumsum", (ptrBuiltin)Nelson::DataAnalysisGateway::cumsumBuiltin, 1, 4 },
     { "cumprod", (ptrBuiltin)Nelson::DataAnalysisGateway::cumprodBuiltin, 1, 4 },
     { "ismissing", (ptrBuiltin)Nelson::DataAnalysisGateway::ismissingBuiltin, 1, 1 },
-    { "isbetween", (ptrBuiltin)Nelson::DataAnalysisGateway::isbetweenBuiltin, 1, -1,
+    { "ismembertol", (ptrBuiltin)Nelson::DataAnalysisGateway::ismembertolBuiltin, 2, 3 },
+    { "isbetween", (ptrBuiltin)Nelson::DataAnalysisGateway::isbetweenBuiltin, 1, -4,
         CPP_BUILTIN_WITH_EVALUATOR, NLS_OVERLOAD_AUTO_OFF },
     { "allbetween", (ptrBuiltin)Nelson::DataAnalysisGateway::allbetweenBuiltin, 1, -1,
         CPP_BUILTIN_WITH_EVALUATOR, NLS_OVERLOAD_AUTO_OFF },
     { "sort", (ptrBuiltin)Nelson::DataAnalysisGateway::sortBuiltin, 2, -1 },
     { "conv2", (ptrBuiltin)Nelson::DataAnalysisGateway::conv2Builtin, 1, 4 },
     { "unique", (ptrBuiltin)Nelson::DataAnalysisGateway::uniqueBuiltin, -1, -1, CPP_BUILTIN },
+    { "accumarray", (ptrBuiltin)Nelson::DataAnalysisGateway::accumarrayBuiltin, 1, 5,
+        CPP_BUILTIN_WITH_EVALUATOR, NLS_OVERLOAD_AUTO_OFF },
+    { "__movwindow__", (ptrBuiltin)Nelson::DataAnalysisGateway::__movwindow__Builtin, 1, 7 },
+    { "__islocalextrema__", (ptrBuiltin)Nelson::DataAnalysisGateway::__islocalextrema__Builtin, 2,
+        9 },
 };
 //=============================================================================
-NLSGATEWAYFUNC(gateway)
+NLS_GATEWAY_FUNC(gateway)
 //=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+NLS_GATEWAY_REMOVE(gateway)
 //=============================================================================

@@ -9,6 +9,10 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 wav_audio = [modulepath('audio'), '/examples/opening.mp3'];
+devices = audiodevinfo();
+if isempty(devices.output)
+  error('This example requires an audio output device.');
+end
 [y, fs] = audioread(wav_audio);
 playObj = audioplayer(y, fs);
 playblocking(playObj)

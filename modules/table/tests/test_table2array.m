@@ -7,14 +7,14 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-T = table([1;2;3],[2 8; 4 10; 6 12],[3 12 21; 6 15 24; 9 18 27], 'VariableNames',["One" "Two" "Three"]);
+T = table([1; 2; 3], [2 8; 4 10; 6 12], [3 12 21; 6 15 24; 9 18 27], 'VariableNames', ["One" "Two" "Three"]);
 R = table2array(T);
-REF = [1     2     8     3    12    21;
-    2     4    10     6    15    24;
-    3     6    12     9    18    27];
-assert_isequal(R, REF);
+REF = [1 2 8 3 12 21;
+    2 4 10 6 15 24;
+    3 6 12 9 18 27];
+asserts.isequal(R, REF);
 %=============================================================================
-T = table(ones(2,1,3),2*ones(2,2,3),3*ones(2,3,3),'VariableNames',["One" "Two" "Three"]);
+T = table(ones(2, 1, 3), 2 * ones(2, 2, 3), 3 * ones(2, 3, 3), 'VariableNames', ["One" "Two" "Three"]);
 A = table2array(T);
-assert_isequal(size(A),[  2     6     3]);
+asserts.isequal(size(A), [2 6 3]);
 %=============================================================================

@@ -7,222 +7,192 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <algorithm>
-#include <locale>
 #include <cmath>
 #include <cwctype>
-#include "StringHelpers.hpp"
 #include "StringToDoubleComplex.hpp"
 #include "StringToDouble.hpp"
+#include "StringTrim.hpp"
 //=============================================================================
 namespace Nelson {
-#define ComplexCharI L'i'
-#define ComplexCharJ L'j'
-#define LessChar L'-'
-#define PlusChar L'+'
 //=============================================================================
-static bool
-is_unit_imaginary(const std::wstring& str, double& im)
+// One signed term of a complex literal: "1.5e3", "-2i", "+j", "Inf".
+struct ComplexTerm
 {
-    bool isUnitImag = false;
-    im = nan("");
-    if (str.empty()) {
-        return isUnitImag;
-    }
-    std::wstring nextString = str;
-    if (str[0] == LessChar) {
-        im = -1.0;
-        nextString.erase(nextString.begin());
-    } else {
-        im = +1.0;
-        if (str[0] == PlusChar) {
-            nextString = str;
-            nextString.erase(nextString.begin());
-        } else {
-            nextString = str;
-        }
-    }
-    if (nextString.size() == 1) {
-        if ((nextString[0] == ComplexCharI || nextString[0] == ComplexCharJ)) {
-            isUnitImag = true;
-        }
-    }
-    return isUnitImag;
-}
-/* ========================================================================== */
+    bool valid = false;
+    bool imaginary = false;
+    double value = 0;
+};
+//=============================================================================
 static std::wstring
-ToUpper(const std::wstring& A)
-{
-    std::wstring res = A;
-    transform(res.begin(), res.end(), res.begin(), towupper);
-    return res;
-}
-//=============================================================================
-static int
-ParseNumber(const std::wstring& tx)
-{
-    if (ToUpper(tx).compare(L"NAN*I") == 0 || ToUpper(tx).compare(L"INF*I") == 0
-        || ToUpper(tx).compare(L"INFI") == 0 || ToUpper(tx).compare(L"NANI") == 0) {
-        return 3;
-    }
-    std::locale loc;
-    int lookahead = 0;
-    int len = 0;
-    if ((tx[len] == PlusChar) || (tx[len] == LessChar)) {
-        len++;
-    }
-    lookahead = len;
-    while (isdigit(tx[len], loc)) {
-        len++;
-    }
-    lookahead = len;
-    if (tx[lookahead] == L'.') {
-        lookahead++;
-        len = 0;
-        while (isdigit(tx[len + lookahead], loc)) {
-            len++;
-        }
-        lookahead += len;
-    }
-    if ((tx[lookahead] == L'E') || (tx[lookahead] == L'e') || (tx[lookahead] == L'D')
-        || (tx[lookahead] == L'd')) {
-        lookahead++;
-        if ((tx[lookahead] == PlusChar) || (tx[lookahead] == LessChar)) {
-            lookahead++;
-        }
-        len = 0;
-        while (isdigit(tx[len + lookahead], loc)) {
-            len++;
-        }
-        lookahead += len;
-    }
-    return lookahead;
-}
-//=============================================================================
-static void
-ParseComplexValue(const std::wstring& tx, double& real, double& imag)
-{
-    int lnum = ParseNumber(tx);
-    int rnum = ParseNumber(tx.substr(lnum));
-    std::wstring num1 = tx.substr(0, lnum);
-    std::wstring num2 = tx.substr(lnum, rnum);
-    if (num1.empty() && num2.empty()) {
-        if (StringHelpers::starts_with(ToUpper(tx), L"-INF")) {
-            real = -std::numeric_limits<double>::infinity();
-        } else if (StringHelpers::starts_with(ToUpper(tx), L"+INF")
-            || StringHelpers::starts_with(ToUpper(tx), L"INF")) {
-            real = std::numeric_limits<double>::infinity();
-        } else {
-            real = nan("");
-        }
-        if (StringHelpers::ends_with(ToUpper(tx), L"-INFI")) {
-            imag = -std::numeric_limits<double>::infinity();
-        } else if (StringHelpers::ends_with(ToUpper(tx), L"+INFI")) {
-            imag = std::numeric_limits<double>::infinity();
-        } else if (StringHelpers::ends_with(ToUpper(tx), L"NANI")) {
-            imag = nan("");
-        } else {
-            imag = 0;
-        }
-        return;
-    }
-    bool wasConverted;
-    if ((num1 == L"+") && (ToUpper(num2) == L"INF")) {
-        imag = stringToDouble(num2, wasConverted);
-        real = 0;
-        return;
-    }
-    if ((num1 == L"+") && (ToUpper(num2) == L"NAN")) {
-        imag = stringToDouble(num2, wasConverted);
-        real = nan("");
-        return;
-    }
-    if ((num1 == L"-") && (ToUpper(num2) == L"INF")) {
-        imag = -stringToDouble(num2, wasConverted);
-        real = 0;
-        return;
-    }
-    if ((num1 == L"-") && (ToUpper(num2) == L"NAN")) {
-        imag = stringToDouble(num2, wasConverted);
-        real = nan("");
-        return;
-    }
-    if (num1 == L"+") {
-        num1 = L"+1";
-    }
-    if (num2 == L"+") {
-        num2 = L"+1";
-    }
-    if (num1 == L"-") {
-        num1 = L"-1";
-    }
-    if (num2 == L"-") {
-        num2 = L"-1";
-    }
-    if (num2.empty()) {
-        imag = stringToDouble(num1, wasConverted);
-        if (std::isnan(imag)) {
-            real = nan("");
-        } else {
-            real = 0;
-        }
-    } else {
-        real = stringToDouble(num1, wasConverted);
-        imag = stringToDouble(num2, wasConverted);
-    }
-}
+normalizeComplexText(const std::wstring& str);
+static ComplexTerm
+parseComplexTerm(std::wstring text, bool allowSecondSign);
+static bool
+parseProductWithUnit(const std::wstring& text, double& imaginary);
+static doublecomplex
+combineTerms(const ComplexTerm& first, const ComplexTerm& second, bool& wasConverted);
 //=============================================================================
 doublecomplex
 stringToDoubleComplex(const std::wstring& str, bool& wasConverted)
 {
-    doublecomplex res = doublecomplex(nan(""), 0);
     wasConverted = false;
-    if (str.empty()) {
-        res = doublecomplex(nan(""), 0);
-        wasConverted = false;
-    } else {
-        std::wstring STR = str;
-        StringHelpers::replace_all(STR, L" ", L"");
-        StringHelpers::replace_all(STR, L",", L"");
-        if (STR.empty()) {
-            res = doublecomplex(nan(""), 0);
-            wasConverted = false;
-        } else {
-            /* case .9 replaced by 0.9 */
-            if (StringHelpers::starts_with(STR, L".")) {
-                STR = L"0" + STR;
-            }
-            if (((STR[0] == PlusChar) || (STR[0] == LessChar)) && (STR[1] == L'.')) {
-                /* case +.9 replaced by +0.9 */
-                StringHelpers::replace_all(STR, L"+.", L"+0.");
-                /* case -.9 replaced by -0.9 */
-                StringHelpers::replace_all(STR, L"-.", L"-0.");
-            }
-            /* Case: 'i', '+i', '-i', and with 'j' */
-            double imag = nan("");
-            if (is_unit_imaginary(STR, imag)) {
-                wasConverted = true;
-                res = doublecomplex(0, imag);
-            } else {
-                double realPart;
-                double imagPart;
-                if (StringHelpers::contains(STR, L"i") || StringHelpers::contains(STR, L"j")) {
-                    StringHelpers::replace_all(STR, L" ", L"");
-                    ParseComplexValue(STR, realPart, imagPart);
-                    res = doublecomplex(realPart, imagPart);
-                    wasConverted = true;
-                } else {
-                    realPart = stringToDouble(str, wasConverted);
-                    imagPart = 0;
-                    if (wasConverted) {
-                        res = doublecomplex(realPart, imagPart);
-                        wasConverted = true;
-                    }
-                }
-            }
+    doublecomplex res(std::nan(""), 0);
+    std::wstring text = normalizeComplexText(str);
+    if (text.empty()) {
+        return res;
+    }
+    double imaginary = 0;
+    if (text.find(L'*') != std::wstring::npos) {
+        // "5*i", "i*5": a real factor times the imaginary unit
+        if (parseProductWithUnit(text, imaginary)) {
+            wasConverted = true;
+            res = doublecomplex(0, imaginary);
+        }
+        return res;
+    }
+    // The second term starts at the first operator that is not a leading
+    // sign and does not belong to an exponent ("1e+3", "0x1p-3").
+    size_t split = std::wstring::npos;
+    for (size_t k = 1; k < text.size(); ++k) {
+        if ((text[k] == L'+' || text[k] == L'-')
+            && std::wcschr(L"eEpP+-", text[k - 1]) == nullptr) {
+            split = k;
+            break;
         }
     }
-    return res;
+    if (split == std::wstring::npos) {
+        ComplexTerm term = parseComplexTerm(text, false);
+        if (term.valid) {
+            wasConverted = true;
+            res = term.imaginary ? doublecomplex(0, term.value) : doublecomplex(term.value, 0);
+        }
+        return res;
+    }
+    ComplexTerm first = parseComplexTerm(text.substr(0, split), false);
+    ComplexTerm second = parseComplexTerm(text.substr(split), true);
+    return combineTerms(first, second, wasConverted);
+}
+//=============================================================================
+// Commas are thousands separators, whitespace is accepted around the text
+// and next to operators or the imaginary unit ("1 + 2 i"), not between digits.
+static std::wstring
+normalizeComplexText(const std::wstring& str)
+{
+    size_t first = 0;
+    size_t last = str.size();
+    while (first < last && IsNumberLeadingBlank(str[first])) {
+        ++first;
+    }
+    while (
+        last > first && (IsNumberLeadingBlank(str[last - 1]) || IsTextWhitespace(str[last - 1]))) {
+        --last;
+    }
+    std::wstring out;
+    out.reserve(last - first);
+    for (size_t k = first; k < last; ++k) {
+        wchar_t c = str[k];
+        if (c == L',') {
+            continue;
+        }
+        if (IsTextWhitespace(c)) {
+            wchar_t previous = out.empty() ? L' ' : out.back();
+            size_t next = k + 1;
+            while (next < last && IsTextWhitespace(str[next])) {
+                ++next;
+            }
+            wchar_t following = next < last ? str[next] : L' ';
+            // a blank may surround an operator, but never follow a sign that
+            // belongs to a number ("- 1", "1 - - 2i")
+            bool unarySign = (previous == L'+' || previous == L'-')
+                && (out.size() == 1
+                    || (out[out.size() - 2] != 0
+                        && std::wcschr(L"+-*eEpP", out[out.size() - 2]) != nullptr));
+            bool nearOperator = !unarySign
+                && ((previous != 0 && std::wcschr(L"+-*", previous) != nullptr)
+                    || (following != 0 && std::wcschr(L"+-*ij", following) != nullptr));
+            if (!nearOperator) {
+                out.push_back(c);
+            }
+            continue;
+        }
+        out.push_back(c);
+    }
+    return out;
+}
+//=============================================================================
+// text is "[op][sign]number[i|j]"; the leading operator is the sign of the
+// term, a second sign is only accepted right after an operator ("+-2i").
+static ComplexTerm
+parseComplexTerm(std::wstring text, bool allowSecondSign)
+{
+    ComplexTerm term;
+    double sign = 1;
+    if (!text.empty() && (text[0] == L'+' || text[0] == L'-')) {
+        sign = text[0] == L'-' ? -1 : 1;
+        text.erase(0, 1);
+        if (allowSecondSign && !text.empty() && (text[0] == L'+' || text[0] == L'-')) {
+            sign *= text[0] == L'-' ? -1 : 1;
+            text.erase(0, 1);
+        }
+    }
+    if (text.empty() || IsTextWhitespace(text[0])) {
+        return term;
+    }
+    wchar_t lastChar = text.back();
+    if (lastChar == L'i' || lastChar == L'j') {
+        term.imaginary = true;
+        text.pop_back();
+        if (text.empty()) {
+            term.valid = true;
+            term.value = sign;
+            return term;
+        }
+    }
+    if (text[0] == L'+' || text[0] == L'-') {
+        return term;
+    }
+    bool converted = false;
+    double magnitude = stringToDouble(text, converted);
+    if (converted) {
+        term.valid = true;
+        term.value = sign * magnitude;
+    }
+    return term;
+}
+//=============================================================================
+static bool
+parseProductWithUnit(const std::wstring& text, double& imaginary)
+{
+    size_t star = text.find(L'*');
+    std::wstring left = text.substr(0, star);
+    std::wstring right = text.substr(star + 1);
+    auto isUnit = [](const std::wstring& s) {
+        return s.size() == 1 && std::wcschr(L"ij", s[0]) != nullptr;
+    };
+    const std::wstring& factor = isUnit(right) ? left : (isUnit(left) ? right : L"");
+    if (factor.empty() || factor.find(L'*') != std::wstring::npos) {
+        return false;
+    }
+    bool converted = false;
+    double value = stringToDouble(factor, converted);
+    if (!converted) {
+        return false;
+    }
+    imaginary = value;
+    return true;
+}
+//=============================================================================
+static doublecomplex
+combineTerms(const ComplexTerm& first, const ComplexTerm& second, bool& wasConverted)
+{
+    wasConverted = false;
+    if (!first.valid || !second.valid || first.imaginary == second.imaginary) {
+        return doublecomplex(std::nan(""), 0);
+    }
+    wasConverted = true;
+    const ComplexTerm& real = first.imaginary ? second : first;
+    const ComplexTerm& imag = first.imaginary ? first : second;
+    return doublecomplex(real.value, imag.value);
 }
 //=============================================================================
 } // namespace Nelson

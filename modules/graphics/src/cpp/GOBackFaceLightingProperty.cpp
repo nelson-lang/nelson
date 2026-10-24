@@ -19,5 +19,5 @@ GOBackFaceLightingProperty::GOBackFaceLightingProperty() : GORestrictedStringPro
 {
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

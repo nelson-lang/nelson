@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>crypto.argon2</keyword>
+  <short_description>Hachage de mot de passe et dérivation de clé Argon2.</short_description>
+  <syntax>
+    <syntax_item>hexa_hash = crypto.argon2(password, salt)</syntax_item>
+    <syntax_item>hexa_hash = crypto.argon2(password, salt, name, value, ...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>password</param_name>
+      <param_description
+      >vecteur uint8 (octets bruts) ou vecteur de caractères (octets UTF-8) : secret à hacher.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>salt</param_name>
+      <param_description
+      >vecteur uint8 (octets bruts) ou vecteur de caractères (octets UTF-8) : au moins 8 octets, 16 octets aléatoires recommandés, unique par mot de passe.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>&apos;Variant&apos;</param_name>
+      <param_description
+      >&apos;argon2id&apos; (défaut, recommandé), &apos;argon2i&apos; ou &apos;argon2d&apos;.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>&apos;Memory&apos;</param_name>
+      <param_description
+      >coût mémoire en KiB, au moins 8 fois le nombre de voies (défaut : 65536, soit 64 MiB).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>&apos;Passes&apos;</param_name>
+      <param_description>nombre d'itérations, au moins 1 (défaut : 3).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>&apos;Lanes&apos;</param_name>
+      <param_description
+      >degré de parallélisme de l'algorithme, au moins 1 (défaut : 1) ; le calcul lui-même est mono-thread.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>&apos;Length&apos;</param_name>
+      <param_description>longueur de sortie en octets, entre 4 et 1024 (défaut : 32).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>&apos;Key&apos;</param_name>
+      <param_description
+      >clé secrète optionnelle (poivre) en uint8 ou texte, mélangée au hachage.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>&apos;AssociatedData&apos;</param_name>
+      <param_description>données associées optionnelles en uint8 ou texte, mélangées au hachage.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>hexa_hash</param_name>
+      <param_description>vecteur de caractères : 2 * Length caractères hexadécimaux minuscules.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>crypto.argon2</b> calcule un hachage Argon2 (RFC 9106), la fonction à coût mémoire recommandée pour stocker des mots de passe et dériver des clés de chiffrement à partir de phrases secrètes. Conservez le sel et les paramètres à côté du hachage : vérifier un mot de passe consiste à recalculer le hachage avec les mêmes entrées et à comparer.</p>
+    <p
+    >Les valeurs par défaut (argon2id, 64 MiB, 3 passes, 1 voie) prennent une fraction de seconde sur une machine de bureau ; augmentez <b>Memory</b> ou <b>Passes</b> pour une protection plus forte, ne les réduisez que pour les tests. La zone de travail est allouée à chaque appel puis effacée.</p>
+  </description>
+  <used_function>Monocypher</used_function>
+  <bibliography>https://www.rfc-editor.org/rfc/rfc9106, https://monocypher.org/</bibliography>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>hacher une phrase secrète (petits paramètres pour l'exemple)</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[R = crypto.argon2('correct horse battery staple', 'salt-of-16-bytes', 'Memory', 1024, 'Passes', 2)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>vecteur de test argon2id de la RFC 9106</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[password = uint8(repmat(1, 1, 32));
+salt = uint8(repmat(2, 1, 16));
+R = crypto.argon2(password, salt, 'Memory', 32, 'Passes', 3, 'Lanes', 4, 'Key', uint8(repmat(3, 1, 8)), 'AssociatedData', uint8(repmat(4, 1, 12)))]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${core}crypto.blake2b">crypto.blake2b</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${core}crypto.hmac">crypto.hmac</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

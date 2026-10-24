@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>histogram</keyword>
+  <short_description>Crée un histogramme.</short_description>
+  <syntax>
+    <syntax_item>histogram(X)</syntax_item>
+    <syntax_item>histogram(X, nbins)</syntax_item>
+    <syntax_item>histogram(X, edges)</syntax_item>
+    <syntax_item>histogram(C)</syntax_item>
+    <syntax_item>histogram(C, categories)</syntax_item>
+    <syntax_item>histogram(..., propertyName, propertyValue)</syntax_item>
+    <syntax_item>histogram(ax, ...)</syntax_item>
+    <syntax_item>h = histogram(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description>données numériques.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>nbins</param_name>
+      <param_description>nombre de classes.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>edges</param_name>
+      <param_description>bornes de classes strictement croissantes.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>C</param_name>
+      <param_description>données catégorielles.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>categories</param_name>
+      <param_description>tableau de cellules de vecteurs de caractères ou tableau de chaînes sélectionnant les catégories à afficher et leur ordre.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName</param_name>
+      <param_description>nom d'une propriété de l'objet histogramme.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyValue</param_name>
+      <param_description>valeur d'une propriété de l'objet histogramme.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description>objet axes cible.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>h</param_name>
+      <param_description>objet graphique histogramme.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>histogram</b> regroupe des données numériques en classes et affiche les valeurs sous forme de barres ou d'escaliers.</p>
+    <p>Lorsque <b>C</b> est un tableau catégoriel, <b>histogram</b> trace une barre par catégorie, dont la hauteur est le nombre d'éléments de cette catégorie. Les barres sont affichées dans l'ordre des catégories (celui renvoyé par <b>categories</b>) et les noms des catégories servent d'étiquettes de graduation. Un second argument peut indiquer les catégories à afficher et leur ordre.</p>
+    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.histogram.properties">proprietes de histogram</link> pour la liste complete des proprietes.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="adv-cli"><![CDATA[x = [1 1 2 2 2 3 4 4 5];
+histogram(x);
+]]></example_item_data>
+      <example_item_img src="../../../../images/histogram_1.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="adv-cli"><![CDATA[rng(0);
+x = randn(200, 1);
+histogram(x, 12, 'Normalization', 'probability', 'FaceAlpha', 0.5);
+]]></example_item_data>
+      <example_item_img src="../../../../images/histogram_2.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="adv-cli"><![CDATA[x = [1 1 2 3 3 4 5];
+h = histogram(x, [0 2 4 6], 'DisplayStyle', 'stairs');
+h.LineWidth = 1.5;
+]]></example_item_data>
+      <example_item_img src="../../../../images/histogram_3.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Histogramme catégoriel : une barre par catégorie, effectifs dans l'ordre des catégories.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[C = categorical({'small', 'medium', 'large', 'small', 'medium', 'small'});
+histogram(C);
+]]></example_item_data>
+      <example_item_img src="../../../../images/histogram_4.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.histogram.properties">proprietes de histogram</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}1_plots/4_data_distribution_plots/hist">hist</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}1_plots/6_discrete_data_plots/bar">bar</link>
+    </see_also_item>
+  </see_also>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

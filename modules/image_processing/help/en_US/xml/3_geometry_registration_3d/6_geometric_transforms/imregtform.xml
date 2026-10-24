@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>imregtform</keyword>
+  <short_description>Estimate a 2-D registration transformation from images.</short_description>
+  <syntax>
+    <syntax_item>tform = imregtform(moving, fixed, transformType, optimizer, metric)</syntax_item>
+    <syntax_item>tform = imregtform(..., Name, Value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>moving</param_name>
+      <param_description>Moving grayscale or RGB image.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>fixed</param_name>
+      <param_description>Fixed grayscale or RGB image with the same size as moving.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>transformType</param_name>
+      <param_description>Transformation type: translation, rigid, similarity or affine. The affine mode estimates translation, rotation, independent X/Y scale and shear.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>optimizer</param_name>
+      <param_description>Optimizer structure created by imregconfig or a compatible structure.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>metric</param_name>
+      <param_description>Metric structure or metric name: MeanSquares or Correlation.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>tform</param_name>
+      <param_description>Affine 2-D transformation structure that maps moving toward fixed.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>imregtform estimates a small 2-D registration transform without external dependencies. Translation uses phase correlation. Rigid, similarity and affine modes use a deterministic angle, scale and shear search scored by the selected metric.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Estimate and apply a rigid registration</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[I=zeros(48,48); I(16:30,20:27)=1;
+cx=24.5; cy=24.5; theta=6*pi/180; c=cos(theta); s=sin(theta);
+T=[1 0 0;0 1 0;-cx -cy 1]*[c s 0;-s c 0;0 0 1]*[1 0 0;0 1 0;cx cy 1]*[1 0 0;0 1 0;3 -2 1];
+J=imwarp(I,T,'linear','OutputView','same');
+[optimizer,metric]=imregconfig('monomodal');
+optimizer.AngleSearch=10;
+tform=imregtform(I,J,'rigid',optimizer,metric);
+K=imwarp(I,tform,'linear','OutputView','same');
+figure; subplot(1,3,1); imagesc(I); axis image; title('Moving');
+subplot(1,3,2); imagesc(J); axis image; title('Fixed');
+subplot(1,3,3); imagesc(K); axis image; title('Registered');]]></example_item_data>
+      <example_item_img
+        src="../../../images/imregtform_1.png"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}imregconfig">imregconfig</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}imregcorr">imregcorr</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}imregister">imregister</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}imwarp">imwarp</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

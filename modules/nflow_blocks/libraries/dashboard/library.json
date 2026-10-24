@@ -1,0 +1,671 @@
+{
+  "id": "builtin.dashboard",
+  "title": "Dashboard",
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Allan CORNET",
+    "created": "2026-08-07",
+    "tool": "Nelson nflow"
+  },
+  "comment": "Interactive controls and signal displays",
+  "license": "LGPL-3.0",
+  "builtin": true,
+  "blocks": [
+    {
+      "type": "dashboardScope",
+      "label": "Dashboard Scope",
+      "icon": "dashboardScope.svg",
+      "phases": [
+        "INIT",
+        "AFTER_STEP"
+      ],
+      "width": 230,
+      "height": 165,
+      "inputs": [],
+      "outputs": [],
+      "defaultParams": {
+        "LabelPosition": "Hide",
+        "Binding": null,
+        "ShowInitialText": "on",
+        "TimeSpan": "auto",
+        "LegendPosition": "Top",
+        "ScaleAtStop": "on",
+        "UpdateMode": "Wrap",
+        "NormalizeYAxis": "off",
+        "TicksPosition": "Outside",
+        "TickLabels": "All",
+        "Grid": "All",
+        "Border": "on",
+        "Markers": "off",
+        "FontColor": [
+          0,
+          0,
+          0
+        ],
+        "YLimits": [
+          -3,
+          3
+        ],
+        "Colors": []
+      },
+      "render": {
+        "type": "math",
+        "formula": "Dashboard Scope"
+      }
+    },
+    {
+      "type": "dashboardDisplay",
+      "label": "Display",
+      "icon": "dashboardDisplay.svg",
+      "phases": [
+        "INIT",
+        "AFTER_STEP"
+      ],
+      "width": 180,
+      "height": 40,
+      "inputs": [],
+      "outputs": [],
+      "defaultParams": {
+        "LabelPosition": "Hide",
+        "Binding": null,
+        "ShowInitialText": "on",
+        "Format": "short",
+        "Alignment": "Center",
+        "Opacity": "1",
+        "Layout": "Preserve dimensions",
+        "FormatString": "%d",
+        "GridColor": [
+          0.502,
+          0.502,
+          0.502
+        ],
+        "ShowGrid": "on"
+      },
+      "render": {
+        "type": "math",
+        "formula": "Display"
+      }
+    },
+    {
+      "type": "dashboardEdit",
+      "label": "Edit",
+      "icon": "dashboardEdit.svg",
+      "phases": [],
+      "width": 150,
+      "height": 30,
+      "inputs": [],
+      "outputs": [],
+      "defaultParams": {
+        "LabelPosition": "Hide",
+        "Binding": null,
+        "ShowInitialText": "on",
+        "Alignment": "Center",
+        "Opacity": "1"
+      },
+      "render": {
+        "type": "math",
+        "formula": "Edit"
+      }
+    },
+    {
+      "type": "dashboardGauge",
+      "label": "Gauge",
+      "icon": "dashboardGauge.svg",
+      "phases": [
+        "INIT",
+        "AFTER_STEP"
+      ],
+      "width": 125,
+      "height": 140,
+      "inputs": [],
+      "outputs": [],
+      "defaultParams": {
+        "LabelPosition": "Top",
+        "Binding": null,
+        "ShowInitialText": "on",
+        "ScaleColors": [],
+        "Limits": [
+          0,
+          -1,
+          100
+        ],
+        "FontColor": [
+          0,
+          0,
+          0
+        ],
+        "Opacity": "1",
+        "ScaleDirection": "Clockwise"
+      },
+      "render": {
+        "type": "math",
+        "formula": "Gauge"
+      }
+    },
+    {
+      "type": "dashboardHalfGauge",
+      "label": "Half Gauge",
+      "icon": "dashboardHalfGauge.svg",
+      "phases": [
+        "INIT",
+        "AFTER_STEP"
+      ],
+      "width": 156,
+      "height": 108,
+      "inputs": [],
+      "outputs": [],
+      "defaultParams": {
+        "LabelPosition": "Top",
+        "Binding": null,
+        "ShowInitialText": "on",
+        "ScaleColors": [],
+        "Limits": [
+          0,
+          -1,
+          100
+        ],
+        "FontColor": [
+          0,
+          0,
+          0
+        ],
+        "Opacity": "1",
+        "ScaleDirection": "Clockwise"
+      },
+      "render": {
+        "type": "math",
+        "formula": "Half Gauge"
+      }
+    },
+    {
+      "type": "dashboardKnob",
+      "label": "Knob",
+      "icon": "dashboardKnob.svg",
+      "phases": [],
+      "width": 110,
+      "height": 115,
+      "inputs": [],
+      "outputs": [],
+      "defaultParams": {
+        "LabelPosition": "Top",
+        "Binding": null,
+        "ShowInitialText": "on",
+        "ScaleType": "Linear",
+        "Limits": [
+          0,
+          -1,
+          100
+        ]
+      },
+      "render": {
+        "type": "math",
+        "formula": "Knob"
+      }
+    },
+    {
+      "type": "dashboardLamp",
+      "label": "Lamp",
+      "icon": "dashboardLamp.svg",
+      "phases": [
+        "INIT",
+        "AFTER_STEP"
+      ],
+      "width": 65,
+      "height": 60,
+      "inputs": [],
+      "outputs": [],
+      "defaultParams": {
+        "LabelPosition": "Hide",
+        "Binding": null,
+        "ShowInitialText": "on",
+        "ColorDefault": [
+          0.7529411764705882,
+          0.7529411764705882,
+          0.7529411764705882
+        ],
+        "StateColors": [
+          {
+            "Value": 0,
+            "Color": [
+              0.392156862745098,
+              0.8313725490196079,
+              0.07450980392156863
+            ]
+          }
+        ],
+        "Opacity": "1"
+      },
+      "render": {
+        "type": "math",
+        "formula": "Lamp"
+      }
+    },
+    {
+      "type": "dashboardLinearGauge",
+      "label": "Linear Gauge",
+      "icon": "dashboardLinearGauge.svg",
+      "phases": [
+        "INIT",
+        "AFTER_STEP"
+      ],
+      "width": 210,
+      "height": 90,
+      "inputs": [],
+      "outputs": [],
+      "defaultParams": {
+        "LabelPosition": "Top",
+        "Binding": null,
+        "ShowInitialText": "on",
+        "ScaleColors": [],
+        "Limits": [
+          0,
+          -1,
+          100
+        ],
+        "FontColor": [
+          0,
+          0,
+          0
+        ],
+        "Opacity": "1",
+        "ScaleDirection": "Clockwise"
+      },
+      "render": {
+        "type": "math",
+        "formula": "Linear Gauge"
+      }
+    },
+    {
+      "type": "dashboardMultiStateImage",
+      "label": "MultiStateImage",
+      "icon": "dashboardMultiStateImage.svg",
+      "phases": [
+        "INIT",
+        "AFTER_STEP"
+      ],
+      "width": 190,
+      "height": 180,
+      "inputs": [],
+      "outputs": [],
+      "defaultParams": {
+        "LabelPosition": "Top",
+        "Binding": null,
+        "ShowInitialText": "on",
+        "States": [
+          {
+            "State": 0,
+            "Size": [
+              0,
+              0
+            ],
+            "Image": "",
+            "Thumbnail": ""
+          }
+        ],
+        "DefaultImage": {
+          "Size": [
+            0,
+            0
+          ],
+          "Image": "",
+          "Thumbnail": ""
+        },
+        "ScaleMode": "Fill with fixed aspect ratio"
+      },
+      "render": {
+        "type": "math",
+        "formula": "MultiStateImage"
+      }
+    },
+    {
+      "type": "dashboardPushButton",
+      "label": "Push Button",
+      "icon": "dashboardPushButton.svg",
+      "phases": [],
+      "width": 91,
+      "height": 44,
+      "inputs": [],
+      "outputs": [],
+      "defaultParams": {
+        "LabelPosition": "Hide",
+        "Binding": null,
+        "ShowInitialText": "on",
+        "ButtonText": "Button",
+        "OnValue": "1",
+        "Opacity": "1",
+        "ButtonType": "Momentary",
+        "Icon": "None",
+        "CustomIcon": "",
+        "IconAlignment": "Left",
+        "IconOnColor": [
+          0,
+          0.392156862745098,
+          0
+        ],
+        "IconOffColor": [
+          0,
+          1,
+          0
+        ],
+        "IconColor": "Off"
+      },
+      "render": {
+        "type": "math",
+        "formula": "Push Button"
+      }
+    },
+    {
+      "type": "dashboardQuarterGauge",
+      "label": "Quarter Gauge",
+      "icon": "dashboardQuarterGauge.svg",
+      "phases": [
+        "INIT",
+        "AFTER_STEP"
+      ],
+      "width": 140,
+      "height": 160,
+      "inputs": [],
+      "outputs": [],
+      "defaultParams": {
+        "LabelPosition": "Top",
+        "Binding": null,
+        "ShowInitialText": "on",
+        "ScaleColors": [],
+        "Limits": [
+          0,
+          -1,
+          100
+        ],
+        "FontColor": [
+          0,
+          0,
+          0
+        ],
+        "Opacity": "1",
+        "ScaleDirection": "Clockwise"
+      },
+      "render": {
+        "type": "math",
+        "formula": "Quarter Gauge"
+      }
+    },
+    {
+      "type": "dashboardRadioButton",
+      "label": "Radio Button",
+      "icon": "dashboardRadioButton.svg",
+      "phases": [],
+      "width": 135,
+      "height": 115,
+      "inputs": [],
+      "outputs": [],
+      "defaultParams": {
+        "LabelPosition": "Top",
+        "Binding": null,
+        "ShowInitialText": "on",
+        "ButtonGroupName": "Group",
+        "States": [
+          {
+            "Value": 0,
+            "Label": "Label1"
+          },
+          {
+            "Value": 1,
+            "Label": "Label2"
+          },
+          {
+            "Value": 2,
+            "Label": "Label3"
+          }
+        ],
+        "UseEnumeratedDataType": "off",
+        "EnumeratedDataType": "",
+        "Opacity": "1"
+      },
+      "render": {
+        "type": "math",
+        "formula": "Radio Button"
+      }
+    },
+    {
+      "type": "dashboardRockerSwitch",
+      "label": "Rocker Switch",
+      "icon": "dashboardRockerSwitch.svg",
+      "phases": [],
+      "width": 55,
+      "height": 100,
+      "inputs": [],
+      "outputs": [],
+      "defaultParams": {
+        "LabelPosition": "Top",
+        "Binding": null,
+        "ShowInitialText": "on",
+        "States": [
+          {
+            "Value": 0,
+            "Label": "Off"
+          },
+          {
+            "Value": 1,
+            "Label": "On"
+          }
+        ]
+      },
+      "render": {
+        "type": "math",
+        "formula": "Rocker Switch"
+      }
+    },
+    {
+      "type": "dashboardRotarySwitch",
+      "label": "Rotary Switch",
+      "icon": "dashboardRotarySwitch.svg",
+      "phases": [],
+      "width": 125,
+      "height": 100,
+      "inputs": [],
+      "outputs": [],
+      "defaultParams": {
+        "LabelPosition": "Top",
+        "Binding": null,
+        "ShowInitialText": "on",
+        "States": [
+          {
+            "Value": 0,
+            "Label": "Off"
+          },
+          {
+            "Value": 1,
+            "Label": "Low"
+          },
+          {
+            "Value": 2,
+            "Label": "Medium"
+          },
+          {
+            "Value": 3,
+            "Label": "High"
+          }
+        ],
+        "UseEnumeratedDataType": "off",
+        "EnumeratedDataType": ""
+      },
+      "render": {
+        "type": "math",
+        "formula": "Rotary Switch"
+      }
+    },
+    {
+      "type": "dashboardSlider",
+      "label": "Slider",
+      "icon": "dashboardSlider.svg",
+      "phases": [],
+      "width": 200,
+      "height": 90,
+      "inputs": [],
+      "outputs": [],
+      "defaultParams": {
+        "LabelPosition": "Top",
+        "Binding": null,
+        "ShowInitialText": "on",
+        "ScaleType": "Linear",
+        "Limits": [
+          0,
+          -1,
+          100
+        ]
+      },
+      "render": {
+        "type": "math",
+        "formula": "Slider"
+      }
+    },
+    {
+      "type": "dashboardSliderSwitch",
+      "label": "Slider Switch",
+      "icon": "dashboardSliderSwitch.svg",
+      "phases": [],
+      "width": 120,
+      "height": 45,
+      "inputs": [],
+      "outputs": [],
+      "defaultParams": {
+        "LabelPosition": "Top",
+        "Binding": null,
+        "ShowInitialText": "on",
+        "States": [
+          {
+            "Value": 0,
+            "Label": "Off"
+          },
+          {
+            "Value": 1,
+            "Label": "On"
+          }
+        ]
+      },
+      "render": {
+        "type": "math",
+        "formula": "Slider Switch"
+      }
+    },
+    {
+      "type": "dashboardToggleSwitch",
+      "label": "Toggle Switch",
+      "icon": "dashboardToggleSwitch.svg",
+      "phases": [],
+      "width": 55,
+      "height": 100,
+      "inputs": [],
+      "outputs": [],
+      "defaultParams": {
+        "LabelPosition": "Top",
+        "Binding": null,
+        "ShowInitialText": "on",
+        "States": [
+          {
+            "Value": 0,
+            "Label": "Off"
+          },
+          {
+            "Value": 1,
+            "Label": "On"
+          }
+        ]
+      },
+      "render": {
+        "type": "math",
+        "formula": "Toggle Switch"
+      }
+    },
+    {
+      "type": "dashboardCallbackButton",
+      "label": "Callback Button",
+      "icon": "dashboardCallbackButton.svg",
+      "phases": [],
+      "width": 110,
+      "height": 35,
+      "inputs": [],
+      "outputs": [],
+      "defaultParams": {
+        "LabelPosition": "Top",
+        "Binding": null,
+        "ShowInitialText": "off",
+        "ButtonText": "Callback Button",
+        "ButtonType": "Momentary",
+        "ClickFcn": "",
+        "OnValue": 1,
+        "PressDelay": "500",
+        "PressFcn": "",
+        "RepeatInterval": "0",
+        "AutoActivate": true,
+        "fixedAspectRatio": "off"
+      },
+      "render": {
+        "type": "math",
+        "formula": "Callback Button"
+      }
+    },
+    {
+      "type": "dashboardCheckBox",
+      "label": "Check Box",
+      "icon": "dashboardCheckBox.svg",
+      "phases": [],
+      "width": 135,
+      "height": 30,
+      "inputs": [],
+      "outputs": [],
+      "defaultParams": {
+        "LabelPosition": "Hide",
+        "Binding": null,
+        "ShowInitialText": "on",
+        "Label": "Label",
+        "Values": [
+          0,
+          1
+        ],
+        "Opacity": "1"
+      },
+      "render": {
+        "type": "math",
+        "formula": "Check Box"
+      }
+    },
+    {
+      "type": "dashboardComboBox",
+      "label": "Combo Box",
+      "icon": "dashboardComboBox.svg",
+      "phases": [],
+      "width": 160,
+      "height": 25,
+      "inputs": [],
+      "outputs": [],
+      "defaultParams": {
+        "LabelPosition": "Hide",
+        "Binding": null,
+        "ShowInitialText": "on",
+        "States": [
+          {
+            "Value": 0,
+            "Label": "Label1"
+          },
+          {
+            "Value": 1,
+            "Label": "Label2"
+          },
+          {
+            "Value": 2,
+            "Label": "Label3"
+          }
+        ],
+        "UseEnumeratedDataType": "off",
+        "EnumeratedDataType": "",
+        "Opacity": "1"
+      },
+      "render": {
+        "type": "math",
+        "formula": "Combo Box"
+      }
+    }
+  ]
+}

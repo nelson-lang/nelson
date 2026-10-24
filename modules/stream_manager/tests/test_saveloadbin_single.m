@@ -9,27 +9,30 @@
 %=============================================================================
 addpath([fileparts(nfilename('fullpathext'), 'path'), '/loadsavebin']);
 %=============================================================================
+test_saveload_file = [tempname(), '.bin'];
+%=============================================================================
 % single
-A = single(eye(5,4));
-savebin([tempdir(), 'test_saveload_single.bin'], 'A');
+A = single(eye(5, 4));
+savebin(test_saveload_file, 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), 'test_saveload_single.bin']);
-assert_isequal(A, REF);
+loadbin(test_saveload_file);
+asserts.isequal(A, REF);
 %=============================================================================
 % complex single
-A = single(eye(5,4) + 2i);
-savebin([tempdir(), 'test_saveload_single.bin'], 'A');
+A = single(eye(5, 4) + 2i);
+savebin(test_saveload_file, 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), 'test_saveload_single.bin']);
-assert_isequal(A, REF);
+loadbin(test_saveload_file);
+asserts.isequal(A, REF);
 %=============================================================================
 % single empty
-A = single(ones(0,3));
-savebin([tempdir(), 'test_saveload_single.bin'], 'A');
+A = single(ones(0, 3));
+savebin(test_saveload_file, 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), 'test_saveload_single.bin']);
-assert_isequal(A, REF);
+loadbin(test_saveload_file);
+asserts.isequal(A, REF);
+rmfile(test_saveload_file);
 %=============================================================================

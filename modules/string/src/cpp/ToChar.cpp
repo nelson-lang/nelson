@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -17,37 +17,35 @@ namespace Nelson {
 static ArrayOf
 ArrayOfDoubleToChar(const ArrayOf& A)
 {
-    Dimensions dimsA = A.getDimensions();
-    std::wstring res;
-    res.reserve(A.getElementCount());
-    auto* pDouble = (double*)A.getDataPointer();
-    for (indexType k = 0; k < A.getElementCount(); k++) {
+    Dimensions dimsA = A.dimensions();
+    charType* res = (charType*)ArrayOf::allocateArrayOf(
+        NLS_CHAR, dimsA.elementCount(), stringVector(), false);
+    auto* pDouble = (double*)A.dataPointer();
+    for (indexType k = 0; k < A.elementCount(); k++) {
         double v = pDouble[k];
         if (IsFinite(v)) {
             if (v < 0) {
-                res.push_back(static_cast<charType>(0));
+                res[k] = static_cast<charType>(0);
             } else {
                 if (v > 65535) {
-                    res.push_back(static_cast<charType>(65535));
+                    res[k] = static_cast<charType>(65535);
                 } else {
-                    res.push_back(static_cast<charType>(v));
+                    res[k] = static_cast<charType>(v);
                 }
             }
         } else {
             if (IsNaN(v)) {
-                res.push_back(static_cast<charType>(0));
+                res[k] = static_cast<charType>(0);
             } else {
                 if (v <= 0) {
-                    res.push_back(static_cast<charType>(0));
+                    res[k] = static_cast<charType>(0);
                 } else if (IsInfinite(v)) {
-                    res.push_back(static_cast<charType>(65535));
+                    res[k] = static_cast<charType>(65535);
                 }
             }
         }
     }
-    ArrayOf result = ArrayOf::characterArrayConstructor(res);
-    result.reshape(dimsA);
-    return result;
+    return ArrayOf(NLS_CHAR, dimsA, res);
 }
 //=============================================================================
 ArrayOf
@@ -62,13 +60,13 @@ ToChar(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
     if (needToOverload) {
         return res;
     }
-    Dimensions dimsA = charA.getDimensions();
-    Dimensions dimsB = charB.getDimensions();
-    wstringVector vA = charA.getContentAsWideStringVector();
+    Dimensions dimsA = charA.dimensions();
+    Dimensions dimsB = charB.dimensions();
+    wstringVector vA = charA.asWideStringVector();
     if (vA.size() == 0) {
         vA.push_back(L"");
     }
-    wstringVector vB = charB.getContentAsWideStringVector();
+    wstringVector vB = charB.asWideStringVector();
     if (vB.size() == 0) {
         vB.push_back(L"");
     }
@@ -99,18 +97,21 @@ ToChar(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
             }
         }
     }
-    ArrayOfVector _args;
-    res = ArrayOf::characterArrayConstructor(vA[0]);
-    for (size_t i = 0; i < vA.size(); i++) {
-        _args << ArrayOf::characterArrayConstructor(vA[i]);
+    if (lenMax == 0) {
+        // Both operands are empty: the result is a 0x0 character array.
+        return ArrayOf(NLS_CHAR, Dimensions(0, 0), nullptr);
     }
-    res = VertCat(_args, NLS_CHAR);
-    _args.clear();
-    _args << res;
-    for (auto& i : vB) {
-        _args << ArrayOf::characterArrayConstructor(i);
+    // vA and vB are already padded to the common width; stack all rows in one
+    // pass instead of vertically concatenating one row at a time (O(n^2)).
+    wstringVector allRows;
+    allRows.reserve(vA.size() + vB.size());
+    for (const auto& i : vA) {
+        allRows.push_back(i);
     }
-    return VertCat(_args, NLS_CHAR);
+    for (const auto& i : vB) {
+        allRows.push_back(i);
+    }
+    return ArrayOf::characterArrayFromRows(allRows, false);
 }
 //=============================================================================
 ArrayOf
@@ -118,27 +119,40 @@ ToChar(const ArrayOf& A, bool& needToOverload)
 {
     ArrayOf res;
     needToOverload = false;
-    switch (A.getDataClass()) {
+    switch (A.dataClass()) {
     case NLS_STRING_ARRAY:
     case NLS_CELL_ARRAY: {
-        ArrayOfVector V;
-        auto* arg = (ArrayOf*)(A.getDataPointer());
-        indexType elementCount = A.getElementCount();
+        auto* arg = (ArrayOf*)(A.dataPointer());
+        indexType elementCount = A.elementCount();
+        // Collect every row of every element, then stack once. Accumulating with the
+        // two-argument ToChar would re-pad and re-copy the growing result (O(N^2)).
+        wstringVector allRows;
         for (indexType k = 0; k < elementCount; k++) {
             ArrayOf val = ToChar(arg[k], needToOverload);
             if (needToOverload) {
                 return res;
             }
-            V.push_back(val);
-        }
-        res = V[0];
-        for (size_t k = 1; k < V.size(); k++) {
-            ArrayOf val = ToChar(res, V[k], needToOverload);
-            if (needToOverload) {
-                return res;
+            wstringVector rows = val.asWideStringVector();
+            if (rows.empty()) {
+                allRows.push_back(L"");
+            } else {
+                for (auto& r : rows) {
+                    allRows.push_back(r);
+                }
             }
-            res = val;
         }
+        if (allRows.empty()) {
+            return ArrayOf(NLS_CHAR, Dimensions(0, 0), nullptr);
+        }
+        size_t maxLen = 0;
+        for (const auto& r : allRows) {
+            maxLen = (maxLen < r.size()) ? r.size() : maxLen;
+        }
+        if (maxLen == 0) {
+            // Every row is empty: the result is a 0x0 character array.
+            return ArrayOf(NLS_CHAR, Dimensions(0, 0), nullptr);
+        }
+        res = ArrayOf::characterArrayFromRows(allRows, false);
     } break;
     case NLS_CHAR: {
         ArrayOf R(A);

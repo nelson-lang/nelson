@@ -17,7 +17,7 @@ ans =
    3.141592653589793
 
 ';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 format long
 R = evalc('single(pi)');
@@ -29,7 +29,7 @@ ans =
    3.1415927
 
 ';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 format hex
 R = evalc('R = intmax(''uint64'')')
@@ -41,7 +41,7 @@ R =
    ffffffffffffffff
 
 ';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 format shortEng
 format compact
@@ -52,5 +52,5 @@ REF = 'x =
    905.7919e-003   632.3592e-003   546.8815e-003
    126.9868e-003    97.5404e-003   957.5068e-003
 ';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================

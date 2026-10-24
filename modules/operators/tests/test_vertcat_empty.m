@@ -9,13 +9,13 @@
 %=============================================================================
 R = vertcat(zeros(1, 0), zeros(2, 0));
 REF = zeros(3, 0);
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================
 R = vertcat(zeros(1, 0, 1), zeros(2, 0, 1));
 REF = zeros(3, 0);
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================
 R = vertcat(zeros(0, 4, 1), zeros(0, 2, 1));
-REF = zeros(0, 0);
-assert_isequal(R, REF)
+REF = zeros(0, 4);
+asserts.isequal(R, REF)
 %=============================================================================

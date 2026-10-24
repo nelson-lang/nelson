@@ -18,5 +18,6 @@
 namespace Nelson {
 NLSFILES_FOLDERS_FUNCTIONS_IMPEXP std::wstring
 GetCurrentDirectory();
-}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

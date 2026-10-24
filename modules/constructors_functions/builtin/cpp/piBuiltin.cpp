@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -24,7 +24,7 @@ Nelson::ConstructorsGateway::piBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 0, 0);
     ArrayOfVector retval(1);
-    retval << ArrayOf::doubleConstructor(M_PI);
+    retval << ArrayOf::doubleScalar(M_PI);
     return retval;
 }
 //=============================================================================

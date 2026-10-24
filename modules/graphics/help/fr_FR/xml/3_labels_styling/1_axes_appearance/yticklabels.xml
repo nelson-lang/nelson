@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>yticklabels</keyword>
+  <short_description>Definir ou interroger les etiquettes des graduations de l'axe y.</short_description>
+  <syntax>
+    <syntax_item>yticklabels(labels)</syntax_item>
+    <syntax_item>yticklabels('auto')</syntax_item>
+    <syntax_item>yticklabels('manual')</syntax_item>
+    <syntax_item>mode = yticklabels('mode')</syntax_item>
+    <syntax_item>labels = yticklabels</syntax_item>
+    <syntax_item>yticklabels(ax, ...)</syntax_item>
+    <syntax_item>labels = yticklabels(ax)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>labels</param_name>
+      <param_description>tableau de chaines, cellule de vecteurs de caracteres, ou vecteur de caracteres utilise comme etiquettes de graduations de l'axe y.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description>objet axes cible. S'il est omis, les axes courants sont utilises.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>labels</param_name>
+      <param_description>etiquettes courantes des graduations de l'axe y.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>mode</param_name>
+      <param_description>mode courant des etiquettes de l'axe y : 'auto' ou 'manual'.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>yticklabels</b> definit ou interroge la propriete <b>YTickLabel</b> des axes.</p>
+    <p>Affecter des etiquettes passe <b>YTickLabelMode</b> a <b>manual</b>. Utiliser <b>yticklabels('auto')</b> pour revenir aux etiquettes automatiques.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Definir les etiquettes de l'axe y pour un diagramme en barres horizontales.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = figure();
+barh([10 20 30 41]);
+yticklabels({'April', 'May', 'June', 'July'});
+]]></example_item_data>
+      <example_item_img src="../../../../images/yticklabels_1.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Definir des etiquettes sur des axes specifies et interroger le mode.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = figure();
+ax = axes('Parent', f);
+plot(ax, 1:4, [2 4 3 5]);
+ax.YTick = 2:5;
+yticklabels(ax, ["low"; "mid"; "high"; "top"]);
+mode = yticklabels(ax, 'mode')
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}2_graphics_objects/1_object_management/axes">axes</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/6_discrete_data_plots/barh">barh</link></see_also_item>
+  </see_also>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

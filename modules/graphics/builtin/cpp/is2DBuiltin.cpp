@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "is2DBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "GraphicsObject.hpp"
 #include "GOHelpers.hpp"
@@ -16,6 +17,7 @@
 #include "GOPropertyNames.hpp"
 #include "GOAxis.hpp"
 #include "GOGObjectsProperty.hpp"
+#include "RefreshFigure.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 namespace Nelson::GraphicsGateway {
@@ -27,12 +29,12 @@ is2DBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
     if (!argIn[0].isGraphicsObject() || !argIn[0].isScalar()) {
-        Error(_W("Invalid object."));
+        Error(L"Nelson:is2D:invalidObject", L"Invalid object.");
     }
-    int64 handle = argIn[0].getContentAsGraphicsObjectScalar();
+    int64 handle = argIn[0].asGraphicsObjectScalar();
     GraphicsObject* gop = findGraphicsObject(handle);
     if (!(gop->getType() == GO_PROPERTY_VALUE_AXES_STR)) {
-        Error(_("axes graphics object expected."));
+        Error("Nelson:is2D:expectedAxes", "axes graphics object expected.");
     }
     GOAxis* axis = (GOAxis*)gop;
     GOGObjectsProperty* cp = (GOGObjectsProperty*)axis->findProperty(GO_PARENT_PROPERTY_NAME_STR);
@@ -42,12 +44,12 @@ is2DBuiltin(int nLhs, const ArrayOfVector& argIn)
             if (parent > HANDLE_ROOT_OBJECT && parent < HANDLE_OFFSET_OBJECT) {
                 GOFigure* fig = findGOFigure(parent);
                 if (fig) {
-                    fig->repaint();
+                    refreshFigure(fig);
                 }
             }
         }
     }
-    retval << ArrayOf::logicalConstructor(axis->is2D());
+    retval << ArrayOf::logicalScalar(axis->is2D());
     return retval;
 }
 //=============================================================================

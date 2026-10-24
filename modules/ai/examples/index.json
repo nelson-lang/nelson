@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "file": "local_model_prompt.m",
+      "title": "Prompt a local AI model",
+      "description": "Send a concise numerical-computing question to a local model service.",
+      "tags": [
+        "ai",
+        "prompt"
+      ],
+      "requirements": [
+        "external-application"
+      ]
+    }
+  ]
+}

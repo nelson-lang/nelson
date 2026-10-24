@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>schord</keyword>
+  <short_description>Ordonne une decomposition de Schur.</short_description>
+  <syntax>
+    <syntax_item>[Qo, To] = schord(Qi, Ti, index)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>Qi</param_name><param_description>matrice de vecteurs de Schur orthogonale ou unitaire.</param_description></param_input_item>
+    <param_input_item><param_name>Ti</param_name><param_description>matrice de Schur triangulaire superieure.</param_description></param_input_item>
+    <param_input_item><param_name>index</param_name><param_description>cles d&apos;ordre pour les entrees diagonales.</param_description></param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>Qo</param_name><param_description>matrice de vecteurs de Schur ordonnee.</param_description></param_output_item>
+    <param_output_item><param_name>To</param_name><param_description>matrice de Schur ordonnee.</param_description></param_output_item>
+  </param_output>
+  <description>
+    <p><b>schord</b> applique des rotations unitaires adjacentes pour ordonner une decomposition de Schur selon les valeurs croissantes de <b>index</b>.</p>
+  </description>
+  <examples>
+    <example_item><example_item_type>nelson</example_item_type><example_item_description /><example_item_data runnable="cli"><![CDATA[
+A = [1 2; 3 4];
+[Q, T] = schur(A);
+[Qo, To] = schord(Q, T, [2 1])
+]]></example_item_data></example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${linear_algebra}schur">schur</link></see_also_item>
+    <see_also_item><link linkend="${control_system}bdschur">bdschur</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>2.0.0</history_version><history_description>version initiale</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

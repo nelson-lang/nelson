@@ -8,18 +8,16 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <--ENGLISH IMPOSED-->
+skip_testsuite(~findcmake(), 'C toolchain (cmake) not available')
 if ispc() && ~havecompiler()
   configuremsvc();
 end
 %=============================================================================
 if exist('mxAssert') == 0
-  test_dir = [tempdir(), 'mxAssert'];
-  if isdir(test_dir)
-    rmdir(test_dir,'s');
-  end
+  test_dir = tempname();
   mkdir(test_dir);
   status = copyfile('mxAssert.c', test_dir);
-  assert_istrue(status);
+  asserts.istrue(status);
   cd(test_dir);
   mex('mxAssert.c');
   addpath(pwd())
@@ -33,6 +31,6 @@ try
 catch
   M = lasterror();
 end
-assert_isequal(M.identifier, 'Nelson:MEX');
-assert_istrue(contains(M.message, 'Assertion failed: (int)expr'));
+asserts.isequal(M.identifier, 'Nelson:MEX');
+asserts.istrue(contains(M.message, 'Assertion failed: (int)expr'));
 %=============================================================================

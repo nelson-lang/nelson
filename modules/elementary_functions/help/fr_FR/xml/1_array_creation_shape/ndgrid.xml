@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>ndgrid</keyword>
+  <short_description>Grille rectangulaire dans un espace à N dimensions</short_description>
+  <syntax>
+    <syntax_item>[X1, X2, ..., Xn] = ndgrid(x1, x2, ... , xn)</syntax_item>
+    <syntax_item>[X1, X2, ..., Xn] = ndgrid(xg)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>x1, x2, â€¦ , xn</param_name>
+      <param_description
+      >vecteur : vecteurs de grille passés comme arguments séparés.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>xg</param_name>
+      <param_description
+      >vecteur : vecteur de grille pour toutes les dimensions.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>X1, X2, â€¦ , Xn</param_name>
+      <param_description>tableau : représentation complète de la grille.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>[X1, X2, â€¦ , Xn] = ndgrid(x1, x2, â€¦ , xn)</b> génère une grille complète à n dimensions en répliquant chaque vecteur de grille.</p>
+    <p>
+      <b>[X1, X2, â€¦ , Xn] = ndgrid(xg)</b> Dans ce cas, l'unique vecteur de grille<b>xg</b> est utilisé pour toutes les dimensions. Le nombre d'arguments de sortie détermine la dimensionnalité n de la grille résultante.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[M = {'apple', 'banana', 'cherry'};
+N = {'blue', 'green', 'red'};
+ndgrid(M , N)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+      ><![CDATA[[X, Y] = ndgrid(1:2:19, 2:2:12)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${elementary_functions}meshgrid">meshgrid</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}mesh">mesh</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.6.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

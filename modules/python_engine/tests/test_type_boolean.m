@@ -10,9 +10,9 @@
 % <--PYTHON ENVIRONMENT REQUIRED-->
 %=============================================================================
 R = pyrun('R = True', "R");
-assert_isequal(class(R), 'logical');
-assert_isequal(R, true);
+asserts.isequal(class(R), 'logical');
+asserts.isequal(R, true);
 %=============================================================================
 R = pyrun('R = False', "R");
-assert_isequal(R, false);
+asserts.isequal(R, false);
 %=============================================================================

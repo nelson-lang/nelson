@@ -3,117 +3,39 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>assert_isequal</keyword>
-  <short_description
-  >Vérifie que les valeurs calculées et attendues sont égales.</short_description>
+  <short_description>Nom historique de asserts.isequal.</short_description>
   <syntax>
     <syntax_item>assert_isequal(computed, expected)</syntax_item>
+    <syntax_item>assert_isequal(computed, expected, message)</syntax_item>
     <syntax_item>res = assert_isequal(computed, expected)</syntax_item>
     <syntax_item>[res, msg] = assert_isequal(computed, expected)</syntax_item>
   </syntax>
   <param_input>
-    <param_input_item>
-      <param_name>computed</param_name>
-      <param_description
-      >une valeur de n&apos;importe quel type à tester pour l&apos;égalité.</param_description>
-    </param_input_item>
-    <param_input_item>
-      <param_name>expected</param_name>
-      <param_description
-      >une valeur de n&apos;importe quel type représentant le résultat attendu.</param_description>
-    </param_input_item>
+    <param_input_item><param_name>computed</param_name><param_description>Valeur calculee.</param_description></param_input_item>
+    <param_input_item><param_name>expected</param_name><param_description>Valeur attendue.</param_description></param_input_item>
+    <param_input_item><param_name>message</param_name><param_description>Message d'echec personnalise optionnel.</param_description></param_input_item>
   </param_input>
   <param_output>
-    <param_output_item>
-      <param_name>res</param_name>
-      <param_description
-      >une valeur logique : true si les valeurs sont égales, false sinon.</param_description>
-    </param_output_item>
-    <param_output_item>
-      <param_name>msg</param_name>
-      <param_description
-      >une chaîne contenant le message d&apos;erreur. Si res == true, alors msg == &apos;
-        &apos;. Si res == false, alors msg contient le message d&apos;échec de l&apos;assertion.</param_description>
-    </param_output_item>
+    <param_output_item><param_name>res</param_name><param_description>true si les valeurs sont egales, false sinon.</param_description></param_output_item>
+    <param_output_item><param_name>msg</param_name><param_description>Message d'echec de l'assertion, vide en cas de succes.</param_description></param_output_item>
   </param_output>
   <description>
-    <p>
-      <b>assert_isequal</b> lève une erreur si la valeur calculée n&apos;est pas égale à la valeur attendue.</p>
-    <p
-    >Cette fonction effectue un test d&apos;égalité stricte qui vérifie le même type, les mêmes dimensions et les mêmes valeurs. Elle utilise la même logique que la fonction <b>isequaln</b>.</p>
-    <p
-    >Contrairement aux opérateurs d&apos;égalité standards, cette fonction gère correctement les valeurs NaN, en les considérant égales lorsque les deux valeurs contiennent NaN aux mêmes positions.</p>
-    <p
-    >Cette fonction est essentielle pour les tests unitaires afin de vérifier que les résultats calculés correspondent exactement aux résultats attendus.</p>
+    <p><b>assert_isequal</b> est conservee pour compatibilite.</p>
+    <p>Pour la documentation complete, utiliser <link linkend="${assert_functions}asserts.isequal">asserts.isequal</link>.</p>
   </description>
   <used_function>isequaln</used_function>
-  <bibliography
-  >
-    &quot;Automated Software Testing for Matlab&quot;, Steven Eddins, 2009</bibliography>
+  <bibliography />
   <examples>
-    <example_item>
-      <example_item_type>nelson</example_item_type>
-      <example_item_description>Test d&apos;égalité de matrices identiques :</example_item_description>
-      <example_item_data
-        runnable="cli"
-      ><![CDATA[A = eye(3, 3);
-assert_isequal(A, A)]]></example_item_data>
-    </example_item>
-    <example_item>
-      <example_item_type>nelson</example_item_type>
-      <example_item_description>Test qui démontre la détection de différence de type :</example_item_description>
-      <example_item_data
-        runnable="cli"
-      ><![CDATA[A = eye(3, 3);
-B = single(A);
-try
-    assert_isequal(A, B)
-catch ME
-    disp(['Error: ' ME.message])
-end]]></example_item_data>
-    </example_item>
-    <example_item>
-      <example_item_type>nelson</example_item_type>
-      <example_item_description>Test de gestion de l&apos;égalité avec NaN :</example_item_description>
-      <example_item_data
-        runnable="cli"
-      ><![CDATA[A = NaN;
-B = A;
-assert_isequal(A, B)]]></example_item_data>
-    </example_item>
-    <example_item>
-      <example_item_type>nelson</example_item_type>
-      <example_item_description>Utilisation des valeurs de retour pour gérer les résultats d&apos;assertion :</example_item_description>
-      <example_item_data
-        runnable="cli"
-      ><![CDATA[[res, msg] = assert_isequal([1, 2, 3], [1, 2, 4]);
-if res
-    disp('Values are equal')
-else
-    disp(['Values are not equal: ' msg])
-end]]></example_item_data>
-    </example_item>
+    <example_item><example_item_type>nelson</example_item_type><example_item_description>Appel historique</example_item_description><example_item_data runnable="cli"><![CDATA[assert_isequal([1 2], [1 2]);]]></example_item_data></example_item>
+    <example_item><example_item_type>nelson</example_item_type><example_item_description>Appel canonique</example_item_description><example_item_data runnable="cli"><![CDATA[asserts.isequal([1 2], [1 2]);]]></example_item_data></example_item>
   </examples>
   <see_also>
-    <see_also_item>
-      <link linkend="${elementary_functions}isequaln">isequaln</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${assert_functions}assert_isapprox">assert_isapprox</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${assert_functions}assert_istrue">assert_istrue</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${assert_functions}assert_isfalse">assert_isfalse</link>
-    </see_also_item>
+    <see_also_item><link linkend="${assert_functions}asserts.isequal">asserts.isequal</link></see_also_item>
+    <see_also_item><link linkend="${elementary_functions}isequaln">isequaln</link></see_also_item>
   </see_also>
   <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>version initiale</history_description>
-    </history_item>
+    <history_item><history_version>1.0.0</history_version><history_description>version initiale</history_description></history_item>
+    <history_item><history_version>2.0.0</history_version><history_description>documentee comme nom historique de asserts.isequal</history_description></history_item>
   </history>
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
+  <authors><author_item>Allan CORNET</author_item></authors>
 </xmldoc>

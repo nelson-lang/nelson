@@ -2,230 +2,241 @@
 <script src="highlight.pack.js"></script>
 <script>hljs.highlightAll();</script>
 
-# Démarrage avec Nelson
+# Prise en main de Nelson
 
-Bienvenue dans Nelson : un langage de calcul numérique de haut niveau inspiré de MATLAB(c)/Octave et conçu pour un travail d'ingénierie et scientifique rapide et productif.
+Nelson est un langage de calcul numérique open source. Son type de données principal est le tableau : vecteurs, matrices et tableaux à N dimensions. Vous pouvez l'utiliser comme une calculatrice interactive, écrire des scripts et des fonctions, tracer des graphiques et construire des programmes plus importants.
 
-Ce guide vous propose un chemin rapide de l'installation à l'exécution de vos premières commandes, l'écriture de scripts, le tracé de graphiques et la recherche d'aide. Il est destiné aux nouveaux utilisateurs qui souhaitent un démarrage rapide et quelques exemples prêts à l'emploi.
-
-Ce tutoriel est organisé en courtes leçons que vous pouvez suivre dans le REPL ou en exécutant de petits fichiers de script.
+Ce guide vous accompagne de l'installation à votre premier script. Chaque exemple peut être tapé à l'invite ou enregistré dans un fichier `.m`. Comptez environ trente minutes de lecture.
 
 ---
 
-## Leçons du tutoriel
+## 1. Installation
 
-### Introduction
+Choisissez la méthode adaptée à votre système :
 
-Nelson est un langage de calcul numérique de haut niveau dont le type de données central est le tableau (vecteurs et matrices). Comme MATLAB, Nelson met l'accent sur l'informatique interactive, la visualisation et le prototypage rapide. Ce tutoriel vous aide à apprendre l'essentiel : utilisation du REPL, opérations mathématiques de base, tracés, tableaux, scripts et constructions de programmation simples.
+- **Windows** : téléchargez l'installateur depuis la [page des versions](https://github.com/nelson-lang/nelson/releases), ou lancez `winget install NelsonNumericalSoftware.Nelson`. Des paquets Chocolatey et Scoop existent aussi.
+- **Linux** : installez depuis le [Snap Store](https://snapcraft.io/nelson) ou depuis [Flathub](https://flathub.org/apps/io.github.nelson_lang.Nelson).
+- **Docker** : `docker pull nelsonsoftware/nelson`.
+- **Navigateur, sans installation** : [Nelson Cloud](https://www.npmjs.com/package/nelson-cloud) exécute Nelson dans une page web.
 
-### Fonctionnalités principales
+La compilation depuis les sources est décrite dans le fichier `BUILDING.md` du dépôt.
 
-- REPL interactif avec historique et aide
-- Tableaux natifs (vecteurs, matrices, tableaux N‑D) sans dimensionnement explicite
-- Fonctions mathématiques et matricielles intégrées (algèbre linéaire, fft, statistiques)
-- API de tracé de haut niveau pour des graphiques rapides
-- Modules et gestionnaire de modules extensible (`nmm`)
-- Interface de fonction étrangère (FFI), interop Python/Julia et I/O d'espace de travail (`.nh5`, `.mat`)
+## 2. Démarrer Nelson
 
-### Une session minimale Nelson
-
-Cette session rapide montre comment démarrer, effectuer des calculs simples et quitter.
-
-#### Démarrer Nelson
-
-Ouvrez un terminal (PowerShell sous Windows, bash/zsh sous Unix) et lancez :
+La commande `nelson` accepte une option de mode :
 
 ```bash
-nelson
+nelson              # bureau avec fenêtre de commandes, éditeur et explorateur de variables
+nelson --cli        # mode texte dans le terminal
+nelson --adv-cli    # mode texte avec prise en charge des graphiques
+nelson-webview      # le bureau dans une fenêtre web native
+nelson-webview --web   # le même bureau servi en HTTP pour un navigateur
 ```
 
-Vous verrez une invite. Cette invite accepte des expressions Nelson.
+Deux options servent à l'automatisation :
 
-#### Utiliser Nelson comme calculatrice
+```bash
+nelson --cli -e "disp(2 + 2)"     # exécuter une commande et afficher le résultat
+nelson --cli -f mon_script.m      # exécuter un fichier, puis rester à l'invite
+```
 
-À l'invite, essayez :
+Pour quitter Nelson, tapez `quit` ou `exit`.
+
+## 3. Premières commandes
+
+### Une calculatrice
+
+Tapez une expression à l'invite et appuyez sur Entrée :
 
 ```matlab
-a = 1 + 2 * 3
-b = sin(pi/4)
+1 + 2 * 3
+sin(pi / 4)
+2^10
 ```
 
-Si vous n'affectez pas de variable, les résultats sont stockés dans la variable par défaut `ans`.
+Quand vous n'affectez pas le résultat, il est rangé dans la variable `ans`.
 
-#### Quitter Nelson
+### Variables
 
-Tapez :
+Le signe `=` crée une variable. Nelson choisit le type et la taille pour vous.
 
 ```matlab
-quit
+x = 2 * pi
+name = 'Ada'
+ok = true
 ```
 
-ou utilisez le raccourci du REPL pour quitter.
-
-### Démarrage : variables et espace de travail
-
-#### Créer des variables
-
-Les variables sont créées par affectation :
-
-```matlab
-x = 2*pi
-v = [1, 2, 3]
-```
-
-Nelson utilise des crochets pour les vecteurs et des points-virgules pour séparer les lignes dans les matrices :
-
-```matlab
-A = [1 2; 3 4]
-```
-
-#### Réaffectation et suppression de l'affichage
-
-La réaffectation est autorisée. Pour empêcher l'affichage immédiat, terminez une instruction par `;` :
+Une instruction terminée par `;` est exécutée sans afficher son résultat :
 
 ```matlab
 t = 5;
 ```
 
-#### Messages d'erreur et corrections
+### Travailler à l'invite
 
-Les fautes de frappe produisent une erreur — utilisez la flèche haut pour rappeler les commandes précédentes, éditez-les et relancez.
+- Les flèches haut et bas rappellent les commandes précédentes.
+- `clc` efface l'écran.
+- `who` et `whos` listent les variables de l'espace de travail. `whos` affiche aussi la taille et le type.
+- `clear` supprime toutes les variables. `clear x` ne supprime que `x`.
+- `format long` affiche plus de décimales. `format short` rétablit l'affichage par défaut.
 
-#### Priorité des opérateurs
-
-Utilisez des parenthèses pour contrôler la priorité :
+### Obtenir de l'aide
 
 ```matlab
-(1+2)*3    % donne 9
-1+2*3      % donne 7
+help sin        % texte court à l'invite
+doc sin         % page complète dans le navigateur d'aide
+doc             % ouvrir le navigateur d'aide
+which sin       % où une fonction est définie
 ```
 
-#### Gérer l'espace de travail
+## 4. Vecteurs et matrices
 
-Commandes utiles :
+### Créer des tableaux
 
-- `clear` — supprimer toutes les variables
-- `who` — lister les noms de variables
-- `whos` — liste détaillée (taille, type)
-- `save('s.nh5')` — sauvegarder l'espace de travail (HDF5 `.nh5` par défaut)
-- `load('s.nh5')` — restaurer l'espace de travail
-
-#### Tenir un journal de session
-
-Enregistrez toutes les entrées/sorties avec :
+Les crochets construisent des tableaux. Un espace ou une virgule sépare les colonnes, un point-virgule sépare les lignes.
 
 ```matlab
-diary('session.txt')
-diary off
+v = [1 4 7 10]          % vecteur ligne
+w = [1; 4; 7; 10]       % vecteur colonne
+A = [1 2; 3 4]          % matrice 2 x 2
+v'                      % transposée
 ```
 
----
-
-## Fonctions mathématiques et tracés
-
-### Fonctions mathématiques élémentaires
-
-Nelson fournit un riche ensemble de fonctions mathématiques : `sin`, `cos`, `tan`, `exp`, `log`, `sqrt`, `abs`, et plus encore. Des constantes telles que `pi`, `Inf` et `NaN` sont disponibles.
-
-Exemples :
+L'opérateur deux-points et `linspace` construisent des suites régulières :
 
 ```matlab
-y = exp(-5)*sin(2) + 10*sqrt(8)
-log(142)
-sin(pi/4)
+0:0.25:1                % de 0 à 1 par pas de 0.25
+1:5                     % 1 2 3 4 5
+linspace(0, 1, 5)       % 5 points entre 0 et 1
 ```
 
-### Tracé de base
-
-Pour tracer des données, préparez des vecteurs `x` et `y` puis appelez `plot` :
+Constructeurs courants :
 
 ```matlab
-x = linspace(0, 2*pi, 201)
-y = sin(x)
-plot(x, y)
-xlabel('x')
-ylabel('sin(x)')
-title('Sine')
+zeros(2, 3)             % matrice 2 x 3 de zéros
+ones(3)                 % matrice 3 x 3 de uns
+eye(3)                  % matrice identité
+rand(2, 2)              % nombres aléatoires uniformes
 ```
 
-Jeux de données multiples :
+### Indexation
+
+Les indices commencent à 1. Le mot-clé `end` désigne le dernier élément.
 
 ```matlab
-plot(x, 2*cos(x), '--', x, cos(x), '-', x, 0.5*cos(x), ':')
-legend('2*cos(x)', 'cos(x)', '0.5*cos(x)')
+v(2)                    % deuxième élément
+v(end)                  % dernier élément
+v(1:3)                  % éléments 1 à 3
+A(2, :)                 % deuxième ligne
+A(:, 1)                 % première colonne
+A(1, 2) = 10            % affecter un élément
 ```
 
-Les styles de lignes, couleurs et marqueurs suivent des codes courts courants : `r`, `b`, `k`, `--`, `:`, `o`, `*`, etc.
+`size(A)` renvoie les dimensions et `numel(A)` le nombre d'éléments.
 
----
+### Arithmétique
 
-## Tableaux, matrices et équations linéaires
-
-### Créer des vecteurs et des matrices
-
-Vecteur ligne :
+Les opérateurs `*`, `/` et `^` suivent les règles de l'algèbre matricielle. Placez un point devant pour travailler élément par élément.
 
 ```matlab
-v = [1 4 7 10]
+A * A                   % produit matriciel
+A .* A                  % produit élément par élément
+A .^ 2                  % chaque élément au carré
+A + 1                   % le scalaire est ajouté à chaque élément
 ```
 
-Vecteur colonne :
+La plupart des fonctions acceptent des tableaux et agissent sur chaque élément :
 
 ```matlab
-w = [1; 4; 7; 10]
+sqrt([1 4 9])
+exp(A)
+sum(v)
+mean(v)
+max(v)
 ```
 
-Transposé :
+### Systèmes linéaires
+
+L'opérateur antislash résout `A * x = b` :
 
 ```matlab
-w = v'
-```
-
-Indexation et sous-matrices :
-
-```matlab
-v(1:3)      % éléments 1 à 3
-A(2,:)      % deuxième ligne
-A(:,2:3)    % colonnes 2 et 3
-```
-
-Opérateur deux-points et `linspace` :
-
-```matlab
-0:0.1:5
-linspace(0, 2*pi, 101)
-```
-
-### Opérations élément-par-élément vs matricielles
-
-- Multiplication matricielle : `A * B`
-- Multiplication élément-par-élément : `A .* B`
-
-Utilisez le préfixe `.` pour les opérateurs élément-par-élément : `.*`, `./`, `.^` quand nécessaire.
-
-### Résoudre des systèmes linéaires
-
-Résoudre `Ax = b` avec l'opérateur antislash (préféré pour la stabilité numérique) :
-
-```matlab
+A = [1 2 3; 3 3 4; 2 3 3];
+b = [1; 1; 2];
 x = A \ b
 ```
 
-Vous pouvez aussi calculer `inv(A)*b` mais l'utilisation de `A\b` est généralement recommandée.
+`A \ b` est plus rapide et plus précis que `inv(A) * b`. D'autres fonctions utiles : `det`, `rank`, `eig` et `inv`.
 
----
+## 5. Texte, cellules et structures
 
-## Introduction à la programmation dans Nelson (scripts & fonctions)
+Les guillemets doubles créent une chaîne (`string`). Les guillemets simples créent un tableau de caractères. Les deux fonctionnent dans la plupart des fonctions.
+
+```matlab
+s = "Hello";
+t = s + " world"            % "Hello world"
+parts = split("a,b,c", ",") % tableau de chaînes à 3 éléments
+n = num2str(42)             % nombre vers texte
+fprintf('%d au carré vaut %d\n', 3, 9)
+```
+
+Un tableau de cellules contient des valeurs de types différents. Les accolades lisent le contenu d'une cellule.
+
+```matlab
+c = {1, 'two', [3 4]};
+c{2}                        % 'two'
+```
+
+Une structure regroupe des champs nommés :
+
+```matlab
+p.name = 'Ada';
+p.age = 36;
+p.name
+fieldnames(p)
+```
+
+Les tables, les dates, les tableaux catégoriels et les dictionnaires sont aussi disponibles. Voir `doc table` et `doc datetime`.
+
+## 6. Graphiques
+
+`plot` trace une courbe à partir de deux vecteurs :
+
+```matlab
+x = linspace(0, 2 * pi, 201);
+y = sin(x);
+plot(x, y)
+xlabel('x')
+ylabel('sin(x)')
+title('Sinus')
+grid on
+```
+
+Plusieurs courbes en un appel, avec des styles de ligne :
+
+```matlab
+plot(x, cos(x), '-', x, 2 * cos(x), '--', x, 0.5 * cos(x), ':')
+legend('cos(x)', '2 cos(x)', '0.5 cos(x)')
+```
+
+La chaîne de format combine une couleur (`r`, `g`, `b`, `k`), un style de ligne (`-`, `--`, `:`) et un marqueur (`o`, `*`, `+`). Par exemple `'ro-'` trace des cercles rouges reliés par une ligne.
+
+D'autres commandes dont vous aurez vite besoin :
+
+```matlab
+figure                      % ouvrir une nouvelle fenêtre graphique
+hold on                     % conserver les courbes en place au prochain tracé
+subplot(2, 1, 1)            % découper la figure en grille, sélectionner la case 1
+surf(peaks)                 % surface 3D
+saveas(gcf, 'figure.png')   % enregistrer la figure courante dans un fichier
+```
+
+`bar`, `histogram`, `scatter`, `pie` et `polarplot` couvrent les autres types de graphiques courants.
+
+## 7. Scripts et fonctions
 
 ### Scripts
 
-Créez des fichiers de script (par exemple `example1.m`) contenant une séquence de commandes. Exécutez-les avec :
-
-```bash
-nelson -f example1.m
-```
-
-Exemple de script simple (enregistrer sous `example1.m`) :
+Un script est un fichier texte d'extension `.m` qui contient des commandes. Créez `example1.m` :
 
 ```matlab
 % example1.m
@@ -234,90 +245,147 @@ b = [1; 1; 2];
 x = A \ b
 ```
 
-Les variables créées dans un script sont placées dans l'espace de travail global (Attention aux possibles effets de bord).
+Exécutez-le avec la commande `run`, ou en tapant son nom quand le fichier est dans le dossier courant :
+
+```matlab
+run('example1.m')
+example1
+```
+
+Depuis le terminal : `nelson --cli -f example1.m`.
+
+La commande `edit` ouvre un fichier dans l'éditeur intégré. Dans l'éditeur, `%%` commence une section qui peut être exécutée seule.
+
+Les variables créées par un script vont dans l'espace de travail. Elles y restent après la fin du script.
 
 ### Fonctions
 
-Les fonctions possèdent leur propre espace de travail local et évitent de polluer l'espace global. Exemple de fichier de fonction `fact.m` :
+Une fonction a ses propres variables. Elle reçoit ses entrées par les arguments et renvoie les sorties que vous nommez. Enregistrez ceci dans `area_circle.m` ; le nom du fichier doit correspondre au nom de la fonction.
 
 ```matlab
-function f = factorial(n)
-    % FACTORIAL(n) Calculer la factorielle en utilisant prod
-    f = prod(1:n);
+function a = area_circle(r)
+    arguments
+        r (1,:) double {mustBeNonnegative}
+    end
+    a = pi * r.^2;
 end
 ```
 
-Appelez avec `factorial(5)` pour obtenir `120`.
+Appelez-la avec `area_circle(2)` ou `area_circle([1 2 3])`. Le bloc `arguments` est facultatif. Il vérifie la taille et le type des entrées et donne une erreur claire quand elles sont incorrectes.
 
-### Entrée et sortie
-
-Interrogez l'utilisateur dans un script avec `input(...)` et formatez la sortie avec `printf`/`disp` ou équivalents disponibles dans Nelson.
-
----
-
-## Contrôle de flux et opérateurs
-
-### If / for / while
-
-If structure :
+Une fonction peut renvoyer plusieurs valeurs :
 
 ```matlab
-if expr
-    statements
-elseif expr2
-    statements
+function [s, p] = sum_and_product(a, b)
+    s = a + b;
+    p = a * b;
+end
+```
+
+```matlab
+[s, p] = sum_and_product(3, 4)
+```
+
+### Fonctions anonymes
+
+Pour une expression courte, une fonction anonyme évite de créer un fichier :
+
+```matlab
+f = @(x) x.^2 + 1;
+f(3)
+```
+
+### Entrées et sorties
+
+```matlab
+n = input('Entrez un nombre : ');
+disp(n)
+fprintf('n = %g\n', n)
+```
+
+## 8. Structures de contrôle
+
+Chaque bloc se termine par `end`.
+
+```matlab
+if x > 0
+    disp('positif')
+elseif x < 0
+    disp('négatif')
 else
-    statements
+    disp('zéro')
 end
 ```
-
-Boucle for :
 
 ```matlab
 for i = 1:5
-    s = i*i
+    fprintf('%d\n', i^2)
 end
 ```
-
-Boucle while :
 
 ```matlab
-while x <= 10
-    x = 3*x
+k = 0;
+while k < 10
+    k = k + 3;
 end
 ```
 
-### Opérateurs relationnels et logiques
+```matlab
+switch day
+    case 'Saturday'
+        disp('week-end')
+    case {'Sunday'}
+        disp('week-end')
+    otherwise
+        disp('jour de semaine')
+end
+```
 
-Comparaisons : `>`, `<`, `>=`, `<=`, `==`, `~=`
-Logiques : `&`, `|`, `~` (élément-par-élément) et `&&`, `||` (court-circuit là où supporté)
+Opérateurs de comparaison : `<`, `<=`, `>`, `>=`, `==`, `~=`.
+Opérateurs logiques : `&`, `|`, `~` sur les tableaux, `&&` et `||` pour les conditions scalaires.
 
----
+Préférez les opérations sur tableaux aux boucles quand c'est possible. `sum(v.^2)` est plus court et plus rapide qu'une boucle qui ajoute `v(i)^2` à chaque tour. `tic` et `toc` mesurent le temps d'un morceau de code.
 
-## Annexe : Récapitulatif des commandes utiles
+## 9. Enregistrer son travail
 
-Cette liste courte rassemble les commandes les plus fréquemment utilisées.
+```matlab
+save('session.nh5')             % enregistrer toutes les variables (format HDF5)
+save('session.nh5', 'A', 'v')   % enregistrer certaines variables
+load('session.nh5')             % les recharger
+save('data.mat', 'A')           % fichier MAT pour échanger avec d'autres outils
+```
 
-- Général
+`diary('log.txt')` enregistre tout ce qui est tapé et affiché jusqu'à `diary off`.
 
-  - `quit` — quitter Nelson
-  - `doc <command>` — afficher l'aide pour une commande
+Pour lire et écrire des fichiers de données, utilisez `readtable` et `writetable` pour les fichiers CSV et Excel, `readmatrix` pour les fichiers numériques, et `jsondecode` et `jsonencode` pour le JSON.
 
-- Espace de travail et fichiers
+## 10. Ajouter des modules
 
-  - `clear`, `who`, `whos`, `save('file.nh5')`, `load('file.nh5')`, `diary('session.txt')`
+Le gestionnaire de modules de Nelson installe des extensions depuis un fichier de paquet, un dossier ou un dépôt Git :
 
-- Tableaux et matrices
+```matlab
+nmm('install', 'https://github.com/nelson-lang/module_skeleton_basic')
+nmm('list')
+nmm('help')
+```
 
-  - opérateur `:`, `linspace(a,b,n)`, `zeros(m,n)`, `ones(m,n)`, `eye(n)`
+## 11. Aide-mémoire
 
-- Algèbre linéaire
+| Tâche | Commandes |
+| --- | --- |
+| Aide | `help f`, `doc f`, `which f` |
+| Espace de travail | `who`, `whos`, `clear`, `clc` |
+| Tableaux | `[ ]`, `:`, `linspace`, `zeros`, `ones`, `eye`, `rand`, `size`, `numel` |
+| Algèbre linéaire | `A \ b`, `inv`, `det`, `eig`, `rank` |
+| Statistiques | `sum`, `mean`, `max`, `min`, `sort` |
+| Texte | `"..."`, `'...'`, `split`, `num2str`, `sprintf`, `fprintf` |
+| Graphiques | `plot`, `figure`, `hold on`, `subplot`, `xlabel`, `legend`, `saveas` |
+| Fichiers | `save`, `load`, `readtable`, `writetable`, `diary` |
+| Exécuter du code | `run`, `edit`, `nelson -f`, `nelson -e` |
+| Modules | `nmm('install', ...)`, `nmm('list')` |
 
-  - `A\b` résoudre, `inv(A)`, `det(A)`, `eig(A)`, `rank(A)`
+## Pour aller plus loin
 
-- Tracés
-  - `plot(x,y)`, `xlabel()`, `ylabel()`, `legend()`, `title()`, `axis()`
-
----
-
-Bon calcul avec Nelson !
+- Parcourez la liste des fonctions dans le navigateur d'aide (`doc`).
+- Lisez l'[aperçu](homepage.html) des principales fonctionnalités de Nelson 2.0.
+- Signalez un problème ou posez une question sur [https://github.com/nelson-lang/nelson/issues](https://github.com/nelson-lang/nelson/issues).

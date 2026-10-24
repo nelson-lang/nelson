@@ -7,9 +7,11 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function TF = isequalto(T1, T2)
-  st1 = struct(T1);
-  st2 = struct(T2);
-  TF = isequalto(st1, st2);
+function tf = isequalto(obj, other)
+  if ~istable(other)
+    tf = false;
+    return
+  end
+  tf = isequal(obj, other);
 end
 %=============================================================================

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,7 +9,7 @@
 //=============================================================================
 #include "h5SaveHelpers.hpp"
 #include "h5SaveLoadHelpers.hpp"
-#include "Exception.hpp"
+#include "NelsonException.hpp"
 #include "NewWithException.hpp"
 #include "ClassName.hpp"
 //=============================================================================
@@ -36,21 +36,21 @@ h5SaveDimensionsAttribute(hid_t fid, const std::string& location, const Dimensio
     if (obj_id < 0) {
         return false;
     }
-    void* ptr = ArrayOf::allocateArrayOf(NLS_UINT64, dims.getLength(), stringVector(), false);
+    void* ptr = ArrayOf::allocateArrayOf(NLS_UINT64, dims.length(), stringVector(), false);
     ArrayOf dimsAsArray;
     if (dims.isScalar()) {
         dimsAsArray = ArrayOf(NLS_UINT64, Dimensions(1, 2), ptr);
     } else {
-        dimsAsArray = ArrayOf(NLS_UINT64, Dimensions(1, dims.getLength()), ptr);
+        dimsAsArray = ArrayOf(NLS_UINT64, Dimensions(1, dims.length()), ptr);
     }
-    auto* ptrAsUint64 = (uint64*)dimsAsArray.getDataPointer();
+    auto* ptrAsUint64 = (uint64*)dimsAsArray.dataPointer();
     if (dims.isScalar()) {
         ptrAsUint64[0] = 1;
         ptrAsUint64[1] = 1;
     } else {
         Dimensions _dims(dims);
-        auto* ptrAsUint64 = (uint64*)dimsAsArray.getDataPointer();
-        for (indexType k = 0; k < _dims.getLength(); k++) {
+        auto* ptrAsUint64 = (uint64*)dimsAsArray.dataPointer();
+        for (indexType k = 0; k < _dims.length(); k++) {
             ptrAsUint64[k] = static_cast<uint64>(_dims[k]);
         }
     }
@@ -62,18 +62,18 @@ h5SaveDimensionsAttribute(hid_t fid, const std::string& location, const Dimensio
     hsize_t* dimsAsHsize_t = nullptr;
     try {
         dimsAsHsize_t = new_with_exception<hsize_t>(2, true);
-    } catch (Exception&) {
+    } catch (NelsonException&) {
         return false;
     }
     dimsAsHsize_t[0] = 1;
-    dimsAsHsize_t[1] = dims.getLength();
+    dimsAsHsize_t[1] = dims.length();
     dspace_id = H5Screate_simple((int)2, dimsAsHsize_t, dimsAsHsize_t);
     delete[] dimsAsHsize_t;
 
     hid_t att_id
         = H5Acreate(obj_id, NELSON_DIMENSIONS_STR, type_id, dspace_id, H5P_DEFAULT, H5P_DEFAULT);
     if (att_id > 0) {
-        buffer = const_cast<void*>(dimsAsArray.getDataPointer());
+        buffer = const_cast<void*>(dimsAsArray.dataPointer());
         herr_t status = H5Awrite(att_id, type_id, buffer);
         if (status < 0) {
             bSuccess = false;

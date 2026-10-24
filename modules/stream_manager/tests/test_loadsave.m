@@ -9,43 +9,48 @@
 %=============================================================================
 % more tests in hdf5 and matio modules
 %=============================================================================
-A = ones(3, 4);
-B = 'hello for open mat users';
-save([tempdir(), 'test_load.mat'], 'A', 'B');
-assert_istrue(ismatfile([tempdir(), 'test_load.mat']));
-clear A B;
-st = load([tempdir(), 'test_load.mat']);
-ref.A = ones(3, 4);
-ref.B = 'hello for open mat users';
-assert_isequal(st, ref);
+test_load_mat = [tempname(), '.mat'];
+test_load_nh5 = [tempname(), '.nh5'];
 %=============================================================================
 A = ones(3, 4);
 B = 'hello for open mat users';
-save([tempdir(), 'test_load.nh5'], 'A', 'B');
-assert_istrue(isnh5file([tempdir(), 'test_load.nh5']));
+save(test_load_mat, 'A', 'B');
+asserts.istrue(ismatfile(test_load_mat));
 clear A B;
-st = load([tempdir(), 'test_load.nh5']);
+st = load(test_load_mat);
 ref.A = ones(3, 4);
 ref.B = 'hello for open mat users';
-assert_isequal(st, ref);
+asserts.isequal(st, ref);
 %=============================================================================
 A = ones(3, 4);
 B = 'hello for open mat users';
-save([tempdir(), 'test_load.nh5'], 'A', 'B', '-mat');
-assert_istrue(ismatfile([tempdir(), 'test_load.nh5']));
+save(test_load_nh5, 'A', 'B');
+asserts.istrue(isnh5file(test_load_nh5));
 clear A B;
-st = load([tempdir(), 'test_load.nh5']);
+st = load(test_load_nh5);
 ref.A = ones(3, 4);
 ref.B = 'hello for open mat users';
-assert_isequal(st, ref);
+asserts.isequal(st, ref);
 %=============================================================================
 A = ones(3, 4);
 B = 'hello for open mat users';
-save([tempdir(), 'test_load.mat'], 'A', 'B', '-nh5');
-assert_istrue(isnh5file([tempdir(), 'test_load.mat']));
+save(test_load_nh5, 'A', 'B', '-mat');
+asserts.istrue(ismatfile(test_load_nh5));
 clear A B;
-st = load([tempdir(), 'test_load.mat']);
+st = load(test_load_nh5);
 ref.A = ones(3, 4);
 ref.B = 'hello for open mat users';
-assert_isequal(st, ref);
+asserts.isequal(st, ref);
+%=============================================================================
+A = ones(3, 4);
+B = 'hello for open mat users';
+save(test_load_mat, 'A', 'B', '-nh5');
+asserts.istrue(isnh5file(test_load_mat));
+clear A B;
+st = load(test_load_mat);
+ref.A = ones(3, 4);
+ref.B = 'hello for open mat users';
+asserts.isequal(st, ref);
+rmfile(test_load_mat);
+rmfile(test_load_nh5);
 %=============================================================================

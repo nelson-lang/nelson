@@ -3,13 +3,13 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <module_name>elementary_functions</module_name>
-  <chapter>Fonctions élémentaires</chapter>
+  <chapter>Fonctions elementaires</chapter>
   <chapter_description>
     <p
-    >Le module Fonctions élémentaires fournit un large éventail d&apos;opérations mathématiques fondamentales et de manipulations de matrices dans Nelson.</p>
+    >Le module Fonctions elementaires fournit les operations mathematiques de base et les manipulations de matrices dans Nelson.</p>
     <p
-    >Il inclut des calculs numériques, des opérations sur tableaux et matrices, la gestion des nombres complexes, l&apos;arrondi et la mise à l&apos;échelle, ainsi que diverses fonctions utilitaires pour interroger les propriétés des tableaux et des matrices.</p>
+    >Il inclut les calculs numeriques, les operations sur tableaux et matrices, la gestion des nombres complexes, l&apos;arrondi et la mise a l&apos;echelle, ainsi que les fonctions qui interrogent les proprietes des tableaux et matrices.</p>
     <p
-    >Le module prend également en charge la construction de matrices spéciales, de grilles et de séquences, facilitant l&apos;implémentation robuste et efficace d&apos;algorithmes mathématiques et d&apos;analyses numériques.</p>
+    >Le module construit aussi des matrices speciales, des grilles et des sequences pour les algorithmes mathematiques et l&apos;analyse numerique.</p>
   </chapter_description>
 </xmldoc>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>yyaxis</keyword>
+  <short_description>Cree ou selectionne un axe avec deux axes y.</short_description>
+  <syntax>
+    <syntax_item>yyaxis left</syntax_item>
+    <syntax_item>yyaxis right</syntax_item>
+    <syntax_item>yyaxis(ax, &apos;left&apos;)</syntax_item>
+    <syntax_item>yyaxis(ax, &apos;right&apos;)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>&apos;left&apos;</param_name>
+      <param_description
+      >Active le cote gauche. Les nouveaux traces sont ajoutes a l&apos;axe y de gauche.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>&apos;right&apos;</param_name>
+      <param_description
+      >Active le cote droit. Les nouveaux traces sont ajoutes a l&apos;axe y de droite.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description>Axe cible : axes.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b>yyaxis</b> cree un graphique avec deux axes y et selectionne le cote
+    actif. Si l&apos;axe courant n&apos;a pas encore deux axes y, un second est
+    ajoute ; s&apos;il n&apos;y a pas d&apos;axe courant, il est cree.</p>
+    <p>Les deux cotes partagent le meme axe x mais chacun possede ses propres
+    limites, couleur, echelle, direction, graduations, etiquette et enfants.
+    Les proprietes dont le nom commence par <b>Y</b> (comme <b>YLim</b>,
+    <b>YColor</b> ou <b>YLabel</b>) s&apos;appliquent uniquement au cote actif.
+    Interrogez <b>YAxisLocation</b> pour savoir quel cote est actif.</p>
+    <p>Par defaut, la regle de gauche utilise la premiere couleur du
+    <b>ColorOrder</b> de l&apos;axe et la regle de droite la deuxieme
+    couleur.</p>
+    <p>Les deux regles sont aussi disponibles comme objets via la propriete
+    <b>YAxis</b> de l&apos;axe : <b>YAxis(1)</b> est la regle de gauche et
+    <b>YAxis(2)</b> la regle de droite, quel que soit le cote actif.</p>
+    <p><b>cla reset</b> supprime le second axe y et revient a un seul axe
+    y.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
+x = linspace(0, 10);
+yyaxis left
+plot(x, sin(x))
+ylabel('cote gauche')
+yyaxis right
+plot(x, 100 * cos(x))
+ylabel('cote droit')
+]]></example_item_data>
+      <example_item_img
+        src="../../../images/yyaxis.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link
+        linkend="${graphics}2_graphics_objects/1_object_management/hold"
+      >hold</link>
+    </see_also_item>
+    <see_also_item>
+      <link
+        linkend="${graphics}3_labels_styling/1_axes_appearance/axis"
+      >axis</link>
+    </see_also_item>
+    <see_also_item>
+      <link
+        linkend="${graphics}3_labels_styling/4_labels_annotations/ylabel"
+      >ylabel</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

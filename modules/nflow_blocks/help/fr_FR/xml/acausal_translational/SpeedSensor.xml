@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>SpeedSensor</keyword>
+  <keyword_alias>block:SpeedSensor</keyword_alias>
+  <short_description>Mesure la vitesse absolue d une bride.</short_description>
+  <syntax>
+    <syntax_item>Type de bloc : SpeedSensor</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>broches physiques</param_name>
+      <param_description>1 broche(s) physique(s) non dirigee(s) ; 0 entree(s) de signal.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>ports de signal</param_name>
+      <param_description>1 sortie(s) de signal (lectures de capteur).</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Composant acausal (Translation (acausal)). Mesure la vitesse absolue d une bride.</p>
+    <table border="1">
+      <tbody>
+        <tr><td>Module</td><td><code>nflow_blocks</code></td></tr>
+        <tr><td>Bibliotheque</td><td>Translation (acausal)</td></tr>
+        <tr><td>Type</td><td><code>SpeedSensor</code></td></tr>
+        <tr><td>Libelle</td><td>SpeedSensor</td></tr>
+        <tr><td>Solveur</td><td>Abaisse vers <code>mechanicalTranslationalIsland</code>. Solveur de reference <code>dae</code> (differentiel-algebrique) ; la boucle a pas fixe et les solveurs explicites natifs (<code>ode1</code>/<code>ode4</code>/<code>ode45</code>) sont egalement pris en charge (un ilot multicorps articule necessite <code>dae</code>).</td></tr>
+      </tbody>
+    </table>
+    <p>
+      <img src="../../../../libraries/acausal_translational/exports/SpeedSensor.svg" align="middle"/>
+    </p>
+    <p><b>Sources d implementation</b></p>
+    <source_code label="Manifest" path="modules/nflow_blocks/libraries/acausal_translational/library.json" language="json"/>
+    <source_code label="Catalog" path="modules/nflow_blocks/functions/+NFlow/+internal/acausalCatalog.m" language="matlab" start="entry('SpeedSensor'" end="');"/>
+  </description>
+  <used_function/>
+  <bibliography/>
+  <see_also>
+    <see_also_item><link linkend="${nflow_blocks}acausal_translational/TranslationalEMF">TranslationalEMF</link></see_also_item>
+    <see_also_item><link linkend="${nflow_blocks}acausal_translational/Mass">Mass</link></see_also_item>
+    <see_also_item><link linkend="${nflow_blocks}acausal_translational/SlidingMass">SlidingMass</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

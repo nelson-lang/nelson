@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>strip</keyword>
+  <short_description>Remove leading and trailing characters from text.</short_description>
+  <syntax>
+    <syntax_item>res = strip(str)</syntax_item>
+    <syntax_item>res = strip(str, side)</syntax_item>
+    <syntax_item>res = strip(str, side, stripCharacter)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>str</param_name>
+      <param_description>character array, string scalar, string array, or cell array of character vectors.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>side</param_name>
+      <param_description>optional side selector: leading, trailing, left, right, or both when supported.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>stripCharacter</param_name>
+      <param_description>optional character to remove instead of whitespace.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>res</param_name>
+      <param_description>text with selected leading or trailing characters removed.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>strip removes leading and trailing whitespace from text by default.</p>
+    <p>Optional arguments can select a side and the character to remove when supported by the string module.</p>
+  </description>
+  <used_function>
+    <used_function_item>strtrim</used_function_item>
+  </used_function>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Remove leading and trailing whitespace from a string.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[txt = strip("  Nel Son  ")]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${string}strtrim">strtrim</link></see_also_item>
+    <see_also_item><link linkend="${string}deblank">deblank</link></see_also_item>
+    <see_also_item><link linkend="${string}lower">lower</link></see_also_item>
+    <see_also_item><link linkend="${string}upper">upper</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

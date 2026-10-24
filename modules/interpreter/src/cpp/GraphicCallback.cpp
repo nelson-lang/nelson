@@ -8,8 +8,20 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "GraphicCallback.hpp"
+#include <vector>
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+static std::vector<int64> callbackObjectStack;
+//=============================================================================
+bool
+GraphicCallback::execute(Evaluator* eval)
+{
+    callbackObjectStack.push_back(sourceHandle);
+    bool result = executeCallbackImpl(eval);
+    callbackObjectStack.pop_back();
+    return result;
+}
 //=============================================================================
 bool
 GraphicCallback::isInterruptible() const
@@ -20,5 +32,14 @@ GraphicCallback::isInterruptible() const
 BUSY_ACTION
 GraphicCallback::getBusyActionState() const { return busyAction; }
 //=============================================================================
+int64
+getCurrentCallbackObject()
+{
+    if (callbackObjectStack.empty()) {
+        return -1;
+    }
+    return callbackObjectStack.back();
 }
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

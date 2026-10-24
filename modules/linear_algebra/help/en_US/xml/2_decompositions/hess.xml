@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>hess</keyword>
+  <short_description>Hessenberg form of a square matrix.</short_description>
+  <syntax>
+    <syntax_item>H = hess(A)</syntax_item>
+    <syntax_item>[P, H] = hess(A)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>square numeric matrix.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>H</param_name>
+      <param_description>upper Hessenberg matrix similar to A.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>P</param_name>
+      <param_description>unitary transformation matrix satisfying A = P * H * P&apos;.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>hess reduces a square numeric matrix to upper Hessenberg form by unitary similarity transformations.</p>
+    <p>With two outputs, hess also returns the accumulated transformation matrix P such that A = P * H * P&apos;.</p>
+  </description>
+  <used_function>
+    <used_function_item>LAPACK</used_function_item>
+  </used_function>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Compute a Hessenberg form and verify the similarity residual.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = [1 2 3; 4 5 6; 7 8 10];
+[P, H] = hess(A);
+residual = norm(A - P * H * transpose(P), 'fro')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${linear_algebra}schur">schur</link></see_also_item>
+    <see_also_item><link linkend="${linear_algebra}eig">eig</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

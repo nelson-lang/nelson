@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>optimization tutorial</keyword>
+  <short_description>Optimization module tutorial.</short_description>
+  <description>
+    <p>
+      The <b>optimization</b> module provides direct numerical solvers and a problem-based modelling layer. Use direct solvers when the coefficient matrices, residual function, or objective function are already available. Use the problem-based layer when the model is easier to read as variables, expressions, and constraints.
+    </p>
+    <table style="width:100%">
+      <tr>
+        <th>Problem type</th>
+        <th>Direct solver</th>
+        <th>Typical inputs</th>
+      </tr>
+      <tr>
+        <td>Scalar bounded minimization</td>
+        <td><b>fminbnd</b></td>
+        <td>Objective function and finite interval.</td>
+      </tr>
+      <tr>
+        <td>Unconstrained minimization</td>
+        <td><b>fminunc</b>, <b>fminsearch</b></td>
+        <td>Objective function and initial point.</td>
+      </tr>
+      <tr>
+        <td>Zero finding</td>
+        <td><b>fzero</b></td>
+        <td>Function and bracket or initial point.</td>
+      </tr>
+      <tr>
+        <td>Linear programming</td>
+        <td><b>linprog</b></td>
+        <td>Linear objective, linear constraints, and bounds.</td>
+      </tr>
+      <tr>
+        <td>Mixed-integer linear programming</td>
+        <td><b>intlinprog</b></td>
+        <td>Linear objective, integer variable indices, constraints, and bounds.</td>
+      </tr>
+      <tr>
+        <td>Quadratic programming</td>
+        <td><b>quadprog</b></td>
+        <td>Quadratic objective, linear constraints, and bounds.</td>
+      </tr>
+      <tr>
+        <td>Constrained nonlinear minimization</td>
+        <td><b>fmincon</b></td>
+        <td>Nonlinear objective, constraints, and bounds.</td>
+      </tr>
+      <tr>
+        <td>Least squares</td>
+        <td><b>lsqnonneg</b>, <b>lsqnonlin</b></td>
+        <td>Linear or nonlinear residual model.</td>
+      </tr>
+      <tr>
+        <td>Nonlinear equations</td>
+        <td><b>fsolve</b></td>
+        <td>Vector function and initial point.</td>
+      </tr>
+    </table>
+    <p>
+      Solver behavior is controlled with <b>optimoptions</b> or <b>optimset</b>. Use <b>optimget</b> to read an option with a fallback value. Linear and mixed-integer linear problems use the HiGHS backend when it is available. Problem-based compilation routes continuous linear, mixed-integer linear, quadratic and constrained nonlinear problems to the corresponding direct solver. Nonlinear problems with integer or binary variables are rejected explicitly.
+    </p>
+    <p>
+      The problem-based workflow starts with <b>optimvar</b> and <b>optimproblem</b>. Expressions and constraints are built with ordinary arithmetic. <b>solve</b> calls a supported direct solver, and <b>prob2struct</b> returns the direct-solver structure for inspection or lower-level execution.
+    </p>
+    <p>
+      Binary variables created with <b>optimvar</b> have default bounds 0 and 1. Integer and binary variables route linear models to <b>intlinprog</b>; continuous linear models route to <b>linprog</b>; continuous nonlinear constrained models route to <b>fmincon</b>. Maximization problems are converted internally to minimization and <b>solve</b> returns the objective value in the original problem sense.
+    </p>
+    <p>
+      When a direct solver proves a problem infeasible and returns no primal vector, <b>solve</b> returns a solution structure with the model variable names and empty values. This keeps diagnostic outputs such as <b>exitflag</b> and <b>output.message</b> available without failing during result unpacking.
+    </p>
+  </description>
+  <used_function>
+    <used_function_item>fminbnd</used_function_item>
+    <used_function_item>fminunc</used_function_item>
+    <used_function_item>fminsearch</used_function_item>
+    <used_function_item>fzero</used_function_item>
+    <used_function_item>fmincon</used_function_item>
+    <used_function_item>linprog</used_function_item>
+    <used_function_item>intlinprog</used_function_item>
+    <used_function_item>optimproblem</used_function_item>
+    <used_function_item>optimvar</used_function_item>
+    <used_function_item>solve</used_function_item>
+    <used_function_item>prob2struct</used_function_item>
+  </used_function>
+  <bibliography>Brent, R. P., Algorithms for Minimization Without Derivatives, Prentice-Hall, 1973.
+Nelder, J. A. and Mead, R., A simplex method for function minimization, The Computer Journal, 1965.
+Lawson, C. L. and Hanson, R. J., Solving Least Squares Problems, SIAM, 1995.
+Nocedal, J. and Wright, S. J., Numerical Optimization, Springer, 2006.
+Huangfu, Q. and Hall, J. A. J., Parallelizing the dual revised simplex method, Mathematical Programming Computation, 2018.</bibliography>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Minimize a scalar function on a bounded interval.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[opts = optimset('Display', 'off');
+[x, fval] = fminbnd(@(x) (x - 1.5)^2 + 0.25, -2, 4, opts)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Minimize an unconstrained nonlinear function.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[fun = @(x) 3*x(1)^2 + 2*x(1)*x(2) + x(2)^2 - 4*x(1) + 5*x(2);
+opts = optimoptions('fminunc', 'Display', 'off');
+[x, fval] = fminunc(fun, [1, 1], opts)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Solve a linear programming problem with nonnegative variables.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[f = [-1; -1];
+A = [1 2; 4 2];
+b = [4; 12];
+opts = optimoptions('linprog', 'Display', 'off');
+[x, fval, exitflag] = linprog(f, A, b, [], [], [0; 0], [], opts)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Solve a small mixed-integer linear programming problem.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[f = [-5; -4; -3];
+intcon = 1:3;
+A = [2 3 1; 4 1 2];
+b = [5; 8];
+lb = [0; 0; 0];
+ub = [1; 1; 1];
+opts = optimoptions('intlinprog', 'Display', 'off');
+[x, fval, exitflag] = intlinprog(f, intcon, A, b, [], [], lb, ub, [], opts)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Build and solve a problem-based linear model.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[x = optimvar('x', 2, 'LowerBound', 0);
+prob = optimproblem('Objective', -x(1) - x(2));
+prob.Constraints.capacity = [1 2; 4 2] * x <= [4; 12];
+problem = prob2struct(prob);
+[sol, fval, exitflag] = solve(prob);
+sol.x
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${optimization}optimoptions">optimoptions</link></see_also_item>
+    <see_also_item><link linkend="${optimization}optimproblem">optimproblem</link></see_also_item>
+    <see_also_item><link linkend="${optimization}fminunc">fminunc</link></see_also_item>
+    <see_also_item><link linkend="${optimization}fmincon">fmincon</link></see_also_item>
+    <see_also_item><link linkend="${optimization}solve">solve</link></see_also_item>
+    <see_also_item><link linkend="${optimization}linprog">linprog</link></see_also_item>
+    <see_also_item><link linkend="${optimization}intlinprog">intlinprog</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

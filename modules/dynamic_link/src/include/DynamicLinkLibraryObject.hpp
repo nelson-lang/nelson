@@ -17,7 +17,6 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-
 class NLSDYNAMIC_LINK_IMPEXP DynamicLinkLibraryObject : public HandleGenericObject
 {
 public:
@@ -33,7 +32,7 @@ public:
     bool
     get(const std::wstring& propertyName, ArrayOf& res);
     bool
-    isWriteableProperty(const std::wstring& propertyName);
+    isWritableProperty(const std::wstring& propertyName);
     wstringVector
     fieldnames();
     bool
@@ -44,9 +43,9 @@ public:
     getLibraryPath();
 
     wstringVector
-    getProperties() override;
+    properties() override;
     wstringVector
-    getMethods() override;
+    methods() override;
 
 private:
     wstringVector _propertiesNames;

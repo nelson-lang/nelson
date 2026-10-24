@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>uigridlayout</keyword>
+  <short_description>Crée un gestionnaire de disposition en grille.</short_description>
+  <syntax>
+    <syntax_item>h = uigridlayout()</syntax_item>
+    <syntax_item>h = uigridlayout(parent)</syntax_item>
+    <syntax_item>h = uigridlayout(..., propertyName, propertyValue)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>parent</param_name>
+      <param_description>conteneur parent (uifigure, figure, uipanel, uitab, uibuttongroup, uigridlayout).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName, propertyValue</param_name>
+      <param_description>paires nom-valeur.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>h</param_name>
+      <param_description>objet conteneur.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>g = uigridlayout</b> crée un gestionnaire de disposition qui positionne ses enfants dans une grille configurable. <b>g = uigridlayout(parent, [r c])</b> crée une grille r par c. <b>RowHeight</b> et <b>ColumnWidth</b> acceptent des tailles fixes en pixels, des tailles pondérées ('1x', '2x', ...) et 'fit'. Les enfants sont placés via leurs options <b>Layout.Row</b> / <b>Layout.Column</b> (scalaire ou intervalle [début fin]) ; les composants ajoutés sans placement explicite remplissent la grille de gauche à droite puis de haut en bas. Autres propriétés : <b>RowSpacing</b>, <b>ColumnSpacing</b>, <b>Padding</b>, <b>BackgroundColor</b>, <b>Scrollable</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Capture du composant UI pour l'image d'aide.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = uifigure('Visible', 'off', 'Name', 'Grid layout', 'Position', [100 100 420 260]);
+g = uigridlayout(f, [2 2]);
+b1 = uibutton(g, 'Text', 'One');
+b2 = uibutton(g, 'Text', 'Two');
+b3 = uibutton(g, 'Text', 'Span');
+b3.Layout.Row = 2;
+b3.Layout.Column = [1 2];
+drawnow();]]></example_item_data>
+      <example_item_img
+        src="../../../../images/uigridlayout_example.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>uigridlayout</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[
+f = uifigure();
+g = uigridlayout(f, [2 2]);
+b1 = uibutton(g, 'Text', 'Un');
+b2 = uibutton(g, 'Text', 'Deux');
+b3 = uibutton(g, 'Text', 'Fusion');
+b3.Layout.Column = [1 2];
+g.RowHeight = {22, '1x'};
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${gui}uifigure">uifigure</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -12,6 +12,6 @@ function r = atan2d(varargin)
   nargoutchk(0, 1);
   y = varargin{1};
   x = varargin{2};
-  r = 180 ./ pi .* atan2 (y, x);
+  r = 180 ./ pi .* atan2(y, x);
 end
 %=============================================================================

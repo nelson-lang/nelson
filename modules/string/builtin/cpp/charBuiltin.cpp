@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "charBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "ToChar.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -22,10 +23,10 @@ Nelson::StringGateway::charBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 1);
-    switch (argIn[0].getDataClass()) {
+    switch (argIn[0].dataClass()) {
     case NLS_STRING_ARRAY: {
         nargincheck(argIn, 1, 1);
-        retval << ArrayOf::stringArrayToCharacterArray(argIn[0], false);
+        retval << ArrayOf::characterArrayFromStringArray(argIn[0], false);
     } break;
     case NLS_CHAR: {
         if (argIn.size() == 2) {
@@ -58,10 +59,12 @@ Nelson::StringGateway::charBuiltin(int nLhs, const ArrayOfVector& argIn)
     } break;
     case NLS_SCOMPLEX:
     case NLS_DCOMPLEX: {
-        Error(_W("Conversion to char from complex is not possible."));
+        Error(L"Nelson:string:conversionCharComplexPossible",
+            L"Conversion to char from complex is not possible.");
     } break;
     default:
     case NLS_CLASS_ARRAY:
+    case NLS_CLASSDEF_ARRAY:
     case NLS_FUNCTION_HANDLE:
     case NLS_STRUCT_ARRAY:
     case NLS_LOGICAL:

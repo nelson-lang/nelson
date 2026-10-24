@@ -11,188 +11,137 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
+#include "ClassdefLayout.hpp"
 #include "nlsTypes_exports.h"
 #include <atomic>
 #include <cstring>
+#include <unordered_map>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 /**
- * This is a helper class that is used by the ArrayOf class to
- * support the reference counting scheme used by the ArrayOf objects.
- * It essentially stores blocks of data along with a count of
- * how many owners of the data block there are (standard reference
- * counting).  The ArrayOf class is declared a friend, as all the
- * methods (including the constructors) are private.
+ * Reference-counted storage block used by ArrayOf. ArrayOf is its only owner;
+ * the private interface keeps copy-on-write decisions in one place.
  */
 class NLSTYPES_IMPEXP Data
 {
     friend class ArrayOf;
 
 private:
-    /**
-     * The Class of the data block.  Useful for determining how the data
-     * block must be treated.
-     */
     NelsonType dataClass;
-    /**
-     * Sparsity flag - true if we are a sparse array.
-     */
     bool sparse;
     /**
-     * Flag indicating if data is stored in the inline buffer
-     * (small buffer optimization for scalars).
+     * Requested sparse capacity (nzmax), kept independent of the Eigen
+     * allocation across ArrayOf copies.
      */
+    indexType sparseNzmax;
     bool isInline;
     /**
-     * Inline buffer for small scalar data (avoids heap allocation).
-     * Large enough for a double complex (2 * sizeof(double) = 16 bytes).
+     * Inline payload for scalars: holds one double complex value without a
+     * heap allocation.
      */
     static constexpr size_t INLINE_BUFFER_SIZE = 2 * sizeof(double);
     alignas(double) unsigned char inlineBuffer[INLINE_BUFFER_SIZE];
     /**
-     * Pointer to the data block.
+     * Pointer to the owned payload block, or inlineBuffer when isInline is set.
      */
     void* cp;
-    /**
-     * Number of owners for the data block.
-     */
     std::atomic<indexType> owners;
+    Dimensions dimensions_;
     /**
-     * The dimensions of the data block.
+     * Allocated element capacity. Dense vectors grown by scalar indexed
+     * assignment may reserve more elements than the dimensions expose.
      */
-    Dimensions dimensions;
+    indexType allocatedElementCount;
+    stringVector fieldNames_;
     /**
-     * The field names of the array - used only for structure array types.
+     * Number of per-element field slots allocated in cp, normally
+     * fieldNames_.size(). A uniquely owned scalar structure grown one field at a
+     * time doubles it so repeated appends are O(1) amortized. A fresh payload
+     * (constructor, putData) resets it to the exact count; element-major
+     * indexing always uses fieldNames_.size() as the stride.
      */
-    stringVector fieldNames;
+    indexType allocatedFieldCount;
+    bool fieldIndexValid_;
+    /**
+     * Lazy field-name -> ordinal cache. Built only above a small field count
+     * (linear search wins for small structures), kept in sync on in-place
+     * append and invalidated when the field names are replaced.
+     */
+    std::unordered_map<std::string, indexType> fieldNameToIndex_;
 
-    std::string classTypeName = std::string(NLS_CLASS_ARRAY_STR);
-    /**
-     * struct class name by default "struct"
-     */
+    std::string classTypeName_ = std::string(NLS_CLASS_ARRAY_STR);
+    ClassdefLayoutPtr classdefLayout_;
 
     /**
-     * Construct a Data object with the given arguments.
-     * the owner count is initialized to 1.
+     * Take ownership of the supplied payload. The owner count starts at 1.
      */
     Data(NelsonType aClass, const Dimensions& dims, void* s, bool sparseflag = false,
         stringVector fields = stringVector());
-    /**
-     * Construct a Data object with inline scalar data.
-     * The data is copied into the internal inline buffer,
-     * avoiding a separate heap allocation.
-     */
     Data(NelsonType aClass, const Dimensions& dims, const void* scalarData, size_t dataSize);
-    /**
-     * The destructor.  Calls freeDataBlock member function.
-     */
     ~Data();
-    /**
-     * Get a copy to us - increments the data counter by one, and
-     * returns the "this" pointer.
-     */
     Data*
-    getCopy();
+    copy();
     /**
-     * Change the contents of the Data object.  The data pointer,
-     * class and size are given.  The behavior/return value depends
-     * on the number of owners:
-     *   - If there is only one owner for this Data block, then
-     *     freeDataBlock is called to delete the current data, and
-     *     the members are simply reassigned to the given arguments.
-     *     The return value is the "this" pointer.
-     *   - Otherwise, the number of owners for the current block
-     *     is decreased by one, and a new Data object is returned
-     *     with the given contents.
+     * Replace the payload. A single-owner block is reused after releasing the
+     * old payload; a shared block is detached and a new Data is returned.
      */
     Data*
     putData(NelsonType aClass, const Dimensions& dims, void* s, bool sparseflag = false,
-        const stringVector& fields = stringVector());
-    /**
-     * Decrement the reference count (owners) by one.
-     */
+        const stringVector& fields = stringVector(), indexType allocatedCount = 0);
     indexType
     deleteCopy();
-    /**
-     * Get a read-only pointer to the data.
-     */
     [[nodiscard]] const void*
-    getData() const;
-    /**
-     * Get the dimensions for the data block.
-     */
+    data() const;
     [[nodiscard]] const Dimensions&
-    getDimensions() const;
-    /**
-     * Get the field names for the data block
-     */
-
+    dimensions() const;
     [[nodiscard]] std::string
-    getClassTypeName() const;
-    /**
-     * get struct type name (by default: struct)
-     */
-
+    classTypeName() const;
     void
     setClassTypeName(const std::string& typeName);
-    /**
-     * set struct type name (by default: struct)
-     */
-
+    [[nodiscard]] ClassdefLayoutPtr
+    classdefLayout() const;
+    void
+    setClassdefLayout(ClassdefLayoutPtr layout);
     void
     promoteStructToClass();
-    /**
-     * promote struct to class type
-     */
-
+    void
+    promoteStructToClassdef();
     void
     promoteClassToStruct();
-    /**
-     * promote class to struct type
-     */
-
     void
     promoteStructToFunctionHandle();
-    /**
-     * promote struct to function_handle type
-     */
 
     [[nodiscard]] const stringVector&
-    getFieldNames() const;
-    /**
-     * Set the dimensions for the data block.
-     */
+    fieldNames() const;
     void
     setDimensions(const Dimensions& /*dim*/);
-    /**
-     * Set the field names for the data block.
-     */
     void
     setFieldNames(const stringVector& fields);
+    void
+    invalidateFieldIndexCache();
     /**
-     * Get a read-write pointer to the data.
+     * Ordinal of a field name, or -1 when absent. Not const: it may build the
+     * lazy index.
      */
+    [[nodiscard]] int64
+    fieldIndexFromName(const std::string& name);
+    /**
+     * Record a field appended at the end so a live cache stays in sync.
+     */
+    void
+    noteAppendedField(const std::string& name, indexType newIndex);
     void*
-    getWriteableData();
-    /**
-     * Get the number of owners.
-     */
+    writableData();
     [[nodiscard]] indexType
     numberOfOwners() const;
     /**
-     * If the data pointer is non-null, we take one of
-     * the following options:
-     *   - For reference types, a deep delete is performed
-     *   - For non-reference types, the data block is
-     *     simply freed.
+     * Release the payload by class: reference classes delete nested objects,
+     * value classes free the raw block.
      */
     void
     freeDataBlock();
     //=============================================================================
-    /**
-     * Check sparsity.
-     */
     [[nodiscard]] bool
     isSparse() const;
     //=============================================================================
@@ -200,9 +149,9 @@ private:
     refreshDimensionCache();
     //=============================================================================
     [[nodiscard]] inline indexType
-    getElementCount() const
+    elementCount() const
     {
-        return getElementCountCache;
+        return elementCountCache;
     }
     //=============================================================================
     [[nodiscard]] inline bool
@@ -212,15 +161,15 @@ private:
     }
     //=============================================================================
     [[nodiscard]] inline indexType
-    getRows() const
+    rows() const
     {
-        return getRowsCache;
+        return rowsCache;
     }
     //=============================================================================
     [[nodiscard]] inline indexType
-    getColumns() const
+    columns() const
     {
-        return getColumnsCache;
+        return columnsCache;
     }
     //=============================================================================
     [[nodiscard]] inline bool
@@ -238,9 +187,9 @@ private:
     bool isVectorCache;
     bool is2DCache;
     bool isScalarCache;
-    indexType getColumnsCache;
-    indexType getRowsCache;
-    indexType getElementCountCache;
+    indexType columnsCache;
+    indexType rowsCache;
+    indexType elementCountCache;
     //=============================================================================
 };
 //=============================================================================

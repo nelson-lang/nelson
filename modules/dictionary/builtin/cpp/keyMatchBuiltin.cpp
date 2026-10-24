@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,6 +10,7 @@
 #include "keyMatchBuiltin.hpp"
 #include "keyHashBuiltin.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "ClassName.hpp"
 #include "FindCommonType.hpp"
 #include "OverloadHelpers.hpp"
 #include "OverloadRequired.hpp"
@@ -37,11 +38,33 @@ Nelson::DictionaryGateway::keyMatchBuiltin(Evaluator* eval, int nLhs, const Arra
             return res;
         }
     }
+    // keys match only if they have the same class and equal values
+    // (NaN keys are considered equal, as isequaln does).
+    ArrayOfVector retval;
+    std::string classA;
+    std::string classB;
+    ClassName(argIn[0], classA);
+    ClassName(argIn[1], classB);
+    if (classA != classB) {
+        retval << ArrayOf::logicalScalar(false);
+        return retval;
+    }
+    FunctionDefPtr funcDef = nullptr;
+    if (eval != nullptr && eval->getContext()->lookupFunction("isequaln", funcDef)
+        && funcDef != nullptr) {
+        ArrayOfVector args;
+        args << argIn[0];
+        args << argIn[1];
+        ArrayOfVector resIsEqualN = funcDef->evaluateFunction(eval, args, 1);
+        bool match = !resIsEqualN.empty() && resIsEqualN[0].isLogical() && resIsEqualN[0].isScalar()
+            && (resIsEqualN[0].asLogicalScalar() != 0u);
+        retval << ArrayOf::logicalScalar(match);
+        return retval;
+    }
+    // fallback: compare hashes (keyHash normalizes -0.0 to +0.0)
     ArrayOfVector h1 = keyHashBuiltin(eval, 1, argIn[0]);
     ArrayOfVector h2 = keyHashBuiltin(eval, 1, argIn[1]);
-    ArrayOfVector retval;
-    retval << ArrayOf::logicalConstructor(
-        h1[0].getContentAsUnsignedInteger64Scalar() == h2[0].getContentAsUnsignedInteger64Scalar());
+    retval << ArrayOf::logicalScalar(h1[0].asUint64Scalar() == h2[0].asUint64Scalar());
     return retval;
 }
 //=============================================================================

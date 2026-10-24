@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>statistics</module_name>
+  <chapter>Dimensionality Reduction and Feature Selection</chapter>
+  <chapter_description>
+    <p>Functions for dimensionality reduction, factor analysis, feature ranking, and low-rank representations.</p>
+  </chapter_description>
+</xmldoc>

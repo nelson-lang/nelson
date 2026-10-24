@@ -15,6 +15,7 @@
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
 #include "NelsonConfiguration.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -43,6 +44,20 @@ ComputeNelsonRootPath(std::wstring& errorMessage)
             return true;
         }
     }
+    FileSystemWrapper::Path configuredPath
+        = NelsonConfiguration::getInstance()->getNelsonRootDirectory();
+    if (configuredPath.is_directory()) {
+        return true;
+    }
+#ifdef __EMSCRIPTEN__
+    FileSystemWrapper::Path wasmModulesPath(L"/modules");
+    if (wasmModulesPath.is_directory()) {
+        NelsonConfiguration::getInstance()->setNelsonModulesDirectory(L"/modules");
+        NelsonConfiguration::getInstance()->setNelsonRootDirectory(L"/");
+        SetVariableEnvironmentW(NELSON_ROOT_PATH_ENV, L"/");
+        return true;
+    }
+#endif
     FileSystemWrapper::Path libraryPath
         = NelsonConfiguration::getInstance()->getNelsonLibraryDirectory();
     FileSystemWrapper::Path parent = libraryPath.parent_path();
@@ -79,7 +94,9 @@ ComputeNelsonRootPath(std::wstring& errorMessage)
             NELSON_ROOT_PATH_ENV, nelsonRootPath.getFinalPathname().generic_wstring());
         return true;
     }
-    errorMessage = _W("Cannot find Nelson root path.");
+    errorMessage = formatI18nMessage(
+        resolveMessageTemplate(L"Nelson:core:cannotFindNelsonPath", L"Cannot find Nelson %s path."),
+        L"root");
     NelsonConfiguration::getInstance()->setNelsonRootDirectory(L"");
     return false;
 }

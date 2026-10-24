@@ -7,9 +7,11 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <utility>
 #include "GOPatch.hpp"
 #include "GOAxis.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "GOPropertyNames.hpp"
 #include "GOPropertyValues.hpp"
@@ -25,7 +27,7 @@
 #include "GOAutoFlatColorProperty.hpp"
 #include "GOStringAutoManualProperty.hpp"
 #include "GOGObjectsProperty.hpp"
-#include "GOEgdeAlphaProperty.hpp"
+#include "GOEdgeAlphaProperty.hpp"
 #include "GOColorInterpProperty.hpp"
 #include "GOLightingModeProperty.hpp"
 #include "GOFaceAlphaProperty.hpp"
@@ -38,8 +40,65 @@
 #include "GOColorProperty.hpp"
 #include "GOCallbackProperty.hpp"
 #include "GOBusyActionProperty.hpp"
+#include "GOCommonProperties.hpp"
+#include "GOFigure.hpp"
+#include <algorithm>
+#include <atomic>
+#include <cmath>
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+static std::atomic<uint64_t> nextPatchGeometryToken { 1 };
+//=============================================================================
+static point
+patchSubtract(const point& a, const point& b)
+{
+    return point(a.x - b.x, a.y - b.y, a.z - b.z);
+}
+//=============================================================================
+static point
+patchCross(const point& a, const point& b)
+{
+    return point(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x);
+}
+//=============================================================================
+static point
+patchNormalize(point value)
+{
+    double norm = std::sqrt(value.x * value.x + value.y * value.y + value.z * value.z);
+    if (!std::isfinite(norm) || norm <= 0) {
+        return point(0, 0, 1);
+    }
+    value.x /= norm;
+    value.y /= norm;
+    value.z /= norm;
+    return value;
+}
+//=============================================================================
+static point
+patchFaceNormal(const Face& face)
+{
+    if (face.vertices.size() < 3) {
+        return point(0, 0, 1);
+    }
+    return patchNormalize(patchCross(patchSubtract(face.vertices[1], face.vertices[0]),
+        patchSubtract(face.vertices[2], face.vertices[0])));
+}
+//=============================================================================
+static enum LightingMode::LightingMode
+patchLightingMode(GraphicsObject* object, const std::wstring& propertyName)
+{
+    if (object->stringCheck(propertyName, GO_PROPERTY_VALUE_FLAT_STR)) {
+        return LightingMode::Flat;
+    }
+    if (object->stringCheck(propertyName, GO_PROPERTY_VALUE_GOURAUD_STR)
+        || object->stringCheck(propertyName, GO_PROPERTY_VALUE_PHONG_STR)) {
+        // There is no per-pixel Phong path: 'phong' renders with smooth (Gouraud)
+        // shading. The stored FaceLighting value stays 'phong' so get() round-trips.
+        return LightingMode::Gouraud;
+    }
+    return LightingMode::None;
+}
 //=============================================================================
 GOPatch::GOPatch()
 {
@@ -58,19 +117,54 @@ GOPatch::getType()
 void
 GOPatch::updateState()
 {
-    if (m_faces.empty() || hasChanged(GO_FACES_PROPERTY_NAME_STR)
-        || hasChanged(GO_VERTICES_PROPERTY_NAME_STR)
-        || hasChanged(GO_FACE_VERTEX_C_DATA_PROPERTY_NAME_STR)
-        || hasChanged(GO_FACE_COLOR_PROPERTY_NAME_STR)
-        || hasChanged(GO_EDGE_COLOR_PROPERTY_NAME_STR)) {
+    static const std::vector<std::wstring> rebuildProperties
+        = { GO_FACES_PROPERTY_NAME_STR, GO_VERTICES_PROPERTY_NAME_STR,
+              GO_FACE_VERTEX_C_DATA_PROPERTY_NAME_STR, GO_FACE_VERTEX_ALPHA_DATA_PROPERTY_NAME_STR,
+              GO_C_DATA_PROPERTY_NAME_STR, GO_C_DATA_MAPPING_PROPERTY_NAME_STR,
+              GO_C_DATA_MODE_PROPERTY_NAME_STR, GO_FACE_VERTEX_C_DATA_MODE_PROPERTY_NAME_STR,
+              GO_ALPHA_DATA_MAPPING_PROPERTY_NAME_STR, GO_FACE_COLOR_PROPERTY_NAME_STR,
+              GO_EDGE_COLOR_PROPERTY_NAME_STR, GO_FACE_ALPHA_PROPERTY_NAME_STR,
+              GO_EDGE_ALPHA_PROPERTY_NAME_STR, GO_FACE_LIGHTING_PROPERTY_NAME_STR,
+              GO_EDGE_LIGHTING_PROPERTY_NAME_STR, GO_BACK_FACE_LIGHTING_PROPERTY_NAME_STR,
+              GO_FACE_NORMALS_PROPERTY_NAME_STR, GO_FACE_NORMALS_MODE_PROPERTY_NAME_STR,
+              GO_VERTEX_NORMALS_PROPERTY_NAME_STR, GO_VERTEX_NORMALS_MODE_PROPERTY_NAME_STR };
+
+    bool dataChanged = hasChanged(GO_X_DATA_PROPERTY_NAME_STR)
+        || hasChanged(GO_Y_DATA_PROPERTY_NAME_STR) || hasChanged(GO_Z_DATA_PROPERTY_NAME_STR);
+    bool explicitGeometryChanged
+        = hasChanged(GO_FACES_PROPERTY_NAME_STR) || hasChanged(GO_VERTICES_PROPERTY_NAME_STR);
+    if (dataChanged && !explicitGeometryChanged && synchronizeDataProperties()) {
+        limitsDirty = true;
+    }
+
+    if (hasChanged(GO_X_DATA_PROPERTY_NAME_STR)) {
+        toManual(GO_X_DATA_MODE_PROPERTY_NAME_STR);
+    }
+    if (hasChanged(GO_Y_DATA_PROPERTY_NAME_STR)) {
+        toManual(GO_Y_DATA_MODE_PROPERTY_NAME_STR);
+    }
+    if (hasChanged(GO_C_DATA_PROPERTY_NAME_STR)) {
+        toManual(GO_C_DATA_MODE_PROPERTY_NAME_STR);
+        toManual(GO_FACE_VERTEX_C_DATA_MODE_PROPERTY_NAME_STR);
+        if (!hasChanged(GO_FACE_VERTEX_C_DATA_PROPERTY_NAME_STR)) {
+            GOArrayOfProperty* hp = static_cast<GOArrayOfProperty*>(
+                findProperty(GO_FACE_VERTEX_C_DATA_PROPERTY_NAME_STR));
+            hp->data(findArrayOfProperty(GO_C_DATA_PROPERTY_NAME_STR));
+        }
+    }
+    if (hasChanged(GO_FACE_VERTEX_C_DATA_PROPERTY_NAME_STR)) {
+        toManual(GO_FACE_VERTEX_C_DATA_MODE_PROPERTY_NAME_STR);
+    }
+
+    if (m_faces.empty() || dataChanged || hasChanged(rebuildProperties)) {
         limitsDirty = true;
         m_faces.clear();
         buildPolygons(m_faces);
-        clearChanged(GO_FACES_PROPERTY_NAME_STR);
-        clearChanged(GO_VERTICES_PROPERTY_NAME_STR);
-        clearChanged(GO_FACE_VERTEX_C_DATA_PROPERTY_NAME_STR);
-        clearChanged(GO_FACE_COLOR_PROPERTY_NAME_STR);
-        clearChanged(GO_EDGE_COLOR_PROPERTY_NAME_STR);
+        m_geometryToken = nextPatchGeometryToken.fetch_add(1, std::memory_order_relaxed);
+        clearChanged(rebuildProperties);
+        clearChanged(GO_X_DATA_PROPERTY_NAME_STR);
+        clearChanged(GO_Y_DATA_PROPERTY_NAME_STR);
+        clearChanged(GO_Z_DATA_PROPERTY_NAME_STR);
     }
 }
 //=============================================================================
@@ -81,9 +175,28 @@ GOPatch::paintMe(RenderInterface& gc)
         return;
     }
     double lineWidth(findScalarDoubleProperty(GO_LINE_WIDTH_PROPERTY_NAME_STR));
-    std::wstring lineStyle = findStringProperty(GO_LINE_STYLE_PROPERTY_NAME_STR);
+    PatchRenderOptions options;
+    options.lineWidth = lineWidth;
+    options.lineStyle = findStringProperty(GO_LINE_STYLE_PROPERTY_NAME_STR);
+    options.lineJoin = findStringProperty(GO_LINE_JOIN_PROPERTY_NAME_STR);
+    options.uniqueEdges = getType() == GO_PROPERTY_VALUE_IMPLICIT_FUNCTION_SURFACE_STR;
+    options.geometryToken = m_geometryToken;
+    if (options.uniqueEdges) {
+        options.lineStyle = GO_PROPERTY_VALUE_NONE_STR;
+    }
+    options.faceLighting = patchLightingMode(this, GO_FACE_LIGHTING_PROPERTY_NAME_STR);
+    options.edgeLighting = patchLightingMode(this, GO_EDGE_LIGHTING_PROPERTY_NAME_STR);
 
-    gc.drawPatch(m_faces, lineWidth, lineStyle);
+    RenderLightingMaterial material;
+    material.ambientStrength = findScalarDoubleProperty(GO_AMBIENT_STRENGTH_PROPERTY_NAME_STR);
+    material.diffuseStrength = findScalarDoubleProperty(GO_DIFFUSE_STRENGTH_PROPERTY_NAME_STR);
+    material.specularStrength = findScalarDoubleProperty(GO_SPECULAR_STRENGTH_PROPERTY_NAME_STR);
+    material.specularExponent = findScalarDoubleProperty(GO_SPECULAR_EXPONENT_PROPERTY_NAME_STR);
+    material.specularColorReflectance
+        = findScalarDoubleProperty(GO_SPECULAR_COLOR_REFLECTANCE_PROPERTY_NAME_STR);
+    gc.setLightingMaterial(material);
+    gc.drawPatch(m_faces, options);
+    paintMarkers(gc, lineWidth);
 }
 //=============================================================================
 std::vector<double>
@@ -97,9 +210,9 @@ GOPatch::getLimits()
 
     ArrayOf vertices(findArrayOfProperty(GO_VERTICES_PROPERTY_NAME_STR));
     vertices.promoteType(NLS_DOUBLE);
-    indexType nRows = vertices.getRows();
+    indexType nRows = vertices.rows();
 
-    const double* pVerticesDataX = (const double*)vertices.getDataPointer();
+    const double* pVerticesDataX = (const double*)vertices.dataPointer();
     const double* pVerticesDataY = nullptr;
     if (pVerticesDataX) {
         pVerticesDataY = pVerticesDataX + nRows;
@@ -203,6 +316,7 @@ GOPatch::constructProperties()
     registerProperty(new GOAutoManualProperty, GO_Y_DATA_MODE_PROPERTY_NAME_STR);
     registerProperty(new GOArrayOfProperty, GO_Z_DATA_PROPERTY_NAME_STR);
     registerProperty(new GOOnOffProperty, GO_VISIBLE_PROPERTY_NAME_STR);
+    registerCommonProperties(this);
     sortProperties();
 }
 //=============================================================================
@@ -224,13 +338,13 @@ GOPatch::setupDefaults()
     setRestrictedStringDefault(GO_VISIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
     setRestrictedStringScalarDefault(
         GO_EDGE_ALPHA_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_SCALAR_STR, 1);
-    setRestrictedStringColorDefault(
-        GO_EDGE_COLOR_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_COLORSPEC_STR, 0, 0, 0);
+    setRestrictedStringColorDefault(GO_EDGE_COLOR_PROPERTY_NAME_STR,
+        GO_PROPERTY_VALUE_COLORSPEC_STR, 0.129411764705882, 0.129411764705882, 0.129411764705882);
     setRestrictedStringDefault(GO_EDGE_LIGHTING_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_NONE_STR);
     setRestrictedStringScalarDefault(
         GO_FACE_ALPHA_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_SCALAR_STR, 1);
-    setRestrictedStringColorDefault(
-        GO_FACE_COLOR_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_COLORSPEC_STR, 0, 0, 0);
+    setRestrictedStringColorDefault(GO_FACE_COLOR_PROPERTY_NAME_STR,
+        GO_PROPERTY_VALUE_COLORSPEC_STR, 0.129411764705882, 0.129411764705882, 0.129411764705882);
     setRestrictedStringDefault(GO_FACE_LIGHTING_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_FLAT_STR);
     setRestrictedStringDefault(GO_LINE_STYLE_PROPERTY_NAME_STR, L"-");
     setScalarDoubleDefault(GO_LINE_WIDTH_PROPERTY_NAME_STR, 0.5);
@@ -246,6 +360,7 @@ GOPatch::setupDefaults()
     setStringDefault(GO_DISPLAY_NAME_PROPERTY_NAME_STR, L"");
     setRestrictedStringDefault(GO_BUSY_ACTION_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_QUEUE_STR);
     setRestrictedStringDefault(GO_INTERRUPTIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
+    initializeCommonProperties(this);
 }
 //=============================================================================
 inline const double*
@@ -265,6 +380,121 @@ getVerticesColor(const double* pVertColor, indexType i, indexType j,
             : (pVertColor));
 }
 //=============================================================================
+static RGBAColorData
+patchMappedColor(GraphicsObject* object, double value, double alpha)
+{
+    GOAxis* axis = object ? object->getParentAxis() : nullptr;
+    std::vector<double> cmap;
+    if (axis) {
+        cmap = axis->findVectorDoubleProperty(GO_COLOR_MAP_PROPERTY_NAME_STR);
+    }
+    if (cmap.empty()) {
+        GOFigure* figure = object ? object->getParentFigure() : nullptr;
+        if (figure) {
+            cmap = figure->findVectorDoubleProperty(GO_COLOR_MAP_PROPERTY_NAME_STR);
+        }
+    }
+    size_t length = cmap.size() / 3;
+    if (length == 0) {
+        return RGBAColorData(0., 0., 0., alpha);
+    }
+
+    size_t index = 0;
+    if (object
+        && object->stringCheck(GO_C_DATA_MAPPING_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_DIRECT_STR)) {
+        double directIndex = std::floor(value);
+        if (std::isfinite(directIndex)) {
+            index = static_cast<size_t>(
+                std::clamp(directIndex - 1., 0., static_cast<double>(length - 1)));
+        }
+    } else {
+        std::vector<double> clim = axis ? axis->findVectorDoubleProperty(GO_C_LIM_PROPERTY_NAME_STR)
+                                        : std::vector<double> { 0., 1. };
+        double low = std::min(clim[0], clim[1]);
+        double high = std::max(clim[0], clim[1]);
+        if (high > low && std::isfinite(value)) {
+            double scaled = (value - low) / (high - low);
+            index = static_cast<size_t>(std::clamp(std::floor(scaled * static_cast<double>(length)),
+                0., static_cast<double>(length - 1)));
+        }
+    }
+    return RGBAColorData(cmap[index * 3], cmap[index * 3 + 1], cmap[index * 3 + 2], alpha);
+}
+//=============================================================================
+static RGBAColorData
+patchVertexColor(GraphicsObject* object, const double* pVertColor, indexType row, double alpha,
+    indexType nbRowsFaceVertexCdata, indexType nbColumnsFaceVertexCdata)
+{
+    if (nbColumnsFaceVertexCdata == 1) {
+        double value = *(
+            getVerticesColor(pVertColor, row, 0, nbRowsFaceVertexCdata, nbColumnsFaceVertexCdata));
+        return patchMappedColor(object, value, alpha);
+    }
+
+    double r
+        = *(getVerticesColor(pVertColor, row, 0, nbRowsFaceVertexCdata, nbColumnsFaceVertexCdata));
+    double g
+        = *(getVerticesColor(pVertColor, row, 1, nbRowsFaceVertexCdata, nbColumnsFaceVertexCdata));
+    double b
+        = *(getVerticesColor(pVertColor, row, 2, nbRowsFaceVertexCdata, nbColumnsFaceVertexCdata));
+    return RGBAColorData(r, g, b, alpha);
+}
+//=============================================================================
+bool
+GOPatch::synchronizeDataProperties()
+{
+    ArrayOf xData(findArrayOfProperty(GO_X_DATA_PROPERTY_NAME_STR));
+    ArrayOf yData(findArrayOfProperty(GO_Y_DATA_PROPERTY_NAME_STR));
+    if (!xData.isNumeric() || !yData.isNumeric() || xData.isEmpty() || yData.isEmpty()) {
+        return false;
+    }
+    xData.promoteType(NLS_DOUBLE);
+    yData.promoteType(NLS_DOUBLE);
+    ArrayOf zData(findArrayOfProperty(GO_Z_DATA_PROPERTY_NAME_STR));
+    if (!zData.isEmpty() && !zData.isNumeric()) {
+        return false;
+    }
+    if (!zData.isEmpty()) {
+        zData.promoteType(NLS_DOUBLE);
+    }
+
+    indexType rows = xData.isVector() ? xData.elementCount() : xData.rows();
+    indexType cols = xData.isVector() ? 1 : xData.columns();
+    indexType n = rows * cols;
+    bool useZData = !zData.isEmpty() && zData.elementCount() == n;
+    if (yData.elementCount() != n
+        || (!zData.isEmpty() && !useZData && hasChanged(GO_Z_DATA_PROPERTY_NAME_STR))) {
+        return false;
+    }
+
+    ArrayOf vertices(ArrayOf::doubleMatrix2d(n, 3));
+    double* vertexData = static_cast<double*>(vertices.readWriteDataPointer());
+    const double* x = static_cast<const double*>(xData.dataPointer());
+    const double* y = static_cast<const double*>(yData.dataPointer());
+    const double* z = useZData ? static_cast<const double*>(zData.dataPointer()) : nullptr;
+    for (indexType i = 0; i < n; ++i) {
+        vertexData[i] = x[i];
+        vertexData[i + n] = y[i];
+        vertexData[i + 2 * n] = z ? z[i] : 1.;
+    }
+
+    ArrayOf faces(ArrayOf::doubleMatrix2d(cols, rows));
+    double* faceData = static_cast<double*>(faces.readWriteDataPointer());
+    for (indexType col = 0; col < cols; ++col) {
+        for (indexType row = 0; row < rows; ++row) {
+            faceData[col + row * cols] = static_cast<double>(row + col * rows + 1);
+        }
+    }
+
+    GOArrayOfProperty* verticesProperty
+        = static_cast<GOArrayOfProperty*>(findProperty(GO_VERTICES_PROPERTY_NAME_STR));
+    verticesProperty->data(vertices);
+    GOArrayOfProperty* facesProperty
+        = static_cast<GOArrayOfProperty*>(findProperty(GO_FACES_PROPERTY_NAME_STR));
+    facesProperty->data(faces);
+    return true;
+}
+//=============================================================================
 void
 GOPatch::buildPolygons(FaceList& faces)
 {
@@ -273,8 +503,8 @@ GOPatch::buildPolygons(FaceList& faces)
 
     ArrayOf verticesdata(findArrayOfProperty(GO_VERTICES_PROPERTY_NAME_STR));
     verticesdata.promoteType(NLS_DOUBLE);
-    indexType nbColumnsVerticesData = verticesdata.getColumns();
-    indexType nVertices = verticesdata.getRows();
+    indexType nbColumnsVerticesData = verticesdata.columns();
+    indexType nVertices = verticesdata.rows();
 
     ArrayOf faceVertexCdata(findArrayOfProperty(GO_FACE_VERTEX_C_DATA_PROPERTY_NAME_STR));
     faceVertexCdata.promoteType(NLS_DOUBLE);
@@ -307,67 +537,123 @@ GOPatch::buildPolygons(FaceList& faces)
     }
 
     if (nbColumnsVerticesData != 3) {
-        Error(_("Nx3 dimensional matrix expected for 'Vertices'."));
+        Error("Nelson:patch:invalidVertices", "Nx3 dimensional matrix expected for 'Vertices'.");
     }
 
-    const double* pVertOrder = static_cast<const double*>(facesData.getDataPointer());
-    const double* pVertData = static_cast<const double*>(verticesdata.getDataPointer());
-    const double* pVertColor = static_cast<const double*>(faceVertexCdata.getDataPointer());
+    const double* pVertOrder = static_cast<const double*>(facesData.dataPointer());
+    const double* pVertData = static_cast<const double*>(verticesdata.dataPointer());
+    const double* pVertColor = static_cast<const double*>(faceVertexCdata.dataPointer());
 
     GOFaceAlphaProperty* fa
         = static_cast<GOFaceAlphaProperty*>(findProperty(GO_FACE_ALPHA_PROPERTY_NAME_STR));
-    double alphaLevel = fa->scalar();
+    GOEdgeAlphaProperty* ea
+        = static_cast<GOEdgeAlphaProperty*>(findProperty(GO_EDGE_ALPHA_PROPERTY_NAME_STR));
+    double faceAlphaLevel = fa->scalar();
+    double edgeAlphaLevel = ea->scalar();
 
-    indexType nbColumnsFaceVertexCdata = faceVertexCdata.getColumns();
-    indexType nbRowsFaceVertexCdata = faceVertexCdata.getRows();
+    indexType nbColumnsFaceVertexCdata = faceVertexCdata.columns();
+    indexType nbRowsFaceVertexCdata = faceVertexCdata.rows();
 
-    indexType nFaces = facesData.getRows();
-    indexType maxVertsPerFace = facesData.getColumns();
+    indexType nFaces = facesData.rows();
+    indexType maxVertsPerFace = facesData.columns();
+    RGBAColorData faceColorSpec;
+    if (FaceColorMode == ColorMode::ColorSpec) {
+        GORestrictedStringColorProperty* fc = static_cast<GORestrictedStringColorProperty*>(
+            findProperty(GO_FACE_COLOR_PROPERTY_NAME_STR));
+        if (!fc) {
+            Error(L"Nelson:patch:invalidFaceColor", L"Invalid Face Colorspec.");
+        }
+        std::vector<double> colorspec = fc->colorSpec();
+        faceColorSpec = RGBAColorData(colorspec[0], colorspec[1], colorspec[2], faceAlphaLevel);
+    }
+    RGBAColorData edgeColorSpec;
+    if (EdgeColorMode == ColorMode::ColorSpec) {
+        GORestrictedStringColorProperty* ec = static_cast<GORestrictedStringColorProperty*>(
+            findProperty(GO_EDGE_COLOR_PROPERTY_NAME_STR));
+        if (!ec) {
+            Error(L"Nelson:patch:invalidEdgeColor", L"Invalid EdgeColor parameter.");
+        }
+        std::vector<double> colorspec = ec->colorSpec();
+        edgeColorSpec = RGBAColorData(colorspec[0], colorspec[1], colorspec[2], edgeAlphaLevel);
+    }
+    // Flat/Interp face colouring reads FaceVertexCData; with no colour data the
+    // lookup would dereference a null buffer. Reject the empty case so that, e.g.,
+    // set(h,'FaceColor','interp') on a patch with no CData raises an error.
+    if ((FaceColorMode == ColorMode::Flat || FaceColorMode == ColorMode::Interp)
+        && faceVertexCdata.isEmpty()) {
+        Error(L"Nelson:patch:invalidFaceVertexCDataFaceColor",
+            FaceColorMode == ColorMode::Interp
+                ? L"Invalid FaceVertexCData parameter with FaceColor to 'interp'."
+                : L"Invalid FaceVertexCData parameter with FaceColor to 'flat'.");
+    }
+    if (EdgeColorMode == ColorMode::Flat && (nbColumnsFaceVertexCdata != 3)
+        && ((nbRowsFaceVertexCdata != 1) || ((nbRowsFaceVertexCdata != nVertices)))) {
+        Error(L"Nelson:patch:invalidFaceVertexCData",
+            L"Invalid FaceVertexCData parameter with EdgeColor to '%s'.", L"flat");
+    }
+    if (EdgeColorMode == ColorMode::Interp && (nbColumnsFaceVertexCdata != 3)
+        && (nbRowsFaceVertexCdata != nVertices)) {
+        Error(L"Nelson:patch:invalidFaceVertexCData",
+            L"Invalid FaceVertexCData parameter with EdgeColor to '%s'.", L"interp");
+    }
+    ArrayOf faceNormalsData(findArrayOfProperty(GO_FACE_NORMALS_PROPERTY_NAME_STR));
+    bool useFaceNormals
+        = stringCheck(GO_FACE_NORMALS_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_MANUAL_STR)
+        && faceNormalsData.isNumeric() && faceNormalsData.rows() == nFaces
+        && faceNormalsData.columns() == 3;
+    if (useFaceNormals) {
+        faceNormalsData.promoteType(NLS_DOUBLE);
+    }
+    const double* pFaceNormals
+        = useFaceNormals ? static_cast<const double*>(faceNormalsData.dataPointer()) : nullptr;
+    ArrayOf vertexNormalsData(findArrayOfProperty(GO_VERTEX_NORMALS_PROPERTY_NAME_STR));
+    bool useVertexNormals
+        = stringCheck(GO_VERTEX_NORMALS_MODE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_MANUAL_STR)
+        && vertexNormalsData.isNumeric() && vertexNormalsData.rows() == nVertices
+        && vertexNormalsData.columns() == 3;
+    if (useVertexNormals) {
+        vertexNormalsData.promoteType(NLS_DOUBLE);
+    }
+    const double* pVertexNormals
+        = useVertexNormals ? static_cast<const double*>(vertexNormalsData.dataPointer()) : nullptr;
+    bool hasRenderedFaces = FaceColorMode != ColorMode::None;
+    bool hasRenderedEdges = EdgeColorMode != ColorMode::None
+        && !stringCheck(GO_LINE_STYLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_NONE_STR);
+    bool needNormals = useFaceNormals || useVertexNormals
+        || (hasRenderedFaces
+            && patchLightingMode(this, GO_FACE_LIGHTING_PROPERTY_NAME_STR) != LightingMode::None)
+        || (hasRenderedEdges
+            && patchLightingMode(this, GO_EDGE_LIGHTING_PROPERTY_NAME_STR) != LightingMode::None);
     faces.reserve(nFaces);
     for (indexType j = 0; j < nFaces; j++) {
         Face face;
         face.FaceColorMode = FaceColorMode;
         face.EdgeColorMode = EdgeColorMode;
-
-        if (face.FaceColorMode == ColorMode::ColorSpec) {
-            GORestrictedStringColorProperty* fc = static_cast<GORestrictedStringColorProperty*>(
-                findProperty(GO_FACE_COLOR_PROPERTY_NAME_STR));
-            if (!fc) {
-                Error(_W("Invalid Face Colorspec."));
-            } else {
-                std::vector<double> colorspec = fc->colorSpec();
-                face.FaceColor
-                    = RGBAColorData(colorspec[0], colorspec[1], colorspec[2], alphaLevel);
-            }
+        face.vertices.reserve(maxVertsPerFace);
+        if (needNormals) {
+            face.normals.reserve(maxVertsPerFace);
         }
-
-        if (face.EdgeColorMode == ColorMode::ColorSpec) {
-            GORestrictedStringColorProperty* ec = static_cast<GORestrictedStringColorProperty*>(
-                findProperty(GO_EDGE_COLOR_PROPERTY_NAME_STR));
-            if (!ec) {
-                Error(_W("Invalid EdgeColor parameter."));
-            }
-            std::vector<double> colorspec = ec->colorSpec();
-            face.EdgeColor = RGBAColorData(colorspec[0], colorspec[1], colorspec[2], 1);
+        std::vector<int> faceVertexIndices;
+        if (pVertexNormals) {
+            faceVertexIndices.reserve(maxVertsPerFace);
         }
-
-        if (face.EdgeColorMode == ColorMode::Flat && (nbColumnsFaceVertexCdata != 3)
-            && ((nbRowsFaceVertexCdata != 1) || ((nbRowsFaceVertexCdata != nVertices)))) {
-            Error(_W("Invalid FaceVertexCData parameter with EgdeColor to 'flat'."));
+        if (FaceColorMode == ColorMode::ColorSpec) {
+            face.FaceColor = faceColorSpec;
+        } else if (FaceColorMode == ColorMode::Flat || FaceColorMode == ColorMode::Interp) {
+            face.vertexcolors.reserve(maxVertsPerFace);
         }
-
-        if (face.EdgeColorMode == ColorMode::Interp && (nbColumnsFaceVertexCdata != 3)
-            && (nbRowsFaceVertexCdata != nVertices)) {
-            Error(_W("Invalid FaceVertexCData parameter with EgdeColor to 'interp'."));
+        if (EdgeColorMode == ColorMode::ColorSpec) {
+            face.EdgeColor = edgeColorSpec;
+        } else if (EdgeColorMode == ColorMode::Flat || EdgeColorMode == ColorMode::Interp) {
+            face.edgecolors.reserve(maxVertsPerFace);
         }
-
         for (int k = 0; k < maxVertsPerFace; k++) {
             if (!std::isnan(*(pVertOrder + j + k * nFaces))) {
                 point vert;
                 int vertIndex = (int)(*(pVertOrder + j + k * nFaces)) - 1;
 
                 if (vertIndex >= nVertices || vertIndex < 0) {
-                    Error(_W("Vertex Index out of bounds."));
+                    Error(L"Nelson:patch:vertexIndexOutOfBounds", L"Vertex Index out of bounds.");
                 }
 
                 vert.x
@@ -380,70 +666,116 @@ GOPatch::buildPolygons(FaceList& faces)
                     = *(getVerticesData(pVertData, vertIndex, 2, nVertices, nbColumnsVerticesData));
 
                 face.vertices.push_back(vert);
+                if (pVertexNormals) {
+                    faceVertexIndices.push_back(vertIndex);
+                }
 
-                double R = 0;
-                double G = 0;
-                double B = 0;
-                double A = alphaLevel;
+                double A = faceAlphaLevel;
                 if (face.FaceColorMode == ColorMode::Flat) {
                     if (nbRowsFaceVertexCdata == 3) {
-                        R = pVertColor[0];
-                        G = pVertColor[1];
-                        B = pVertColor[2];
+                        RGBAColorData vertColor(pVertColor[0], pVertColor[1], pVertColor[2], A);
+                        face.vertexcolors.push_back(vertColor);
                     } else {
                         indexType firstVertIndex = (nbRowsFaceVertexCdata != 1)
                             ? (indexType)(*(pVertOrder + j + k * nFaces) - 1)
                             : 0;
                         firstVertIndex = (nbRowsFaceVertexCdata == nFaces) ? j : firstVertIndex;
-
-                        R = *(getVerticesColor(pVertColor, firstVertIndex, 0, nbRowsFaceVertexCdata,
-                            nbColumnsFaceVertexCdata));
-                        G = *(getVerticesColor(pVertColor, firstVertIndex, 1, nbRowsFaceVertexCdata,
-                            nbColumnsFaceVertexCdata));
-                        B = *(getVerticesColor(pVertColor, firstVertIndex, 2, nbRowsFaceVertexCdata,
-                            nbColumnsFaceVertexCdata));
+                        face.vertexcolors.push_back(patchVertexColor(this, pVertColor,
+                            firstVertIndex, A, nbRowsFaceVertexCdata, nbColumnsFaceVertexCdata));
                     }
-                    RGBAColorData vertColor(R, G, B, A);
-                    face.vertexcolors.push_back(vertColor);
                 } else if (face.FaceColorMode == ColorMode::Interp) {
-                    R = *(getVerticesColor(
-                        pVertColor, vertIndex, 0, nbRowsFaceVertexCdata, nbColumnsFaceVertexCdata));
-                    G = *(getVerticesColor(
-                        pVertColor, vertIndex, 1, nbRowsFaceVertexCdata, nbColumnsFaceVertexCdata));
-                    B = *(getVerticesColor(
-                        pVertColor, vertIndex, 2, nbRowsFaceVertexCdata, nbColumnsFaceVertexCdata));
-
-                    RGBAColorData vertColor(R, G, B, A);
-                    face.vertexcolors.push_back(vertColor);
+                    face.vertexcolors.push_back(patchVertexColor(this, pVertColor, vertIndex, A,
+                        nbRowsFaceVertexCdata, nbColumnsFaceVertexCdata));
                 }
+                A = edgeAlphaLevel;
                 if (face.EdgeColorMode == ColorMode::Flat) {
                     indexType firstVertIndex = (nbRowsFaceVertexCdata != 1)
                         ? (indexType)(*(pVertOrder + j + k * nFaces) - 1)
                         : 0;
                     firstVertIndex = (nbRowsFaceVertexCdata == nFaces) ? j : firstVertIndex;
-                    R = *(getVerticesColor(pVertColor, firstVertIndex, 0, nbRowsFaceVertexCdata,
-                        nbColumnsFaceVertexCdata));
-                    G = *(getVerticesColor(pVertColor, firstVertIndex, 1, nbRowsFaceVertexCdata,
-                        nbColumnsFaceVertexCdata));
-                    B = *(getVerticesColor(pVertColor, firstVertIndex, 2, nbRowsFaceVertexCdata,
-                        nbColumnsFaceVertexCdata));
-                    RGBAColorData vertColor(R, G, B, A);
-                    face.edgecolors.push_back(vertColor);
+                    face.edgecolors.push_back(patchVertexColor(this, pVertColor, firstVertIndex, A,
+                        nbRowsFaceVertexCdata, nbColumnsFaceVertexCdata));
                 } else if (face.EdgeColorMode == ColorMode::Interp) {
-                    R = *(getVerticesColor(
-                        pVertColor, vertIndex, 0, nbRowsFaceVertexCdata, nbColumnsFaceVertexCdata));
-                    G = *(getVerticesColor(
-                        pVertColor, vertIndex, 1, nbRowsFaceVertexCdata, nbColumnsFaceVertexCdata));
-                    B = *(getVerticesColor(
-                        pVertColor, vertIndex, 2, nbRowsFaceVertexCdata, nbColumnsFaceVertexCdata));
-                    RGBAColorData vertColor(R, G, B, A);
-                    face.edgecolors.push_back(vertColor);
+                    face.edgecolors.push_back(patchVertexColor(this, pVertColor, vertIndex, A,
+                        nbRowsFaceVertexCdata, nbColumnsFaceVertexCdata));
                 }
             }
         }
-        faces.push_back(face);
+        if (needNormals) {
+            point normal = patchFaceNormal(face);
+            if (pFaceNormals) {
+                normal = patchNormalize(point(*getVerticesData(pFaceNormals, j, 0, nFaces, 3),
+                    *getVerticesData(pFaceNormals, j, 1, nFaces, 3),
+                    *getVerticesData(pFaceNormals, j, 2, nFaces, 3)));
+            }
+            for (size_t normalIndex = 0; normalIndex < face.vertices.size(); ++normalIndex) {
+                if (pVertexNormals) {
+                    int vertexIndex = faceVertexIndices[normalIndex];
+                    face.normals.push_back(patchNormalize(
+                        point(*getVerticesData(pVertexNormals, vertexIndex, 0, nVertices, 3),
+                            *getVerticesData(pVertexNormals, vertexIndex, 1, nVertices, 3),
+                            *getVerticesData(pVertexNormals, vertexIndex, 2, nVertices, 3))));
+                } else {
+                    face.normals.push_back(normal);
+                }
+            }
+        }
+        faces.push_back(std::move(face));
     }
 }
 //=============================================================================
+static std::vector<double>
+patchMarkerColor(GORestrictedStringColorProperty* property, const RGBAColorData& autoColor)
+{
+    if (property->isEqual(GO_PROPERTY_VALUE_NONE_STR)) {
+        return { -1., -1., -1. };
+    }
+    if (property->isEqual(GO_PROPERTY_VALUE_AUTO_STR)
+        || property->isEqual(GO_PROPERTY_VALUE_FLAT_STR)) {
+        return { autoColor.r, autoColor.g, autoColor.b, autoColor.a };
+    }
+    std::vector<double> color = property->colorSpec();
+    if (color.size() == 3) {
+        color.push_back(autoColor.a);
+    }
+    return color;
 }
+//=============================================================================
+void
+GOPatch::paintMarkers(RenderInterface& gc, double lineWidth)
+{
+    RenderInterface::SymbolType marker
+        = StringToSymbol(findStringProperty(GO_MARKER_PROPERTY_NAME_STR));
+    if (marker == RenderInterface::None) {
+        return;
+    }
+
+    GORestrictedStringColorProperty* edgeProperty = static_cast<GORestrictedStringColorProperty*>(
+        findProperty(GO_MARKER_EDGE_COLOR_PROPERTY_NAME_STR));
+    GORestrictedStringColorProperty* faceProperty = static_cast<GORestrictedStringColorProperty*>(
+        findProperty(GO_MARKER_FACE_COLOR_PROPERTY_NAME_STR));
+    double markerSize = findScalarDoubleProperty(GO_MARKER_SIZE_PROPERTY_NAME_STR);
+    gc.setupDirectDraw();
+    for (const Face& face : m_faces) {
+        RGBAColorData autoColor
+            = face.FaceColorMode == ColorMode::ColorSpec ? face.FaceColor : face.EdgeColor;
+        std::vector<double> edgeColor = patchMarkerColor(edgeProperty, autoColor);
+        std::vector<double> faceColor = patchMarkerColor(faceProperty, autoColor);
+        for (const point& vertex : face.vertices) {
+            if (!std::isfinite(vertex.x) || !std::isfinite(vertex.y) || !std::isfinite(vertex.z)) {
+                continue;
+            }
+            double x = 0;
+            double y = 0;
+            bool clipped = false;
+            gc.toPixels(vertex.x, vertex.y, vertex.z, x, y, clipped);
+            if (!clipped) {
+                DrawSymbol(gc, marker, x, y, 0, markerSize, edgeColor, faceColor, lineWidth);
+            }
+        }
+    }
+    gc.releaseDirectDraw();
+}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

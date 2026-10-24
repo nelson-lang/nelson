@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>netcdf.copyAtt</keyword>
+  <short_description>Work with netCDF attributes.</short_description>
+  <syntax>
+    <syntax_item>netcdf.copyAtt(ncidIn, varidIn, attname, ncidOut, varidOut)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>ncid</param_name>
+      <param_description>Open netCDF file or group identifier.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>varid</param_name>
+      <param_description>Variable identifier, or NC_GLOBAL for a global attribute.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>attname</param_name>
+      <param_description>Attribute name.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>attvalue</param_name>
+      <param_description>Attribute value.</param_description>
+    </param_input_item>
+  </param_input>
+    <param_output>
+    <param_output_item>
+      <param_name>none</param_name>
+      <param_description>This function does not return a value.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>netcdf.copyAtt exposes low-level attribute operations.</p>
+    <p>Attributes store metadata such as units, titles, comments, scale factors, and valid ranges.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Copy-paste example for netcdf.copyAtt.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[filename = [tempdir(), 'help_netcdf_copyAtt.nc'];
+ncid = netcdf.create(filename, netcdf.getConstant('NC_CLOBBER'));
+dimid = netcdf.defDim(ncid, 'x', 2);
+varid = netcdf.defVar(ncid, 'temperature', netcdf.getConstant('NC_DOUBLE'), dimid);
+netcdf.putAtt(ncid, netcdf.getConstant('NC_GLOBAL'), 'title', 'sample file');
+netcdf.copyAtt(ncid, netcdf.getConstant('NC_GLOBAL'), 'title', ncid, varid);
+netcdf.close(ncid);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${netcdf}netcdf.putVar">netcdf.putVar</link></see_also_item>
+    <see_also_item><link linkend="${netcdf}netcdf.getConstant">netcdf.getConstant</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

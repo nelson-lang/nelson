@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>knnsearch</keyword>
+  <short_description>Find k-nearest neighbors.</short_description>
+  <syntax>
+    <syntax_item>idx = knnsearch(X, Y)</syntax_item>
+    <syntax_item>idx = knnsearch(X, Y, Name, Value)</syntax_item>
+    <syntax_item>[idx, D] = knnsearch(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>knnsearch</b> finds nearest rows of <b>X</b> for each query row of <b>Y</b> using an exhaustive native search.</p>
+    <p>Supported options include K, Distance, IncludeTies, NSMethod, SortIndices, P, Scale, Cov, BucketSize, and CacheSize. When IncludeTies is true, outputs are cell arrays.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[X = [0 0; 1 0; 0 2; 4 4];
+Y = [0 1; 3 4];
+[idx, D] = knnsearch(X, Y, 'K', 2)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${statistics}pdist">pdist</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}pdist2">pdist2</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

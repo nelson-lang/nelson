@@ -9,6 +9,7 @@
 //=============================================================================
 #include "ClearFunction.hpp"
 #include "BuiltInFunctionDefManager.hpp"
+#include "FunctionsInMemory.hpp"
 #include "MacroFunctionDef.hpp"
 #include "PathFunctionIndexerManager.hpp"
 #include "characters_encoding.hpp"
@@ -19,12 +20,16 @@ bool
 ClearBuiltin(const std::wstring& builtinName)
 {
     std::string funcName = wstring_to_utf8(builtinName);
+    // drop cached references first: they would dangle once the manager
+    // deletes the definition.
+    FunctionsInMemory::getInstance()->deleteBuiltinFunctionReference(funcName);
     return BuiltInFunctionDefManager::getInstance()->remove(funcName);
 }
 //=============================================================================
 bool
 ClearAllBuiltin()
 {
+    FunctionsInMemory::getInstance()->deleteAllBuiltinFunctionReferences();
     return BuiltInFunctionDefManager::getInstance()->removeAll();
 }
 //=============================================================================

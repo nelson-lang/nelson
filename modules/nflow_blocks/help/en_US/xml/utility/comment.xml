@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>comment</keyword>
+  <keyword_alias>block:comment</keyword_alias>
+  <short_description>Adds non-executed annotation text to a diagram.</short_description>
+  <syntax>
+    <syntax_item>Block type: comment</syntax_item>
+  </syntax>
+  <description>
+    <p>Adds non-executed annotation text to a diagram.</p>
+    <table border="1">
+      <tbody>
+        <tr>
+          <td>Module</td>
+          <td>
+            <code>nflow_blocks</code>
+          </td>
+        </tr>
+        <tr>
+          <td>Library</td>
+          <td>Utility blocks</td>
+        </tr>
+        <tr>
+          <td>Type</td>
+          <td>
+            <code>comment</code>
+          </td>
+        </tr>
+        <tr>
+          <td>Label</td>
+          <td>Comment</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <img src="../../../../libraries/utility/exports/comment.svg" align="middle"/>
+    </p>
+    <p>
+      <b>Description</b>
+    </p>
+    <p>Free-text comment block used to annotate diagrams. Can optionally show a border.</p>
+    <p>
+      <b>Ports</b>
+    </p>
+    <p>
+      <b>Input(s)</b>
+    </p>
+    <p>This block declares no input ports.</p>
+    <p>
+      <b>Output(s)</b>
+    </p>
+    <p>This block declares no output ports.</p>
+    <p>
+      <b>Parameters</b>
+    </p>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+          <th>Default value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <code>commentText</code>
+          </td>
+          <td/>
+        </tr>
+        <tr>
+          <td>
+            <code>showBorder</code>
+          </td>
+          <td>true</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Inspector Keys</b>
+    </p>
+    <p>These serialized keys are exposed by the block inspector.</p>
+    <ul>
+      <li>
+        <code>commentText</code>
+      </li>
+      <li>
+        <code>showBorder</code>
+      </li>
+    </ul>
+    <p>
+      <b>Block Characteristics</b>
+    </p>
+    <table border="1">
+      <tbody>
+        <tr>
+          <td>Block type</td>
+          <td>comment</td>
+        </tr>
+        <tr>
+          <td>Family</td>
+          <td>Utility blocks</td>
+        </tr>
+        <tr>
+          <td>Rendered size</td>
+          <td>220 x 120</td>
+        </tr>
+        <tr>
+          <td>Phases</td>
+          <td>none</td>
+        </tr>
+        <tr>
+          <td>Direct feedthrough</td>
+          <td>see Algorithms</td>
+        </tr>
+        <tr>
+          <td>Internal state or history</td>
+          <td>not observed in the documented runtime</td>
+        </tr>
+        <tr>
+          <td>Signal data type</td>
+          <td>double numeric values</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Algorithms</b>
+    </p>
+    <ul>
+      <li>No native numeric handler and no signal ports.</li>
+      <li>Used by the editor and renderer for comment text and border display.</li>
+    </ul>
+    <p>
+      <b>Extended Capabilities</b>
+    </p>
+    <p>This page describes the native runtime behavior observed in the module C++ sources. Declared phases indicate when the simulation engine calls the block.</p>
+    <p>
+      <b>Implementation Sources</b>
+    </p>
+    <source_code label="Manifest" path="modules/nflow_blocks/libraries/utility/library.json" language="json"/>
+    <p>Runtime: family registry, UI path, or codegen path; no dedicated native runtime file found.</p>
+  </description>
+  <used_function/>
+  <bibliography/>
+  <see_also>
+    <see_also_item>
+      <link linkend="${nflow_blocks}utility/subsystem">subsystem</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

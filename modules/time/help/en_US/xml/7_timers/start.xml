@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>start</keyword>
+  <keyword_alias>timer.start</keyword_alias>
+  <short_description>Start a timer object.</short_description>
+  <syntax>
+    <syntax_item>start(t)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>t</param_name>
+      <param_description>Timer object or timer object array.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b>start</b> starts the timer using its <b>StartDelay</b>, <b>ExecutionMode</b>, <b>Period</b>, and <b>TasksToExecute</b> properties. The timer must have a nonempty <b>TimerFcn</b>.</p>
+    <p><b>start</b> returns immediately after the timer is scheduled. Use <b>wait</b> when the current command sequence must block until the timer finishes.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Start a single-shot timer.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[t = timer('StartDelay', 0.1, ...
+  'TimerFcn', @(src, event) disp('started and fired'));
+start(t);
+wait(t);
+delete(t);]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Start a repeated timer.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[t = timer('ExecutionMode', 'fixedSpacing', ...
+  'Period', 0.05, ...
+  'TasksToExecute', 3, ...
+  'TimerFcn', @(src, event) disp('tick'));
+start(t);
+wait(t);
+delete(t);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${time}timer">timer</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}startat">startat</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}stop">stop</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}wait">wait</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

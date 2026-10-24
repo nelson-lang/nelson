@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>elementary_functions</module_name>
+  <chapter>Generation de matrices</chapter>
+  <chapter_description>
+    <p>Fonctions pour generer des matrices speciales.</p>
+  </chapter_description>
+</xmldoc>

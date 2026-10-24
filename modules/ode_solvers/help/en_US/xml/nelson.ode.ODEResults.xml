@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nelson.ode.ODEResults</keyword>
+  <short_description>Result object returned by solve on an ode object.</short_description>
+  <syntax>
+    <syntax_item>result = solve(problem, tfinal)</syntax_item>
+    <syntax_item>result = solve(problem, t0, tfinal)</syntax_item>
+    <syntax_item>result = nelson.ode.ODEResults(sol)</syntax_item>
+  </syntax>
+  <description>
+    <p>
+      <b>nelson.ode.ODEResults</b> stores the outcome of an integration performed with the <b>ode</b> object workflow. Calling <b>solve</b> on an <b>ode</b> object returns an instance of this class.</p>
+    <table style="width:100%">
+  <tr><th>Property</th><th>Content</th></tr>
+  <tr><td><b>Time</b></td><td>Row vector of the time points of the integration.</td></tr>
+  <tr><td><b>Solution</b></td><td>Matrix of solution values, one row per component and one column per time point.</td></tr>
+  <tr><td><b>Sensitivity</b></td><td>Sensitivity values when sensitivity analysis is requested, empty otherwise.</td></tr>
+  <tr><td><b>EventTime</b></td><td>Times at which events were detected, empty when no event function is set.</td></tr>
+  <tr><td><b>EventSolution</b></td><td>Solution values at the detected events.</td></tr>
+  <tr><td><b>EventIndex</b></td><td>Indices of the event functions that triggered.</td></tr>
+  <tr><td><b>EventSensitivity</b></td><td>Sensitivity values at the detected events, empty otherwise.</td></tr>
+  <tr><td><b>AdjointGradient</b></td><td>Gradient computed by adjoint sensitivity analysis, empty otherwise.</td></tr>
+</table>
+    <p>The class also carries the hidden properties <b>RawSolution</b> (the underlying solution structure, usable with <b>deval</b> and <b>odextend</b>), <b>SolutionValues</b> (the transpose of <b>Solution</b>, one row per time point), and <b>Stats</b> (solver statistics when available).</p>
+    <p>The constructor <b>nelson.ode.ODEResults(sol)</b> builds a result object from a solution structure with at least the fields <b>x</b> and <b>y</b>, such as the structure returned by the solver functions. The event and sensitivity properties are filled from the optional fields <b>xe</b>, <b>ye</b>, <b>ie</b>, <b>sensitivity</b>, <b>eventSensitivity</b>, and <b>adjointGradient</b>. Called without argument, the constructor returns an object with all properties empty.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Solve a problem and inspect the result object.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[problem = ode('ODEFcn', @(t,y) -y, 'InitialValue', 1);
+result = solve(problem, 0, 2);
+class(result)
+result.Time(end)
+result.Solution(:, end)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ode_solvers}ode">ode</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}deval">deval</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

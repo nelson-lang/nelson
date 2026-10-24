@@ -18,6 +18,17 @@
   </description>
   <used_function />
   <bibliography />
+  <see_also>
+    <see_also_item>
+      <link linkend="${operators}subsref">subsref</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}subsasgn">subsasgn</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}colon">colon</link>
+    </see_also_item>
+  </see_also>
   <history>
     <history_item>
       <history_version>1.0.0</history_version>

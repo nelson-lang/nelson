@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -13,7 +13,7 @@
 #include "omp_for_loop.hpp"
 #include "Ones.hpp"
 #include "Error.hpp"
-#include "PredefinedErrorMessages.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 ArrayOf
@@ -29,7 +29,7 @@ realOnes(NelsonType classOut, void* dp, const Dimensions& outDims)
 {
     T value = static_cast<T>(1.);
     T* ptrA = static_cast<T*>(dp);
-    ompIndexType nbElements = (ompIndexType)outDims.getElementCount();
+    ompIndexType nbElements = (ompIndexType)outDims.elementCount();
     if (nbElements == 1) {
         ptrA[0] = value;
     } else {
@@ -47,7 +47,7 @@ complexOnes(NelsonType classOut, void* dp, const Dimensions& outDims)
 {
     auto* ptrDpz = reinterpret_cast<std::complex<T>*>((T*)dp);
     std::complex<T> value = { 1, 0 };
-    ompIndexType nbElements = (ompIndexType)outDims.getElementCount();
+    ompIndexType nbElements = (ompIndexType)outDims.elementCount();
     if (nbElements == 1) {
         ptrDpz[0] = value;
     } else {
@@ -64,12 +64,12 @@ Ones(Dimensions& dims, NelsonType cl)
 {
     dims.simplify();
     if (dims.isEmpty(false)) {
-        ArrayOf res = ArrayOf::emptyConstructor(dims);
+        ArrayOf res = ArrayOf::empty(dims);
         res.promoteType(cl);
         return res;
     }
 
-    indexType nbElements = dims.getElementCount();
+    indexType nbElements = dims.elementCount();
     void* dp = ArrayOf::allocateArrayOf(cl, nbElements, Nelson::stringVector(), false);
 
     switch (cl) {
@@ -116,7 +116,7 @@ Ones(Dimensions& dims, NelsonType cl)
         return realOnes<charType>(cl, dp, dims);
     } break;
     default:
-        Error(ERROR_TYPE_NOT_SUPPORTED);
+        Error(L"Nelson:constructors_functions:typeNotSupported", L"Type not supported.");
     }
     return {};
 }

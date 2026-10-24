@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -8,34 +8,61 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "QtWorkspaceBrowser.h"
+#include "QtDockTitleBar.h"
 #include "QtTranslation.hpp"
 #include "Nelson_VERSION.h"
+#include "NelsonSettingsScope.hpp"
 #include "WorkspaceBrowser.hpp"
 #include "ForceWindowsTitleBarToDark.hpp"
 #include "QStringConverter.hpp"
 #include "NelsonConfiguration.hpp"
+#include "QtFileDialogHistory.hpp"
 #include "characters_encoding.hpp"
 #include "ClassToString.hpp"
 #include "AnonymousMacroFunctionDef.hpp"
 #include "VariablesEditor.hpp"
-
 #include <QtCore/QSettings>
+#include <QtCore/QRegularExpression>
+#include <QtCore/QItemSelection>
 #include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QScrollBar>
+#include <QtWidgets/QMessageBox>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QMenu>
-#include <QtWidgets/QSizeGrip>
 #include <QtWidgets/QInputDialog>
 #include <QtWidgets/QFileDialog>
 #include <QtGui/QStandardItem>
 //=============================================================================
 const QString SETTING_WORKSPACE_BROWSER_VISIBILITY = "wb_Visibility";
 const QString SETTING_WORKSPACE_BROWSER_GEOMETRY = "wb_Geometry";
-const QString SETTING_WORKSPACE_BROWSER_HEADER_ORDER = "wb_Header_Order";
-const QString SETTING_WORKSPACE_BROWSER_HEADER_SORT = "wb_Header_Sort";
-const QString SETTING_WORKSPACE_BROWSER_HEADER_SORT_ORDER = "wb_Header_Sort_Order";
-const QString SETTING_WORKSPACE_BROWSER_HEADER_SIZES = "wb_Header_Sizes";
+const QString SETTING_WORKSPACE_BROWSER_HEADER_ORDER = "wb_Header_Order_v2";
+const QString SETTING_WORKSPACE_BROWSER_HEADER_SORT = "wb_Header_Sort_v2";
+const QString SETTING_WORKSPACE_BROWSER_HEADER_SORT_ORDER = "wb_Header_Sort_Order_v2";
+const QString SETTING_WORKSPACE_BROWSER_HEADER_SIZES = "wb_Header_Sizes_v2";
 //=============================================================================
 using namespace Nelson;
+//=============================================================================
+#define WORKSPACE_VALUE_PREVIEW_MAX_LENGTH 120
+//=============================================================================
+bool
+WorkspaceSortFilterProxyModel::lessThan(const QModelIndex& left, const QModelIndex& right) const
+{
+    const QVariant leftKey = sourceModel()->data(left, WORKSPACE_SORT_ROLE);
+    const QVariant rightKey = sourceModel()->data(right, WORKSPACE_SORT_ROLE);
+    if (leftKey.isValid() && rightKey.isValid()) {
+        bool leftOk = false;
+        bool rightOk = false;
+        const double leftValue = leftKey.toDouble(&leftOk);
+        const double rightValue = rightKey.toDouble(&rightOk);
+        if (leftOk && rightOk && leftValue != rightValue) {
+            return leftValue < rightValue;
+        }
+        if (leftOk && rightOk) {
+            return QSortFilterProxyModel::lessThan(left, right);
+        }
+    }
+    return QSortFilterProxyModel::lessThan(left, right);
+}
 //=============================================================================
 QtWorkspaceBrowser::QtWorkspaceBrowser(QWidget* parent)
     : m_context(nullptr), QDockWidget(TR("Workspace Browser"), parent)
@@ -52,29 +79,26 @@ QtWorkspaceBrowser::QtWorkspaceBrowser(QWidget* parent)
     m_tableView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     m_tableView->setSortingEnabled(true);
     m_tableView->verticalHeader()->setVisible(false);
-    m_tableView->setSelectionMode(QAbstractItemView::SingleSelection);
+    m_tableView->setSelectionMode(QAbstractItemView::ExtendedSelection);
     m_tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
 
     setupHeaders();
 
+    setupFilterBar(mainLayout);
     mainLayout->addWidget(m_tableView);
 
     QHeaderView* header = m_tableView->horizontalHeader();
     header->resizeSection(NAME_COLUMN, 64);
 
-    // Set the context menu for the header
     header->setContextMenuPolicy(Qt::CustomContextMenu);
     header->setSectionsMovable(true);
 
     connect(header, SIGNAL(customContextMenuRequested(const QPoint&)), this,
         SLOT(showHeaderContextMenu(const QPoint&)));
 
-    // Connect double-click signal
     connect(m_tableView, &QTableView::doubleClicked, this, &QtWorkspaceBrowser::doubleClicked);
 
     setFocusPolicy(Qt::StrongFocus);
-    sizeGrip = new QSizeGrip(this);
-    mainLayout->addWidget(sizeGrip, 0, Qt::AlignBottom | Qt::AlignRight);
 
     QWidget* centralWidget = new QWidget(this);
     centralWidget->setLayout(mainLayout);
@@ -82,8 +106,7 @@ QtWorkspaceBrowser::QtWorkspaceBrowser(QWidget* parent)
 
     setObjectName("workspaceBrowser");
     setMinimumSize(50, 50);
-    connect(this, &QDockWidget::dockLocationChanged, this,
-        &QtWorkspaceBrowser::handleDockLocationChanged);
+    setTitleBarWidget(new QtDockTitleBar(this, "wb"));
 }
 //=============================================================================
 QtWorkspaceBrowser::~QtWorkspaceBrowser()
@@ -96,9 +119,11 @@ void
 QtWorkspaceBrowser::setupModel()
 {
     m_model = new QStandardItemModel(this);
-    m_proxyModel = new QSortFilterProxyModel(this);
+    m_proxyModel = new WorkspaceSortFilterProxyModel(this);
     m_proxyModel->setSourceModel(m_model);
     m_proxyModel->setSortCaseSensitivity(Qt::CaseInsensitive);
+    m_proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
+    m_proxyModel->setFilterKeyColumn(NAME_COLUMN);
 }
 //=============================================================================
 void
@@ -109,7 +134,28 @@ QtWorkspaceBrowser::setupHeaders()
     m_model->setHorizontalHeaderItem(VALUE_COLUMN, new QStandardItem(TR("Value")));
     m_model->setHorizontalHeaderItem(CLASS_COLUMN, new QStandardItem(TR("Class")));
     m_model->setHorizontalHeaderItem(SIZE_COLUMN, new QStandardItem(TR("Size")));
+    m_model->setHorizontalHeaderItem(BYTES_COLUMN, new QStandardItem(TR("Bytes")));
     m_model->setHorizontalHeaderItem(SCOPE_COLUMN, new QStandardItem(TR("Scope")));
+}
+//=============================================================================
+void
+QtWorkspaceBrowser::setupFilterBar(QVBoxLayout* mainLayout)
+{
+    m_filterLineEdit = new QLineEdit(this);
+    m_filterLineEdit->setClearButtonEnabled(true);
+    m_filterLineEdit->setPlaceholderText(TR("Filter variables by name"));
+    connect(
+        m_filterLineEdit, &QLineEdit::textChanged, this, &QtWorkspaceBrowser::applyVariableFilter);
+    mainLayout->addWidget(m_filterLineEdit);
+}
+//=============================================================================
+void
+QtWorkspaceBrowser::applyVariableFilter()
+{
+    const QString pattern = m_filterLineEdit->text().trimmed();
+    m_proxyModel->setFilterKeyColumn(NAME_COLUMN);
+    m_proxyModel->setFilterRegularExpression(QRegularExpression(
+        QRegularExpression::escape(pattern), QRegularExpression::CaseInsensitiveOption));
 }
 //=============================================================================
 void
@@ -121,7 +167,7 @@ QtWorkspaceBrowser::setContext(Context* context)
 void
 QtWorkspaceBrowser::restorePosition()
 {
-    QSettings settings(NELSON_PRODUCT_NAME, NELSON_SEMANTIC_VERSION_STRING);
+    QSettings settings(NELSON_SETTINGS_ORGANIZATION, NELSON_SETTINGS_APPLICATION);
     restoreGeometry(settings.value(SETTING_WORKSPACE_BROWSER_GEOMETRY).toByteArray());
 
     QByteArray headerOrderData
@@ -144,7 +190,7 @@ QtWorkspaceBrowser::restorePosition()
 void
 QtWorkspaceBrowser::restoreVisibility()
 {
-    QSettings settings(NELSON_PRODUCT_NAME, NELSON_SEMANTIC_VERSION_STRING);
+    QSettings settings(NELSON_SETTINGS_ORGANIZATION, NELSON_SETTINGS_APPLICATION);
     bool savedVisibility = settings.value(SETTING_WORKSPACE_BROWSER_VISIBILITY, true).toBool();
     setVisible(savedVisibility);
 }
@@ -152,7 +198,7 @@ QtWorkspaceBrowser::restoreVisibility()
 void
 QtWorkspaceBrowser::savePositionAndVisibility()
 {
-    QSettings settings(NELSON_PRODUCT_NAME, NELSON_SEMANTIC_VERSION_STRING);
+    QSettings settings(NELSON_SETTINGS_ORGANIZATION, NELSON_SETTINGS_APPLICATION);
     settings.setValue(SETTING_WORKSPACE_BROWSER_VISIBILITY, isVisible());
     settings.setValue(SETTING_WORKSPACE_BROWSER_GEOMETRY, saveGeometry());
 
@@ -185,21 +231,28 @@ QtWorkspaceBrowser::contextMenuEvent(QContextMenuEvent* event)
 {
     QMenu contextMenu(this);
 
+    const QStringList selectedNames = getSelectedVariableNames();
+    const bool hasSelection = !selectedNames.isEmpty();
+    const bool hasSingleSelection = (selectedNames.size() == 1);
+
     QAction* deleteAction = new QAction(TR("Delete"), this);
     connect(deleteAction, &QAction::triggered, this, &QtWorkspaceBrowser::onDeleteAction);
     contextMenu.addAction(deleteAction);
+    deleteAction->setEnabled(hasSelection);
 
     QAction* renameAction = new QAction(TR("Rename"), this);
     connect(renameAction, &QAction::triggered, this, &QtWorkspaceBrowser::onRenameAction);
     contextMenu.addAction(renameAction);
+    renameAction->setEnabled(hasSingleSelection);
 
     QAction* saveAsAction = new QAction(TR("Save As"), this);
     connect(saveAsAction, &QAction::triggered, this, &QtWorkspaceBrowser::onSaveAsAction);
     contextMenu.addAction(saveAsAction);
+    saveAsAction->setEnabled(hasSelection);
 
     contextMenu.addSeparator();
 
-    QString variableName = getCurrentVariableNameSelected();
+    QString variableName = hasSingleSelection ? selectedNames.first() : QString();
     if (variableName.isEmpty()) {
         contextMenu.exec(event->globalPos());
         return;
@@ -263,6 +316,11 @@ QtWorkspaceBrowser::contextMenuEvent(QContextMenuEvent* event)
 void
 QtWorkspaceBrowser::keyPressEvent(QKeyEvent* event)
 {
+    if (event->key() == Qt::Key_Delete) {
+        onDeleteAction();
+    } else if (event->key() == Qt::Key_F5) {
+        updateVariables();
+    }
     QWidget::keyPressEvent(event);
 }
 //=============================================================================
@@ -273,7 +331,14 @@ QtWorkspaceBrowser::updateVariables()
         return;
     }
 
-    // Clear existing data
+    // Preserve the current selection and the scroll position: the model is fully
+    // rebuilt on each prompt and would otherwise lose both.
+    const QStringList previouslySelected = getSelectedVariableNames();
+    int scrollPosition = 0;
+    if (m_tableView->verticalScrollBar()) {
+        scrollPosition = m_tableView->verticalScrollBar()->value();
+    }
+
     m_model->removeRows(0, m_model->rowCount());
 
     wstringVector variablesList;
@@ -291,12 +356,13 @@ QtWorkspaceBrowser::updateVariables()
         ArrayOf* variable = m_context->lookupVariable(wstring_to_utf8(variablesList[i]));
         if (variable) {
             QString variableName(wstringToQString(variablesList[i]));
-            std::wstring variableClassname = ClassToStringW(variable->getDataClass());
-            if (variable->getDataClass() == NLS_HANDLE) {
-                variableClassname = utf8_to_wstring(variable->getHandleCategory());
+            std::wstring variableClassname = ClassToStringW(variable->dataClass());
+            if (variable->dataClass() == NLS_HANDLE) {
+                variableClassname = utf8_to_wstring(variable->handleCategory());
             }
-            if (variable->getDataClass() == NLS_CLASS_ARRAY) {
-                variableClassname = utf8_to_wstring(variable->getClassType());
+            if (variable->dataClass() == NLS_CLASS_ARRAY
+                || variable->dataClass() == NLS_CLASSDEF_ARRAY) {
+                variableClassname = utf8_to_wstring(variable->classType());
             }
 
             QString value(getVariableAsQString(variable));
@@ -313,23 +379,84 @@ QtWorkspaceBrowser::updateVariables()
                 type = type + " (" + subTypeStr + ")";
             }
             QString flags = isGlobal ? TR("global") : "";
-            QString size(wstringToQString(variable->getDimensions().toWideString()));
+            QString size(wstringToQString(variable->dimensions().toWideString()));
 
-            // Create row items
+            const double elementCount = (double)variable->dimensions().elementCount();
+            // byteSize() throws for sparse arrays (like whos, which reports NaN);
+            // guard it so assigning a sparse variable doesn't crash the browser.
+            const double byteSize = variable->isSparse() ? 0.0 : (double)variable->byteSize();
+
+            QStandardItem* nameItem = new QStandardItem(variableName);
+
+            QString valuePreview(value);
+            if (valuePreview.length() > WORKSPACE_VALUE_PREVIEW_MAX_LENGTH) {
+                valuePreview
+                    = valuePreview.left(WORKSPACE_VALUE_PREVIEW_MAX_LENGTH) + QChar(0x2026);
+            }
+            QStandardItem* valueItem = new QStandardItem(valuePreview);
+            valueItem->setData(value, Qt::ToolTipRole);
+            bool isScalarValue = false;
+            const double scalarValue = value.toDouble(&isScalarValue);
+            if (isScalarValue) {
+                valueItem->setData(scalarValue, WORKSPACE_SORT_ROLE);
+            }
+
+            QStandardItem* typeItem = new QStandardItem(type);
+
+            QStandardItem* sizeItem = new QStandardItem(size);
+            sizeItem->setData(elementCount, WORKSPACE_SORT_ROLE);
+
+            QStandardItem* bytesItem = new QStandardItem(
+                variable->isSparse() ? QString("") : QString::number((qulonglong)byteSize));
+            bytesItem->setData(byteSize, WORKSPACE_SORT_ROLE);
+
+            QStandardItem* flagsItem = new QStandardItem(flags);
+
             QList<QStandardItem*> rowItems;
-            rowItems << new QStandardItem(variableName);
-            rowItems << new QStandardItem(value);
-            rowItems << new QStandardItem(type);
-            rowItems << new QStandardItem(size);
-            rowItems << new QStandardItem(flags);
+            rowItems << nameItem;
+            rowItems << valueItem;
+            rowItems << typeItem;
+            rowItems << sizeItem;
+            rowItems << bytesItem;
+            rowItems << flagsItem;
 
-            // Set items as non-editable
             for (auto item : rowItems) {
                 item->setEditable(false);
             }
 
             m_model->appendRow(rowItems);
         }
+    }
+
+    restoreSelectionAndScroll(previouslySelected, scrollPosition);
+}
+//=============================================================================
+void
+QtWorkspaceBrowser::restoreSelectionAndScroll(const QStringList& selectedNames, int scrollPosition)
+{
+    if (!selectedNames.isEmpty()) {
+        QItemSelectionModel* selectionModel = m_tableView->selectionModel();
+        if (selectionModel) {
+            QItemSelection selection;
+            for (int row = 0; row < m_model->rowCount(); ++row) {
+                QStandardItem* item = m_model->item(row, NAME_COLUMN);
+                if (item && selectedNames.contains(item->text())) {
+                    QModelIndex first
+                        = m_proxyModel->mapFromSource(m_model->index(row, NAME_COLUMN));
+                    QModelIndex last = m_proxyModel->mapFromSource(
+                        m_model->index(row, m_model->columnCount() - 1));
+                    if (first.isValid() && last.isValid()) {
+                        selection.select(first, last);
+                    }
+                }
+            }
+            if (!selection.isEmpty()) {
+                selectionModel->select(selection, QItemSelectionModel::ClearAndSelect);
+            }
+        }
+    }
+    if (m_tableView->verticalScrollBar()) {
+        m_tableView->verticalScrollBar()->setValue(scrollPosition);
     }
 }
 //=============================================================================
@@ -363,7 +490,7 @@ QtWorkspaceBrowser::getVariableAsQString(const ArrayOf* variable)
         return value;
     }
 
-    switch (variable->getDataClass()) {
+    switch (variable->dataClass()) {
     case NLS_DOUBLE: {
         value = handleNumericVariable<double>(variable);
     } break;
@@ -431,7 +558,7 @@ QtWorkspaceBrowser::handleNumericVariable(const ArrayOf* variable) const
     if (variable->isEmpty()) {
         return QString("[]");
     } else if (variable->isScalar() && !variable->isSparse()) {
-        T* ptr = (T*)variable->getDataPointer();
+        T* ptr = (T*)variable->dataPointer();
         T v = ptr[0];
         return QString::fromLatin1(std::to_string(v).c_str());
     } else {
@@ -446,7 +573,7 @@ QtWorkspaceBrowser::handleComplexVariable(const ArrayOf* variable) const
     if (variable->isEmpty()) {
         return QString("[]");
     } else if (variable->isScalar()) {
-        T* ptr = (T*)variable->getDataPointer();
+        T* ptr = (T*)variable->dataPointer();
         std::complex<T>* ptrZ = reinterpret_cast<std::complex<T>*>(ptr);
         std::complex<T> v = ptrZ[0];
         std::string realPart = std::to_string(v.real());
@@ -463,7 +590,7 @@ QString
 QtWorkspaceBrowser::handleLogicalVariable(const ArrayOf* variable) const
 {
     if (variable->isScalar()) {
-        return wstringToQString(variable->getContentAsLogicalScalar() ? L"true" : L"false");
+        return wstringToQString(variable->asLogicalScalar() ? L"true" : L"false");
     } else {
         return handleDefaultCase(variable);
     }
@@ -476,9 +603,9 @@ QtWorkspaceBrowser::handleCharVariable(const ArrayOf* variable) const
         return "''";
     } else {
         if (variable->isRowVector() || variable->isScalar()) {
-            return wstringToQString(L"\'" + variable->getContentAsWideString() + L"\'");
+            return wstringToQString(L"\'" + variable->asWideString() + L"\'");
         } else {
-            return wstringToQString(variable->getDimensions().toWideString() + L" char");
+            return wstringToQString(variable->dimensions().toWideString() + L" char");
         }
     }
 }
@@ -493,11 +620,11 @@ QString
 QtWorkspaceBrowser::handleStringArray(const ArrayOf* variable) const
 {
     if (variable->isScalar()) {
-        ArrayOf* ptr = (ArrayOf*)variable->getDataPointer();
+        ArrayOf* ptr = (ArrayOf*)variable->dataPointer();
         if (ptr && ptr->isDoubleClass()) {
             return wstringToQString(L"<missing>");
         }
-        return wstringToQString(L"\"" + variable->getContentAsWideString() + L"\"");
+        return wstringToQString(L"\"" + variable->asWideString() + L"\"");
     } else {
         return handleDefaultCase(variable);
     }
@@ -507,7 +634,7 @@ QString
 QtWorkspaceBrowser::handleFunctionHandle(const ArrayOf* variable) const
 {
     if (variable->isScalar()) {
-        function_handle fh = variable->getContentAsFunctionHandle();
+        function_handle fh = variable->asFunctionHandle();
         AnonymousMacroFunctionDef* cp
             = reinterpret_cast<AnonymousMacroFunctionDef*>(fh.anonymousHandle);
         return (cp) ? QString::fromStdString(cp->toString()) : QString();
@@ -519,16 +646,16 @@ QtWorkspaceBrowser::handleFunctionHandle(const ArrayOf* variable) const
 QString
 QtWorkspaceBrowser::handleDefaultCase(const ArrayOf* variable) const
 {
-    NelsonType valueType = variable->getDataClass();
+    NelsonType valueType = variable->dataClass();
     std::wstring className = ClassToStringW(valueType);
     if (valueType == NLS_HANDLE) {
-        className = utf8_to_wstring(variable->getHandleCategory());
+        className = utf8_to_wstring(variable->handleCategory());
     }
-    if (valueType == NLS_CLASS_ARRAY) {
-        className = utf8_to_wstring(variable->getClassType());
+    if (valueType == NLS_CLASS_ARRAY || valueType == NLS_CLASSDEF_ARRAY) {
+        className = utf8_to_wstring(variable->classType());
     }
     std::wstring variableClassname = (variable->isSparse()) ? L"sparse " + className : className;
-    return wstringToQString(variable->getDimensions().toWideString()) + " "
+    return wstringToQString(variable->dimensions().toWideString()) + " "
         + wstringToQString(variableClassname);
 }
 //=============================================================================
@@ -539,7 +666,6 @@ QtWorkspaceBrowser::getCurrentVariableNameSelected()
     QModelIndexList selectedIndexes = m_tableView->selectionModel()->selectedIndexes();
 
     if (!selectedIndexes.isEmpty()) {
-        // Get the source index from proxy model
         QModelIndex sourceIndex = m_proxyModel->mapToSource(selectedIndexes.first());
         int selectedRow = sourceIndex.row();
         QStandardItem* nameItem = m_model->item(selectedRow, NAME_COLUMN);
@@ -550,12 +676,63 @@ QtWorkspaceBrowser::getCurrentVariableNameSelected()
     return name;
 }
 //=============================================================================
+QStringList
+QtWorkspaceBrowser::getSelectedVariableNames()
+{
+    QStringList names;
+    if (!m_tableView->selectionModel()) {
+        return names;
+    }
+    const QModelIndexList selectedRows = m_tableView->selectionModel()->selectedRows(NAME_COLUMN);
+    for (const QModelIndex& index : selectedRows) {
+        QModelIndex sourceIndex = m_proxyModel->mapToSource(index);
+        QStandardItem* nameItem = m_model->item(sourceIndex.row(), NAME_COLUMN);
+        if (nameItem && !names.contains(nameItem->text())) {
+            names << nameItem->text();
+        }
+    }
+    if (names.isEmpty()) {
+        QString name = getCurrentVariableNameSelected();
+        if (!name.isEmpty()) {
+            names << name;
+        }
+    }
+    return names;
+}
+//=============================================================================
+bool
+QtWorkspaceBrowser::isGlobalVariable(const QString& name)
+{
+    if (!m_context || name.isEmpty()) {
+        return false;
+    }
+    return m_context->isVariableGlobal(wstring_to_utf8(QStringTowstring(name)));
+}
+//=============================================================================
 void
 QtWorkspaceBrowser::onDeleteAction()
 {
-    QString name = getCurrentVariableNameSelected();
-    if (!name.isEmpty()) {
-        QString command = QString("clear('%1');").arg(name);
+    QStringList names = getSelectedVariableNames();
+    if (names.isEmpty()) {
+        return;
+    }
+    QStringList localNames;
+    QStringList globalNames;
+    for (const QString& name : names) {
+        if (isGlobalVariable(name)) {
+            globalNames << QString("'%1'").arg(name);
+        } else {
+            localNames << QString("'%1'").arg(name);
+        }
+    }
+    QString command;
+    if (!localNames.isEmpty()) {
+        command += QString("clear(%1);").arg(localNames.join(","));
+    }
+    if (!globalNames.isEmpty()) {
+        command += QString("clear('global',%1);").arg(globalNames.join(","));
+    }
+    if (!command.isEmpty()) {
         emit postCommand(command);
     }
 }
@@ -570,7 +747,10 @@ QtWorkspaceBrowser::onRenameAction()
             this, TR("Rename Variable"), TR("Enter a new name:"), QLineEdit::Normal, oldName, &ok);
 
         if (ok && !newName.isEmpty() && newName != oldName) {
-            QString command = QString("%2 = %1;clear('%1');").arg(oldName, newName);
+            QString clearCommand = isGlobalVariable(oldName)
+                ? QString("clear('global','%1');").arg(oldName)
+                : QString("clear('%1');").arg(oldName);
+            QString command = QString("%2 = %1;").arg(oldName, newName) + clearCommand;
             emit postCommand(command);
         }
     }
@@ -579,15 +759,24 @@ QtWorkspaceBrowser::onRenameAction()
 void
 QtWorkspaceBrowser::onSaveAsAction()
 {
-    QString variableName = getCurrentVariableNameSelected();
-    if (!variableName.isEmpty()) {
-        QString newFileName = QFileDialog::getSaveFileName(
-            this, TR("Save Variable As"), variableName, TR("Nelson Files (*.nh5)"));
+    QStringList variableNames = getSelectedVariableNames();
+    if (variableNames.isEmpty()) {
+        return;
+    }
+    QString defaultName
+        = (variableNames.size() == 1) ? variableNames.first() : QString("workspace");
+    QString newFileName = QFileDialog::getSaveFileName(this, TR("Save Variables As"),
+        qtDialogInitialSavePath(L"desktop.save", QString(), defaultName),
+        TR("Nelson Files (*.nh5)"));
 
-        if (!newFileName.isEmpty()) {
-            QString command = QString("save('%2','%1');").arg(variableName, newFileName);
-            emit postCommand(command);
+    if (!newFileName.isEmpty()) {
+        qtRecordDialogSelection(L"desktop.save", QStringLiteral("save"), newFileName);
+        QStringList quotedNames;
+        for (const QString& variableName : variableNames) {
+            quotedNames << QString("'%1'").arg(variableName);
         }
+        QString command = QString("save('%1',%2);").arg(newFileName, quotedNames.join(","));
+        emit postCommand(command);
     }
 }
 //=============================================================================
@@ -605,12 +794,6 @@ QtWorkspaceBrowser::onPlotAction(const QString& plotCommand)
         commands.push_back(plotCommand);
         emit sendCommands(commands);
     }
-}
-//=============================================================================
-void
-QtWorkspaceBrowser::handleDockLocationChanged(Qt::DockWidgetArea area)
-{
-    sizeGrip->setVisible(area == Qt::NoDockWidgetArea);
 }
 //=============================================================================
 void

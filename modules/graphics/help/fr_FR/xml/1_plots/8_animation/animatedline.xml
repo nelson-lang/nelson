@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>animatedline</keyword>
+  <short_description>Creer une ligne animee.</short_description>
+  <syntax>
+    <syntax_item>an = animatedline()</syntax_item>
+    <syntax_item>an = animatedline(x, y)</syntax_item>
+    <syntax_item>an = animatedline(x, y, z)</syntax_item>
+    <syntax_item>an = animatedline(ax, ...)</syntax_item>
+    <syntax_item>an = animatedline(..., propertyName, propertyValue)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>x, y, z</param_name>
+      <param_description>coordonnees numeriques: scalaires ou tableaux avec le meme nombre d'elements.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description>axes cible ou objet groupe.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName</param_name>
+      <param_description>chaine scalaire ou vecteur de caracteres.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyValue</param_name>
+      <param_description>valeur de propriete.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>an</param_name>
+      <param_description>objet graphique de type animatedline.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>animatedline</b> cree une ligne animee sans point stocke.</p>
+    <p><b>animatedline(x, y)</b> cree une ligne animee initialisee avec des coordonnees deux dimensions.</p>
+    <p><b>animatedline(x, y, z)</b> cree une ligne animee initialisee avec des coordonnees trois dimensions.</p>
+    <p>Utilisez <b>addpoints</b>, <b>clearpoints</b> et <b>getpoints</b> pour modifier ou lire les coordonnees stockees.</p>
+    <p><b>MaximumNumPoints</b> limite le nombre de points stockes et conserve les points les plus recents.</p>
+    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.animatedline.properties">proprietes de animatedline</link> pour la liste complete des proprietes.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="adv-cli"><![CDATA[f = figure();
+ax = axes('Parent', f);
+an = animatedline(ax, 'Color', [0 0.4 0.8], 'LineWidth', 2);
+x = linspace(0, 2*pi, 120);
+addpoints(an, x, sin(x));
+drawnow]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.animatedline.properties">proprietes de animatedline</link>
+    </see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/8_animation/addpoints">addpoints</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/8_animation/clearpoints">clearpoints</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/8_animation/getpoints">getpoints</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/8_animation/comet">comet</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

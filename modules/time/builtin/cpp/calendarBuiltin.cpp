@@ -10,9 +10,9 @@
 #include "calendarBuiltin.hpp"
 #include "Calendar.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "NelsonPrint.hpp"
-#include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -29,41 +29,41 @@ Nelson::TimeGateway::calendarBuiltin(int nLhs, const ArrayOfVector& argIn)
     } break;
     case 1: {
         ArrayOf param1 = argIn[0];
-        double d = param1.getContentAsDoubleScalar();
+        double d = param1.asDoubleScalar();
         cal = new Calendar(d);
     } break;
     case 2: {
         ArrayOf param1 = argIn[0];
-        uint64 cyear = param1.getContentAsUnsignedInteger64Scalar();
+        uint64 cyear = param1.asUint64Scalar();
         if (cyear < 1400 || cyear > 9999) {
-            Error(ERROR_WRONG_ARGUMENT_1_VALUE);
+            Error(L"Nelson:invalidValue", L"Wrong value for #%d argument.", (1));
         }
         ArrayOf param2 = argIn[1];
-        int32 cmonth = param2.getContentAsInteger32Scalar();
+        int32 cmonth = param2.asInt32Scalar();
         if (cmonth > 0 && cmonth < 13) {
             cal = new Calendar(cyear, (uint8)cmonth);
         } else {
-            Error(ERROR_WRONG_ARGUMENT_2_VALUE);
+            Error(L"Nelson:invalidValue", L"Wrong value for #%d argument.", (2));
         }
     } break;
     default: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(L"Nelson:tooManyInputs", L"Too many input arguments.");
     } break;
     }
     if (cal == nullptr) {
-        Error(_W("Calendar not initialized."));
+        Error(L"Nelson:time:calendarInitialized", L"Calendar not initialized.");
     }
     if (cal->getYear() < 1400 || cal->getYear() > 9999) {
         delete cal;
-        Error(_W("Year value is wrong [1400, 9999] expected."));
+        Error(L"Nelson:time:yearValueWrong14009999", L"Year value is wrong [1400, 9999] expected.");
     }
     if (!(cal->getMonth() > 0 && cal->getMonth() < 13)) {
         delete cal;
-        Error(_W("Month value is wrong [1, 12] expected."));
+        Error(L"Nelson:time:monthValueWrong112", L"Month value is wrong [1, 12] expected.");
     }
     switch (nLhs) {
     case 0: {
-        std::wstring msg = cal->getAsFormatedText();
+        std::wstring msg = cal->getAsFormattedText();
         delete cal;
         NelsonPrint(msg);
     } break;
@@ -73,12 +73,11 @@ Nelson::TimeGateway::calendarBuiltin(int nLhs, const ArrayOfVector& argIn)
     } break;
     case 2: {
         retval << cal->get();
-        retval << ArrayOf::toCellArrayOfCharacterRowVectors(cal->getNameOfDays());
+        retval << ArrayOf::cellArrayFromArrayOfCharacterRowVectors(cal->getNameOfDays());
         delete cal;
     } break;
     default: {
         delete cal;
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
     } break;
     }
     return retval;

@@ -12,9 +12,9 @@ function y = deg2rad(varargin)
   nargoutchk(0, 1);
   x = varargin{1};
   if isfloat(x)
-    y = (pi/180) * x;
+    y = (pi / 180) * x;
   else
-    error('Nelson:deg2rad:nonFloatInput', _('Input must be single or double.'));
+    error('Nelson:trigonometric_functions:nonFloatInput', 'Input must be single or double.');
   end
 end
 %=============================================================================

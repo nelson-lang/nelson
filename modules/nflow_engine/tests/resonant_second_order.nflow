@@ -1,0 +1,73 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Allan CORNET",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "comments": "Lightly damped resonant step response: 4/(s^2+0.5s+4), zeta=0.125.",
+  "name": "resonant_second_order",
+  "blocks": [
+    {
+      "id": "f1",
+      "type": "step",
+      "x": 40,
+      "y": 180,
+      "rotation": 0,
+      "params": {
+        "Time": 0
+      }
+    },
+    {
+      "id": "p1",
+      "type": "tf",
+      "x": 220,
+      "y": 180,
+      "rotation": 0,
+      "params": {
+        "Numerator": [
+          4
+        ],
+        "Denominator": [
+          1,
+          0.5,
+          4
+        ]
+      }
+    },
+    {
+      "id": "tw",
+      "type": "toWorkspace",
+      "x": 400,
+      "y": 180,
+      "rotation": 0,
+      "params": {
+        "VariableName": "resonant_second_order_out",
+        "MaxDataPoints": "inf",
+        "Decimation": 1,
+        "SaveFormat": "Array",
+        "SampleTime": "-1"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "f1",
+      "to": "p1",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "p1",
+      "to": "tw",
+      "fromIndex": 0,
+      "toIndex": 0
+    }
+  ],
+  "variables": "",
+  "runtime": 30,
+  "sampleTime": 0.1,
+  "autoRoute": true,
+  "solver": "ode45"
+}

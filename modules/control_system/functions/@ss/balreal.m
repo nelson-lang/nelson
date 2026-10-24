@@ -11,30 +11,30 @@
 function varargout = balreal(varargin)
   narginchk(1, 1);
   nargoutchk(0, 4);
-  
+
   sys = varargin{1};
   Ts = sys.Ts;
   D = sys.D;
-  
+
   G = gram(sys, 'c');
   [V, S] = svd(G);
   T1 = V * sqrt(S);
-  
+
   A = inv(T1) * sys.A * T1;
   B = inv(T1) * sys.B;
   C = sys.C * T1;
-  
+
   sys = ss(A', C', [], []);
   G = gram(sys, 'c');
   [V, S] = svd(G);
-  T2 = V * (S ^ (-1/4));
-  
+  T2 = V * (S ^ (-1 / 4));
+
   A = inv(T2) * A * T2;
   B = inv(T2) * B;
   C = C * T2;
-  
+
   sysOut = ss(A, B, C, D);
-  
+
   varargout{1} = sysOut;
   if nargout > 1
     W = gram(ss(sysOut.A, sysOut.B, [], []), 'c');

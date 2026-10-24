@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,7 +9,7 @@
 //=============================================================================
 #include <cstring>
 #include "LoadMatioSingle.hpp"
-#include "Exception.hpp"
+#include "NelsonException.hpp"
 #include "matioHelpers.hpp"
 //=============================================================================
 namespace Nelson {
@@ -24,15 +24,15 @@ LoadMatioSingle(matvar_t* matVariable, ArrayOf& VariableValue)
     NelsonType destinationClass = matVariable->isComplex != 0 ? NLS_SCOMPLEX : NLS_SINGLE;
     Dimensions dims = getMatVarDimensions(matVariable);
     if (dims.isEmpty(false)) {
-        VariableValue = ArrayOf::emptyConstructor(dims);
+        VariableValue = ArrayOf::empty(dims);
         VariableValue.promoteType(destinationClass);
         bSuccess = true;
     } else {
         void* ptr = nullptr;
         try {
             ptr = ArrayOf::allocateArrayOf(
-                destinationClass, dims.getElementCount(), stringVector(), false);
-        } catch (Exception&) {
+                destinationClass, dims.elementCount(), stringVector(), false);
+        } catch (NelsonException&) {
             return false;
         }
         if (matVariable->isComplex != 0) {
@@ -41,7 +41,7 @@ LoadMatioSingle(matvar_t* matVariable, ArrayOf& VariableValue)
             single* ptrR = (single*)(cplx->Re);
             single* ptrI = (single*)(cplx->Im);
             indexType i = 0;
-            indexType elementCount = dims.getElementCount();
+            indexType elementCount = dims.elementCount();
             for (indexType k = 0; k < elementCount; k++) {
                 ptrDouble[i] = ptrR[k];
                 ptrDouble[i + 1] = ptrI[k];

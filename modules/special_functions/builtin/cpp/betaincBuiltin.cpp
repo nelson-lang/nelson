@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "betaincBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "BetaIncomplete.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -25,7 +26,7 @@ Nelson::SpecialFunctionsGateway::betaincBuiltin(int nLhs, const ArrayOfVector& a
     bool needToOverload = false;
     bool isLower = true;
     if (argIn.size() == 4) {
-        std::wstring tail = argIn[3].getContentAsWideString();
+        std::wstring tail = argIn[3].asWideString();
         if (tail.compare(L"upper") == 0 || tail.compare(L"lower") == 0) {
             if (tail.compare(L"upper") == 0) {
                 isLower = false;
@@ -33,7 +34,8 @@ Nelson::SpecialFunctionsGateway::betaincBuiltin(int nLhs, const ArrayOfVector& a
                 isLower = true;
             }
         } else {
-            Error(_("Wrong value of the fourth argument 'upper' or 'lower' expected."));
+            Error("Nelson:special_functions:invalidTail", "%s expected.",
+                "Wrong value of the fourth argument 'upper' or 'lower'");
         }
     }
     retval << BetaIncomplete(argIn[0], argIn[1], argIn[2], isLower, needToOverload);

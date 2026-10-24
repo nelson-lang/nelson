@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
 A = eye(1000, 1000);
-tic();ishermitian(A);toc()
+tic(); ishermitian(A); toc()
 %=============================================================================

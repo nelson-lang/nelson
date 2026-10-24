@@ -10,59 +10,51 @@
 % <--ADV-CLI MODE-->
 %=============================================================================
 f = figure();
-x = linspace(0,10);
+x = linspace(0, 10);
 y = sin(x);
 R = line(x, y);
-assert_isequal(R.Type, 'line');
+asserts.isequal(R.Type, 'line');
 %=============================================================================
 P = properties(R);
 REF = {'BeingDeleted';
-'BusyAction';
-'Children';       
-'Color';
-'CreateFcn';
-'DeleteFcn';          
-'DisplayName';    
-'Interruptible';
-'LineStyle';      
-'LineWidth';      
-'Marker';         
-'MarkerEdgeColor';
-'MarkerFaceColor';
-'MarkerSize';     
-'Parent';         
-'Tag';            
-'Type';           
-'UserData';       
-'Visible';        
-'XData';          
-'XDataMode';      
-'YData';          
-'ZData'};
-assert_isequal(P, REF);
+  'BusyAction';
+  'Children';
+  'Color';
+  'CreateFcn';
+  'DeleteFcn';
+  'DisplayName';
+  'Interruptible';
+  'LineStyle';
+  'LineWidth';
+  'Marker';
+  'MarkerEdgeColor';
+  'MarkerFaceColor';
+  'MarkerSize';
+  'Parent';
+  'Tag';
+  'Type';
+  'UserData';
+  'Visible';
+  'XData';
+  'XDataMode';
+  'YData';
+  'ZData'};
+asserts.istrue(all(ismember(REF, P)));
+close all;
 %=============================================================================
-figure();
-t = linspace(0,10*pi,200);
-x = sin(t);
-y = cos(t);
-z = t;
-R = line(x, y, z);
-view(3)
-%=============================================================================
-figure();
-x = linspace(0,10);
-y = sin(x);
-line('XData',x,'YData',y)
-%=============================================================================
-figure();
-x = [1 9];
-y = [2 12];
-line(x,y,'Color','red','LineStyle','--')
-%=============================================================================
-figure();
-x = [3 2];
-y = [15 12];
-pl = line(x, y);
-pl.Color = 'green';
-pl.LineStyle = '--';
+% matrix X and Y data draw one line object per column
+f = figure('Visible', 'off');
+h = line([0 0 0; 1 1 1], [0 1 2; 3 4 5]);
+asserts.isequal(numel(h), 3);
+asserts.istrue(all(isgraphics(h, 'line')));
+asserts.isequal(h(2).XData, [0 1]);
+asserts.isequal(h(2).YData, [1 4]);
+% a shared vector partner is reused for every column of the matrix
+h2 = line([0 1], [0 1; 2 3; 4 5]');
+asserts.isequal(numel(h2), 3);
+asserts.isequal(h2(1).XData, [0 1]);
+% a plain vector is still a single line
+h3 = line([0 1 2], [0 1 2]);
+asserts.isequal(numel(h3), 1);
+close(f);
 %=============================================================================

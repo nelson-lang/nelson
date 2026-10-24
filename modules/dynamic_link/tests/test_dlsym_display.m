@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--WEIGHT 2-->
 % <-- NO USER MODULES -->
 %=============================================================================
 lib = dlopen([modulepath('nelson', 'builtin'), '/libnlsDynamic_link', getdynlibext()]);
@@ -14,7 +15,7 @@ f = dlsym(lib, 'dynlibTestMultiplyDoubleArrayWithReturn', 'int32', {'doublePtr',
 %=============================================================================
 R = evalc('display(f)');
 REF = '
-f =
+f = 
 
   1×1 handle [dlsym] 
 
@@ -23,7 +24,7 @@ f =
   Output:    {int32, doublePtr}
 
 ';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = evalc('disp(f)');
 REF = '  1×1 handle [dlsym] 
@@ -32,5 +33,5 @@ REF = '  1×1 handle [dlsym]
   Input:     {doublePtr, int32}
   Output:    {int32, doublePtr}
 ';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================

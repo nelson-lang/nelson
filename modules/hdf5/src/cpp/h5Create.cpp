@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -16,8 +16,9 @@
 #include "characters_encoding.hpp"
 #include "h5Create.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
-#include "Exception.hpp"
+#include "NelsonException.hpp"
 #include "NewWithException.hpp"
 //=============================================================================
 namespace Nelson {
@@ -58,7 +59,7 @@ nelsonClassToHdf5DataType(NelsonType dataType)
         datatype = H5Tcopy(H5T_STD_I8LE);
     } break;
     default: {
-        Error(_("Type not managed."));
+        Error("Nelson:h5create:typeNotSupported", "Type not supported.");
     } break;
     }
     return datatype;
@@ -71,56 +72,56 @@ setFillValue(const ArrayOf& fillvalue, NelsonType dataType, hid_t dcpl)
     switch (dataType) {
     case NLS_DOUBLE: {
         hid_t fillType = H5T_NATIVE_DOUBLE;
-        double value = fillvalue.getContentAsDoubleScalar();
+        double value = fillvalue.asDoubleScalar();
         status = H5Pset_fill_value(dcpl, fillType, &value);
     } break;
     case NLS_SINGLE: {
         hid_t fillType = H5T_NATIVE_FLOAT;
-        single value = fillvalue.getContentAsSingleScalar();
+        single value = fillvalue.asSingleScalar();
         status = H5Pset_fill_value(dcpl, fillType, &value);
     } break;
     case NLS_UINT64: {
         hid_t fillType = H5T_STD_U64LE;
-        uint64 value = fillvalue.getContentAsUnsignedInteger64Scalar();
+        uint64 value = fillvalue.asUint64Scalar();
         status = H5Pset_fill_value(dcpl, fillType, &value);
     } break;
     case NLS_UINT32: {
         hid_t fillType = H5T_STD_U32LE;
-        uint32 value = fillvalue.getContentAsUnsignedInteger32Scalar();
+        uint32 value = fillvalue.asUint32Scalar();
         status = H5Pset_fill_value(dcpl, fillType, &value);
     } break;
     case NLS_UINT16: {
         hid_t fillType = H5T_STD_U16LE;
-        uint16 value = fillvalue.getContentAsUnsignedInteger16Scalar();
+        uint16 value = fillvalue.asUint16Scalar();
         status = H5Pset_fill_value(dcpl, fillType, &value);
     } break;
     case NLS_UINT8: {
         hid_t fillType = H5T_STD_U8LE;
-        uint8 value = fillvalue.getContentAsUnsignedInteger8Scalar();
+        uint8 value = fillvalue.asUint8Scalar();
         status = H5Pset_fill_value(dcpl, fillType, &value);
     } break;
     case NLS_INT64: {
         hid_t fillType = H5T_STD_I64LE;
-        int64 value = fillvalue.getContentAsInteger64Scalar();
+        int64 value = fillvalue.asInt64Scalar();
         status = H5Pset_fill_value(dcpl, fillType, &value);
     } break;
     case NLS_INT32: {
         hid_t fillType = H5T_STD_I32LE;
-        int32 value = fillvalue.getContentAsInteger32Scalar();
+        int32 value = fillvalue.asInt32Scalar();
         status = H5Pset_fill_value(dcpl, fillType, &value);
     } break;
     case NLS_INT16: {
         hid_t fillType = H5T_STD_I16LE;
-        int16 value = fillvalue.getContentAsInteger16Scalar();
+        int16 value = fillvalue.asInt16Scalar();
         status = H5Pset_fill_value(dcpl, fillType, &value);
     } break;
     case NLS_INT8: {
         hid_t fillType = H5T_STD_I8LE;
-        int8 value = fillvalue.getContentAsInteger8Scalar();
+        int8 value = fillvalue.asInt8Scalar();
         status = H5Pset_fill_value(dcpl, fillType, &value);
     } break;
     default: {
-        Error(_("Type not managed."));
+        Error("Nelson:h5create:typeNotSupported", "Type not supported.");
     } break;
     }
     return status;
@@ -133,29 +134,31 @@ h5Create(const std::wstring& filename, const std::wstring& dataSetName,
     const std::wstring& textEncoding)
 {
     if (deflate < 0 || deflate > 9) {
-        Error(_W("Valid deflate value expected."));
+        Error(L"Nelson:h5create:invalidDeflate", L"Valid %s expected.", L"deflate value");
     }
     if (filename.empty()) {
-        Error(_W("Valid filename expected."));
+        Error(L"Nelson:hdf5:invalidFilename", L"Valid %s expected.", L"filename");
     }
     if (dataSetName.empty()) {
-        Error(_W("Valid data set name expected."));
+        Error(L"Nelson:h5create:invalidDatasetName", L"Valid %s expected.", L"data set name");
     }
     if ((fletcher32 || shuffle || (deflate > 0)) && chunksize.empty()) {
-        Error(_W("ChunkSize required."));
+        Error(L"Nelson:h5create:chunkSizeRequired", L"ChunkSize required.");
     }
     if (!fillvalue.isEmpty()) {
-        if (fillvalue.getDataClass() != dataType) {
-            Error(_W("FillValue and data set class must be same."));
+        if (fillvalue.dataClass() != dataType) {
+            Error(L"Nelson:h5create:fillValueClassMismatch",
+                L"FillValue and data set class must be same.");
         }
     }
     if (!chunksize.empty()) {
         if (chunksize.size() != sizeData.size()) {
-            Error(_W("Length ChunkSize and Size must be equal."));
+            Error(L"Nelson:h5create:chunkSizeLengthMismatch",
+                L"Length ChunkSize and Size must be equal.");
         }
         for (size_t k = 0; k < chunksize.size(); k++) {
             if (chunksize[k] - sizeData[k] > 0) {
-                Error(_W("ChunkSize larger than Size."));
+                Error(L"Nelson:h5create:chunkSizeTooLarge", L"ChunkSize larger than Size.");
             }
         }
     } else {
@@ -167,7 +170,7 @@ h5Create(const std::wstring& filename, const std::wstring& dataSetName,
             }
         }
         if (haveZeros) {
-            Error(_W("ChunkSize expected."));
+            Error(L"Nelson:h5create:chunkSizeExpected", L"ChunkSize expected.");
         }
     }
 
@@ -181,7 +184,7 @@ h5Create(const std::wstring& filename, const std::wstring& dataSetName,
         = FileSystemWrapper::Path::is_regular_file(hdf5_filename, permissionDenied);
     if (!fileExistPreviously) {
         if (permissionDenied) {
-            Error(_W("Permission denied."));
+            Error(L"Nelson:hdf5:permissionDenied", L"Permission denied.");
         }
     }
     if (!fileExistPreviously) {
@@ -189,26 +192,25 @@ h5Create(const std::wstring& filename, const std::wstring& dataSetName,
             H5P_DEFAULT, H5P_DEFAULT);
     } else {
         if (!H5Fis_hdf5(wstring_to_utf8(hdf5_filename.wstring()).c_str())) {
-            Error(_W("HDF5 format file expected."));
+            Error(L"Nelson:hdf5:notHdf5File", L"HDF5 format file expected.");
         } else {
             fid = H5Fopen(
                 wstring_to_utf8(hdf5_filename.wstring()).c_str(), H5F_ACC_RDWR, H5P_DEFAULT);
         }
     }
     if (fid == H5I_INVALID_HID) {
-        Error(_W("Open file failed."));
+        Error(L"Nelson:hdf5:openFailed", L"Open file failed.");
     }
     htri_t exists = H5Lexists(fid, wstring_to_utf8(dataSetName).c_str(), H5P_DEFAULT);
     if (exists) {
         H5Fclose(fid);
-        Error(_W("data set already exists."));
+        Error(L"Nelson:h5create:datasetAlreadyExists", L"data set already exists.");
     }
 
-    /* Create the data space for the data set. */
     hsize_t* sizeDataAsHsize_t = nullptr;
     try {
         sizeDataAsHsize_t = new_with_exception<hsize_t>(sizeData.size(), true);
-    } catch (Exception&) {
+    } catch (NelsonException&) {
         H5Fclose(fid);
         throw;
     }
@@ -223,7 +225,7 @@ h5Create(const std::wstring& filename, const std::wstring& dataSetName,
     hsize_t* maxdimsAsHsize_t = nullptr;
     try {
         maxdimsAsHsize_t = new_with_exception<hsize_t>(sizeData.size(), true);
-    } catch (Exception&) {
+    } catch (NelsonException&) {
         H5Fclose(fid);
         throw;
     }
@@ -239,7 +241,7 @@ h5Create(const std::wstring& filename, const std::wstring& dataSetName,
     delete[] maxdimsAsHsize_t;
     if (space_id == H5I_INVALID_HID) {
         H5Fclose(fid);
-        Error(_W("H5Screate_simple fails."));
+        Error(L"Nelson:hdf5:H5ScreateFailed", L"H5Screate_simple fails.");
     }
 
     hid_t lcpl = H5Pcreate(H5P_LINK_CREATE);
@@ -255,7 +257,7 @@ h5Create(const std::wstring& filename, const std::wstring& dataSetName,
         hsize_t* dimsChunk = nullptr;
         try {
             dimsChunk = new_with_exception<hsize_t>(chunksize.size(), true);
-        } catch (Exception&) {
+        } catch (NelsonException&) {
             H5Pclose(dcpl);
             H5Fclose(fid);
             throw;
@@ -267,14 +269,14 @@ h5Create(const std::wstring& filename, const std::wstring& dataSetName,
             delete[] dimsChunk;
             H5Pclose(dcpl);
             H5Fclose(fid);
-            Error(_W("H5Pset_layout fails."));
+            Error(L"Nelson:hdf5:H5PsetLayoutFailed", L"H5Pset_layout fails.");
             return;
         }
         if (H5Pset_chunk(dcpl, (int)sizeData.size(), dimsChunk) == H5I_INVALID_HID) {
             delete[] dimsChunk;
             H5Pclose(dcpl);
             H5Fclose(fid);
-            Error(_W("H5Pset_chunk fails."));
+            Error(L"Nelson:hdf5:H5PsetChunkFailed", L"H5Pset_chunk fails.");
             return;
         }
         delete[] dimsChunk;
@@ -282,7 +284,7 @@ h5Create(const std::wstring& filename, const std::wstring& dataSetName,
         if (H5Pset_layout(dcpl, H5D_CONTIGUOUS) == H5I_INVALID_HID) {
             H5Pclose(dcpl);
             H5Fclose(fid);
-            Error(_W("H5Pset_layout fails."));
+            Error(L"Nelson:hdf5:H5PsetLayoutFailed", L"H5Pset_layout fails.");
         }
     }
     if (deflate != 0) {
@@ -307,7 +309,7 @@ h5Create(const std::wstring& filename, const std::wstring& dataSetName,
             FileSystemWrapper::Path _p = filename;
             FileSystemWrapper::Path::remove(_p);
         }
-        Error(_W("H5Dcreate fails."));
+        Error(L"Nelson:hdf5:H5DcreateFailed", L"H5Dcreate fails.");
     }
     status = H5Pclose(lcpl);
     status = H5Pclose(dcpl);

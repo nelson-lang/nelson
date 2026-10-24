@@ -7,24 +7,30 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_checkerror('cos', _('Wrong number of input arguments.'));
-[r, msg] = assert_checkerror('cos', _('Wrong number of input arguments.'));
+assert_checkerror('cos', _('Not enough input arguments.'));
+[r, msg] = assert_checkerror('cos', _('Not enough input arguments.'));
 if (r ~= true)
-  error(_('assert_checkerror fails.'));
+  error('Nelson:asserts:testFailure', _('assert_checkerror fails.'));
 end
 if strcmp(msg, '') == false
-  error(_('assert_checkerror fails.'));
+  error('Nelson:asserts:testFailure', _('assert_checkerror fails.'));
 end
 %=============================================================================
 [r, msg] = assert_checkerror('cos', 'Wrong number of input arguments2.');
 if (r ~= false)
-  error(_('assert_checkerror fails.'));
+  error('Nelson:asserts:testFailure', _('assert_checkerror fails.'));
 end
 %=============================================================================
-expectedmsg = [_('Assertion failed : expected error message ='), ' "', 'Wrong number of input arguments2.', '" ', _('computed error message ='), ' "', _('Wrong number of input arguments.'), '"'];
+expectedmsg = sprintf(_('Assertion failed: expected error message = "%s" computed error message = "%s"'), 'Wrong number of input arguments2.', _('Not enough input arguments.'));
 %=============================================================================
 if strcmp(msg, expectedmsg) == false
-  error(_('assert_checkerror fails.'));
+  error('Nelson:asserts:testFailure', _('assert_checkerror fails.'));
 end
 %=============================================================================
 assert_checkerror('mustBeFinite(NaN)', _('Value must be finite.'), 'Nelson:validators:mustBeFinite')
+%=============================================================================
+[r, msg] = assert_checkerror('1 + 1', _('unused'));
+assert_isfalse(r);
+assert_isequal(msg, _('No error was produced while evaluating command.'));
+%=============================================================================
+assert_checkerror('assert_checkerror(''1 + 1'', _(''unused''));', _('No error was produced while evaluating command.'));

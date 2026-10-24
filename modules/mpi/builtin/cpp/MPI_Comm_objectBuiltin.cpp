@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "MPI_Comm_objectBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "MPI_CommHandleObject.hpp"
 #include <mpi.h>
@@ -25,19 +26,19 @@ Nelson::MpiGateway::MPI_Comm_objectBuiltin(int nLhs, const ArrayOfVector& argIn)
     int flagInit = 0;
     MPI_Initialized(&flagInit);
     if (!flagInit) {
-        Error(_W("MPI must be initialized."));
+        Error(L"Nelson:MPI:notInitialized", L"MPI must be initialized.");
     }
     MPI_Comm comm = MPI_COMM_WORLD;
     if (argIn.size() == 1) {
-        std::wstring description = argIn[0].getContentAsWideString();
+        std::wstring description = argIn[0].asWideString();
         if (description == L"MPI_COMM_SELF") {
             comm = MPI_COMM_SELF;
         } else if (description == L"MPI_COMM_WORLD") {
             comm = MPI_COMM_WORLD;
         } else if (description == L"MPI_COMM_NULL") {
-            Error(_W("MPI_COMM_NULL not allowed."));
+            Error(L"Nelson:MPI:commNotAllowed", L"MPI_COMM_NULL not allowed.");
         } else {
-            Error(description + _W(" not allowed."));
+            Error(L"Nelson:MPI:notAllowed", L"%s not allowed.", description);
         }
     }
     retval << MpiCommToHandle(comm);

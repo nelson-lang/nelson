@@ -13,11 +13,13 @@
 #include "Colon.hpp"
 #include "Evaluator.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "ClassToString.hpp"
 #include "Operators.hpp"
 #include "NelsonConfiguration.hpp"
 #include "OverloadHelpers.hpp"
+#include "BinaryOperatorHelpers.hpp"
 #include "OverloadRequired.hpp"
 #include "FindCommonColonType.hpp"
 //=============================================================================
@@ -64,26 +66,6 @@ namespace Nelson {
 // y = 5:4
 //@>
 //!
-//=============================================================================
-ArrayOf
-Evaluator::colonOperator(AbstractSyntaxTreePtr t)
-{
-    callstack.pushID((size_t)t->getContext());
-    ArrayOf retval = this->colonOperator(
-        expression(t->down->down), expression(t->down->down->right), expression(t->down->right));
-    callstack.popID();
-    return retval;
-}
-//=============================================================================
-ArrayOf
-Evaluator::colonUnitOperator(AbstractSyntaxTreePtr t)
-{
-    callstack.pushID((size_t)t->getContext());
-    ArrayOf retval = this->colonUnitOperator(expression(t->down), expression(t->down->right));
-    callstack.popID();
-    return retval;
-}
-//=============================================================================
 ArrayOf
 Evaluator::colonUnitOperator(const ArrayOf& A, const ArrayOf& B)
 {
@@ -100,19 +82,19 @@ Evaluator::colonUnitOperator(const ArrayOf& A, const ArrayOf& B)
     ArrayOf res;
     if (findColonCommonType(argIn, commonType, isSparse, commonTypeName)) {
         bool overloadWasFound = false;
-        res = callOverloadedFunction(this,
-            NelsonConfiguration::getInstance()->getOverloadLevelCompatibility(), argIn,
-            functionName, commonTypeName, commonType, overloadWasFound);
+        res = callOperatorOverload(
+            this, argIn, functionName, commonTypeName, commonType, overloadWasFound);
         if (overloadWasFound) {
             return res;
         }
     }
     if (commonType == NLS_UNKNOWN || commonType == NLS_STRUCT_ARRAY
         || commonType == NLS_CELL_ARRAY) {
-        std::string msg
-            = fmt::format(_("Operator '{0}' is not supported for operands of type '{1}'."), ":",
-                ClassToString(commonType));
-        Error(msg, "Nelson:UndefinedFunction");
+        std::string msg = formatI18nMessage(
+            Nelson::resolveMessageTemplate("Nelson:interpreter:operatorSupportedOperandsType",
+                "Operator '%s' is not supported for operands of type '%s'."),
+            ":", ClassToString(commonType));
+        Error("Nelson:UndefinedFunction", msg);
     }
     ArrayOf _A(A);
     ArrayOf _B(B);
@@ -145,19 +127,19 @@ Evaluator::colonOperator(const ArrayOf& A, const ArrayOf& B, const ArrayOf& C)
 
     if (findColonCommonType(argIn, commonType, isSparse, commonTypeName)) {
         bool overloadWasFound = false;
-        res = callOverloadedFunction(this,
-            NelsonConfiguration::getInstance()->getOverloadLevelCompatibility(), argIn,
-            functionName, commonTypeName, commonType, overloadWasFound);
+        res = callOperatorOverload(
+            this, argIn, functionName, commonTypeName, commonType, overloadWasFound);
         if (overloadWasFound) {
             return res;
         }
     }
     if (commonType == NLS_UNKNOWN || commonType == NLS_STRUCT_ARRAY
         || commonType == NLS_CELL_ARRAY) {
-        std::string msg
-            = fmt::format(_("Operator '{0}' is not supported for operands of type '{1}'."), ":",
-                ClassToString(commonType));
-        Error(msg, "Nelson:UndefinedFunction");
+        std::string msg = formatI18nMessage(
+            Nelson::resolveMessageTemplate("Nelson:interpreter:operatorSupportedOperandsType",
+                "Operator '%s' is not supported for operands of type '%s'."),
+            ":", ClassToString(commonType));
+        Error("Nelson:UndefinedFunction", msg);
     }
     bool needToOverload;
 
@@ -168,6 +150,10 @@ Evaluator::colonOperator(const ArrayOf& A, const ArrayOf& B, const ArrayOf& C)
     if (commonType == NLS_CHAR) {
         _A.promoteType(commonType);
         _B.promoteType(NLS_DOUBLE);
+        _C.promoteType(commonType);
+    } else if (IS_INTEGER_TYPE(commonType)) {
+        // the step keeps its sign: uint8(1):-1:uint8(0) counts down
+        _A.promoteType(commonType);
         _C.promoteType(commonType);
     } else {
         _A.promoteType(commonType);

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>image_processing</module_name>
+  <chapter>Geometrie, recalage et 3-D</chapter>
+  <chapter_description>
+    <p>Fonctions pour transformations geometriques, references spatiales, recalage d'images, filtrage volumique, redimensionnement et mesures 3-D.</p>
+  </chapter_description>
+</xmldoc>

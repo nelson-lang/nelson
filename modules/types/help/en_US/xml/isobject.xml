@@ -3,8 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>en_US</language>
   <keyword>isobject</keyword>
-  <short_description
-  >Return true if variable var is an object.</short_description>
+  <short_description>Return true if a variable is an object.</short_description>
   <syntax>
     <syntax_item>res = isobject(var)</syntax_item>
   </syntax>
@@ -21,22 +20,27 @@
     </param_output_item>
   </param_output>
   <description>
-    <b>ishandle</b> returns a logical 1 if the argument is an object and a logical 0 otherwise.</description>
+    <p>
+      <b>isobject</b> returns logical 1 if <b>var</b> is a Nelson object and logical 0 otherwise.</p>
+    <p>Classdef value objects and classdef handle objects are reported as objects.</p>
+  </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description />
-      <example_item_data
-        runnable="cli"
-      ><![CDATA[A = 3;
-res = isobject(A)
-
-addpath([modulepath('overload', 'root'), '/examples/complex']);
-A = complexObj(1, 2);
-res = isobject(A)
-]]></example_item_data>
+      <example_item_description>Test classdef value and handle objects.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[clear classes
+d = [tempdir(), 'nelson_help_isobject/'];
+mkdir(d);
+filewrite([d, '/NelsonHelpIsObjectPoint.m'], ["classdef NelsonHelpIsObjectPoint"; "  properties"; "    X = 0"; "  end"; "end"]);
+filewrite([d, '/NelsonHelpIsObjectCounter.m'], ["classdef NelsonHelpIsObjectCounter < handle"; "  properties"; "    Count = 0"; "  end"; "end"]);
+addpath(d);
+p = NelsonHelpIsObjectPoint();
+h = NelsonHelpIsObjectCounter();
+isPointObject = isobject(p)
+isHandleObject = isobject(h)
+delete(h)]]></example_item_data>
     </example_item>
   </examples>
   <see_also>
@@ -46,11 +50,18 @@ res = isobject(A)
     <see_also_item>
       <link linkend="${types}ishandle">ishandle</link>
     </see_also_item>
+    <see_also_item>
+      <link linkend="${interpreter}classdef">classdef</link>
+    </see_also_item>
   </see_also>
   <history>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>classdef value and handle object support documented</history_description>
     </history_item>
   </history>
   <authors>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>categories</keyword>
+  <short_description>List categories of a categorical array.</short_description>
+  <syntax>
+    <syntax_item>names = categories(A)</syntax_item>
+    <syntax_item>names = categories(A, 'OutputType', type)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>Input categorical array.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>type</param_name>
+      <param_description>Output representation: <b>'char'</b>, <b>'string'</b>, or <b>'categorical'</b>.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>names</param_name>
+      <param_description>Category names in category order.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>categories</b> returns the category list attached to a categorical array. Undefined elements are not categories.</p>
+    <p>The default output is a cell array of character vectors.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Return the category names.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = categorical({'red','blue','red'}); names = categories(A)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Return the category names as strings.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = categorical({'small','large'}); names = categories(A, 'OutputType', 'string')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${categorical}categorical">categorical</link></see_also_item>
+    <see_also_item><link linkend="${categorical}addcats">addcats</link></see_also_item>
+    <see_also_item><link linkend="${categorical}renamecats">renamecats</link></see_also_item>
+    <see_also_item><link linkend="${categorical}reordercats">reordercats</link></see_also_item>
+    <see_also_item><link linkend="${categorical}iscategory">iscategory</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

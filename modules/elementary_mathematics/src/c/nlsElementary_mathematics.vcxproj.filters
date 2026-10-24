@@ -27,6 +27,9 @@
     <ClInclude Include="..\include\complex_multiply.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\ScalarMath.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\IEEEFP.cpp">

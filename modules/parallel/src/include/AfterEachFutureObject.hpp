@@ -23,6 +23,19 @@ class NLSPARALLEL_IMPEXP AfterEachFutureObject : public HandleGenericObject, pub
 public:
     AfterEachFutureObject(
         const std::wstring& functionName, const std::vector<FutureObject*>& predecessors);
+
+    void
+    onDelete(Evaluator* eval) override
+    {
+        cancel();
+    }
+
+    bool
+    destroyOnInvalidate() const override
+    {
+        return false;
+    }
+
     void
     afterEach(FunctionDef* funcDef, int nLhs, bool uniformOutput = false);
 };

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>compiler_installer_tutorial</keyword>
+  <keyword_alias>compiler_installer_tutorial</keyword_alias>
+  <short_description>Construire, installer et executer une application Windows.</short_description>
+  <syntax><syntax_item>compiler.package.installer(result, 'Options', options)</syntax_item></syntax>
+  <description>
+    <p>Ce tutoriel requiert Windows et Inno Setup 6 sur la machine de construction. Executer les trois blocs dans la meme session. Ils utilisent uniquement un dossier temporaire, sans enregistrement de desinstallation ni raccourci global.</p>
+    <p>Le premier bloc construit l'application ; le deuxieme cree un installateur hors ligne avec son runtime minimal ; le troisieme installe et execute l'application sans utiliser un runtime externe. La sortie attendue est INSTALLER_TUTORIAL_OK. Reconstruire les applications avec les lanceurs actuels pour utiliser la decouverte du runtime adjacent.</p>
+    <p>Pour une distribution normale, transmettre le fichier .exe genere et lancer l'installateur interactivement. Ne pas utiliser /PORTABLE=1 pour enregistrer normalement l'application et son raccourci. L'installateur requiert une confirmation d'elevation par defaut ; /CURRENTUSER permet une installation par utilisateur.</p>
+    <p>RuntimeDelivery='none' permet de livrer seulement l'application lorsqu'un runtime compatible est deja disponible. RuntimeDelivery='web' n'est pas encore disponible. Pour une archive ZIP de l'installateur, fixer PackageType='zip'. AdditionalFiles au niveau de l'installateur installe des fichiers externes ; utiliser cette option au niveau du build pour les embarquer dans l'executable.</p>
+    <p>Le dossier installe contient un desinstallateur unins*.exe. La desinstallation retire les fichiers distribues, mais conserve les fichiers crees ensuite par l'utilisateur. La generation ne modifie pas l'executable construit ni le runtime Nelson source.</p>
+    <p>Pour partager un runtime, utiliser le meme installateur hors ligne avec -applicationFolder "C:\Apps\Hello" -runtimeFolder "C:\NelsonRuntimes" /CURRENTUSER, apres -agreeToLicense yes. Ne pas utiliser /PORTABLE=1 ni -destinationFolder. Le runtime est enregistre sous C:\NelsonRuntimes dans un sous-dossier nomme par l'empreinte du moteur. D'autres applications compatibles peuvent reutiliser ce parent et completer son inventaire de dependances. Desinstaller une ancienne installation privee avant de changer de mode ; le runtime partage survit a la suppression applicative et possede son propre unins*.exe.</p>
+    <p>Le dernier bloc utilise les arguments de deploiement non interactif et cree un nouveau journal. L'alternative -inputFile accepte un fichier UTF-8 commencant par agreeToLicense=yes, puis applicationFolder=chemin-absolu et outputFile=nouveau-journal sur des lignes distinctes. desktopShortcut et startMenuShortcut peuvent etre actives uniquement dans ce fichier ; leur valeur par defaut est false. /PORTABLE=1 desactive toujours les raccourcis globaux.</p>
+    <p>Le deuxieme bloc reconstruit aussi l'installateur dans un autre repertoire de sortie et compare son empreinte SHA-256. Avec des entrees inchangees et la meme distribution Inno Setup, les deux installateurs non signes sont identiques octet par octet. Voir les conditions de reproductibilite dans <link linkend="${compiler}compiler.package.installer">compiler.package.installer</link>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item><example_item_type>nelson</example_item_type><example_item_description>Etape 1</example_item_description><example_item_data><![CDATA[ncc('--help');
+work = tempname();
+mkdir(work);
+entry = fullfile(work, 'hello_install.m');
+filewrite(entry, 'function hello_install(); disp(''INSTALLER_TUTORIAL_OK''); end');
+result = compiler.build.standaloneApplication(entry, ...
+  'OutputDir', fullfile(work, 'build'));]]></example_item_data></example_item>
+    <example_item><example_item_type>nelson</example_item_type><example_item_description>Etape 2</example_item_description><example_item_data><![CDATA[options = compiler.package.InstallerOptions(result, ...
+  'RuntimeDelivery', 'installer', 'OptionalDependencies', 'none', ...
+  'OutputDir', fullfile(work, 'distribution'));
+brand = fullfile(modulepath('compiler'), 'examples', 'standalone', 'app_icon.png');
+options.InstallerIcon = brand;
+options.InstallerLogo = brand;
+options.AddRemoveProgramsIcon = brand;
+compiler.package.installer(result, 'Options', options);
+setup = fullfile(options.OutputDir, [options.InstallerName, '.exe']);
+options.OutputDir = fullfile(work, 'distribution_repeat');
+compiler.package.installer(result, 'Options', options);
+repeatedSetup = fullfile(options.OutputDir, [options.InstallerName, '.exe']);
+asserts.isequal(sha256(setup, '-file'), sha256(repeatedSetup, '-file'));]]></example_item_data></example_item>
+    <example_item><example_item_type>nelson</example_item_type><example_item_description>Etape 3</example_item_description><example_item_data><![CDATA[target = fullfile(work, 'installed');
+[status, output] = system(['"', setup, ...
+  '" -agreeToLicense yes -applicationFolder "', target, ...
+  '" -outputFile "', fullfile(work, 'installation.log'), '" /CURRENTUSER /PORTABLE=1'], 120);
+if status ~= 0
+  error(output);
+end
+oldRuntime = getenv('NELSONC_RUNTIME_ROOT');
+restoreRuntime = onCleanup(@() setenv('NELSONC_RUNTIME_ROOT', oldRuntime));
+setenv('NELSONC_RUNTIME_ROOT', '');
+[status, output] = system(['"', fullfile(target, 'hello_install.exe'), '"'], 60);
+clear restoreRuntime;
+if status ~= 0
+  error(output);
+end
+disp(output);]]></example_item_data></example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${compiler}compiler.package.installer">compiler.package.installer</link></see_also_item>
+    <see_also_item><link linkend="${compiler}compiler.package.InstallerOptions">compiler.package.InstallerOptions</link></see_also_item>
+  </see_also>
+  <history />
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

@@ -16,5 +16,5 @@ namespace Nelson::GraphicsIoGateway {
 ArrayOfVector
 copygraphicsBuiltin(int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
-}
+} // namespace Nelson::GraphicsIoGateway
 //=============================================================================

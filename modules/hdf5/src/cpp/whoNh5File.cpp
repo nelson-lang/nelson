@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -19,6 +19,7 @@
 #include "characters_encoding.hpp"
 #include "ClassName.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
@@ -33,21 +34,21 @@ whoNh5File(Interface* io, const std::wstring& filename, const wstringVector& nam
         = FileSystemWrapper::Path::is_regular_file(nh5_filename, permissionDenied);
     if (!fileExistPreviously) {
         if (permissionDenied) {
-            Error(_W("Permission denied."));
+            Error(L"Nelson:hdf5:permissionDenied", L"Permission denied.");
         }
     }
     if (!fileExistPreviously) {
-        Error(_W("File does not exist."));
+        Error(L"Nelson:hdf5:fileDoesNotExist", L"File does not exist.");
     }
 
     hid_t fid
         = H5Fopen(wstring_to_utf8(nh5_filename.wstring()).c_str(), H5F_ACC_RDONLY, H5P_DEFAULT);
     if (fid == H5I_INVALID_HID) {
-        Error(_W("Open file failed."));
+        Error(L"Nelson:hdf5:openFailed", L"Open file failed.");
     }
     if (!isNelsonH5File(fid)) {
         H5Fclose(fid);
-        Error(_W("Invalid file format."));
+        Error(L"Nelson:hdf5:invalidFileFormat", L"Invalid file format.");
     }
     stringVector variableNamesInFile = getVariableNames(fid);
     H5Fclose(fid);
@@ -66,10 +67,10 @@ whoNh5File(Interface* io, const std::wstring& filename, const wstringVector& nam
     if (asCell) {
         Dimensions dims(variablesNamesToRead.size(), 1);
         ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(
-            NLS_CELL_ARRAY, dims.getElementCount(), stringVector(), false);
+            NLS_CELL_ARRAY, dims.elementCount(), stringVector(), false);
         indexType k = 0;
         for (const std::string& name : variablesNamesToRead) {
-            elements[k] = ArrayOf::characterArrayConstructor(name);
+            elements[k] = ArrayOf::characterArray(name);
             k++;
         }
         res = ArrayOf(NLS_CELL_ARRAY, dims, elements);

@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "file": "create_archive.m",
+      "title": "Create and extract an archive",
+      "description": "Package a temporary text file and extract it to another temporary folder.",
+      "tags": [
+        "zip",
+        "files"
+      ],
+      "requirements": []
+    }
+  ]
+}

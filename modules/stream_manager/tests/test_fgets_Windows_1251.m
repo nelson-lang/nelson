@@ -7,8 +7,11 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+skip_testsuite(iswasm(), ...
+  'WebAssembly reduced characters_encoding backend does not provide Windows-1251 conversion.');
+%=============================================================================
 filename = [modulepath('characters_encoding', 'tests'), '/olaf_Windows-1251.txt'];
-assert_isequal(isfile(filename), true);
+asserts.isequal(isfile(filename), true);
 fid = fopen(filename, 'rt', 'n', 'windows-1251');
 found = false;
 while ~feof(fid)
@@ -21,5 +24,5 @@ while ~feof(fid)
   end
 end
 fclose(fid);
-assert_istrue(found);
+asserts.istrue(found);
 %=============================================================================

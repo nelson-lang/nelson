@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>feather</keyword>
+  <short_description>Display vectors from a baseline.</short_description>
+  <syntax>
+    <syntax_item>feather(Z)</syntax_item>
+    <syntax_item>feather(U, V)</syntax_item>
+    <syntax_item>feather(..., LineSpec)</syntax_item>
+    <syntax_item>feather(..., propertyName, propertyValue)</syntax_item>
+    <syntax_item>feather(parent, ...)</syntax_item>
+    <syntax_item>h = feather(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>feather</b> displays 2-D vectors from y = 0. Complex input uses real parts as horizontal components and imaginary parts as vertical components.</p>
+    <p>The output is a column vector of <b>line</b> graphics objects: one line for each arrow and one line for the baseline.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Display vectors from complex values.</example_item_description>
+      <example_item_data><![CDATA[z = [1 + 2i, 2 - 1i, -1 + 1i];
+feather(z);]]></example_item_data>
+      <example_item_img src="../../../../images/feather_1.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Use line style and line properties.</example_item_description>
+      <example_item_data><![CDATA[u = [1 3 2];
+v = [2 1 -1];
+h = feather(u, v, '-or', 'LineWidth', 1.5);]]></example_item_data>
+      <example_item_img src="../../../../images/feather_2.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.line.properties">line properties</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/5_vector_fields/quiver">quiver</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/5_vector_fields/compassplot">compassplot</link></see_also_item>
+  </see_also>
+</xmldoc>

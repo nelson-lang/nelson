@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -16,7 +16,7 @@ matvar_t*
 SaveMatioCharacterArray(
     const std::string& variableName, const ArrayOf& variableValue, mat_ft matVersion)
 {
-    Dimensions variableDims = variableValue.getDimensions();
+    Dimensions variableDims = variableValue.dimensions();
     indexType rank;
     size_t* dims = convertDimensionsForMatVar(variableDims, rank);
     if (dims == nullptr) {
@@ -29,15 +29,15 @@ SaveMatioCharacterArray(
         if (matVersion == MAT_FT_MAT5 || matVersion == MAT_FT_MAT4) {
             asUint = variableValue;
             asUint.promoteType(NLS_UINT8);
-            ptrValue = const_cast<void*>(asUint.getDataPointer());
+            ptrValue = const_cast<void*>(asUint.dataPointer());
             matType = MAT_T_UTF8;
         } else {
             if (sizeof(charType) == sizeof(uint16)) {
-                ptrValue = const_cast<void*>(variableValue.getDataPointer());
+                ptrValue = const_cast<void*>(variableValue.dataPointer());
             } else {
                 asUint = variableValue;
                 asUint.promoteType(NLS_UINT16);
-                ptrValue = const_cast<void*>(asUint.getDataPointer());
+                ptrValue = const_cast<void*>(asUint.dataPointer());
             }
             matType = MAT_T_UTF16;
         }

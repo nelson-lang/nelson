@@ -1,26 +1,28 @@
 
 a =
 
-    All zero sparse: 20000000000000×2
+  20000000000000×2 sparse double matrix
+
+   All zero
 
 
 b =
 
   20000000000000×2 sparse logical array
 
-    All zero sparse: 20000000000000×2
+   All zero
 
 
 c =
 
   sparse logical
 
-    All zero sparse: 1×1
+   All zero
 
 
 d =
 
   sparse logical
 
-    (1,1)   true
+   (1,1)   true
 

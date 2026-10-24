@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>brighten</keyword>
+  <short_description>Éclaircit ou assombrit une palette de couleurs.</short_description>
+  <syntax>
+    <syntax_item>brighten(beta)</syntax_item>
+    <syntax_item>brighten(ax, beta)</syntax_item>
+    <syntax_item>newmap = brighten(beta)</syntax_item>
+    <syntax_item>newmap = brighten(map, beta)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>beta</param_name>
+      <param_description>Scalaire dans l'intervalle (-1, 1). Positif éclaircit, négatif assombrit.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>map</param_name>
+      <param_description>Palette de couleurs, matrice M-par-3 de valeurs RVB dans [0, 1].</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description>Axes ou figure cible dont la palette est modifiée.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>newmap</param_name>
+      <param_description>Palette éclaircie.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>brighten</b> augmente (<b>beta</b> &gt; 0) ou diminue
+    (<b>beta</b> &lt; 0) la luminosité d'une palette de couleurs. Sans argument de
+    sortie, elle remplace la palette de la figure courante (ou de <b>ax</b>) ;
+    avec un argument de sortie, elle renvoie la palette modifiée. Lorsque
+    <b>beta</b> tend vers 1 les couleurs tendent vers le blanc, et vers -1 vers
+    le noir.</p>
+  </description>
+  <used_function>colormap</used_function>
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+      ><![CDATA[f = figure();
+surf(peaks());
+colormap(jet());
+brighten(0.5);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}colormap">colormap</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>notebook</keyword>
+  <short_description>Run a Notebook document.</short_description>
+  <syntax>
+    <syntax_item>notebook(filename)</syntax_item>
+    <syntax_item>tf = notebook(filename)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description
+      >a character vector or string scalar: a Notebook document (<b>.nlx</b>) or a Notebook plain-text file (<b>.m</b>).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>tf</param_name>
+      <param_description>a logical: <b>true</b> when the document ran.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>notebook</b> runs a Notebook document without the editor: it reads the code of each code cell, in order, and evaluates it against the base workspace. Variables created in one cell are visible to the next, as when running the document in the editor.</p>
+    <p
+    >The native <b>.nlx</b> container (a zip holding the document) and the plain-text <b>.m</b> Notebook format are both supported; an ordinary <b>.m</b> script is run as a single cell.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[% build a minimal Notebook (.nlx) document and run it
+d = [tempdir(), createGUID()];
+mkdir(d);
+fw = fopen([d, '/document.json'], 'wt');
+fwrite(fw, '{"blocks":[{"type":"codecell","props":{"code":"a = 40 + 2;"}}]}');
+fclose(fw);
+nlx = [tempdir(), createGUID(), '.nlx'];
+odir = pwd();
+cd(d);
+zip(nlx, 'document.json');
+cd(odir);
+notebook(nlx);
+a]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${notebook}nlx">nlx</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${core}run">run</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${text_editor}edit">edit</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

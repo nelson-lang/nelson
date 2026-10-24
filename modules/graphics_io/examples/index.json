@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "file": "export_plot.m",
+      "title": "Export a plot as an image",
+      "description": "Render a hidden figure and save it as a PNG in the temporary directory.",
+      "tags": [
+        "graphics",
+        "export"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    },
+    {
+      "file": "animated_surface_gif.m",
+      "title": {
+        "en_US": "Export an animated surface",
+        "fr_FR": "Exporter une surface animée"
+      },
+      "description": {
+        "en_US": "Capture a rotating parametric surface and write it as an animated GIF in the temporary directory.",
+        "fr_FR": "Capturer une surface paramétrique en rotation et l’écrire en GIF animé dans le répertoire temporaire."
+      },
+      "tags": [
+        "graphics",
+        "gif",
+        "animation",
+        "export"
+      ],
+      "requirements": [
+        "gui",
+        "gif"
+      ]
+    }
+  ]
+}

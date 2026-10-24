@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>getReport</keyword>
+  <short_description>Get MException report.</short_description>
+  <syntax>
+    <syntax_item>report = getReport(ME)</syntax_item>
+    <syntax_item>report = getReport(ME, type)</syntax_item>
+    <syntax_item>report = ME.getReport(type)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>ME</param_name>
+      <param_description>a scalar MException object.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>type</param_name>
+      <param_description>&apos;basic&apos; or &apos;extended&apos;.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>report</param_name>
+      <param_description>a string: formatted exception report.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>getReport</b> returns a formatted report for an MException object.</p>
+    <p>The <b>basic</b> report contains the exception message. The <b>extended</b> report includes additional diagnostic information when available.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data><![CDATA[ME = MException('nelson:badIndex', 'Unable to index into array.');
+getReport(ME, 'basic')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${error_manager}MException">MException</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${error_manager}addCause">addCause</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${error_manager}throw">throw</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${error_manager}getLastReport">getLastReport</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

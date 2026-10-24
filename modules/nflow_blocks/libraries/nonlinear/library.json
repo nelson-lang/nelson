@@ -1,0 +1,298 @@
+{
+  "id": "builtin.nonlinear",
+  "title": "Non-Linear",
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Allan CORNET",
+    "created": "2026-03-21",
+    "tool": "Nelson nflow"
+  },
+  "comment": "Blocks for non-linearities",
+  "license": "LGPL-3.0",
+  "builtin": true,
+  "blocks": [
+    {
+      "type": "saturation",
+      "icon": "saturation.svg",
+      "label": "Saturation",
+      "phases": [
+        "ALGEBRAIC"
+      ],
+      "width": 80,
+      "height": 80,
+      "inputs": [
+        {
+          "x": 0,
+          "y": 40,
+          "side": "left"
+        }
+      ],
+      "outputs": [
+        {
+          "x": 80,
+          "y": 40,
+          "side": "right"
+        }
+      ],
+      "defaultParams": {
+        "LowerLimit": -1,
+        "UpperLimit": 1
+      },
+      "render": {
+        "type": "image",
+        "src": "saturation.svg"
+      }
+    },
+    {
+      "type": "hysteresis",
+      "label": "Relay",
+      "icon": "hysteresis.svg",
+      "phases": [
+        "INIT",
+        "OUTPUT",
+        "UPDATE"
+      ],
+      "width": 80,
+      "height": 80,
+      "inputs": [
+        {
+          "x": 0,
+          "y": 40,
+          "side": "left"
+        }
+      ],
+      "outputs": [
+        {
+          "x": 80,
+          "y": 40,
+          "side": "right"
+        }
+      ],
+      "defaultParams": {
+        "uHigh": 1,
+        "uLow": -1,
+        "yHigh": 1,
+        "yLow": 0
+      },
+      "render": {
+        "type": "image",
+        "src": "hysteresis.svg"
+      }
+    },
+    {
+      "type": "rate",
+      "label": "Rate Lim.",
+      "icon": "rate.svg",
+      "phases": [
+        "INIT",
+        "OUTPUT",
+        "UPDATE"
+      ],
+      "width": 80,
+      "height": 80,
+      "inputs": [
+        {
+          "x": 0,
+          "y": 40,
+          "side": "left"
+        }
+      ],
+      "outputs": [
+        {
+          "x": 80,
+          "y": 40,
+          "side": "right"
+        }
+      ],
+      "defaultParams": {
+        "RisingSlewLimit": 1,
+        "FallingSlewLimit": 1
+      },
+      "render": {
+        "type": "image",
+        "src": "rate.svg"
+      }
+    },
+    {
+      "type": "backlash",
+      "label": "Backlash",
+      "icon": "backlash.svg",
+      "phases": [
+        "INIT",
+        "OUTPUT",
+        "UPDATE"
+      ],
+      "width": 80,
+      "height": 80,
+      "inputs": [
+        {
+          "x": 0,
+          "y": 40,
+          "side": "left"
+        }
+      ],
+      "outputs": [
+        {
+          "x": 80,
+          "y": 40,
+          "side": "right"
+        }
+      ],
+      "defaultParams": {
+        "BacklashWidth": 1
+      },
+      "render": {
+        "type": "image",
+        "src": "backlash.svg"
+      }
+    },
+    {
+      "type": "deadZone",
+      "label": "Dead Zone",
+      "icon": "deadZone.svg",
+      "phases": [
+        "ALGEBRAIC"
+      ],
+      "width": 80,
+      "height": 80,
+      "inputs": [
+        {
+          "x": 0,
+          "y": 40,
+          "side": "left"
+        }
+      ],
+      "outputs": [
+        {
+          "x": 80,
+          "y": 40,
+          "side": "right"
+        }
+      ],
+      "defaultParams": {
+        "LowerValue": -1,
+        "UpperValue": 1
+      },
+      "render": {
+        "type": "image",
+        "src": "deadZone.svg",
+        "svgMode": "element",
+        "preserveAspectRatio": "none",
+        "x": 0,
+        "y": 0,
+        "width": 80,
+        "height": 80
+      }
+    },
+    {
+      "type": "quantizer",
+      "label": "Quantizer",
+      "icon": "quantizer.svg",
+      "phases": [
+        "ALGEBRAIC"
+      ],
+      "width": 80,
+      "height": 80,
+      "inputs": [
+        {
+          "x": 0,
+          "y": 40,
+          "side": "left"
+        }
+      ],
+      "outputs": [
+        {
+          "x": 80,
+          "y": 40,
+          "side": "right"
+        }
+      ],
+      "defaultParams": {
+        "QuantizationInterval": 1
+      },
+      "render": {
+        "type": "image",
+        "src": "quantizer.svg",
+        "svgMode": "element",
+        "preserveAspectRatio": "none",
+        "x": 0,
+        "y": 0,
+        "width": 80,
+        "height": 80
+      }
+    },
+    {
+      "type": "hitCrossing",
+      "icon": "hitCrossing.svg",
+      "label": "Hit Crossing",
+      "phases": [
+        "INIT",
+        "OUTPUT",
+        "UPDATE"
+      ],
+      "width": 80,
+      "height": 80,
+      "inputs": [
+        {
+          "x": 0,
+          "y": 40,
+          "side": "left"
+        }
+      ],
+      "outputs": [
+        {
+          "x": 80,
+          "y": 40,
+          "side": "right"
+        }
+      ],
+      "defaultParams": {
+        "HitCrossingOffset": 0,
+        "HitCrossingDirection": "either"
+      },
+      "render": {
+        "type": "image",
+        "src": "hitCrossing.svg"
+      }
+    },
+    {
+      "type": "coulombViscousFriction",
+      "label": "Coulomb & Viscous Friction",
+      "icon": "coulombViscousFriction.svg",
+      "phases": [
+        "ALGEBRAIC"
+      ],
+      "width": 80,
+      "height": 80,
+      "inputs": [
+        {
+          "x": 0,
+          "y": 40,
+          "side": "left"
+        }
+      ],
+      "outputs": [
+        {
+          "x": 80,
+          "y": 40,
+          "side": "right"
+        }
+      ],
+      "defaultParams": {
+        "Gain": 1,
+        "Offset": 1
+      },
+      "render": {
+        "type": "image",
+        "src": "coulombViscousFriction.svg",
+        "svgMode": "element",
+        "preserveAspectRatio": "none",
+        "x": 0,
+        "y": 0,
+        "width": 80,
+        "height": 80
+      }
+    }
+  ]
+}

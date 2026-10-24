@@ -7,7 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function count = numEntries (obj)
-  count =  numel(obj.allKeys);
+function count = numEntries(obj)
+  count = numel(obj.allKeys);
 end
 %=============================================================================

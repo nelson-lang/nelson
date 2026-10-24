@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,11 +10,12 @@
 #include "classnameQObject.hpp"
 #include "ClassName.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "HandleManager.hpp"
+#include "HandleState.hpp"
 #include "QObjectHandleObject.hpp"
 #include <QtQml/QQmlComponent>
-#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -22,26 +23,26 @@ ArrayOf
 classnameQObject(const ArrayOf& A)
 {
     if (!A.isHandle()) {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
+        Error(
+            L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", ((1)), L"handle");
     }
     std::string className;
     ClassName(A, className);
     if (className != NLS_HANDLE_QOBJECT_CATEGORY_STR) {
-        Error(_W("QObject handle expected."));
+        Error(L"Nelson:QObject:notHandle", L"QObject handle expected.");
     }
     ArrayOf res;
-    Dimensions dimsA = A.getDimensions();
-    nelson_handle* qp = (nelson_handle*)A.getDataPointer();
+    Dimensions dimsA = A.dimensions();
+    HandleRef* qp = (HandleRef*)A.dataPointer();
     if (qp) {
         stringVector names;
-        indexType elementCount = dimsA.getElementCount();
+        indexType elementCount = dimsA.elementCount();
         for (indexType k = 0; k < elementCount; k++) {
-            nelson_handle hl = qp[k];
-            HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
+            HandleGenericObject* hlObj = qp[k] ? qp[k]->object() : nullptr;
             if (hlObj != nullptr) {
-                if (hlObj->getPointer()) {
+                if (hlObj->pointer()) {
                     QObjectHandleObject* qmlHandle = (QObjectHandleObject*)hlObj;
-                    void* ptr = qmlHandle->getPointer();
+                    void* ptr = qmlHandle->pointer();
                     if (ptr == nullptr) {
                         names.push_back("");
                     } else {
@@ -57,16 +58,16 @@ classnameQObject(const ArrayOf& A)
             }
         }
         if (names.size() == 1) {
-            res = ArrayOf::characterArrayConstructor(names[0]);
+            res = ArrayOf::characterArray(names[0]);
         } else {
-            res = ArrayOf::toCellArrayOfCharacterColumnVectors(names);
+            res = ArrayOf::cellArrayFromArrayOfCharacterColumnVectors(names);
         }
     } else {
-        res = ArrayOf::emptyConstructor(dimsA);
+        res = ArrayOf::empty(dimsA);
         res.promoteType(NLS_CELL_ARRAY);
     }
     return res;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

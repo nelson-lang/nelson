@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>terminator</keyword>
+  <keyword_alias>block:terminator</keyword_alias>
+  <short_description>Consomme un signal intentionnellement inutilise.</short_description>
+  <syntax>
+    <syntax_item>Block type: terminator</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>input ports</param_name>
+      <param_description>1 port(s) d entree declare(s).</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p>Consomme un signal intentionnellement inutilise.</p>
+    <table border="1">
+      <tbody>
+        <tr>
+          <td>Module</td>
+          <td>
+            <code>nflow_blocks</code>
+          </td>
+        </tr>
+        <tr>
+          <td>Bibliotheque</td>
+          <td>Blocs puits</td>
+        </tr>
+        <tr>
+          <td>Type</td>
+          <td>
+            <code>terminator</code>
+          </td>
+        </tr>
+        <tr>
+          <td>Libelle</td>
+          <td>Terminator</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <img src="../../../../libraries/sink/exports/terminator.svg" align="middle"/>
+    </p>
+    <p>
+      <b>Description</b>
+    </p>
+    <p>Consomme un signal intentionnellement inutilise.</p>
+    <p>
+      <b>Ports</b>
+    </p>
+    <p>
+      <b>Entree(s)</b>
+    </p>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Port</th>
+          <th>Role</th>
+          <th>Cote</th>
+          <th>Position</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Port_1</td>
+          <td>Signal numerique lu par le bloc.</td>
+          <td>left</td>
+          <td>x=0, y=20</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Sortie(s)</b>
+    </p>
+    <p>Ce bloc ne declare aucune sortie.</p>
+    <p>
+      <b>Parametres</b>
+    </p>
+    <p>Aucun parametre de bloc n est declare dans le manifest.</p>
+    <p>
+      <b>Caracteristiques du bloc</b>
+    </p>
+    <table border="1">
+      <tbody>
+        <tr>
+          <td>Type de bloc</td>
+          <td>terminator</td>
+        </tr>
+        <tr>
+          <td>Famille</td>
+          <td>Blocs puits</td>
+        </tr>
+        <tr>
+          <td>Taille graphique</td>
+          <td>40 x 40</td>
+        </tr>
+        <tr>
+          <td>Phases</td>
+          <td>none</td>
+        </tr>
+        <tr>
+          <td>Traversee directe</td>
+          <td>voir Algorithmes</td>
+        </tr>
+        <tr>
+          <td>Etat ou historique interne</td>
+          <td>non observe dans le code documente</td>
+        </tr>
+        <tr>
+          <td>Type de donnees signaux</td>
+          <td>valeurs numeriques double</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Algorithmes</b>
+    </p>
+    <ul>
+      <li>Aucun calcul et aucun port de sortie.</li>
+      <li>Utilise pour rendre explicites les fins de signaux inutilisees.</li>
+    </ul>
+    <p>
+      <b>Capacites et limites</b>
+    </p>
+    <p>La page decrit le comportement runtime natif observe dans les sources C++ du module. Les phases declarees indiquent quand le moteur de simulation appelle le bloc.</p>
+    <p>Generation de code : prise en charge pour C et Rust.</p>
+    <p>
+      <b>Sources d implementation</b>
+    </p>
+    <source_code label="Manifest" path="modules/nflow_blocks/libraries/sink/library.json" language="json"/>
+    <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/sink/terminator.cpp" language="cpp"/>
+  </description>
+  <used_function/>
+  <bibliography/>
+  <see_also>
+    <see_also_item>
+      <link linkend="${nflow_blocks}sink/display">display</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${nflow_blocks}sink/scope">scope</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

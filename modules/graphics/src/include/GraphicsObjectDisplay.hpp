@@ -18,5 +18,5 @@ namespace Nelson {
 NLSGRAPHICS_IMPEXP void
 graphicsObjectDisplay(Interface* io, const Dimensions& dims, nelson_handle* ptrGO);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

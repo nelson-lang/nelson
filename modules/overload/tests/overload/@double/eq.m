@@ -8,5 +8,5 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function r = eq(A, B)
-  r = builtin('eq', A,B);
+  r = builtin('eq', A, B);
 end

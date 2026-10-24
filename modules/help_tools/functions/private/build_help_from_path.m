@@ -23,18 +23,19 @@ function build_help_from_path(module, module_path, lang, dirdest, package)
         if isdir(destination_path)
           [res, msg] = rmdir(destination_path, 's');
           if ~res
-            error(msg);
+            error('Nelson:help_tools:removeDirectoryFailed', msg);
           end
         end
         mkdir(destination_path);
-        [status, msg] = xmldoctohtml(src, destination_path, module, true);
+        % index every module of this language so that cross-module links resolve
+        index_dirs = help_xml_index_directories(lang, {src});
+        [status, msg] = xmldoctohtml(src, destination_path, module, true, index_dirs);
         if ~status
-          error(msg);
+          error('Nelson:help_tools:htmlGenerationFailed', msg);
         end
         if package
-            help_archive_name = [nelsonappid(), '.modules.', module, '.help.', lang, '.nhz'];
-            destination_archive =  [module_path, '/help/', help_archive_name];
-            zip(destination_archive, destination_path);
+            destination_archive = helpArchiveDestination(module_path, module, lang);
+            zip(destination_archive, destination_path, [dirdest, '/']);
         end
         msg = sprintf(_('help "%s" (%s) generated.'), module, lang);
       else
@@ -47,6 +48,7 @@ end
 function main_help(module_path, lang, dirdest, package)
   destination_path = [dirdest, '/', 'main'];
   changes_md = {[nelsonroot(), '/CHANGELOG.md'];
+  [nelsonroot(), '/CHANGELOG-1.x.x.md'];
   [nelsonroot(), '/CHANGELOG-0.7.x.md'];
   [nelsonroot(), '/CHANGELOG-0.6.x.md'];
   [nelsonroot(), '/CHANGELOG-0.5.x.md'];
@@ -72,7 +74,7 @@ function main_help(module_path, lang, dirdest, package)
       copyfile([modulepath('help_tools'), '/resources/nelson_help.js'], [destination_path, '/nelson_help.js']);
       copyfile([modulepath('help_tools'), '/resources/tex-mml-chtml.js'], [destination_path, '/tex-mml-chtml.js']);
 
-      
+
       if ~isfile([dir_src, '/gpl-3.0.md'])
         copyfile([nelsonroot(), '/gpl-3.0.md'], [dir_src, '/gpl-3.0.md']);
       end
@@ -86,6 +88,7 @@ function main_help(module_path, lang, dirdest, package)
           if strcmp(md_filename{1}, 'homepage.md') || strcmp(md_filename{1}, 'license.md')
             content = fileread([dir_src, '/', md_filename{1}]);
             content = strrep(content, '(CHANGELOG.md)', '(CHANGELOG.html)');
+            content = strrep(content, '(CHANGELOG-1.x.x.md)', '(CHANGELOG-1.x.x.html)');
             content = strrep(content, '(CHANGELOG-0.7.x.md)', '(CHANGELOG-0.7.x.html)');
             content = strrep(content, '(CHANGELOG-0.6.x.md)', '(CHANGELOG-0.6.x.html)');
             content = strrep(content, '(CHANGELOG-0.5.x.md)', '(CHANGELOG-0.5.x.html)');
@@ -108,7 +111,7 @@ function main_help(module_path, lang, dirdest, package)
               content_as_html = markdown(content, 'advanced');
               filewrite([destination_path, '/', html_filename], content_as_html);
             catch
-              error([_('file not generated:'), newline, html_filename]);
+              error('Nelson:help_tools:fileNotGenerated', 'file not generated:\n%s', html_filename);
             end
           end
         end
@@ -119,6 +122,7 @@ function main_help(module_path, lang, dirdest, package)
         if need_to_be_generated(md{1}, destination)
           txt = fileread(md{1});
           txt = strrep(txt, '(CHANGELOG.md)', '(CHANGELOG.html)');
+          txt = strrep(txt, '(CHANGELOG-1.x.x.md)', '(CHANGELOG-1.x.x.html)');
           txt = strrep(txt, '(CHANGELOG-0.7.x.md)', '(CHANGELOG-0.7.x.html)');
           txt = strrep(txt, '(CHANGELOG-0.6.x.md)', '(CHANGELOG-0.6.x.html)');
           txt = strrep(txt, '(CHANGELOG-0.5.x.md)', '(CHANGELOG-0.5.x.html)');
@@ -134,7 +138,7 @@ function main_help(module_path, lang, dirdest, package)
           catch
           end
           if ~isfile(destination)
-            error([_('file not generated:'), newline, destination]);
+            error('Nelson:help_tools:fileNotGenerated', 'file not generated:\n%s', destination);
           end
         end
       end
@@ -142,10 +146,24 @@ function main_help(module_path, lang, dirdest, package)
       fprintf(['   ', msg, '\n']);
     end
     if package
-      help_archive_name = [nelsonappid(), '.modules.main.help', '.', lang, '.nhz'];
-      destination_archive =  [module_path, '/help/', help_archive_name];
-      zip(destination_archive, destination_path);
+      destination_archive = helpArchiveDestination(module_path, 'main', lang);
+      zip(destination_archive, destination_path, [dirdest, '/']);
     end
+end
+%=============================================================================
+function destination_archive = helpArchiveDestination(module_path, module, lang)
+  output = getenv('NELSON_HELP_ARCHIVE_OUTPUT');
+  if isempty(output)
+    output = [module_path, '/help'];
+  elseif ~isdir(output)
+    mkdir(output);
+  end
+  if strcmp(module, 'main')
+    archive_name = [nelsonappid(), '.modules.main.help.', lang, '.nhz'];
+  else
+    archive_name = [nelsonappid(), '.modules.', module, '.help.', lang, '.nhz'];
+  end
+  destination_archive = [output, '/', archive_name];
 end
 %=============================================================================
 function content = addHRefScript(content)

@@ -83,11 +83,13 @@ extern "C"
 #define mxCreateDoubleMatrix mxCreateDoubleMatrixInterleavedComplex
 #define mxCreateNumericMatrix mxCreateNumericMatrixInterleavedComplex
 #define mxCreateNumericArray mxCreateNumericArrayInterleavedComplex
+#define mxCreateUninitNumericMatrix mxCreateUninitNumericMatrixInterleavedComplex
 #define mxCreateUninitNumericArray mxCreateUninitNumericArrayInterleavedComplex
 #else
 #define mxCreateDoubleMatrix mxCreateDoubleMatrixSeparatedComplex
 #define mxCreateNumericMatrix mxCreateNumericMatrixSeparatedComplex
 #define mxCreateNumericArray mxCreateNumericArraySeparatedComplex
+#define mxCreateUninitNumericMatrix mxCreateUninitNumericMatrixSeparatedComplex
 #define mxCreateUninitNumericArray mxCreateUninitNumericArraySeparatedComplex
 #endif
     //=============================================================================

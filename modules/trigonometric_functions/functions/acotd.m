@@ -11,6 +11,6 @@
 function x = acotd(varargin)
   narginchk(1, 1);
   nargoutchk(0, 1);
-  x = atand (1 ./ varargin{1});
+  x = atand(1 ./ varargin{1});
 end
 %=============================================================================

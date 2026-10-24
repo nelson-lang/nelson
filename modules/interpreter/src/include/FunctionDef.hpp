@@ -52,19 +52,16 @@ class NLSINTERPRETER_IMPEXP FunctionDef
 {
 private:
     //=============================================================================
-    /**
-     * The name of the function - must follow identifier rules.
-     */
     std::string name;
     //=============================================================================
     bool _isOverload;
     //=============================================================================
-    /**
-     * The filename of the function.
-     */
     std::wstring filename;
     //=============================================================================
     std::wstring pathname;
+    //=============================================================================
+    // UTF-8 form of filename, cached because it is needed on every call.
+    std::string filenameUtf8;
     //=============================================================================
     std::mutex m_mutex;
     //=============================================================================
@@ -72,19 +69,25 @@ public:
     //=============================================================================
     FunctionOverloadAutoMode overloadAutoMode = NLS_OVERLOAD_AUTO_ON;
     //=============================================================================
-    void
-    lock()
+    [[nodiscard]] std::unique_lock<std::mutex>
+    lockGuard()
     {
-        std::scoped_lock<std::mutex> _lock { m_mutex };
+        return std::unique_lock<std::mutex>(m_mutex);
     }
     //=============================================================================
     void
-    setFilename(const std::wstring& filename);
+    setFilename(const std::wstring& scriptFilename);
     //=============================================================================
     std::wstring
     getFilename()
     {
         return this->filename;
+    }
+    //=============================================================================
+    const std::string&
+    getFilenameUtf8() const
+    {
+        return this->filenameUtf8;
     }
     //=============================================================================
     std::wstring
@@ -94,9 +97,9 @@ public:
     }
     //=============================================================================
     void
-    setName(const std::string& name)
+    setName(const std::string& functionName)
     {
-        this->name = name;
+        this->name = functionName;
     }
     //=============================================================================
     std::string
@@ -111,27 +114,20 @@ public:
         return this->_isOverload;
     }
     //=============================================================================
+    void
+    setOverload(bool isOverload)
+    {
+        this->_isOverload = isOverload;
+    }
+    //=============================================================================
 
-    /**
-     * The names of the arguments to the fuction (analogous to returnVals).
-     * Should have "varargin" as the last entry for variable argument
-     * functions.
-     */
+    // Argument names. "varargin" is the last entry for variable argument functions.
     stringVector arguments;
     //=============================================================================
-    /**
-     * The constructor.
-     */
     FunctionDef(bool isOverload);
     //=============================================================================
-    /**
-     * The virtual destructor
-     */
     virtual ~FunctionDef();
     //=============================================================================
-    /**
-     * The type of the function (NLS_MACRO_FUNCTION, NLS_BUILT_IN_FUNCTION).
-     */
     [[nodiscard]] virtual FunctionType
     type() const
         = 0;
@@ -150,9 +146,6 @@ public:
     outputArgCount()
         = 0;
     //=============================================================================
-    /**
-     * Evaluate the function and return its output.
-     */
     virtual ArrayOfVector
     evaluateFunction(Evaluator*, const ArrayOfVector&, int)
         = 0;

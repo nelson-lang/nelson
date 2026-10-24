@@ -1,0 +1,84 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Neutral (Default) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEUD)
+LANGUAGE LANG_NEUTRAL, SUBLANG_DEFAULT
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_ICON_M             ICON                    "..\\..\\..\\resources\\m.ico"
+IDI_ICON_NH5           ICON                    "..\\..\\..\\resources\\nh5.ico"
+IDI_ICON_MAT           ICON                    "..\\..\\..\\resources\\mat.ico"
+IDI_ICON_NFLOW         ICON                    "..\\..\\..\\resources\\nflow.ico"
+IDI_ICON_LOGO          ICON                    "..\\..\\..\\resources\\fibonacci.ico"
+
+#endif    // Neutral (Default) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// French (France) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_FRA)
+LANGUAGE LANG_FRENCH, SUBLANG_FRENCH
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 2,0,0,0
+ PRODUCTVERSION 2,0,0,0
+ FILEFLAGSMASK 0x17L
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x0L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040c04b0"
+        BEGIN
+            VALUE "FileDescription", "Nelson WebView (preview)"
+            VALUE "InternalName", "Nelson"
+            VALUE "OriginalFilename", "nelson-webview.exe"
+            VALUE "ProductName", "Nelson"
+            VALUE "ProductVersion", "2,0,0,0"
+            VALUE "FileVersion", "2,0,0,0"
+            VALUE "LegalCopyright", "Nelson Copyright (C) 2016-present"
+            VALUE "Comments", "All rights reserved."
+            VALUE "CompanyName", "Allan CORNET"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x40c, 1200
+    END
+END
+
+#endif    // French (France) resources
+/////////////////////////////////////////////////////////////////////////////

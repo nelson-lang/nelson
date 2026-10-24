@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,13 +10,27 @@
 #include "audioplayer_displayBuiltin.hpp"
 #include "AudioplayerObject.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
 #include "DisplayVariableHelpers.hpp"
+#include "NelsonConfiguration.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
+//=============================================================================
+static void
+displayVariableName(Interface* io, const std::wstring& name)
+{
+    if (name.empty()) {
+        return;
+    }
+    if (NelsonConfiguration::getInstance()->getLineSpacingDisplay() == NLS_LINE_SPACING_LOOSE) {
+        io->outputMessage(L"\n");
+    }
+    io->outputMessage(name + L" =\n");
+}
 //=============================================================================
 ArrayOfVector
 Nelson::AudioGateway::audioplayer_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
@@ -28,17 +42,18 @@ Nelson::AudioGateway::audioplayer_dispBuiltin(Evaluator* eval, int nLhs, const A
     if (param1.isHandle()) {
         std::wstring name;
         Interface* io = eval->getInterface();
-        DisplayVariableHeader(io, param1, name, false);
         if (param1.isScalar()) {
-            if (param1.getHandleCategory() != NLS_HANDLE_AUDIOPLAYER_CATEGORY_STR) {
-                Error(_W("audioplayer handle expected."));
+            if (param1.handleCategory() != NLS_HANDLE_AUDIOPLAYER_CATEGORY_STR) {
+                Error(L"Nelson:audioplayer:invalidHandle", L"audioplayer handle expected.");
             }
-            auto* objPlayer = (AudioplayerObject*)param1.getContentAsHandleScalar();
+            auto* objPlayer = (AudioplayerObject*)param1.asHandleScalar();
             objPlayer->disp(io);
+        } else {
+            DisplayVariableHeader(io, param1, name, false);
         }
         DisplayVariableFooter(io, name.empty());
     } else {
-        Error(_W("audioplayer handle expected."));
+        Error(L"Nelson:audioplayer:invalidHandle", L"audioplayer handle expected.");
     }
     return retval;
 }
@@ -54,20 +69,22 @@ Nelson::AudioGateway::audioplayer_displayBuiltin(
     if (param1.isHandle()) {
         std::wstring name = argIn[0].wname();
         if (argIn.size() == 2) {
-            name = argIn[1].getContentAsWideString();
+            name = argIn[1].asWideString();
         }
         Interface* io = eval->getInterface();
-        DisplayVariableHeader(io, param1, name, false);
         if (param1.isScalar()) {
-            if (param1.getHandleCategory() != NLS_HANDLE_AUDIOPLAYER_CATEGORY_STR) {
-                Error(_W("audioplayer handle expected."));
+            displayVariableName(io, name);
+            if (param1.handleCategory() != NLS_HANDLE_AUDIOPLAYER_CATEGORY_STR) {
+                Error(L"Nelson:audioplayer:invalidHandle", L"audioplayer handle expected.");
             }
-            auto* objPlayer = (AudioplayerObject*)param1.getContentAsHandleScalar();
+            auto* objPlayer = (AudioplayerObject*)param1.asHandleScalar();
             objPlayer->disp(io);
+        } else {
+            DisplayVariableHeader(io, param1, name, false);
         }
         DisplayVariableFooter(io, name.empty());
     } else {
-        Error(_W("audioplayer handle expected."));
+        Error(L"Nelson:audioplayer:invalidHandle", L"audioplayer handle expected.");
     }
     return retval;
 }

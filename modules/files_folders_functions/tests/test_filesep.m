@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 if ispc()
-  assert_isequal(filesep(), '\');
+  asserts.isequal(filesep(), '\');
 else
-  assert_isequal(filesep(), '/');
+  asserts.isequal(filesep(), '/');
 end

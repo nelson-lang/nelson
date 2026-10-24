@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "file": "mat_file_roundtrip.m",
+      "title": "MAT file round trip",
+      "description": "Save selected variables to a temporary data file and reload them.",
+      "tags": [
+        "mat-file",
+        "workspace"
+      ],
+      "requirements": []
+    }
+  ]
+}

@@ -7,12 +7,16 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('mustBeNonSparse'), -1);
-assert_isequal(nargout('mustBeNonSparse'), 0);
+asserts.isequal(nargin('mustBeNonSparse'), -1);
+asserts.isequal(nargout('mustBeNonSparse'), 0);
 %=============================================================================
 mustBeNonSparse(1);
-assert_checkerror('mustBeNonSparse(sparse(0))', _('Value must not be sparse.'), 'Nelson:validators:mustBeNonSparse');
+asserts.checkerror('mustBeNonSparse(sparse(0))', sprintf(_('%s must be nonsparse.'), 'Value'), 'Nelson:validators:mustBeNonSparse');
 %=============================================================================
-msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10),  _('Value must not be sparse.')];
-assert_checkerror('mustBeNonSparse(sparse(0), 3)', msg, 'Nelson:validators:mustBeNonSparse');
+msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10), sprintf(_('%s must be nonsparse.'), 'Value')];
+asserts.checkerror('mustBeNonSparse(sparse(0), 3)', msg, 'Nelson:validators:mustBeNonSparse');
+%=============================================================================
+% the reference spelling is lower case (mustBeNonsparse); both are accepted
+mustBeNonsparse(1);
+mustBeNonsparse([1 2 3]);
 %=============================================================================

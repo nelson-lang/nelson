@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,10 +9,13 @@
 //=============================================================================
 #include <algorithm>
 #include <cstring>
+#include <optional>
 #include "nlsBuildConfig.h"
 #include <Eigen/Sparse>
 #include "IsEqualNaN.hpp"
+#include "IsEqual.hpp"
 #include "OverloadHelpers.hpp"
+#include "FindCommonType.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -117,14 +120,14 @@ static bool
 sparsecomplex_IsEqualNaN(const ArrayOf& A, const ArrayOf& B)
 {
     Eigen::SparseMatrix<std::complex<double>, 0, signedIndexType>* spMatA
-        = (Eigen::SparseMatrix<std::complex<double>, 0, signedIndexType>*)A.getSparseDataPointer();
+        = (Eigen::SparseMatrix<std::complex<double>, 0, signedIndexType>*)A.sparseDataPointer();
     Eigen::SparseMatrix<std::complex<double>, 0, signedIndexType>* spMatB
-        = (Eigen::SparseMatrix<std::complex<double>, 0, signedIndexType>*)B.getSparseDataPointer();
+        = (Eigen::SparseMatrix<std::complex<double>, 0, signedIndexType>*)B.sparseDataPointer();
     if ((spMatA == nullptr && spMatB) || (spMatB == nullptr && spMatA)) {
         return false;
     }
     if (spMatA == nullptr && spMatB == nullptr) {
-        return A.getNonzeros() == B.getNonzeros();
+        return A.nonzeros() == B.nonzeros();
     }
     if ((spMatA->nonZeros() != spMatB->nonZeros())) {
         return false;
@@ -169,15 +172,15 @@ static bool
 sparsereal_IsEqualNaN(const ArrayOf& A, const ArrayOf& B)
 {
     Eigen::SparseMatrix<double, 0, signedIndexType>* spMatA
-        = (Eigen::SparseMatrix<double, 0, signedIndexType>*)A.getSparseDataPointer();
+        = (Eigen::SparseMatrix<double, 0, signedIndexType>*)A.sparseDataPointer();
     Eigen::SparseMatrix<double, 0, signedIndexType>* spMatB
-        = (Eigen::SparseMatrix<double, 0, signedIndexType>*)B.getSparseDataPointer();
+        = (Eigen::SparseMatrix<double, 0, signedIndexType>*)B.sparseDataPointer();
 
     if ((spMatA == nullptr && spMatB) || (spMatB == nullptr && spMatA)) {
         return false;
     }
     if (spMatA == nullptr && spMatB == nullptr) {
-        return A.getNonzeros() == B.getNonzeros();
+        return A.nonzeros() == B.nonzeros();
     }
     if ((spMatA->nonZeros() != spMatB->nonZeros())) {
         return false;
@@ -220,14 +223,14 @@ static bool
 sparselogical_IsEqualNaN(const ArrayOf& A, const ArrayOf& B)
 {
     Eigen::SparseMatrix<logical, 0, signedIndexType>* spMatA
-        = (Eigen::SparseMatrix<logical, 0, signedIndexType>*)A.getSparseDataPointer();
+        = (Eigen::SparseMatrix<logical, 0, signedIndexType>*)A.sparseDataPointer();
     Eigen::SparseMatrix<logical, 0, signedIndexType>* spMatB
-        = (Eigen::SparseMatrix<logical, 0, signedIndexType>*)B.getSparseDataPointer();
+        = (Eigen::SparseMatrix<logical, 0, signedIndexType>*)B.sparseDataPointer();
     if ((spMatA == nullptr && spMatB) || (spMatB == nullptr && spMatA)) {
         return false;
     }
     if (spMatA == nullptr && spMatB == nullptr) {
-        return A.getNonzeros() == B.getNonzeros();
+        return A.nonzeros() == B.nonzeros();
     }
     if ((spMatA->nonZeros() != spMatB->nonZeros())) {
         return false;
@@ -244,21 +247,22 @@ sparselogical_IsEqualNaN(const ArrayOf& A, const ArrayOf& B)
 static bool
 string_IsEqualNaN(const ArrayOf& A, const ArrayOf& B, ompIndexType nbElements)
 {
-    auto* elementA = (ArrayOf*)A.getDataPointer();
-    auto* elementB = (ArrayOf*)B.getDataPointer();
+    auto* elementA = (ArrayOf*)A.dataPointer();
+    auto* elementB = (ArrayOf*)B.dataPointer();
     for (ompIndexType k = 0; k < nbElements; k++) {
         ArrayOf el1 = elementA[k];
         ArrayOf el2 = elementB[k];
         bool isMissingEl1 = !el1.isCharacterArray();
         bool isMissingEl2 = !el2.isCharacterArray();
         if (isMissingEl1 && isMissingEl2) {
-            return true;
+            // two missing strings are equal (like NaN), compare the next ones
+            continue;
         }
         if (isMissingEl1 || isMissingEl2) {
             return false;
         }
-        std::wstring strA = el1.getContentAsWideString();
-        std::wstring strB = el2.getContentAsWideString();
+        std::wstring strA = el1.asWideString();
+        std::wstring strB = el2.asWideString();
         if (strA != strB) {
             return false;
         }
@@ -267,12 +271,32 @@ string_IsEqualNaN(const ArrayOf& A, const ArrayOf& B, ompIndexType nbElements)
 }
 //=============================================================================
 static bool
+isEqualNaNElement(Evaluator* eval, const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
+{
+    // Nested elements (cell/struct contents) may differ in size or class from
+    // each other, so resolve their common type and re-check dimensions through
+    // the full comparison path instead of the raw same-type/same-size dispatch.
+    ArrayOfVector args;
+    args << A;
+    args << B;
+    NelsonType commonType = NLS_UNKNOWN;
+    bool isSparse = false;
+    bool isComplex = false;
+    std::string commonTypeName;
+    FindCommonType(args, commonType, isSparse, isComplex, commonTypeName);
+    if (commonType == NLS_UNKNOWN) {
+        return false;
+    }
+    return IsEqualNaN(eval, args, commonType, isSparse, isComplex, needToOverload);
+}
+//=============================================================================
+static bool
 cell_IsEqualNaN(Evaluator* eval, const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
 {
-    ArrayOf* elementsA = (ArrayOf*)A.getDataPointer();
-    ArrayOf* elementsB = (ArrayOf*)B.getDataPointer();
-    for (size_t k = 0; k < A.getElementCount(); ++k) {
-        bool res = isEqualNaN(eval, elementsA[k], elementsB[k], needToOverload);
+    ArrayOf* elementsA = (ArrayOf*)A.dataPointer();
+    ArrayOf* elementsB = (ArrayOf*)B.dataPointer();
+    for (size_t k = 0; k < A.elementCount(); ++k) {
+        bool res = isEqualNaNElement(eval, elementsA[k], elementsB[k], needToOverload);
         if (!res) {
             return false;
         }
@@ -283,21 +307,27 @@ cell_IsEqualNaN(Evaluator* eval, const ArrayOf& A, const ArrayOf& B, bool& needT
 static bool
 struct_IsEqualNaN(Evaluator* eval, const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
 {
-    stringVector fieldnamesA = A.getFieldNames();
-    stringVector fieldnamesB = B.getFieldNames();
+    if (A.isEmpty()) {
+        // empty structure arrays of the same size are equal when they have the
+        // same number of fields, whatever their names
+        return A.fieldNames().size() == B.fieldNames().size();
+    }
+    stringVector fieldnamesA = A.fieldNames();
+    stringVector fieldnamesB = B.fieldNames();
 
     std::sort(fieldnamesA.begin(), fieldnamesA.end());
     std::sort(fieldnamesB.begin(), fieldnamesB.end());
 
-    if (!std::equal(
+    if (fieldnamesA.size() != fieldnamesB.size()
+        || !std::equal(
             fieldnamesA.begin(), fieldnamesA.end(), fieldnamesB.begin(), fieldnamesB.end())) {
         return false;
     }
     for (auto& name : fieldnamesA) {
-        ArrayOfVector fieldsA = A.getFieldAsList(name);
-        ArrayOfVector fieldsB = B.getFieldAsList(name);
+        ArrayOfVector fieldsA = A.fieldAsList(name);
+        ArrayOfVector fieldsB = B.fieldAsList(name);
         for (size_t k = 0; k < fieldsA.size(); ++k) {
-            bool res = isEqualNaN(eval, fieldsA[k], fieldsB[k], needToOverload);
+            bool res = isEqualNaNElement(eval, fieldsA[k], fieldsB[k], needToOverload);
             if (!res) {
                 return false;
             }
@@ -310,74 +340,77 @@ bool
 isEqualNaN(Evaluator* eval, const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
 {
     needToOverload = false;
-    switch (A.getDataClass()) {
+    if (!A.dimensions().equals(B.dimensions())) {
+        return false;
+    }
+    switch (A.dataClass()) {
     case NLS_DOUBLE: {
         if (A.isSparse()) {
             return sparsereal_IsEqualNaN(A, B);
         }
-        return real_IsEqualNaN<double>((const double*)A.getDataPointer(),
-            (const double*)B.getDataPointer(), A.getElementCount());
+        return real_IsEqualNaN<double>(
+            (const double*)A.dataPointer(), (const double*)B.dataPointer(), A.elementCount());
     } break;
     case NLS_SINGLE: {
-        return real_IsEqualNaN<single>((const single*)A.getDataPointer(),
-            (const single*)B.getDataPointer(), A.getElementCount());
+        return real_IsEqualNaN<single>(
+            (const single*)A.dataPointer(), (const single*)B.dataPointer(), A.elementCount());
     } break;
     case NLS_DCOMPLEX: {
         if (A.isSparse()) {
             return sparsecomplex_IsEqualNaN(A, B);
         }
-        return complex_IsEqualNaN<double>((const double*)A.getDataPointer(),
-            (const double*)B.getDataPointer(), A.getElementCount());
+        return complex_IsEqualNaN<double>(
+            (const double*)A.dataPointer(), (const double*)B.dataPointer(), A.elementCount());
     } break;
     case NLS_SCOMPLEX: {
-        return complex_IsEqualNaN<single>((const single*)A.getDataPointer(),
-            (const single*)B.getDataPointer(), A.getElementCount());
+        return complex_IsEqualNaN<single>(
+            (const single*)A.dataPointer(), (const single*)B.dataPointer(), A.elementCount());
     } break;
     case NLS_INT8: {
-        return integer_IsEqualNaN<int8>((const int8*)A.getDataPointer(),
-            (const int8*)B.getDataPointer(), (indexType)A.getByteSize());
+        return integer_IsEqualNaN<int8>(
+            (const int8*)A.dataPointer(), (const int8*)B.dataPointer(), (indexType)A.byteSize());
     } break;
     case NLS_INT16: {
-        return integer_IsEqualNaN<int16>((const int16*)A.getDataPointer(),
-            (const int16*)B.getDataPointer(), (indexType)A.getByteSize());
+        return integer_IsEqualNaN<int16>(
+            (const int16*)A.dataPointer(), (const int16*)B.dataPointer(), (indexType)A.byteSize());
     } break;
     case NLS_INT32: {
-        return integer_IsEqualNaN<int32>((const int32*)A.getDataPointer(),
-            (const int32*)B.getDataPointer(), (indexType)A.getByteSize());
+        return integer_IsEqualNaN<int32>(
+            (const int32*)A.dataPointer(), (const int32*)B.dataPointer(), (indexType)A.byteSize());
     } break;
     case NLS_INT64: {
-        return integer_IsEqualNaN<int64>((const int64*)A.getDataPointer(),
-            (const int64*)B.getDataPointer(), (indexType)A.getByteSize());
+        return integer_IsEqualNaN<int64>(
+            (const int64*)A.dataPointer(), (const int64*)B.dataPointer(), (indexType)A.byteSize());
     } break;
     case NLS_UINT8: {
-        return integer_IsEqualNaN<uint8>((const uint8*)A.getDataPointer(),
-            (const uint8*)B.getDataPointer(), (indexType)A.getByteSize());
+        return integer_IsEqualNaN<uint8>(
+            (const uint8*)A.dataPointer(), (const uint8*)B.dataPointer(), (indexType)A.byteSize());
     } break;
     case NLS_UINT16: {
-        return integer_IsEqualNaN<uint16>((const uint16*)A.getDataPointer(),
-            (const uint16*)B.getDataPointer(), (indexType)A.getByteSize());
+        return integer_IsEqualNaN<uint16>((const uint16*)A.dataPointer(),
+            (const uint16*)B.dataPointer(), (indexType)A.byteSize());
     } break;
     case NLS_UINT32: {
-        return integer_IsEqualNaN<uint32>((const uint32*)A.getDataPointer(),
-            (const uint32*)B.getDataPointer(), (indexType)A.getByteSize());
+        return integer_IsEqualNaN<uint32>((const uint32*)A.dataPointer(),
+            (const uint32*)B.dataPointer(), (indexType)A.byteSize());
     } break;
     case NLS_UINT64: {
-        return integer_IsEqualNaN<uint64>((const uint64*)A.getDataPointer(),
-            (const uint64*)B.getDataPointer(), (indexType)A.getByteSize());
+        return integer_IsEqualNaN<uint64>((const uint64*)A.dataPointer(),
+            (const uint64*)B.dataPointer(), (indexType)A.byteSize());
     } break;
     case NLS_LOGICAL: {
         if (A.isSparse()) {
             return sparselogical_IsEqualNaN(A, B);
         }
-        return integer_IsEqualNaN<logical>((const logical*)A.getDataPointer(),
-            (const logical*)B.getDataPointer(), (indexType)A.getByteSize());
+        return integer_IsEqualNaN<logical>((const logical*)A.dataPointer(),
+            (const logical*)B.dataPointer(), (indexType)A.byteSize());
     } break;
     case NLS_CHAR: {
-        return integer_IsEqualNaN<charType>((const charType*)A.getDataPointer(),
-            (const charType*)B.getDataPointer(), (indexType)A.getByteSize());
+        return integer_IsEqualNaN<charType>((const charType*)A.dataPointer(),
+            (const charType*)B.dataPointer(), (indexType)A.byteSize());
     } break;
     case NLS_STRING_ARRAY: {
-        return string_IsEqualNaN(A, B, A.getElementCount());
+        return string_IsEqualNaN(A, B, A.elementCount());
     } break;
     case NLS_STRUCT_ARRAY: {
         return struct_IsEqualNaN(eval, A, B, needToOverload);
@@ -385,8 +418,28 @@ isEqualNaN(Evaluator* eval, const ArrayOf& A, const ArrayOf& B, bool& needToOver
     case NLS_CELL_ARRAY: {
         return cell_IsEqualNaN(eval, A, B, needToOverload);
     } break;
-    case NLS_FUNCTION_HANDLE:
+    case NLS_MISSING_ARRAY: {
+        // missing compares like NaN: equal to missing
+        return true;
+    } break;
     case NLS_CLASS_ARRAY:
+    case NLS_CLASSDEF_ARRAY: {
+        bool overloadWasFound = false;
+        ArrayOfVector args;
+        args << A;
+        args << B;
+        std::string commonTypeName = ClassName(A);
+        ArrayOf res = callOverloadedFunction(eval, NLS_OVERLOAD_ALL_TYPES, args, "isequaln",
+            commonTypeName, A.dataClass(), overloadWasFound);
+        if (overloadWasFound) {
+            return res.asLogicalScalar();
+        }
+        if (A.classType() != B.classType()) {
+            return false;
+        }
+        return struct_IsEqualNaN(eval, A, B, needToOverload);
+    } break;
+    case NLS_FUNCTION_HANDLE:
     case NLS_HANDLE:
     case NLS_GO_HANDLE: {
         bool overloadWasFound = false;
@@ -395,9 +448,9 @@ isEqualNaN(Evaluator* eval, const ArrayOf& A, const ArrayOf& B, bool& needToOver
         args << B;
         std::string commonTypeName = ClassName(A);
         ArrayOf res = callOverloadedFunction(eval, NLS_OVERLOAD_ALL_TYPES, args, "isequaln",
-            commonTypeName, A.getDataClass(), overloadWasFound);
+            commonTypeName, A.dataClass(), overloadWasFound);
         if (overloadWasFound) {
-            return res.getContentAsLogicalScalar();
+            return res.asLogicalScalar();
         }
         needToOverload = true;
     } break;
@@ -413,51 +466,38 @@ IsEqualNaN(Evaluator* eval, const ArrayOfVector& args, NelsonType commonType, bo
     bool isComplex, bool& needToOverload)
 {
     needToOverload = false;
-    ArrayOf firstElement = args[0];
-    NelsonType _commonType = commonType;
-    if (commonType == NLS_DOUBLE && isComplex) {
+    NelsonType _commonType = IsEqualComparisonType(args, commonType);
+    if (_commonType == NLS_DOUBLE && isComplex) {
         _commonType = NLS_DCOMPLEX;
     }
-    if (commonType == NLS_SINGLE && isComplex) {
+    if (_commonType == NLS_SINGLE && isComplex) {
         _commonType = NLS_SCOMPLEX;
     }
-    try {
-        if (_commonType == NLS_STRING_ARRAY && (firstElement.getDataClass() == NLS_CHAR)) {
-            firstElement = ArrayOf::stringArrayConstructor(firstElement.getContentAsWideString());
-        } else {
-            if (firstElement.getDataClass() != _commonType) {
-                firstElement.promoteType(_commonType);
-            }
-            if (!firstElement.isSparse() && isSparse) {
-                firstElement.makeSparse();
-            }
+    // conversions are rare: no ArrayOf (hence no allocation) is built otherwise
+    const ArrayOf* firstElement = &args[0];
+    std::optional<ArrayOf> firstConverted;
+    if (IsEqualNeedsConversion(args[0], _commonType, isSparse)) {
+        firstConverted.emplace();
+        if (!IsEqualConvertArgument(args[0], _commonType, isSparse, *firstConverted)) {
+            return false;
         }
-
-    } catch (const Exception&) {
-        return false;
+        firstElement = &*firstConverted;
     }
-    Dimensions commonDimensions = firstElement.getDimensions();
-    for (auto k = 1; k < args.size(); ++k) {
-        ArrayOf secondElement = args[k];
-        try {
-            if (_commonType == NLS_STRING_ARRAY && (secondElement.getDataClass() == NLS_CHAR)) {
-                secondElement
-                    = ArrayOf::stringArrayConstructor(secondElement.getContentAsWideString());
-            } else {
-                if (secondElement.getDataClass() != _commonType) {
-                    secondElement.promoteType(_commonType);
-                }
-                if (!secondElement.isSparse() && isSparse) {
-                    secondElement.makeSparse();
-                }
+    Dimensions commonDimensions = firstElement->dimensions();
+    for (size_t k = 1; k < args.size(); ++k) {
+        const ArrayOf* secondElement = &args[k];
+        std::optional<ArrayOf> secondConverted;
+        if (IsEqualNeedsConversion(args[k], _commonType, isSparse)) {
+            secondConverted.emplace();
+            if (!IsEqualConvertArgument(args[k], _commonType, isSparse, *secondConverted)) {
+                return false;
             }
-        } catch (const Exception&) {
+            secondElement = &*secondConverted;
+        }
+        if (!secondElement->dimensions().equals(commonDimensions)) {
             return false;
         }
-        if (!secondElement.getDimensions().equals(commonDimensions)) {
-            return false;
-        }
-        if (!isEqualNaN(eval, firstElement, secondElement, needToOverload)) {
+        if (!isEqualNaN(eval, *firstElement, *secondElement, needToOverload)) {
             return false;
         }
     }

@@ -7,46 +7,47 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('isinteger'), 1);
-assert_isequal(nargout('isinteger'), 1);
+% <--WEIGHT 2-->
+asserts.isequal(nargin('isinteger'), 1);
+asserts.isequal(nargout('isinteger'), 1);
 %=============================================================================
 A = 3;
 res = isinteger(A);
-assert_isfalse(res);
+asserts.isfalse(res);
 %=============================================================================
 A = single([3, i]);
 res = isinteger(A);
-assert_isfalse(res);
+asserts.isfalse(res);
 %=============================================================================
 B = int8(3);
 res = isinteger(B);
-assert_istrue(res);
+asserts.istrue(res);
 %=============================================================================
 B = int16(3);
 res = isinteger(B);
-assert_istrue(res);
+asserts.istrue(res);
 %=============================================================================
 B = int32(3);
 res = isinteger(B);
-assert_istrue(res);
+asserts.istrue(res);
 %=============================================================================
 B = int64(3);
 res = isinteger(B);
-assert_istrue(res);
+asserts.istrue(res);
 %=============================================================================
 B = uint8(3);
 res = isinteger(B);
-assert_istrue(res);
+asserts.istrue(res);
 %=============================================================================
 B = uint16(3);
 res = isinteger(B);
-assert_istrue(res);
+asserts.istrue(res);
 %=============================================================================
 B = uint32(3);
 res = isinteger(B);
-assert_istrue(res);
+asserts.istrue(res);
 %=============================================================================
 B = uint64(3);
 res = isinteger(B);
-assert_istrue(res);
+asserts.istrue(res);
 %=============================================================================

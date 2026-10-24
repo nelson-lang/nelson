@@ -9,26 +9,28 @@
 %=============================================================================
 % <--SEQUENTIAL TEST REQUIRED-->
 %=============================================================================
-assert_isequal(nargin('fetchNext'), 1);
-assert_isequal(nargout('fetchNext'), 1);
+asserts.isequal(nargin('fetchNext'), 1);
+asserts.isequal(nargout('fetchNext'), 1);
 %=============================================================================
 pool = backgroundPool();
 N = pool.NumWorkers;
 %=============================================================================
 for idx = 1:N
-  f(idx) = parfeval(backgroundPool, str2func('pause'), 0, idx); 
+  f(idx) = parfeval(pool, str2func('pause'), 0, idx);
 end
 %=============================================================================
 for idx = 1:N
   tic(), dd = fetchNext(f), t = toc();
-  assert_istrue(t > 0 && t <= 3);
-  assert_isequal(dd, idx);
+  asserts.istrue(t > 0 && t <= 3);
+  asserts.isequal(dd, idx);
 end
 %=============================================================================
-assert_checkerror('dd = fetchNext(f)', _('There are no unread Futures to fetch.'));
+asserts.checkerror('dd = fetchNext(f)', _('There are no unread Futures to fetch.'));
 %=============================================================================
-l = parfeval(backgroundPool, str2func('pause'), 0, inf); 
+l = parfeval(pool, str2func('pause'), 0, 6);
 tic(); dd = fetchNext(l, 5); t = toc();
-assert_istrue(t > 0 && t <= 6);
-assert_isequal(dd, []);
+asserts.istrue(t > 0 && t <= 6);
+asserts.isequal(dd, []);
+cancel(l);
+wait(l, 'finished', 2);
 %=============================================================================

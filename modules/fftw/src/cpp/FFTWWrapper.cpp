@@ -20,9 +20,13 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+#ifdef NELSON_FFTW_STATIC_BACKEND
+static bool fftwLoaded = true;
+#else
 static bool fftwLoaded = false;
 static library_handle fftw_handle = nullptr;
 static library_handle fftwf_handle = nullptr;
+#endif
 //=============================================================================
 using PROC_fftw_execute = void (*)(const fftw_plan plan);
 using PROC_fftw_plan_dft_1d
@@ -65,6 +69,125 @@ PROC_fftwf_export_wisdom_to_string fftwf_export_wisdom_to_stringPtr = nullptr;
 PROC_fftwf_import_wisdom_from_string fftwf_import_wisdom_from_stringPtr = nullptr;
 PROC_fftwf_malloc fftwf_mallocPtr = nullptr;
 PROC_fftwf_free fftwf_freePtr = nullptr;
+//=============================================================================
+#ifdef NELSON_FFTW_STATIC_BACKEND
+bool
+freeFFTWLibrary()
+{
+    fftwLoaded = false;
+    return true;
+}
+//=============================================================================
+bool
+loadFFTWLibrary()
+{
+    fftwLoaded = true;
+    return true;
+}
+//=============================================================================
+bool
+loadFFTWLibrary(const std::wstring& /*fftwLibraryName*/, const std::wstring& /*fftwfLibraryName*/)
+{
+    return loadFFTWLibrary();
+}
+//=============================================================================
+void
+dyn_fftw_execute(const fftw_plan plan)
+{
+    fftw_execute(plan);
+}
+//=============================================================================
+fftw_plan
+dyn_fftw_plan_dft_1d(int n, fftw_complex* in, fftw_complex* out, int sign, unsigned flags)
+{
+    return fftw_plan_dft_1d(n, in, out, sign, flags);
+}
+//=============================================================================
+void
+dyn_fftw_destroy_plan(fftw_plan plan)
+{
+    fftw_destroy_plan(plan);
+}
+//=============================================================================
+void
+dyn_fftw_forget_wisdom()
+{
+    fftw_forget_wisdom();
+}
+//=============================================================================
+char*
+dyn_fftw_export_wisdom_to_string()
+{
+    return fftw_export_wisdom_to_string();
+}
+//=============================================================================
+int
+dyn_fftw_import_wisdom_from_string(const char* input_string)
+{
+    return fftw_import_wisdom_from_string(input_string);
+}
+//=============================================================================
+void*
+dyn_fftw_malloc(size_t n)
+{
+    return fftw_malloc(n);
+}
+//=============================================================================
+void
+dyn_fftw_free(void* p)
+{
+    fftw_free(p);
+}
+//=============================================================================
+void
+dyn_fftwf_execute(const fftwf_plan plan)
+{
+    fftwf_execute(plan);
+}
+//=============================================================================
+void
+dyn_fftwf_destroy_plan(fftwf_plan plan)
+{
+    fftwf_destroy_plan(plan);
+}
+//=============================================================================
+void
+dyn_fftwf_free(void* p)
+{
+    fftwf_free(p);
+}
+//=============================================================================
+void*
+dyn_fftwf_malloc(size_t n)
+{
+    return fftwf_malloc(n);
+}
+//=============================================================================
+int
+dyn_fftwf_import_wisdom_from_string(const char* input_string)
+{
+    return fftwf_import_wisdom_from_string(input_string);
+}
+//=============================================================================
+char*
+dyn_fftwf_export_wisdom_to_string()
+{
+    return fftwf_export_wisdom_to_string();
+}
+//=============================================================================
+void
+dyn_fftwf_forget_wisdom()
+{
+    fftwf_forget_wisdom();
+}
+//=============================================================================
+fftwf_plan
+dyn_fftwf_plan_dft_1d(int n, fftwf_complex* in, fftwf_complex* out, int sign, unsigned flags)
+{
+    return fftwf_plan_dft_1d(n, in, out, sign, flags);
+}
+//=============================================================================
+#else
 //=============================================================================
 static bool
 loadFTTWFSymbols()
@@ -198,7 +321,6 @@ freeFFTWLibrary()
 static bool
 loadFFTWLibraryOnMacOs()
 {
-    // Lambda to attempt loading FFTW libraries from a given path prefix
     auto tryLoadLibrary = [](const char* prefix) -> bool {
         if (prefix) {
             std::string libPath = std::string(prefix) + "/lib/";
@@ -227,9 +349,16 @@ loadFFTWLibraryOnMacOs()
         }
     }
 
-    // Try loading from CONDA_PREFIX first, then HOMEBREW_PREFIX if necessary
+    // Try loading from CONDA_PREFIX first, then HOMEBREW_PREFIX if necessary.
+    // Finally, fall back to well-known standard prefixes so the plain CLI works
+    // outside a .app bundle even when the env vars are unset/empty (a
+    // user-provided prefix above still takes precedence):
+    //   /opt/homebrew -> Homebrew on Apple Silicon
+    //   /usr/local    -> Homebrew on Intel
+    //   /opt/local    -> MacPorts
     return tryLoadLibrary(std::getenv("CONDA_PREFIX"))
-        || tryLoadLibrary(std::getenv("HOMEBREW_PREFIX"));
+        || tryLoadLibrary(std::getenv("HOMEBREW_PREFIX")) || tryLoadLibrary("/opt/homebrew")
+        || tryLoadLibrary("/usr/local") || tryLoadLibrary("/opt/local");
 }
 #endif
 //=============================================================================
@@ -397,5 +526,7 @@ dyn_fftwf_plan_dft_1d(int n, fftwf_complex* in, fftwf_complex* out, int sign, un
     return fftwf_plan_dft_1dPtr(n, in, out, sign, flags);
 }
 //=============================================================================
-}
+#endif
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

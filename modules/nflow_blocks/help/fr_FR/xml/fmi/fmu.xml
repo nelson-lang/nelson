@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>fmu</keyword>
+  <keyword_alias>block:fmu</keyword_alias>
+  <short_description>Exécute une FMU de co-simulation dans un diagramme NFlow.</short_description>
+  <syntax><syntax_item>Type de bloc : fmu</syntax_item></syntax>
+  <description>
+    <p>La version navigateur WebAssembly prend en charge les composants FMI 3.0 Co-Simulation dans binaries/wasm32-wasip2, avec des ports vectoriels numériques et booléens. Utilisez Browse FMU pour importer une archive. Les démos de référence contiennent les binaires natifs et Wasm.</p>
+    <p>Le bloc <b>FMU (CS)</b> charge l'archive sélectionnée par <b>path</b> et avance son instance de co-simulation avec la simulation NFlow.</p>
+    <p>Après l'import, les ports et paramètres du bloc suivent les variables exposées par la description du modèle FMU.</p>
+    <p><img src="../../../../libraries/fmi/exports/fmu.svg" align="middle"/></p>
+  </description>
+  <see_also><see_also_item><link linkend="${nflow_fmi}fmuToBlock">fmuToBlock</link></see_also_item></see_also>
+</xmldoc>

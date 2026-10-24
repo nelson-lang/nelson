@@ -19,5 +19,6 @@ NLSTIME_IMPEXP bool
 Toc(Evaluator* eval, double& tValue);
 NLSTIME_IMPEXP bool
 Toc(uint64 t, double& tValue);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

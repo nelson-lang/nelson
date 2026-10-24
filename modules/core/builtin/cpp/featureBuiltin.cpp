@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "featureBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "NelsonConfiguration.hpp"
@@ -18,7 +19,6 @@ using namespace Nelson;
 typedef ArrayOf (*MethodGetPtr)();
 typedef ArrayOf (*MethodSetPtr)(const ArrayOf& value);
 //=============================================================================
-// getter
 static ArrayOf
 currentAxesOnClick();
 static ArrayOf
@@ -28,7 +28,6 @@ ompEnabled();
 static ArrayOf
 ompThreshold();
 //=============================================================================
-// setter
 static ArrayOf
 setCurrentAxesOnClick(const ArrayOf& value);
 static ArrayOf
@@ -45,7 +44,7 @@ Nelson::CoreGateway::featureBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 1, 2);
 
-    std::wstring fieldname = argIn[0].getContentAsWideString();
+    std::wstring fieldname = argIn[0].asWideString();
 
     if (argIn.size() == 1) {
         std::map<std::wstring, MethodGetPtr> methodMap;
@@ -57,7 +56,7 @@ Nelson::CoreGateway::featureBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (methodMap.count(fieldname) == 1) {
             retval << (methodMap[fieldname])();
         } else {
-            Error(_W("Wrong value for #1 argument."));
+            Error(L"Nelson:feature:invalidValue", L"Wrong value for #%d argument.", 1);
         }
     } else {
         ArrayOf fieldvalue = argIn[1];
@@ -70,60 +69,56 @@ Nelson::CoreGateway::featureBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (methodMap.count(fieldname) == 1) {
             retval << (methodMap[fieldname])(fieldvalue);
         } else {
-            Error(_W("Wrong value for #1 argument."));
+            Error(L"Nelson:feature:invalidValue", L"Wrong value for #%d argument.", 1);
         }
     }
     return retval;
 }
 //=============================================================================
-// getter
 ArrayOf
 currentAxesOnClick()
 {
-    return ArrayOf::logicalConstructor(NelsonConfiguration::getInstance()->isCurrentAxesOnClick());
+    return ArrayOf::logicalScalar(NelsonConfiguration::getInstance()->isCurrentAxesOnClick());
 }
 //=============================================================================
 ArrayOf
 currentFigureOnClick()
 {
-    return ArrayOf::logicalConstructor(
-        NelsonConfiguration::getInstance()->isCurrentFigureOnClick());
+    return ArrayOf::logicalScalar(NelsonConfiguration::getInstance()->isCurrentFigureOnClick());
 }
 //=============================================================================
 ArrayOf
 ompEnabled()
 {
-    return ArrayOf::logicalConstructor(
+    return ArrayOf::logicalScalar(
         NelsonConfiguration::getInstance()->isOpenMPParallelizationEnabled());
 }
 //=============================================================================
 ArrayOf
 ompThreshold()
 {
-    return ArrayOf::doubleConstructor(
+    return ArrayOf::doubleScalar(
         (double)NelsonConfiguration::getInstance()->getOpenMPParallelizationThreshold());
 }
 //=============================================================================
-// setter
 ArrayOf
 setCurrentAxesOnClick(const ArrayOf& value)
 {
-    NelsonConfiguration::getInstance()->setCurrentAxesOnClick(value.getContentAsLogicalScalar());
+    NelsonConfiguration::getInstance()->setCurrentAxesOnClick(value.asLogicalScalar());
     return ArrayOf();
 }
 //=============================================================================
 ArrayOf
 setCurrentFigureOnClick(const ArrayOf& value)
 {
-    NelsonConfiguration::getInstance()->setCurrentFigureOnClick(value.getContentAsLogicalScalar());
+    NelsonConfiguration::getInstance()->setCurrentFigureOnClick(value.asLogicalScalar());
     return ArrayOf();
 }
 //=============================================================================
 ArrayOf
 setOmpEnabled(const ArrayOf& value)
 {
-    NelsonConfiguration::getInstance()->enableOpenMPParallelization(
-        value.getContentAsLogicalScalar());
+    NelsonConfiguration::getInstance()->enableOpenMPParallelization(value.asLogicalScalar());
     return ArrayOf();
 }
 //=============================================================================
@@ -131,7 +126,7 @@ ArrayOf
 setOmpThreshold(const ArrayOf& value)
 {
     NelsonConfiguration::getInstance()->setOpenMPParallelizationThreshold(
-        (uint64_t)value.getContentAsDoubleScalar());
+        (uint64_t)value.asDoubleScalar());
     return ArrayOf();
 }
 //=============================================================================

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>timer</keyword>
+  <keyword_alias>objet timer</keyword_alias>
+  <short_description>Creer un objet timer qui execute des commandes apres un delai ou a intervalles repetes.</short_description>
+  <syntax>
+    <syntax_item>t = timer()</syntax_item>
+    <syntax_item>t = timer(&apos;PropertyName&apos;, PropertyValue, ...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>PropertyName</param_name>
+      <param_description>Nom de propriete de timer.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>PropertyValue</param_name>
+      <param_description>Valeur affectee a la propriete de timer.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>t</param_name>
+      <param_description>Objet timer.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>timer</b> cree un objet timer. Un objet timer peut executer un callback une seule fois, apres un delai, a une date future, ou de maniere repetee jusqu&apos;a atteindre le nombre de taches demande ou jusqu&apos;a son arret.</p>
+    <p>Le callback a executer est stocke dans la propriete <b>TimerFcn</b>. Le callback peut etre un handle de fonction, un tableau de cellules dont le premier element est un handle de fonction, un vecteur de caracteres ou une chaine scalaire. Les callbacks par handle de fonction recoivent l&apos;objet timer et une structure d&apos;evenement.</p>
+    <p>Les objets timer restent enregistres apres la sortie de portee de la variable qui les contenait. Utilisez <b>delete</b> lorsqu&apos;un timer n&apos;est plus necessaire.</p>
+    <p>Les proprietes importantes d&apos;un timer sont listees ci-dessous.</p>
+    <table border="1">
+      <tr>
+        <th>Propriete</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>BusyMode</td>
+        <td>Action utilisee lorsque les callbacks d&apos;un timer a cadence fixe ne peuvent pas s&apos;executer immediatement : <b>drop</b>, <b>queue</b> ou <b>error</b>.</td>
+      </tr>
+      <tr>
+        <td>ExecutionMode</td>
+        <td>Mode de planification : <b>singleShot</b>, <b>fixedRate</b>, <b>fixedDelay</b> ou <b>fixedSpacing</b>.</td>
+      </tr>
+      <tr>
+        <td>Period</td>
+        <td>Temps en secondes entre deux executions repetees du timer.</td>
+      </tr>
+      <tr>
+        <td>StartDelay</td>
+        <td>Delai en secondes avant la premiere execution du timer.</td>
+      </tr>
+      <tr>
+        <td>TasksToExecute</td>
+        <td>Nombre de fois ou <b>TimerFcn</b> doit etre execute. La valeur par defaut est <b>Inf</b>.</td>
+      </tr>
+      <tr>
+        <td>TasksExecuted</td>
+        <td>Compteur en lecture seule des executions de callback terminees.</td>
+      </tr>
+      <tr>
+        <td>Running</td>
+        <td>Valeur en lecture seule, <b>on</b> lorsque le timer est actif et <b>off</b> sinon.</td>
+      </tr>
+      <tr>
+        <td>ObjectVisibility</td>
+        <td>Visibilite utilisee par <b>timerfind</b>. Les timers caches sont quand meme retournes par <b>timerfindall</b>.</td>
+      </tr>
+    </table>
+    <p>Utilisez <b>start</b> pour demarrer un timer immediatement, <b>startat</b> pour le demarrer a une date et une heure donnees, <b>stop</b> pour l&apos;arreter, <b>wait</b> pour bloquer jusqu&apos;a son arret et <b>delete</b> pour le supprimer lorsqu&apos;il n&apos;est plus necessaire.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Creer un timer a execution unique apres un court delai.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[t = timer('StartDelay', 0.1, ...
+  'TimerFcn', @(src, event) disp('timer fired'));
+start(t);
+wait(t);
+delete(t);]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Creer un timer qui s&apos;execute trois fois et affiche le compteur d&apos;execution.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[t = timer('ExecutionMode', 'fixedSpacing', ...
+  'Period', 0.05, ...
+  'TasksToExecute', 3, ...
+  'TimerFcn', @(src, event) disp(get(src, 'TasksExecuted')));
+start(t);
+wait(t);
+get(t, 'TasksExecuted')
+delete(t);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${time}start">start</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}startat">startat</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}stop">stop</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}wait">wait</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}timerfind">timerfind</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}timerfindall">timerfindall</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}Fonctions de callback de timer">Fonctions de callback de timer</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}Conflits de file de timers">Conflits de file de timers</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

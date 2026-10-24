@@ -9,10 +9,10 @@
 //=============================================================================
 #include "NelsonNamedMutex.hpp"
 #include "Nelson_VERSION.h"
-#ifdef _MSC_VER
+#if defined(_MSC_VER)
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
-#else
+#elif !defined(__EMSCRIPTEN__)
 #include <semaphore.h>
 #include <fcntl.h>
 #include <errno.h>
@@ -21,8 +21,10 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-#ifdef _MSC_VER
+#if defined(_MSC_VER)
 static HANDLE nelson_mutex = nullptr;
+#elif defined(__EMSCRIPTEN__)
+static bool nelson_mutex = false;
 #else
 static sem_t* nelson_sem = nullptr;
 #endif
@@ -31,9 +33,8 @@ bool
 openNelsonMutex()
 {
     bool res = false;
-#ifdef _MSC_VER
+#if defined(_MSC_VER)
     if (nelson_mutex == nullptr) {
-        // Create or open named mutex (unowned)
         HANDLE h = CreateMutexA(nullptr, FALSE, NELSON_VERSION_NMMM_STRING);
         if (h != nullptr) {
             nelson_mutex = h;
@@ -44,14 +45,15 @@ openNelsonMutex()
     } else {
         res = true;
     }
+#elif defined(__EMSCRIPTEN__)
+    nelson_mutex = true;
+    res = true;
 #else
     if (nelson_sem == nullptr) {
         // POSIX named semaphore name must start with '/'
         std::string name = std::string("/") + NELSON_VERSION_NMMM_STRING;
-        // Try to create with initial value 1 (unlocked). If exists, open it.
         sem_t* s = sem_open(name.c_str(), O_CREAT | O_EXCL, 0600, 1);
         if (s == SEM_FAILED) {
-            // If already exists, open without O_EXCL
             s = sem_open(name.c_str(), O_CREAT, 0600, 1);
             if (s == SEM_FAILED) {
                 res = false;
@@ -74,12 +76,15 @@ bool
 closeNelsonMutex()
 {
     bool res = false;
-#ifdef _MSC_VER
+#if defined(_MSC_VER)
     if (nelson_mutex) {
         CloseHandle(nelson_mutex);
         nelson_mutex = nullptr;
         res = true;
     }
+#elif defined(__EMSCRIPTEN__)
+    res = nelson_mutex;
+    nelson_mutex = false;
 #else
     if (nelson_sem) {
         std::string name = std::string("/") + NELSON_VERSION_NMMM_STRING;
@@ -97,8 +102,7 @@ bool
 haveNelsonMutex()
 {
     bool res = false;
-#ifdef _MSC_VER
-    // Try to open existing named mutex without creating it
+#if defined(_MSC_VER)
     HANDLE h = OpenMutexA(SYNCHRONIZE, FALSE, NELSON_VERSION_NMMM_STRING);
     if (h) {
         CloseHandle(h);
@@ -106,6 +110,8 @@ haveNelsonMutex()
     } else {
         res = false;
     }
+#elif defined(__EMSCRIPTEN__)
+    res = nelson_mutex;
 #else
     std::string name = std::string("/") + NELSON_VERSION_NMMM_STRING;
     sem_t* s = sem_open(name.c_str(), 0);

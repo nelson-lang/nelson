@@ -132,9 +132,9 @@
     <p>
       <b>history(&apos;saveafter&apos;, nb_commands)</b> saves the history file after<b>nb_commands</b> statements are added to the file.</p>
     <p>
-      <b>Tips</b>: You can easily share your history file in the cloud by adding few lines code in your user startup file.</p>
+      <b>Tips</b>: You can share your history file in the cloud by adding a few lines of code to your user startup file.</p>
     <p
-    >If nelson launched with &apos;--nouserstartup&apos; option, history file will be not loaded at startup and not saved at exit.</p>
+    >If nelson launched with &apos;--no-user-startup&apos; option, history file will be not loaded at startup and not saved at exit.</p>
   </description>
   <used_function />
   <bibliography />

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>unifstat</keyword>
+  <short_description>Continuous uniform mean and variance</short_description>
+  <syntax>
+    <syntax_item>[m, v] = unifstat(a, b)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>a</param_name>
+      <param_description>real scalar or array: lower endpoint.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>b</param_name>
+      <param_description>real scalar or array: upper endpoint.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>m</param_name>
+      <param_description>array: means.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>v</param_name>
+      <param_description>array: variances.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>unifstat</b> returns the element-wise mean and variance of continuous uniform distributions.</p>
+    <p>Scalar endpoints are expanded to match array endpoints. Invalid intervals produce NaN values.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[[m, v] = unifstat(0, 1);
+a = 1:6;
+b = 2 * a;
+[m2, v2] = unifstat(a, b);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${statistics}unifpdf">unifpdf</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}unifcdf">unifcdf</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}unifinv">unifinv</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}unifrnd">unifrnd</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

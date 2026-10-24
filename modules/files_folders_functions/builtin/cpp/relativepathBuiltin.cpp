@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -20,8 +20,8 @@ Nelson::FilesFoldersGateway::relativepathBuiltin(int nLhs, const ArrayOfVector& 
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 2, 2);
-    std::wstring param1 = argIn[0].getContentAsWideString();
-    std::wstring param2 = argIn[1].getContentAsWideString();
+    std::wstring param1 = argIn[0].asWideString();
+    std::wstring param2 = argIn[1].asWideString();
     bool bSuccess = false;
     std::wstring result = RelativePath(param1, param2, bSuccess);
     if (bSuccess) {
@@ -30,7 +30,7 @@ Nelson::FilesFoldersGateway::relativepathBuiltin(int nLhs, const ArrayOfVector& 
             result = L"./" + result;
         }
     }
-    retval << ArrayOf::characterArrayConstructor(result);
+    retval << ArrayOf::characterArray(result);
     return retval;
 }
 //=============================================================================

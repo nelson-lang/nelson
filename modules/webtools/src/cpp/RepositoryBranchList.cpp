@@ -12,6 +12,7 @@
 #include "RepositoryBranchList.hpp"
 #include "characters_encoding.hpp"
 #include "RepositoryHelpers.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -33,6 +34,7 @@ RepositoryGetCurrentBranchName(const std::wstring& localPath, std::wstring& erro
     errorCode = git_repository_head(&ref, repo);
     if (errorCode != 0) {
         errorMessage = gitErrorCodeToMessage(errorCode);
+        git_repository_free(repo);
         git_libgit2_shutdown();
         return branchName;
     }
@@ -50,8 +52,10 @@ RepositoryGetCurrentBranchName(const std::wstring& localPath, std::wstring& erro
         } else if (reftype == GIT_REF_OID) {
             const git_oid* oid = git_reference_target(ref);
             currentName = git_oid_tostr_s(oid);
-            currentBranchName
-                = L"(" + _W("HEAD detached at ") + utf8_to_wstring(currentName) + L")";
+            currentBranchName = formatI18nMessage(
+                Nelson::resolveMessageTemplate(
+                    L"Nelson:webtools:headDetachedAt", L"(HEAD detached at %s)"),
+                utf8_to_wstring(currentName));
         }
         git_reference_free(ref);
     }
@@ -63,7 +67,7 @@ RepositoryGetCurrentBranchName(const std::wstring& localPath, std::wstring& erro
 wstringVector
 RepositoryBranchList(const std::wstring& localPath, std::wstring& errorMessage)
 {
-    wstringVector branchs;
+    wstringVector branches;
     std::string localPathUtf8 = wstring_to_utf8(localPath);
     git_repository* repo = nullptr;
     git_libgit2_init();
@@ -71,13 +75,16 @@ RepositoryBranchList(const std::wstring& localPath, std::wstring& errorMessage)
     int errorCode = git_repository_open(&repo, localPathUtf8.c_str());
     if (errorCode != 0) {
         errorMessage = gitErrorCodeToMessage(errorCode);
-        return branchs;
+        git_libgit2_shutdown();
+        return branches;
     }
     git_reference* ref;
     errorCode = git_repository_head(&ref, repo);
     if (errorCode != 0) {
         errorMessage = gitErrorCodeToMessage(errorCode);
-        return branchs;
+        git_repository_free(repo);
+        git_libgit2_shutdown();
+        return branches;
     }
     const char* currentName = nullptr;
     errorCode = git_branch_name(&currentName, ref);
@@ -90,13 +97,15 @@ RepositoryBranchList(const std::wstring& localPath, std::wstring& errorMessage)
         if (reftype == GIT_REF_SYMBOLIC) {
             currentName = git_reference_symbolic_target(ref);
             currentBranchName = utf8_to_wstring(currentName);
-            branchs.push_back(currentBranchName);
+            branches.push_back(currentBranchName);
         } else if (reftype == GIT_REF_OID) {
             const git_oid* oid = git_reference_target(ref);
             currentName = git_oid_tostr_s(oid);
-            currentBranchName
-                = L"(" + _W("HEAD detached at ") + utf8_to_wstring(currentName) + L")";
-            branchs.push_back(currentBranchName);
+            currentBranchName = formatI18nMessage(
+                Nelson::resolveMessageTemplate(
+                    L"Nelson:webtools:headDetachedAt", L"(HEAD detached at %s)"),
+                utf8_to_wstring(currentName));
+            branches.push_back(currentBranchName);
         }
         git_reference_free(ref);
     }
@@ -106,21 +115,22 @@ RepositoryBranchList(const std::wstring& localPath, std::wstring& errorMessage)
         git_branch_t type;
         const char* name = nullptr;
         while (!git_branch_next(&ref, &type, it)) {
-            git_reference_free(ref);
             errorCode = git_branch_name(&name, ref);
             if (errorCode == 0) {
-                branchs.push_back(utf8_to_wstring(name));
+                branches.push_back(utf8_to_wstring(name));
             } else {
                 errorMessage = gitErrorCodeToMessage(errorCode);
+                git_reference_free(ref);
                 break;
             }
+            git_reference_free(ref);
         }
         git_branch_iterator_free(it);
     }
     git_repository_free(repo);
     git_libgit2_shutdown();
-    return branchs;
+    return branches;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

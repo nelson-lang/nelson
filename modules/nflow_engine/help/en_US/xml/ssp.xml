@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>NFlow.sspInfo</keyword>
+  <short_description>Inspect, import and export SSP (System Structure and Parameterization) archives.</short_description>
+  <syntax>
+    <syntax_item>info = NFlow.sspInfo(sspFile)</syntax_item>
+    <syntax_item>nflowFile = NFlow.sspImport(sspFile, destinationDirectory)</syntax_item>
+    <syntax_item>sspFile = NFlow.sspExport(sspFile, components, connections)</syntax_item>
+    <syntax_item>sspFile = NFlow.sspExportDiagram(nflowFile, sspFile)</syntax_item>
+    <syntax_item>NFlow.writeSsv(ssvFile, parameterValues)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>sspFile</param_name>
+      <param_description>a character vector: path to an <b>.ssp</b> archive (a zip holding a <b>SystemStructure.ssd</b> and its component FMUs under <b>resources/</b>).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>destinationDirectory</param_name>
+      <param_description>a character vector: an existing directory that receives the extracted component FMUs and the generated <b>.nflow</b> model.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>nflowFile</param_name>
+      <param_description>a character vector: path to a <b>.nflow</b> diagram whose blocks are <b>fmu</b> blocks (as produced by <b>NFlow.sspImport</b>), packaged back into an SSP by <b>NFlow.sspExportDiagram</b>.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>components</param_name>
+      <param_description>a struct array with fields <b>name</b> and <b>model</b> (the path to each component's <b>.nflow</b> model).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>connections</param_name>
+      <param_description>a struct array with fields <b>startElement</b>, <b>startConnector</b>, <b>endElement</b>, <b>endConnector</b>. An empty <b>startElement</b> denotes a system input and an empty <b>endElement</b> a system output.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>info</param_name>
+      <param_description>a structure with fields <b>name</b>, <b>systemConnectors</b> (the parent system's own <b>name</b>/<b>kind</b> connectors), <b>components</b> (each <b>name</b>, <b>source</b>, <b>type</b>, <b>implementation</b>, <b>parameterSources</b>) and <b>connections</b> (each <b>startElement</b>, <b>startConnector</b>, <b>endElement</b>, <b>endConnector</b>).</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>nflowFile</param_name>
+      <param_description>the path to the <b>.nflow</b> model written by <b>NFlow.sspImport</b>.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>SSP (<b>System Structure and Parameterization</b>) is an open standard that packages several FMUs and the way their connectors are wired into a single <b>.ssp</b> archive.</p>
+    <p><b>NFlow.sspInfo</b> reads the archive's <b>SystemStructure.ssd</b> and reports the composition without loading any binary: the system name, its components and every connection between connectors.</p>
+    <p><b>NFlow.sspImport</b> wires each component into an nflow diagram: every FMI 3.0 Co-Simulation component becomes an <b>fmu</b> block, connectors are matched to ports by name, and a component output routed to a system output is exposed as a recordable sink. Parameter values bound to a component &#8212; through a <b>.ssv</b> (System Structure Parameter Values) file or embedded directly in the <b>.ssd</b> &#8212; are applied to its FMU block. Components that are not FMI 3.0 are reported with their declared version rather than failing obscurely.</p>
+    <p><b>NFlow.sspExport</b> does the reverse: it exports each component model to an FMU, lists its connectors and writes a <b>SystemStructure.ssd</b> describing the composition. Connections that reference the parent system (an empty start or end element) are declared as system-level connectors.</p>
+    <p><b>NFlow.sspExportDiagram</b> is the exact inverse of <b>NFlow.sspImport</b>: it takes a diagram whose blocks are <b>fmu</b> blocks and re-emits an SSP that references those same component FMUs directly (without re-exporting them). Wires between FMU blocks become connections &#8212; port indices are mapped back to connector names by inspection &#8212; and each <b>To Workspace</b> sink fed by an FMU output becomes a system output connector. Importing an SSP and exporting the resulting diagram round-trips the composition's components, its component-to-component links and its system outputs (a system input has no driver block after import, so it is not reproduced). Any parameter overrides carried on an FMU block (as applied by <b>NFlow.sspImport</b> from a <b>.ssv</b>) are written back out as a bound <b>.ssv</b>, so parameter values round-trip too.</p>
+    <p><b>NFlow.writeSsv</b> writes a parameter name/value struct as a <b>.ssv</b> file (the inverse of <b>NFlow.readSsv</b>): <b>logical</b> values become Boolean, integers Integer, everything else Real.</p>
+  </description>
+  <used_function />
+  <bibliography>Modelica Association, System Structure and Parameterization (SSP) standard, https://ssp-standard.org</bibliography>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Inspect the bundled controlled-drivetrain composition</example_item_description>
+      <example_item_data><![CDATA[ssp = [modulepath('nflow_fmi', 'root'), '/examples/ControlledDrivetrain.ssp'];
+info = NFlow.sspInfo(ssp);
+disp(info.name);
+disp({info.components.name});
+disp(numel(info.connections));]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Round-trip a composition: SSP -&gt; diagram -&gt; SSP</example_item_description>
+      <example_item_data><![CDATA[ssp = [modulepath('nflow_fmi', 'root'), '/examples/ControlledDrivetrain.ssp'];
+work = [tempdir(), 'ssp_roundtrip'];
+mkdir(work);
+nflowFile = NFlow.sspImport(ssp, work);
+outSsp = NFlow.sspExportDiagram(nflowFile, [work, filesep, 'RoundTrip.ssp']);
+info = NFlow.sspInfo(outSsp);
+disp({info.components.name});]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${nflow_engine}sim">sim</link></see_also_item>
+    <see_also_item><link linkend="${nflow_fmi}fmiCoSimulate">fmiCoSimulate</link></see_also_item>
+    <see_also_item><link linkend="${nflow_fmi}fmiInfo">fmiInfo</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>1.0.0</history_version><history_description>initial version</history_description></history_item><history_item><history_version>2.0.0</history_version><history_description>NFlow.sspExportDiagram: package a diagram of FMU blocks back into an SSP; NFlow.writeSsv exports parameter values (SSV round-trip)</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

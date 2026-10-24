@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,9 +9,10 @@
 //=============================================================================
 #include "frewindBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "File.hpp"
-#include "FileRewind.hpp"
+#include "FileSeek.hpp"
 #include "FilesManager.hpp"
 #include "NelsonConfiguration.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -26,19 +27,19 @@ Nelson::StreamGateway::frewindBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargoutcheck(nLhs, 0, 0);
     auto* fm = static_cast<FilesManager*>(NelsonConfiguration::getInstance()->getFileManager());
     if (fm == nullptr) {
-        Error(_W("Problem with file manager."));
+        Error(L"Nelson:stream_manager:fileManagerNotAvailable", L"Problem with file manager.");
     }
     ArrayOf param1 = argIn[0];
-    auto iValue = static_cast<int32>(param1.getContentAsDoubleScalar());
+    auto iValue = static_cast<int32>(param1.asDoubleScalar());
     if (fm->isOpened(iValue)) {
         File* f = fm->getFile(iValue);
         if (f->isInterfaceMethod()) {
-            Error(_W("Rewind failed."));
-        } else {
-            FileRewind(f);
+            Error(L"Nelson:frewind:rewindFailed", L"Rewind failed.");
+        } else if (!FileSeek(f, 0, -1)) {
+            Error(L"Nelson:frewind:rewindFailed", L"Rewind failed.");
         }
     } else {
-        Error(_W("Invalid file identifier."));
+        Error(L"Nelson:stream_manager:invalidFileIdentifier", L"Invalid file identifier.");
     }
     return retval;
 }

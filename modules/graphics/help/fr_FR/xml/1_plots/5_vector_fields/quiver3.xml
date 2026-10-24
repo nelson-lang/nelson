@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>quiver3</keyword>
+  <short_description>Trace de champ vectoriel 3-D.</short_description>
+  <syntax>
+    <syntax_item>quiver3(Z, U, V, W)</syntax_item>
+    <syntax_item>quiver3(X, Y, Z, U, V, W)</syntax_item>
+    <syntax_item>quiver3(..., scale)</syntax_item>
+    <syntax_item>quiver3(..., LineSpec)</syntax_item>
+    <syntax_item>quiver3(..., propertyName, propertyValue)</syntax_item>
+    <syntax_item>quiver3(parent, ...)</syntax_item>
+    <syntax_item>h = quiver3(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X, Y, Z</param_name>
+      <param_description>Coordonnees des bases des fleches, sous forme de scalaires, vecteurs, matrices ou tableaux de meme taille que les composantes.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>U, V, W</param_name>
+      <param_description>Composantes vectorielles, sous forme de tableaux numeriques de meme taille.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>scale</param_name>
+      <param_description>Facteur d'echelle automatique. Utiliser 0 pour desactiver l'echelle automatique.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>LineSpec</param_name>
+      <param_description>Specification de style de ligne, marqueur et couleur.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>parent</param_name>
+      <param_description>Parent axes ou hggroup.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName</param_name>
+      <param_description>Nom de propriete sous forme de chaine scalaire ou de vecteur de caracteres.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyValue</param_name>
+      <param_description>Valeur de propriete.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>h</param_name>
+      <param_description>Objet graphique quiver.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>quiver3(Z,U,V,W)</b> trace des fleches 3-D sur une grille x-y reguliere en utilisant <b>Z</b> comme donnees de coordonnee z.</p>
+    <p><b>quiver3(X,Y,Z,U,V,W)</b> trace les fleches aux coordonnees donnees par <b>X</b>, <b>Y</b> et <b>Z</b>.</p>
+    <p>L'objet retourne a le type <b>quiver</b>. Ses proprietes publiques incluent <b>XData</b>, <b>YData</b>, <b>ZData</b>, <b>UData</b>, <b>VData</b>, <b>WData</b>, <b>AutoScale</b>, <b>AutoScaleFactor</b>, <b>ScaleFactor</b>, <b>Color</b>, <b>LineStyle</b>, <b>LineWidth</b>, <b>Marker</b>, <b>MarkerSize</b>, <b>MaxHeadSize</b>, <b>ShowArrowHead</b>, <b>Alignment</b>, <b>DisplayName</b> et les proprietes graphiques communes.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Tracer un champ vectoriel 3-D.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[[x, y, z] = meshgrid(-1:1, -1:1, -1:1);
+ u = y;
+ v = -x;
+ w = z;
+ quiver3(x, y, z, u, v, w);
+ axis equal]]></example_item_data>
+      <example_item_img src="../../../../images/quiver3_1.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Desactiver l'echelle automatique et styliser les fleches.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[x = [0 1 2];
+ y = [0 1 0];
+ z = [0 0 1];
+ u = [1 0 -1];
+ v = [0 1 0];
+ w = [0.5 0.5 1];
+ h = quiver3(x, y, z, u, v, w, 0, 'r--o');
+ h.LineWidth = 1.5;]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Tracer les normales de surface sous forme de fleches 3-D.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[[X,Y] = meshgrid(-2:0.25:2,-1:0.2:1);
+ Z = X.*exp(-X.^2 - Y.^2);
+ [U,V,W] = surfnorm(X,Y,Z);
+ quiver3(X,Y,Z,U,V,W)
+ hold on
+ surf(X,Y,Z)
+ axis equal]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}1_plots/5_vector_fields/quiver">quiver</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}1_plots/1_line_plots/plot3">plot3</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${elementary_functions}meshgrid">meshgrid</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>objet graphique quiver natif</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

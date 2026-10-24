@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -7,10 +7,9 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <QtGui/QCursor>
-#include <QtGui/QScreen>
-#include <QtGui/QGuiApplication>
-#include <QtWidgets/QApplication>
+#include <algorithm>
+#include <cmath>
+#include <memory>
 #include "GOPropertyNames.hpp"
 #include "GOPropertyValues.hpp"
 #include "GORoot.hpp"
@@ -21,14 +20,321 @@
 #include "GOStringProperty.hpp"
 #include "GOGObjectsProperty.hpp"
 #include "GOArrayOfProperty.hpp"
+#include "GOUnitsProperty.hpp"
 #include "GOHelpers.hpp"
 #include "GOFiguresManager.hpp"
-#include "BaseFigureQt.hpp"
+#include "GraphicsEnvironment.hpp"
 #include "GOColorVectorProperty.hpp"
+#include "GraphicCallback.hpp"
+#include "GOCommonProperties.hpp"
+#include "GraphicsObjectFactory.hpp"
+#include "StringHelpers.hpp"
+#include "NelsonConfiguration.hpp"
+#include "Evaluator.hpp"
+#include "Interface.hpp"
+#include "Error.hpp"
+#include "ErrorID.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 static GORoot* _graphicsRootObject = nullptr;
+//=============================================================================
+static constexpr double ROOT_POINTS_PER_INCH = 72.0;
+static constexpr double ROOT_CM_PER_INCH = 2.54;
+static constexpr double ROOT_CHARACTER_WIDTH_PIXELS = 28.0 / 3.0;
+static constexpr double ROOT_CHARACTER_HEIGHT_PIXELS = 20.0;
+static const std::wstring DEFAULT_FIGURE_POSITION_PROPERTY_NAME = L"DefaultFigurePosition";
+//=============================================================================
+struct RootDefaultTarget
+{
+    std::wstring prefix;
+    std::wstring type;
+};
+//=============================================================================
+class BoolStateScope
+{
+public:
+    BoolStateScope(bool& value, bool temporaryValue) : m_value(value), m_previousValue(value)
+    {
+        m_value = temporaryValue;
+    }
+    ~BoolStateScope() { m_value = m_previousValue; }
+
+private:
+    bool& m_value;
+    bool m_previousValue;
+};
+//=============================================================================
+static const std::vector<RootDefaultTarget>&
+rootDefaultTargets()
+{
+    static const std::vector<RootDefaultTarget> targets = {
+        { L"AnimatedLine", GO_PROPERTY_VALUE_ANIMATED_LINE_STR },
+        { L"StackedLineChart", GO_PROPERTY_VALUE_STACKED_LINE_CHART_STR },
+        { L"Tiledlayout", GO_PROPERTY_VALUE_TILED_LAYOUT_STR },
+        { L"Colorbar", GO_PROPERTY_VALUE_COLORBAR_STR },
+        { L"Contour", GO_PROPERTY_VALUE_CONTOUR_STR },
+        { L"Figure", GO_PROPERTY_VALUE_FIGURE_STR },
+        { L"Axes", GO_PROPERTY_VALUE_AXES_STR },
+        { L"Line", GO_PROPERTY_VALUE_LINE_STR },
+        { L"Text", GO_PROPERTY_VALUE_TEXT_STR },
+        { L"Image", GO_PROPERTY_VALUE_IMAGE_STR },
+        { L"Patch", GO_PROPERTY_VALUE_PATCH_STR },
+        { L"Scatter", GO_PROPERTY_VALUE_SCATTER_STR },
+        { L"Surface", GO_PROPERTY_VALUE_SURFACE_STR },
+        { L"Uicontrol", GO_PROPERTY_VALUE_UICONTROL_STR },
+        { L"Hggroup", GO_PROPERTY_VALUE_HGGROUP_STR },
+        { L"Hgtransform", GO_PROPERTY_VALUE_HGTRANSFORM_STR },
+    };
+    return targets;
+}
+//=============================================================================
+static bool
+isRemoveValue(const ArrayOf& value)
+{
+    if (!value.isRowVectorCharacterArray() && !value.isScalarStringArray()) {
+        return false;
+    }
+    return StringHelpers::iequals(value.asWideString(), L"remove");
+}
+//=============================================================================
+static ArrayOf
+currentDefaultFigurePosition()
+{
+    return ArrayOf::doubleRowVector(defaultFigurePosition());
+}
+//=============================================================================
+static std::wstring
+prefixForType(const std::wstring& type)
+{
+    for (const auto& target : rootDefaultTargets()) {
+        if (target.type == type) {
+            return target.prefix;
+        }
+    }
+    return {};
+}
+//=============================================================================
+static bool
+splitDefaultPropertyName(
+    const std::wstring& name, std::wstring& objectType, std::wstring& propertyName)
+{
+    constexpr size_t defaultPrefixLength = 7;
+    if (name.size() <= defaultPrefixLength || name.rfind(L"Default", 0) != 0) {
+        return false;
+    }
+    std::wstring suffix = name.substr(defaultPrefixLength);
+    for (const auto& target : rootDefaultTargets()) {
+        if (suffix.rfind(target.prefix, 0) == 0 && suffix.size() > target.prefix.size()) {
+            objectType = target.type;
+            propertyName = suffix.substr(target.prefix.size());
+            return true;
+        }
+    }
+    return false;
+}
+//=============================================================================
+static std::wstring
+defaultNameFor(const std::wstring& objectType, const std::wstring& propertyName)
+{
+    std::wstring prefix = prefixForType(objectType);
+    if (prefix.empty()) {
+        return {};
+    }
+    return L"Default" + prefix + propertyName;
+}
+//=============================================================================
+static double
+screenDpi()
+{
+    return GraphicsEnvironment::primaryScreenDpi();
+}
+//=============================================================================
+static double
+rootLengthFromPixels(const std::wstring& unit, double value, double extent)
+{
+    double dpi = screenDpi();
+    if (unit == GO_PROPERTY_VALUE_INCHES_STR) {
+        return value / dpi;
+    }
+    if (unit == GO_PROPERTY_VALUE_CENTIMETERS_STR) {
+        return value * ROOT_CM_PER_INCH / dpi;
+    }
+    if (unit == GO_PROPERTY_VALUE_POINTS_STR) {
+        return value * ROOT_POINTS_PER_INCH / dpi;
+    }
+    if (unit == GO_PROPERTY_VALUE_CHARACTERS_STR) {
+        return value / ROOT_CHARACTER_WIDTH_PIXELS;
+    }
+    if (unit == GO_PROPERTY_VALUE_NORMALIZED_STR) {
+        return extent == 0.0 ? 0.0 : value / extent;
+    }
+    return value;
+}
+//=============================================================================
+static double
+rootHeightFromPixels(const std::wstring& unit, double value, double extent)
+{
+    if (unit == GO_PROPERTY_VALUE_CHARACTERS_STR) {
+        return value / ROOT_CHARACTER_HEIGHT_PIXELS;
+    }
+    return rootLengthFromPixels(unit, value, extent);
+}
+//=============================================================================
+static double
+rootLengthToPixels(const std::wstring& unit, double value, double extent)
+{
+    double dpi = screenDpi();
+    if (unit == GO_PROPERTY_VALUE_INCHES_STR) {
+        return value * dpi;
+    }
+    if (unit == GO_PROPERTY_VALUE_CENTIMETERS_STR) {
+        return value * dpi / ROOT_CM_PER_INCH;
+    }
+    if (unit == GO_PROPERTY_VALUE_POINTS_STR) {
+        return value * dpi / ROOT_POINTS_PER_INCH;
+    }
+    if (unit == GO_PROPERTY_VALUE_CHARACTERS_STR) {
+        return value * ROOT_CHARACTER_WIDTH_PIXELS;
+    }
+    if (unit == GO_PROPERTY_VALUE_NORMALIZED_STR) {
+        return value * extent;
+    }
+    return value;
+}
+//=============================================================================
+static double
+rootHeightToPixels(const std::wstring& unit, double value, double extent)
+{
+    if (unit == GO_PROPERTY_VALUE_CHARACTERS_STR) {
+        return value * ROOT_CHARACTER_HEIGHT_PIXELS;
+    }
+    return rootLengthToPixels(unit, value, extent);
+}
+//=============================================================================
+static std::vector<double>
+screenRectangleInUnits(const std::wstring& units)
+{
+    double width = GraphicsEnvironment::currentScreenWidth();
+    double height = GraphicsEnvironment::currentScreenHeight();
+    if (units == GO_PROPERTY_VALUE_PIXELS_STR) {
+        return { 1.0, 1.0, width, height };
+    }
+    return { 0.0, 0.0, rootLengthFromPixels(units, width, width),
+        rootHeightFromPixels(units, height, height) };
+}
+//=============================================================================
+static std::vector<double>
+pointerFromScreenPosition(int pointX, int pointY, const std::wstring& units)
+{
+    double screenWidth = GraphicsEnvironment::currentScreenWidth();
+    double screenHeight = GraphicsEnvironment::currentScreenHeight();
+    double xPixels = (double)pointX + 1.0;
+    double yPixels = screenHeight - (double)pointY;
+    if (units == GO_PROPERTY_VALUE_PIXELS_STR) {
+        return { xPixels, yPixels };
+    }
+    return { rootLengthFromPixels(units, xPixels - 1.0, screenWidth),
+        rootHeightFromPixels(units, yPixels - 1.0, screenHeight) };
+}
+//=============================================================================
+static std::pair<int, int>
+screenPositionFromPointer(const std::vector<double>& pointer, const std::wstring& units)
+{
+    double screenWidth = GraphicsEnvironment::currentScreenWidth();
+    double screenHeight = GraphicsEnvironment::currentScreenHeight();
+    double xPixels = 1.0;
+    double yPixels = 1.0;
+    if (pointer.size() >= 2) {
+        if (units == GO_PROPERTY_VALUE_PIXELS_STR) {
+            xPixels = pointer[0];
+            yPixels = pointer[1];
+        } else {
+            xPixels = rootLengthToPixels(units, pointer[0], screenWidth) + 1.0;
+            yPixels = rootHeightToPixels(units, pointer[1], screenHeight) + 1.0;
+        }
+    }
+    return { (int)std::round(xPixels - 1.0), (int)std::round(screenHeight - yPixels) };
+}
+//=============================================================================
+static bool
+handleIsVisibleForRoot(int64 handle)
+{
+    GraphicsObject* object = graphicsObjectFromHandle(handle, false);
+    if (!object) {
+        return false;
+    }
+    GOGenericProperty* property
+        = object->findProperty(GO_HANDLE_VISIBILITY_PROPERTY_NAME_STR, false);
+    if (!property) {
+        return true;
+    }
+    return StringHelpers::iequals(property->get().asWideString(), GO_PROPERTY_VALUE_ON_STR);
+}
+//=============================================================================
+static std::wstring
+currentNumericFormatName()
+{
+    switch (NelsonConfiguration::getInstance()->getNumericFormatDisplay()) {
+    case NLS_NUMERIC_FORMAT_LONG:
+        return L"long";
+    case NLS_NUMERIC_FORMAT_SHORTE:
+        return L"shortE";
+    case NLS_NUMERIC_FORMAT_LONGE:
+        return L"longE";
+    case NLS_NUMERIC_FORMAT_SHORTG:
+        return L"shortG";
+    case NLS_NUMERIC_FORMAT_LONGG:
+        return L"longG";
+    case NLS_NUMERIC_FORMAT_SHORTENG:
+        return L"shortEng";
+    case NLS_NUMERIC_FORMAT_LONGENG:
+        return L"longEng";
+    case NLS_NUMERIC_FORMAT_PLUS:
+        return L"+";
+    case NLS_NUMERIC_FORMAT_BANK:
+        return L"bank";
+    case NLS_NUMERIC_FORMAT_HEX:
+        return L"hex";
+    case NLS_NUMERIC_FORMAT_RATIONAL:
+        return L"rational";
+    case NLS_NUMERIC_FORMAT_SHORT:
+    default:
+        return L"short";
+    }
+}
+//=============================================================================
+static std::wstring
+currentLineSpacingName()
+{
+    return NelsonConfiguration::getInstance()->getLineSpacingDisplay() == NLS_LINE_SPACING_COMPACT
+        ? L"compact"
+        : L"loose";
+}
+//=============================================================================
+static std::pair<double, double>
+currentCommandWindowSize()
+{
+    double columns = (double)DEFAULT_CONSOLE_WIDTH;
+    double rows = (double)DEFAULT_CONSOLE_HEIGHT;
+    Evaluator* eval
+        = static_cast<Evaluator*>(NelsonConfiguration::getInstance()->getMainEvaluator());
+    if (eval) {
+        Interface* io = eval->getInterface();
+        if (io) {
+            size_t width = io->getTerminalWidth();
+            size_t height = io->getTerminalHeight();
+            if (width > 0) {
+                columns = (double)width;
+            }
+            if (height > 0) {
+                rows = (double)height;
+            }
+        }
+    }
+    return { columns, rows };
+}
 //=============================================================================
 GORoot::GORoot()
 {
@@ -36,6 +342,14 @@ GORoot::GORoot()
     setupDefaults();
     loadDefaultColorMap();
     loadDefaultAlphaMap();
+    m_factoryDefaultProperties[GO_DEFAULT_FIGURE_COLORMAP_PROPERTY_NAME_STR]
+        = findProperty(GO_DEFAULT_FIGURE_COLORMAP_PROPERTY_NAME_STR)->get();
+    m_factoryDefaultProperties[GO_DEFAULT_FIGURE_ALPHAMAP_PROPERTY_NAME_STR]
+        = findProperty(GO_DEFAULT_FIGURE_ALPHAMAP_PROPERTY_NAME_STR)->get();
+    m_factoryDefaultProperties[L"DefaultAxesFontSize"] = ArrayOf::doubleScalar(10);
+    m_factoryDefaultProperties[L"DefaultLineLineWidth"] = ArrayOf::doubleScalar(0.5);
+    m_factoryDefaultProperties[L"DefaultTextInterpreter"]
+        = ArrayOf::characterArray(GO_PROPERTY_VALUE_TEX_STR);
 };
 //=============================================================================
 std::wstring
@@ -51,42 +365,56 @@ GORoot::constructProperties()
     registerProperty(new GOStringProperty, GO_TYPE_PROPERTY_NAME_STR, false);
     registerProperty(new GOArrayOfProperty, GO_USER_DATA_PROPERTY_NAME_STR);
     registerProperty(new GOTwoVectorProperty, GO_POINTER_LOCATION_PROPERTY_NAME_STR);
-    registerProperty(new GOGObjectsProperty, GO_CURRENT_FIGURE_PROPERTY_NAME_STR, false);
-    registerProperty(new GOGObjectsProperty, GO_CHILDREN_PROPERTY_NAME_STR, false);
-    registerProperty(new GOGObjectsProperty, GO_PARENT_PROPERTY_NAME_STR, false);
-    registerProperty(new GOStringProperty, GO_UNITS_PROPERTY_NAME_STR, false);
-    registerProperty(new GOScalarProperty, GO_SCREEN_DEPTH_PROPERTY_NAME_STR, false);
-    registerProperty(new GOScalarProperty, GO_SCREEN_PIXELS_PER_INCH_PROPERTY_NAME_STR, false);
+    registerProperty(new GOGObjectsProperty, GO_CURRENT_FIGURE_PROPERTY_NAME_STR);
+    registerProperty(new GOGObjectsProperty, GO_CALLBACK_OBJECT_PROPERTY_NAME_STR, false);
+    registerProperty(new GOGObjectsProperty, GO_CHILDREN_PROPERTY_NAME_STR);
+    registerProperty(new GOGObjectsProperty, GO_PARENT_PROPERTY_NAME_STR);
+    registerProperty(new GOUnitsProperty, GO_UNITS_PROPERTY_NAME_STR);
+    registerProperty(new GOScalarProperty, GO_SCREEN_DEPTH_PROPERTY_NAME_STR);
+    registerProperty(new GOScalarProperty, GO_SCREEN_PIXELS_PER_INCH_PROPERTY_NAME_STR);
     registerProperty(new GOFourVectorProperty, GO_SCREEN_SIZE_PROPERTY_NAME_STR, false);
+    registerProperty(
+        new GOTwoVectorProperty, GO_COMMAND_WINDOW_SIZE_PROPERTY_NAME_STR, false, false);
+    registerProperty(new GOStringProperty, GO_FORMAT_PROPERTY_NAME_STR, false, false);
+    registerProperty(new GOStringProperty, GO_FORMAT_SPACING_PROPERTY_NAME_STR, false, false);
+    registerProperty(new GOArrayOfProperty, GO_MONITOR_POSITIONS_PROPERTY_NAME_STR, false);
     registerProperty(
         new GOColorVectorProperty, GO_DEFAULT_FIGURE_COLORMAP_PROPERTY_NAME_STR, true, false);
     registerProperty(
         new GOVectorProperty, GO_DEFAULT_FIGURE_ALPHAMAP_PROPERTY_NAME_STR, true, false);
+    registerCommonProperties(this);
     sortProperties();
 };
 //=============================================================================
 void
 GORoot::updateState()
 {
-    QPoint qPoint = QCursor::pos();
+    int pointerX = 0;
+    int pointerY = 0;
+    GraphicsEnvironment::pointerScreenPosition(pointerX, pointerY);
+    std::wstring units = findStringProperty(GO_UNITS_PROPERTY_NAME_STR);
     if (hasChanged(GO_POINTER_LOCATION_PROPERTY_NAME_STR)) {
         GOTwoVectorProperty* pos
             = (GOTwoVectorProperty*)findProperty(GO_POINTER_LOCATION_PROPERTY_NAME_STR, false);
-        int X = (int)(pos->data()[0]);
-        int Y = (int)(pos->data()[1]);
-        qPoint.setX(X);
-        qPoint.setY(Y);
-        QCursor::setPos(qPoint);
+        std::pair<int, int> screenPos = screenPositionFromPointer(pos->data(), units);
+        GraphicsEnvironment::setPointerScreenPosition(screenPos.first, screenPos.second);
         clearChanged(GO_POINTER_LOCATION_PROPERTY_NAME_STR);
     } else {
-        setTwoVectorDefault(GO_POINTER_LOCATION_PROPERTY_NAME_STR, qPoint.x(), qPoint.y());
+        std::vector<double> pointer = pointerFromScreenPosition(pointerX, pointerY, units);
+        setTwoVectorDefault(GO_POINTER_LOCATION_PROPERTY_NAME_STR, pointer[0], pointer[1]);
     }
 
     refreshScreenSizeProperty();
-    refreshScreenDepthProperty();
+    refreshMonitorPositionsProperty();
+    if (!hasChanged(GO_SCREEN_DEPTH_PROPERTY_NAME_STR)) {
+        refreshScreenDepthProperty();
+    }
     refreshCurrentFigureProperty();
+    refreshCallbackObjectProperty();
     refreshChildrenProperty();
     refreshScreenPixelsPerInchProperty();
+    refreshCommandWindowSizeProperty();
+    refreshFormatProperties();
 };
 //=============================================================================
 void
@@ -97,8 +425,12 @@ GORoot::setupDefaults()
     setStringDefault(GO_UNITS_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_PIXELS_STR);
     refreshCurrentFigureProperty();
     refreshScreenSizeProperty();
+    refreshMonitorPositionsProperty();
     refreshScreenDepthProperty();
     refreshScreenPixelsPerInchProperty();
+    refreshCommandWindowSizeProperty();
+    refreshFormatProperties();
+    initializeCommonProperties(this);
 };
 //=============================================================================
 void
@@ -186,7 +518,7 @@ GORoot::loadDefaultAlphaMap()
     const int numElements = 64;
     for (int i = 0; i < numElements; ++i) {
         double value = static_cast<double>(i) / (numElements - 1);
-        alphaMap.push_back(value);
+        alphaMap.push_back(std::round(value * 10000.0) / 10000.0);
     }
     GOVectorProperty* hv
         = (GOVectorProperty*)findProperty(GO_DEFAULT_FIGURE_ALPHAMAP_PROPERTY_NAME_STR);
@@ -199,32 +531,62 @@ GORoot::paintMe(RenderInterface& gc) { };
 void
 GORoot::refreshScreenPixelsPerInchProperty()
 {
-    QScreen* mainScreen = QGuiApplication::primaryScreen();
-    setScalarDoubleDefault(
-        GO_SCREEN_PIXELS_PER_INCH_PROPERTY_NAME_STR, mainScreen->logicalDotsPerInch());
+    setScalarDoubleDefault(GO_SCREEN_PIXELS_PER_INCH_PROPERTY_NAME_STR, screenDpi());
+    clearChanged(GO_SCREEN_PIXELS_PER_INCH_PROPERTY_NAME_STR);
+}
+//=============================================================================
+void
+GORoot::refreshCommandWindowSizeProperty()
+{
+    std::pair<double, double> size = currentCommandWindowSize();
+    setTwoVectorDefault(GO_COMMAND_WINDOW_SIZE_PROPERTY_NAME_STR, size.first, size.second);
+    clearChanged(GO_COMMAND_WINDOW_SIZE_PROPERTY_NAME_STR);
+}
+//=============================================================================
+void
+GORoot::refreshFormatProperties()
+{
+    setStringDefault(GO_FORMAT_PROPERTY_NAME_STR, currentNumericFormatName());
+    setStringDefault(GO_FORMAT_SPACING_PROPERTY_NAME_STR, currentLineSpacingName());
+    clearChanged(GO_FORMAT_PROPERTY_NAME_STR);
+    clearChanged(GO_FORMAT_SPACING_PROPERTY_NAME_STR);
 }
 //=============================================================================
 void
 GORoot::refreshScreenSizeProperty()
 {
-    setFourVectorDefault(GO_SCREEN_SIZE_PROPERTY_NAME_STR, 1.0, 1.0,
-        Nelson::BaseFigureQt::getCurrentScreenWidth(),
-        Nelson::BaseFigureQt::getCurrentScreenHeight());
+    std::vector<double> screen
+        = screenRectangleInUnits(findStringProperty(GO_UNITS_PROPERTY_NAME_STR));
+    setFourVectorDefault(
+        GO_SCREEN_SIZE_PROPERTY_NAME_STR, screen[0], screen[1], screen[2], screen[3]);
+}
+//=============================================================================
+void
+GORoot::refreshMonitorPositionsProperty()
+{
+    std::vector<double> screen
+        = screenRectangleInUnits(findStringProperty(GO_UNITS_PROPERTY_NAME_STR));
+    GOArrayOfProperty* property = static_cast<GOArrayOfProperty*>(
+        findProperty(GO_MONITOR_POSITIONS_PROPERTY_NAME_STR, false));
+    if (property) {
+        property->data(ArrayOf::doubleRowVector(screen));
+    }
 }
 //=============================================================================
 void
 GORoot::refreshScreenDepthProperty()
 {
-    QScreen* mainScreen = QGuiApplication::primaryScreen();
-    int screenDepth = mainScreen->depth();
-    setScalarDoubleDefault(GO_SCREEN_DEPTH_PROPERTY_NAME_STR, screenDepth);
+    setScalarDoubleDefault(
+        GO_SCREEN_DEPTH_PROPERTY_NAME_STR, GraphicsEnvironment::primaryScreenDepth());
 }
 //=============================================================================
 void
 GORoot::refreshCurrentFigureProperty()
 {
     int64 currentFigure = getCurrentFigure();
-    if (currentFigure != NO_FIGURE) {
+    if (currentFigure != NO_FIGURE
+        && (findStringProperty(GO_SHOW_HIDDEN_HANDLES_PROPERTY_NAME_STR) == GO_PROPERTY_VALUE_ON_STR
+            || handleIsVisibleForRoot(currentFigure))) {
         setGoProperty(GO_CURRENT_FIGURE_PROPERTY_NAME_STR, getCurrentFigure());
     } else {
         GOGObjectsProperty* hp
@@ -237,11 +599,233 @@ GORoot::refreshCurrentFigureProperty()
 }
 //=============================================================================
 void
+GORoot::refreshCallbackObjectProperty()
+{
+    GOGObjectsProperty* hp = static_cast<GOGObjectsProperty*>(
+        findProperty(GO_CALLBACK_OBJECT_PROPERTY_NAME_STR, false));
+    if (!hp) {
+        return;
+    }
+    int64 callbackObject = getCurrentCallbackObject();
+    if (callbackObject == HANDLE_UNASSIGNED_OBJECT || isDeletedGraphicsObject(callbackObject)) {
+        hp->data({});
+        return;
+    }
+    hp->data({ callbackObject });
+}
+//=============================================================================
+void
 GORoot::refreshChildrenProperty()
 {
     std::vector<int64> children = getFigureGraphicsObjects();
+    std::reverse(children.begin(), children.end());
+    if (findStringProperty(GO_SHOW_HIDDEN_HANDLES_PROPERTY_NAME_STR) != GO_PROPERTY_VALUE_ON_STR) {
+        std::vector<int64> visibleChildren;
+        visibleChildren.reserve(children.size());
+        for (int64 child : children) {
+            if (handleIsVisibleForRoot(child)) {
+                visibleChildren.push_back(child);
+            }
+        }
+        children = visibleChildren;
+    }
     GOGObjectsProperty* cp = (GOGObjectsProperty*)findProperty(GO_CHILDREN_PROPERTY_NAME_STR);
     cp->data(children);
+}
+//=============================================================================
+bool
+GORoot::isDefaultPropertyName(const std::wstring& name) const
+{
+    if (name == GO_DEFAULT_FIGURE_COLORMAP_PROPERTY_NAME_STR
+        || name == GO_DEFAULT_FIGURE_ALPHAMAP_PROPERTY_NAME_STR) {
+        return true;
+    }
+    std::wstring objectType;
+    std::wstring propertyName;
+    return splitDefaultPropertyName(name, objectType, propertyName);
+}
+//=============================================================================
+bool
+GORoot::getDefaultProperty(const std::wstring& name, ArrayOf& value) const
+{
+    auto overrideValue = m_defaultPropertyOverrides.find(name);
+    if (overrideValue != m_defaultPropertyOverrides.end()) {
+        value = overrideValue->second;
+        return true;
+    }
+    if (name == DEFAULT_FIGURE_POSITION_PROPERTY_NAME) {
+        value = currentDefaultFigurePosition();
+        return true;
+    }
+    GOGenericProperty* registeredProperty = const_cast<GORoot*>(this)->findProperty(name, false);
+    if (registeredProperty) {
+        value = registeredProperty->get();
+        return true;
+    }
+    auto factoryValue = m_factoryDefaultProperties.find(name);
+    if (factoryValue != m_factoryDefaultProperties.end()) {
+        value = factoryValue->second;
+        return true;
+    }
+    std::wstring objectType;
+    std::wstring propertyName;
+    if (splitDefaultPropertyName(name, objectType, propertyName)) {
+        const_cast<GORoot*>(this)->ensureFactoryDefaultsForType(objectType);
+        factoryValue = m_factoryDefaultProperties.find(name);
+        if (factoryValue != m_factoryDefaultProperties.end()) {
+            value = factoryValue->second;
+            return true;
+        }
+    }
+    return false;
+}
+//=============================================================================
+void
+GORoot::ensureFactoryDefaultsForType(const std::wstring& objectType)
+{
+    if (objectType == GO_PROPERTY_VALUE_ROOT_STR || prefixForType(objectType).empty()
+        || m_factoryDefaultsRememberedTypes.find(objectType)
+            != m_factoryDefaultsRememberedTypes.end()) {
+        return;
+    }
+    BoolStateScope collectingScope(m_collectingFactoryDefaults, true);
+    std::unique_ptr<GraphicsObject> object(newGraphicsObjectForType(objectType, nullptr, true));
+    if (!object) {
+        m_factoryDefaultsRememberedTypes.insert(objectType);
+        return;
+    }
+    BoolStateScope recordingScope(m_recordFactoryDefaultsNow, true);
+    rememberFactoryDefaults(object.get());
+}
+//=============================================================================
+void
+GORoot::setDefaultProperty(const std::wstring& name, const ArrayOf& value)
+{
+    if (!isDefaultPropertyName(name)) {
+        Error(L"Nelson:graphics:unrecognizedDefaultProperty", L"Unrecognized default property: %s",
+            name);
+    }
+    if (isRemoveValue(value)) {
+        removeDefaultProperty(name);
+        return;
+    }
+    GOGenericProperty* registeredProperty = findProperty(name, false);
+    if (registeredProperty) {
+        registeredProperty->set(value);
+    }
+    m_defaultPropertyOverrides[name] = value;
+}
+//=============================================================================
+void
+GORoot::removeDefaultProperty(const std::wstring& name)
+{
+    if (!isDefaultPropertyName(name)) {
+        Error(L"Nelson:graphics:unrecognizedDefaultProperty", L"Unrecognized default property: %s",
+            name);
+    }
+    m_defaultPropertyOverrides.erase(name);
+    if (name == GO_DEFAULT_FIGURE_COLORMAP_PROPERTY_NAME_STR) {
+        loadDefaultColorMap();
+    } else if (name == GO_DEFAULT_FIGURE_ALPHAMAP_PROPERTY_NAME_STR) {
+        loadDefaultAlphaMap();
+    }
+}
+//=============================================================================
+void
+GORoot::rememberFactoryDefaults(GraphicsObject* go)
+{
+    if (!go) {
+        return;
+    }
+    std::wstring objectType = go->getType();
+    if (objectType == GO_PROPERTY_VALUE_ROOT_STR || prefixForType(objectType).empty()) {
+        return;
+    }
+    if (!m_recordFactoryDefaultsNow) {
+        return;
+    }
+    if (m_factoryDefaultsRememberedTypes.find(objectType)
+        != m_factoryDefaultsRememberedTypes.end()) {
+        return;
+    }
+    for (const auto& propertyName : go->fieldnames()) {
+        if (!go->isWritable(propertyName)) {
+            continue;
+        }
+        if (dynamic_cast<GOGObjectsProperty*>(go->findProperty(propertyName, false))) {
+            continue;
+        }
+        std::wstring defaultName = defaultNameFor(objectType, propertyName);
+        if (defaultName == DEFAULT_FIGURE_POSITION_PROPERTY_NAME) {
+            continue;
+        }
+        if (!defaultName.empty() && m_factoryDefaultProperties.count(defaultName) == 0) {
+            m_factoryDefaultProperties[defaultName] = go->findProperty(propertyName)->get();
+        }
+    }
+    m_factoryDefaultsRememberedTypes.insert(objectType);
+}
+//=============================================================================
+void
+GORoot::applyDefaultProperties(GraphicsObject* go)
+{
+    if (!go) {
+        return;
+    }
+    if (m_collectingFactoryDefaults) {
+        return;
+    }
+    std::wstring objectType = go->getType();
+    for (const auto& entry : m_defaultPropertyOverrides) {
+        std::wstring targetType;
+        std::wstring propertyName;
+        if (!splitDefaultPropertyName(entry.first, targetType, propertyName)
+            || targetType != objectType || !go->haveProperty(propertyName)
+            || !go->isWritable(propertyName)) {
+            continue;
+        }
+        GOGenericProperty* property = go->findProperty(propertyName, false);
+        if (!property) {
+            continue;
+        }
+        property->set(entry.second);
+        if (propertyName != GO_POSITION_PROPERTY_NAME_STR
+            && propertyName != GO_INNER_POSITION_PROPERTY_NAME_STR
+            && propertyName != GO_OUTER_POSITION_PROPERTY_NAME_STR) {
+            property->clearModified();
+        }
+    }
+}
+//=============================================================================
+void
+GORoot::setCurrentFigureProperty(const ArrayOf& value)
+{
+    if (value.isEmpty()) {
+        GOGObjectsProperty* property
+            = static_cast<GOGObjectsProperty*>(findProperty(GO_CURRENT_FIGURE_PROPERTY_NAME_STR));
+        property->data({});
+        return;
+    }
+    int64 handle = value.asGraphicsObjectScalar();
+    GOFigure* figure = findGOFigure(handle);
+    if (!figure) {
+        Error(L"Nelson:graphics:expectedFigure:figureExpected", L"Figure object expected.");
+    }
+    if (findStringProperty(GO_SHOW_HIDDEN_HANDLES_PROPERTY_NAME_STR) == GO_PROPERTY_VALUE_ON_STR
+        || handleIsVisibleForRoot(handle)) {
+        notifyCurrentFigureChanged(handle);
+        setGoProperty(GO_CURRENT_FIGURE_PROPERTY_NAME_STR, handle);
+    }
+}
+//=============================================================================
+void
+GORoot::resetProperties()
+{
+    m_defaultPropertyOverrides.clear();
+    setupDefaults();
+    loadDefaultColorMap();
+    loadDefaultAlphaMap();
+    clearAllChanged();
 }
 //=============================================================================
 int64
@@ -264,5 +848,32 @@ getGraphicsRootObject()
     return _graphicsRootObject;
 }
 //=============================================================================
+// Helvetica is rarely installed: on Windows it resolves to Arial, elsewhere the
+// system substitution (Nimbus Sans, DejaVu Sans, ...) has taller metrics, which
+// shifts every text-driven layout (title area, ticks, legends). Prefer a family
+// metrically compatible with Arial so that figures match across platforms.
+static std::wstring
+helveticaSubstituteFontName()
+{
+#if defined(_WIN32)
+    return L"Arial";
+#else
+    return GraphicsEnvironment::defaultSansSubstituteFontFamily();
+#endif
 }
+//=============================================================================
+std::wstring
+resolveRootFontName(const std::wstring& fontName)
+{
+    if (StringHelpers::iequals(fontName, L"Helvetica")) {
+        return helveticaSubstituteFontName();
+    }
+    if (!StringHelpers::iequals(fontName, L"FixedWidth")) {
+        return fontName;
+    }
+    GORoot* root = getGraphicsRootObject();
+    return root->findStringProperty(GO_FIXED_WIDTH_FONT_NAME_PROPERTY_NAME_STR);
+}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

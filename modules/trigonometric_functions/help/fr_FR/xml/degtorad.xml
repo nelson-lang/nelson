@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>degtorad</keyword>
+  <short_description
+  >Convertit un angle de degrés en radians.</short_description>
+  <syntax>
+    <syntax_item>r = degtorad(d)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>d</param_name>
+      <param_description
+      >une valeur numérique (double ou simple)</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>r</param_name>
+      <param_description>une valeur numérique</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <b>r = degtorad(d)</b> convertit les unités d&apos;angle de degrés en radians pour chaque élément de <b>d</b>.</description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[D = 64.7;
+R = degtorad(D);
+radEarth = 6371;
+dist = radEarth * R]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${trigonometric_functions}deg2rad">deg2rad</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${trigonometric_functions}radtodeg">radtodeg</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "file": "build_and_select_table.m",
+      "title": "Build and filter a table",
+      "description": "Create typed columns and select rows with a logical condition.",
+      "tags": [
+        "table",
+        "filtering"
+      ],
+      "requirements": []
+    },
+    {
+      "file": "join_tables.m",
+      "title": "Join related tables",
+      "description": "Combine measurements and metadata by a shared station key.",
+      "tags": [
+        "table",
+        "join"
+      ],
+      "requirements": []
+    }
+  ]
+}

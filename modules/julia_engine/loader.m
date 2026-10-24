@@ -7,7 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-if ~any(contains(argv(), '--without_julia'))
+if ~any(contains(argv(), '--without-julia'))
   addmodule([nelsonroot() '/modules/' 'julia_engine'], 'julia_engine');
 end
 %=============================================================================

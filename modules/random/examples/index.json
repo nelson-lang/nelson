@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "file": "reproducible_random.m",
+      "title": "Reproducible random samples",
+      "description": "Seed the generator and create uniform and normal samples.",
+      "tags": [
+        "random",
+        "reproducibility"
+      ],
+      "requirements": []
+    },
+    {
+      "file": "monte_carlo_pi.m",
+      "title": {
+        "en_US": "Estimate pi with Monte Carlo sampling",
+        "fr_FR": "Estimer pi par échantillonnage de Monte-Carlo"
+      },
+      "description": {
+        "en_US": "Visualize how uniformly distributed random points approximate the area of a circle.",
+        "fr_FR": "Visualiser comment des points aléatoires uniformes approchent l’aire d’un cercle."
+      },
+      "tags": [
+        "random",
+        "monte-carlo",
+        "visualization"
+      ],
+      "requirements": [
+        "plots"
+      ]
+    }
+  ]
+}

@@ -13,7 +13,7 @@
 #include "GraphicsObject.hpp"
 #include "GOGObjectsProperty.hpp"
 #include "GOPropertyNames.hpp"
-#include "Exception.hpp"
+#include "NelsonException.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -33,7 +33,9 @@ refreshFigure(GOFigure* fig)
             }
         }
         fig->setRenderingStateInvalid(true);
-        fig->repaint();
+        if (!fig->isDrawLater()) {
+            fig->repaint();
+        }
     }
 }
 //=============================================================================
@@ -44,5 +46,5 @@ refreshFigure(go_handle go)
     refreshFigure(fig);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

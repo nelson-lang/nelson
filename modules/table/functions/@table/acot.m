@@ -7,11 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function A = acot(X)
-  try
-    A = feval('@table/unaryFunctionTableHelper', X, @acot);
-  catch Exception
-    throwAsCaller(Exception);
-  end
+function R = acot(A)
+  R = table.applyUnary(A, @acot, 'acot');
 end
 %=============================================================================

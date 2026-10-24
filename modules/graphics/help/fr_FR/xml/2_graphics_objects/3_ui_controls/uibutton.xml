@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>uibutton</keyword>
+  <short_description>Crée un bouton poussoir ou un bouton à état.</short_description>
+  <syntax>
+    <syntax_item>btn = uibutton()</syntax_item>
+    <syntax_item>btn = uibutton(style)</syntax_item>
+    <syntax_item>btn = uibutton(parent)</syntax_item>
+    <syntax_item>btn = uibutton(parent, style)</syntax_item>
+    <syntax_item>btn = uibutton(..., propertyName, propertyValue)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>parent</param_name>
+      <param_description>figure créée avec uifigure, ou objet graphique figure.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>style</param_name>
+      <param_description>style du bouton : 'push' (défaut) ou 'state'.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName</param_name>
+      <param_description>nom de propriété : chaîne de caractères.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyValue</param_name>
+      <param_description>valeur de propriété : valeur compatible avec le nom de propriété.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>btn</param_name>
+      <param_description>un objet Button ou StateButton.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>btn = uibutton</b> crée un bouton poussoir dans une nouvelle figure et retourne l'objet Button. Nelson appelle la fonction uifigure pour créer la figure.</p>
+    <p>
+      <b>btn = uibutton(style)</b> crée un bouton du style spécifié : <b>'push'</b> crée un bouton poussoir (objet Button, callback <b>ButtonPushedFcn</b>), <b>'state'</b> crée un bouton à état (objet StateButton, avec une <b>Value</b> booléenne et un callback <b>ValueChangedFcn</b>).</p>
+    <p>
+      <b>btn = uibutton(parent)</b> crée le bouton dans le conteneur parent spécifié.</p>
+    <p>
+      <b>btn = uibutton(..., propertyName, propertyValue)</b> spécifie les propriétés par paires nom-valeur : <b>Text</b>, <b>Icon</b>, <b>IconAlignment</b>, <b>HorizontalAlignment</b>, <b>VerticalAlignment</b>, <b>WordWrap</b>, <b>FontName</b>, <b>FontSize</b>, <b>FontWeight</b>, <b>FontAngle</b>, <b>FontColor</b>, <b>BackgroundColor</b>, <b>Enable</b>, <b>Visible</b>, <b>Tooltip</b>, <b>Position</b>, <b>ButtonPushedFcn</b> (push), <b>Value</b> et <b>ValueChangedFcn</b> (state), ...</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Capture du composant UI pour l'image d'aide.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = uifigure('Visible', 'off', 'Name', 'Buttons', 'Position', [100 100 420 260]);
+btn = uibutton(f, 'Text', 'Run', 'Position', [85 130 110 30]);
+sb = uibutton(f, 'state', 'Text', 'Enabled', 'Value', true, 'Position', [225 130 110 30]);
+drawnow();]]></example_item_data>
+      <example_item_img
+        src="../../../../images/uibutton_example.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Bouton poussoir avec callback</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[
+f = uifigure();
+btn = uibutton(f, 'Text', 'Cliquez', 'Position', [100 100 100 22], 'ButtonPushedFcn', @(src, event) disp('appuyé'))
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Bouton à état</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[
+f = uifigure();
+sb = uibutton(f, 'state', 'Text', 'Activer option', 'Value', true)
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}uilabel">uilabel</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${gui}uifigure">uifigure</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}uicontrol">uicontrol</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

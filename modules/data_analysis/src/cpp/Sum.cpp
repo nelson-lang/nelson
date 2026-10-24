@@ -12,9 +12,165 @@
 #include "Sum.hpp"
 #include "ClassName.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
+#include "SparseType.hpp"
+#include "SparseArrayOf.hpp"
 #include "i18n.hpp"
+#include <Eigen/Sparse>
+#include <vector>
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+template <class T>
+static bool
+sumValueIsNaN(const T& value)
+{
+    return std::isnan(value);
+}
+//=============================================================================
+template <>
+bool
+sumValueIsNaN<doublecomplex>(const doublecomplex& value)
+{
+    return std::isnan(value.real()) || std::isnan(value.imag());
+}
+//=============================================================================
+template <>
+bool
+sumValueIsNaN<singlecomplex>(const singlecomplex& value)
+{
+    return std::isnan(value.real()) || std::isnan(value.imag());
+}
+//=============================================================================
+template <class T>
+static ArrayOf
+SparseSumTemplate(const ArrayOf& A, indexType workDim, bool withnan, bool reduceAsVector)
+{
+    indexType rows = A.rows();
+    indexType cols = A.columns();
+    Dimensions outDims = workDim == 0 ? Dimensions(1, cols) : Dimensions(rows, 1);
+    const auto* spmatSRC
+        = static_cast<const Eigen::SparseMatrix<T, 0, signedIndexType>*>(A.sparseDataPointer());
+
+    if (reduceAsVector && A.isVector()) {
+        T accum = T(0);
+        for (indexType k = 0; k < (indexType)spmatSRC->outerSize(); ++k) {
+            for (typename Eigen::SparseMatrix<T, 0, signedIndexType>::InnerIterator it(
+                     *spmatSRC, k);
+                it; ++it) {
+                if (withnan || !sumValueIsNaN<T>(it.value())) {
+                    accum += it.value();
+                }
+            }
+        }
+        auto* spmatDST = new Eigen::SparseMatrix<T, 0, signedIndexType>(1, 1);
+        if (accum != T(0)) {
+            spmatDST->coeffRef(0, 0) = accum;
+        }
+        ArrayOf res = makeSparseResult(A.dataClass(), Dimensions(1, 1), spmatDST);
+        if (accum == T(0)) {
+            res.setSparseNzmax(1);
+        }
+        return res;
+    }
+
+    std::vector<T> accum(workDim == 0 ? cols : rows, T(0));
+    if (workDim == 0) {
+        for (indexType col = 0; col < cols; ++col) {
+            for (typename Eigen::SparseMatrix<T, 0, signedIndexType>::InnerIterator it(
+                     *spmatSRC, col);
+                it; ++it) {
+                if (withnan || !sumValueIsNaN<T>(it.value())) {
+                    accum[col] += it.value();
+                }
+            }
+        }
+    } else {
+        for (indexType col = 0; col < cols; ++col) {
+            for (typename Eigen::SparseMatrix<T, 0, signedIndexType>::InnerIterator it(
+                     *spmatSRC, col);
+                it; ++it) {
+                if (withnan || !sumValueIsNaN<T>(it.value())) {
+                    accum[it.row()] += it.value();
+                }
+            }
+        }
+    }
+
+    auto* spmatDST
+        = new Eigen::SparseMatrix<T, 0, signedIndexType>(outDims.rows(), outDims.columns());
+    for (indexType k = 0; k < (indexType)accum.size(); ++k) {
+        if (accum[k] != T(0)) {
+            if (workDim == 0) {
+                spmatDST->coeffRef(0, k) = accum[k];
+            } else {
+                spmatDST->coeffRef(k, 0) = accum[k];
+            }
+        }
+    }
+    indexType nz = spmatDST->nonZeros();
+    ArrayOf res = makeSparseResult(A.dataClass(), outDims, spmatDST);
+    if (nz == 0) {
+        res.setSparseNzmax(1);
+    }
+    return res;
+}
+//=============================================================================
+static ArrayOf
+SparseLogicalSum(ArrayOf A, indexType workDim, const std::wstring& strtype, bool reduceAsVector)
+{
+    A.promoteType(strtype == L"native" ? NLS_LOGICAL : NLS_DOUBLE);
+    if (A.dataClass() == NLS_LOGICAL) {
+        return SparseSumTemplate<logical>(A, workDim, true, reduceAsVector);
+    }
+    return SparseSumTemplate<double>(A, workDim, true, reduceAsVector);
+}
+//=============================================================================
+static ArrayOf
+SparseSum(ArrayOf A, indexType d, const std::wstring& strtype, bool withnan)
+{
+    Dimensions dimsA = A.dimensions();
+    indexType workDim = 0;
+    bool allElements = d == static_cast<indexType>(-1);
+    if (allElements) {
+        workDim = 0;
+    } else if (d == 0) {
+        workDim = dimsA.rows() == 1 ? 1 : 0;
+    } else {
+        workDim = d - 1;
+    }
+    if (workDim > 1) {
+        Error(L"Nelson:data_analysis:sparseMatrixSupportsSumAlong",
+            L"Sparse matrix supports %s along dimensions 1 or 2.", L"sum");
+    }
+    if (allElements && !A.isVector()) {
+        Dimensions vectorDims(A.elementCount(), 1);
+        A.reshape(vectorDims);
+    }
+    bool reduceAsVector = allElements || d == 0;
+    switch (A.dataClass()) {
+    case NLS_LOGICAL:
+        return SparseLogicalSum(A, workDim, strtype, reduceAsVector);
+    case NLS_DOUBLE:
+        return SparseSumTemplate<double>(A, workDim, withnan, reduceAsVector);
+    case NLS_DCOMPLEX:
+        return SparseSumTemplate<doublecomplex>(A, workDim, withnan, reduceAsVector);
+    case NLS_SINGLE:
+        return SparseSumTemplate<single>(A, workDim, withnan, reduceAsVector);
+    case NLS_SCOMPLEX:
+        return SparseSumTemplate<singlecomplex>(A, workDim, withnan, reduceAsVector);
+    default: {
+        std::wstring classname;
+        ClassName(A, classname);
+        std::wstring msg
+            = formatI18nMessage(resolveMessageTemplate(L"Nelson:data_analysis:functionSUndefined",
+                                    L"function %s undefined."),
+                classname + L"_sum");
+        Error(L"Nelson:sum:typeNotSupported", msg);
+    } break;
+    }
+    return {};
+}
 //=============================================================================
 static void
 signedIntegerSumAsDouble(const int64* sp, double* dp, indexType elementCount)
@@ -188,23 +344,42 @@ ArrayOf
 Sum(ArrayOf A, indexType d, const std::wstring& strtype, bool withnan)
 {
     ArrayOf res;
-    NelsonType classA = A.getDataClass();
-    if (classA > NLS_LOGICAL || A.isSparse()) {
+    NelsonType classA = A.dataClass();
+    if (A.isSparse()) {
+        return SparseSum(A, d, strtype, withnan);
+    }
+    if (classA == NLS_CHAR) {
+        // sum('ab') sums the character codes as double
+        if (strtype == L"native") {
+            Error(L"Nelson:data_analysis:nativeAccumulationCharArraySupported",
+                L"Native accumulation on char array is not supported.");
+        }
+        A.promoteType(NLS_DOUBLE);
+        classA = NLS_DOUBLE;
+    }
+    if (classA > NLS_LOGICAL) {
         std::wstring classname;
         ClassName(A, classname);
-        std::wstring msg = _W("function") + L" " + classname + L"_sum" + L" " + _W("undefined.");
-        Error(msg);
+        std::wstring msg
+            = formatI18nMessage(resolveMessageTemplate(L"Nelson:data_analysis:functionSUndefined",
+                                    L"function %s undefined."),
+                classname + L"_sum");
+        Error(L"Nelson:sum:typeNotSupported", msg);
     }
-    if (A.isEmpty(true) && A.is2D()) {
-        res = ArrayOf::doubleConstructor(0);
+    bool allElements = d == static_cast<indexType>(-1);
+    // sum([]) is 0; with a dimension, [] follows the reduction rule
+    if (A.isEmpty(true) && A.is2D() && (d == 0 || allElements)) {
+        res = ArrayOf::doubleScalar(0);
     } else if (A.isScalar()) {
         res = A;
     } else {
-        Dimensions dimsA = A.getDimensions();
+        Dimensions dimsA = A.dimensions();
         indexType workDim;
-        if (d == 0) {
+        if (allElements) {
+            workDim = 0;
+        } else if (d == 0) {
             indexType l = 0;
-            while (dimsA.getAt(l) == 1) {
+            while (dimsA.at(l) == 1) {
                 l++;
             }
             workDim = l;
@@ -212,7 +387,11 @@ Sum(ArrayOf A, indexType d, const std::wstring& strtype, bool withnan)
             workDim = d - 1;
         }
         Dimensions dimsRes = dimsA;
-        dimsRes.setDimensionLength(workDim, 1);
+        if (allElements) {
+            dimsRes = Dimensions(1, 1);
+        } else {
+            dimsRes.setDimensionLength(workDim, 1);
+        }
         dimsRes.simplify();
         indexType planecount;
         indexType planesize = 1;
@@ -221,7 +400,7 @@ Sum(ArrayOf A, indexType d, const std::wstring& strtype, bool withnan)
             planesize *= dimsA[l];
         }
         planecount = 1;
-        for (indexType l = workDim + 1; l < dimsA.getLength(); l++) {
+        for (indexType l = workDim + 1; l < dimsA.length(); l++) {
             planecount *= dimsA[l];
         }
         switch (classA) {
@@ -231,14 +410,14 @@ Sum(ArrayOf A, indexType d, const std::wstring& strtype, bool withnan)
         case NLS_UINT32:
         case NLS_UINT64: {
             A.promoteType(NLS_UINT64);
-            double* ptr = static_cast<double*>(ArrayOf::allocateArrayOf(
-                NLS_DOUBLE, dimsRes.getElementCount(), stringVector(), true));
+            double* ptr = static_cast<double*>(
+                ArrayOf::allocateArrayOf(NLS_DOUBLE, dimsRes.elementCount(), stringVector(), true));
             res = ArrayOf(NLS_DOUBLE, dimsRes, ptr);
-            if (A.isVector()) {
+            if (allElements) {
                 unsignedIntegerSumAsDouble(
-                    static_cast<const uint64*>(A.getDataPointer()), ptr, dimsA.getElementCount());
+                    static_cast<const uint64*>(A.dataPointer()), ptr, dimsA.elementCount());
             } else {
-                unsignedIntegerSumAsDouble(static_cast<const uint64*>(A.getDataPointer()), ptr,
+                unsignedIntegerSumAsDouble(static_cast<const uint64*>(A.dataPointer()), ptr,
                     planecount, planesize, linesize);
             }
         } break;
@@ -247,61 +426,61 @@ Sum(ArrayOf A, indexType d, const std::wstring& strtype, bool withnan)
         case NLS_INT32:
         case NLS_INT64: {
             A.promoteType(NLS_INT64);
-            double* ptr = static_cast<double*>(ArrayOf::allocateArrayOf(
-                NLS_DOUBLE, dimsRes.getElementCount(), stringVector(), true));
+            double* ptr = static_cast<double*>(
+                ArrayOf::allocateArrayOf(NLS_DOUBLE, dimsRes.elementCount(), stringVector(), true));
             res = ArrayOf(NLS_DOUBLE, dimsRes, ptr);
-            if (A.isVector()) {
+            if (allElements) {
                 signedIntegerSumAsDouble(
-                    static_cast<const int64*>(A.getDataPointer()), ptr, dimsA.getElementCount());
+                    static_cast<const int64*>(A.dataPointer()), ptr, dimsA.elementCount());
             } else {
-                signedIntegerSumAsDouble(static_cast<const int64*>(A.getDataPointer()), ptr,
+                signedIntegerSumAsDouble(static_cast<const int64*>(A.dataPointer()), ptr,
                     planecount, planesize, linesize);
             }
         } break;
         case NLS_SINGLE: {
             single* ptr = static_cast<single*>(
-                ArrayOf::allocateArrayOf(classA, dimsRes.getElementCount(), stringVector(), true));
-            if (A.isVector()) {
-                RealSumT<single>(static_cast<const single*>(A.getDataPointer()), ptr,
-                    dimsA.getElementCount(), withnan);
+                ArrayOf::allocateArrayOf(classA, dimsRes.elementCount(), stringVector(), true));
+            if (allElements) {
+                RealSumT<single>(static_cast<const single*>(A.dataPointer()), ptr,
+                    dimsA.elementCount(), withnan);
             } else {
-                RealSumT<single>(static_cast<const single*>(A.getDataPointer()), ptr, planecount,
+                RealSumT<single>(static_cast<const single*>(A.dataPointer()), ptr, planecount,
                     planesize, linesize, withnan);
             }
             res = ArrayOf(classA, dimsRes, ptr);
         } break;
         case NLS_DOUBLE: {
             double* ptr = static_cast<double*>(
-                ArrayOf::allocateArrayOf(classA, dimsRes.getElementCount(), stringVector(), true));
-            if (A.isVector()) {
-                RealSumT<double>(static_cast<const double*>(A.getDataPointer()), ptr,
-                    dimsA.getElementCount(), withnan);
+                ArrayOf::allocateArrayOf(classA, dimsRes.elementCount(), stringVector(), true));
+            if (allElements) {
+                RealSumT<double>(static_cast<const double*>(A.dataPointer()), ptr,
+                    dimsA.elementCount(), withnan);
             } else {
-                RealSumT<double>(static_cast<const double*>(A.getDataPointer()), ptr, planecount,
+                RealSumT<double>(static_cast<const double*>(A.dataPointer()), ptr, planecount,
                     planesize, linesize, withnan);
             }
             res = ArrayOf(classA, dimsRes, ptr);
         } break;
         case NLS_SCOMPLEX: {
             single* ptr = static_cast<single*>(
-                ArrayOf::allocateArrayOf(classA, dimsRes.getElementCount(), stringVector(), true));
-            if (A.isVector()) {
-                ComplexSumT<single>(static_cast<const single*>(A.getDataPointer()), ptr,
-                    dimsA.getElementCount(), withnan);
+                ArrayOf::allocateArrayOf(classA, dimsRes.elementCount(), stringVector(), true));
+            if (allElements) {
+                ComplexSumT<single>(static_cast<const single*>(A.dataPointer()), ptr,
+                    dimsA.elementCount(), withnan);
             } else {
-                ComplexSumT<single>(static_cast<const single*>(A.getDataPointer()), ptr, planecount,
+                ComplexSumT<single>(static_cast<const single*>(A.dataPointer()), ptr, planecount,
                     planesize, linesize, withnan);
             }
             res = ArrayOf(classA, dimsRes, ptr);
         } break;
         case NLS_DCOMPLEX: {
             double* ptr = static_cast<double*>(
-                ArrayOf::allocateArrayOf(classA, dimsRes.getElementCount(), stringVector(), true));
-            if (A.isVector()) {
-                ComplexSumT<double>(static_cast<const double*>(A.getDataPointer()), ptr,
-                    dimsA.getElementCount(), withnan);
+                ArrayOf::allocateArrayOf(classA, dimsRes.elementCount(), stringVector(), true));
+            if (allElements) {
+                ComplexSumT<double>(static_cast<const double*>(A.dataPointer()), ptr,
+                    dimsA.elementCount(), withnan);
             } else {
-                ComplexSumT<double>(static_cast<const double*>(A.getDataPointer()), ptr, planecount,
+                ComplexSumT<double>(static_cast<const double*>(A.dataPointer()), ptr, planecount,
                     planesize, linesize, withnan);
             }
             res = ArrayOf(classA, dimsRes, ptr);
@@ -309,9 +488,11 @@ Sum(ArrayOf A, indexType d, const std::wstring& strtype, bool withnan)
         default: {
             std::wstring classname;
             ClassName(A, classname);
-            std::wstring msg
-                = _W("function") + L" " + classname + L"_sum" + L" " + _W("undefined.");
-            Error(msg);
+            std::wstring msg = formatI18nMessage(
+                resolveMessageTemplate(
+                    L"Nelson:data_analysis:functionSUndefined", L"function %s undefined."),
+                classname + L"_sum");
+            Error(L"Nelson:sum:typeNotSupported", msg);
         } break;
         }
     }
@@ -326,7 +507,7 @@ Sum(ArrayOf A, indexType d, const std::wstring& strtype, bool withnan)
     } else if (strtype == L"native") {
         outputClass = classA;
     } else if (strtype == L"double") {
-        if (res.getDataClass() == NLS_SCOMPLEX || res.getDataClass() == NLS_DCOMPLEX) {
+        if (res.dataClass() == NLS_SCOMPLEX || res.dataClass() == NLS_DCOMPLEX) {
             outputClass = NLS_DCOMPLEX;
         } else {
             outputClass = NLS_DOUBLE;

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "PythonEnvironment_setBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "HandleGenericObject.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -23,12 +24,13 @@ Nelson::Python_engineGateway::PythonEnvironment_setBuiltin(int nLhs, const Array
     nargoutcheck(nLhs, 0, 1);
     ArrayOf param1 = argIn[0];
 
-    if (param1.getHandleCategory() != NLS_HANDLE_PYTHON_ENVIRONMENT_CATEGORY_STR) {
-        Error(_W("PythonEnvironment object expected."));
+    if (param1.handleCategory() != NLS_HANDLE_PYTHON_ENVIRONMENT_CATEGORY_STR) {
+        Error(L"Nelson:python:invalidEnvironment", L"PythonEnvironment object expected.");
     }
 
-    std::wstring msg = _W("Unable to set property of class 'PythonEnvironment' it is read-only.");
-    Error(msg, L"Nelson:class:SetProhibited");
+    std::wstring msg = resolveMessageTemplate(L"Nelson:python_engine:unableSetPropertyClass",
+        L"Unable to set property of class 'PythonEnvironment' it is read-only.");
+    Error(L"Nelson:class:SetProhibited", msg);
 
     return {};
 }

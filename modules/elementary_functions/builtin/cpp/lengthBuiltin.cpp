@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -25,8 +25,8 @@ Nelson::ElementaryFunctionsGateway::lengthBuiltin(int nLhs, const ArrayOfVector&
 
     ArrayOf param1 = argIn[0];
     double len = 0;
-    Dimensions sze(param1.getDimensions());
-    for (indexType i = 0; i < sze.getLength(); i++) {
+    Dimensions sze(param1.dimensions());
+    for (indexType i = 0; i < sze.length(); i++) {
         if (static_cast<double>(sze[i]) == 0) {
             len = 0;
             break;
@@ -39,7 +39,7 @@ Nelson::ElementaryFunctionsGateway::lengthBuiltin(int nLhs, const ArrayOfVector&
             }
         }
     }
-    retval << ArrayOf::doubleConstructor(len);
+    retval << ArrayOf::doubleScalar(len);
     return retval;
 }
 //=============================================================================

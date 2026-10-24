@@ -20,10 +20,10 @@ d = dictionary("hello", "world")
 d("newKey") = 1
 isstring(d("newKey"))
 %=============================================================================
-Values = {{'a','b'},["ff", "cc"],struct,[1 2 3 4]};
+Values = {{'a', 'b'}, ["ff", "cc"], struct, [1 2 3 4]};
 Keys = ["letters" "words" "a structure" "numeric array"];
 d = dictionary(Keys, Values);
-assert_isequal(d{"numeric array"}, [1 2 3 4]);
+asserts.isequal(d{"numeric array"}, [1 2 3 4]);
 d{"a new entry"} = 'table';
-assert_isequal(d{"a new entry"}, 'table');
+asserts.isequal(d{"a new entry"}, 'table');
 %=============================================================================

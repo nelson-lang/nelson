@@ -10,6 +10,7 @@
 #include "rethrowBuiltin.hpp"
 #include "MException.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "ClassName.hpp"
 #include "DebugStack.hpp"
@@ -24,11 +25,11 @@ Nelson::ErrorManagerGateway::rethrowBuiltin(int nLhs, const ArrayOfVector& argIn
     nargoutcheck(nLhs, 0, 0);
     if (argIn[0].isClassType() && ClassName(argIn[0]) == "MException") {
         if (argIn[0].isScalar()) {
-            throw ArrayOfToException(argIn[0]);
+            throw ArrayOfToNelsonException(argIn[0]);
         }
-        Error(_W("MException scalar expected."));
+        Error(L"Nelson:MException:notScalar", L"MException scalar expected.");
     }
-    Error(_W("MException expected."));
+    Error(L"Nelson:MException:invalidType", L"MException expected.");
     ArrayOfVector retval;
     return retval;
 }

@@ -7,31 +7,32 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('num2bin'), 1)
-assert_isequal(nargout('num2bin'), 1)
+% <--WEIGHT 2-->
+asserts.isequal(nargin('num2bin'), 1)
+asserts.isequal(nargout('num2bin'), 1)
 %=============================================================================
 A = ['0011111111110000000000000000000000000000000000000000000000000000';
-'0000000000000000000000000000000000000000000000000000000000000000';
-'0000000000000000000000000000000000000000000000000000000000000000';
-'0011111111110000000000000000000000000000000000000000000000000000';
-'0000000000000000000000000000000000000000000000000000000000000000';
-'0000000000000000000000000000000000000000000000000000000000000000'];
+  '0000000000000000000000000000000000000000000000000000000000000000';
+  '0000000000000000000000000000000000000000000000000000000000000000';
+  '0011111111110000000000000000000000000000000000000000000000000000';
+  '0000000000000000000000000000000000000000000000000000000000000000';
+  '0000000000000000000000000000000000000000000000000000000000000000'];
 R = bin2num(A);
-assert_isequal(R, [1; 0; 0; 1; 0; 0]);
+asserts.isequal(R, [1; 0; 0; 1; 0; 0]);
 %=============================================================================
-assert_isequal(bin2num(num2bin(Inf)), Inf)
-assert_isequal(bin2num(num2bin(-Inf)), -Inf)
+asserts.isequal(bin2num(num2bin(Inf)), Inf)
+asserts.isequal(bin2num(num2bin(-Inf)), -Inf)
 %=============================================================================
-assert_isequal(bin2num(num2bin(NaN)), NaN)
-assert_isequal(bin2num(num2bin(-NaN)),  -NaN)
+asserts.isequal(bin2num(num2bin(NaN)), NaN)
+asserts.isequal(bin2num(num2bin(-NaN)), -NaN)
 %=============================================================================
-assert_isequal(bin2num(num2bin(single(Inf))), single(Inf))
-assert_isequal(bin2num(num2bin(single(-Inf))), single(-Inf))
+asserts.isequal(bin2num(num2bin(single(Inf))), single(Inf))
+asserts.isequal(bin2num(num2bin(single(-Inf))), single(-Inf))
 %=============================================================================
-assert_isequal(bin2num(num2bin(single(NaN))), single(NaN))
-assert_isequal(bin2num(num2bin(single(-NaN))), single(-NaN))
+asserts.isequal(bin2num(num2bin(single(NaN))), single(NaN))
+asserts.isequal(bin2num(num2bin(single(-NaN))), single(-NaN))
 %=============================================================================
-assert_isapprox(bin2num(num2bin(pi)), pi, 1e-9)
-assert_isapprox(bin2num(num2bin(single(pi))), single(pi), 1e-6)
+asserts.isapprox(bin2num(num2bin(pi)), pi, 1e-9)
+asserts.isapprox(bin2num(num2bin(single(pi))), single(pi), 1e-6)
 %=============================================================================
 

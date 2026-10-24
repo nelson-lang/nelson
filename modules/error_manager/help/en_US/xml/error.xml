@@ -6,8 +6,11 @@
   <short_description>Raise an error message.</short_description>
   <syntax>
     <syntax_item>error(id, msg)</syntax_item>
+    <syntax_item>error(id, msg, A, ...)</syntax_item>
     <syntax_item>error(msg)</syntax_item>
+    <syntax_item>error(msg, A, ...)</syntax_item>
     <syntax_item>error(error_structure)</syntax_item>
+    <syntax_item>error(correction, ...)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -16,11 +19,19 @@
     </param_input_item>
     <param_input_item>
       <param_name>msg</param_name>
-      <param_description>a string.</param_description>
+      <param_description>a string: message or format.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>values used to format the message.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>error_structure</param_name>
-      <param_description>error message structure.</param_description>
+      <param_description>scalar error message structure with message, identifier, or stack fields.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>correction</param_name>
+      <param_description>a nelson.lang.correction object.</param_description>
     </param_input_item>
   </param_input>
   <description>
@@ -29,8 +40,33 @@
     <p>
       <b>error(&apos;
         &apos;)</b> will be ignored and the script will continue to run.</p>
+    <p><b>error(msg, A, ...)</b> and <b>error(id, msg, A, ...)</b> format the message with the same rules as <b>sprintf</b>.</p>
+    <p><b>error(error_structure)</b> accepts a scalar structure. Missing fields are treated as empty values, and additional fields are ignored.</p>
+    <p>When <b>error_structure.stack</b> is supplied, only the <b>file</b>, <b>name</b>, and <b>line</b> fields are used. Additional stack fields are ignored. Noninteger <b>line</b> values use their real integer part; invalid numeric values use <b>0</b>.</p>
+    <p><b>error(correction, ...)</b> stores the correction object in the thrown MException.</p>
     <p
     >identifier includes one or more component fields and a mnemonic field (example: &apos;nelson:matrix:empty&apos;)</p>
+    <p>
+      <b>How to build an error identifier.</b> An identifier is written
+      <b>component:mnemonic</b>, with one or more component fields followed by a
+      mnemonic, each field starting with a letter and containing only letters,
+      digits, or underscores, separated by colons (example:
+      &apos;Nelson:elementary_functions:notFinite&apos;). Identifiers thrown by
+      Nelson itself use <b>Nelson</b> as the first component; in your own code use
+      a component of your choosing (for example your module or toolbox name).</p>
+    <p>A few rules keep identifiers useful:</p>
+    <p> - The component should route to the area that raises the error (a module,
+      class, or function name); the mnemonic should name the specific check in
+      camelCase (example: &apos;mustBeFinite&apos;, &apos;tooManyInputs&apos;).</p>
+    <p> - For errors that can happen anywhere (argument count, indexing, an
+      expected value shape), a short two-field identifier is enough (example:
+      &apos;Nelson:tooManyInputs&apos;, &apos;Nelson:badsubscript&apos;).</p>
+    <p> - Give one identifier a single message text: an identifier reused with
+      several different messages cannot be translated and is dropped from the
+      message catalog.</p>
+    <p> - Reuse an existing identifier for the same condition rather than creating
+      a near-duplicate, and keep the mnemonic stable and descriptive (do not
+      encode a run-time value in it).</p>
   </description>
   <used_function />
   <bibliography />
@@ -41,6 +77,7 @@
       <example_item_data
       ><![CDATA[error('your error message.')
 error('nelson:identifier', 'your error message.')
+error('Value %d', 7)
 error('')]]></example_item_data>
     </example_item>
     <example_item>

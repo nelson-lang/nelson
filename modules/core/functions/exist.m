@@ -13,9 +13,9 @@ function res = exist(varargin)
   varname = varargin{1};
   if nargin == 2
     category = varargin{2};
-    supported = {'var', 'file', 'dir', 'builtin'};
+    supported = {'var', 'file', 'dir', 'builtin', 'class'};
     if ~any(strcmp(category, supported))
-      error(_('Argument #2 must contain a valid string ''var'', ''builtin'', ''dir'' or ''file'' expected.'));
+      error('Nelson:core:invalidOption', '%s expected.', 'Argument #2 must contain a valid string ''var'', ''builtin'', ''dir'', ''file'' or ''class''');
     end
     switch category
       case 'var'
@@ -36,32 +36,53 @@ function res = exist(varargin)
         else
           if ismex(varname)
             res = 3;
-          else 
+          else
             if ismacro(varname)
               res = 2;
             end
           end
         end
+      case 'class'
+        if isClassdefMacro(varname)
+          res = 8;
+        end
       otherwise
         res = 0;
-      end
-    else
-      res = exist(varname, 'file');
-      if res ~= 0
-        return;
-      end
-      res = exist(varname, 'dir');
-      if res ~= 0
-        return;
-      end
-      if isvar('caller', varname)
-        res = 1;
-        return;
-      end
-      res = exist(varname, 'builtin');
-      if res ~= 0
-        return;
-      end
+    end
+  else
+    % Expected behavior search order: variables are found first
+    if isvar('caller', varname)
+      res = 1;
+      return;
+    end
+    res = exist(varname, 'class');
+    if res ~= 0
+      return;
+    end
+    res = exist(varname, 'file');
+    if res ~= 0
+      return;
+    end
+    res = exist(varname, 'dir');
+    if res ~= 0
+      return;
+    end
+    res = exist(varname, 'builtin');
+    if res ~= 0
+      return;
     end
   end
-  %=============================================================================
+end
+%=============================================================================
+function tf = isClassdefMacro(varname)
+  tf = false;
+  if ~ismacro(varname)
+    return;
+  end
+  filename = which(varname);
+  if isempty(filename) || ~ischar(filename)
+    return;
+  end
+  tf = strcmp(parsefile(filename), 'classdef');
+end
+%=============================================================================

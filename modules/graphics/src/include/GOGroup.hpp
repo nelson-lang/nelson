@@ -25,11 +25,20 @@ public:
     ~GOGroup() override;
     virtual std::wstring
     getType() override;
+    std::string
+    getClassName() override
+    {
+        return GO_CLASS_NAME_GROUP_STR;
+    }
     void
     updateState() override;
     void
     paintMe(RenderInterface& gc) override;
+    // Aggregate the data limits of the children so a group nested inside another
+    // group still contributes its contents to the enclosing axes auto-limits.
+    std::vector<double>
+    getLimits() override;
 };
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

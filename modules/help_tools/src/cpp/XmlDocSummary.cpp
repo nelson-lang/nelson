@@ -19,6 +19,7 @@
 #include <libxml/parser.h>
 #include <libxml/xmlerror.h>
 #include <libxml/xpathInternals.h>
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -33,7 +34,7 @@ appendSection(
 bool
 XmlDocTocSummary(const std::wstring& destinationDirectory, std::vector<XmlDocSection>& xmlDocFiles,
     const std::wstring& xsltTocFilename, const std::wstring& xsltSummaryFilename,
-    DOCUMENT_OUTPUT outputDocumentType, std::wstring& errorMessage)
+    DOCUMENT_OUTPUT outputDocumentType, std::wstring& errorMessage, XmlLinkResolver* linkResolver)
 {
     errorMessage.clear();
 
@@ -44,16 +45,19 @@ XmlDocTocSummary(const std::wstring& destinationDirectory, std::vector<XmlDocSec
 
     std::wstring outputXmlFile = destinationDirectory + L"/help_toc_summary.xml";
     std::wstring destinationTocFile;
-    std::wstring destinationSummayFile;
+    std::wstring destinationSummaryFile;
 
     if (outputDocumentType == DOCUMENT_OUTPUT::MARKDOWN) {
         destinationTocFile = destinationDirectory + L"/SUMMARY.md";
-        destinationSummayFile = destinationDirectory + L"/README.md";
+        destinationSummaryFile = destinationDirectory + L"/README.md";
+    } else if (outputDocumentType == DOCUMENT_OUTPUT::TYPST) {
+        destinationTocFile = destinationDirectory + L"/toc.typ";
+        destinationSummaryFile = destinationDirectory + L"/main.typ";
     } else if (outputDocumentType == DOCUMENT_OUTPUT::HTML_WEB) {
-        destinationSummayFile = destinationDirectory + L"/index.html";
+        destinationSummaryFile = destinationDirectory + L"/index.html";
     } else {
         destinationTocFile = destinationDirectory + L"/help_toc.html";
-        destinationSummayFile = destinationDirectory + L"/help_summary.html";
+        destinationSummaryFile = destinationDirectory + L"/help_summary.html";
     }
     std::ofstream out;
 
@@ -73,32 +77,20 @@ XmlDocTocSummary(const std::wstring& destinationDirectory, std::vector<XmlDocSec
 
     if (outputDocumentType != DOCUMENT_OUTPUT::HTML_WEB) {
         if (!XmlTransform(outputXmlFile, xsltTocFilename, destinationTocFile, true,
-                outputDocumentType, errorMessage, destinationDirectory)) {
+                outputDocumentType, errorMessage, destinationDirectory, L"", L"", linkResolver)) {
             return false;
         }
     }
-    if (!XmlTransform(outputXmlFile, xsltSummaryFilename, destinationSummayFile, true,
-            outputDocumentType, errorMessage, destinationDirectory)) {
+    if (!XmlTransform(outputXmlFile, xsltSummaryFilename, destinationSummaryFile, true,
+            outputDocumentType, errorMessage, destinationDirectory, L"", L"", linkResolver)) {
         return false;
     }
-    if (outputDocumentType == DOCUMENT_OUTPUT::MARKDOWN) {
+    if (outputDocumentType == DOCUMENT_OUTPUT::MARKDOWN
+        || outputDocumentType == DOCUMENT_OUTPUT::TYPST) {
         std::filesystem::remove(outputXmlFile);
     }
 
     return true;
-}
-//=============================================================================
-static std::wstring
-getDestinationFileExtension(DOCUMENT_OUTPUT outputDocumentType)
-{
-    switch (outputDocumentType) {
-    case DOCUMENT_OUTPUT::HTML_WEB:
-        return L".html";
-    case DOCUMENT_OUTPUT::MARKDOWN:
-        return L".md";
-    default:
-        return L".html";
-    }
 }
 //=============================================================================
 static bool
@@ -111,11 +103,12 @@ static std::string
 assembleTocSummary(const std::vector<XmlDocSection>& xmlDocFiles,
     DOCUMENT_OUTPUT outputDocumentType, std::wstring& errorMessage)
 {
-    std::wstring destinationFileExtension = getDestinationFileExtension(outputDocumentType);
+    std::wstring destinationFileExtension = documentOutputExtension(outputDocumentType);
 
     xmlDocPtr doc = xmlNewDoc(BAD_CAST "1.0");
     if (!doc) {
-        errorMessage = _W("Cannot create help summary XML document.");
+        errorMessage = resolveMessageTemplate(L"Nelson:help_tools:cannotCreateHelpSummary",
+            L"Cannot create help summary XML document.");
         return std::string();
     }
 
@@ -168,11 +161,16 @@ appendSection(xmlNodePtr parentNode, const XmlDocSection& section,
 
     for (const auto& page : section.pages) {
         std::wstring xmlFilename = outputRelativeFilename(page, destinationFileExtension);
-        for (const auto& keyword : page.keywordAndAlias) {
+        // keywordAndAlias holds the <keyword> first, then the <keyword_alias> entries.
+        for (size_t k = 0; k < page.keywordAndAlias.size(); ++k) {
+            const std::string& keyword = page.keywordAndAlias[k];
             xmlNodePtr keywordNode = xmlNewChild(sectionNode, nullptr, BAD_CAST "keyword", nullptr);
             xmlNewProp(keywordNode, BAD_CAST "name", BAD_CAST keyword.c_str());
             xmlNewProp(keywordNode, BAD_CAST "link", BAD_CAST wstring_to_utf8(xmlFilename).c_str());
             xmlNewProp(keywordNode, BAD_CAST "description", BAD_CAST page.shortDescription.c_str());
+            if (k > 0) {
+                xmlNewProp(keywordNode, BAD_CAST "alias", BAD_CAST "true");
+            }
         }
     }
 

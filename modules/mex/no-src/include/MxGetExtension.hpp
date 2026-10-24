@@ -38,7 +38,7 @@ getMexExtension()
     mexext = L"nexmaci64";
 #else
 #if defined(__arm64__) || defined(__aarch64__)
-    mexext = L"nexmacm1";
+    mexext = L"nexmaca64";
 #else
     mexext = L"nexmaci";
 #endif
@@ -54,5 +54,5 @@ getMexExtension()
     return mexext;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

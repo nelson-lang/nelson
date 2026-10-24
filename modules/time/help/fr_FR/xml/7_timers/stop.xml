@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>stop</keyword>
+  <keyword_alias>timer.stop</keyword_alias>
+  <short_description>Arreter un objet timer en cours d&apos;execution.</short_description>
+  <syntax>
+    <syntax_item>stop(t)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>t</param_name>
+      <param_description>Objet timer ou tableau d&apos;objets timer.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b>stop</b> arrete les timers en cours d&apos;execution. Si un timer a une propriete <b>StopFcn</b>, Nelson l&apos;execute lorsque le timer passe de l&apos;etat en cours a l&apos;etat arrete.</p>
+    <p>L&apos;appel de <b>stop</b> sur un timer deja arrete laisse le timer arrete.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Arreter un timer repete avant qu&apos;il atteigne sa limite de taches.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[t = timer('ExecutionMode', 'fixedSpacing', ...
+  'Period', 0.2, ...
+  'TasksToExecute', Inf, ...
+  'TimerFcn', @(src, event) disp('tick'), ...
+  'StopFcn', @(src, event) disp('stopped'));
+start(t);
+sleep(0.35);
+stop(t);
+delete(t);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${time}timer">timer</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}start">start</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}wait">wait</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -21,6 +21,7 @@
 #include "IsSymmetric.hpp"
 #include "ClassName.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
@@ -32,12 +33,19 @@ isHermitianComplex(T* data, indexType N, bool skew)
     if (N == 1) {
         return false;
     }
-    for (indexType i = 0; i < N; i++) {
-        for (indexType j = 1; j < N; j++) {
-            T realA = data[2 * (i + j * N)];
-            T realB = data[2 * (j + i * N)];
-            T imagA = data[2 * (i + j * N) + 1];
-            T imagB = data[2 * (j + i * N) + 1];
+    if (skew) {
+        for (indexType k = 0; k < N; k++) {
+            if (data[2 * (k + k * N)] != 0) {
+                return false;
+            }
+        }
+    }
+    for (indexType col = 1; col < N; col++) {
+        for (indexType row = 0; row < col; row++) {
+            T realA = data[2 * (row + col * N)];
+            T realB = data[2 * (col + row * N)];
+            T imagA = data[2 * (row + col * N) + 1];
+            T imagB = data[2 * (col + row * N) + 1];
             if (skew) {
 
                 if (realA != -realB) {
@@ -70,11 +78,11 @@ IsHermitianInternal(const ArrayOf& A, bool skew, bool& needToOverload)
     if (!A.isSquare()) {
         return false;
     }
-    switch (A.getDataClass()) {
+    switch (A.dataClass()) {
     case NLS_SCOMPLEX:
-        return isHermitianComplex<single>((single*)A.getDataPointer(), A.getRows(), skew);
+        return isHermitianComplex<single>((single*)A.dataPointer(), A.rows(), skew);
     case NLS_DCOMPLEX:
-        return isHermitianComplex<double>((double*)A.getDataPointer(), A.getRows(), skew);
+        return isHermitianComplex<double>((double*)A.dataPointer(), A.rows(), skew);
     case NLS_SINGLE:
     case NLS_DOUBLE:
     case NLS_INT8:
@@ -117,10 +125,11 @@ IsHermitian(const ArrayOf& A, bool skew, const std::string& functionName)
     bool needToOverload;
     bool res = IsHermitianInternal(A, skew, needToOverload);
     if (needToOverload) {
-        std::string errorMessage
-            = fmt::format(_("Undefined function '{}' for input arguments of type '{}'"),
-                functionName, ClassName(A));
-        Error(errorMessage);
+        std::string errorMessage = formatI18nMessage(
+            Nelson::resolveMessageTemplate("Nelson:linear_algebra:undefinedFunctionInputType",
+                "Undefined function '%s' for input arguments of type '%s'."),
+            functionName, ClassName(A));
+        Error("Nelson:ishermitian:invalidInput", errorMessage);
     }
     return res;
 }

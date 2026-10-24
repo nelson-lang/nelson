@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nanmedian</keyword>
+  <short_description>Mediane en ignorant les valeurs NaN.</short_description>
+  <syntax>
+    <syntax_item>m = nanmedian(X)</syntax_item>
+    <syntax_item>m = nanmedian(X, dim)</syntax_item>
+    <syntax_item>m = nanmedian(X, vecdim)</syntax_item>
+    <syntax_item>m = nanmedian(X, 'all')</syntax_item>
+  </syntax>
+  <description>
+    <p><b>nanmedian</b> calcule la mediane apres suppression des valeurs <b>NaN</b> dans chaque tranche traitee.</p>
+    <p>La dimension par defaut est la premiere dimension non singleton.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[X = magic(3);
+X([1 6:9]) = NaN;
+m = nanmedian(X, 2)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}median">median</link></see_also_item>
+    <see_also_item><link linkend="${statistics}nanmean">nanmean</link></see_also_item>
+    <see_also_item><link linkend="${statistics}nanstd">nanstd</link></see_also_item>
+    <see_also_item><link linkend="${statistics}nanvar">nanvar</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

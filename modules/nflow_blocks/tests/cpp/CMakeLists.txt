@@ -1,0 +1,225 @@
+cmake_minimum_required(VERSION 3.16)
+
+project(nflow_block_handlers_tests LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+set(NFLOW_BLOCKS_DIR "${CMAKE_CURRENT_LIST_DIR}/../..")
+set(REPO_MODULES_DIR "${NFLOW_BLOCKS_DIR}/..")
+
+add_executable(nflow_block_handlers_tests
+  main.cpp
+  test_helpers.cpp
+  test_dynamic_library_stubs.cpp
+  registry_tests.cpp
+  source_tests.cpp
+  math_logic_tests.cpp
+  lookup_tests.cpp
+  nonlinear_tests.cpp
+  continuous_discrete_tests.cpp
+  state_layout_tests.cpp
+  physical_island_tests.cpp
+  mechanical_island_tests.cpp
+  planar_island_tests.cpp
+  signal_layout_tests.cpp
+  json_serialization_tests.cpp
+  progress_delta_tests.cpp
+  algebraic_scc_tests.cpp
+  cond_lowering_tests.cpp
+  solver_backend_tests.cpp
+  rhs_purity_tests.cpp
+  sink_subsystem_tests.cpp
+  workspace_bridge_tests.cpp
+  fmu_me_block_tests.cpp
+  fmu_cs_terminate_tests.cpp
+  "${NFLOW_BLOCKS_DIR}/src/cpp/BlockRegistry.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/SourceHandlers.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/MathHandlers.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/LookupHandlers.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/lookup/lookup1D.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/lookup/lookup2D.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/lookup/lookupND.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/lookup/directLookup.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/math/gain.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/math/sum.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/math/mult.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/math/atan2.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/math/mathFunction.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/math/roundingFunction.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/math/sign.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/math/sqrt.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/math/trigFunction.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/math/abs.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/math/divide.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/math/negate.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/math/bias.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/math/min.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/math/max.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/source/chirp.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/source/clock.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/source/constant.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/source/fileSource.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/source/impulse.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/source/labelSource.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/source/noise.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/source/ramp.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/source/sine.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/source/periodic.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/source/step.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/source/toggleSwitch.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/continuous/constraint.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/continuous/physicalIsland.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/continuous/physicalIslandLayout.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/continuous/physicalIslandSolve.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/continuous/physicalIslandCodegen.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/continuous/physicalIslandCodegenSupport.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/continuous/mechanicalIsland.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/continuous/planarIsland.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/continuous/delay.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/continuous/derivative.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/continuous/hpf.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/continuous/integrator.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/continuous/lpf.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/continuous/pid.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/continuous/stateSpace.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/continuous/tf.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/discrete/ddelay.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/discrete/difference.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/discrete/dstateSpace.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/discrete/dtf.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/discrete/foh.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/discrete/rateTransition.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/discrete/unitDelay.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/discrete/zoh.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/discrete/detectChange.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/discrete/detectDecrease.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/discrete/detectIncrease.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/discrete/fallingEdge.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/discrete/risingEdge.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/logic/and.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/logic/ifBlock.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/logic/compareToConstant.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/logic/compareToZero.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/logic/not.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/logic/or.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/logic/relationalOperator.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/logic/switchCase.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/logic/xor.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/nonlinear/backlash.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/nonlinear/hysteresis.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/nonlinear/deadZone.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/nonlinear/quantizer.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/nonlinear/rate.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/nonlinear/saturation.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/nonlinear/switch.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/sink/display.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/sink/labelSink.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/sink/scope.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/sink/terminator.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/sink/xyScope.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/sink/xyzScope.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/sink/toWorkspace.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/sink/stopSimulation.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/sink/fileSink.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/source/fromWorkspace.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/UserDefinedHandlers.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/userdefined/nelsonFunction.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/userdefined/expression.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/LogicHandlers.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/NonlinearHandlers.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/ContinuousHandlers.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/DiscreteHandlers.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/SinkHandlers.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/SubsystemBuild.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/SubsystemHandlers.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/NFlowCondLowering.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/RoutingHandlers.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/routing/mux.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/routing/demux.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/routing/selector.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/routing/reshape.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/routing/concatenate.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/routing/merge.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/routing/busCreator.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/routing/busSelector.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/routing/convert.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/routing/multiportSwitch.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/routing/dataStore.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/routing/iterator.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/routing/assignment.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/routing/busAssignment.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/routing/initialCondition.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/routing/signalConversion.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/routing/width.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/matrix/matmul.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/matrix/vectorMath.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/math/complexOps.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/fmuBlock.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/fmuMeBlock.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/FmuComponent.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/NelsonWorkspaceBridge.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/SimEngineHelpers.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/StateLayout.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/FixedStepBackend.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/NFlowComplexLower.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/NFlowCodegenHelpers.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/ExprEngine.cpp"
+  # Block sources added after the harness was last synced (kept in sync so the
+  # registry links; grouped here to avoid churning the per-domain sections).
+  "${NFLOW_BLOCKS_DIR}/src/cpp/logic/bitClear.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/logic/bitSet.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/logic/bitwiseOperator.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/logic/combinatorialLogic.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/logic/extractBits.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/logic/intervalTest.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/logic/intervalTestDynamic.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/logic/logicalOperator.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/logic/shiftArithmetic.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/nonlinear/coulombViscousFriction.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/nonlinear/hitCrossing.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/math/polynomial.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/math/wrapToZero.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/source/counterFreeRunning.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/source/counterLimited.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/source/enumeratedConstant.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/source/repeatingSequenceInterpolated.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/source/repeatingSequenceStair.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/source/signalGenerator.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/lookup/interpolationPrelookup.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/lookup/lookupDynamic.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/lookup/luScalar.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/lookup/prelookup.cpp"
+  "${NFLOW_BLOCKS_DIR}/src/cpp/DashboardHandlers.cpp"
+)
+
+target_include_directories(nflow_block_handlers_tests
+  PRIVATE
+    "${CMAKE_CURRENT_LIST_DIR}"
+    "${CMAKE_CURRENT_LIST_DIR}/third_party/doctest"
+    "${NFLOW_BLOCKS_DIR}/src/include"
+    "${NFLOW_BLOCKS_DIR}/src/cpp"
+    "${REPO_MODULES_DIR}/commons/src/include"
+    "${REPO_MODULES_DIR}/commons/src/fmt/include"
+)
+
+target_compile_definitions(nflow_block_handlers_tests
+  PRIVATE
+    NLSCOMMONS_EXPORTS
+    NLSNFLOW_BLOCKS_STATIC
+)
+
+if(MSVC)
+  target_compile_options(nflow_block_handlers_tests PRIVATE /W4 /permissive-)
+else()
+  target_compile_options(nflow_block_handlers_tests
+    PRIVATE
+      -Wall
+      -Wextra
+      -Wpedantic
+  )
+endif()
+
+enable_testing()
+add_test(NAME nflow_block_handlers_tests COMMAND nflow_block_handlers_tests)

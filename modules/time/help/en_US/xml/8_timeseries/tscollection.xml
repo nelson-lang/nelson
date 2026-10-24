@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>tscollection</keyword>
+  <short_description>Create a collection of aligned time series.</short_description>
+  <syntax>
+    <syntax_item>tsc = tscollection(time)</syntax_item>
+    <syntax_item>tsc = tscollection(ts)</syntax_item>
+    <syntax_item>tsc = tscollection({ts1; ts2; ...})</syntax_item>
+    <syntax_item>tsc = tscollection(..., 'Name', name)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>time</param_name>
+      <param_description>Shared time vector.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>ts</param_name>
+      <param_description>Initial timeseries member.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>{ts1; ts2; ...}</param_name>
+      <param_description>Cell array of timeseries members.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>tsc</param_name>
+      <param_description>A tscollection object.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>tscollection</b> groups named timeseries objects on a shared time vector.</p>
+    <p>Members can be added, removed, resampled, selected by time, and accessed by name.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_data runnable="cli"><![CDATA[count1 = timeseries([11; 7; 14; 11], (1:4)', 'Name', 'Intersection1');
+count2 = timeseries([9; 8; 12; 16], (1:4)', 'Name', 'Intersection2');
+tsc = tscollection(count1, 'Name', 'count_coll');
+tsc = addts(tsc, count2);
+gettimeseriesnames(tsc)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_data runnable="cli"><![CDATA[ts1 = timeseries([1.1 2.9 3.7 4.0 3.0]', 1:5, 'Name', 'Acceleration');
+ts2 = timeseries([3.2 4.2 6.2 8.5 1.1]', 1:5, 'Name', 'Speed');
+tsc = tscollection({ts1; ts2});
+gettimeseriesnames(tsc)
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${time}timeseries">timeseries</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

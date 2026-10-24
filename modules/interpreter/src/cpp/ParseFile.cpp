@@ -38,10 +38,10 @@ ParseFile(Evaluator* eval, const std::wstring& filename, bool bIgnoreException)
     if (fr == nullptr) {
         return ParserState::ParseError;
     }
-    Exception previousException(eval->getLastErrorException());
+    NelsonException previousException(eval->getLastErrorException());
     try {
         ps = parseFile(eval->lexerContext, fr, wstring_to_utf8(filename));
-    } catch (const Exception&) {
+    } catch (const NelsonException&) {
         if (bIgnoreException) {
             eval->setLastErrorException(previousException);
         }

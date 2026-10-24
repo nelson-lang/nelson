@@ -18,7 +18,8 @@ class GOSymbolProperty : public GORestrictedStringProperty
 public:
     GOSymbolProperty();
     ~GOSymbolProperty() override = default;
+    void set(ArrayOf) override;
 };
 //=============================================================================
-};
+} // namespace Nelson
 //=============================================================================

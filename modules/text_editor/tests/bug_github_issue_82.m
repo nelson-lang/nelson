@@ -10,9 +10,9 @@
 % <-- Issue URL -->
 % https://github.com/nelson-lang/nelson/issues/82
 % <-- Short Description -->
-% home, end, page down, page up keys shorcut not implement in editor
+% home, end, page down, page up keys shortcut not implement in editor
 %=============================================================================
 % <--INTERACTIVE TEST-->
 %=============================================================================
 edit fileread
-% use keys home, end, page down, page up keys shorcut not implement and check that cursor moves.
+% use keys home, end, page down, page up keys shortcut not implement and check that cursor moves.

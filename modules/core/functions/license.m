@@ -11,7 +11,7 @@ function varargout = license(varargin)
   narginchk(0, 0);
   nLhs = nargout;
   if nLhs > 2
-    error(_('Wrong number of output arguments.'));
+    error('Nelson:tooManyOutputs', 'Too many output arguments.');
   end
   if ispc()
     if ismodule('fftw')

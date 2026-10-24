@@ -9,6 +9,7 @@
 //=============================================================================
 #include "handle_getBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
@@ -25,7 +26,7 @@ Nelson::HandleGateway::handle_getBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargoutcheck(nLhs, 0, 1);
     ArrayOf param1 = argIn[0];
     if (param1.isHandle()) {
-        Error(_W("Invalid handle."));
+        Error(L"Nelson:handle:invalidHandle", L"Invalid handle.");
     }
     return retval;
 }

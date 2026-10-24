@@ -12,26 +12,40 @@
 #include "nlsGui_exports.h"
 #include "Context.hpp"
 #include <QtCore/QtGlobal>
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 #include <QtGui/QAction>
-#else
-#include <QtWidgets/QAction>
-#endif
 #include <QtGui/QContextMenuEvent>
 #include <QtWidgets/QTableView>
 #include <QtWidgets/QDockWidget>
-#include <QtWidgets/QSizeGrip>
+#include <QtWidgets/QLineEdit>
+#include <QtWidgets/QVBoxLayout>
 #include <QtGui/QStandardItemModel>
 #include <QtCore/QSortFilterProxyModel>
 //=============================================================================
 using namespace Nelson;
+//=============================================================================
+// role holding a numeric sort key, used to sort numeric columns numerically
+// instead of lexicographically ("10x10" must come after "9x9").
+#define WORKSPACE_SORT_ROLE (Qt::UserRole + 1)
+//=============================================================================
+class WorkspaceSortFilterProxyModel : public QSortFilterProxyModel
+{
+    Q_OBJECT
+
+public:
+    WorkspaceSortFilterProxyModel(QObject* parent = nullptr) : QSortFilterProxyModel(parent) { }
+
+protected:
+    bool
+    lessThan(const QModelIndex& left, const QModelIndex& right) const override;
+};
 //=============================================================================
 class QtWorkspaceBrowser : public QDockWidget
 {
     Q_OBJECT
     QTableView* m_tableView;
     QStandardItemModel* m_model;
-    QSortFilterProxyModel* m_proxyModel;
+    WorkspaceSortFilterProxyModel* m_proxyModel;
+    QLineEdit* m_filterLineEdit;
     Context* m_context;
 
 private:
@@ -59,23 +73,31 @@ private:
     handleDefaultCase(const ArrayOf* variable) const;
     QString
     getCurrentVariableNameSelected();
+    QStringList
+    getSelectedVariableNames();
+    bool
+    isGlobalVariable(const QString& name);
 
     void
     setupModel();
     void
     setupHeaders();
+    void
+    setupFilterBar(QVBoxLayout* mainLayout);
+    void
+    applyVariableFilter();
+    void
+    restoreSelectionAndScroll(const QStringList& selectedNames, int scrollPosition);
 
-    QSizeGrip* sizeGrip;
-
-    // Column indices
     enum ColumnIndex
     {
         NAME_COLUMN = 0,
         VALUE_COLUMN = 1,
         CLASS_COLUMN = 2,
         SIZE_COLUMN = 3,
-        SCOPE_COLUMN = 4,
-        COLUMN_COUNT = 5
+        BYTES_COLUMN = 4,
+        SCOPE_COLUMN = 5,
+        COLUMN_COUNT = 6
     };
 
 protected:
@@ -83,7 +105,7 @@ protected:
     keyPressEvent(QKeyEvent* event) override;
 
     void
-    contextMenuEvent(QContextMenuEvent* e);
+    contextMenuEvent(QContextMenuEvent* e) override;
 
     void
     onDeleteAction();
@@ -105,10 +127,7 @@ public slots:
     updateVariables();
 
     void
-    handleDockLocationChanged(Qt::DockWidgetArea area);
-
-    void
-    closeEvent(QCloseEvent*);
+    closeEvent(QCloseEvent*) override;
 
 public:
     QtWorkspaceBrowser(QWidget* parent);

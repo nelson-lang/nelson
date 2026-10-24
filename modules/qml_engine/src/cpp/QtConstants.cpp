@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -51,9 +51,6 @@ initializeQtConstantsMap()
     mapConstants[L"Qt.CTRL"] = Qt::CTRL;
     mapConstants[L"Qt.ALT"] = Qt::ALT;
     mapConstants[L"Qt.MODIFIER_MASK"] = Qt::MODIFIER_MASK;
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    mapConstants[L"Qt.UNICODE_ACCEL"] = Qt::UNICODE_ACCEL;
-#endif
     mapConstants[L"Qt.NoButton"] = Qt::NoButton;
     mapConstants[L"Qt.LeftButton"] = Qt::LeftButton;
     mapConstants[L"Qt.RightButton"] = Qt::RightButton;
@@ -180,10 +177,6 @@ initializeQtConstantsMap()
         = Qt::MaximizeUsingFullscreenGeometryHint;
 #endif
     mapConstants[L"Qt.CustomizeWindowHint"] = Qt::CustomizeWindowHint;
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    mapConstants[L"Qt.WindowStaysOnBottomHint"] = Qt::WindowStaysOnBottomHint;
-    mapConstants[L"Qt.MacWindowToolBarButtonHint"] = Qt::MacWindowToolBarButtonHint;
-#endif
     mapConstants[L"Qt.WindowCloseButtonHint"] = Qt::WindowCloseButtonHint;
     mapConstants[L"Qt.BypassGraphicsProxyWidget"] = Qt::BypassGraphicsProxyWidget;
     mapConstants[L"Qt.NoDropShadowWindowHint"] = Qt::NoDropShadowWindowHint;
@@ -251,9 +244,6 @@ initializeQtConstantsMap()
     mapConstants[L"Qt.WA_WState_ExplicitShowHide"] = Qt::WA_WState_ExplicitShowHide;
     mapConstants[L"Qt.WA_ShowModal"] = Qt::WA_ShowModal;
     mapConstants[L"Qt.WA_MouseNoMask"] = Qt::WA_MouseNoMask;
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    mapConstants[L"Qt.WA_GroupLeader"] = Qt::WA_GroupLeader;
-#endif
     mapConstants[L"Qt.WA_NoMousePropagation"] = Qt::WA_NoMousePropagation;
     mapConstants[L"Qt.WA_Hover"] = Qt::WA_Hover;
     mapConstants[L"Qt.WA_InputMethodTransparent"] = Qt::WA_InputMethodTransparent;
@@ -282,9 +272,6 @@ initializeQtConstantsMap()
     mapConstants[L"Qt.WA_X11BypassTransientForHint"] = Qt::WA_X11BypassTransientForHint;
     mapConstants[L"Qt.WA_NativeWindow"] = Qt::WA_NativeWindow;
     mapConstants[L"Qt.WA_DontCreateNativeAncestors"] = Qt::WA_DontCreateNativeAncestors;
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    mapConstants[L"Qt.WA_MacVariableSize"] = Qt::WA_MacVariableSize;
-#endif
     mapConstants[L"Qt.WA_DontShowOnScreen"] = Qt::WA_DontShowOnScreen;
     mapConstants[L"Qt.WA_X11NetWmWindowTypeDesktop"] = Qt::WA_X11NetWmWindowTypeDesktop;
     mapConstants[L"Qt.WA_X11NetWmWindowTypeDock"] = Qt::WA_X11NetWmWindowTypeDock;
@@ -306,17 +293,11 @@ initializeQtConstantsMap()
     mapConstants[L"Qt.WA_WState_AcceptedTouchBeginEvent"] = Qt::WA_WState_AcceptedTouchBeginEvent;
     mapConstants[L"Qt.WA_TouchPadAcceptSingleTouchEvents"] = Qt::WA_TouchPadAcceptSingleTouchEvents;
     mapConstants[L"Qt.WA_X11DoNotAcceptFocus"] = Qt::WA_X11DoNotAcceptFocus;
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    mapConstants[L"Qt.WA_MacNoShadow"] = Qt::WA_MacNoShadow;
-#endif
 
     mapConstants[L"Qt.WA_AlwaysStackOnTop"] = Qt::WA_AlwaysStackOnTop;
     mapConstants[L"Qt.WA_TabletTracking"] = Qt::WA_TabletTracking;
     mapConstants[L"Qt.WA_ContentsMarginsRespectsSafeArea"] = Qt::WA_ContentsMarginsRespectsSafeArea;
     mapConstants[L"Qt.WA_AttributeCount"] = Qt::WA_AttributeCount;
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    mapConstants[L"Qt.AA_ImmediateWidgetCreation"] = Qt::AA_ImmediateWidgetCreation;
-#endif
     mapConstants[L"Qt.AA_DontShowIconsInMenus"] = Qt::AA_DontShowIconsInMenus;
     mapConstants[L"Qt.AA_NativeWindows"] = Qt::AA_NativeWindows;
     mapConstants[L"Qt.AA_DontCreateNativeWidgetSiblings"] = Qt::AA_DontCreateNativeWidgetSiblings;
@@ -329,19 +310,12 @@ initializeQtConstantsMap()
         = Qt::AA_SynthesizeTouchForUnhandledMouseEvents;
     mapConstants[L"Qt.AA_SynthesizeMouseForUnhandledTouchEvents"]
         = Qt::AA_SynthesizeMouseForUnhandledTouchEvents;
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    mapConstants[L"Qt.AA_UseHighDpiPixmaps"] = Qt::AA_UseHighDpiPixmaps;
-#endif
     mapConstants[L"Qt.AA_ForceRasterWidgets"] = Qt::AA_ForceRasterWidgets;
     mapConstants[L"Qt.AA_UseDesktopOpenGL"] = Qt::AA_UseDesktopOpenGL;
     mapConstants[L"Qt.AA_UseOpenGLES"] = Qt::AA_UseOpenGLES;
     mapConstants[L"Qt.AA_UseSoftwareOpenGL"] = Qt::AA_UseSoftwareOpenGL;
     mapConstants[L"Qt.AA_ShareOpenGLContexts"] = Qt::AA_ShareOpenGLContexts;
     mapConstants[L"Qt.AA_SetPalette"] = Qt::AA_SetPalette;
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    mapConstants[L"Qt.AA_EnableHighDpiScaling"] = Qt::AA_EnableHighDpiScaling;
-    mapConstants[L"Qt.AA_DisableHighDpiScaling"] = Qt::AA_DisableHighDpiScaling;
-#endif
     mapConstants[L"Qt.AA_UseStyleSheetPropagationInWidgetStyles"]
         = Qt::AA_UseStyleSheetPropagationInWidgetStyles;
     mapConstants[L"Qt.AA_DontUseNativeDialogs"] = Qt::AA_DontUseNativeDialogs;
@@ -663,12 +637,10 @@ initializeQtConstantsMap()
     mapConstants[L"Qt.Key_Dead_Small_Schwa"] = Qt::Key_Dead_Small_Schwa;
     mapConstants[L"Qt.Key_Dead_Capital_Schwa"] = Qt::Key_Dead_Capital_Schwa;
     mapConstants[L"Qt.Key_Dead_Greek"] = Qt::Key_Dead_Greek;
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     mapConstants[L"Qt.Key_Dead_Lowline"] = Qt::Key_Dead_Lowline;
     mapConstants[L"Qt.Key_Dead_Aboveverticalline"] = Qt::Key_Dead_Aboveverticalline;
     mapConstants[L"Qt.Key_Dead_Belowverticalline"] = Qt::Key_Dead_Belowverticalline;
     mapConstants[L"Qt.Key_Dead_Longsolidusoverlay"] = Qt::Key_Dead_Longsolidusoverlay;
-#endif
     mapConstants[L"Qt.Key_Back"] = Qt::Key_Back;
     mapConstants[L"Qt.Key_Forward"] = Qt::Key_Forward;
     mapConstants[L"Qt.Key_Stop"] = Qt::Key_Stop;
@@ -1228,11 +1200,11 @@ QtConstant(std::wstring name, bool& found)
     }
     std::map<std::wstring, int>::iterator it = mapConstants.find(name);
     if (it != mapConstants.end()) {
-        res = ArrayOf::doubleConstructor(mapConstants[name]);
+        res = ArrayOf::doubleScalar(mapConstants[name]);
         found = true;
     }
     return res;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

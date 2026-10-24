@@ -49,6 +49,10 @@
       });
     }
     
+    function escapeRegExp(str) {
+      return String(str).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
+
     function getQueryParam(name) {
       const params = new URLSearchParams(window.location.search);
       return params.get(name);
@@ -148,6 +152,18 @@
       }
     }
 
+    // add an extra query parameter to a URL (used to pass the search term along
+    // so the opened page can highlight it — feature (9))
+    function appendParam(urlStr, key, val) {
+      try {
+        const u = new URL(urlStr, window.location);
+        u.searchParams.set(key, val);
+        return u.toString();
+      } catch (e) {
+        return urlStr + (urlStr.includes('?') ? '&' : '?') + key + '=' + encodeURIComponent(val);
+      }
+    }
+
     // update home link to include lang
     const homeLink = document.querySelector('.home-summary-link');
     if (homeLink) {
@@ -176,7 +192,7 @@
                     item.content.substring(start, end) +
                     (end < item.content.length ? '...' : '');
           const highlightedSnippet = snippet.replace(
-            new RegExp(query, 'gi'),
+            new RegExp(escapeRegExp(query), 'gi'),
             match => `<strong>${match}</strong>`
           );
           snippet = highlightedSnippet;
@@ -239,7 +255,8 @@
             let html = `<p>${msg.found_results(results.length, query)}</p>`;
             
             results.forEach(result => {
-              const href = appendLangToUrl(result.url || result.path || './homepage.html');
+              let href = appendLangToUrl(result.url || result.path || './homepage.html');
+              if (query) { href = appendParam(href, 'highlight', query); }
               const safeTitle = escapeHTML(result.title || '');
               const safeSnippet = result.snippet || '';
               const safePath = escapeHTML(result.path || '');

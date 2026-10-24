@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>nflow_gui</module_name>
+  <chapter>éditeur nflow</chapter>
+  <chapter_description>
+    <p
+    >L'éditeur nflow est l'environnement de schéma-blocs de Nelson pour construire et simuler des systèmes dynamiques.</p>
+    <p
+    >Il fournit un éditeur visuel pour câbler blocs et sous-systèmes, enregistrer et charger des diagrammes au format JSON <b
+      >.nflow</b>, et lancer des simulations avec le moteur à pas fixe ou le solveur à pas variable (CVODES), avec détection de franchissement de zéro pour les blocs discontinus.</p>
+    <p
+    >Les diagrammes peuvent aussi être transformés en code C ou Rust autonome via le générateur de code.</p>
+    <p>NFlow est actuellement publié en version <b
+    >1.0.0-beta.1</b> : fonctionnel et testé, mais les détails de ses interfaces et de son format de fichier peuvent encore évoluer selon les retours.</p>
+  </chapter_description>
+</xmldoc>

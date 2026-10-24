@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>silhouette</keyword>
+  <short_description>Valeurs silhouette pour des donnees groupees.</short_description>
+  <syntax>
+    <syntax_item>s = silhouette(X, clust)</syntax_item>
+    <syntax_item>s = silhouette(X, clust, distance)</syntax_item>
+    <syntax_item>[s, h] = silhouette(...)</syntax_item>
+  </syntax>
+  <description><p><b>silhouette</b> calcule les valeurs silhouette a partir des distances deux a deux. Les handles graphiques sont retournes sous forme de tableau vide.</p></description>
+  <used_function>
+    <link linkend="${statistics}pdist2">pdist2</link>
+    <link linkend="${statistics}kmeans">kmeans</link>
+    <link linkend="${statistics}kmedoids">kmedoids</link>
+  </used_function>
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Calculer les valeurs silhouette pour deux groupes compacts.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[X = [0; 1; 10; 11];
+clust = [1; 1; 2; 2];
+s = silhouette(X, clust)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Calculer les silhouettes apres une classification k-means.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[X = [0 0; 0 1; 5 5; 5 6];
+idx = kmeans(X, 2, 'Start', [0 0; 5 5]);
+s = silhouette(X, idx, 'cityblock')]]></example_item_data>
+    </example_item>
+  </examples>
+</xmldoc>

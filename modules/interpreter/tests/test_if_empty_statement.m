@@ -7,8 +7,10 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
+%=============================================================================
 a = 0;
 if a == 1
 else
 end
-assert_isequal(a, 0);
+asserts.isequal(a, 0);

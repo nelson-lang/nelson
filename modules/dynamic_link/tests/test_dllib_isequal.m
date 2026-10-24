@@ -12,7 +12,7 @@ path_2 = modulepath('core', 'builtin');
 lib1 = dlopen(path_1);
 lib2 = dlopen(path_2);
 lib3 = dlopen(path_1);
-assert_istrue(isequal(lib1, lib1));
-assert_isfalse(isequal(lib1, lib2));
-assert_isfalse(isequal(lib1, lib3));
+asserts.istrue(isequal(lib1, lib1));
+asserts.isfalse(isequal(lib1, lib2));
+asserts.isfalse(isequal(lib1, lib3));
 %=============================================================================

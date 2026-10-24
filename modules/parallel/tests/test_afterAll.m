@@ -25,7 +25,7 @@ f2 = str2func('@(x) x / 10');
 c = afterAll(f, f2, nLhs);
 R = fetchOutputs(c);
 REF = [1:100]';
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================
 fevalqueue = pool.FevalQueue;
 cancelAll(fevalqueue);

@@ -10,50 +10,27 @@
 % <--AUDIO OUTPUT REQUIRED-->
 % <--SEQUENTIAL TEST REQUIRED-->
 %=============================================================================
+skip_testsuite(iswasm(), ...
+  'WebAssembly audio backend uses the portable handle display, not the PortAudio desktop property display.');
+%=============================================================================
 signal = rand(2, 44100) - 0.5;
 playObj = audioplayer(signal, 44100, 16);
 %=============================================================================
 R = evalc('disp(playObj)');
-REF = '  1×1 handle [audioplayer] 
-
-	SampleRate: 	44100
-	BitsPerSample: 	16
-	NumChannels: 	2
-	DeviceID: 	-1
-	CurrentSample: 	0
-	TotalSamples: 	44100
-	Running: 	off
-	StartFcn: 	''''
-	StopFcn: 	''''
-	TimerFcn: 	''''
-	TimerPeriod: 	0.050000
-	Tag: 	''''
-	UserData: 	[]
-	Type: 	''audioplayer''
-';
-assert_isequal(R, REF)
+asserts.istrue(contains(R, ['audioplayer ', _('with properties:')]));
+asserts.istrue(contains(R, 'SampleRate: 44100'));
+asserts.istrue(contains(R, 'BitsPerSample: 16'));
+asserts.istrue(contains(R, 'NumChannels: 2'));
+asserts.istrue(contains(R, 'TotalSamples: 44100'));
+asserts.istrue(contains(R, 'Running: off'));
+asserts.isfalse(contains(R, 'Show all properties'));
+asserts.istrue(contains(R, 'StartFcn'));
+asserts.istrue(contains(R, 'TimerFcn'));
 %=============================================================================
 R = evalc('display(playObj)');
-REF =  '
-playObj =
-
-  1×1 handle [audioplayer] 
-
-	SampleRate: 	44100
-	BitsPerSample: 	16
-	NumChannels: 	2
-	DeviceID: 	-1
-	CurrentSample: 	0
-	TotalSamples: 	44100
-	Running: 	off
-	StartFcn: 	''''
-	StopFcn: 	''''
-	TimerFcn: 	''''
-	TimerPeriod: 	0.050000
-	Tag: 	''''
-	UserData: 	[]
-	Type: 	''audioplayer''
-
-';
-assert_isequal(R, REF)
+asserts.istrue(contains(R, 'playObj ='));
+asserts.istrue(contains(R, ['audioplayer ', _('with properties:')]));
+asserts.istrue(contains(R, 'SampleRate: 44100'));
+asserts.isfalse(contains(R, 'Show all properties'));
+asserts.istrue(contains(R, 'StartFcn'));
 %=============================================================================

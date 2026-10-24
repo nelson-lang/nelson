@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>compan</keyword>
+  <short_description>Companion matrix.</short_description>
+  <syntax>
+    <syntax_item>A = compan(c)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>c</param_name>
+      <param_description>a vector of polynomial coefficients, in descending powers.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>A</param_name>
+      <param_description>the companion matrix whose first row is <b>-c(2:end) / c(1)</b> and whose first subdiagonal is ones.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>compan</b> returns the companion matrix of the polynomial whose coefficients are <b>c</b>.</p>
+    <p>The eigenvalues of the companion matrix are the roots of the polynomial, so <b>eig(compan(c))</b> and <b>roots(c)</b> return the same values.</p>
+    <p>For a vector of length n, the result is an (n-1)-by-(n-1) matrix. A single coefficient returns an empty matrix.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[A = compan([1 -6 11 -6])
+r = eig(A)
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${polynomial_functions}roots">roots</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${polynomial_functions}poly">poly</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

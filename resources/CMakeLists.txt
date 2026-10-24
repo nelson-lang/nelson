@@ -9,28 +9,39 @@
 # ==============================================================================
 include(GNUInstallDirs)
 # ==============================================================================
-if (NOT WITHOUT_GUI_MODULE)
-install(
-  DIRECTORY ${CMAKE_SOURCE_DIR}/resources
-  DESTINATION ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}
-  FILES_MATCHING
-  PATTERN "*.png")
-install(
-  DIRECTORY ${CMAKE_SOURCE_DIR}/resources
-  DESTINATION ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}
-  FILES_MATCHING
-  PATTERN "*.ico")
-install(
-  DIRECTORY ${CMAKE_SOURCE_DIR}/resources
-  DESTINATION ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}
-  FILES_MATCHING
-  PATTERN "*.svg")
-# ==============================================================================
-install(FILES ${CMAKE_SOURCE_DIR}/resources/fonts/Hack-Regular.ttf DESTINATION ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/resources/fonts)
-install(FILES ${CMAKE_SOURCE_DIR}/resources/fonts/LICENSE DESTINATION ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/resources/fonts)
-# ==============================================================================
-install(FILES ${CMAKE_SOURCE_DIR}/resources/qss/Combinear.qss DESTINATION ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/resources/qss)
-install(FILES ${CMAKE_SOURCE_DIR}/resources/qss/License.txt DESTINATION ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/resources/qss)
-# ==============================================================================
+if(NOT WITHOUT_GUI_MODULE)
+  install(
+    DIRECTORY ${CMAKE_SOURCE_DIR}/resources
+    DESTINATION ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}
+    FILES_MATCHING PATTERN "*.png"
+  )
+  install(
+    DIRECTORY ${CMAKE_SOURCE_DIR}/resources
+    DESTINATION ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}
+    FILES_MATCHING PATTERN "*.ico"
+  )
+  install(
+    DIRECTORY ${CMAKE_SOURCE_DIR}/resources
+    DESTINATION ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}
+    FILES_MATCHING PATTERN "*.svg"
+  )
+  # ==============================================================================
+  install(
+    FILES ${CMAKE_SOURCE_DIR}/resources/fonts/Hack-Regular.ttf
+    DESTINATION ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/resources/fonts
+  )
+  install(
+    FILES ${CMAKE_SOURCE_DIR}/resources/fonts/LICENSE
+    DESTINATION ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/resources/fonts
+  )
+  # ==============================================================================
+  install(
+    FILES ${CMAKE_SOURCE_DIR}/resources/qss/Combinear.qss
+    DESTINATION ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/resources/qss
+  )
+  install(
+    FILES ${CMAKE_SOURCE_DIR}/resources/qss/License.txt
+    DESTINATION ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/resources/qss
+  )
+  # ==============================================================================
 endif()
-# ==============================================================================

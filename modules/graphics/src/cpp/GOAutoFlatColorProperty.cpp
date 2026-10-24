@@ -19,5 +19,5 @@ GOAutoFlatColorProperty::GOAutoFlatColorProperty() : GORestrictedStringColorProp
 {
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

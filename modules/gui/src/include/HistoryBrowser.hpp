@@ -47,6 +47,5 @@ setTextForTextEditor(const std::wstring& text);
 NLSGUI_IMPEXP std::wstring
 getTextForTextEditor(bool withClear = true);
 //=============================================================================
-
 } // namespace Nelson
 //=============================================================================

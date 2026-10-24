@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>partialcorri</keyword>
+  <short_description>Coefficients de correlation partielle ajustes sur des variables internes.</short_description>
+  <syntax>
+    <syntax_item>rho = partialcorri(Y, X)</syntax_item>
+    <syntax_item>rho = partialcorri(Y, X, Z)</syntax_item>
+    <syntax_item>[rho, pval] = partialcorri(...)</syntax_item>
+    <syntax_item>[rho, pval] = partialcorri(..., Name, Value)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>partialcorri</b> calcule les correlations partielles entre chaque colonne de <b>Y</b> et chaque colonne de <b>X</b>, en ajustant sur les autres colonnes de <b>X</b>.</p>
+    <p>Quand <b>Z</b> est fourni, <b>X</b> et <b>Y</b> sont aussi controles par <b>Z</b>. Les options prises en charge sont <b>Type</b>, <b>Rows</b> et <b>Tail</b>.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[X = randn(20, 3);
+Y = randn(20, 2);
+rho = partialcorri(Y, X)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}partialcorr">partialcorr</link></see_also_item>
+    <see_also_item><link linkend="${statistics}corr">corr</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

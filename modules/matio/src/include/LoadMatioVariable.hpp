@@ -14,8 +14,11 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+class Evaluator;
+//=============================================================================
 bool
-LoadMatioVariable(matvar_t* matVariable, bool fromCellOrStruct, ArrayOf& VariableValue);
+LoadMatioVariable(
+    Evaluator* eval, matvar_t* matVariable, bool fromCellOrStruct, ArrayOf& VariableValue);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

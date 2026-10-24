@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>stem3</keyword>
+  <short_description>Display 3-D stem plot.</short_description>
+  <syntax>
+    <syntax_item>stem3(Z)</syntax_item>
+    <syntax_item>stem3(X, Y, Z)</syntax_item>
+    <syntax_item>stem3(..., LineSpec)</syntax_item>
+    <syntax_item>stem3(..., &apos;filled&apos;)</syntax_item>
+    <syntax_item>stem3(parent, ...)</syntax_item>
+    <syntax_item>h = stem3(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>Z</param_name>
+      <param_description>Stem heights: numeric vector or matrix.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description>X coordinates: numeric vector or matrix.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Y</param_name>
+      <param_description>Y coordinates: numeric vector or matrix.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>LineSpec</param_name>
+      <param_description>Line style, marker, and color specification.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>parent</param_name>
+      <param_description>Axes or hggroup parent.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>h</param_name>
+      <param_description>Stem graphics object.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>stem3</b> displays vertical stems from z = 0 to the values in <b>Z</b>, with markers at the stem tips.</p>
+    <p>The returned object is a <b>stem</b> graphics object. See <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.stem.properties">nelson.graphics.stem.properties</link> for supported properties.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Display a 3-D stem plot from a matrix.</example_item_description>
+      <example_item_data><![CDATA[Z = peaks(8);
+stem3(Z);]]></example_item_data>
+      <example_item_img src="../../../../images/stem3_1.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Specify coordinates and fill markers.</example_item_description>
+      <example_item_data><![CDATA[t = 0:0.2:2*pi;
+stem3(cos(t), sin(t), t, 'r--', 'filled');]]></example_item_data>
+      <example_item_img src="../../../../images/stem3_2.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/6_discrete_data_plots/stem">stem</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/1_line_plots/plot3">plot3</link></see_also_item>
+    <see_also_item><link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.stem.properties">nelson.graphics.stem.properties</link></see_also_item>
+  </see_also>
+</xmldoc>

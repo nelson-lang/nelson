@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>syncevents</keyword>
+  <short_description>Ajouter et synchroniser les variables de la table d&apos;evenements attachee a une timetable.</short_description>
+  <syntax>
+    <syntax_item>TT2 = syncevents(TT)</syntax_item>
+    <syntax_item>TT2 = syncevents(TT, defaultLabel)</syntax_item>
+    <syntax_item>TT2 = syncevents(..., 'EventDataVariables', vars)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>TT</param_name><param_description>Timetable d&apos;entree avec une table d&apos;evenements dans <b>TT.Properties.Events</b>.</param_description></param_input_item>
+    <param_input_item><param_name>defaultLabel</param_name><param_description>Scalaire : libelle des lignes sans evenement, converti dans le type des libelles d&apos;evenements.</param_description></param_input_item>
+    <param_input_item><param_name>vars</param_name><param_description>Variables de la table d&apos;evenements a copier : noms (tableau de string, vecteur de caracteres, cellule de vecteurs de caracteres), indices ou masque logique.</param_description></param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>TT2</param_name><param_description>Timetable avec les variables d&apos;evenements ajoutees.</param_description></param_output_item>
+  </param_output>
+  <description>
+    <p><b>syncevents</b> copie les variables de la table d&apos;evenements attachee a <b>TT</b> dans la timetable. Chaque ligne de <b>TT</b> recoit les valeurs des evenements qui ont lieu a son instant : un evenement sans duree ni fin correspond aux lignes a son instant, un evenement avec une duree ou une fin correspond aux lignes dans [instant, fin). Une ligne correspondant a plusieurs evenements est repetee, une fois par evenement, dans l&apos;ordre de la table d&apos;evenements. Les autres lignes recoivent des valeurs manquantes (NaN, NaT, &lt;missing&gt;, &lt;undefined&gt;, un vecteur de caracteres vide dans une cellule, 0 ou false).</p>
+    <p>Par defaut, toutes les variables de la table d&apos;evenements sont copiees sauf la variable des durees ou des fins d&apos;evenements. Avec <b>EventDataVariables</b>, seules les variables listees sont copiees, dans cet ordre.</p>
+    <p>Une variable copiee dont le nom est deja une variable de <b>TT</b> est ajoutee avec le suffixe <b>_et</b>, la variable de <b>TT</b> etant renommee avec le suffixe <b>_tt</b>. Les unites et descriptions des variables d&apos;evenements sont copiees. La table d&apos;evenements reste attachee au resultat.</p>
+    <p>Une erreur est levee quand aucune table d&apos;evenements n&apos;est attachee a <b>TT</b>. Pour attacher des evenements, affecter <b>TT.Properties.Events</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_data runnable="cli"><![CDATA[TT = timetable(seconds([1; 2; 3; 4]), [10; 20; 30; 40], 'VariableNames', {'A'});
+TT.Properties.Events = eventtable(seconds([2; 4]), 'EventLabels', ["start"; "stop"]);
+syncevents(TT)
+syncevents(TT, "none")
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_data runnable="cli"><![CDATA[TT = timetable(seconds((1:5)'), (1:5)', 'VariableNames', {'A'});
+E = timetable(seconds(1.5), "heat", seconds(2), 80, 'VariableNames', {'L', 'D', 'Power'});
+TT.Properties.Events = eventtable(E, 'EventLabelsVariable', 'L', 'EventLengthsVariable', 'D');
+syncevents(TT, 'EventDataVariables', "Power")
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${table}extractevents">extractevents</link></see_also_item>
+    <see_also_item><link linkend="${table}eventtable">eventtable</link></see_also_item>
+    <see_also_item><link linkend="${table}timetable">timetable</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item><history_version>2.0.0</history_version><history_description>version initiale</history_description></history_item>
+  </history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

@@ -17,5 +17,5 @@ void
 RepositorySwitchBranch(
     const std::wstring& localPath, const std::wstring& branch, std::wstring& errorMessage);
 //=============================================================================
-};
+} // namespace Nelson
 //=============================================================================

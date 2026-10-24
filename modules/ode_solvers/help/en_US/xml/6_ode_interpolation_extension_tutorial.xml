@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>ode interpolation extension tutorial</keyword>
+  <short_description>Interpolate and extend ODE solutions.</short_description>
+  <description>
+    <p>Call a solver with one output to get a solution structure. The structure stores accepted internal steps; array outputs such as <b>[t, y]</b> use requested or refined output points. Use <b>deval</b> to evaluate the solution structure at additional times.</p>
+    <table style="width:100%">
+  <tr><th>Task</th><th>Call</th><th>Notes</th></tr>
+  <tr><td>Interpolate</td><td><b>deval(sol, tq)</b></td><td>Evaluation points must stay inside the solution interval.</td></tr>
+  <tr><td>Get derivatives</td><td><b>[y, yp] = deval(sol, tq)</b></td><td>Derivative output follows the same column layout as <b>y</b>.</td></tr>
+  <tr><td>Continue</td><td><b>odextend(sol, odefun, tfinal)</b></td><td>Builds a new solution structure on the extended interval.</td></tr>
+</table>
+    <p>Use <b>odextend</b> to continue an integration from the final state while preserving solution metadata and events.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Evaluate a solution at requested points.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[sol = ode45(@(t,y) -y, [0 1], 1);
+values = deval(sol, [0 0.25 0.5 1])]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Extend a solution.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[sol = ode45(@(t,y) -y, [0 0.5], 1);
+extended = odextend(sol, @(t,y) -y, 1);
+value = deval(extended, 1)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ode_solvers}deval">deval</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}odextend">odextend</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}ode45">ode45</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

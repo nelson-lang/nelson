@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>polarscatter</keyword>
+  <short_description>Display scatter points in polar coordinates.</short_description>
+  <syntax>
+    <syntax_item>polarscatter(theta, rho)</syntax_item>
+    <syntax_item>polarscatter(theta, rho, sz)</syntax_item>
+    <syntax_item>polarscatter(theta, rho, sz, color)</syntax_item>
+    <syntax_item>polarscatter(tbl, thetavar, rhovar)</syntax_item>
+    <syntax_item>polarscatter(parent, ...)</syntax_item>
+    <syntax_item>h = polarscatter(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>polarscatter</b> displays marker data using polar angle and radius values.</p>
+    <p>Table input selects theta and radius data from variables in <b>tbl</b>. Multiple selected variables create multiple <b>scatter</b> objects.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Display filled polar markers.</example_item_description>
+      <example_item_data><![CDATA[theta = linspace(0, 2*pi, 24);
+rho = 1 + sin(3 * theta);
+polarscatter(theta, rho, 49, 'r', 'filled');]]></example_item_data>
+      <example_item_img src="../../../../images/polarscatter_1.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Create a polar scatter chart from a table.</example_item_description>
+      <example_item_data><![CDATA[t = table([0; pi/4; pi/2], [1; 2; 3], 'VariableNames', {'theta', 'rho'});
+h = polarscatter(t, 'theta', 'rho', 'filled');]]></example_item_data>
+      <example_item_img src="../../../../images/polarscatter_2.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/2_polar_plots/polarplot">polarplot</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/2_polar_plots/polarbubblechart">polarbubblechart</link></see_also_item>
+  </see_also>
+</xmldoc>

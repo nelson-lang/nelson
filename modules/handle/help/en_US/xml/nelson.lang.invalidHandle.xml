@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nelson.lang.invalidHandle</keyword>
+  <short_description>Create an invalid handle with a specified handle class.</short_description>
+  <syntax>
+    <syntax_item>h = nelson.lang.invalidHandle(classname)</syntax_item>
+    <syntax_item>h = nelson.lang.invalidHandle(classname, n)</syntax_item>
+    <syntax_item>h = nelson.lang.invalidHandle(classname, m, n, ...)</syntax_item>
+    <syntax_item>h = nelson.lang.invalidHandle(classname, sz)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>classname</param_name>
+      <param_description>name of a handle class as a character vector or string scalar.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>n, m, sz</param_name>
+      <param_description>nonnegative integer dimensions for the returned handle array.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>h</param_name>
+      <param_description>an invalid handle scalar or handle array whose class is <b>classname</b>.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>nelson.lang.invalidHandle</b> creates a handle value that has the requested handle class but is not valid.</p>
+    <p><b>isvalid(h)</b> returns false for every element of the result.</p>
+    <p>The class name must identify a classdef handle class. Value classes and unknown class names raise an error.</p>
+    <p>With no dimension arguments, the result is a scalar. With one numeric scalar dimension <b>n</b>, the result is <b>n</b>-by-<b>n</b>. With multiple scalar dimensions or a numeric vector <b>sz</b>, the result has those dimensions.</p>
+    <p>This function is useful for APIs that need to preserve the class of a missing handle target.</p>
+    <p>The returned value behaves like a handle array for class, size, concatenation with compatible handle arrays, and <b>isvalid</b>. It has no live object behind it.</p>
+    <p>Invalid handles are not made valid later. To obtain a live handle, construct a new object of the same class.</p>
+    <p>All dimensions must be nonnegative integer values. Empty dimension vectors create an empty handle array.</p>
+    <p>A single scalar dimension follows the same convention as common array constructors: <b>nelson.lang.invalidHandle(classname, 3)</b> returns a 3-by-3 array.</p>
+    <p>The class is loaded before the handle array is created. This allows user-defined handle classes on the path to be used by name.</p>
+    <p>Use <b>nelson.lang.HandlePlaceholder</b> when no more specific handle class is available.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Create an invalid placeholder handle.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[h = nelson.lang.invalidHandle('nelson.lang.HandlePlaceholder');
+class(h)
+isvalid(h)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Create an invalid handle array.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[h = nelson.lang.invalidHandle('nelson.lang.HandlePlaceholder', 2, 3);
+size(h)
+isvalid(h)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Create an invalid handle array from a size vector.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[h = nelson.lang.invalidHandle("nelson.lang.HandlePlaceholder", [1 4]);
+size(h)
+class(h)
+isvalid(h)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Use a user-defined handle class.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[d = [tempdir(), 'nelson_help_invalid_handle/'];
+mkdir(d);
+filewrite([d, '/NelsonHelpInvalidHandleTarget.m'], ["classdef NelsonHelpInvalidHandleTarget < handle"; "end"]);
+addpath(d);
+h = nelson.lang.invalidHandle('NelsonHelpInvalidHandleTarget');
+class(h)
+isvalid(h)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Reject a value class name.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[try
+  nelson.lang.invalidHandle('double');
+catch exception
+  disp(exception.message)
+end]]></example_item_data>
+    </example_item>
+  </examples>
+  <used_function />
+  <bibliography />
+  <see_also>
+    <see_also_item>
+      <link linkend="${handle}nelson.lang.WeakReference">nelson.lang.WeakReference</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}nelson.lang.HandlePlaceholder">nelson.lang.HandlePlaceholder</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}isvalid">isvalid</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${types}class">class</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

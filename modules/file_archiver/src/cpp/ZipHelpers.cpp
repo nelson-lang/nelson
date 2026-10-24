@@ -50,5 +50,58 @@ getRootPath(const std::wstring& rootpath)
     return normalizeZipPath(p.wstring());
 }
 //=============================================================================
+bool
+resolveSafeZipEntryPath(
+    const std::wstring& fullRootPath, const std::wstring& entryName, std::wstring& resolvedPath)
+{
+    if (entryName.empty()) {
+        return false;
+    }
+    // Reject backslash separators: the ZIP format mandates '/', and a backslash
+    // is a Windows-specific traversal / bypass vector.
+    if (entryName.find(L'\\') != std::wstring::npos) {
+        return false;
+    }
+    // Reject drive designators and NTFS alternate data streams ("C:...", "x:y").
+    if (entryName.find(L':') != std::wstring::npos) {
+        return false;
+    }
+    if (entryName.front() == L'/') {
+        return false;
+    }
+    // Reject any ".." path component (directory traversal).
+    size_t start = 0;
+    while (start < entryName.size()) {
+        size_t slash = entryName.find(L'/', start);
+        std::wstring component = (slash == std::wstring::npos)
+            ? entryName.substr(start)
+            : entryName.substr(start, slash - start);
+        if (component == L"..") {
+            return false;
+        }
+        if (slash == std::wstring::npos) {
+            break;
+        }
+        start = slash + 1;
+    }
+    // Final containment guard: the normalized destination must stay under the
+    // root directory (defends against any traversal the checks above missed).
+    FileSystemWrapper::Path candidate(fullRootPath + L"/" + entryName);
+    std::wstring normalized = candidate.generic_path().lexically_normal().generic_wstring();
+    std::wstring rootPrefix = fullRootPath;
+    if (rootPrefix.empty() || rootPrefix.back() != L'/') {
+        rootPrefix += L'/';
+    }
+    std::wstring normalizedWithSep = normalized;
+    if (normalizedWithSep.empty() || normalizedWithSep.back() != L'/') {
+        normalizedWithSep += L'/';
+    }
+    if (!StringHelpers::starts_with(normalizedWithSep, rootPrefix)) {
+        return false;
+    }
+    resolvedPath = normalized;
+    return true;
+}
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

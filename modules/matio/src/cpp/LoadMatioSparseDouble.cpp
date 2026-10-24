@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,7 +9,7 @@
 //=============================================================================
 #include <cstring>
 #include "LoadMatioSparseDouble.hpp"
-#include "Exception.hpp"
+#include "NelsonException.hpp"
 #include "matioHelpers.hpp"
 #include "SparseConstructors.hpp"
 //=============================================================================
@@ -43,9 +43,9 @@ LoadMatioSparseDouble(matvar_t* matVariable, ArrayOf& VariableValue)
     ArrayOf J;
     ArrayOf V;
     if (dims.isEmpty(false)) {
-        I = ArrayOf::emptyConstructor();
-        J = ArrayOf::emptyConstructor();
-        V = ArrayOf::emptyConstructor(dims);
+        I = ArrayOf::empty();
+        J = ArrayOf::empty();
+        V = ArrayOf::empty(dims);
         if (matVariable->isComplex != 0) {
             V.promoteType(NLS_DCOMPLEX);
         } else {
@@ -57,7 +57,7 @@ LoadMatioSparseDouble(matvar_t* matVariable, ArrayOf& VariableValue)
         void* ptrR = nullptr;
         try {
             ptrR = ArrayOf::allocateArrayOf(NLS_INT32, nbR, stringVector(), false);
-        } catch (Exception&) {
+        } catch (NelsonException&) {
             return false;
         }
         memcpy(ptrR, sparseData->ir, nbR * sizeof(int32));
@@ -71,7 +71,7 @@ LoadMatioSparseDouble(matvar_t* matVariable, ArrayOf& VariableValue)
         void* ptrC = nullptr;
         try {
             ptrC = ArrayOf::allocateArrayOf(NLS_INT32, nbR, stringVector(), false);
-        } catch (Exception&) {
+        } catch (NelsonException&) {
             return false;
         }
         auto* iptC = static_cast<int32*>(ptrC);
@@ -93,7 +93,7 @@ LoadMatioSparseDouble(matvar_t* matVariable, ArrayOf& VariableValue)
             } else {
                 ptrV = ArrayOf::allocateArrayOf(NLS_DOUBLE, nbV, stringVector(), false);
             }
-        } catch (Exception&) {
+        } catch (NelsonException&) {
             return false;
         }
         if (matVariable->isComplex != 0) {

@@ -11,6 +11,7 @@
 #include "DynamicLinkSymbolObject.hpp"
 #include "HandleManager.hpp"
 #include "i18n.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -18,7 +19,10 @@ bool
 DeleteDynamicLinkSymbolObject(const ArrayOf& A)
 {
     return DeleteHandleObjects<DynamicLinkSymbolObject>(A, NLS_HANDLE_DLSYM_CATEGORY_STR,
-        _W("dlsym handle expected."), _W("dlsym valid handle expected."));
+        Nelson::resolveMessageTemplate(
+            L"Nelson:dynamic_link:dlsymHandle", L"dlsym handle expected."),
+        resolveMessageTemplate(
+            L"Nelson:dynamic_link:dlsymValidHandle", L"dlsym valid handle expected."));
 }
 //=============================================================================
 } // namespace Nelson

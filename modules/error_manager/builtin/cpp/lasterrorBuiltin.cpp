@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "lasterrorBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "ErrorToStruct.hpp"
 #include "IsErrorStruct.hpp"
@@ -24,24 +25,33 @@ Nelson::ErrorManagerGateway::lasterrorBuiltin(Evaluator* eval, int nLhs, const A
     if (argIn.size() == 1) {
         ArrayOf arg1 = argIn[0];
         if (arg1.isRowVectorCharacterArray()) {
-            std::wstring str = arg1.getContentAsWideString();
+            std::wstring str = arg1.asWideString();
             if (str == L"reset") {
-                eval->setLastErrorException(Exception());
+                eval->setLastErrorException(NelsonException());
             } else {
-                Error(_W("Wrong value for #2 input argument.") + _W("'reset' expected."));
+                RaiseError(formatI18nMessage(Nelson::resolveMessageTemplate(
+                                                 L"Nelson:error_manager:wrongValueForArgument",
+                                                 L"Wrong value for #%d argument."),
+                               2)
+                        + formatI18nMessage(
+                            Nelson::resolveMessageTemplate(
+                                L"Nelson:error_manager:expected", L"'%s' expected."),
+                            L"reset"),
+                    L"Nelson:lasterror:invalidValue");
             }
         } else if (arg1.isStruct()) {
-            Exception e;
+            NelsonException e;
             if (IsErrorStruct(arg1, e)) {
                 eval->setLastErrorException(e);
             } else {
-                Error(ERROR_WRONG_ARGUMENT_2_VALUE);
+                Error(L"Nelson:invalidValue", L"Wrong value for #%d argument.", (2));
             }
         } else {
-            Error(ERROR_WRONG_ARGUMENT_2_TYPE + _W("a structure or the string 'reset' expected."));
+            Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1),
+                L"structure or the string 'reset'");
         }
     }
-    Exception lasterror = eval->getLastErrorException();
+    NelsonException lasterror = eval->getLastErrorException();
     retval << ErrorToStruct(lasterror);
     return retval;
 }

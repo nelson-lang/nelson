@@ -10,27 +10,41 @@
 function varargout = normest(varargin)
   nargoutchk(0, 2);
   narginchk(1, 2);
-  
+
   A = varargin{1};
-  
-  if (~isnumeric(A) || (ndims(A) ~= 2))
-    error(_('An numeric 2-D matrix expected.'));
+
+  if ((~isnumeric(A) && ~islogical(A)) || (ndims(A) ~= 2))
+    error('Nelson:elementary_functions:numeric2DMatrixExpected', 'An numeric 2-D matrix expected.');
   end
-  
+  if (islogical(A))
+    A = double(A);
+  end
+
   if nargin == 2
     tolerance = varargin{2};
-    if (~ (isscalar (tolerance) && isreal(tolerance)))
-      error (_('tolerance must be a real scalar.'));
+    if (~isempty(tolerance) && ~(isscalar(tolerance) && isnumeric(tolerance)))
+      error('Nelson:elementary_functions:toleranceNumericScalar', '%s must be a numeric scalar.', 'tolerance');
     end
-  else 
+    tolerance = real(tolerance);
+    if (~isempty(tolerance) && (~isfinite(tolerance) || tolerance < 0))
+      error('Nelson:elementary_functions:toleranceNonNegativeFiniteScalar', 'tolerance must be a nonnegative finite scalar.');
+    end
+  else
     tolerance = 1.e-6;
   end
-  tolerance = max (tolerance, eps(class (A)));
-  maxIteration = 100; 
+  maxIteration = 100;
   x = full(sum(abs(A), 1))';
+  if (~isreal(A))
+    x = x + zeros(size(x), class(x)) * 1i;
+  end
   count = 0;
   matrixNorm = norm(x);
   if (matrixNorm == 0)
+    varargout{1} = matrixNorm;
+    varargout{2} = count;
+    return;
+  end
+  if (isempty(tolerance))
     varargout{1} = matrixNorm;
     varargout{2} = count;
     return;
@@ -49,8 +63,7 @@ function varargout = normest(varargin)
     x = x / normx;
     count = count + 1;
     if (count > maxIteration)
-      msg = sprintf(_('normest did not converge for %d iterations with tolerance %g'), maxIteration, tolerance); 
-      warning('Nelson:normest:notconverge', msg);
+      warning('Nelson:normest:notconverge', 'normest did not converge for %d iterations with tolerance %g', maxIteration, tolerance);
       break;
     end
   end

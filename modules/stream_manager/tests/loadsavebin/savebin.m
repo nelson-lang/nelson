@@ -15,7 +15,7 @@ function savebin(varargin)
   tag_nlbfile = 96;
   
   if (nargin == 0)
-    error(_('Wrong number of input arguments.'))
+    error(_('Not enough input arguments.'))
   end
   filename = varargin{1};
   if nargin == 1
@@ -27,7 +27,7 @@ function savebin(varargin)
     names = {};
     for k = 2:nargin()
       if (~ischar(varargin{k}))
-        error(_('Wrong type for argument #1. string expected.'))
+        error(sprintf(_('Wrong type for argument #%d: string expected.'), 1))
       end
       names{k - 1} = varargin{k};
       mtx{k - 1} = acquirevar('caller', names{k - 1});
@@ -35,7 +35,7 @@ function savebin(varargin)
   end
   fw = fopen(filename,'wb');
   if (fw == -1)
-    error([_('Impossible to open: '), filename]);
+    error(sprintf(_('Cannot open file: %s'), filename));
   end
   
   fwrite(fw, tag_nlbfile, 'int', 'l');
@@ -56,7 +56,13 @@ function savebin(varargin)
 end
 %=============================================================================
 function save_data(fd, data)
-  if isclass(data)
+  if issparse(data)
+    if islogical(data)
+      function_save = 'sparselogical_save_data';
+    else
+      function_save = 'sparsedouble_save_data';
+    end
+  elseif isclass(data)
     function_save = 'class_save_data';
   else
     function_save = [class(data), '_save_data'];
@@ -75,12 +81,12 @@ function sparse_save_data(fd, data)
 end
 %=============================================================================
 function sparsedouble_save_data(fd, data)
-  fwrite(fd, int64(typebin(class(data))), 'int64', 'l');
+  fwrite(fd, int64(typebin('sparsedouble')), 'int64', 'l');
   sparse_save_data(fd, data);
 end
 %=============================================================================
 function sparselogical_save_data(fd, data)
-  fwrite(fd, int64(typebin(class(data))), 'int64', 'l');
+  fwrite(fd, int64(typebin('sparselogical')), 'int64', 'l');
   sparse_save_data(fd, data)
 end
 %=============================================================================

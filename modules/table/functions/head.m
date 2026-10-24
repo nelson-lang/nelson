@@ -8,24 +8,24 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function varargout = head(varargin)
-    narginchk(1, 2);
-    nargoutchk(0, 1);
-    if nargin < 2
-        k = 8;
-    else
-        k = varargin{2};
-    end
-    A = varargin{1};
-    k = min(k, size(A, 1));
-    mustBeInteger(k, 2);
-    mustBeGreaterThanOrEqual(k, 0, 2);
-    out = A(1:k, :);
+  narginchk(1, 2);
+  nargoutchk(0, 1);
+  if nargin < 2
+    k = 8;
+  else
+    k = varargin{2};
+  end
+  A = varargin{1};
+  k = min(k, size(A, 1));
+  mustBeInteger(k, 2);
+  mustBeGreaterThanOrEqual(k, 0, 2);
+  out = A(1:k, :);
 
-    if nargout > 0
-        varargout{1} = out;
-    else
-        disp(out);
-    end    
+  if nargout > 0
+    varargout{1} = out;
+  else
+    disp(out);
+  end
 end
 %=============================================================================
-  
+

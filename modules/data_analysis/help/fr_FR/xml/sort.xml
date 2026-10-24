@@ -10,6 +10,7 @@
     <syntax_item>B = sort(A, dim)</syntax_item>
     <syntax_item>B = sort(..., direction)</syntax_item>
     <syntax_item>B = sort(..., name, value)</syntax_item>
+    <syntax_item>B = sort(A, dim, direction, name, value)</syntax_item>
     <syntax_item>[B, I] = sort(...) </syntax_item>
   </syntax>
   <param_input>
@@ -44,8 +45,10 @@
     </param_output_item>
   </param_output>
   <description>
+    <p>Avec deux sorties, les éléments dont les clés de tri sont équivalentes conservent leur ordre initial. Les indices renvoyés pour des valeurs équivalentes sont croissants dans chaque groupe, quel que soit le sens du tri.</p>
     <p>
       <b>sort</b> implémente l&apos;algorithme de tri rapide.</p>
+    <p>Les paires nom-valeur peuvent être utilisées après la dimension et le sens du tri.</p>
     <p>Arguments paires nom-valeur :</p>
     <p>
       <b>
@@ -67,6 +70,8 @@
       </b>, <b>
         &apos;abs&apos;
       </b>.</p>
+    <p>Avec 'MissingPlacement' défini à 'last', les valeurs présentes sont triées dans le sens demandé et les valeurs manquantes sont placées après elles. Cette règle s'applique avec une ou deux sorties. Une chaîne manquante est distincte d'une chaîne vide.</p>
+    <p>Une valeur complexe est manquante si au moins une composante est NaN. Ces valeurs conservent leur ordre initial avec une ou deux sorties, y compris leur composante présente, pour chaque placement des valeurs manquantes et sens du tri.</p>
   </description>
   <used_function>qsort (stl)</used_function>
   <bibliography

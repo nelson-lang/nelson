@@ -10,6 +10,8 @@
 function varargout = __subsref__(varargin)
   A = varargin{1};
   S = varargin{2};
+  % each indexing step applies to the result of the previous one
+  R = {A};
   for k = 1:numel(S)
     switch (S(k).type)
       case '()'
@@ -19,9 +21,12 @@ function varargout = __subsref__(varargin)
       case '.'
         R = {A.(S(k).subs)};
       otherwise
-        error(_('Illegal indexing structure argument: type ''.'', ''{}'' or ''()'' expected.'));
+        error('Nelson:__subsref__:expected2', '%s expected.', 'Illegal indexing structure argument: type ''.'', ''{}'' or ''()''');
+    end
+    if k < numel(S)
+      A = R{1};
     end
   end
-   varargout = R;
+  varargout = R;
 end
 %=============================================================================

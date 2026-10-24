@@ -19,5 +19,12 @@ normalizeZipPath(const std::wstring& path);
 std::wstring
 getRootPath(const std::wstring& rootpath);
 //=============================================================================
+// ZIP-slip guard. Rejects backslashes, ':' (drive or stream), absolute paths and
+// ".." components, then checks that the normalized destination stays under
+// fullRootPath. On success sets resolvedPath and returns true.
+bool
+resolveSafeZipEntryPath(
+    const std::wstring& fullRootPath, const std::wstring& entryName, std::wstring& resolvedPath);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

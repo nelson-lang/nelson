@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>iscategory</keyword>
+  <short_description>Determiner si des noms sont des categories.</short_description>
+  <syntax><syntax_item>tf = iscategory(A, names)</syntax_item></syntax>
+  <param_input>
+    <param_input_item><param_name>A</param_name><param_description>Tableau categoriel d'entree.</param_description></param_input_item>
+    <param_input_item><param_name>names</param_name><param_description>Nom de categorie, tableau de strings, tableau de cellules de chaines de caracteres ou pattern a tester.</param_description></param_input_item>
+  </param_input>
+  <param_output><param_output_item><param_name>tf</param_name><param_description>Resultat logique de meme taille que <b>names</b>, sauf pour un pattern ou le resultat est scalaire.</param_description></param_output_item></param_output>
+  <description>
+    <p><b>iscategory</b> teste si les noms demandes sont presents dans la liste des categories de <b>A</b>.</p>
+    <p>Les elements non definis ne creent pas de categorie.</p>
+  </description>
+  <examples><example_item><example_item_type>nelson</example_item_type><example_item_description>Tester plusieurs noms de categories.</example_item_description><example_item_data runnable="cli"><![CDATA[A = categorical({'red','blue'}); tf = iscategory(A, {'red','green'})]]></example_item_data></example_item></examples>
+  <see_also>
+    <see_also_item><link linkend="${categorical}categories">categories</link></see_also_item>
+    <see_also_item><link linkend="${categorical}addcats">addcats</link></see_also_item>
+    <see_also_item><link linkend="${categorical}removecats">removecats</link></see_also_item>
+    <see_also_item><link linkend="${categorical}isundefined">isundefined</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -27,6 +27,13 @@
   <description>
     <p>
       <b>C = mpower(A, B)</b> effectue l&apos;opération de puissance matricielle : A^B</p>
+    <p>
+      Les matrices carrees sparse single et sparse single complexes sont prises en charge pour
+      les exposants entiers scalaires. Le resultat conserve le stockage sparse quand la puissance
+      peut etre calculee sans convertir la matrice en pleine.</p>
+    <p>
+      Pour les exposants scalaires non entiers, Nelson utilise un repli par fonction matricielle
+      dense lorsque la classe sparse d'entree le permet.</p>
   </description>
   <used_function />
   <bibliography />
@@ -39,6 +46,12 @@
       ><![CDATA[mpower(3, 4)
 3^4]]></example_item_data>
     </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Puissance matricielle sparse single.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[S = sparse(single([2 1; 0 3]));
+C = S ^ 2]]></example_item_data>
+    </example_item>
   </examples>
   <see_also>
     <see_also_item>
@@ -49,6 +62,10 @@
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>prise en charge des matrices sparse single et sparse single complexes.</history_description>
     </history_item>
   </history>
   <authors>

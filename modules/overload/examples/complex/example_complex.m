@@ -7,10 +7,11 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-addpath([nelsonroot(), '/modules/overload/examples/complex']);
-c = complexObj(3,4);
-c(23,44)
+previousPath = addpath([modulepath('overload'), '/examples/complex']);
+cleanupPath = onCleanup(@() path(previousPath));
+c = complexObj(3, 4);
+c(23, 44)
 c
 c + c
+clear cleanupPath;
 %=============================================================================
-

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nelson.ode.ODEResults</keyword>
+  <short_description>Objet resultat retourne par solve sur un objet ode.</short_description>
+  <syntax>
+    <syntax_item>result = solve(problem, tfinal)</syntax_item>
+    <syntax_item>result = solve(problem, t0, tfinal)</syntax_item>
+    <syntax_item>result = nelson.ode.ODEResults(sol)</syntax_item>
+  </syntax>
+  <description>
+    <p>
+      <b>nelson.ode.ODEResults</b> stocke le resultat d'une integration realisee avec le workflow objet <b>ode</b>. L'appel de <b>solve</b> sur un objet <b>ode</b> retourne une instance de cette classe.</p>
+    <table style="width:100%">
+  <tr><th>Propriete</th><th>Contenu</th></tr>
+  <tr><td><b>Time</b></td><td>Vecteur ligne des points de temps de l'integration.</td></tr>
+  <tr><td><b>Solution</b></td><td>Matrice des valeurs de la solution, une ligne par composante et une colonne par point de temps.</td></tr>
+  <tr><td><b>Sensitivity</b></td><td>Valeurs de sensibilite lorsqu'une analyse de sensibilite est demandee, vide sinon.</td></tr>
+  <tr><td><b>EventTime</b></td><td>Instants auxquels des evenements ont ete detectes, vide lorsqu'aucune fonction d'evenement n'est definie.</td></tr>
+  <tr><td><b>EventSolution</b></td><td>Valeurs de la solution aux evenements detectes.</td></tr>
+  <tr><td><b>EventIndex</b></td><td>Indices des fonctions d'evenement declenchees.</td></tr>
+  <tr><td><b>EventSensitivity</b></td><td>Valeurs de sensibilite aux evenements detectes, vide sinon.</td></tr>
+  <tr><td><b>AdjointGradient</b></td><td>Gradient calcule par analyse de sensibilite adjointe, vide sinon.</td></tr>
+</table>
+    <p>La classe porte aussi les proprietes cachees <b>RawSolution</b> (la structure de solution sous-jacente, utilisable avec <b>deval</b> et <b>odextend</b>), <b>SolutionValues</b> (la transposee de <b>Solution</b>, une ligne par point de temps) et <b>Stats</b> (les statistiques du solveur lorsqu'elles sont disponibles).</p>
+    <p>Le constructeur <b>nelson.ode.ODEResults(sol)</b> construit un objet resultat a partir d'une structure de solution comportant au moins les champs <b>x</b> et <b>y</b>, telle que la structure retournee par les fonctions solveurs. Les proprietes d'evenement et de sensibilite sont remplies a partir des champs optionnels <b>xe</b>, <b>ye</b>, <b>ie</b>, <b>sensitivity</b>, <b>eventSensitivity</b> et <b>adjointGradient</b>. Appele sans argument, le constructeur retourne un objet dont toutes les proprietes sont vides.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Resoudre un probleme et inspecter l'objet resultat.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[problem = ode('ODEFcn', @(t,y) -y, 'InitialValue', 1);
+result = solve(problem, 0, 2);
+class(result)
+result.Time(end)
+result.Solution(:, end)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ode_solvers}ode">ode</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}deval">deval</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

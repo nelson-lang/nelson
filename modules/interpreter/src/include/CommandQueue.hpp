@@ -9,11 +9,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <atomic>
 #include <string>
 #include "nlsInterpreter_exports.h"
 #include "QueueCommon.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
 namespace detail {
     struct CommandQueueTraits
     {
@@ -35,13 +37,18 @@ namespace detail {
             return false;
         }
     };
+    //=============================================================================
 } // namespace detail
-
+//=============================================================================
 class NLSINTERPRETER_IMPEXP CommandQueue
     : private detail::QueueCommon<std::wstring, detail::CommandQueueTraits>
 {
 private:
     using Base = detail::QueueCommon<std::wstring, detail::CommandQueueTraits>;
+    std::atomic<size_t> pendingCount { 0 };
+
+    void
+    decrementPendingCount();
 
 public:
     CommandQueue();

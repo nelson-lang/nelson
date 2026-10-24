@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,8 +10,8 @@
 #include "FFTWwrapperBuiltin.hpp"
 #include "FFTWDynamicLibrary.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
-#include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -21,29 +21,31 @@ Nelson::FftwGateway::FFTWwrapperBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
+    nargincheck(argIn, 1, 3);
     switch (argIn.size()) {
     case 1: {
-        std::wstring param1 = argIn[0].getContentAsWideString();
+        std::wstring param1 = argIn[0].asWideString();
         if (param1 == L"load") {
-            retval << ArrayOf::logicalConstructor(loadFFTWLibrary());
+            retval << ArrayOf::logicalScalar(loadFFTWLibrary());
         } else if (param1 == L"free") {
-            retval << ArrayOf::logicalConstructor(freeFFTWLibrary());
+            retval << ArrayOf::logicalScalar(freeFFTWLibrary());
         } else {
-            Error(_W("Wrong value for #1: 'load' or 'free' expected."));
+            Error(L"Nelson:fftw:optionValueExpected", L"%s expected.",
+                L"Wrong value for #1: 'load' or 'free'");
         }
     } break;
     case 3: {
-        std::wstring param1 = argIn[0].getContentAsWideString();
+        std::wstring param1 = argIn[0].asWideString();
         if (param1 == L"load") {
-            std::wstring fftwName = argIn[0].getContentAsWideString();
-            std::wstring fftwfName = argIn[1].getContentAsWideString();
-            retval << ArrayOf::logicalConstructor(loadFFTWLibrary(fftwName, fftwfName));
+            std::wstring fftwName = argIn[0].asWideString();
+            std::wstring fftwfName = argIn[1].asWideString();
+            retval << ArrayOf::logicalScalar(loadFFTWLibrary(fftwName, fftwfName));
         } else {
-            Error(_W("Wrong value for #1: 'load' expected."));
+            Error(L"Nelson:fftw:invalidOption", L"Wrong value for #%d: '%s' expected.", 1, L"load");
         }
     } break;
     default: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(L"Nelson:wrongNumberOfInputs", L"Wrong number of input arguments.");
     } break;
     }
     return retval;

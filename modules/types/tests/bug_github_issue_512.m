@@ -12,15 +12,15 @@
 % <-- Short Description -->
 % Assign must not change left assign type when it is possible
 %=============================================================================
-A = single(eye(3,3));
-A(1,1) = 'f';
-assert_isequal(class(A), 'single')
-A(2,2) = int32(4);
-assert_isequal(class(A), 'single')
-A(3,3) = 3;
-assert_isequal(class(A), 'single')
+A = single(eye(3, 3));
+A(1, 1) = 'f';
+asserts.isequal(class(A), 'single')
+A(2, 2) = int32(4);
+asserts.isequal(class(A), 'single')
+A(3, 3) = 3;
+asserts.isequal(class(A), 'single')
 REF = single([102, 0, 0; 0 4 0; 0 0 3]);
-assert_isequal(A, REF)
-A(1,:) = [0 1 0];
-assert_isequal(class(A), 'single')
+asserts.isequal(A, REF)
+A(1, :) = [0 1 0];
+asserts.isequal(class(A), 'single')
 %=============================================================================

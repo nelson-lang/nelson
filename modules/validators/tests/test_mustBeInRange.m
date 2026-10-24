@@ -9,12 +9,12 @@
 %=============================================================================
 % <--ENGLISH IMPOSED-->
 %=============================================================================
-assert_isequal(nargin('mustBeInRange'), -3);
-assert_isequal(nargout('mustBeInRange'), 0);
+asserts.isequal(nargin('mustBeInRange'), -3);
+asserts.isequal(nargout('mustBeInRange'), 0);
 %=============================================================================
-mustBeInRange(3,3,3)
-mustBeInRange(3,3,3,'inclusive')
-mustBeInRange(3,2,4,'exclude-lower', 'exclude-upper')
+mustBeInRange(3, 3, 3)
+mustBeInRange(3, 3, 3, 'inclusive')
+mustBeInRange(3, 2, 4, 'exclude-lower', 'exclude-upper')
 %=============================================================================
-assert_checkerror('mustBeInRange(3,3,3,''exclusive'')', _('Value must be in range.'), 'Nelson:validators:LeftOpenRightOpen');
+asserts.checkerror('mustBeInRange(3,3,3,''exclusive'')', sprintf(_('%s must be in range.'), 'Value'), 'Nelson:validators:LeftOpenRightOpen');
 %=============================================================================

@@ -13,64 +13,64 @@ function varargout = c2d(varargin)
   % sysd = c2d(sysc, Ts)
   % sysd = c2d(sysc, Ts, method)
   % sysd = c2d(sysc, Ts, 'prewarp', w0)
-  
+
   narginchk(2, 4);
   nargoutchk(0, 1);
-  
+
   sys = varargin{1};
   Ts = varargin{2};
   mustBeNumeric(Ts, 2);
   if ~isscalar(Ts);
-    error(_('Wrong size for input argument #2: scalar expected.'));
+    error('Nelson:control_system:wrongSize', 'Wrong size for argument #%d: %s expected.', 2, 'scalar');
   end
-  
+
   if ~isct(sys)
-    error(_('Continuous model expected.'));
+    error('Nelson:control_system:invalidType', '%s expected.', 'Continuous model');
   end
   if (Ts < 0)
-    error(_('Ts must be finite positive scalar.'));
+    error('Nelson:control_system:invalidSampleTime', 'Ts must be finite positive scalar.');
   end
-  
+
   w0 = 0;
   method = 'Z';
-  
+
   if nargin > 2
     method = toupper(convertStringsToChars(varargin{3}));
     if ~contains(method(1), {'Z', 'P', 'T'})
-      error(_('Wrong value for #3 input argument: valid method expected.'));
+      error('Nelson:control_system:wrongValue', 'Wrong value for argument #%d: %s expected.', 3, 'valid method');
     end
     method = method(1);
   end
-  
-  if nargin > 3 
+
+  if nargin > 3
     if ~strcmp(method, 'P')
-      error(_("Wrong value for #3 argument: 'prewarp' method expected."));
-      end
-      w0 = varargin{4};
-      mustBeNumeric(w0, 4);
-      if ~isscalar(w0)
-        error(_('Wrong size for input argument #4: scalar expected.'));
-      end
-      mustBePositive(w0, 4);
-      mustBeFinite(w0, 4);
+      error('Nelson:control_system:prewarpMethodExpected', 'Wrong value for #%d argument: ''prewarp'' method expected.', 3);
     end
-    
-    if (method == 'Z')
-      sysd = c2d_zoh(sys, Ts);
-    else
-      if (method == 'T')
-        beta = 2 / Ts;
-      else
-        beta = w0 / tan (w0 * (Ts / 2));
-        if (w0 >= pi / Ts)
-          error(_('The prewarp frequency, also known as the critical frequency, should be less than the Nyquist frequency.'));
-        end
-      end
-      sysd = c2d_bilinear(sys, beta, Ts);
+    w0 = varargin{4};
+    mustBeNumeric(w0, 4);
+    if ~isscalar(w0)
+      error('Nelson:control_system:wrongSize', 'Wrong size for argument #%d: %s expected.', 4, 'scalar');
     end
-    varargout{1} = sysd;
+    mustBePositive(w0, 4);
+    mustBeFinite(w0, 4);
   end
-  %=============================================================================
+
+  if (method == 'Z')
+    sysd = c2d_zoh(sys, Ts);
+  else
+    if (method == 'T')
+      beta = 2 / Ts;
+    else
+      beta = w0 / tan(w0 * (Ts / 2));
+      if (w0 >= pi / Ts)
+        error('Nelson:control_system:invalidValue:prewarpFrequencyAlsoKnownCriticalFrequency', 'The prewarp frequency, also known as the critical frequency, should be less than the Nyquist frequency.');
+      end
+    end
+    sysd = c2d_bilinear(sys, beta, Ts);
+  end
+  varargout{1} = sysd;
+end
+%=============================================================================
 function sysd = c2d_zoh(sys, Ts)
   % Get info
   A = sys.A;
@@ -84,7 +84,7 @@ function sysd = c2d_zoh(sys, Ts)
   a2 = size(A, 2) + size(B, 2) - size(B, 1);
   b2 = size(B, 2);
   % Compute square matrix
-  M = [A B; zeros(a1, b1)	zeros(a2, b2)];
+  M = [A B; zeros(a1, b1) zeros(a2, b2)];
   M = expm(M * Ts);
   % Find the discrete matrecies
   Ad = M(1:size(A, 1), 1:size(A, 2));
@@ -105,7 +105,7 @@ function sysd = c2d_bilinear(sys, beta, Ts)
     BETA = beta;
     [A_OUT, B_OUT, C_OUT, D_OUT, INFO] = slicot_ab04md(TYPE, ALPHA, BETA, A, B, C, D);
     if (INFO(1) ~= 0)
-      error(_('slicot_ab04md fails.'));
+      error('Nelson:control_system:slicotError', 'slicot_ab04md fails.');
     end
     sysd = sys;
     sysd.A = A_OUT;

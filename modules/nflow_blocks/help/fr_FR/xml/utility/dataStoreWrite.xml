@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>dataStoreWrite</keyword>
+  <keyword_alias>block:dataStoreWrite</keyword_alias>
+  <short_description>Ecrit son entree dans la memoire de donnees nommee.</short_description>
+  <syntax>
+    <syntax_item>Type de bloc : dataStoreWrite</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>ports d entree</param_name>
+      <param_description>1 port(s) d entree declare(s).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>ports de sortie</param_name>
+      <param_description>Aucun port de sortie (ce bloc n en a aucun).</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Ecrit son entree dans la memoire de donnees nommee.</p>
+    <table border="1">
+      <tbody>
+        <tr><td>Module</td><td><code>nflow_blocks</code></td></tr>
+        <tr><td>Bibliotheque</td><td>Utilitaires</td></tr>
+        <tr><td>Type</td><td><code>dataStoreWrite</code></td></tr>
+        <tr><td>Libelle</td><td>Data Store Write</td></tr>
+      </tbody>
+    </table>
+    <p><img src="../../../../libraries/utility/exports/dataStoreWrite.svg" align="middle"/></p>
+    <p><b>Description</b></p>
+    <p>Ecrit la valeur d'entree dans la memoire nommee <code>DataStoreName</code> declaree par un bloc <code>dataStoreMemory</code> (une entree correspondante est creee s'il n'y en a pas). L'ecriture a lieu en phase UPDATE, donc un <code>dataStoreRead</code> du meme nom la voit au pas suivant. Une entree, aucune sortie. Natif seulement ; scalaire.</p>
+    <p><b>Ports</b></p>
+    <p><b>Entree(s)</b></p>
+    <table border="1">
+      <thead><tr><th>Port</th><th>Role</th><th>Cote</th><th>Position</th></tr></thead>
+      <tbody>
+        <tr><td>Port_1</td><td>Signal numerique lu par le bloc.</td><td>gauche</td><td>x=0, y=30</td></tr>
+      </tbody>
+    </table>
+    <p>Ce bloc n'a aucun port de sortie.</p>
+    <p><b>Parametres</b></p>
+    <table border="1">
+      <thead><tr><th>Parametre</th><th>Valeur par defaut</th></tr></thead>
+      <tbody>
+        <tr><td><code>DataStoreName</code></td><td>A</td></tr>
+      </tbody>
+    </table>
+    <p><b>Caracteristiques du bloc</b></p>
+    <table border="1">
+      <tbody>
+        <tr><td>Type de bloc</td><td>dataStoreWrite</td></tr>
+        <tr><td>Famille</td><td>Utilitaires</td></tr>
+        <tr><td>Taille rendue</td><td>70 x 60</td></tr>
+        <tr><td>Phases</td><td>INIT, UPDATE</td></tr>
+        <tr><td>Etat interne ou historique</td><td>oui</td></tr>
+        <tr><td>Type de donnees du signal</td><td>valeurs numeriques double</td></tr>
+      </tbody>
+    </table>
+    <p><b>Algorithmes</b></p>
+    <ul>
+      <li>UPDATE : store[DataStoreName] = u.</li>
+    </ul>
+    <p><b>Capacites etendues</b></p>
+    <p>Execution native seulement (ce bloc n'est pas genere en code).</p>
+    <p><b>Sources d implementation</b></p>
+    <p>Generation de code : prise en charge pour C et Rust.</p>
+    <source_code label="Manifest" path="modules/nflow_blocks/libraries/utility/library.json" language="json"/>
+    <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/routing/dataStore.cpp" language="cpp"/>
+  </description>
+  <used_function/>
+  <bibliography/>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Voir l'exemple dataStoreMemory, qui cable une rampe a travers un Write.</example_item_description>
+      <example_item_data><![CDATA[% See the dataStoreMemory example for a complete Memory/Write/Read wiring.]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${nflow_blocks}utility/dataStoreMemory">dataStoreMemory</link></see_also_item>
+    <see_also_item><link linkend="${nflow_blocks}utility/dataStoreRead">dataStoreRead</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

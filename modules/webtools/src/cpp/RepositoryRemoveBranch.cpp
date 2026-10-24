@@ -14,6 +14,7 @@
 #include "RepositoryIsBranch.hpp"
 #include "RepositoryIsTag.hpp"
 #include "characters_encoding.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -32,10 +33,11 @@ RepositoryRemoveBranch(
             return;
         }
         std::string branchNameUtf8 = wstring_to_utf8(branchName);
-        git_reference* ref;
+        git_reference* ref = nullptr;
         errorCode = git_branch_lookup(&ref, repo, branchNameUtf8.c_str(), GIT_BRANCH_LOCAL);
         if (errorCode != 0) {
             errorMessage = gitErrorCodeToMessage(errorCode);
+            git_repository_free(repo);
             git_libgit2_shutdown();
             return;
         }
@@ -45,12 +47,14 @@ RepositoryRemoveBranch(
             errorMessage = gitErrorCodeToMessage(errorCode);
         }
         git_reference_free(ref);
+        git_repository_free(repo);
         git_libgit2_shutdown();
 
     } else {
-        errorMessage = _W("local branch name does not exist.");
+        errorMessage = resolveMessageTemplate(
+            L"Nelson:webtools:localBranchNameDoes", L"local branch name does not exist.");
     }
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

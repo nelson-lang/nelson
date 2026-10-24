@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>bootstrp</keyword>
+  <short_description>Bootstrap sampling.</short_description>
+  <syntax>
+    <syntax_item>bootstat = bootstrp(nboot, bootfun, d)</syntax_item>
+    <syntax_item>bootstat = bootstrp(nboot, bootfun, d1, ..., dN)</syntax_item>
+    <syntax_item>[bootstat, bootsam] = bootstrp(...)</syntax_item>
+    <syntax_item>[bootstat, bootsam] = bootstrp(nboot, [], d)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>nboot</param_name>
+      <param_description>positive integer number of bootstrap samples.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>bootfun</param_name>
+      <param_description>function handle applied to each bootstrap sample. Use an empty value to return sample indices only.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>d</param_name>
+      <param_description>numeric or logical vector or matrix. Rows are sampled with replacement.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>bootstat</param_name>
+      <param_description>bootstrap statistics, one row per bootstrap sample.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>bootsam</param_name>
+      <param_description>sample indices, one column per bootstrap sample.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>bootstrp</b> draws bootstrap samples using Nelson&apos;s random generator and applies a statistic function to each sample.</p>
+  </description>
+  <used_function>
+    <link linkend="${statistics}bootci">bootci</link>
+    <link linkend="${statistics}jackknife">jackknife</link>
+    <link linkend="${statistics}randsample">randsample</link>
+    <link linkend="${random}rng">rng</link>
+  </used_function>
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Bootstrap sample means.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[rng('default');
+[bootstat, bootsam] = bootstrp(20, @mean, (1:10)')]]></example_item_data>
+    </example_item>
+  </examples>
+</xmldoc>

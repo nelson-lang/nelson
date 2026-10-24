@@ -15,5 +15,6 @@
 namespace Nelson::FunctionHandleGateway {
 ArrayOfVector
 function_handle_extractionBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

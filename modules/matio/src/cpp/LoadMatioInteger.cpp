@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,7 +9,7 @@
 //=============================================================================
 #include <cstring>
 #include "LoadMatioInteger.hpp"
-#include "Exception.hpp"
+#include "NelsonException.hpp"
 #include "matioHelpers.hpp"
 //=============================================================================
 namespace Nelson {
@@ -37,7 +37,7 @@ LoadMatioInteger(matvar_t* matVariable, NelsonType destinationClass, ArrayOf& Va
     }
     Dimensions dims = getMatVarDimensions(matVariable);
     if (dims.isEmpty(false)) {
-        VariableValue = ArrayOf::emptyConstructor(dims);
+        VariableValue = ArrayOf::empty(dims);
         VariableValue.promoteType(destinationClass);
         bSuccess = true;
     } else {
@@ -45,12 +45,12 @@ LoadMatioInteger(matvar_t* matVariable, NelsonType destinationClass, ArrayOf& Va
         try {
             if (matVariable->isComplex != 0) {
                 ptr = ArrayOf::allocateArrayOf(
-                    NLS_DCOMPLEX, dims.getElementCount(), stringVector(), false);
+                    NLS_DCOMPLEX, dims.elementCount(), stringVector(), false);
             } else {
                 ptr = ArrayOf::allocateArrayOf(
-                    destinationClass, dims.getElementCount(), stringVector(), false);
+                    destinationClass, dims.elementCount(), stringVector(), false);
             }
-        } catch (Exception&) {
+        } catch (NelsonException&) {
             return false;
         }
         if (matVariable->isComplex != 0) {
@@ -58,28 +58,28 @@ LoadMatioInteger(matvar_t* matVariable, NelsonType destinationClass, ArrayOf& Va
             mat_complex_split_t* cplx = (mat_complex_split_t*)matVariable->data;
             switch (destinationClass) {
             case NLS_INT8: {
-                complexIntegerTocomplexDouble<int8>(cplx, dims.getElementCount(), ptrDouble);
+                complexIntegerTocomplexDouble<int8>(cplx, dims.elementCount(), ptrDouble);
             } break;
             case NLS_INT16: {
-                complexIntegerTocomplexDouble<int16>(cplx, dims.getElementCount(), ptrDouble);
+                complexIntegerTocomplexDouble<int16>(cplx, dims.elementCount(), ptrDouble);
             } break;
             case NLS_INT32: {
-                complexIntegerTocomplexDouble<int32>(cplx, dims.getElementCount(), ptrDouble);
+                complexIntegerTocomplexDouble<int32>(cplx, dims.elementCount(), ptrDouble);
             } break;
             case NLS_INT64: {
-                complexIntegerTocomplexDouble<int64>(cplx, dims.getElementCount(), ptrDouble);
+                complexIntegerTocomplexDouble<int64>(cplx, dims.elementCount(), ptrDouble);
             } break;
             case NLS_UINT8: {
-                complexIntegerTocomplexDouble<uint8>(cplx, dims.getElementCount(), ptrDouble);
+                complexIntegerTocomplexDouble<uint8>(cplx, dims.elementCount(), ptrDouble);
             } break;
             case NLS_UINT16: {
-                complexIntegerTocomplexDouble<uint16>(cplx, dims.getElementCount(), ptrDouble);
+                complexIntegerTocomplexDouble<uint16>(cplx, dims.elementCount(), ptrDouble);
             } break;
             case NLS_UINT32: {
-                complexIntegerTocomplexDouble<uint32>(cplx, dims.getElementCount(), ptrDouble);
+                complexIntegerTocomplexDouble<uint32>(cplx, dims.elementCount(), ptrDouble);
             } break;
             case NLS_UINT64: {
-                complexIntegerTocomplexDouble<uint64>(cplx, dims.getElementCount(), ptrDouble);
+                complexIntegerTocomplexDouble<uint64>(cplx, dims.elementCount(), ptrDouble);
             } break;
             default: {
             } break;

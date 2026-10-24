@@ -19,5 +19,5 @@ namespace Nelson {
 NLSSPARSE_IMPEXP void
 SparseDisplay(Interface* io, const ArrayOf& a, const std::string& name);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -21,9 +21,6 @@ namespace Nelson {
 class NLSINTERPRETER_IMPEXP MexFunctionDef : public FunctionDef
 {
 private:
-    /**
-     * The pointers to (address of) the function.
-     */
     void* libraryPtr;
     void* mexFunctionPtr;
     void* mexClearAtExitFunctionPtr;
@@ -37,69 +34,54 @@ private:
 
     bool loaded;
 
+    std::string debugDetailCache;
+
 public:
     //=============================================================================
-    /**
-     * Default constructor.
-     */
+    // "built-in <name>" computed once: pushDebug runs on every mex call.
+    const std::string&
+    getDebugDetail()
+    {
+        if (debugDetailCache.empty()) {
+            debugDetailCache = std::string("built-in ") + getName();
+        }
+        return debugDetailCache;
+    }
+    //=============================================================================
     MexFunctionDef(const std::wstring& filename, const std::wstring& name, bool isOverload);
     //=============================================================================
-    /**
-     * Default destructor.
-     */
     ~MexFunctionDef() override;
     //=============================================================================
-    /**
-     * The type of the function is NLS_BUILT_IN_FUNCTION
-     */
     [[nodiscard]] FunctionType
     type() const override
     {
         return NLS_MEX_FUNCTION;
     }
     //=============================================================================
-    /**
-     * checks if mex is correctly loaded
-     */
     bool
     isLoaded()
     {
         return loaded;
     }
     //=============================================================================
-    /**
-     * clear mex
-     */
     bool
     clear();
     //=============================================================================
-    /**
-     * The number of inputs required by this function.
-     */
     int
     inputArgCount() override
     {
         return INT_MIN;
     }
     //=============================================================================
-    /**
-     * The number of outputs returned by this function.
-     */
     int
     outputArgCount() override
     {
         return INT_MIN;
     }
     //=============================================================================
-    /**
-     * Evaluate the function and return the values.
-     */
     ArrayOfVector
     evaluateFunction(Evaluator* eval, const ArrayOfVector& inputs, int nargout) override;
     //=============================================================================
-    /**
-     * Check if mex is locked
-     */
     bool
     isLocked();
     //=============================================================================
@@ -108,6 +90,5 @@ public:
     //=============================================================================
 };
 //=============================================================================
-}
-// namespace Nelson
+} // namespace Nelson
 //=============================================================================

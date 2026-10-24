@@ -23,11 +23,9 @@ else()
         FORCE
       )
     endif()
-    if(NOT
-      NIX_EXIT_CODE
-      AND
-      EXISTS
-      "$ENV{NIX_TIFFLIB_PREFIX}/lib/libtiff${CMAKE_SHARED_LIBRARY_SUFFIX}"
+    if(NOT NIX_EXIT_CODE
+      AND EXISTS
+        "$ENV{NIX_TIFFLIB_PREFIX}/lib/libtiff${CMAKE_SHARED_LIBRARY_SUFFIX}"
     )
       set(
         TIFF_LIBRARIES
@@ -99,11 +97,8 @@ else()
           ERROR_VARIABLE BREW_ERROR
           OUTPUT_STRIP_TRAILING_WHITESPACE ERROR_STRIP_TRAILING_WHITESPACE
         )
-        if(NOT
-          BREW_EXIT_CODE
-          AND
-          EXISTS
-          "${BREW_TIFFLIB_PREFIX}/include/tiffio.h"
+        if(NOT BREW_EXIT_CODE
+          AND EXISTS "${BREW_TIFFLIB_PREFIX}/include/tiffio.h"
         )
           set(
             TIFF_INCLUDE_DIR
@@ -115,11 +110,9 @@ else()
           )
         endif()
 
-        if(NOT
-          BREW_EXIT_CODE
-          AND
-          EXISTS
-          "${BREW_TIFFLIB_PREFIX}/lib/libtiff${CMAKE_SHARED_LIBRARY_SUFFIX}"
+        if(NOT BREW_EXIT_CODE
+          AND EXISTS
+            "${BREW_TIFFLIB_PREFIX}/lib/libtiff${CMAKE_SHARED_LIBRARY_SUFFIX}"
         )
           set(
             TIFF_LIBRARIES
@@ -146,6 +139,33 @@ else()
   set(TIFF_FOUND FALSE CACHE BOOL "TIFF library disabled" FORCE)
 endif()
 # ==============================================================================
+if(TIFF_FOUND AND CMAKE_SYSTEM_NAME MATCHES "Darwin" AND TIFF_INCLUDE_DIR)
+  # A bare Homebrew prefix include (e.g. /opt/homebrew/include) also exposes
+  # other kegs' headers - notably unicode/ from a different ICU major than the
+  # one Nelson links against. Adding it with include_directories(BEFORE ...)
+  # would shadow those headers, so narrow it down to the keg-specific libtiff
+  # include directory, which only contains the libtiff headers.
+  foreach(_nelson_tiff_brew_prefix
+    "$ENV{HOMEBREW_PREFIX}"
+    "/opt/homebrew"
+    "/usr/local"
+  )
+    if(_nelson_tiff_brew_prefix
+      AND TIFF_INCLUDE_DIR STREQUAL "${_nelson_tiff_brew_prefix}/include"
+      AND EXISTS "${_nelson_tiff_brew_prefix}/opt/libtiff/include/tiffio.h"
+    )
+      set(
+        TIFF_INCLUDE_DIR
+        "${_nelson_tiff_brew_prefix}/opt/libtiff/include"
+        CACHE
+          STRING
+          "Path to libtiff include directory"
+        FORCE
+      )
+      break()
+    endif()
+  endforeach()
+endif()
 if(TIFF_FOUND)
   include_directories(BEFORE ${TIFF_INCLUDE_DIR})
   message(STATUS "tiff include directory: ${TIFF_INCLUDE_DIR}")

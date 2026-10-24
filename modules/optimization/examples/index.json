@@ -1,0 +1,44 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "file": "unconstrained_minimum.m",
+      "title": "Unconstrained minimization",
+      "description": "Locate the minimum of a smooth two-variable objective.",
+      "tags": [
+        "optimization",
+        "unconstrained"
+      ],
+      "requirements": []
+    },
+    {
+      "file": "constrained_quadratic.m",
+      "title": "Constrained quadratic program",
+      "description": "Solve a bounded quadratic problem with a linear inequality.",
+      "tags": [
+        "optimization",
+        "constraints"
+      ],
+      "requirements": []
+    },
+    {
+      "file": "fit_noisy_ellipse.m",
+      "title": {
+        "en_US": "Fit a noisy ellipse",
+        "fr_FR": "Ajuster une ellipse bruitée"
+      },
+      "description": {
+        "en_US": "Estimate the center, axes and rotation of an ellipse using unconstrained optimization.",
+        "fr_FR": "Estimer le centre, les axes et la rotation d’une ellipse par optimisation sans contrainte."
+      },
+      "tags": [
+        "fitting",
+        "geometry",
+        "fminsearch"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    }
+  ]
+}

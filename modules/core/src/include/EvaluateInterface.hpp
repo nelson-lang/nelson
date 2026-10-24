@@ -35,6 +35,8 @@ public:
     outputMessage(const std::wstring& msg) override;
     void
     outputMessage(const std::string& msg) override;
+    bool
+    outputAnsiText(const std::wstring& msg, bool asError) override;
     void
     errorMessage(const std::wstring& msg) override;
     void

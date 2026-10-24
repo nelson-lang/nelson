@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -19,7 +19,7 @@ Nelson::DataStructuresGateway::iscellstrBuiltin(int nLhs, const ArrayOfVector& a
     ArrayOfVector retval;
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
-    retval << ArrayOf::logicalConstructor(argIn[0].isCellArrayOfCharacterVectors());
+    retval << ArrayOf::logicalScalar(argIn[0].isCellArrayOfCharacterVectors());
     return retval;
 }
 //=============================================================================

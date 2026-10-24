@@ -4,25 +4,27 @@
   <language>fr_FR</language>
   <keyword>isreal</keyword>
   <short_description
-  >Return true if all imaginary part is a zero array.</short_description>
+  >Renvoie vrai si toute la partie imaginaire est un tableau de zéros.</short_description>
   <syntax>
     <syntax_item>res = isreal(var)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>var</param_name>
-      <param_description>a variable</param_description>
+      <param_description>une variable</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>res</param_name>
-      <param_description>a logical: true or false</param_description>
+      <param_description>un booléen : true ou false</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p>
-      <b>isreal</b> returns a logical true if all imaginary part is a zero array.</p>
+      <b>isreal</b> renvoie un booléen vrai si var n'est pas stocké comme un complexe.</p>
+    <p>Un tableau stocké comme un complexe n'est pas réel, même vide ou avec des parties imaginaires nulles : <b>isreal(complex([]))</b> et <b>isreal(complex(1))</b> renvoient faux.
+      Une opération arithmétique, une indexation ou une suppression dont le résultat est vide renvoie un tableau réel.</p>
   </description>
   <used_function />
   <bibliography />

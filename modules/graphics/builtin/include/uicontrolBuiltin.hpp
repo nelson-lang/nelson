@@ -17,5 +17,5 @@ namespace Nelson::GraphicsGateway {
 ArrayOfVector
 uicontrolBuiltin(int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
-}
+} // namespace Nelson::GraphicsGateway
 //=============================================================================

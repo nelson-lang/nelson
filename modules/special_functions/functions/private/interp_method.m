@@ -9,7 +9,7 @@
 %=============================================================================
 function method = interp_method(value, allowPchip, allowPreviousNext)
   if ~interp_is_text(value)
-    error(_('Interpolation method expected.'));
+    error('Nelson:interp:methodExpected', 'Interpolation method expected.');
   end
   method = convertStringsToChars(value);
   if strcmp(method, 'v5cubic')
@@ -24,7 +24,7 @@ function method = interp_method(value, allowPchip, allowPreviousNext)
     allowed{end + 1} = 'next';
   end
   if ~any(strcmp(method, allowed))
-    error(_('Unknown interpolation method.'));
+    error('Nelson:interp:unknownMethod', 'Unknown interpolation method.');
   end
 end
 %=============================================================================

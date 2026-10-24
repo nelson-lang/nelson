@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>ncread</keyword>
+  <short_description>Lit les donnees d'une variable netCDF.</short_description>
+  <syntax>
+    <syntax_item>data = ncread(filename, varname)</syntax_item>
+    <syntax_item>data = ncread(filename, varname, start, count)</syntax_item>
+    <syntax_item>data = ncread(filename, varname, start, count, stride)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>Chemin du fichier netCDF a creer, ouvrir ou modifier.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>varname</param_name>
+      <param_description>Nom de la variable netCDF.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>start</param_name>
+      <param_description>Position de depart. Les fonctions haut niveau utilisent une indexation Nelson a base un; les fonctions bas niveau suivent les conventions netCDF.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>count</param_name>
+      <param_description>Nombre d'elements a lire ou a ecrire dans chaque dimension.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>stride</param_name>
+      <param_description>Pas de lecture ou d'ecriture dans chaque dimension.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>data</param_name>
+      <param_description>Donnees lues depuis la variable ou l'attribut netCDF.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>ncread lit les donnees d'une variable depuis une source netCDF.</p>
+    <p>Les arguments optionnels start, count et stride permettent de lire un sous-ensemble des donnees.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Exemple copiable pour ncread.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[filename = [tempdir(), 'help_ncread.nc'];
+nccreate(filename, 'temperature', 'Dimensions', {'x', 4});
+ncwrite(filename, 'temperature', [10 20 30 40]);
+data = ncread(filename, 'temperature', 2, 2)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${netcdf}nccreate">nccreate</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${netcdf}ncwrite">ncwrite</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${netcdf}ncinfo">ncinfo</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

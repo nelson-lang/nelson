@@ -11,11 +11,15 @@
 //=============================================================================
 #include "nlsGraphics_exports.h"
 #include "ArrayOf.hpp"
+#include "GraphicsObject.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 NLSGRAPHICS_IMPEXP ArrayOf
-FindObj(const ArrayOfVector& argIn);
+FindObj(const ArrayOfVector& argIn, bool includeHiddenHandles = false);
 //=============================================================================
-}
+NLSGRAPHICS_IMPEXP bool
+isHandleVisible(GraphicsObject* fp);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

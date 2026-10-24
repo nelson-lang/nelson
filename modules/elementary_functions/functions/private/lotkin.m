@@ -17,5 +17,5 @@ function lotkinMatrix = lotkin(varargin)
   % Build Hilbert matrix and set first row to ones of the requested class
   lotkinMatrix = hilb(nSize, className);
   lotkinMatrix(1, :) = ones(1, nSize, className);
-end 
+end
 %=============================================================================

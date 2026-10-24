@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>piechart</keyword>
+  <short_description>Objet graphique en secteurs.</short_description>
+  <syntax>
+    <syntax_item>piechart(data)</syntax_item>
+    <syntax_item>piechart(data, names)</syntax_item>
+    <syntax_item>piechart(fig, ...)</syntax_item>
+    <syntax_item>piechart(..., propertyName, propertyValue)</syntax_item>
+    <syntax_item>p = piechart(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>data</param_name>
+      <param_description>Vecteur numerique des valeurs des secteurs. Les valeurs negatives, infinies et NaN sont ignorees pour l'affichage.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>names</param_name>
+      <param_description>Tableau de chaines, chaine de caracteres ou cellule de chaines utilisee comme noms des secteurs.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>fig</param_name>
+      <param_description>Figure parente.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName</param_name>
+      <param_description>Nom de propriete du graphique.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyValue</param_name>
+      <param_description>Valeur assignee a la propriete nommee.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>p</param_name>
+      <param_description>Objet graphique piechart.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>piechart(data)</b> cree un objet graphique en secteurs dans la figure courante.</p>
+    <p>L'objet expose les proprietes de donnees, etiquettes, couleurs, traits, police, legende, visibilite, disposition et ordre d'affichage. Les valeurs affichees sont recalculees quand les donnees ou les proprietes d'affichage changent.</p>
+    <p><b>FaceColor</b> peut valoir <b>flat</b>, <b>none</b> ou une couleur RGB. <b>FaceAlpha</b>, <b>EdgeColor</b> et <b>LineWidth</b> modifient le rendu des secteurs. <b>Proportions</b>, <b>CategoryCounts</b>, <b>WedgeDisplayData</b> et <b>WedgeDisplayNames</b> sont des proprietes derivees en lecture seule.</p>
+    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.piechart.properties">proprietes de piechart</link> pour la liste complete des proprietes.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Graphique en secteurs avec etiquettes en pourcentage.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[figure('Color', [1 1 1]);
+p = piechart([1 2 3 4]);]]></example_item_data>
+      <example_item_img src="../../../../images/piechart_1.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Secteurs nommes avec legende.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[figure('Color', [1 1 1]);
+p = piechart([4 3 2], ["A", "B", "C"], 'LegendVisible', 'on', ...
+  'LegendTitle', 'Names', 'FaceAlpha', 0.7);]]></example_item_data>
+      <example_item_img src="../../../../images/piechart_2.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Secteurs sans remplissage.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[figure('Color', [1 1 1]);
+p = piechart([3 2 1], 'FaceColor', 'none', 'EdgeColor', [0 0 0], ...
+  'LineWidth', 2);]]></example_item_data>
+      <example_item_img src="../../../../images/piechart_3.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.piechart.properties">proprietes de piechart</link>
+    </see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/6_discrete_data_plots/donutchart">donutchart</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/6_discrete_data_plots/pie">pie</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

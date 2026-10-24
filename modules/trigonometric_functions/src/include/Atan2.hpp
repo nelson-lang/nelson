@@ -15,5 +15,6 @@
 namespace Nelson {
 NLSTRIGONOMETRIC_FUNCTIONS_IMPEXP ArrayOf
 Atan2(ArrayOf A, ArrayOf B, bool& needToOverload);
-}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

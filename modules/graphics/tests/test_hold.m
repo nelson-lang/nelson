@@ -19,7 +19,7 @@ plot(x, y2)
 hold off
 %=============================================================================
 ax = f.Children;
-assert_isequal(size(ax.Children), [2 1]);
-assert_isequal(ax.Children(1).Type, 'line');
-assert_isequal(ax.Children(2).Type, 'line');
+asserts.isequal(size(ax.Children), [2 1]);
+asserts.isequal(ax.Children(1).Type, 'line');
+asserts.isequal(ax.Children(2).Type, 'line');
 %=============================================================================

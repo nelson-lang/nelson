@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>signal_processing</module_name>
+  <chapter>Transforms, Correlation, and Modeling</chapter>
+  <chapter_description>
+    <p>Transforms, correlation estimates, coherence, and transfer-function estimates.</p>
+  </chapter_description>
+</xmldoc>

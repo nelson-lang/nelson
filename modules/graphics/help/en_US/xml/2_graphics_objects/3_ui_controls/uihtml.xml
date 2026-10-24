@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>uihtml</keyword>
+  <short_description>Create an HTML UI component.</short_description>
+  <syntax>
+    <syntax_item>h = uihtml()</syntax_item>
+    <syntax_item>h = uihtml(parent)</syntax_item>
+    <syntax_item>h = uihtml(..., propertyName, propertyValue)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>parent</param_name>
+      <param_description>parent object.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName, propertyValue</param_name>
+      <param_description>name-value pairs.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>h</param_name>
+      <param_description>UI object.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>h = uihtml()</b> creates a component that displays an HTML page inside a UI figure and exchanges data with it.</p>
+    <p><b>uihtml requires the WebView desktop.</b> Anywhere else it raises <b>Nelson:uihtml:webviewDesktopRequired</b>, because no page can be displayed there. Start the WebView desktop to use it.</p>
+    <p><b>HTMLSource</b> accepts two forms: HTML markup, or the name of an HTML file (relative or absolute). It is stored exactly as given. A URL is not accepted.</p>
+    <p>The page must define a global <b>setup</b> function taking one argument. It runs once the content has loaded, and again whenever <b>HTMLSource</b> changes to a different value. Setting the same value again changes nothing.</p>
+    <p>The object passed to <b>setup</b> carries the property <b>Data</b>, the methods <b>addEventListener</b> and <b>removeEventListener</b>, and the method <b>sendEventToNelson(name, data)</b>. Note that pages written for other environments name that last method differently and must be edited.</p>
+    <p>Notification is asymmetric. Writing <b>Data</b> from Nelson raises the <b>DataChanged</b> event in the page and does <b>not</b> run <b>DataChangedFcn</b>. Writing it from the page runs <b>DataChangedFcn</b>, whose event carries <b>Data</b> and <b>PreviousData</b>, and is not sent back down. Writing a value equal to the current one notifies nobody.</p>
+    <p><b>Data</b> travels as JSON in both directions, so a value comes back as <b>jsonencode</b> followed by <b>jsondecode</b> leaves it: integers arrive as double, row vectors come back as columns, <b>datetime</b> and <b>categorical</b> arrive as text, and complex values cannot be sent at all.</p>
+    <p>Use <b>sendEventToHTMLSource</b> to send a named event to the page; the page receives it through <b>addEventListener</b>. A page event reaches Nelson through <b>HTMLEventReceivedFcn</b>, whose event carries <b>HTMLEventName</b> and <b>HTMLEventData</b>. Page events are delivered in the order the page sent them.</p>
+    <p>The page keeps its state while it is hidden, while its tab is not selected, and across a change of parent inside the desktop. Moving a figure between its own window and the docked desktop is not one of those: the page moves to another document and is rebuilt, and <b>setup</b> runs again.</p>
+    <p>Write a page that can rebuild itself. <b>Data</b> keeps its value across such a rebuild, so read it in <b>setup</b> and render from it there, rather than waiting for <b>DataChanged</b> - a notification a fresh page has already missed. A page that only renders on <b>DataChanged</b> comes back empty, and re-running the handshake does not save it: writing the value already published notifies nobody.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>a page that reads Data and answers with an event</example_item_description>
+      <example_item_data><![CDATA[
+f = uifigure();
+page = ['<html><body><p id="out">waiting</p><script>', ...
+  'function setup(h) {', ...
+  '  h.addEventListener("DataChanged", function () {', ...
+  '    document.getElementById("out").textContent = JSON.stringify(h.Data);', ...
+  '  });', ...
+  '  h.sendEventToNelson("ready", {});', ...
+  '}</script></body></html>'];
+h = uihtml(f, 'Position', [10 10 400 200], 'HTMLSource', page);
+h.HTMLEventReceivedFcn = @(src, evt) disp(evt.HTMLEventName);
+h.Data = struct('temperature', 21.5);
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${gui}uifigure">uifigure</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${json}jsonencode">jsonencode</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

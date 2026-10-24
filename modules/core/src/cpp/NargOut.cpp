@@ -12,6 +12,7 @@
 #include <fmt/xchar.h>
 #include "NargOut.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "MacroFunctionDef.hpp"
 #include "characters_encoding.hpp"
@@ -28,13 +29,15 @@ NargOut(Evaluator* eval, const std::wstring& functionName)
             return ((MacroFunctionDef*)(fptr))->nargout();
         }
         if (fptr->type() == NLS_MEX_FUNCTION) {
-            std::string msg = fmt::format(
-                _("'{0}' does not know how to answer nargin/nargout."), fptr->getName());
-            Error(msg);
+            std::string msg
+                = formatI18nMessage(Nelson::resolveMessageTemplate("Nelson:core:doesKnowHowAnswer",
+                                        "'%s' does not know how to answer nargin/nargout."),
+                    fptr->getName());
+            Error("Nelson:nargout:notSupported", msg);
         }
         return fptr->outputArgCount();
     }
-    Error(_W("function not found."));
+    Error(L"Nelson:core:functionNotFound", L"Function not found.");
     return -1;
 }
 //=============================================================================

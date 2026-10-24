@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "file": "dictionary_lookup.m",
+      "title": "Key-value lookup",
+      "description": "Create a dictionary and retrieve a value by its key.",
+      "tags": [
+        "dictionary",
+        "data"
+      ],
+      "requirements": []
+    }
+  ]
+}

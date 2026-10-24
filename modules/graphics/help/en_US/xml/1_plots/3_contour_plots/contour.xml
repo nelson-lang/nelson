@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>contour</keyword>
+  <short_description>Contour plot of matrix</short_description>
+  <syntax>
+    <syntax_item>contour(Z)</syntax_item>
+    <syntax_item>contour(X, Y, Z)</syntax_item>
+    <syntax_item>contour(..., levels)</syntax_item>
+    <syntax_item>contour(..., LineSpec)</syntax_item>
+    <syntax_item>contour(ax, ...)</syntax_item>
+    <syntax_item>M = contour(...)</syntax_item>
+    <syntax_item>[M, h] = contour(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description>x-coordinates: vector or matrix.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Y</param_name>
+      <param_description>y-coordinates: vector or matrix.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Z</param_name>
+      <param_description>z-coordinates: matrix.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>levels</param_name>
+      <param_description>Contour levels: scalar or vector.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>LineSpec</param_name>
+      <param_description>Line specification defining line style and color.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description>a scalar graphics object value: parent container specified as an axes.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>M</param_name>
+      <param_description>Contour matrix.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>h</param_name>
+      <param_description>a graphics object: contour type.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>contour(Z)</b> generates a contour plot representing isolines of
+            the matrix Z. Each isoline corresponds to a specific height value on
+            the x-y plane.</p>
+    <p>            Nelson automatically selects contour lines based on the values in Z.
+            The column and row indices of Z serve as the x and y coordinates in
+            the plane, respectively.</p>
+    <p>
+      <b>contour(X, Y, Z)</b> allows the user to specify the x and y
+            coordinates corresponding to the values in matrix Z. This enables
+            more precise control over the positioning of the contour plot on the
+            x-y plane.</p>
+    <p>            The matrices X and Y provide the coordinates, while Z contains the
+            height values for generating the contour plot.</p>
+    <p>See <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.contour.properties">contour properties</link> for the complete property list.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="adv-cli"><![CDATA[
+f = figure();
+subplot(2, 3, 1)
+
+x = linspace(-2 * pi, 2 * pi);
+y = linspace(0, 4 * pi);
+
+[X, Y] = meshgrid(x, y);
+
+Z = sin(X) + cos(Y);
+
+contour(X, Y, Z);
+
+subplot(2, 3, 2)
+
+[X, Y, Z] = peaks;
+
+contour(X, Y, Z, 20)
+
+subplot(2, 3, 3)
+
+[X, Y, Z] = peaks;
+
+v = [1, 1];
+
+contour(X, Y, Z, v)
+
+subplot(2, 3, 4)
+
+[X, Y, Z] = peaks;
+
+contour(X, Y, Z, '-.')
+
+subplot(2, 3, 5)
+
+Z = peaks;
+
+[M, c] = contour(Z);
+
+c.LineWidth = 3;
+
+subplot(2, 3, 6)
+
+[theta, r] = meshgrid(linspace(0, 2 * pi, 64), linspace(0, 1, 64));
+
+[X, Y] = pol2cart(theta, r);
+
+Z = sin(2 * theta) .* (1 - r);
+
+contour(X, Y, abs(Z), 10);
+]]></example_item_data>
+      <example_item_img
+                src="../../../../images/contour_1.svg"
+                align="middle"
+                generate="true"
+            />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="adv-cli"><![CDATA[
+rng('default');
+f = figure();
+N = 50;
+contour(1:N, 1:N, rand(N), 5)
+]]></example_item_data>
+      <example_item_img
+                src="../../../../images/contour_2.svg"
+                align="middle"
+                generate="true"
+            />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="adv-cli"><![CDATA[
+f = figure();
+Z = peaks;
+Z(:, 26) = NaN;
+contour(Z)
+]]></example_item_data>
+      <example_item_img
+                src="../../../../images/contour_nan.svg"
+                align="middle"
+                generate="true"
+            />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Labeled contour lines.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[
+[X, Y, Z] = peaks;
+
+[C, h] = contour(X, Y, Z);
+
+clabel(C, h);
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.contour.properties">contour properties</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}1_plots/3_contour_plots/contourc">contourc</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}1_plots/3_contour_plots/contourf">contourf</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}1_plots/3_contour_plots/contour3">contour3</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}1_plots/3_contour_plots/clabel">clabel</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}1_plots/7_surfaces_volumes_polygons/surf">surf</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}1_plots/7_surfaces_volumes_polygons/mesh">mesh</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.3.0</history_version>
+      <history_description>Initial version.</history_description>
+    </history_item>
+    <history_item>
+      <history_version>1.7.0</history_version>
+      <history_description>CreateFcn and DeleteFcn callbacks added.</history_description>
+    </history_item>
+    <history_item>
+      <history_version>1.8.0</history_version>
+      <history_description>BeingDeleted property added.</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>fmiInfo</keyword>
+  <short_description>Read the model description of an FMI 2.0 or 3.0 FMU.</short_description>
+  <syntax>
+    <syntax_item>info = fmiInfo(fmu)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>fmu</param_name>
+      <param_description>a string scalar or character row vector: the path to a <b>.fmu</b> archive, or to an already-extracted FMU directory (a folder that contains a <b>modelDescription.xml</b> file at its root).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>info</param_name>
+      <param_description>a scalar structure describing the FMU, with the fields listed below.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>fmiInfo</b> parses the <b>modelDescription.xml</b> of a <b>Functional Mock-up Unit</b> (FMU) that follows the <b>FMI 2.0</b> or <b>3.0</b> standard and returns its metadata as a Nelson structure. It performs no simulation: it only reads the static description, so it is inexpensive and safe to call for inspection before setting up a run.</p>
+    <p>The <b>fmu</b> argument may be given in two forms:</p>
+    <ul>
+      <li>
+        <p>a path to a <b>.fmu</b> archive. The archive (a ZIP container) is unpacked with a ZIP-slip-hardened extractor into a fresh temporary directory, which is removed automatically before <b>fmiInfo</b> returns. Entries with absolute paths, drive letters, or <b>..</b> traversal are rejected.</p>
+      </li>
+      <li>
+        <p>a path to an already-extracted FMU directory. In that case nothing is unpacked and the directory is read in place.</p>
+      </li>
+    </ul>
+    <p>The returned structure <b>info</b> has the following fields:</p>
+    <table style="width:100%">
+      <tr>
+        <th>Field</th>
+        <th>Class</th>
+        <th>Details</th>
+      </tr>
+      <tr>
+        <td>modelIdentifier</td>
+        <td>char</td>
+        <td>the C model identifier declared by the FMU (used to locate its binary).</td>
+      </tr>
+      <tr>
+        <td>fmiVersion</td>
+        <td>char</td>
+        <td>the FMI version string reported by the FMU (for example <b>2.0</b> or <b>3.0</b>).</td>
+      </tr>
+      <tr>
+        <td>coSimulation</td>
+        <td>logical</td>
+        <td><b>true</b> when the FMU provides the Co-Simulation interface (required by <b>fmiCoSimulate</b>).</td>
+      </tr>
+      <tr>
+        <td>modelExchange</td>
+        <td>logical</td>
+        <td><b>true</b> when the FMU provides the Model Exchange interface.</td>
+      </tr>
+      <tr>
+        <td>scheduledExecution</td>
+        <td>logical</td>
+        <td><b>true</b> when the FMU provides the Scheduled Execution interface.</td>
+      </tr>
+      <tr>
+        <td>names</td>
+        <td>cell of char</td>
+        <td>the names of the scalar variables declared by the FMU, in declaration order.</td>
+      </tr>
+      <tr>
+        <td>valueReferences</td>
+        <td>double</td>
+        <td>the value reference of each variable (the numeric handle used by the FMI get/set calls).</td>
+      </tr>
+      <tr>
+        <td>causalities</td>
+        <td>cell of char</td>
+        <td>the causality of each variable: one of <b>parameter</b>, <b>calculatedParameter</b>, <b>input</b>, <b>output</b>, <b>local</b>, <b>independent</b>, or <b>structuralParameter</b>.</td>
+      </tr>
+      <tr>
+        <td>dataTypes</td>
+        <td>cell of char</td>
+        <td>the declared data type of each variable (for example <b>Float64</b>, <b>Int32</b>, <b>Boolean</b>, <b>String</b>).</td>
+      </tr>
+      <tr>
+        <td>descriptions</td>
+        <td>cell of char</td>
+        <td>the description string of each variable (empty when none is declared).</td>
+      </tr>
+      <tr>
+        <td>startValues</td>
+        <td>double</td>
+        <td>the Float64 start value of each variable, or <b>NaN</b> when the variable declares no start value.</td>
+      </tr>
+    </table>
+    <p>The four variable fields (<b>names</b>, <b>valueReferences</b>, <b>causalities</b>, <b>dataTypes</b>) are aligned element by element: the <b>k</b>-th entry of each describes the same variable. To list the outputs of an FMU, select the entries whose causality is <b>output</b>; those are exactly the signals recorded by <b>fmiCoSimulate</b>.</p>
+    <p>An error is raised when the path does not exist, when the archive cannot be extracted, or when the FMU does not contain a readable <b>modelDescription.xml</b>.</p>
+  </description>
+
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Read the model description of an FMU archive.</example_item_description>
+      <example_item_data
+        ><![CDATA[info = fmiInfo('VanDerPol.fmu')]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>List only the output variables of the FMU.</example_item_description>
+      <example_item_data
+        ><![CDATA[info = fmiInfo('VanDerPol.fmu');
+isOutput = strcmp(info.causalities, 'output');
+outputs = info.names(isOutput)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Check that an FMU supports Co-Simulation before running it.</example_item_description>
+      <example_item_data
+        ><![CDATA[info = fmiInfo('VanDerPol.fmu');
+if ~info.coSimulation
+  error('This FMU does not provide the Co-Simulation interface.');
+end]]></example_item_data>
+    </example_item>
+  </examples>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${nflow_fmi}fmiCoSimulate">fmiCoSimulate</link>
+    </see_also_item>
+  </see_also>
+
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

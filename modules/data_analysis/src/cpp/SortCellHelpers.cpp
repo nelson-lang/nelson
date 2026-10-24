@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -28,7 +28,8 @@ struct
     bool
     operator()(const CellEntry& a, const CellEntry& b)
     {
-        return a.x.compare(b.x) < 0;
+        const int comparison = a.x.compare(b.x);
+        return comparison == 0 ? a.n < b.n : comparison < 0;
     }
 } comparisonCellLess;
 //=============================================================================
@@ -46,8 +47,8 @@ sortCellWithIndex(const ArrayOf& arrayIn, indexType linesize, indexType planecou
     indexType planesize, Dimensions& outDim, indexType dim, bool& needToOverload)
 {
     ArrayOfVector res;
-    auto* arg = (ArrayOf*)(arrayIn.getDataPointer());
-    indexType elementCount = arrayIn.getElementCount();
+    auto* arg = (ArrayOf*)(arrayIn.dataPointer());
+    indexType elementCount = arrayIn.elementCount();
     for (indexType k = 0; k < elementCount; k++) {
         if (!arg[k].isCharacterArray()) {
             needToOverload = true;
@@ -55,10 +56,10 @@ sortCellWithIndex(const ArrayOf& arrayIn, indexType linesize, indexType planecou
         }
     }
     ArrayOf* ptrValue = (ArrayOf*)ArrayOf::allocateArrayOf(
-        NLS_CELL_ARRAY, outDim.getElementCount(), stringVector(), false);
+        NLS_CELL_ARRAY, outDim.elementCount(), stringVector(), false);
     ArrayOf sortedValues = ArrayOf(NLS_CELL_ARRAY, outDim, ptrValue);
     double* ptrIndex = (double*)ArrayOf::allocateArrayOf(
-        NLS_DOUBLE, outDim.getElementCount(), stringVector(), false);
+        NLS_DOUBLE, outDim.elementCount(), stringVector(), false);
     ArrayOf indexValues = ArrayOf(NLS_DOUBLE, outDim, ptrIndex);
 
     std::vector<CellEntry> buf;
@@ -68,14 +69,14 @@ sortCellWithIndex(const ArrayOf& arrayIn, indexType linesize, indexType planecou
         for (indexType j = 0; j < planesize; j++) {
             for (indexType k = 0; k < linesize; k++) {
                 CellEntry ce;
-                ce.x = arg[i * planesize * linesize + j + k * planesize].getContentAsWideString();
+                ce.x = arg[i * planesize * linesize + j + k * planesize].asWideString();
                 ce.n = (double)k + 1;
                 buf.push_back(ce);
             }
             parallelSort(buf, comparisonCellLess);
             for (indexType k = 0; k < linesize; k++) {
                 ptrValue[i * planesize * linesize + j + k * planesize]
-                    = ArrayOf::characterArrayConstructor(buf[k].x);
+                    = ArrayOf::characterArray(buf[k].x);
                 ptrIndex[i * planesize * linesize + j + k * planesize] = buf[k].n;
             }
         }
@@ -92,29 +93,29 @@ sortCellWithoutIndex(const ArrayOf& arrayIn, indexType linesize, indexType plane
     ArrayOfVector res;
     if (arrayIn.isVector()) {
         wstringVector strs;
-        strs.reserve(outDim.getElementCount());
-        auto* arg = (ArrayOf*)(arrayIn.getDataPointer());
-        indexType elementCount = arrayIn.getElementCount();
+        strs.reserve(outDim.elementCount());
+        auto* arg = (ArrayOf*)(arrayIn.dataPointer());
+        indexType elementCount = arrayIn.elementCount();
         for (indexType k = 0; k < elementCount; k++) {
             if (!arg[k].isCharacterArray()) {
                 needToOverload = true;
                 return res;
             }
-            strs.push_back(arg[k].getContentAsWideString());
+            strs.push_back(arg[k].asWideString());
         }
         parallelSort(strs, comparisonWideStringLess);
         ArrayOf* ptrValue = (ArrayOf*)ArrayOf::allocateArrayOf(
-            NLS_CELL_ARRAY, outDim.getElementCount(), stringVector(), false);
+            NLS_CELL_ARRAY, outDim.elementCount(), stringVector(), false);
         ArrayOf sortedValues = ArrayOf(NLS_CELL_ARRAY, outDim, ptrValue);
-        ompIndexType elementCountOut = outDim.getElementCount();
+        ompIndexType elementCountOut = outDim.elementCount();
         OMP_PARALLEL_FOR_LOOP(elementCount)
         for (ompIndexType k = 0; k < elementCountOut; ++k) {
-            ptrValue[k] = ArrayOf::characterArrayConstructor(strs[k]);
+            ptrValue[k] = ArrayOf::characterArray(strs[k]);
         }
         res.push_back(sortedValues);
     } else {
-        auto* arg = (ArrayOf*)(arrayIn.getDataPointer());
-        indexType elementCount = arrayIn.getElementCount();
+        auto* arg = (ArrayOf*)(arrayIn.dataPointer());
+        indexType elementCount = arrayIn.elementCount();
         for (indexType k = 0; k < elementCount; k++) {
             if (!arg[k].isCharacterArray()) {
                 needToOverload = true;
@@ -122,7 +123,7 @@ sortCellWithoutIndex(const ArrayOf& arrayIn, indexType linesize, indexType plane
             }
         }
         ArrayOf* ptrValue = (ArrayOf*)ArrayOf::allocateArrayOf(
-            NLS_CELL_ARRAY, outDim.getElementCount(), stringVector(), false);
+            NLS_CELL_ARRAY, outDim.elementCount(), stringVector(), false);
         ArrayOf sortedValues = ArrayOf(NLS_CELL_ARRAY, outDim, ptrValue);
 
         wstringVector buf;
@@ -131,14 +132,13 @@ sortCellWithoutIndex(const ArrayOf& arrayIn, indexType linesize, indexType plane
             buf.reserve(linesize);
             for (indexType j = 0; j < planesize; j++) {
                 for (indexType k = 0; k < linesize; k++) {
-                    buf.push_back(
-                        arg[i * planesize * linesize + j + k * planesize].getContentAsWideString());
+                    buf.push_back(arg[i * planesize * linesize + j + k * planesize].asWideString());
                 }
                 parallelSort(buf, comparisonWideStringLess);
 
                 for (indexType k = 0; k < linesize; k++) {
                     ptrValue[i * planesize * linesize + j + k * planesize]
-                        = ArrayOf::characterArrayConstructor(buf[k]);
+                        = ArrayOf::characterArray(buf[k]);
                 }
             }
         }
@@ -159,5 +159,5 @@ sortCell(const ArrayOf& arrayIn, bool withIndex, indexType linesize, indexType p
         arrayIn, linesize, planecount, planesize, outDim, dim, needToOverload);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

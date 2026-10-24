@@ -10,15 +10,18 @@
 % <--ENGLISH IMPOSED-->
 %=============================================================================
 S = getLastReport();
-assert_isequal(S, '');
+asserts.isequal(S, '');
 %=============================================================================
-execstr('a','errcatch');
+execstr('a', 'errcatch');
 S = getLastReport();
 REF = '
 Error in execstr
 Undefined variable or function: a
 
-at line    15 of ''test_getLastReport.m''
 ';
-assert_isequal(S, REF);
+asserts.istrue(startsWith(S, REF));
+% Reports may retain a short absolute filename and the caller's stack frames.
+% Check the failing script and line independently of its installation path.
+location = regexp(S, 'at line[ ]+15 of ''[^''\r\n]*test_getLastReport\.m''', 'once');
+asserts.isfalse(isempty(location));
 %=============================================================================

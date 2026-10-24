@@ -13,9 +13,6 @@
 #include "nlsData_analysis_exports.h"
 //=============================================================================
 namespace Nelson {
-/**
- * min operation.
- */
 //=============================================================================
 // C = min(A, B);
 NLSDATA_ANALYSIS_IMPEXP ArrayOf

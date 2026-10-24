@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>partialcorr</keyword>
+  <short_description>Coefficients de correlation partielle lineaire ou de rang.</short_description>
+  <syntax>
+    <syntax_item>rho = partialcorr(X)</syntax_item>
+    <syntax_item>rho = partialcorr(X, Z)</syntax_item>
+    <syntax_item>rho = partialcorr(X, Y, Z)</syntax_item>
+    <syntax_item>[rho, pval] = partialcorr(...)</syntax_item>
+    <syntax_item>[rho, pval] = partialcorr(..., Name, Value)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>partialcorr</b> calcule des correlations partielles entre colonnes en controlant d'autres variables.</p>
+    <p>Les options prises en charge sont <b>Type</b> avec <b>pearson</b> ou <b>spearman</b>, <b>Rows</b> avec <b>all</b>, <b>complete</b> ou <b>pairwise</b>, et <b>Tail</b> avec <b>both</b>, <b>right</b> ou <b>left</b>.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[X = [1 2 3; 2 4 1; 3 5 2; 4 8 4; 5 10 5];
+Z = [1 0; 1 1; 2 1; 2 0; 3 1];
+rho = partialcorr(X, Z)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}corr">corr</link></see_also_item>
+    <see_also_item><link linkend="${statistics}corrcoef">corrcoef</link></see_also_item>
+    <see_also_item><link linkend="${statistics}tiedrank">tiedrank</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

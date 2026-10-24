@@ -14,8 +14,8 @@ x = linspace(0, 10);
 y1 = sin(x);
 plot(x, y1);
 ax = gca();
-assert_isfalse(isempty(ax.Children));
+asserts.isfalse(isempty(ax.Children));
 ax_cla = cla;
-assert_isequal(ax_cla, ax);
-assert_istrue(isempty(ax.Children));
+asserts.isequal(ax_cla, ax);
+asserts.istrue(isempty(ax.Children));
 %=============================================================================

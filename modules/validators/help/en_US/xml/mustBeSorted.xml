@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>mustBeSorted</keyword>
+  <short_description
+  >Checks that array elements are sorted or raise an error.</short_description>
+  <syntax>
+    <syntax_item>mustBeSorted(A)</syntax_item>
+    <syntax_item>mustBeSorted(A, dim)</syntax_item>
+    <syntax_item>mustBeSorted(A, direction)</syntax_item>
+    <syntax_item>mustBeSorted(A, dim, direction)</syntax_item>
+    <syntax_item>mustBeSorted(..., 'MissingPlacement', placement)</syntax_item>
+    <syntax_item>mustBeSorted(..., 'ComparisonMethod', method)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description
+      >a variable: numeric, logical, char, string, cell array of character vectors, or an object implementing issorted. Complex values are supported.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>dim</param_name>
+      <param_description
+      >a positive integer scalar: dimension to operate along. Default: first dimension whose size is not 1.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>direction</param_name>
+      <param_description
+      >'ascend' (default), 'descend', 'monotonic' (ascending or descending), 'strictascend', 'strictdescend' or 'strictmonotonic'. Strict directions reject repeated and missing values.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>placement</param_name>
+      <param_description
+      >'auto' (default), 'first' or 'last': where missing values (NaN, missing string) must be. 'auto' places them last for ascending order and first for descending order.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>method</param_name>
+      <param_description
+      >'auto' (default), 'real' or 'abs': comparison of numeric values. 'real' compares real parts then imaginary parts, 'abs' compares magnitudes then phase angles. 'auto' uses 'real' for real input and 'abs' for complex input.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b
+      >mustBeSorted(A)</b> raises an error if the elements of <b
+      >A</b> are not sorted. It does not return a value.</p>
+    <p
+    >Vectors are checked as a whole, matrices column by column, and multidimensional arrays along the first dimension whose size is not 1.</p>
+    <p>Empty values and scalars are always sorted.</p>
+    <p
+    >Real numeric, logical and char arrays are checked natively in a single pass; other types use the comparison operators of their class.</p>
+    <p><b
+      >mustBeSorted</b> is designed to be used for property and function argument validation.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Direction of the order</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[A = [5 3 3 1];
+mustBeSorted(A, 'descend')
+mustBeSorted(A)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Missing values and complex values</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[mustBeSorted([1 2 NaN])
+mustBeSorted([NaN 1 2], 'MissingPlacement', 'first')
+mustBeSorted([1 -2 3], 'ComparisonMethod', 'abs')
+mustBeSorted([1+1i, 1-1i])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${data_analysis}issorted">issorted</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${data_analysis}sort">sort</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${validators}mustBeVector">mustBeVector</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

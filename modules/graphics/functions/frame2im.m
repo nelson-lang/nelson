@@ -14,15 +14,15 @@ function varargout = frame2im(varargin)
   nargoutchk(0, 2);
   F = varargin{1};
   mustBeA(varargin{1}, 'struct');
-  if (~isequal(fieldnames(F), {'cdata';'colormap'}))
-    error('Nelson:frame2im:invalidInput', _('Invalid structure fields.'));
+  if (~isequal(fieldnames(F), {'cdata'; 'colormap'}))
+    error('Nelson:movie:invalidStructureFields', 'Invalid structure fields.');
   end
   n = numel(F);
   X = [];
   map = [];
   if (n > 0)
     x = [F.cdata];
-    map(1) = F(1).colormap;
+    map = F(1).colormap;
   end
   varargout{1} = x;
   if nargout > 1

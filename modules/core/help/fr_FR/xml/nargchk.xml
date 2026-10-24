@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nargchk</keyword>
+  <short_description>Valide le nombre d&apos;arguments d&apos;entrée.</short_description>
+  <syntax>
+    <syntax_item>msg = nargchk(minArgs, maxArgs, n)</syntax_item>
+    <syntax_item>msg = nargchk(minArgs, maxArgs, n, 'string')</syntax_item>
+    <syntax_item>msgstruct = nargchk(minArgs, maxArgs, n, 'struct')</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>minArgs</param_name>
+      <param_description
+      >nombre minimum d&apos;entrées acceptées (valeur entière scalaire).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>maxArgs</param_name>
+      <param_description
+      >nombre maximum d&apos;entrées acceptées (valeur entière scalaire).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>n</param_name>
+      <param_description
+      >nombre d&apos;entrées fournies à vérifier, généralement <b>nargin</b> (valeur entière scalaire).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'string' ou 'struct'</param_name>
+      <param_description
+      >type de sortie : <b>'string'</b> (par défaut) renvoie un message de caractères, <b>'struct'</b> renvoie une structure d&apos;erreur.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>msg</param_name>
+      <param_description
+      >un vecteur ligne de caractères contenant le message d&apos;erreur, ou <b>''</b> (vide) si <b>n</b> est dans l&apos;intervalle <b>[minArgs, maxArgs]</b>.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>msgstruct</param_name>
+      <param_description
+      >une structure avec les champs <b>message</b> et <b>identifier</b> (une structure vide <b>1x0</b> si <b>n</b> est dans l&apos;intervalle).</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>nargchk</b> vérifie si le nombre d&apos;arguments d&apos;entrée <b
+      >n</b> est dans l&apos;intervalle <b>[minArgs, maxArgs]</b>.</p>
+    <p>Il renvoie le message <b>'Not enough input arguments.'</b> lorsque <b
+      >n</b> est inférieur à <b>minArgs</b>, <b>'Too many input arguments.'</b> lorsque <b
+      >n</b> est supérieur à <b>maxArgs</b>, et un résultat vide sinon.</p>
+    <p>Il est généralement utilisé sous la forme <b
+      >error(nargchk(minArgs, maxArgs, nargin))</b> au début d&apos;une fonction.</p>
+    <p><b>nargchk</b> est obsolète et conservé pour la compatibilité avec le code existant. Utilisez plutôt <b
+      >narginchk</b> dans le nouveau code.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Pas assez d&apos;arguments d&apos;entrée :</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[msg = nargchk(2, 3, 1)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Trop d&apos;arguments d&apos;entrée :</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[msg = nargchk(1, 2, 3)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Dans l&apos;intervalle, renvoie un message vide :</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[msg = nargchk(1, 3, 2)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${core}narginchk">narginchk</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${core}nargoutchk">nargoutchk</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${core}nargin">nargin</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${error_manager}error">error</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

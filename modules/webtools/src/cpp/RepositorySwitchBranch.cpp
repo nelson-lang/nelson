@@ -20,7 +20,8 @@ RepositorySwitchBranch(
 {
     std::string localPathUtf8 = wstring_to_utf8(localPath);
     std::string branchUtf8 = wstring_to_utf8(branch);
-    git_repository* repo;
+    git_repository* repo = nullptr;
+    git_reference* branchRef = nullptr;
     git_object* tree = nullptr;
     git_checkout_options opts;
     git_libgit2_init();
@@ -38,10 +39,17 @@ RepositorySwitchBranch(
         git_libgit2_shutdown();
         return;
     }
-    std::string src = "origin/" + branchUtf8;
-    errorCode = git_revparse_single(&tree, repo, src.c_str());
+    errorCode = git_branch_lookup(&branchRef, repo, branchUtf8.c_str(), GIT_BRANCH_LOCAL);
     if (errorCode != 0) {
         errorMessage = gitErrorCodeToMessage(errorCode);
+        git_repository_free(repo);
+        git_libgit2_shutdown();
+        return;
+    }
+    errorCode = git_reference_peel(&tree, branchRef, GIT_OBJECT_COMMIT);
+    if (errorCode != 0) {
+        errorMessage = gitErrorCodeToMessage(errorCode);
+        git_reference_free(branchRef);
         git_repository_free(repo);
         git_libgit2_shutdown();
         return;
@@ -49,18 +57,21 @@ RepositorySwitchBranch(
     errorCode = git_checkout_tree(repo, tree, &opts);
     if (errorCode != 0) {
         errorMessage = gitErrorCodeToMessage(errorCode);
+        git_object_free(tree);
+        git_reference_free(branchRef);
         git_repository_free(repo);
         git_libgit2_shutdown();
         return;
     }
-    std::string ref = "refs/heads/" + branchUtf8;
-    errorCode = git_repository_set_head(repo, ref.c_str());
+    errorCode = git_repository_set_head(repo, git_reference_name(branchRef));
     if (errorCode != 0) {
         errorMessage = gitErrorCodeToMessage(errorCode);
     }
+    git_object_free(tree);
+    git_reference_free(branchRef);
     git_repository_free(repo);
     git_libgit2_shutdown();
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

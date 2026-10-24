@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>wordcloud properties</keyword>
+  <short_description>Proprietes de l'objet graphique wordcloud.</short_description>
+  <description>
+    <p>Cette page documente les proprietes visibles retournees par <b>properties</b> pour un objet graphique <b>wordcloud</b>.</p>
+    <table>
+      <tr>
+        <th>Propriete</th>
+        <th>Action</th>
+        <th>Type et valeurs prises en charge</th>
+      </tr>
+      <tr>
+        <td><b>Annotation</b></td>
+        <td>met a jour les metadonnees d'annotation utilisees par les outils interactifs.</td>
+        <td>Type: objet d'annotation graphique ou handle vide. Valeurs prises en charge: objet annotation associe ou handle graphique vide.</td>
+      </tr>
+      <tr>
+        <td><b>BeingDeleted</b></td>
+        <td>Nelson calcule cette valeur pendant les operations graphiques.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'off', 'on'.</td>
+      </tr>
+      <tr>
+        <td><b>Box</b></td>
+        <td>controle si le cadre du graphique est affiche.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'off', 'on'.</td>
+      </tr>
+      <tr>
+        <td><b>BusyAction</b></td>
+        <td>controle si un callback interrompant est mis en file ou annule.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'queue', 'cancel'.</td>
+      </tr>
+      <tr>
+        <td><b>ButtonDownFcn</b></td>
+        <td>s'execute quand l'objet recoit un evenement souris.</td>
+        <td>Type: valeur de callback. Valeurs prises en charge: [], function handle, vecteur de caracteres, string scalaire ou tableau de callback.</td>
+      </tr>
+      <tr>
+        <td><b>Children</b></td>
+        <td>les operations de parentage mettent a jour ce vecteur.</td>
+        <td>Type: vecteur de handles graphiques. Valeurs prises en charge: vecteur vide.</td>
+      </tr>
+      <tr>
+        <td><b>Color</b></td>
+        <td>definit la couleur par defaut utilisee pour les mots rendus.</td>
+        <td>Type: valeur de couleur ou matrice de couleurs. Valeurs prises en charge: noms courts de couleur, triplet RGB dans [0,1], couleur hexadecimale ou matrice n-par-3.</td>
+      </tr>
+      <tr>
+        <td><b>ContextMenu</b></td>
+        <td>associe le menu utilise par les actions de clic contextuel.</td>
+        <td>Type: handle graphique scalaire. Valeurs prises en charge: [] ou handle uicontextmenu.</td>
+      </tr>
+      <tr>
+        <td><b>CreateFcn</b></td>
+        <td>s'execute quand l'objet est cree.</td>
+        <td>Type: valeur de callback. Valeurs prises en charge: [], function handle, vecteur de caracteres, string scalaire ou tableau de callback.</td>
+      </tr>
+      <tr>
+        <td><b>DeleteFcn</b></td>
+        <td>s'execute quand l'objet est supprime.</td>
+        <td>Type: valeur de callback. Valeurs prises en charge: [], function handle, vecteur de caracteres, string scalaire ou tableau de callback.</td>
+      </tr>
+      <tr>
+        <td><b>DisplayName</b></td>
+        <td>met a jour le libelle utilise par les legendes et l'identification.</td>
+        <td>Type: texte. Valeurs prises en charge: vecteur de caracteres ou string scalaire.</td>
+      </tr>
+      <tr>
+        <td><b>FontName</b></td>
+        <td>definit la famille de police utilisee pour afficher les mots.</td>
+        <td>Type: texte. Valeurs prises en charge: nom de police installee comme vecteur de caracteres ou string scalaire.</td>
+      </tr>
+      <tr>
+        <td><b>HandleVisibility</b></td>
+        <td>controle si les fonctions de recherche de handles peuvent trouver l'objet.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'on', 'off', 'callback'.</td>
+      </tr>
+      <tr>
+        <td><b>HighlightColor</b></td>
+        <td>definit la couleur utilisee par les mots surlignes.</td>
+        <td>Type: valeur de couleur. Valeurs prises en charge: noms courts de couleur, triplet RGB dans [0,1] ou couleur hexadecimale.</td>
+      </tr>
+      <tr>
+        <td><b>HitTest</b></td>
+        <td>inclut ou exclut l'objet du test de clic souris.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>Interruptible</b></td>
+        <td>controle si un callback en cours peut etre interrompu.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>InnerPosition</b></td>
+        <td>stocke le rectangle interieur du graphique.</td>
+        <td>Type: vecteur ligne numerique. Valeurs prises en charge: quatre valeurs finies [left bottom width height].</td>
+      </tr>
+      <tr>
+        <td><b>Layout</b></td>
+        <td>stocke les informations de placement en disposition tuilee.</td>
+        <td>Type: handle graphique scalaire. Valeurs prises en charge: [] ou handle d'options de disposition.</td>
+      </tr>
+      <tr>
+        <td><b>LayoutNum</b></td>
+        <td>selectionne la variante deterministe de placement.</td>
+        <td>Type: scalaire numerique fini. Valeurs prises en charge: entiers positifs.</td>
+      </tr>
+      <tr>
+        <td><b>MaxDisplayWords</b></td>
+        <td>definit le nombre maximal de mots affiches.</td>
+        <td>Type: scalaire numerique fini. Valeurs prises en charge: entiers non negatifs.</td>
+      </tr>
+      <tr>
+        <td><b>Parent</b></td>
+        <td>definit le conteneur graphique parent utilise par l'objet.</td>
+        <td>Type: handle graphique scalaire. Valeurs prises en charge: handle figure.</td>
+      </tr>
+      <tr>
+        <td><b>PickableParts</b></td>
+        <td>controle si les parties visibles ou toutes les parties peuvent etre selectionnees.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'visible', 'all', 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>OuterPosition</b></td>
+        <td>stocke le rectangle exterieur du graphique.</td>
+        <td>Type: vecteur ligne numerique. Valeurs prises en charge: quatre valeurs finies [left bottom width height].</td>
+      </tr>
+      <tr>
+        <td><b>Position</b></td>
+        <td>stocke le rectangle de position du graphique.</td>
+        <td>Type: vecteur ligne numerique. Valeurs prises en charge: quatre valeurs finies [left bottom width height].</td>
+      </tr>
+      <tr>
+        <td><b>PositionConstraint</b></td>
+        <td>choisit le rectangle preserve pendant la disposition.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'outerposition', 'innerposition'.</td>
+      </tr>
+      <tr>
+        <td><b>Selected</b></td>
+        <td>marque l'objet comme selectionne ou non.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>SelectionHighlight</b></td>
+        <td>controle l'affichage des poignees de selection.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>Shape</b></td>
+        <td>definit l'enveloppe de placement des mots.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'oval', 'rectangle'.</td>
+      </tr>
+      <tr>
+        <td><b>SizeData</b></td>
+        <td>definit les poids numeriques utilises pour dimensionner les mots.</td>
+        <td>Type: vecteur numerique reel. Valeurs prises en charge: valeurs numeriques finies.</td>
+      </tr>
+      <tr>
+        <td><b>SizeVariable</b></td>
+        <td>stocke la variable de table utilisee pour les tailles des mots.</td>
+        <td>Type: texte. Valeurs prises en charge: [] ou nom d'une variable de la table source.</td>
+      </tr>
+      <tr>
+        <td><b>SizePower</b></td>
+        <td>definit l'exposant utilise pour convertir les poids en tailles de police.</td>
+        <td>Type: scalaire numerique fini. Valeurs prises en charge: valeurs scalaires positives.</td>
+      </tr>
+      <tr>
+        <td><b>SourceTable</b></td>
+        <td>stocke la table utilisee pour creer le graphique.</td>
+        <td>Type: table ou valeur vide. Valeurs prises en charge: [] ou table fournie a wordcloud.</td>
+      </tr>
+      <tr>
+        <td><b>Tag</b></td>
+        <td>stocke un texte utilisateur pour identifier l'objet.</td>
+        <td>Type: texte. Valeurs prises en charge: vecteur de caracteres ou string scalaire.</td>
+      </tr>
+      <tr>
+        <td><b>Title</b></td>
+        <td>definit le texte du titre du graphique.</td>
+        <td>Type: texte. Valeurs prises en charge: vecteur de caracteres ou string scalaire.</td>
+      </tr>
+      <tr>
+        <td><b>TitleFontName</b></td>
+        <td>definit la famille de police utilisee pour afficher le titre.</td>
+        <td>Type: texte. Valeurs prises en charge: nom de police installee comme vecteur de caracteres ou string scalaire.</td>
+      </tr>
+      <tr>
+        <td><b>Type</b></td>
+        <td>identifie le type de l'objet graphique.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'wordcloud'.</td>
+      </tr>
+      <tr>
+        <td><b>Units</b></td>
+        <td>definit les unites des proprietes de position.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'normalized', 'pixels', 'inches', 'centimeters', 'points', 'characters'.</td>
+      </tr>
+      <tr>
+        <td><b>UserData</b></td>
+        <td>stocke des donnees utilisateur sur l'objet.</td>
+        <td>Type: valeur Nelson quelconque. Valeurs prises en charge: toute valeur.</td>
+      </tr>
+      <tr>
+        <td><b>Visible</b></td>
+        <td>affiche ou masque l'objet.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>WordData</b></td>
+        <td>definit les mots affiches par le graphique.</td>
+        <td>Type: vecteur string ou vecteur cellule de lignes de caracteres. Valeurs prises en charge: textes non vides.</td>
+      </tr>
+      <tr>
+        <td><b>WordVariable</b></td>
+        <td>stocke la variable de table utilisee pour les mots affiches.</td>
+        <td>Type: texte. Valeurs prises en charge: [] ou nom d'une variable de la table source.</td>
+      </tr>
+    </table>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Inspecter les proprietes de wordcloud.</example_item_description>
+      <example_item_data><![CDATA[h = wordcloud({'alpha','beta'}, [5 3]);
+props = properties(h)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/4_data_distribution_plots/wordcloud">wordcloud</link></see_also_item>
+    <see_also_item><link linkend="${handle}properties">properties</link></see_also_item>
+  </see_also>
+</xmldoc>

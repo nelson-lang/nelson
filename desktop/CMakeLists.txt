@@ -11,13 +11,29 @@
 # ==============================================================================
 if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   option(ENABLE_DESKTOP_ICONS_ASSOCIATION "Enable desktop icons association" ON)
-  message(STATUS "Enable desktop icons association: ${ENABLE_DESKTOP_ICONS_ASSOCIATION}")
-  if (ENABLE_DESKTOP_ICONS_ASSOCIATION)
+  message(STATUS
+    "Enable desktop icons association: ${ENABLE_DESKTOP_ICONS_ASSOCIATION}"
+  )
+  if(ENABLE_DESKTOP_ICONS_ASSOCIATION)
     include(GNUInstallDirs)
-    message(STATUS "CMAKE_INSTALL_DATADIR destination: ${CMAKE_INSTALL_DATADIR}")
-    install(FILES ${CMAKE_SOURCE_DIR}/desktop/${NELSON_APP_ID}.appdata.xml DESTINATION ${CMAKE_INSTALL_DATADIR}/metainfo)
-    install(FILES ${CMAKE_SOURCE_DIR}/desktop/${NELSON_APP_ID}.desktop DESTINATION ${CMAKE_INSTALL_DATADIR}/applications)
-    install(DIRECTORY ${CMAKE_SOURCE_DIR}/desktop/icons DESTINATION ${CMAKE_INSTALL_DATADIR})
+    message(STATUS
+      "CMAKE_INSTALL_DATADIR destination: ${CMAKE_INSTALL_DATADIR}"
+    )
+    install(
+      FILES ${CMAKE_SOURCE_DIR}/desktop/${NELSON_APP_ID}.appdata.xml
+      DESTINATION ${CMAKE_INSTALL_DATADIR}/metainfo
+    )
+    install(
+      FILES ${CMAKE_SOURCE_DIR}/desktop/${NELSON_APP_ID}.desktop
+      DESTINATION ${CMAKE_INSTALL_DATADIR}/applications
+    )
+    install(
+      FILES ${CMAKE_SOURCE_DIR}/desktop/${NELSON_APP_ID}.xml
+      DESTINATION ${CMAKE_INSTALL_DATADIR}/mime/packages
+    )
+    install(
+      DIRECTORY ${CMAKE_SOURCE_DIR}/desktop/icons
+      DESTINATION ${CMAKE_INSTALL_DATADIR}
+    )
   endif()
 endif()
-# ==============================================================================

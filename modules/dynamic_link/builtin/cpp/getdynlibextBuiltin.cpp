@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "getdynlibextBuiltin.hpp"
 #include "DynamicLibrary.hpp"
+#include "DynamicLinkTarget.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -19,7 +20,12 @@ Nelson::DynamicLinkGateway::getdynlibextBuiltin(int nLhs, const ArrayOfVector& a
     ArrayOfVector retval;
     nargincheck(argIn, 0, 0);
     nargoutcheck(nLhs, 0, 1);
-    retval << ArrayOf::characterArrayConstructor(get_dynamic_library_extension());
+    // Emscripten side modules keep the Unix suffix whatever the host is.
+    if (IsWasm32DynamicLinkTarget()) {
+        retval << ArrayOf::characterArray(".so");
+    } else {
+        retval << ArrayOf::characterArray(get_dynamic_library_extension());
+    }
     return retval;
 }
 //=============================================================================

@@ -7,74 +7,81 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('issymmetric'), 2);
-assert_isequal(nargout('issymmetric'), 1);
+% <--WEIGHT 2-->
+% <--REUSE PROCESS-->
+asserts.isequal(nargin('issymmetric'), 2);
+asserts.isequal(nargout('issymmetric'), 1);
 %=============================================================================
-assert_istrue(issymmetric(1));
-assert_isfalse(issymmetric([1, 2]));
-assert_istrue(issymmetric([]));
-assert_istrue(issymmetric(NaN));
-assert_istrue(issymmetric(Inf));
-assert_istrue(issymmetric([1, 2; 2, 1]));
-assert_istrue(issymmetric([1, 2.1; 2, 1.1], 0.2));
-assert_istrue(issymmetric([1, 2i; 2i, 1]));
+asserts.istrue(issymmetric(1));
+asserts.isfalse(issymmetric([1, 2]));
+asserts.istrue(issymmetric([]));
+asserts.istrue(issymmetric(NaN));
+asserts.istrue(issymmetric(Inf));
+asserts.istrue(issymmetric([1, 2; 2, 1]));
+asserts.istrue(issymmetric([1, 2.1; 2, 1.1], 0.2));
+asserts.istrue(issymmetric([1, 2i; 2i, 1]));
 %=============================================================================
-A = [1 0 1i; 0 1 0;-1i 0 1];
-assert_isfalse(issymmetric(A));
-assert_isfalse(issymmetric(A, 'skew'));
-assert_isfalse(issymmetric(A, 'nonskew'));
+A = [1 0 1i; 0 1 0; -1i 0 1];
+asserts.isfalse(issymmetric(A));
+asserts.isfalse(issymmetric(A, 'skew'));
+asserts.isfalse(issymmetric(A, 'nonskew'));
 %=============================================================================
-A = [1 0 1i; 0 1 0;-1i 0 1];
-A(3,1) = 1i;
-assert_isfalse(issymmetric(A, 'skew'));
-assert_istrue(issymmetric(A, 'nonskew'));
-assert_istrue(issymmetric(A));
+A = [1 0 1i; 0 1 0; -1i 0 1];
+A(3, 1) = 1i;
+asserts.isfalse(issymmetric(A, 'skew'));
+asserts.istrue(issymmetric(A, 'nonskew'));
+asserts.istrue(issymmetric(A));
 %=============================================================================
 A = [0 1 -2 5; -1 0 3 -4; 2 -3 0 6; -5 4 -6 0];
-assert_istrue(issymmetric(A, 'skew'));
-assert_isfalse(issymmetric(A, 'nonskew'));
-assert_isfalse(issymmetric(A));
+asserts.istrue(issymmetric(A, 'skew'));
+asserts.isfalse(issymmetric(A, 'nonskew'));
+asserts.isfalse(issymmetric(A));
 %=============================================================================
 A = [0 1 -2 5; -1 0 3 -4; 2 -3 0 6; -5 4 -6 0] * i;
-assert_istrue(issymmetric(A, 'skew'));
-assert_isfalse(issymmetric(A, 'nonskew'));
-assert_isfalse(issymmetric(A));
+asserts.istrue(issymmetric(A, 'skew'));
+asserts.isfalse(issymmetric(A, 'nonskew'));
+asserts.isfalse(issymmetric(A));
 %=============================================================================
 A = [0 NaN(); NaN() 0];
-assert_isfalse(issymmetric(A, 'skew'));
-assert_isfalse(issymmetric(A, 'nonskew'));
-assert_isfalse(issymmetric(A));
+asserts.isfalse(issymmetric(A, 'skew'));
+asserts.isfalse(issymmetric(A, 'nonskew'));
+asserts.isfalse(issymmetric(A));
 %=============================================================================
 A = [0 1; 1 0];
-assert_isfalse(issymmetric(A, 'skew'));
-assert_istrue(issymmetric(A, 'nonskew'));
-assert_istrue(issymmetric(A));
+asserts.isfalse(issymmetric(A, 'skew'));
+asserts.istrue(issymmetric(A, 'nonskew'));
+asserts.istrue(issymmetric(A));
 %=============================================================================
 A = single([0 1; 1 0]);
-assert_isfalse(issymmetric(A, 'skew'));
-assert_istrue(issymmetric(A, 'nonskew'));
-assert_istrue(issymmetric(A));
+asserts.isfalse(issymmetric(A, 'skew'));
+asserts.istrue(issymmetric(A, 'nonskew'));
+asserts.istrue(issymmetric(A));
 %=============================================================================
 A = int8([0 1; 1 0]);
-assert_isfalse(issymmetric(A, 'skew'));
-assert_istrue(issymmetric(A, 'nonskew'));
-assert_istrue(issymmetric(A));
+asserts.isfalse(issymmetric(A, 'skew'));
+asserts.istrue(issymmetric(A, 'nonskew'));
+asserts.istrue(issymmetric(A));
 %=============================================================================
 A = uint8([0 1; 1 0]);
-assert_isfalse(issymmetric(A, 'skew'));
-assert_istrue(issymmetric(A, 'nonskew'));
-assert_istrue(issymmetric(A));
+asserts.isfalse(issymmetric(A, 'skew'));
+asserts.istrue(issymmetric(A, 'nonskew'));
+asserts.istrue(issymmetric(A));
 %=============================================================================
 A = logical([0 1; 1 0]);
-assert_isfalse(issymmetric(A, 'skew'));
-assert_istrue(issymmetric(A, 'nonskew'));
-assert_istrue(issymmetric(A));
+asserts.isfalse(issymmetric(A, 'skew'));
+asserts.istrue(issymmetric(A, 'nonskew'));
+asserts.istrue(issymmetric(A));
 %=============================================================================
-assert_isfalse(issymmetric(ones(3,3,3)));
+asserts.isfalse(issymmetric(ones(3, 3, 3)));
 %=============================================================================
-assert_istrue(issymmetric(-2i-9))
-assert_istrue(issymmetric(2i-9))
-assert_istrue(issymmetric(-2i))
-assert_istrue(issymmetric(2i))
-assert_istrue(issymmetric(3))
+asserts.istrue(issymmetric(-2i - 9))
+asserts.istrue(issymmetric(2i - 9))
+asserts.istrue(issymmetric(-2i))
+asserts.istrue(issymmetric(2i))
+asserts.istrue(issymmetric(3))
+%=============================================================================
+singleInput = single([2 0; 0 4]);
+asserts.isequal(issymmetric(singleInput), true);
+asserts.istrue(issymmetric([1, 2.1; 2, 1.1], 0.2));
+asserts.istrue(issymmetric([0 1; -1 0], 'skew'));
 %=============================================================================

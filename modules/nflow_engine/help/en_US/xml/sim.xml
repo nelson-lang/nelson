@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>sim</keyword>
+  <short_description>Run an nflow simulation of a model and return its results.</short_description>
+  <syntax>
+    <syntax_item>out = sim(model)</syntax_item>
+    <syntax_item>out = sim(model, 'StopTime', T)</syntax_item>
+    <syntax_item>out = sim(model, 'StopTime', T, 'SampleTime', dt)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>model</param_name>
+      <param_description>a loaded system (name or handle) or the path to a .nflow file.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>StopTime</param_name>
+      <param_description>optional finite numeric scalar; overrides the model's total simulated time.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>SampleTime</param_name>
+      <param_description>optional finite numeric scalar; overrides the model's sample time.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>out</param_name>
+      <param_description>a structure with one field per To Workspace block (its VariableName) plus 'tout' (the time vector).</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>sim</b> runs an nflow simulation of <b>model</b> and returns its results.</p>
+    <p>From Workspace blocks read their signal from the base workspace, so define those variables before calling <b>sim</b>. To Workspace blocks write their result to the base workspace (as during an interactive run) and are also exposed as fields of <b>out</b> (for example <b>out.simout</b>).</p>
+    <p>This is a convenience wrapper over the headless runner <b>__nflow_simulate__</b>: it reads the model document, applies the optional <b>StopTime</b> / <b>SampleTime</b> overrides, runs the engine and collects the results.</p>
+    <p><b>StopFcn callback.</b> If the model carries a top-level <b>stopFcn</b> field (a text blob of Nelson commands), it runs in the base workspace once the simulation stops, with the result exposed as <b>out</b>. It fires only from a simulation run (never on model load) and runs even when no output is requested, so a model whose <b>stopFcn</b> is <b>NFlow.plotScopes(out)</b> pops its scopes up automatically. The nflow editor's Run button fires the same <b>stopFcn</b>. A failing callback warns instead of aborting the completed run.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Run a self-contained demo and read back the logged signal</example_item_description>
+      <example_item_data><![CDATA[model = [modulepath('nflow_blocks'), '/examples/workspace/To_Workspace_Demo.nflow'];
+out = sim(model, 'StopTime', 5);
+plot(out.simout.time, out.simout.signals.values);]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Feed a From Workspace block from the base workspace</example_item_description>
+      <example_item_data><![CDATA[t = (0:0.01:10)';
+simin = [t, sin(2*pi*0.5*t)];
+out = sim([modulepath('nflow_blocks'), '/examples/workspace/From_Workspace_Demo.nflow']);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${nflow_engine}load_system">load_system</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}new_system">new_system</link></see_also_item>
+    <see_also_item><link linkend="${nflow_blocks}source/fromWorkspace">fromWorkspace</link></see_also_item>
+    <see_also_item><link linkend="${nflow_blocks}sink/toWorkspace">toWorkspace</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}NFlow.plotScopes">NFlow.plotScopes</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>1.0.0</history_version><history_description>initial version</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

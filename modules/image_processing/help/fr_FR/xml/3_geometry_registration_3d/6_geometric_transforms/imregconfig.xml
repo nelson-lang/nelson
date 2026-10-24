@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>imregconfig</keyword>
+  <short_description>Cree des structures d'optimiseur et de metrique pour le recalage d'images.</short_description>
+  <syntax>
+    <syntax_item>[optimizer, metric] = imregconfig(modality)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>modality</param_name>
+      <param_description>Nom de modalite de recalage : monomodal ou multimodal.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>optimizer</param_name>
+      <param_description>Structure avec les parametres de recherche simples utilises par imregtform, dont AngleSearch, ScaleSearch et ShearSearch.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>metric</param_name>
+      <param_description>Structure de metrique. Monomodal utilise MeanSquares. Multimodal utilise Correlation.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>imregconfig retourne des structures legeres d'optimiseur et de metrique pour le recalage d'images. Ces structures sont des valeurs Nelson ordinaires et peuvent etre modifiees avant imregtform ou imregister.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Creer des reglages de recalage</example_item_description>
+      <example_item_data><![CDATA[[optimizer, metric] = imregconfig('monomodal');
+optimizer.AngleSearch = 10;
+optimizer.ShearSearch = 0.1;]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}imregtform">imregtform</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}imregister">imregister</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>binocdf</keyword>
+  <short_description>Fonction de repartition binomiale</short_description>
+  <syntax><syntax_item>p = binocdf(x, n, prob)</syntax_item><syntax_item>p = binocdf(x, n, prob, &apos;upper&apos;)</syntax_item></syntax>
+  <param_input><param_input_item><param_name>x</param_name><param_description>tableau numerique reel.</param_description></param_input_item><param_input_item><param_name>n</param_name><param_description>nombre entier non negatif d'essais.</param_description></param_input_item><param_input_item><param_name>prob</param_name><param_description>probabilite de succes dans [0,1].</param_description></param_input_item></param_input>
+  <param_output><param_output_item><param_name>p</param_name><param_description>probabilites cumulees ou de queue superieure.</param_description></param_output_item></param_output>
+  <description><p><b>binocdf</b> calcule par defaut les probabilites de queue inferieure binomiale et les probabilites de queue superieure avec <b>&apos;upper&apos;</b>.</p></description>
+  <examples><example_item><example_item_type>nelson</example_item_type><example_item_description /><example_item_data runnable="cli"><![CDATA[x = 0:10;
+p = binocdf(x, 10, 0.4);
+q = binocdf(x, 10, 0.4, 'upper');]]></example_item_data></example_item></examples>
+  <see_also><see_also_item><link linkend="${statistics}binopdf">binopdf</link></see_also_item><see_also_item><link linkend="${statistics}binoinv">binoinv</link></see_also_item></see_also>
+  <history><history_item><history_version>2.0.0</history_version><history_description>version initiale</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

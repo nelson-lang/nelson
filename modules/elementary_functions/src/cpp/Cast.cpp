@@ -10,6 +10,7 @@
 #include "Cast.hpp"
 #include "ClassName.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
@@ -44,13 +45,13 @@ Cast(Evaluator* eval, const ArrayOf& arrayIn, const std::string& classname, bool
     bool succeeded = false;
     ArrayOf res = evaluateFunction(eval, arrayIn, functionName, succeeded);
     if (!succeeded) {
-        Error(_W("Unsupported data conversion."), L"Nelson:cast:UnsupportedPrototype");
+        Error(L"Nelson:cast:UnsupportedPrototype", L"Unsupported data conversion.");
     }
     if (isComplex) {
         res = evaluateFunction(eval, res, "complex", succeeded);
     }
     if (!succeeded || (withCheck && (ClassName(res) != classname))) {
-        Error(_W("Unsupported data conversion."), L"Nelson:cast:UnsupportedPrototype");
+        Error(L"Nelson:cast:UnsupportedPrototype", L"Unsupported data conversion.");
     }
     return res;
 }

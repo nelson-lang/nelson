@@ -8,18 +8,18 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 t = tempname();
-assert_istrue(startsWith(t, tempdir()));
+asserts.istrue(startsWith(t, tempdir()));
 %=============================================================================
-d = [tempdir(), 'path1'];
-mkdir(d,'s');
+d = tempname();
+mkdir(d, 's');
 t = tempname(d);
-assert_istrue(startsWith(t, d));
+asserts.istrue(startsWith(t, d));
 %=============================================================================
-d = [tempdir(), 'path1'];
-mkdir(d,'s');
+d = tempname();
+mkdir(d, 's');
 t = tempname(string(d));
-assert_istrue(startsWith(t, d));
+asserts.istrue(startsWith(t, d));
 %=============================================================================
-msg = [sprintf(_('Invalid input argument at position %d.'), 1), char(10),  _('Value must be a character vector or string scalar.')];
-assert_checkerror('t = tempname(1);', msg)
+msg = [sprintf(_('Invalid input argument at position %d.'), 1), char(10), _('Value must be a character vector or string scalar.')];
+asserts.checkerror('t = tempname(1);', msg)
 %=============================================================================

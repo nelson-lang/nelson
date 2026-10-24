@@ -11,18 +11,18 @@
 function varargout = dcgain(varargin)
   % Generates the low frequency gain of a state space model or a transfer function
   % dc = dcgain(sys)
-  
+
   narginchk(1, 1);
   nargoutchk(0, 1);
-  
+
   sys = varargin{1};
   if ~islti(sys)
-    error(_('LTI model expected.'));
+    error('Nelson:control_system:invalidType', '%s expected.', 'LTI model');
   end
-  
+
   if isa(sys, 'tf')
     for i = 1:size(sys, 1)
-      for j = 1:size(sys,2)
+      for j = 1:size(sys, 2)
         % Get necessary info
         % Get the static gain
         numerators = sys.Numerator;
@@ -46,7 +46,7 @@ function varargout = dcgain(varargin)
   elseif isa(sys, 'zpk')
     dc = dcgain(zpk2tf(sys));
   else
-    error(_('LTI model expected.'));
+    error('Nelson:control_system:invalidType', '%s expected.', 'LTI model');
   end
   varargout{1} = dc;
 end

@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "file": "filter_noisy_signal.m",
+      "title": "Filter a noisy signal",
+      "description": "Design an FIR filter and smooth a synthetic measurement.",
+      "tags": [
+        "signal",
+        "filter"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    },
+    {
+      "file": "signal_spectrum.m",
+      "title": "Inspect a signal spectrum",
+      "description": "Use a Fourier transform to reveal two frequency components.",
+      "tags": [
+        "signal",
+        "spectrum"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    },
+    {
+      "file": "chirp_spectrogram.m",
+      "title": {
+        "en_US": "Track a chirp with a spectrogram",
+        "fr_FR": "Suivre un chirp avec un spectrogramme"
+      },
+      "description": {
+        "en_US": "Use short-time spectral analysis to reveal a frequency sweep over time.",
+        "fr_FR": "Utiliser une analyse spectrale à court terme pour révéler un balayage fréquentiel."
+      },
+      "tags": [
+        "signal",
+        "spectrogram",
+        "chirp",
+        "time-frequency"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    }
+  ]
+}

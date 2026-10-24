@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>probplot</keyword>
+  <short_description>Trace de probabilite.</short_description>
+  <syntax>
+    <syntax_item>probplot(y)</syntax_item>
+    <syntax_item>probplot(y, cens)</syntax_item>
+    <syntax_item>probplot(y, cens, freq)</syntax_item>
+    <syntax_item>probplot(dist, ...)</syntax_item>
+    <syntax_item>probplot(..., &apos;noref&apos;)</syntax_item>
+    <syntax_item>h = probplot(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>probplot</b> cree un trace de probabilite pour des donnees d&apos;echantillon.</p>
+    <p>La distribution par defaut est normale. Les noms de distribution pris en charge incluent normal, exponential, extreme value, half normal, lognormal, logistic, loglogistic, rayleigh et weibull. La valeur retournee contient les handles des lignes des points et, sauf avec noref, les lignes de reference.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="adv-cli"><![CDATA[x = randn(100, 1);
+probplot(x)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${statistics}qqplot">qqplot</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}ecdf">ecdf</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

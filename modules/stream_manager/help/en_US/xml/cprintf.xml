@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>cprintf</keyword>
+  <short_description>Writes styled formatted text to stdout.</short_description>
+  <syntax>
+    <syntax_item>cprintf()</syntax_item>
+    <syntax_item>cprintf(format, v1, ... , vn)</syntax_item>
+    <syntax_item>cprintf(style, format, v1, ... , vn)</syntax_item>
+    <syntax_item>R = cprintf(style, format, v1, ... , vn)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>style</param_name>
+      <param_description>a text style name, RGB vector, or hexadecimal color.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>format</param_name>
+      <param_description>a string describing the text format.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>v1, ... , vn</param_name>
+      <param_description>data to convert and print according to the format parameter.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>R</param_name>
+      <param_description>number of visible characters written to stdout.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>cprintf</b> writes formatted text to stdout and applies a text style when the current interface supports styled output. The basic CLI displays plain text; advanced CLI and GUI can render styles.</p>
+    <p>Without a style argument, <b>cprintf</b> behaves like a stdout formatted print using plain text. With no input argument, it displays a short style demo.</p>
+    <p>The <b>format</b> argument follows the same formatting rules as <b>fprintf</b>.</p>
+    <p>Named styles include text, keywords, comments, strings, unterminatedstrings, systemcommands, errors, hyperlinks, and common color names such as black, blue, cyan, green, magenta, red, yellow, white, gray, orange, pink, purple, brown, and gold.</p>
+    <p>Named styles and colors accept unambiguous prefixes. Light and dark variants can be written with a <b>light</b> or <b>dark</b> prefix, for example <b>lightblue</b> or <b>dark-green</b>.</p>
+    <p>RGB colors can be specified as a three-element vector in the range [0, 1] or [0, 255]. Hexadecimal colors can use <b>#RGB</b> or <b>#RRGGBB</b>.</p>
+    <p>A leading <b>*</b> requests bold text. A leading <b>_</b> or <b>-</b> requests underlined text. Prefixes can be combined in either order, for example <b>*_red</b> or <b>_*#0af</b>.</p>
+    <p>Limitations: rendering depends on the terminal or GUI capabilities; the basic CLI and interfaces without style support display plain text. <b>evalc</b> captures only visible text. Files and diary output do not preserve style information. Output is always sent to stdout, never to stderr.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Short demo</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[cprintf()]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Plain formatted text</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[cprintf('value: %.3f\n', pi)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Named colors</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[cprintf('red', 'red text\n')
+cprintf('blue', 'blue text\n')
+cprintf('cy', 'cyan from an unambiguous prefix\n')]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Light and dark variants</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[cprintf('lightgreen', 'light green\n')
+cprintf('dark-blue', 'dark blue\n')]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>RGB colors</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[cprintf([1 0.4 0], 'normalized RGB\n')
+cprintf([0 128 255], 'byte RGB\n')]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Hexadecimal colors</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[cprintf('#0af', 'short hex\n')
+cprintf('#00aaff', 'long hex\n')]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Bold and underline</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[cprintf('*red', 'bold red\n')
+cprintf('_green', 'underlined green\n')
+cprintf('*_dark-magenta', 'bold underlined dark magenta\n')]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Multiple lines, Unicode, and count</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[msg = ['accent ', char(233)];
+count = cprintf('comments', 'line 1\n%s\n', msg)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Capture visible text</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[txt = evalc('cprintf(''red'', ''captured'')')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${stream_manager}fprintf">fprintf</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${stream_manager}diary">diary</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -9,11 +9,11 @@
 %=============================================================================
 % <--MPI MODE-->
 %=============================================================================
-assert_checkerror('name = MPI_Get_processor_name()', _('Attempting to use an MPI routine before initializing MPI.'));
+asserts.checkerror('name = MPI_Get_processor_name()', _('MPI must be initialized.'));
 MPI_Init();
 [name, len, info] = MPI_Get_processor_name();
 MPI_Finalize();
-assert_istrue(ischar(name));
-assert_isequal(length(name), len);
-assert_isequal(info, 0);
+asserts.istrue(ischar(name));
+asserts.isequal(length(name), len);
+asserts.isequal(info, 0);
 %=============================================================================

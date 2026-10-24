@@ -14,11 +14,29 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+// Low-level throw: an exact message with an optional identifier. Use it when the
+// message is built at run time (dynamic text) rather than resolved from the
+// identifier catalog. asCaller = true reports the error at the caller's frame.
 NLSERROR_MANAGER_IMPEXP void
-Error(const std::wstring& msg, const std::wstring& id = L"", bool asCaller = false) noexcept(false);
+RaiseError(const std::wstring& msg, const std::wstring& id = L"", bool asCaller = false) noexcept(
+    false);
 //=============================================================================
 NLSERROR_MANAGER_IMPEXP void
-Error(const std::string& msg, const std::string& id = "", bool asCaller = false) noexcept(false);
+RaiseError(const std::string& msg, const std::string& id = "", bool asCaller = false) noexcept(
+    false);
+//=============================================================================
+// Message-only error (no identifier).
+inline void
+Error(const std::wstring& msg) noexcept(false)
+{
+    RaiseError(msg);
+}
+//=============================================================================
+inline void
+Error(const std::string& msg) noexcept(false)
+{
+    RaiseError(msg);
+}
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

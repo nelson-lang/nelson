@@ -20,5 +20,5 @@ Logarithm2(const ArrayOf& arrayIn, bool& needToOverload);
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOfVector
 Frexp(const ArrayOf& arrayIn, bool& needToOverload);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

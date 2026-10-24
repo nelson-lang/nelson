@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>compiler.build.Results</keyword>
+  <keyword_alias>compiler.build.Results</keyword_alias>
+  <short_description>Inspecter une construction autonome terminee.</short_description>
+  <syntax><syntax_item>result = compiler.build.standaloneApplication(options)</syntax_item><syntax_item>result = compiler.build.standaloneWindowsApplication(options)</syntax_item></syntax>
+  <description>
+    <p>Les fonctions de construction renvoient cet objet apres publication reussie des sorties. L'obtenir depuis une construction plutot que l'instancier directement. Ses proprietes publiques sont en lecture seule.</p>
+    <p>BuildType vaut standaloneApplication ou standaloneWindowsApplication. Files est un vecteur colonne de cellules contenant l'executable, puis le fichier .nca lorsque EmbedArchive vaut false, puis readme.txt a distribuer a l'utilisateur, pas un inventaire recursif du runtime ou des metadonnees de construction.</p>
+    <p>IncludedSupportPackages liste les packages nmm enregistres dont des fichiers ont reellement ete retenus. Les packages inutilises ne sont pas indiques. Une ancienne version enregistree explicitement active est reconnue. Cet inventaire des origines des fichiers ne signifie pas que tout le package est copie ou que son loader est execute.</p>
+    <p>Options est une copie valeur de compiler.build.StandaloneApplicationOptions. RuntimeDependencies est un objet compiler.runtime.Dependencies contenant les exigences en fichiers du runtime selectionne.</p>
+    <p>La construction ne distribue pas de runtime et ne cree pas d'installateur. L'executable requiert un runtime installe compatible. Le resultat decrit l'etat au build ; modifier ou supprimer ensuite des fichiers ne l'actualise pas.</p>
+    <p>Les tables de dependances contiennent des chemins sources absolus de la machine de build. Relire les rapports avant partage. Les empreintes verifient l'integrite, pas l'identite de l'editeur.</p>
+    <p>buildresult.json est aussi ecrit dans OutputDir. Son schema Nelson versionne contient les noms des artefacts relatifs a ce dossier, leurs empreintes SHA256, l'identite du runtime et son inventaire complet. Il ne serialise pas les parametres AppFile et OutputDir, mais conserve les chemins absolus des sources runtime pour leur verification ulterieure. Ce n'est ni un runtime portable, ni une signature, ni un format de rapport externe. Ne pas modifier son contenu. compiler.package.installer utilise les resultats ou rapports pour installer une application Windows ou Linux. compiler.runtime.customInstaller regroupe le runtime minimal partage pour une ou plusieurs applications.</p>
+    <p>Le format 2 du rapport contient le contrat lu dans le lanceur natif : interface de demarrage, versions d'archive prises en charge, version de recherche du runtime et cible avec ou sans console. Les capacites ne sont pas deduites de la version du compilateur installe. Les anciens rapports sans ce contrat doivent etre regeneres en reconstruisant l'application avec les lanceurs natifs actuels.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples />
+  <see_also>
+    <see_also_item><link linkend="${compiler}compiler.build.standaloneApplication">compiler.build.standaloneApplication</link></see_also_item>
+    <see_also_item><link linkend="${compiler}compiler.build.StandaloneApplicationOptions">compiler.build.StandaloneApplicationOptions</link></see_also_item>
+    <see_also_item><link linkend="${compiler}compiler_build_tutorial">compiler_build_tutorial</link></see_also_item>
+  </see_also>
+  <history />
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

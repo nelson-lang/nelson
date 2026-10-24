@@ -7,43 +7,47 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('sqrt'), 1)
-assert_isequal(nargout('sqrt'), 1)
+% <--WEIGHT 2-->
+asserts.isequal(nargin('sqrt'), 1)
+asserts.isequal(nargout('sqrt'), 1)
 %=============================================================================
 R = sqrt(-1);
 REF = complex(0, 1);
-assert_isapprox(R, REF, 1e-4);
+asserts.isapprox(R, REF, 1e-4);
 %=============================================================================
 R = sqrt(3);
 REF = 1.7321;
-assert_isapprox(R, REF, 1e-4);
+asserts.isapprox(R, REF, 1e-4);
 %=============================================================================
-R = sqrt(3+i);
+R = sqrt(3 + i);
 REF = 1.7553 + 0.2848i;
-assert_isapprox(real(R), real(REF), 1e-3);
-assert_isapprox(imag(R), imag(REF), 1e-3);
+asserts.isapprox(real(R), real(REF), 1e-3);
+asserts.isapprox(imag(R), imag(REF), 1e-3);
 %=============================================================================
 R = sqrt(single(-1));
 REF = single(complex(0, 1));
-assert_isapprox(R, REF, 1e-3);
+asserts.isapprox(R, REF, 1e-3);
 %=============================================================================
-R = sqrt(single(3+i));
+R = sqrt(single(3 + i));
 REF = single(1.7553 + 0.2848i);
-assert_isapprox(real(R), real(REF), 1e-3);
-assert_isapprox(imag(R), imag(REF), 1e-3);
+asserts.isapprox(real(R), real(REF), 1e-3);
+asserts.isapprox(imag(R), imag(REF), 1e-3);
 %=============================================================================
-R = sqrt(eye(3,2));
-REF = [1  0;
-0     1;
-0  0];
-assert_isapprox(R, REF, 1e-4);
+R = sqrt(eye(3, 2));
+REF = [1 0;
+  0 1;
+  0 0];
+asserts.isapprox(R, REF, 1e-4);
 %=============================================================================
 R = sqrt(NaN);
 REF = NaN;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = sqrt(-2:0.5:2);
-REF = [ 1.4142i  1.2247i  1.0000i  0.7071i  0.0000i  0.7071+0.0000i  1.0000+0.0000i  1.2247+0.0000i  1.4142+0.0000i];
-assert_isapprox(real(R), real(REF), 1e-3);
-assert_isapprox(imag(R), imag(REF), 1e-3);
+REF = [1.4142i 1.2247i 1.0000i 0.7071i 0.0000i 0.7071 + 0.0000i 1.0000 + 0.0000i 1.2247 + 0.0000i 1.4142 + 0.0000i];
+asserts.isapprox(real(R), real(REF), 1e-3);
+asserts.isapprox(imag(R), imag(REF), 1e-3);
+%=============================================================================
+asserts.isequal(sqrt(4), 2);
+asserts.isequal(sqrt(-1), i);
 %=============================================================================

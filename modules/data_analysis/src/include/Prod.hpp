@@ -13,10 +13,10 @@
 #include "nlsData_analysis_exports.h"
 //=============================================================================
 namespace Nelson {
-/* prod */
 /* if d == 0 --> Prod(X) */
 /* if d != 0 --> Prod(X, n) */
 NLSDATA_ANALYSIS_IMPEXP ArrayOf
 Prod(ArrayOf A, indexType d, const std::wstring& strtype, bool withnan);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

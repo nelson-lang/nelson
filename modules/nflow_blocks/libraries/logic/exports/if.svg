@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72" width="72" height="72">
+  <rect width="72" height="72" rx="14" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="1.5"/>
+  <text x="36" y="37" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-size="20" font-weight="600" fill="#444441">if { }</text>
+  <polygon points="-1,20 -1,28 5,24" fill="#444441" opacity="0.7"/>
+  <polygon points="-1,44 -1,52 5,48" fill="#444441" opacity="0.7"/>
+  <polygon points="67,20 67,28 73,24" fill="#444441" opacity="0.7"/>
+  <polygon points="67,44 67,52 73,48" fill="#444441" opacity="0.7"/>
+</svg>

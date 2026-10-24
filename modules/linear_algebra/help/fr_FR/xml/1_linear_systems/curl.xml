@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>curl</keyword>
+  <short_description>Rotationnel et vitesse angulaire d'un champ de vecteurs.</short_description>
+  <syntax>
+    <syntax_item>curlz = curl(X, Y, U, V)</syntax_item>
+    <syntax_item>curlz = curl(U, V)</syntax_item>
+    <syntax_item>[curlz, cav] = curl(X, Y, U, V)</syntax_item>
+    <syntax_item>[curlx, curly, curlz, cav] = curl(X, Y, Z, U, V, W)</syntax_item>
+    <syntax_item>[curlx, curly, curlz, cav] = curl(U, V, W)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X, Y, Z</param_name>
+      <param_description>Coordonnées de la grille (meshgrid). Optionnel ; une grille unitaire par défaut est utilisée sinon.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>U, V, W</param_name>
+      <param_description>Composantes du champ de vecteurs (même taille).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>curlx, curly, curlz</param_name>
+      <param_description>Composantes du rotationnel du champ de vecteurs.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>cav</param_name>
+      <param_description>Vitesse angulaire, égale à la moitié du rotationnel.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>curl</b> calcule le rotationnel d'un champ de vecteurs 2-D ou 3-D. En
+    deux dimensions il renvoie la seule composante hors-plan <b>curlz</b> ; en
+    trois dimensions il renvoie les trois composantes du rotationnel. La vitesse
+    angulaire <b>cav</b> vaut la moitié du rotationnel.</p>
+    <p>Les dérivées partielles sont évaluées avec <b>gradient</b> sur la grille
+    définie par <b>X</b>, <b>Y</b> (et <b>Z</b>).</p>
+  </description>
+  <used_function>gradient</used_function>
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+      ><![CDATA[[x, y] = meshgrid(-3:3, -3:3);
+u = -y;
+v = x;
+curlz = curl(x, y, u, v)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${linear_algebra}gradient">gradient</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

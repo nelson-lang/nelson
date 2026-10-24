@@ -8,5 +8,5 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 addgateway(modulepath('xml', 'builtin'), 'xml');
-% addpath(modulepath('xml', 'functions'), '-frozen');
+addpath(modulepath('xml', 'functions'), '-frozen');
 %=============================================================================

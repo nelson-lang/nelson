@@ -11,9 +11,10 @@
 //=============================================================================
 #include "nlsHdf5_exports.h"
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+class Evaluator;
 //=============================================================================
 NLSHDF5_IMPEXP void
 h5Save(Evaluator* eval, const std::wstring& filename, const wstringVector& names, bool append,

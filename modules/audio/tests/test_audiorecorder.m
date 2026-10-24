@@ -12,16 +12,19 @@
 % <--AUDIO OUTPUT REQUIRED-->
 % <--SEQUENTIAL TEST REQUIRED-->
 %=============================================================================
-Fs = 44100;        % Sample rate (Hz)
-nBits = 16;        % Bit depth
-nChannels = 1;     % Mono recording
-duration = 3;      % Recording duration (seconds)
+skip_testsuite(iswasm(), ...
+  'WebAssembly audio backend does not provide microphone recorder objects yet.');
+%=============================================================================
+Fs = 44100; % Sample rate (Hz)
+nBits = 16; % Bit depth
+nChannels = 1; % Mono recording
+duration = 3; % Recording duration (seconds)
 recorder = audiorecorder(Fs, nBits, nChannels);
-pause(2);
+pause(0.2);
 recordblocking(recorder, duration);
 audioData = getaudiodata(recorder);
 fprintf('Length: %d samples\n', length(audioData));
-fprintf('Duration: %.2f seconds\n', length(audioData)/Fs);
+fprintf('Duration: %.2f seconds\n', length(audioData) / Fs);
 fprintf('Max Amplitude: %.3f\n', max(abs(audioData)));
 fprintf('Mean Amplitude: %.3f\n\n', mean(abs(audioData)));
 

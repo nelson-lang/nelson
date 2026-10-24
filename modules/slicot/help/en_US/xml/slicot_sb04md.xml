@@ -78,6 +78,17 @@ C_IN = [2.0   1.0;
 [A_OUT, B_OUT, C_OUT, Z, INFO] = slicot_sb04md(A_IN, B_IN, C_IN)]]></example_item_data>
     </example_item>
   </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${slicot}slicot_sb04qd">slicot_sb04qd</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${slicot}slicot_sb03md">slicot_sb03md</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${control_system}lyap">lyap</link>
+    </see_also_item>
+  </see_also>
   <history>
     <history_item>
       <history_version>1.0.0</history_version>

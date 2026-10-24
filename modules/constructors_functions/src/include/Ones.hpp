@@ -18,5 +18,6 @@ NLSCONSTRUCTORS_FUNCTIONS_IMPEXP ArrayOf
 Ones(NelsonType cl);
 NLSCONSTRUCTORS_FUNCTIONS_IMPEXP ArrayOf
 Ones(Dimensions& dims, NelsonType cl);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

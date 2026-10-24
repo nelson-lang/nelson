@@ -1,0 +1,103 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Allan CORNET",
+    "createdBy": "Allan CORNET",
+    "created": "2026-08-19",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "comments": "A sine of amplitude 1.5 is fed through two static nonlinearities. Saturation clips it to +/-1 (flat tops), while the dead-zone [-0.5,0.5] holds the output at zero near the origin and passes the offset excess beyond. The scope overlays the input with both shaped signals.",
+  "name": "Nonlinear Elements - Saturation vs Dead-zone",
+  "blocks": [
+    {
+      "id": "s1",
+      "type": "sine",
+      "x": 80,
+      "y": 180,
+      "rotation": 0,
+      "params": {
+        "Amplitude": 1.5,
+        "Frequency": 0.25,
+        "Phase": 0
+      }
+    },
+    {
+      "id": "sa",
+      "type": "saturation",
+      "x": 360,
+      "y": 300,
+      "rotation": 0,
+      "params": {
+        "LowerLimit": -1,
+        "UpperLimit": 1
+      }
+    },
+    {
+      "id": "dz",
+      "type": "deadZone",
+      "x": 360,
+      "y": 440,
+      "rotation": 0,
+      "params": {
+        "LowerValue": -0.5,
+        "UpperValue": 0.5
+      }
+    },
+    {
+      "id": "sc",
+      "type": "scope",
+      "x": 640,
+      "y": 300,
+      "rotation": 0,
+      "params": {
+        "Title": "Input / Saturation / Dead-zone",
+        "TMin": "",
+        "TMax": "",
+        "YMin": -1.7,
+        "YMax": 1.7,
+        "width": 420,
+        "height": 300,
+        "ShowTickLabels": true
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "s1",
+      "to": "sc",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "s1",
+      "to": "sa",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "sa",
+      "to": "sc",
+      "fromIndex": 0,
+      "toIndex": 1
+    },
+    {
+      "from": "s1",
+      "to": "dz",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "dz",
+      "to": "sc",
+      "fromIndex": 0,
+      "toIndex": 2
+    }
+  ],
+  "variables": "",
+  "runtime": 12,
+  "sampleTime": 0.02,
+  "autoRoute": true,
+  "stopFcn": "NFlow.plotScopes(out);"
+}

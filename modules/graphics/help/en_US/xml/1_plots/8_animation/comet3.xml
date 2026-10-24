@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>comet3</keyword>
+  <short_description>Create 3-D comet plot.</short_description>
+  <syntax>
+    <syntax_item>comet3(z)</syntax_item>
+    <syntax_item>comet3(x, y, z)</syntax_item>
+    <syntax_item>comet3(x, y, z, p)</syntax_item>
+    <syntax_item>comet3(ax, x, y, z, p)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>z</param_name>
+      <param_description>z-values: numeric vector.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>x, y, z</param_name>
+      <param_description>numeric vectors with the same number of elements.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>p</param_name>
+      <param_description>body length scale factor in the interval [0, 1).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description>target axes.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b>comet3</b> animates a marker head, a trailing body, and a complete trace for a three-dimensional comet plot.</p>
+    <p><b>comet3(z)</b> plots <b>z</b> against index values on both x and y axes.</p>
+    <p>The final axes state contains two animated line objects and one line object for the head marker.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="adv-cli"><![CDATA[t = -pi:pi/120:pi;
+comet3(sin(5 * t), cos(3 * t), t, 0.2)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/8_animation/comet">comet</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/8_animation/animatedline">animatedline</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

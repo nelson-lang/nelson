@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,10 +9,10 @@
 //=============================================================================
 #include "fevalBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "characters_encoding.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -24,19 +24,20 @@ Nelson::FunctionsGateway::fevalBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     FunctionDef* funcDef = nullptr;
     ArrayOf param1 = argIn[0];
     if (param1.isFunctionHandle()) {
-        function_handle fh = param1.getContentAsFunctionHandle();
+        function_handle fh = param1.asFunctionHandle();
         if (fh.anonymousHandle == nullptr) {
-            Error(ERROR_WRONG_ARGUMENT_1_TYPE_FUNCTION_HANDLE_EXPECTED);
+            Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1),
+                L"function handle");
         }
         if (fh.anonymousHandle != nullptr) {
             funcDef = (FunctionDef*)fh.anonymousHandle;
         }
     } else {
-        std::string fname = param1.getContentAsCString();
+        std::string fname = param1.asUtf8String();
         context->lookupFunction(fname, funcDef);
     }
     if (!funcDef) {
-        Error(_W("Invalid anonymous function."));
+        Error(L"Nelson:feval:invalidAnonymousFunction", L"Invalid anonymous function.");
     }
     ArrayOfVector newarg(argIn);
     newarg.pop_front();

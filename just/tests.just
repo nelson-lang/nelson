@@ -5,7 +5,7 @@ minimal_tests:
 
 # Tests for the Nelson
 tests:
-    ./bin/{{os}}/nelson --adv-cli -noipc --quiet -f ./tools/tests_all/runtests_all.m
+    ./bin/{{os}}/nelson -adv-cli --no-ipc --quiet -f ./tools/tests_all/runtests_all.m
 
 # Tests for the Nelson (no display)
 tests_no_display:

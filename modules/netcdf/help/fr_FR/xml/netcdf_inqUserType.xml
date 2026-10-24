@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>netcdf.inqUserType</keyword>
+  <short_description>Retourne les informations d'un type utilisateur netCDF.</short_description>
+  <syntax>
+    <syntax_item>[name, size, baseType, nfields, classid] = netcdf.inqUserType(ncid, xtype)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>ncid</param_name>
+      <param_description>Identifiant numerique d'un fichier ou groupe netCDF ouvert.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>xtype</param_name>
+      <param_description>Constante numerique de type netCDF.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>typeName</param_name>
+      <param_description>Nom du type utilisateur netCDF.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>baseType</param_name>
+      <param_description>Type de base d'un type utilisateur netCDF.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>[name, size, baseType, nfields, classid]</param_name>
+      <param_description>Valeur retournee par la syntaxe indiquee ci-dessus.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>netcdf.inqUserType expose une operation bas niveau de la bibliotheque netCDF.</p>
+    <p>Ces fonctions utilisent des identifiants numeriques et suivent les conventions netCDF, notamment pour les indices, les modes et les constantes.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Exemple copiable pour netcdf.inqUserType.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[filename = [tempdir(), 'help_netcdf_inqUserType.nc'];
+mode = bitor(netcdf.getConstant('NC_CLOBBER'), netcdf.getConstant('NC_NETCDF4'));
+ncid = netcdf.create(filename, mode);
+typeid = netcdf.defVlen(ncid, 'sample_vlen', netcdf.getConstant('NC_DOUBLE'));
+[name, sizeValue, baseType, nfields, classId] = netcdf.inqUserType(ncid, typeid);
+netcdf.close(ncid);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${netcdf}netcdf.getConstant">netcdf.getConstant</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${netcdf}netcdf.defVar">netcdf.defVar</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

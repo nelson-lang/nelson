@@ -15,5 +15,6 @@
 namespace Nelson {
 NLSSPARSE_IMPEXP ArrayOf
 VertCatSparseLogical(ArrayOf A, ArrayOf B);
-}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

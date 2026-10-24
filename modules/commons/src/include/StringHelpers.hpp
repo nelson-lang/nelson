@@ -170,5 +170,5 @@ NLSCOMMONS_IMPEXP
 int
 count(const std::string& string, const std::string& subString);
 //=============================================================================
-}
+} // namespace Nelson::StringHelpers
 //=============================================================================

@@ -1,0 +1,404 @@
+{
+  "blocks": [
+    {
+      "id": "and_gate",
+      "x": 220,
+      "y": 110,
+      "width": 80,
+      "height": 80,
+      "rotation": 0,
+      "ports": [
+        {
+          "x": 0,
+          "y": 20,
+          "type": "in",
+          "index": 0
+        },
+        {
+          "x": 0,
+          "y": 60,
+          "type": "in",
+          "index": 1
+        },
+        {
+          "x": 80,
+          "y": 40,
+          "type": "out",
+          "index": 0
+        }
+      ]
+    },
+    {
+      "id": "and_scope",
+      "x": 380,
+      "y": 60,
+      "width": 260,
+      "height": 180,
+      "rotation": 0,
+      "ports": [
+        {
+          "x": 0,
+          "y": 40,
+          "type": "in",
+          "index": 0
+        },
+        {
+          "x": 0,
+          "y": 90,
+          "type": "in",
+          "index": 1
+        },
+        {
+          "x": 0,
+          "y": 140,
+          "type": "in",
+          "index": 2
+        }
+      ]
+    },
+    {
+      "id": "b2",
+      "x": 60,
+      "y": 85,
+      "width": 80,
+      "height": 50,
+      "rotation": 0,
+      "ports": [
+        {
+          "x": 80,
+          "y": 25,
+          "type": "out",
+          "index": 0
+        }
+      ]
+    },
+    {
+      "id": "b3",
+      "x": 60,
+      "y": 175,
+      "width": 80,
+      "height": 50,
+      "rotation": 0,
+      "ports": [
+        {
+          "x": 80,
+          "y": 25,
+          "type": "out",
+          "index": 0
+        }
+      ]
+    },
+    {
+      "id": "b4",
+      "x": 60,
+      "y": 435,
+      "width": 80,
+      "height": 50,
+      "rotation": 0,
+      "ports": [
+        {
+          "x": 80,
+          "y": 25,
+          "type": "out",
+          "index": 0
+        }
+      ]
+    },
+    {
+      "id": "b5",
+      "x": 60,
+      "y": 345,
+      "width": 80,
+      "height": 50,
+      "rotation": 0,
+      "ports": [
+        {
+          "x": 80,
+          "y": 25,
+          "type": "out",
+          "index": 0
+        }
+      ]
+    },
+    {
+      "id": "b6",
+      "x": 60,
+      "y": 605,
+      "width": 80,
+      "height": 50,
+      "rotation": 0,
+      "ports": [
+        {
+          "x": 80,
+          "y": 25,
+          "type": "out",
+          "index": 0
+        }
+      ]
+    },
+    {
+      "id": "b7",
+      "x": 60,
+      "y": 695,
+      "width": 80,
+      "height": 50,
+      "rotation": 0,
+      "ports": [
+        {
+          "x": 80,
+          "y": 25,
+          "type": "out",
+          "index": 0
+        }
+      ]
+    },
+    {
+      "id": "b8",
+      "x": 60,
+      "y": 905,
+      "width": 80,
+      "height": 50,
+      "rotation": 0,
+      "ports": [
+        {
+          "x": 80,
+          "y": 25,
+          "type": "out",
+          "index": 0
+        }
+      ]
+    },
+    {
+      "id": "not_gate",
+      "x": 220,
+      "y": 890,
+      "width": 80,
+      "height": 80,
+      "rotation": 0,
+      "ports": [
+        {
+          "x": 0,
+          "y": 40,
+          "type": "in",
+          "index": 0
+        },
+        {
+          "x": 80,
+          "y": 40,
+          "type": "out",
+          "index": 0
+        }
+      ]
+    },
+    {
+      "id": "not_scope",
+      "x": 380,
+      "y": 840,
+      "width": 260,
+      "height": 180,
+      "rotation": 0,
+      "ports": [
+        {
+          "x": 0,
+          "y": 40,
+          "type": "in",
+          "index": 0
+        },
+        {
+          "x": 0,
+          "y": 90,
+          "type": "in",
+          "index": 1
+        },
+        {
+          "x": 0,
+          "y": 140,
+          "type": "in",
+          "index": 2
+        }
+      ]
+    },
+    {
+      "id": "or_gate",
+      "x": 220,
+      "y": 370,
+      "width": 80,
+      "height": 80,
+      "rotation": 0,
+      "ports": [
+        {
+          "x": 0,
+          "y": 20,
+          "type": "in",
+          "index": 0
+        },
+        {
+          "x": 0,
+          "y": 60,
+          "type": "in",
+          "index": 1
+        },
+        {
+          "x": 80,
+          "y": 40,
+          "type": "out",
+          "index": 0
+        }
+      ]
+    },
+    {
+      "id": "or_scope",
+      "x": 380,
+      "y": 320,
+      "width": 260,
+      "height": 180,
+      "rotation": 0,
+      "ports": [
+        {
+          "x": 0,
+          "y": 40,
+          "type": "in",
+          "index": 0
+        },
+        {
+          "x": 0,
+          "y": 90,
+          "type": "in",
+          "index": 1
+        },
+        {
+          "x": 0,
+          "y": 140,
+          "type": "in",
+          "index": 2
+        }
+      ]
+    },
+    {
+      "id": "xor_gate",
+      "x": 220,
+      "y": 630,
+      "width": 80,
+      "height": 80,
+      "rotation": 0,
+      "ports": [
+        {
+          "x": 0,
+          "y": 20,
+          "type": "in",
+          "index": 0
+        },
+        {
+          "x": 0,
+          "y": 60,
+          "type": "in",
+          "index": 1
+        },
+        {
+          "x": 80,
+          "y": 40,
+          "type": "out",
+          "index": 0
+        }
+      ]
+    },
+    {
+      "id": "xor_scope",
+      "x": 380,
+      "y": 580,
+      "width": 260,
+      "height": 180,
+      "rotation": 0,
+      "ports": [
+        {
+          "x": 0,
+          "y": 40,
+          "type": "in",
+          "index": 0
+        },
+        {
+          "x": 0,
+          "y": 90,
+          "type": "in",
+          "index": 1
+        },
+        {
+          "x": 0,
+          "y": 140,
+          "type": "in",
+          "index": 2
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "from": "and_gate",
+      "to": "and_scope",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "or_gate",
+      "to": "or_scope",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "xor_gate",
+      "to": "xor_scope",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "not_gate",
+      "to": "not_scope",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "b2",
+      "to": "and_gate",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "b3",
+      "to": "and_gate",
+      "fromIndex": 0,
+      "toIndex": 1
+    },
+    {
+      "from": "b5",
+      "to": "or_gate",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "b4",
+      "to": "or_gate",
+      "fromIndex": 0,
+      "toIndex": 1
+    },
+    {
+      "from": "b6",
+      "to": "xor_gate",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "b8",
+      "to": "not_gate",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "b7",
+      "to": "xor_gate",
+      "fromIndex": 0,
+      "toIndex": 1
+    }
+  ],
+  "width": 900,
+  "height": 1300
+}

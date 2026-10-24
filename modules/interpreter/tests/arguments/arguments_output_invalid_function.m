@@ -9,7 +9,7 @@
 %=============================================================================
 function out = arguments_output_invalid_function()
   arguments (Output)
-    out (1,:) {mustBeA(out, 'double')}
+    out(1, :) {mustBeA(out, 'double')}
   end
 
   out = int32(3);

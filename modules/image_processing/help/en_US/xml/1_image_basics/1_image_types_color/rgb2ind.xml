@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>rgb2ind</keyword>
+  <short_description>Convert RGB image to indexed image.</short_description>
+  <syntax>
+    <syntax_item>[X, map] = rgb2ind(RGB, n)</syntax_item>
+    <syntax_item>[X, map] = rgb2ind(RGB, n, dither_option)</syntax_item>
+    <syntax_item>[X, map] = rgb2ind(RGB, tol)</syntax_item>
+    <syntax_item>X = rgb2ind(RGB, map)</syntax_item>
+    <syntax_item>X = rgb2ind(RGB, map, dither_option)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>RGB</param_name>
+      <param_description>RGB image, an M-by-N-by-3 array of class uint8, uint16, single, or double.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>n</param_name>
+      <param_description>Number of colors in the output colormap, a scalar integer greater than or equal to 1. Minimum-variance quantization is used.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>tol</param_name>
+      <param_description>Tolerance in the interval (0, 1). Uniform quantization is used and the colormap contains the distinct grid colors that occur.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>map</param_name>
+      <param_description>Colormap, an M-by-3 array of values in the range [0, 1]. Each pixel is mapped to the nearest color in the colormap.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>dither_option</param_name>
+      <param_description>'dither' (default) applies Floyd-Steinberg error diffusion, 'nodither' maps each pixel to its nearest color without dithering.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>X</param_name>
+      <param_description>Indexed image with zero-based indices. Class is uint8 when the colormap has 256 or fewer entries, otherwise uint16.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>map</param_name>
+      <param_description>Colormap, a double array with three columns and values in the range [0, 1].</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Convert an RGB image to an indexed image and its associated colormap. When the second argument is a scalar integer, minimum-variance quantization builds a colormap of at most that many colors; when the image has that many or fewer distinct colors the result is lossless. When the second argument is a scalar in the interval (0, 1), uniform quantization is used. When the second argument is an M-by-3 colormap, each pixel is mapped to the nearest color in the colormap.</p>
+    <p>Indices in <b>X</b> are zero-based, matching indexed images produced by integer inputs. Floyd-Steinberg dithering is applied by default and can be disabled with 'nodither'.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Quantize an RGB image to 16 colors</example_item_description>
+      <example_item_data
+        runnable="true"
+      ><![CDATA[R = uint8(255 * rand(32, 32, 3));
+[X, map] = rgb2ind(R, 16, 'nodither');
+size(map)
+max(X(:))]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Map an RGB image onto a fixed palette</example_item_description>
+      <example_item_data
+        runnable="true"
+      ><![CDATA[RGB = cat(3, [10 240; 250 0], [20 10; 250 0], [200 10; 250 0]);
+RGB = uint8(RGB);
+map = [0 0 0; 1 1 1; 1 0 0; 0 0 1];
+X = rgb2ind(RGB, map, 'nodither')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}ind2rgb">ind2rgb</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}ind2gray">ind2gray</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}rgb2gray">rgb2gray</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

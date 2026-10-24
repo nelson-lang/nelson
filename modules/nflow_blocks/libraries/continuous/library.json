@@ -1,0 +1,348 @@
+{
+  "id": "builtin.continuous",
+  "title": "Continuous",
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Allan CORNET",
+    "created": "2026-03-21",
+    "tool": "Nelson nflow"
+  },
+  "comment": "Blocks for continuous-time systems",
+  "license": "LGPL-3.0",
+  "builtin": true,
+  "blocks": [
+    {
+      "type": "integrator",
+      "label": "Integrator",
+      "icon": "integrator.svg",
+      "phases": [
+        "INIT",
+        "OUTPUT",
+        "UPDATE"
+      ],
+      "width": 80,
+      "height": 80,
+      "inputs": [
+        {
+          "x": 0,
+          "y": 40,
+          "side": "left"
+        }
+      ],
+      "outputs": [
+        {
+          "x": 80,
+          "y": 40,
+          "side": "right"
+        }
+      ],
+      "defaultParams": {
+        "InitialCondition": 0,
+        "ExternalReset": "none",
+        "InitialConditionSource": "internal",
+        "LowerSaturationLimit": "-inf",
+        "UpperSaturationLimit": "inf"
+      },
+      "render": {
+        "type": "math",
+        "useRectElement": true,
+        "bodyClass": "nf-block nf-integrator",
+        "mathGroupClass": "nf-integrator-formula",
+        "formula": "\\displaystyle\\int"
+      }
+    },
+    {
+      "type": "tf",
+      "label": "Transfer Fn",
+      "icon": "tf.svg",
+      "phases": [
+        "INIT",
+        "OUTPUT",
+        "ALGEBRAIC",
+        "UPDATE"
+      ],
+      "width": 100,
+      "height": 80,
+      "inputs": [
+        {
+          "x": 0,
+          "y": 40,
+          "side": "left"
+        }
+      ],
+      "outputs": [
+        {
+          "x": 100,
+          "y": 40,
+          "side": "right"
+        }
+      ],
+      "defaultParams": {
+        "Numerator": [
+          1
+        ],
+        "Denominator": [
+          1,
+          1
+        ]
+      },
+      "render": {
+        "type": "math",
+        "bodyClass": "nf-block",
+        "mathGroupClass": "nf-tf-formula",
+        "formula": "\\frac{N(s)}{D(s)}"
+      }
+    },
+    {
+      "type": "delay",
+      "label": "Delay",
+      "icon": "delay.svg",
+      "phases": [
+        "INIT",
+        "OUTPUT",
+        "UPDATE"
+      ],
+      "width": 80,
+      "height": 80,
+      "inputs": [
+        {
+          "x": 0,
+          "y": 40,
+          "side": "left"
+        }
+      ],
+      "outputs": [
+        {
+          "x": 80,
+          "y": 40,
+          "side": "right"
+        }
+      ],
+      "defaultParams": {
+        "DelayTime": 1
+      },
+      "render": {
+        "type": "math",
+        "bodyClass": "nf-block",
+        "mathGroupClass": "nf-delay-formula",
+        "formula": "e^{-\\tau s}"
+      }
+    },
+    {
+      "type": "stateSpace",
+      "label": "State-Space",
+      "icon": "stateSpace.svg",
+      "phases": [
+        "INIT",
+        "OUTPUT",
+        "UPDATE"
+      ],
+      "width": 120,
+      "height": 80,
+      "inputs": [
+        {
+          "x": 0,
+          "y": 40,
+          "side": "left"
+        }
+      ],
+      "outputs": [
+        {
+          "x": 120,
+          "y": 40,
+          "side": "right"
+        }
+      ],
+      "defaultParams": {
+        "A": 1,
+        "B": 1,
+        "C": 1,
+        "D": 1,
+        "InitialCondition": 0
+      },
+      "render": {
+        "type": "math",
+        "bodyClass": "nf-block",
+        "mathGroupClass": "nf-state-space-formula",
+        "formula": "\\dot{x}=Ax+Bu",
+        "textSize": "16px"
+      }
+    },
+    {
+      "type": "lpf",
+      "label": "LPF",
+      "icon": "lpf.svg",
+      "phases": [
+        "INIT",
+        "OUTPUT",
+        "UPDATE"
+      ],
+      "width": 80,
+      "height": 80,
+      "inputs": [
+        {
+          "x": 0,
+          "y": 40,
+          "side": "left"
+        }
+      ],
+      "outputs": [
+        {
+          "x": 80,
+          "y": 40,
+          "side": "right"
+        }
+      ],
+      "defaultParams": {
+        "Cutoff": 1
+      },
+      "render": {
+        "src": "lpf.svg",
+        "type": "image"
+      }
+    },
+    {
+      "type": "hpf",
+      "label": "HPF",
+      "icon": "hpf.svg",
+      "phases": [
+        "INIT",
+        "OUTPUT",
+        "UPDATE"
+      ],
+      "width": 80,
+      "height": 80,
+      "inputs": [
+        {
+          "x": 0,
+          "y": 40,
+          "side": "left"
+        }
+      ],
+      "outputs": [
+        {
+          "x": 80,
+          "y": 40,
+          "side": "right"
+        }
+      ],
+      "defaultParams": {
+        "Cutoff": 1
+      },
+      "render": {
+        "src": "hpf.svg",
+        "type": "image"
+      }
+    },
+    {
+      "type": "derivative",
+      "label": "Derivative",
+      "icon": "derivative.svg",
+      "phases": [
+        "INIT",
+        "OUTPUT",
+        "UPDATE"
+      ],
+      "width": 80,
+      "height": 80,
+      "inputs": [
+        {
+          "x": 0,
+          "y": 40,
+          "side": "left"
+        }
+      ],
+      "outputs": [
+        {
+          "x": 80,
+          "y": 40,
+          "side": "right"
+        }
+      ],
+      "defaultParams": {},
+      "render": {
+        "type": "math",
+        "useRectElement": true,
+        "bodyClass": "nf-block",
+        "mathGroupClass": "nf-derivative-formula",
+        "formula": "s"
+      }
+    },
+    {
+      "type": "pid",
+      "label": "PID",
+      "icon": "pid.svg",
+      "phases": [
+        "INIT",
+        "OUTPUT",
+        "UPDATE"
+      ],
+      "width": 80,
+      "height": 80,
+      "inputs": [
+        {
+          "x": 0,
+          "y": 40,
+          "side": "left"
+        }
+      ],
+      "outputs": [
+        {
+          "x": 80,
+          "y": 40,
+          "side": "right"
+        }
+      ],
+      "defaultParams": {
+        "P": 1,
+        "I": 1,
+        "D": 0,
+        "N": 0,
+        "LowerSaturationLimit": "-inf",
+        "UpperSaturationLimit": "inf"
+      },
+      "render": {
+        "type": "math",
+        "bodyClass": "nf-block",
+        "mathGroupClass": "nf-pid-formula",
+        "formula": "K_p\\!+\\!\\frac{K_i}{s}\\!+\\!K_d s"
+      }
+    },
+    {
+      "type": "constraint",
+      "label": "Constraint",
+      "icon": "constraint.svg",
+      "phases": [
+        "INIT",
+        "OUTPUT",
+        "DERIVATIVE"
+      ],
+      "width": 80,
+      "height": 80,
+      "inputs": [
+        {
+          "x": 0,
+          "y": 40,
+          "side": "left"
+        }
+      ],
+      "outputs": [
+        {
+          "x": 80,
+          "y": 40,
+          "side": "right"
+        }
+      ],
+      "defaultParams": {
+        "InitialCondition": 0
+      },
+      "render": {
+        "type": "math",
+        "bodyClass": "nf-block",
+        "mathGroupClass": "nf-constraint-formula",
+        "formula": "g=0"
+      }
+    }
+  ]
+}

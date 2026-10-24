@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -23,30 +23,30 @@ Nelson::GraphicsGateway::graphics_object_isequalBuiltin(int nLhs, const ArrayOfV
 
     ArrayOf paramGo1 = argIn[0];
     if (!paramGo1.isGraphicsObject()) {
-        return ArrayOf::logicalConstructor(false);
+        return ArrayOf::logicalScalar(false);
     }
-    Dimensions dims1 = paramGo1.getDimensions();
-    auto* ptrGO1 = (nelson_handle*)paramGo1.getDataPointer();
+    Dimensions dims1 = paramGo1.dimensions();
+    auto* ptrGO1 = (nelson_handle*)paramGo1.dataPointer();
 
     for (size_t k = 1; k < argIn.size(); k++) {
         ArrayOf paramGo2 = argIn[k];
         if (!paramGo2.isGraphicsObject()) {
-            return ArrayOf::logicalConstructor(false);
+            return ArrayOf::logicalScalar(false);
         }
-        Dimensions dims2 = paramGo2.getDimensions();
+        Dimensions dims2 = paramGo2.dimensions();
         if (!dims1.equals(dims2)) {
-            return ArrayOf::logicalConstructor(false);
+            return ArrayOf::logicalScalar(false);
         }
-        auto* ptrGO2 = (nelson_handle*)paramGo2.getDataPointer();
+        auto* ptrGO2 = (nelson_handle*)paramGo2.dataPointer();
         if (ptrGO1 == ptrGO2) {
-            return ArrayOf::logicalConstructor(true);
+            return ArrayOf::logicalScalar(true);
         }
-        for (indexType j = 0; j < dims1.getElementCount(); ++j) {
+        for (indexType j = 0; j < dims1.elementCount(); ++j) {
             if (ptrGO1[j] != ptrGO2[j]) {
-                return ArrayOf::logicalConstructor(false);
+                return ArrayOf::logicalScalar(false);
             }
         }
     }
-    return ArrayOf::logicalConstructor(true);
+    return ArrayOf::logicalScalar(true);
 }
 //=============================================================================

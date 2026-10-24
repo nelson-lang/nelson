@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>histfit</keyword>
+  <short_description>Histogram with fitted distribution curve.</short_description>
+  <syntax>
+    <syntax_item>histfit(data)</syntax_item>
+    <syntax_item>histfit(data, nbins)</syntax_item>
+    <syntax_item>histfit(data, nbins, dist)</syntax_item>
+    <syntax_item>histfit(ax, ...)</syntax_item>
+    <syntax_item>h = histfit(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>histfit</b> displays a histogram and overlays a fitted probability density curve scaled to the histogram counts.</p>
+    <p>The default distribution is normal. Supported distribution names include normal, kernel, exponential, gamma, beta, extreme value, half normal, lognormal, logistic, loglogistic, rayleigh, and weibull.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="adv-cli"><![CDATA[x = randn(100, 1);
+histfit(x, 12)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}histogram">histogram</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}ksdensity">ksdensity</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

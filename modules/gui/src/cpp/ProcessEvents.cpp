@@ -33,13 +33,13 @@ public:
     void
     setWaitTime(int _waitTime)
     {
-        waitTime = _waitTime;
+        waitTime.store(static_cast<uint64>(_waitTime));
     }
     //=============================================================================
     void
     restoreWaitTime()
     {
-        waitTime = WAIT_20_MS;
+        waitTime.store(WAIT_20_MS);
     }
     //=============================================================================
     void
@@ -48,7 +48,8 @@ public:
         std::lock_guard<std::recursive_mutex> lock(mutex);
 
         auto now = getEpoch();
-        if ((now - timerLoopEvents) > WAIT_20_MS) {
+        uint64 delay = bWaitEvents ? waitTime.load() : uint64(1);
+        if ((now - timerLoopEvents) >= delay) {
             if (bWaitEvents) {
                 QCoreApplication::processEvents(QEventLoop::WaitForMoreEvents);
             } else {
@@ -72,9 +73,8 @@ private:
     //=============================================================================
     std::atomic<uint64> timerLoopEvents;
     std::recursive_mutex mutex;
-    uint64 waitTime;
+    std::atomic<uint64> waitTime;
     //=============================================================================
-    // Disable copy constructor and assignment operator
     ProcessEventsManager(const ProcessEventsManager&) = delete;
     ProcessEventsManager&
     operator=(const ProcessEventsManager&)
@@ -88,7 +88,7 @@ ProcessEvents(bool bWaitEvents)
     ProcessEventsManager::getInstance().processEvents(bWaitEvents);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================
 // namespace Nelson
 //=============================================================================

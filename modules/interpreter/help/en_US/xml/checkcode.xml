@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>checkcode</keyword>
+  <short_description>Analyze Nelson source files and report code issues.</short_description>
+  <syntax>
+    <syntax_item>issues = checkcode(filename)</syntax_item>
+    <syntax_item>issues = checkcode(names, option1, ..., optionN)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>a string: Nelson source file to analyze.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>names</param_name>
+      <param_description>a string, string array, or cell array of character vectors: files to analyze.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>option</param_name>
+      <param_description>an option among &apos;-id&apos;, &apos;-fullpath&apos;, &apos;-notok&apos;, &apos;-cyc&apos;, &apos;-modcyc&apos;, &apos;-config=file&apos;, &apos;-struct&apos;, and &apos;-string&apos;.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>issues</param_name>
+      <param_description>a structure array with fields id, message, fix, line, and column, or a formatted string when &apos;-string&apos; is used.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>checkcode</b> analyzes Nelson source files and reports syntax, style, data-flow, naming, and complexity issues.</p>
+    <p>The option &apos;-notok&apos; includes diagnostics suppressed by <b>%#ok</b> or <b>%#ok&lt;NLS0001&gt;</b> comments.</p>
+    <p>The option &apos;-config=file&apos; loads a JSON configuration file. The default file name used by command-line workflows is <b>nelson-lint.json</b>.</p>
+    <p>The JSON configuration must use schema version 2 and can contain <b>extends</b>, <b>files</b>, <b>rules</b>, and <b>ci</b> keys.</p>
+  </description>
+  <used_function>codeAnalyzerRules</used_function>
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Analyze one file and return a structure array.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[issues = checkcode([nelsonroot(), '/etc/startup.m'], '-struct', '-id')]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Example JSON configuration file.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[{
+  "version": 2,
+  "files": {
+    "exclude": [".git", "build", "target", "bin", "x64", "generated"]
+  },
+  "rules": {
+    "NLS0001": { "level": "error" },
+    "NLS0013": { "level": "error" },
+    "NLS0012": { "level": "warning", "options": { "maxLineLength": 120 } },
+    "NLS0014": { "options": { "warning": 10, "error": 50 } },
+    "NLS0015": { "options": { "warning": 10, "error": 50 } }
+  },
+  "ci": {
+    "failOn": "warning"
+  }
+}]]></example_item_data>
+    </example_item>
+  </examples>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -11,16 +11,24 @@
 %=============================================================================
 f = figure();
 lims = clim;
-assert_isapprox(lims, [0 1], 1e-4);
+asserts.isapprox(lims, [0 1], 1e-4);
 %=============================================================================
 f = figure();
 [X, Y] = meshgrid(-5:.5:5);
-Z = X.^2 + Y.^2;
+Z = X .^ 2 + Y .^ 2;
 surf(Z);
 lims = clim;
-assert_isapprox(lims, [0 50], 1e-4);
+asserts.isapprox(lims, [0 50], 1e-4);
 %=============================================================================
 clim([20, 60])
 lims = clim;
-assert_isapprox(lims, [20 60], 1e-4);
+asserts.isapprox(lims, [20 60], 1e-4);
+%=============================================================================
+f = figure('Visible', 'off');
+ax1 = axes('Parent', f, 'Position', [0.1 0.1 0.35 0.8]);
+ax2 = axes('Parent', f, 'Position', [0.55 0.1 0.35 0.8]);
+clim(ax1, [2 8]);
+asserts.isequal(ax1.CLim, [2 8]);
+asserts.isequal(ax2.CLim, [0 1]);
+close(f);
 %=============================================================================

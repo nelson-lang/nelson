@@ -37,7 +37,6 @@ IsWindows10OrGreater()
 }
 //=============================================================================
 #if defined(_M_ARM64) || defined(__aarch64__)
-
 // ARM64 does not support AVX2 (NEON only)
 static bool
 isAVX2Supported()
@@ -50,13 +49,11 @@ isAVX2Supported()
 {
     int cpuInfo[4];
 
-    // First check if CPUID supports extended features (EAX=7)
     __cpuid(cpuInfo, 0);
     if (cpuInfo[0] < 7) {
-        return false; // CPU doesn't support CPUID leaf 7
+        return false;
     }
 
-    // Call CPUID with EAX=7, ECX=0 to get extended features
     __cpuidex(cpuInfo, 7, 0);
 
     // AVX2 is indicated by bit 5 of EBX
@@ -68,8 +65,22 @@ static bool
 initEngineDynamicLibrary()
 {
     if (bFirstDynamicLibraryCall) {
+        wchar_t moduleFileName[MAX_PATH] = { 0 };
+        DWORD length = GetModuleFileNameW(nullptr, moduleFileName, MAX_PATH);
         std::wstring fullpathEngineSharedLibrary = L"./libnlsEngine.dll";
+        if (length > 0 && length < MAX_PATH) {
+            std::wstring executablePath(moduleFileName, length);
+            size_t separator = executablePath.find_last_of(L"\\/");
+            if (separator != std::wstring::npos) {
+                fullpathEngineSharedLibrary
+                    = executablePath.substr(0, separator + 1) + L"libnlsEngine.dll";
+            }
+        }
         nlsEngineHandleDynamicLibrary = LoadLibraryW(fullpathEngineSharedLibrary.c_str());
+        if (nlsEngineHandleDynamicLibrary == nullptr
+            && fullpathEngineSharedLibrary != L"./libnlsEngine.dll") {
+            nlsEngineHandleDynamicLibrary = LoadLibraryW(L"./libnlsEngine.dll");
+        }
         if (nlsEngineHandleDynamicLibrary != nullptr) {
             bFirstDynamicLibraryCall = false;
             return true;
@@ -129,7 +140,7 @@ StartNelsonDynamicFunction(int argc, wchar_t* argv[], NELSON_ENGINE_MODE _mode)
     return exitCode;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================
 #endif /* _MSC_VER windows only */
 //=============================================================================

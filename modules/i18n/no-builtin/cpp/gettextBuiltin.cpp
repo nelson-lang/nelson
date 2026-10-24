@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -18,8 +18,8 @@ Nelson::I18nGateway::gettextBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 1, 1);
-    std::wstring txt = argIn[0].getContentAsWideString();
-    retval << ArrayOf::characterArrayConstructor(txt);
+    std::wstring txt = argIn[0].asWideString();
+    retval << ArrayOf::characterArray(txt);
     return retval;
 }
 //=============================================================================

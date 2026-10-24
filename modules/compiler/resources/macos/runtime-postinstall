@@ -1,0 +1,23 @@
+#!/bin/sh
+# Copyright (c) 2026-present Allan CORNET (Nelson)
+# SPDX-License-Identifier: LGPL-3.0-or-later
+set -eu
+export PATH=/usr/bin:/bin:/usr/sbin:/sbin LC_ALL=C
+fail() { printf 'Nelson runtime installer: %s\n' "$*" >&2; exit 1; }
+target=${3%/}
+[ -n "$target" ] || target=/
+package=$target$2
+[ -d "$package" ] && [ ! -L "$package" ] || fail 'Missing runtime package payload.'
+engine=$(/usr/bin/sed -n '1p' "$package/engine.txt")
+architecture=$(/usr/bin/sed -n '2p' "$package/engine.txt")
+case "$engine" in *[!0-9a-f]*|'') fail 'Invalid runtime identity.' ;; esac
+[ "${#engine}" -eq 64 ] || fail 'Invalid runtime identity.'
+case "$architecture" in maca64|maci64) ;; *) fail 'Invalid runtime architecture.' ;; esac
+base=$target/Library/Application\ Support/Nelson
+root=$base/Runtimes/$engine
+registration=$base/config/nelson/runtimes/$architecture/$engine.root
+"$package/runtime-installer" --install "$package" "$root" "$registration"
+/bin/rm -R -- "$package/payload"
+/bin/rm -- "$package/runtime-installer" "$package/runtime-package.json" "$package/engine.txt"
+/bin/rmdir -- "$package" 2>/dev/null || true
+exit 0

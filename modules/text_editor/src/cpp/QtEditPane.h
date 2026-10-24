@@ -17,6 +17,12 @@
 //=============================================================================
 class QCompleter;
 class QtBreakpointArea;
+class QtCodeAnalyzerMarkerArea;
+class QtTextIndent;
+//=============================================================================
+#define EOL_STYLE_CRLF "CRLF"
+#define EOL_STYLE_LF "LF"
+#define EOL_STYLE_CR "CR"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -26,6 +32,7 @@ class QtEditPane : public QWidget
     QtTextEdit* textEditor;
     QString currentFilename;
     QString currentEncoding;
+    QString currentEol;
 
 public:
     QtEditPane(Evaluator* eval = nullptr);
@@ -41,8 +48,23 @@ public:
     void
     setEncoding(const QString& encoding);
 
+    QString
+    getEol();
+    void
+    setEol(const QString& eol);
+    static QString
+    defaultEol();
+    static QString
+    eolSequence(const QString& eol);
+
     QtBreakpointArea*
     getBreakpointArea();
+    QtCodeAnalyzerMarkerArea*
+    getCodeAnalyzerMarkerArea();
+    void
+    setCodeAnalyzerDiagnostics(const std::vector<Nelson::CodeAnalyzerDiagnostic>& diagnostics);
+    std::vector<Nelson::CodeAnalyzerDiagnostic>
+    getCodeAnalyzerDiagnostics() const;
 
     void
     refreshBreakpoints();
@@ -67,8 +89,10 @@ public:
 
 private:
     Highlighter* highlight;
+    QtTextIndent* textIndent;
     QCompleter* completer;
     QtBreakpointArea* breakpointArea;
+    QtCodeAnalyzerMarkerArea* codeAnalyzerMarkerArea;
     Evaluator* nlsEvaluator;
 };
 //=============================================================================

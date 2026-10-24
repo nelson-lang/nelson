@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>functionCallSplit</keyword>
+<keyword_alias>block:functionCallSplit</keyword_alias>
+  <short_description>Distribue un function-call à plusieurs callees, dans l'ordre.</short_description>
+  <syntax>
+    <syntax_item>Type de bloc : functionCallSplit</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>ports d'entrée</param_name>
+      <param_description>1 entrée événement, pilotée par un functionCallGenerator (ou un autre split).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>ports de sortie</param_name>
+      <param_description>N sorties événement ; chacune pilote le port de contrôle d'un sous-système function-call.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Distribue un function-call à plusieurs callees, dans l'ordre.</p>
+    <p>Un unique appel entrant est routé vers chaque callee câblé, dans l'ordre des ports de
+    sortie : la sortie 0 s'exécute d'abord, puis la sortie 1, et ainsi de suite. Le bloc est un
+    routeur résolu à la compilation ; il ne porte aucun état et ne s'exécute jamais de lui-même ;
+    le moteur le résout en la liste ordonnée de callees du
+    <link linkend="${nflow_blocks}utility/functionCallGenerator">functionCallGenerator</link>
+    pilote. Les sorties peuvent aller vers des sous-systèmes function-call ou vers d'autres splits.</p>
+    <p>Ce bloc n'a pas de paramètre.</p>
+    <p>
+      <b>Caractéristiques du bloc</b>
+    </p>
+    <table border="1">
+      <tbody>
+        <tr>
+          <td>Type de bloc</td>
+          <td>functionCallSplit</td>
+        </tr>
+        <tr>
+          <td>Famille</td>
+          <td>Blocs utilitaires</td>
+        </tr>
+        <tr>
+          <td>Phases</td>
+          <td>(aucune, résolu à la compilation)</td>
+        </tr>
+      </tbody>
+    </table>
+    <p><b>Capacites etendues</b></p>
+    <p>Generation de code : prise en charge pour C et Rust.</p>
+  </description>
+  <used_function/>
+  <bibliography/>
+  <see_also>
+    <see_also_item>
+      <link linkend="${nflow_blocks}utility/functionCallGenerator">functionCallGenerator</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${nflow_blocks}utility/subsystem">subsystem</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -15,96 +15,96 @@
 % VERTCAT
 %=============================================================================
 content = {'# Languages'; ''};
-r = [content;'r'];
+r = [content; 'r'];
 ref = {'# Languages'; ''; 'r'};
-assert_isequal(r, ref);
+asserts.isequal(r, ref);
 %=============================================================================
 content = {'# Languages'; ''};
-r = ['r';content];
-ref = {'r';'# Languages'; ''};
-assert_isequal(r, ref);
+r = ['r'; content];
+ref = {'r'; '# Languages'; ''};
+asserts.isequal(r, ref);
 %=============================================================================
 content = {'# Languages'; ''};
 r = [[]; content];
 ref = content;
-assert_isequal(r, ref);
+asserts.isequal(r, ref);
 %=============================================================================
 content = {'# Languages'; ''};
 r = [{}; content];
 ref = content;
-assert_isequal(r, ref);
+asserts.isequal(r, ref);
 %=============================================================================
 content = {'# Languages'; ''};
 r = [1; content];
-ref = {1;'# Languages'; ''};
-assert_isequal(r, ref);
+ref = {1; '# Languages'; ''};
+asserts.isequal(r, ref);
 %=============================================================================
 content = {'# Languages'; ''};
-r = [content;1];
+r = [content; 1];
 ref = {'# Languages'; ''; 1};
-assert_isequal(r, ref);
+asserts.isequal(r, ref);
 %=============================================================================
-assert_checkerror('r = [content;cell(3,3)];', _('Dimensions concatenated are not consistent.'))
+asserts.checkerror('r = [content;cell(3,3)];', _('Dimensions of arrays being concatenated are not consistent.'))
 %=============================================================================
 % HORZCAT
 %=============================================================================
 content = {'# Languages', ''};
-r = [content,'r'];
+r = [content, 'r'];
 ref = {'# Languages', '', 'r'};
-assert_isequal(r, ref);
+asserts.isequal(r, ref);
 %=============================================================================
 content = {'# Languages', ''};
-r = ['r',content];
+r = ['r', content];
 ref = {'r', '# Languages', ''};
-assert_isequal(r, ref);
+asserts.isequal(r, ref);
 %=============================================================================
 content = {'# Languages', ''};
 r = [content, []];
 ref = {'# Languages', ''};
-assert_isequal(r, ref);
+asserts.isequal(r, ref);
 %=============================================================================
 content = {'# Languages', ''};
 r = [[], content];
 ref = content;
-assert_isequal(r, ref);
+asserts.isequal(r, ref);
 %=============================================================================
 content = {'# Languages', ''};
 r = [content, {}];
 ref = {'# Languages', ''};
-assert_isequal(r, ref);
+asserts.isequal(r, ref);
 %=============================================================================
 content = {'# Languages', ''};
 r = [{}, content];
 ref = content;
-assert_isequal(r, ref);
+asserts.isequal(r, ref);
 %=============================================================================
 content = {'# Languages', ''};
 r = [content, 1];
 ref = {'# Languages', '', 1};
-assert_isequal(r, ref);
+asserts.isequal(r, ref);
 %=============================================================================
 content = {'# Languages', ''};
 r = [1, content];
 ref = {1, '# Languages', ''};
-assert_isequal(r, ref);
+asserts.isequal(r, ref);
 %=============================================================================
-assert_checkerror('r = [content,cell(3,3)];', _('Dimensions concatenated are not consistent.'))
+asserts.checkerror('r = [content,cell(3,3)];', _('Dimensions of arrays being concatenated are not consistent.'))
 %=============================================================================
-r = ['aal',[{'ffffff'},'ffffffffffff']];
+r = ['aal', [{'ffffff'}, 'ffffffffffff']];
 ref = {'aal', 'ffffff', 'ffffffffffff'};
-assert_isequal(r, ref);
+asserts.isequal(r, ref);
 %=============================================================================
 r = {};
 r = [r, 'r1'];
 r = [r, 'r2'];
 r = [r, 'r3'];
 REF = {'r1', 'r2', 'r3'};
-assert_isequal(r, REF);
+asserts.isequal(r, REF);
 %=============================================================================
 r = {};
 r = [r; 'r1'];
 r = [r; 'r2'];
 r = [r; 'r3'];
 REF = {'r1'; 'r2'; 'r3'};
-assert_isequal(r, REF);
+asserts.isequal(r, REF);
 %=============================================================================

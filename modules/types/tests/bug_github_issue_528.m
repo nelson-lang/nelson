@@ -12,10 +12,10 @@
 % <-- Short Description -->
 % Assignment in cell did not work in this case [c{:}] = ind2sub (dv, i)
 %=============================================================================
-dv = [2    3];
+dv = [2 3];
 i = 2;
-R = cell (size (dv));
-[R{:}] = ind2sub (dv, i);
+R = cell(size(dv));
+[R{:}] = ind2sub(dv, i);
 REF = {2, 1};
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================

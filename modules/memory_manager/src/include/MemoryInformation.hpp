@@ -24,5 +24,6 @@ NLSMEMORY_MANAGER_IMPEXP double
 getTotalPhysicalMemoryUsed();
 NLSMEMORY_MANAGER_IMPEXP double
 getTotalPhysicalMemoryByNelson();
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>fitglm</keyword>
+  <short_description>Fit a generalized linear regression model.</short_description>
+  <syntax>
+    <syntax_item>mdl = fitglm(X, y)</syntax_item>
+    <syntax_item>mdl = fitglm(X, y, modelspec)</syntax_item>
+    <syntax_item>mdl = fitglm(X, y, ..., Name, Value)</syntax_item>
+    <syntax_item>yfit = predict(mdl, Xnew)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>fitglm</b> creates a <b>GeneralizedLinearModel</b> object from numeric predictors <b>X</b> and response <b>y</b>.</p>
+    <p>Supported distributions are <b>normal</b>, <b>binomial</b>, and <b>poisson</b>. Supported links are <b>identity</b>, <b>log</b>, and <b>logit</b>, with canonical defaults for each distribution.</p>
+    <p>Supported model specifications include <b>constant</b>, <b>linear</b>, <b>interactions</b>, <b>quadratic</b>, <b>purequadratic</b>, and numeric term matrices. Name-value arguments include <b>Distribution</b>, <b>Link</b>, <b>Intercept</b>, <b>PredictorNames</b>, <b>ResponseName</b>, <b>MaxIter</b>, and <b>TolFun</b>.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[X = [0; 1; 2; 3; 4; 5; 6; 7];
+y = [1; 1; 2; 3; 5; 8; 13; 21];
+mdl = fitglm(X, y, 'Distribution', 'poisson');
+yfit = predict(mdl, [2; 4; 6])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}fitlm">fitlm</link></see_also_item>
+    <see_also_item><link linkend="${statistics}regress">regress</link></see_also_item>
+    <see_also_item><link linkend="${statistics}robustfit">robustfit</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -12,19 +12,33 @@
 #include <fmt/xchar.h>
 #include "falseBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "LogicalConstructors.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#include "PredefinedErrorMessages.hpp"
+#include "ClassName.hpp"
+#include "OverloadName.hpp"
+#include "FunctionDef.hpp"
+#include "Context.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
+// Route false(..., 'ClassName') / false(..., 'like', obj) to @<class>/false for
+// a non-built-in class (see constructors_functions/zerosBuiltin.cpp).
+static ArrayOfVector
+tryClassConstructor(Evaluator* eval, int nLhs, const ArrayOfVector& argIn, bool& delegated);
+//=============================================================================
 ArrayOfVector
-Nelson::LogicalGateway::falseBuiltin(int nLhs, const ArrayOfVector& argIn)
+Nelson::LogicalGateway::falseBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     bool bIsSparse = false;
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
+    bool delegated = false;
+    ArrayOfVector delegatedResult = tryClassConstructor(eval, nLhs, argIn, delegated);
+    if (delegated) {
+        return delegatedResult;
+    }
     if (argIn.empty()) {
         Dimensions dim(1, 1);
         retval << FalseConstructor(dim, bIsSparse);
@@ -34,11 +48,12 @@ Nelson::LogicalGateway::falseBuiltin(int nLhs, const ArrayOfVector& argIn)
         if ((static_cast<double>(argIn.size()) - 2.) >= 0.) {
             indexType pos = argIn.size() - 2;
             if (argIn[pos].isRowVectorCharacterArray() || argIn[pos].isScalarStringArray()) {
-                std::wstring arg = argIn[pos].getContentAsWideString();
+                std::wstring arg = argIn[pos].asWideString();
                 if (arg.compare(L"like") == 0) {
                     ArrayOf arg = argIn[pos + 1];
-                    if (arg.getDataClass() != NLS_LOGICAL) {
-                        Error(_W("Input following \'like\' is not a logical array."));
+                    if (arg.dataClass() != NLS_LOGICAL) {
+                        Error(L"Nelson:logical:invalidLike",
+                            L"Input following \'like\' is not a logical array.");
                     }
                     bIsSparse = arg.isSparse();
                     idxMax = argIn.size() - 2;
@@ -47,21 +62,67 @@ Nelson::LogicalGateway::falseBuiltin(int nLhs, const ArrayOfVector& argIn)
                         dim[1] = 1;
                     }
                 } else {
-                    Error(fmt::format(ERROR_WRONG_ARGUMENT_X_VALUE, pos + 1));
+                    Error(L"Nelson:invalidValue", L"Wrong value for #%d argument.", (pos + 1));
                 }
             }
         }
-        for (indexType k = 0; k < idxMax; k++) {
-            ArrayOf arg = argIn[k];
-            indexType idx = arg.getContentAsScalarIndex();
-            dim[k] = idx;
+        if (idxMax > 0) {
+            // false(2, 'logical') names the class explicitly
+            ArrayOf last = argIn[idxMax - 1];
+            if (last.isRowVectorCharacterArray() || last.isScalarStringArray()) {
+                if (last.asWideString() != L"logical") {
+                    Error(L"Nelson:invalidValue", L"Wrong value for #%d argument.",
+                        static_cast<int>(idxMax));
+                }
+                idxMax--;
+            }
         }
-        if (idxMax == 1) {
-            dim[1] = dim[0];
+        if (idxMax > 0) {
+            dim = LogicalConstructorDimensions(argIn, idxMax);
+        } else {
+            dim[0] = 1;
+            dim[1] = 1;
         }
-        dim.simplify();
         retval << FalseConstructor(dim, bIsSparse);
     }
     return retval;
+}
+//=============================================================================
+static ArrayOfVector
+tryClassConstructor(Evaluator* eval, int nLhs, const ArrayOfVector& argIn, bool& delegated)
+{
+    delegated = false;
+    if (eval == nullptr || argIn.empty()) {
+        return {};
+    }
+    std::string className;
+    ArrayOfVector dimArgs;
+    ArrayOf last = argIn[argIn.size() - 1];
+    if (argIn.size() >= 2) {
+        ArrayOf prev = argIn[argIn.size() - 2];
+        if ((prev.isRowVectorCharacterArray() || prev.isScalarStringArray())
+            && prev.asWideString() == L"like") {
+            ClassName(last, className);
+            for (size_t k = 0; k + 2 < argIn.size(); k++) {
+                dimArgs.push_back(argIn[k]);
+            }
+        }
+    }
+    if (className.empty() && last.isRowVectorCharacterArray()) {
+        className = last.asUtf8String();
+        for (size_t k = 0; k + 1 < argIn.size(); k++) {
+            dimArgs.push_back(argIn[k]);
+        }
+    }
+    if (className.empty()) {
+        return {};
+    }
+    std::string overloadName = getOverloadFunctionName(className, "false");
+    FunctionDefPtr funcDef = nullptr;
+    if (eval->getContext()->lookupFunction(overloadName, funcDef) && funcDef != nullptr) {
+        delegated = true;
+        return funcDef->evaluateFunction(eval, dimArgs, nLhs);
+    }
+    return {};
 }
 //=============================================================================

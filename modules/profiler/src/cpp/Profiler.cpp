@@ -17,6 +17,7 @@
 #include "Evaluator.hpp"
 #include "characters_encoding.hpp"
 #include "HtmlExporter.hpp"
+#include "NelsonConfiguration.hpp"
 #include "FileSystemWrapper.hpp"
 #include "i18n.hpp"
 #include "ParallelSort.hpp"
@@ -50,31 +51,37 @@ Profiler::on()
 void
 Profiler::off()
 {
-    profileOn = false;
+    profileOn.store(false);
+    // Published through NelsonConfiguration for modules that do not link the profiler
+    // (e.g. the web desktop).
+    NelsonConfiguration::getInstance()->setProfilerActive(false);
 }
 //=============================================================================
 void
 Profiler::resume()
 {
-    profileOn = true;
+    profileOn.store(true);
+    NelsonConfiguration::getInstance()->setProfilerActive(true);
 }
 //=============================================================================
 bool
 Profiler::isOn()
 {
-    return profileOn;
+    return profileOn.load();
 }
 //=============================================================================
 void
 Profiler::clear()
 {
+    std::lock_guard<std::mutex> lock(profileMutex);
     profileMap.clear();
+    index = 0;
 }
 //=============================================================================
 uint64
 Profiler::tic()
 {
-    if (!profileOn) {
+    if (!profileOn.load()) {
         return 0;
     }
     return now();
@@ -83,7 +90,7 @@ Profiler::tic()
 void
 Profiler::toc(uint64 tic, const internalProfileFunction& stack)
 {
-    if (!profileOn) {
+    if (!profileOn.load()) {
         return;
     }
     if (std::get<1>(stack) == "profile") {
@@ -94,6 +101,7 @@ Profiler::toc(uint64 tic, const internalProfileFunction& stack)
     uint64 diff_time = t - tic;
 
     size_t id = hash(stack);
+    std::lock_guard<std::mutex> lock(profileMutex);
     auto search = profileMap.find(id);
     if (search != profileMap.end()) {
         std::get<1>(search->second) = std::get<1>(search->second) + 1;
@@ -188,10 +196,17 @@ std::vector<std::tuple<std::string, uint64, std::string, uint64, uint64, uint64>
 Profiler::info(Profiler::Profile_Sort_Type sortOption)
 {
     std::vector<std::tuple<std::string, uint64, std::string, uint64, uint64, uint64>> profilerLines;
+    std::vector<profileFunction> profileSnapshot;
 
-    for (const std::pair<size_t, profileFunction>& element : profileMap) {
-        profileFunction pF = element.second;
-        uint64 index = std::get<3>(pF);
+    {
+        std::lock_guard<std::mutex> lock(profileMutex);
+        profileSnapshot.reserve(profileMap.size());
+        for (const std::pair<size_t, profileFunction>& element : profileMap) {
+            profileSnapshot.push_back(element.second);
+        }
+    }
+
+    for (const profileFunction& pF : profileSnapshot) {
         internalProfileFunction iPf = std::get<0>(pF);
         profileParentStack parentStack = std::get<0>(iPf);
         std::string name = std::get<1>(iPf);
@@ -456,7 +471,7 @@ Profiler::save(
 }
 //=============================================================================
 static int
-findFunctionDefinitonLine(const stringVector& functionContent)
+findFunctionDefinitionLine(const stringVector& functionContent)
 {
     for (size_t k = 0; k < functionContent.size(); ++k) {
         std::string line = StringHelpers::trim_copy(functionContent[k]);
@@ -468,12 +483,11 @@ findFunctionDefinitonLine(const stringVector& functionContent)
 }
 //=============================================================================
 static int
-findEndfunctionDefinitonLine(const stringVector& functionContent, int start)
+findEndfunctionDefinitionLine(const stringVector& functionContent, int start)
 {
     for (size_t k = (size_t)start + 1; k < functionContent.size(); ++k) {
         std::string line = StringHelpers::trim_copy(functionContent[k]);
-        if (StringHelpers::starts_with(line, "endfunction")
-            || StringHelpers::starts_with(line, "function")) {
+        if (StringHelpers::starts_with(line, "function")) {
             return (int)k;
         }
     }
@@ -487,7 +501,7 @@ Profiler::computeBasicFileStats(
 {
     double totalTime = 0;
     int nbCalls = 0;
-    if (findFunctionDefinitonLine(functionContent) == -1) {
+    if (findFunctionDefinitionLine(functionContent) == -1) {
         size_t nbLines = functionContent.size();
         for (size_t k = 1; k < nbLines + 1; ++k) {
             double t;
@@ -498,8 +512,8 @@ Profiler::computeBasicFileStats(
             }
         }
     } else {
-        int start = findFunctionDefinitonLine(functionContent);
-        int stop = findEndfunctionDefinitonLine(functionContent, start);
+        int start = findFunctionDefinitionLine(functionContent);
+        int stop = findEndfunctionDefinitionLine(functionContent, start);
         if (stop == -1) {
             stop = (int)functionContent.size();
         }
@@ -563,8 +577,7 @@ isKeyWordWithMaybeComments(std::string key)
     } else {
         cleanKey = key;
     }
-    return cleanKey == "endfunction" || cleanKey == "try" || cleanKey == "catch"
-        || cleanKey == "else" || cleanKey == "end"
+    return cleanKey == "try" || cleanKey == "catch" || cleanKey == "else" || cleanKey == "end"
         || StringHelpers::starts_with(cleanKey, "function ")
         || StringHelpers::starts_with(cleanKey, "case ")
         || StringHelpers::starts_with(cleanKey, "otherwise ")

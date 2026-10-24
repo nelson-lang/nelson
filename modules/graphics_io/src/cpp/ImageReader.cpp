@@ -7,248 +7,158 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <QtGui/QImage>
 #include "ImageReader.hpp"
-#include "nlsGraphics_exports.h"
-#include "ArrayOf.hpp"
+#include "RasterCodec.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
-#include "FileSystemWrapper.hpp"
-#include "QStringConverter.hpp"
-#include "nlsBuildConfig.h"
-#include "omp_for_loop.hpp"
-#include "PcxFileHandler.hpp"
-#include "TiffFileHandler.hpp"
-#include "ImageFormats.hpp"
+#include "characters_encoding.hpp"
+#include <algorithm>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static ArrayOfVector
-imageReaderRGB32(QImage image, int nLhs);
-static ArrayOfVector
-imageReaderGrayScale16(QImage image, int nLhs);
-static ArrayOfVector
-imageReaderARGB32(QImage image, int nLhs);
-static ArrayOfVector
-imageReaderIndexed8(QImage image, int nLhs);
+namespace {
+    ArrayOf
+    emptyMatrix()
+    {
+        return ArrayOf::empty(0, 0);
+    }
+    //=============================================================================
+    ArrayOf
+    grayImage(const RasterImage& image)
+    {
+        Dimensions dimensions(image.height, image.width);
+        if (image.format == RasterPixelFormat::Gray16) {
+            auto* output = static_cast<uint16*>(
+                ArrayOf::allocateArrayOf(NLS_UINT16, dimensions.elementCount()));
+            const auto* input = reinterpret_cast<const uint16_t*>(image.pixels.data());
+            for (int y = 0; y < image.height; ++y) {
+                for (int x = 0; x < image.width; ++x) {
+                    output[y + static_cast<size_t>(x) * image.height]
+                        = input[static_cast<size_t>(y) * image.width + x];
+                }
+            }
+            return ArrayOf(NLS_UINT16, dimensions, output);
+        }
+        auto* output
+            = static_cast<uint8*>(ArrayOf::allocateArrayOf(NLS_UINT8, dimensions.elementCount()));
+        for (int y = 0; y < image.height; ++y) {
+            for (int x = 0; x < image.width; ++x) {
+                output[y + static_cast<size_t>(x) * image.height]
+                    = image.pixels[static_cast<size_t>(y) * image.width + x];
+            }
+        }
+        return ArrayOf(NLS_UINT8, dimensions, output);
+    }
+    //=============================================================================
+    ArrayOf
+    colorImage(const RasterImage& image)
+    {
+        Dimensions dimensions(std::vector<indexType> {
+            static_cast<indexType>(image.height), static_cast<indexType>(image.width), 3 });
+        auto* output
+            = static_cast<uint8*>(ArrayOf::allocateArrayOf(NLS_UINT8, dimensions.elementCount()));
+        const size_t slice = static_cast<size_t>(image.width) * image.height;
+        const int channels = image.channels();
+        for (int y = 0; y < image.height; ++y) {
+            for (int x = 0; x < image.width; ++x) {
+                const size_t source = (static_cast<size_t>(y) * image.width + x) * channels;
+                const size_t target = y + static_cast<size_t>(x) * image.height;
+                output[target] = image.pixels[source];
+                output[target + slice] = image.pixels[source + 1];
+                output[target + slice * 2] = image.pixels[source + 2];
+            }
+        }
+        return ArrayOf(NLS_UINT8, dimensions, output);
+    }
+    //=============================================================================
+    ArrayOf
+    indexedImage(const RasterImage& image)
+    {
+        Dimensions dimensions(image.height, image.width);
+        auto* output
+            = static_cast<uint8*>(ArrayOf::allocateArrayOf(NLS_UINT8, dimensions.elementCount()));
+        for (int y = 0; y < image.height; ++y) {
+            for (int x = 0; x < image.width; ++x) {
+                output[y + static_cast<size_t>(x) * image.height]
+                    = image.pixels[static_cast<size_t>(y) * image.width + x];
+            }
+        }
+        return ArrayOf(NLS_UINT8, dimensions, output);
+    }
+    //=============================================================================
+    ArrayOf
+    colorMap(const RasterImage& image)
+    {
+        const indexType count = static_cast<indexType>(image.palette.size() / 4);
+        Dimensions dimensions(count, 3);
+        auto* output
+            = static_cast<double*>(ArrayOf::allocateArrayOf(NLS_DOUBLE, dimensions.elementCount()));
+        for (indexType i = 0; i < count; ++i) {
+            output[i] = image.palette[static_cast<size_t>(i) * 4] / 255.0;
+            output[i + count] = image.palette[static_cast<size_t>(i) * 4 + 1] / 255.0;
+            output[i + count * 2] = image.palette[static_cast<size_t>(i) * 4 + 2] / 255.0;
+        }
+        return ArrayOf(NLS_DOUBLE, dimensions, output);
+    }
+    //=============================================================================
+    ArrayOf
+    alphaImage(const RasterImage& image)
+    {
+        if (image.format != RasterPixelFormat::RGBA8
+            && image.format != RasterPixelFormat::Indexed8) {
+            return emptyMatrix();
+        }
+        Dimensions dimensions(image.height, image.width);
+        auto* output
+            = static_cast<uint8*>(ArrayOf::allocateArrayOf(NLS_UINT8, dimensions.elementCount()));
+        for (int y = 0; y < image.height; ++y) {
+            for (int x = 0; x < image.width; ++x) {
+                const size_t pixel = static_cast<size_t>(y) * image.width + x;
+                uint8_t alpha = 255;
+                if (image.format == RasterPixelFormat::RGBA8) {
+                    alpha = image.pixels[pixel * 4 + 3];
+                }
+                if (image.format == RasterPixelFormat::Indexed8) {
+                    const size_t paletteOffset = static_cast<size_t>(image.pixels[pixel]) * 4 + 3;
+                    if (paletteOffset < image.palette.size()) {
+                        alpha = image.palette[paletteOffset];
+                    }
+                }
+                output[y + static_cast<size_t>(x) * image.height] = alpha;
+            }
+        }
+        return ArrayOf(NLS_UINT8, dimensions, output);
+    }
+    //=============================================================================
+} // namespace
 //=============================================================================
 ArrayOfVector
 imageReader(const std::wstring& filename, int nLhs)
 {
-    ArrayOfVector results = {};
-    FileSystemWrapper::Path path(filename);
-    if (!path.is_regular_file()) {
-        Error(_W("A valid filename expected."));
+    RasterImage image;
+    std::string error;
+    if (!readRasterImage(filename, image, error)) {
+        Error(L"Nelson:imread:cannotReadFile", L"Impossible read image file: %s",
+            utf8_to_wstring(error));
     }
-    QString qFilename = wstringToQString(filename);
-
-    QImage image(qFilename);
-    if (image.isNull()) {
-        image = PcxFileHandler::loadPCX(qFilename);
-    }
-    if (image.isNull()) {
-        QString errorMessage;
-        image = TiffFileHandler::readTiff(qFilename, errorMessage);
-    }
-    if (image.isNull()) {
-        Error(_W("Impossible read image file."));
-    }
-    auto imageFormat = image.format();
-    switch (imageFormat) {
-    case QImage::Format_Indexed8: {
-        results = imageReaderIndexed8(image, nLhs);
-    } break;
-    case QImage::Format_RGB32: {
-        results = imageReaderRGB32(image, nLhs);
-    } break;
-    case QImage::Format_ARGB32: {
-        results = imageReaderARGB32(image, nLhs);
-    } break;
-    case QImage::Format_Grayscale16: {
-        results = imageReaderGrayScale16(image, nLhs);
-    } break;
-    default: {
-        image = image.convertToFormat(QImage::Format_RGB32);
-        results = imageReaderRGB32(image, nLhs);
-    } break;
-    case QImage::Format_Invalid: {
-        Error(_W("Unsupported file image format."));
-    } break;
-    }
-    return results;
-}
-//=============================================================================
-ArrayOfVector
-imageReaderRGB32(QImage image, int nLhs)
-{
     ArrayOfVector results;
-    results.reserve(nLhs + 1);
-    std::vector<indexType> d;
-    d.reserve(3);
-    d.push_back(image.height());
-    d.push_back(image.width());
-    d.push_back(3);
-    Dimensions dims(d);
-    uint8* ptr = (uint8*)ArrayOf::allocateArrayOf(NLS_UINT8, dims.getElementCount());
-    ArrayOf A = ArrayOf(NLS_UINT8, dims, ptr);
-    ompIndexType imageCounter = (ompIndexType)image.height() * (ompIndexType)image.width();
-    OMP_PARALLEL_FOR_LOOP(imageCounter)
-    for (ompIndexType idx = 0; idx < imageCounter; idx++) {
-        indexType row = idx % image.height();
-        indexType col = idx / image.height();
-
-        QRgb* p = (QRgb*)image.scanLine((int)row);
-        indexType ndx = row + col * image.height();
-
-        ptr[ndx] = qRed(p[col]);
-        ptr[ndx + 1 * imageCounter] = qGreen(p[col]);
-        ptr[ndx + 2 * imageCounter] = qBlue(p[col]);
+    if (image.format == RasterPixelFormat::Indexed8) {
+        results << indexedImage(image);
+    } else if (image.format == RasterPixelFormat::Gray8
+        || image.format == RasterPixelFormat::Gray16) {
+        results << grayImage(image);
+    } else {
+        results << colorImage(image);
     }
-    results << A;
     if (nLhs > 1) {
-        // no colormap
-        results << ArrayOf::emptyConstructor(0, 0);
+        results << (image.format == RasterPixelFormat::Indexed8 ? colorMap(image) : emptyMatrix());
     }
     if (nLhs > 2) {
-        // no transparency
-        results << ArrayOf::emptyConstructor(0, 0);
+        results << alphaImage(image);
     }
     return results;
 }
 //=============================================================================
-ArrayOfVector
-imageReaderARGB32(QImage image, int nLhs)
-{
-    ArrayOfVector results = {};
-    results.reserve(nLhs + 1);
-
-    std::vector<indexType> d;
-    d.reserve(3);
-    d.push_back(image.height());
-    d.push_back(image.width());
-    d.push_back(3);
-    Dimensions dims(d);
-    uint8* ptrA = (uint8*)ArrayOf::allocateArrayOf(NLS_UINT8, dims.getElementCount());
-    ArrayOf A = ArrayOf(NLS_UINT8, dims, ptrA);
-
-    Dimensions dimsTransparency(image.height(), image.width());
-    uint8* ptrTransparency
-        = (uint8*)ArrayOf::allocateArrayOf(NLS_UINT8, dimsTransparency.getElementCount());
-    ArrayOf transparency = ArrayOf(NLS_UINT8, dimsTransparency, ptrTransparency);
-
-    ompIndexType imageCounter = (ompIndexType)image.height() * (ompIndexType)image.width();
-    OMP_PARALLEL_FOR_LOOP(imageCounter)
-    for (ompIndexType idx = 0; idx < imageCounter; idx++) {
-        indexType row = idx % image.height();
-        indexType col = idx / image.height();
-
-        QRgb* p = (QRgb*)image.scanLine((int)row);
-        indexType ndx = row + col * image.height();
-
-        ptrA[ndx] = qRed(p[col]);
-        ptrA[ndx + 1 * imageCounter] = qGreen(p[col]);
-        ptrA[ndx + 2 * imageCounter] = qBlue(p[col]);
-        ptrTransparency[ndx] = qAlpha(p[col]);
-    }
-    results << A;
-    if (nLhs > 1) {
-        // no colormap
-        results << ArrayOf::emptyConstructor(0, 0);
-    }
-    if (nLhs > 2) {
-        // transparency
-        results << transparency;
-    }
-    return results;
-}
-//=============================================================================
-ArrayOfVector
-imageReaderIndexed8(QImage image, int nLhs)
-{
-    ArrayOfVector results = {};
-    results.reserve(nLhs + 1);
-
-    Dimensions dimsA(image.height(), image.width());
-    uint8* ptrA = (uint8*)ArrayOf::allocateArrayOf(NLS_UINT8, dimsA.getElementCount());
-    ArrayOf A = ArrayOf(NLS_UINT8, dimsA, ptrA);
-
-    ompIndexType imageCounter = static_cast<ompIndexType>(image.height()) * image.width();
-    OMP_PARALLEL_FOR_LOOP(imageCounter)
-    for (int idx = 0; idx < imageCounter; idx++) {
-        int row = idx % image.height();
-        int col = idx / image.height();
-        uchar* p = image.scanLine(row);
-        ptrA[row + col * image.height()] = p[col];
-    }
-    results << A;
-    if (nLhs > 1) {
-        // colormap
-        QVector<QRgb> colorTable(image.colorTable());
-        int numcol = colorTable.size();
-        Dimensions dimsColorTable(numcol, 3);
-        double* ptrColorTable
-            = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, dimsColorTable.getElementCount());
-        ArrayOf colormap = ArrayOf(NLS_DOUBLE, dimsColorTable, ptrColorTable);
-        OMP_PARALLEL_FOR_LOOP(numcol)
-        for (int i = 0; i < numcol; i++) {
-            QColor c(colorTable[i]);
-            ptrColorTable[i] = (double)c.redF();
-            ptrColorTable[i + numcol] = (double)c.greenF();
-            ptrColorTable[i + 2 * numcol] = (double)c.blueF();
-        }
-        results << colormap;
-    }
-    if (nLhs > 2) {
-        // transparency
-        QImage alpha = image.convertToFormat(QImage::Format_Alpha8);
-        uint8* ptrTransparency
-            = (uint8*)ArrayOf::allocateArrayOf(NLS_UINT8, dimsA.getElementCount());
-        ArrayOf transparency = ArrayOf(NLS_UINT8, dimsA, ptrTransparency);
-        ompIndexType alphaImageCounter
-            = static_cast<ompIndexType>(alpha.height()) * static_cast<ompIndexType>(alpha.width());
-        OMP_PARALLEL_FOR_LOOP(alphaImageCounter)
-        for (int idx = 0; idx < alphaImageCounter; idx++) {
-            int row = idx % alpha.height();
-            int col = idx / alpha.height();
-
-            uchar* p = alpha.scanLine(row);
-            ptrTransparency[row + col * image.height()] = p[col];
-        }
-        results << transparency;
-    }
-    return results;
-}
-//=============================================================================
-ArrayOfVector
-imageReaderGrayScale16(QImage image, int nLhs)
-{
-    ArrayOfVector results = {};
-    results.reserve(nLhs + 1);
-
-    Dimensions dimsA(image.height(), image.width());
-    uint16* ptrA = (uint16*)ArrayOf::allocateArrayOf(NLS_UINT16, dimsA.getElementCount());
-    ArrayOf A = ArrayOf(NLS_UINT16, dimsA, ptrA);
-    ompIndexType imageCounter = static_cast<ompIndexType>(image.height()) * image.width();
-    OMP_PARALLEL_FOR_LOOP(imageCounter)
-    for (int idx = 0; idx < imageCounter; idx++) {
-        int row = idx % image.height();
-        int col = idx / image.height();
-
-        QRgb* p = (QRgb*)image.scanLine(row);
-        int ndx = row + col * image.height();
-        ptrA[ndx] = quint16(p[col]);
-    }
-    results << A;
-    if (nLhs > 1) {
-        // no colormap
-        results << ArrayOf::emptyConstructor(0, 0);
-    }
-    if (nLhs > 2) {
-        // transparency
-        results << ArrayOf::emptyConstructor(0, 0);
-    }
-    return results;
-}
-//=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

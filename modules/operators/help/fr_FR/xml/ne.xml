@@ -29,6 +29,8 @@
       <b>C = ne(A, B)</b> effectue l&apos;opération d&apos;inégalité : A ~= B.</p>
     <p>
       <b>ne</b> compare les parties réelle et imaginaire des tableaux numériques.</p>
+    <p>
+      Lorsque les entrees sont des tableaux sparse numeriques ou logiques, le resultat est un tableau sparse logique. Les operandes sparse single et single-complex sont pris en charge.</p>
   </description>
   <used_function />
   <bibliography />
@@ -57,6 +59,10 @@
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>operandes sparse single et single-complex pris en charge.</history_description>
     </history_item>
   </history>
   <authors>

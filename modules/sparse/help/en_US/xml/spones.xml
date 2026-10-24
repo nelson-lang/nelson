@@ -11,18 +11,22 @@
   <param_input>
     <param_input_item>
       <param_name>S</param_name>
-      <param_description>Sparse or 2D matrix.</param_description>
+      <param_description>sparse or full 2-D matrix.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
-      <param_name>S</param_name>
-      <param_description>a sparse matrix.</param_description>
+      <param_name>s</param_name>
+      <param_description>a sparse matrix with ones at nonzero positions.</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p>
       <b>s = spones(S)</b> returns a matrix<b>s</b> with the same sparsity structure as<b>S</b>, but with one&apos;s in the nonzero positions.</p>
+    <p>
+      Double, single, logical, complex double, and complex single sparse inputs are supported. The result is sparse and uses double values except when the sparse numeric input is single, in which case the result keeps class single.</p>
+    <p>
+      Stored zero values do not become ones; only entries whose value is actually nonzero are kept in the output pattern.</p>
   </description>
   <used_function />
   <bibliography />
@@ -35,6 +39,14 @@
       ><![CDATA[S = sparse([1,0;3,4]);
 R = spones(S)]]></example_item_data>
     </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[S = sparse([1 2 1 2], [1 1 2 2], single([0 -0 complex(0, 0) complex(0, 2)]), 2, 2, 4);
+R = spones(S)]]></example_item_data>
+    </example_item>
   </examples>
   <see_also>
     <see_also_item>
@@ -45,6 +57,10 @@ R = spones(S)]]></example_item_data>
     </see_also_item>
   </see_also>
   <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>extended sparse single and complex single support</history_description>
+    </history_item>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>

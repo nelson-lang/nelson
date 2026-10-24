@@ -7,117 +7,125 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-A = {'one','two','twenty-two','One','two'};
+A = {'one', 'two', 'twenty-two', 'One', 'two'};
 R = unique(A);
-REF = { 'One',   'one',   'twenty-two',   'two'};
-assert_isequal(R, REF);
+REF = {'One', 'one', 'twenty-two', 'two'};
+asserts.isequal(R, REF);
 %=============================================================================
-A = {'dog','cat','fish','horse','dog ','fish '};
+A = {'dog', 'cat', 'fish', 'horse', 'dog ', 'fish '};
 R = unique(A);
-REF = {'cat'    'dog'    'dog '    'fish'    'fish '   'horse'};
-assert_isequal(R, REF);
+REF = {'cat' 'dog' 'dog ' 'fish' 'fish ' 'horse'};
+asserts.isequal(R, REF);
 %=============================================================================
-A = {'one', 'two';'twenty-two','One';'two', 'one'};
+A = {'one', 'two'; 'twenty-two', 'One'; 'two', 'one'};
 R = unique(A);
-REF = {'One';'one';'twenty-two';'two'       };
-assert_isequal(R, REF);
+REF = {'One'; 'one'; 'twenty-two'; 'two'};
+asserts.isequal(R, REF);
 %=============================================================================
-A = {'one', 'two';'twenty-two','One';'two', 'one'};
+A = {'one', 'two'; 'twenty-two', 'One'; 'two', 'one'};
 [R, ia, ic] = unique(A);
-REF = {'One';'one';'twenty-two';'two'       };
-REF_ia = [ 5;   1;    2;     3];
-REF_ic = [ 2;   3;    4;      4;     1;     2];
-assert_isequal(R, REF);
-assert_isequal(ia, REF_ia);
-assert_isequal(ic, REF_ic);
+REF = {'One'; 'one'; 'twenty-two'; 'two'};
+REF_ia = [5; 1; 2; 3];
+REF_ic = [2; 3; 4; 4; 1; 2];
+asserts.isequal(R, REF);
+asserts.isequal(ia, REF_ia);
+asserts.isequal(ic, REF_ic);
 %=============================================================================
-[C, ia, ic] = unique({'Foo','Bar','Foo'});
+[C, ia, ic] = unique({'Foo', 'Bar', 'Foo'});
 C_REF = {'Bar', 'Foo'};
-assert_isequal(C, C_REF);
+asserts.isequal(C, C_REF);
 ia_REF = [2; 1];
-assert_isequal(ia, ia_REF);
+asserts.isequal(ia, ia_REF);
 ic_REF = [2; 1; 2];
-assert_isequal(ic, ic_REF);
+asserts.isequal(ic, ic_REF);
 %=============================================================================
-[C, ia] = unique({'Foo','Bar','Foo'});
+[C, ia] = unique({'Foo', 'Bar', 'Foo'});
 C_REF = {'Bar', 'Foo'};
-assert_isequal(C, C_REF);
+asserts.isequal(C, C_REF);
 ia_REF = [2; 1];
-assert_isequal(ia, ia_REF);
+asserts.isequal(ia, ia_REF);
 %=============================================================================
-[C] = unique({'Foo','Bar','Foo'});
+[C] = unique({'Foo', 'Bar', 'Foo'});
 C_REF = {'Bar', 'Foo'};
-assert_isequal(C, C_REF);
+asserts.isequal(C, C_REF);
 %=============================================================================
-[C, ia, ic] = unique({'Foo','Bar','FooBar'}');
-C_REF = {'Bar'; 'Foo'; 'FooBar'};
-assert_isequal(C, C_REF);
-ia_REF = [ 2;   1;      3];
-assert_isequal(ia, ia_REF);
-ic_REF = [ 2;   1;      3];
-assert_isequal(ic, ic_REF);
+[C, ia, ic] = unique({'ingots', 'alloys', 'ingots'}, 'stable');
+C_REF = {'ingots', 'alloys'};
+asserts.isequal(C, C_REF);
+ia_REF = [1; 2];
+asserts.isequal(ia, ia_REF);
+ic_REF = [1; 2; 1];
+asserts.isequal(ic, ic_REF);
 %=============================================================================
-[C, ia] = unique({'Foo','Bar','FooBar'}');
+[C, ia, ic] = unique({'Foo', 'Bar', 'FooBar'}');
 C_REF = {'Bar'; 'Foo'; 'FooBar'};
-assert_isequal(C, C_REF);
-ia_REF = [ 2;   1;      3];
-assert_isequal(ia, ia_REF);
+asserts.isequal(C, C_REF);
+ia_REF = [2; 1; 3];
+asserts.isequal(ia, ia_REF);
+ic_REF = [2; 1; 3];
+asserts.isequal(ic, ic_REF);
 %=============================================================================
-[C] = unique({'Foo','Bar','FooBar'}');
+[C, ia] = unique({'Foo', 'Bar', 'FooBar'}');
 C_REF = {'Bar'; 'Foo'; 'FooBar'};
-assert_isequal(C, C_REF);
+asserts.isequal(C, C_REF);
+ia_REF = [2; 1; 3];
+asserts.isequal(ia, ia_REF);
+%=============================================================================
+[C] = unique({'Foo', 'Bar', 'FooBar'}');
+C_REF = {'Bar'; 'Foo'; 'FooBar'};
+asserts.isequal(C, C_REF);
 %=============================================================================
 [C, ia, ic] = unique({'z'; 'z'; 'z'});
 C_REF = {'z'};
-assert_isequal(C, C_REF);
-ia_REF =  1;
-assert_isequal(ia, ia_REF);
+asserts.isequal(C, C_REF);
+ia_REF = 1;
+asserts.isequal(ia, ia_REF);
 ic_REF = [1; 1; 1];
-assert_isequal(ic, ic_REF);
+asserts.isequal(ic, ic_REF);
 %=============================================================================
 [C, ia] = unique({'z'; 'z'; 'z'});
 C_REF = {'z'};
-assert_isequal(C, C_REF);
-ia_REF =  1;
-assert_isequal(ia, ia_REF);
+asserts.isequal(C, C_REF);
+ia_REF = 1;
+asserts.isequal(ia, ia_REF);
 %=============================================================================
 [C] = unique({'z'; 'z'; 'z'});
 C_REF = {'z'};
-assert_isequal(C, C_REF);
+asserts.isequal(C, C_REF);
 %=============================================================================
-[C, ia, ic] = unique(cell(1,0));
-C_REF = cell(1,0);
-assert_isequal(C, C_REF);
+[C, ia, ic] = unique(cell(1, 0));
+C_REF = cell(1, 0);
+asserts.isequal(C, C_REF);
 ia_REF = zeros(0, 1);
-assert_isequal(ia, ia_REF);
+asserts.isequal(ia, ia_REF);
 ic_REF = zeros(0, 1);
-assert_isequal(ic, ic_REF);
+asserts.isequal(ic, ic_REF);
 %=============================================================================
-[C, ia] = unique(cell(1,0));
-C_REF = cell(1,0);
-assert_isequal(C, C_REF);
+[C, ia] = unique(cell(1, 0));
+C_REF = cell(1, 0);
+asserts.isequal(C, C_REF);
 ia_REF = zeros(0, 1);
-assert_isequal(ia, ia_REF);
+asserts.isequal(ia, ia_REF);
 %=============================================================================
-[C] = unique(cell(1,0));
-C_REF = cell(1,0);
-assert_isequal(C, C_REF);
+[C] = unique(cell(1, 0));
+C_REF = cell(1, 0);
+asserts.isequal(C, C_REF);
 %=============================================================================
 [C, ia, ic] = unique({});
 C_REF = cell(0, 1);
-assert_isequal(C, C_REF);
+asserts.isequal(C, C_REF);
 ia_REF = zeros(0, 1);
-assert_isequal(ia, ia_REF);
+asserts.isequal(ia, ia_REF);
 ic = zeros(0, 1);
-assert_isequal(ic, ic_REF);
+asserts.isequal(ic, ic_REF);
 %=============================================================================
 [C, ia] = unique({});
 C_REF = cell(0, 1);
-assert_isequal(C, C_REF);
+asserts.isequal(C, C_REF);
 ia_REF = zeros(0, 1);
-assert_isequal(ia, ia_REF);
+asserts.isequal(ia, ia_REF);
 %=============================================================================
 [C] = unique({});
 C_REF = cell(0, 1);
-assert_isequal(C, C_REF);
+asserts.isequal(C, C_REF);
 %=============================================================================

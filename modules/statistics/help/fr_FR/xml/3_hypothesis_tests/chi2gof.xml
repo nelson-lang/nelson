@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>chi2gof</keyword>
+  <short_description>Test d&apos;adequation du chi-carre.</short_description>
+  <syntax>
+    <syntax_item>h = chi2gof(x)</syntax_item>
+    <syntax_item>h = chi2gof(x, Name, Value)</syntax_item>
+    <syntax_item>[h, p, stats] = chi2gof(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>chi2gof</b> effectue un test d&apos;adequation du chi-carre pour un vecteur numerique reel. Les observations non finies et les frequences non positives ou non finies sont omises.</p>
+    <p>Les arguments nom-valeur incluent <b>Alpha</b>, <b>NBins</b>, <b>Ctrs</b>, <b>Edges</b>, <b>CDF</b>, <b>Expected</b>, <b>Frequency</b>, <b>NParams</b> et <b>EMin</b>. <b>CDF</b> peut etre une matrice a deux colonnes ou un handle de fonction.</p>
+    <p>La sortie <b>stats</b> contient <b>chi2stat</b>, <b>df</b>, <b>edges</b>, <b>O</b> et <b>E</b>.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[x = norminv(((1:100) - 0.5) / 100);
+[h, p, stats] = chi2gof(x)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}chi2cdf">chi2cdf</link></see_also_item>
+    <see_also_item><link linkend="${statistics}kstest">kstest</link></see_also_item>
+    <see_also_item><link linkend="${statistics}crosstab">crosstab</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -14,19 +14,20 @@ x = linspace(0, 20);
 y = cos(x);
 plot(x, y)
 ax = gca();
-assert_isequal(ax.XGrid, 'off');
+asserts.isequal(char(ax.XGrid), 'off');
+asserts.isequal(ax.GridLineStyle, '-');
 grid on
-assert_isequal(ax.XGrid, 'on');
+asserts.isequal(char(ax.XGrid), 'on');
 %=============================================================================
 f = figure();
 x = linspace(0, 10);
 y = sin(x);
 plot(x, y);
 ax = gca();
-assert_isequal(ax.XMinorGrid, 'off');
+asserts.isequal(char(ax.XMinorGrid), 'off');
 grid on
 grid minor
-assert_isequal(ax.XMinorGrid, 'on');
+asserts.isequal(char(ax.XMinorGrid), 'on');
 grid minor
-assert_isequal(ax.XMinorGrid, 'off');
+asserts.isequal(char(ax.XMinorGrid), 'off');
 %=============================================================================

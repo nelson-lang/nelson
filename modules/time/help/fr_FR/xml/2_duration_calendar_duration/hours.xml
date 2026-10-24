@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>hours</keyword>
+  <short_description>Cree des durees depuis des heures ou convertit des durees en heures.</short_description>
+  <syntax>
+    <syntax_item>d = hours(x)</syntax_item>
+    <syntax_item>x = hours(d)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>inputs</param_name>
+      <param_description>Nombres d heures numeriques ou tableaux duration.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>output</param_name>
+      <param_description>Un tableau duration pour une entree numerique, ou des nombres d heures double pour une entree duration.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Cree des durees depuis des heures ou convertit des durees en heures.</p>
+    <p>hours est un outil de conversion de temps ecoule. Une entree numerique est stockee en secondes dans un objet duration avec format d affichage en heures.</p>
+    <p>Array-valued inputs keep their data shape when the operation supports arrays. Scalar operands are expanded where the implementation defines scalar expansion.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Utilisation de base.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[d = hours([1 2])
+seconds(d)
+hours(minutes(90))
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${time}datetime">datetime</link></see_also_item>
+    <see_also_item><link linkend="${time}duration">duration</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

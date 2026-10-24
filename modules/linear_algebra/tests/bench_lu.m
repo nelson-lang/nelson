@@ -7,5 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--WEIGHT 16-->
+% <--REUSE PROCESS-->
 A = rand(4500, 4500);
-tic();[L, U] = lu(A);toc();
+tic(); [L, U] = lu(A); toc();

@@ -13,10 +13,8 @@
 #include "nlsElementary_functions_exports.h"
 //=============================================================================
 namespace Nelson {
-/**
- * modulo operation.
- */
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
 Modulo(ArrayOf A, ArrayOf B);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

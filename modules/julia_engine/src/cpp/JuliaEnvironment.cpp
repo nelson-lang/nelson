@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -13,9 +13,14 @@
 #include "FileSystemWrapper.hpp"
 #include "GetVariableEnvironment.hpp"
 #include "SetVariableEnvironment.hpp"
+#ifdef _MSC_VER
+#include <Windows.h>
+#endif
+#include <algorithm>
 #include <iostream>
 #include <fstream>
 #include <nlohmann/json.hpp>
+#include <vector>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -201,13 +206,13 @@ JuliaEnvironment::setExecutionMode(int mode)
 }
 //=============================================================================
 wstringVector
-JuliaEnvironment::getProperties()
+JuliaEnvironment::properties()
 {
     return propertiesNames;
 }
 //=============================================================================
 wstringVector
-JuliaEnvironment::getMethods()
+JuliaEnvironment::methods()
 {
     return {};
 }
@@ -251,27 +256,27 @@ bool
 JuliaEnvironment::get(const std::wstring& propertyName, ArrayOf& result)
 {
     if (propertyName == L"Version") {
-        result = ArrayOf::stringArrayConstructor(getVersion());
+        result = ArrayOf::stringArray(getVersion());
         return true;
     }
     if (propertyName == L"Executable") {
-        result = ArrayOf::stringArrayConstructor(getExecutable());
+        result = ArrayOf::stringArray(getExecutable());
         return true;
     }
     if (propertyName == L"Library") {
-        result = ArrayOf::stringArrayConstructor(getLibrary());
+        result = ArrayOf::stringArray(getLibrary());
         return true;
     }
     if (propertyName == L"Home") {
-        result = ArrayOf::stringArrayConstructor(getHome());
+        result = ArrayOf::stringArray(getHome());
         return true;
     }
     if (propertyName == L"Status") {
-        result = ArrayOf::stringArrayConstructor(getStatusString());
+        result = ArrayOf::stringArray(getStatusString());
         return true;
     }
     if (propertyName == L"ExecutionMode") {
-        result = ArrayOf::stringArrayConstructor(getExecutionModeString());
+        result = ArrayOf::stringArray(getExecutionModeString());
         return true;
     }
     return false;
@@ -312,31 +317,57 @@ configureJuliaEnvironment(const JuliaEnvironment* juliaEnvironment)
     size_t lastSlash = libraryName.find_last_of(L"/\\");
     std::wstring directoryLibraryPath = libraryName.substr(0, lastSlash);
 
-    std::wstring pathEnv = GetVariableEnvironment(L"PATH", L"");
-    std::wstring delimiter = L";";
+    auto normalizePath = [](std::wstring path) {
+        std::replace(path.begin(), path.end(), L'/', L'\\');
+        std::transform(path.begin(), path.end(), path.begin(), towlower);
+        while (!path.empty() && path.back() == L'\\') {
+            path.pop_back();
+        }
+        return path;
+    };
 
-    size_t start = 0, end = 0;
-    bool alreadyInPathEnv = false;
-    while ((end = pathEnv.find(delimiter, start)) != std::wstring::npos) {
-        if (pathEnv.substr(start, end - start) == directoryLibraryPath) {
-            alreadyInPathEnv = true;
-            break;
+    auto pathContains = [&normalizePath](const std::wstring& pathEnv, const std::wstring& path) {
+        const std::wstring expectedPath = normalizePath(path);
+        size_t start = 0;
+        while (start <= pathEnv.size()) {
+            size_t end = pathEnv.find(L';', start);
+            if (end == std::wstring::npos) {
+                end = pathEnv.size();
+            }
+            if (normalizePath(pathEnv.substr(start, end - start)) == expectedPath) {
+                return true;
+            }
+            start = end + 1;
         }
-        start = end + delimiter.length();
-    }
-    alreadyInPathEnv = !alreadyInPathEnv && (pathEnv.substr(start) == directoryLibraryPath);
-    if (!alreadyInPathEnv) {
-        std::wstring newPathEnv;
-        if (!pathEnv.empty() && pathEnv.back() == L';') {
-            newPathEnv = pathEnv + directoryLibraryPath + L";";
-        } else {
-            newPathEnv = pathEnv + L";" + directoryLibraryPath + L";";
+        return false;
+    };
+
+    auto prependToPath = [&pathContains](const std::wstring& directoryPath) {
+        if (directoryPath.empty()) {
+            return;
         }
-        SetVariableEnvironmentW(L"PATH", newPathEnv);
+        std::wstring pathEnv = GetVariableEnvironment(L"PATH", L"");
+        if (!pathContains(pathEnv, directoryPath)) {
+            std::wstring newPathEnv = directoryPath + L";" + pathEnv;
+            SetVariableEnvironmentW(L"PATH", newPathEnv);
+        }
+    };
+
+    prependToPath(directoryLibraryPath);
+
+    const std::vector<std::wstring> juliaRuntimeLibraries
+        = { L"libgcc_s_seh-1.dll", L"libwinpthread-1.dll", L"libstdc++-6.dll", L"libquadmath-0.dll",
+              L"libgfortran-5.dll", L"libopenblas64_.dll" };
+
+    for (const auto& library : juliaRuntimeLibraries) {
+        std::wstring fullpath = directoryLibraryPath + L"\\" + library;
+        if (FileSystemWrapper::Path::is_regular_file(fullpath)) {
+            LoadLibraryExW(fullpath.c_str(), nullptr, LOAD_WITH_ALTERED_SEARCH_PATH);
+        }
     }
 #endif
-    return false;
+    return true;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

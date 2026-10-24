@@ -47,11 +47,7 @@ finishIpcModule(Nelson::Evaluator* eval)
     return true;
 }
 //=============================================================================
-NLSGATEWAYFUNCEXTENDED(gateway, (void*)initializeIpcModule)
+NLS_GATEWAY_FUNC_EXTENDED(gateway, (void*)initializeIpcModule)
 //=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVEEXTENDED(gateway, (void*)finishIpcModule)
-//=============================================================================
-NLSGATEWAYNAME()
+NLS_GATEWAY_REMOVE_EXTENDED(gateway, (void*)finishIpcModule)
 //=============================================================================

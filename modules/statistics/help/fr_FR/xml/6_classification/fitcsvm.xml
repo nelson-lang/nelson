@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>fitcsvm</keyword>
+  <short_description>Ajuste un classifieur binaire par machine a vecteurs de support.</short_description>
+  <syntax>
+    <syntax_item>mdl = fitcsvm(X, Y)</syntax_item>
+    <syntax_item>mdl = fitcsvm(X, Y, Name, Value)</syntax_item>
+    <syntax_item>label = predict(mdl, Xnew)</syntax_item>
+    <syntax_item>[label, score] = predict(mdl, Xnew)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>fitcsvm</b> cree un objet <b>ClassificationSVM</b> a partir de predicteurs numeriques <b>X</b> et d'etiquettes a deux classes <b>Y</b>.</p>
+    <p>Les arguments nom-valeur incluent <b>ClassNames</b>, <b>KernelFunction</b>, <b>KernelScale</b>, <b>PolynomialOrder</b>, <b>BoxConstraint</b>, <b>Cost</b>, <b>Standardize</b>, <b>IterationLimit</b>, <b>Tolerance</b> et <b>PredictorNames</b>. Les noyaux pris en charge sont <b>linear</b>, <b>gaussian</b>, <b>rbf</b> et <b>polynomial</b>.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[X = [0 0; 0 1; 1 0; 1 1; 5 5; 5 6; 6 5; 6 6];
+Y = [1; 1; 1; 1; 2; 2; 2; 2];
+mdl = fitcsvm(X, Y, 'KernelFunction', 'linear');
+[label, score] = predict(mdl, [0.2 0.2; 5.2 5.2])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}fitcknn">fitcknn</link></see_also_item>
+    <see_also_item><link linkend="${statistics}fitcdiscr">fitcdiscr</link></see_also_item>
+    <see_also_item><link linkend="${statistics}fitctree">fitctree</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

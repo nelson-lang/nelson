@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>image_processing</module_name>
+  <chapter>Filtrage et contours</chapter>
+  <chapter_description>
+    <p>Fonctions pour le filtrage spatial, le filtrage gaussien ou median, le remplissage, les noyaux de filtre et la detection de contours.</p>
+  </chapter_description>
+</xmldoc>

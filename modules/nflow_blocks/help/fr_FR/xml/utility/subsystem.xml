@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>subsystem</keyword>
+  <keyword_alias>block:subsystem</keyword_alias>
+  <short_description>Execute un diagramme imbrique comme un seul bloc.</short_description>
+  <syntax>
+    <syntax_item>Block type: subsystem</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>input ports</param_name>
+      <param_description>1 port(s) d entree declare(s).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>output ports</param_name>
+      <param_description>1 port(s) de sortie declare(s).</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Execute un diagramme imbrique comme un seul bloc.</p>
+    <table border="1">
+      <tbody>
+        <tr>
+          <td>Module</td>
+          <td>
+            <code>nflow_blocks</code>
+          </td>
+        </tr>
+        <tr>
+          <td>Bibliotheque</td>
+          <td>Blocs utilitaires</td>
+        </tr>
+        <tr>
+          <td>Type</td>
+          <td>
+            <code>subsystem</code>
+          </td>
+        </tr>
+        <tr>
+          <td>Libelle</td>
+          <td>Subsystem</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <img src="../../../../libraries/utility/exports/subsystem.svg" align="middle"/>
+    </p>
+    <p>
+      <b>Description</b>
+    </p>
+    <p>Execute un diagramme imbrique comme un seul bloc.</p>
+    <p>
+      <b>For-each</b>
+    </p>
+    <p>Avec un parametre <code>forEach</code> <code>{"numIterations": N, "partition": [ports]}</code> le sous-systeme execute son corps <code>N</code> fois par pas : une entree partitionnee de largeur <code>N * w</code> fournit a l'iteration <code>i</code> sa tranche de largeur <code>w</code> d'indice <code>i</code>, une entree non partitionnee est diffusee a chaque iteration, et chaque sortie interne de largeur <code>w_out</code> est concatenee en une sortie externe de largeur <code>N * w_out</code>. Cela applique un meme sous-diagramme reutilisable element par element sur un vecteur ou un banc de canaux. Le corps peut porter un etat par iteration, discret (un retard unitaire ou un filtre discret) ou continu (un integrateur ou une fonction de transfert integre par le solveur) : chaque iteration garde un historique independant / integre son propre canal.</p>
+    <p>
+      <b>Ports</b>
+    </p>
+    <p>
+      <b>Entree(s)</b>
+    </p>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Port</th>
+          <th>Role</th>
+          <th>Cote</th>
+          <th>Position</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Port_1</td>
+          <td>Signal numerique lu par le bloc.</td>
+          <td>left</td>
+          <td>x=0, y=40</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Sortie(s)</b>
+    </p>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Port</th>
+          <th>Role</th>
+          <th>Cote</th>
+          <th>Position</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Port_1</td>
+          <td>Signal numerique produit par le bloc.</td>
+          <td>right</td>
+          <td>x=120, y=40</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Parametres</b>
+    </p>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Parametre</th>
+          <th>Valeur par defaut</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <code>name</code>
+          </td>
+          <td>Subsystem</td>
+        </tr>
+        <tr>
+          <td>
+            <code>externalInputs</code>
+          </td>
+          <td>[]</td>
+        </tr>
+        <tr>
+          <td>
+            <code>externalOutputs</code>
+          </td>
+          <td>[]</td>
+        </tr>
+        <tr>
+          <td>
+            <code>subsystem</code>
+          </td>
+          <td/>
+        </tr>
+        <tr>
+          <td>
+            <code>forEach</code>
+          </td>
+          <td>[] (pas d iteration)</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Cles de l inspecteur</b>
+    </p>
+    <p>Ces cles serialisees sont exposees par l inspecteur du bloc.</p>
+    <ul>
+      <li>
+        <code>name</code>
+      </li>
+      <li>
+        <code>externalInputs</code>
+      </li>
+      <li>
+        <code>externalOutputs</code>
+      </li>
+      <li>
+        <code>subsystem</code>
+      </li>
+    </ul>
+    <p>
+      <b>Caracteristiques du bloc</b>
+    </p>
+    <table border="1">
+      <tbody>
+        <tr>
+          <td>Type de bloc</td>
+          <td>subsystem</td>
+        </tr>
+        <tr>
+          <td>Famille</td>
+          <td>Blocs utilitaires</td>
+        </tr>
+        <tr>
+          <td>Taille graphique</td>
+          <td>120 x 80</td>
+        </tr>
+        <tr>
+          <td>Phases</td>
+          <td>INIT, OUTPUT, ALGEBRAIC, UPDATE</td>
+        </tr>
+        <tr>
+          <td>Traversee directe</td>
+          <td>oui</td>
+        </tr>
+        <tr>
+          <td>Etat ou historique interne</td>
+          <td>non observe dans le code documente</td>
+        </tr>
+        <tr>
+          <td>Type de donnees signaux</td>
+          <td>valeurs numeriques double</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Algorithmes</b>
+    </p>
+    <ul>
+      <li>INIT construit l etat interne depuis la specification subsystem et ordonnance les blocs internes par phase.</li>
+      <li>OUTPUT route les entrees externes, execute les sorties internes et recopie les sorties externes.</li>
+      <li>ALGEBRAIC evalue les blocs algebriques internes; UPDATE avance les blocs internes de mise a jour.</li>
+    </ul>
+    <p>
+      <b>Equation ou regle</b>
+    </p>
+    <p>nested model execution</p>
+    <p>
+      <b>Capacites et limites</b>
+    </p>
+    <p>La page decrit le comportement runtime natif observe dans les sources C++ du module. Les phases declarees indiquent quand le moteur de simulation appelle le bloc.</p>
+    <p>Generation de code : prise en charge pour C et Rust.</p>
+    <p>
+      <b>Sources d implementation</b>
+    </p>
+    <source_code label="Manifest" path="modules/nflow_blocks/libraries/utility/library.json" language="json"/>
+    <p>Runtime: registre de famille, chemin UI ou codegen; aucun fichier runtime natif dedie trouve.</p>
+  </description>
+  <used_function/>
+  <bibliography/>
+  <see_also>
+    <see_also_item>
+      <link linkend="${nflow_blocks}utility/mux">mux</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${nflow_blocks}utility/demux">demux</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${nflow_blocks}utility/comment">comment</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

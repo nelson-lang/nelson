@@ -26,12 +26,20 @@ ClearVariable(Evaluator* eval, const std::string& variable)
     if (!currentScope) {
         return false;
     }
-    if (currentScope->getName() == "base") {
-        Scope* globalScope = eval->getContext()->getGlobalScope();
-        globalScope->deleteVariable(variable);
+    if (currentScope->isVariableGlobal(variable)) {
+        // 'clear g' only removes the local link to the global variable;
+        // the global value itself survives ('clear global g' destroys it).
+        currentScope->deleteGlobalVariablePointer(variable);
+        currentScope->deleteVariable(variable);
+        eval->getContext()->notifyVariablesCleared();
+        return true;
     }
     ClearHandle(eval, currentScope, variable);
-    return currentScope->deleteVariable(variable);
+    bool deleted = currentScope->deleteVariable(variable);
+    if (deleted) {
+        eval->getContext()->notifyVariablesCleared();
+    }
+    return deleted;
 }
 //=============================================================================
 bool
@@ -41,7 +49,9 @@ ClearAllVariables(Evaluator* eval)
     stringVector names;
     eval->getContext()->getCurrentScope()->getVariablesList(true, names);
     for (const auto& name : names) {
-        if (ClearVariable(eval, name)) {
+        // ClearVariable returns true on success: the returned value reflects
+        // whether all variables could be removed (e.g. none was locked).
+        if (!ClearVariable(eval, name)) {
             bUnlocked = false;
         }
     }

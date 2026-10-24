@@ -1,0 +1,18 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": { "author": "Allan CORNET", "tool": "Nelson nflow" },
+  "license": "LGPL-3.0",
+  "comments": "StopFcn fixture whose callback deliberately errors, to check that a failing StopFcn warns instead of aborting the already-completed run.",
+  "name": "StopFcn Error",
+  "blocks": [
+    { "id": "s1", "type": "sine", "x": 40, "y": 160, "rotation": 0, "params": { "Amplitude": 1, "Frequency": 0.2, "Phase": 0 } },
+    { "id": "tw", "type": "toWorkspace", "x": 280, "y": 160, "rotation": 0, "params": { "VariableName": "stopfcn_err_y", "MaxDataPoints": "inf", "Decimation": 1, "SaveFormat": "Array", "SampleTime": "-1" } }
+  ],
+  "connections": [ { "from": "s1", "to": "tw", "fromIndex": 0, "toIndex": 0 } ],
+  "variables": "",
+  "runtime": 3,
+  "sampleTime": 0.05,
+  "stopFcn": "error('nelson:test:boom', 'intentional');",
+  "autoRoute": true
+}

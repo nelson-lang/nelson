@@ -9,9 +9,9 @@
 //=============================================================================
 #include "handle_deleteBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "HandleDelete.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -23,7 +23,8 @@ Nelson::HandleGateway::handle_deleteBuiltin(Evaluator* eval, int nLhs, const Arr
     nargoutcheck(nLhs, 0, 0);
     ArrayOf param1 = argIn[0];
     if (!param1.isHandle()) {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_FUNCTION_HANDLE_EXPECTED);
+        Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1),
+            L"function handle");
     }
     HandleDelete(eval, param1);
     return retval;

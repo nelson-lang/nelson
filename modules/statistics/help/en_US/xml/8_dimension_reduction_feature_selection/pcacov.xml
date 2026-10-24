@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>pcacov</keyword>
+  <short_description>Principal component analysis on a covariance matrix.</short_description>
+  <syntax>
+    <syntax_item>coeff = pcacov(V)</syntax_item>
+    <syntax_item>[coeff, latent] = pcacov(V)</syntax_item>
+    <syntax_item>[coeff, latent, explained] = pcacov(V)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>pcacov</b> performs principal component analysis on a square covariance matrix.</p>
+    <p>The coefficients are returned in columns ordered by decreasing component variance. The vector latent contains the eigenvalues of V, and explained contains the percentage of total variance represented by each component.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[V = [4 2; 2 3];
+[coeff, latent, explained] = pcacov(V)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${statistics}pca">pca</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}cov">cov</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

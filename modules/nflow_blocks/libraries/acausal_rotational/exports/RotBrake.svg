@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="306.5" height="286.5" viewBox="-153.25 -103.25 306.5 286.5">
+  <rect x="-153.25" y="-103.25" width="306.5" height="286.5" rx="54.435" fill="#EAF7EC" stroke="#A6DDB0" stroke-width="3.25"/>
+  <g transform="matrix(1 0 0 -1 0 0)">
+    <polyline points="-50,-120 -30,-100" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-30,-120 -10,-100" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-10,-120 10,-100" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="10,-120 30,-100" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-30,-100 30,-100" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="-37,-55 -37,-90 37,-90 37,-55 33,-55 33,-86 -33,-86 -33,-55 -37,-55" fill="#A6DDB0" stroke="#A6DDB0" stroke-width="3.25" stroke-linejoin="round"/>
+    <rect x="-100" y="-10" width="80" height="20" fill="#A6DDB0" stroke="#1E6B2E" stroke-width="3.25"/>
+    <rect x="-20" y="-60" width="40" height="120" rx="10" ry="10" fill="#FFFFFF" stroke="#1E6B2E" stroke-width="3.25"/>
+    <rect x="-20" y="-60" width="40" height="120" rx="10" ry="10" fill="none" stroke="#1E6B2E" stroke-width="3.25"/>
+    <rect x="20" y="-10" width="80" height="20" fill="#A6DDB0" stroke="#1E6B2E" stroke-width="3.25"/>
+    <polygon points="40,-40 70,-30 70,-50 40,-40" fill="#1E6B2E" stroke="#1E6B2E" stroke-width="3.25" stroke-linejoin="round"/>
+    <rect x="30" y="-55" width="10" height="30" fill="#1E6B2E" stroke="#1E6B2E" stroke-width="3.25"/>
+    <polygon points="-40,-40 -70,-30 -70,-50 -40,-40" fill="#1E6B2E" stroke="#1E6B2E" stroke-width="3.25" stroke-linejoin="round"/>
+    <rect x="-40" y="-55" width="10" height="30" fill="#1E6B2E" stroke="#1E6B2E" stroke-width="3.25"/>
+    <polyline points="0,90 80,70 80,-40 70,-40" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="0,90 -80,70 -80,-40 -70,-40" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <g transform="translate(0,-160) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32" fill="#1E6B2E">RotBrake</text></g>
+  </g>
+</svg>

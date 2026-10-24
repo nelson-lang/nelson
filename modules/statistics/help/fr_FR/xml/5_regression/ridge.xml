@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>ridge</keyword>
+  <short_description>Regression ridge.</short_description>
+  <syntax>
+    <syntax_item>B = ridge(y, X, k)</syntax_item>
+    <syntax_item>B = ridge(y, X, k, scaled)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>ridge</b> retourne les coefficients de modeles de regression ridge du vecteur reponse <b>y</b> sur la matrice de predicteurs <b>X</b>.</p>
+    <p>Les predicteurs sont centres et reduits avant l'ajustement. Si <b>scaled</b> vaut <b>0</b>, les coefficients sont ramenes a l'echelle d'origine des predicteurs et une ligne d'interception est incluse.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[y = [1; 2.1; 2.9; 4.2; 5.1; 5.9];
+X = [(1:6)' [2; 1; 4; 3; 7; 6]];
+B = ridge(y, X, [0 0.5 2])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}regress">regress</link></see_also_item>
+    <see_also_item><link linkend="${statistics}robustfit">robustfit</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

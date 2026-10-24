@@ -1,0 +1,114 @@
+{
+  "blocks": [
+    {
+      "id": "a",
+      "x": 100,
+      "y": 100,
+      "width": 80,
+      "height": 40,
+      "rotation": 0,
+      "ports": [
+        {
+          "x": 80,
+          "y": 20,
+          "type": "out",
+          "index": 0
+        }
+      ]
+    },
+    {
+      "id": "b",
+      "x": 500,
+      "y": 100,
+      "width": 80,
+      "height": 40,
+      "rotation": 0,
+      "ports": [
+        {
+          "x": 0,
+          "y": 20,
+          "type": "in",
+          "index": 0
+        }
+      ]
+    },
+    {
+      "id": "c",
+      "x": 100,
+      "y": 300,
+      "width": 80,
+      "height": 40,
+      "rotation": 0,
+      "ports": [
+        {
+          "x": 80,
+          "y": 20,
+          "type": "out",
+          "index": 0
+        }
+      ]
+    },
+    {
+      "id": "d",
+      "x": 500,
+      "y": 300,
+      "width": 80,
+      "height": 40,
+      "rotation": 0,
+      "ports": [
+        {
+          "x": 0,
+          "y": 20,
+          "type": "in",
+          "index": 0
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "from": "a",
+      "to": "b",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [
+          180,
+          120
+        ],
+        [
+          300,
+          120,
+          1
+        ],
+        [
+          300,
+          220,
+          1
+        ],
+        [
+          420,
+          220,
+          1
+        ],
+        [
+          420,
+          120,
+          1
+        ],
+        [
+          500,
+          120
+        ]
+      ]
+    },
+    {
+      "from": "c",
+      "to": "d",
+      "fromIndex": 0,
+      "toIndex": 0
+    }
+  ],
+  "width": 800,
+  "height": 600
+}

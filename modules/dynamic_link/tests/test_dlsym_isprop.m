@@ -7,12 +7,12 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('@dlsym/isprop'), 2);
-assert_isequal(nargout('@dlsym/isprop'), 1);
+asserts.isequal(nargin('@dlsym/isprop'), 2);
+asserts.isequal(nargout('@dlsym/isprop'), 1);
 %=============================================================================
 path_ref = [modulepath('nelson', 'builtin'), '/libnlsDynamic_link', getdynlibext()];
 lib = dlopen(path_ref);
 f = dlsym(lib, 'dynlibTestMultiplyDoubleArrayWithReturn', 'int32', {'doublePtr', 'int32'});
-assert_isfalse(isprop(f, 'path'));
-assert_istrue(isprop(f, 'Prototype'));
+asserts.isfalse(isprop(f, 'path'));
+asserts.istrue(isprop(f, 'Prototype'));
 %=============================================================================

@@ -7,9 +7,9 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-x = 0:10; 
-y = sin(x); 
-xi = 0:.25:1000; 
+x = 0:10;
+y = sin(x);
+xi = 0:.25:1000;
 tic();
 yi = interp1(x, y, xi, 'linear');
 toc()

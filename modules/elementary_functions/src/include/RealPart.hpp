@@ -15,5 +15,6 @@
 namespace Nelson {
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
 RealPart(const ArrayOf& arrayIn);
-}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

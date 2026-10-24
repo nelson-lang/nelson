@@ -9,10 +9,14 @@
 %=============================================================================
 R = zeros([0, 3]);
 REF = zeros(0, 3);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = zeros([3, -3]);
 REF = zeros(3, -3);
-assert_isequal(R, REF);
-assert_isequal(size(R), [3, 0]);
+asserts.isequal(R, REF);
+asserts.isequal(size(R), [3, 0]);
+%=============================================================================
+asserts.isequal(size(zeros(2, 3)), [2 3]);
+asserts.isequal(size(zeros(0, 3)), [0 3]);
+asserts.isequal(zeros(1, 3, 'uint8'), uint8([0 0 0]));
 %=============================================================================

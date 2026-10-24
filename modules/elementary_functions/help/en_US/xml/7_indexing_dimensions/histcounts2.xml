@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>histcounts2</keyword>
+  <short_description>Bivariate histogram bin counts.</short_description>
+  <syntax>
+    <syntax_item>N = histcounts2(X, Y)</syntax_item>
+    <syntax_item>N = histcounts2(X, Y, nbins)</syntax_item>
+    <syntax_item>N = histcounts2(X, Y, Xedges, Yedges)</syntax_item>
+    <syntax_item>N = histcounts2(..., 'Normalization', method)</syntax_item>
+    <syntax_item>[N, Xedges, Yedges] = histcounts2(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description>numeric or logical array with the first coordinate of each pair.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Y</param_name>
+      <param_description>numeric or logical array with the second coordinate of each pair. X and Y must have the same number of elements.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>nbins</param_name>
+      <param_description>positive integer scalar, or a two-element vector [nx ny] giving the number of bins in each dimension.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Xedges, Yedges</param_name>
+      <param_description>strictly increasing numeric vectors that define the bin edges along X and Y.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>method</param_name>
+      <param_description>normalization: 'count' (default), 'probability', 'countdensity', 'pdf', 'cumcount' or 'cdf'.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>N</param_name>
+      <param_description>matrix of bin counts. N(i, j) counts the pairs that fall in the i-th X bin and the j-th Y bin.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>Xedges</param_name>
+      <param_description>bin edges used along the X dimension.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>Yedges</param_name>
+      <param_description>bin edges used along the Y dimension.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>histcounts2 partitions the (X, Y) pairs into a two-dimensional grid of bins and counts how many pairs fall into each bin.</p>
+    <p>N(i, j) counts the pairs for which Xedges(i) &lt;= X &lt; Xedges(i+1) and Yedges(j) &lt;= Y &lt; Yedges(j+1). The last bin of each dimension is closed on both ends.</p>
+    <p>You can supply the number of bins (a scalar, or [nx ny]) or the explicit edge vectors Xedges and Yedges. When a number of bins is requested, the edges are chosen on a 'nice' grid, the same way as <link linkend="${elementary_functions}histcounts">histcounts</link>. Pairs with a NaN coordinate are ignored.</p>
+  </description>
+  <used_function>
+    <used_function_item>histcounts2</used_function_item>
+  </used_function>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Count pairs on an explicit 2-D grid.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[x = [1 2 3];
+y = [1 2 3];
+N = histcounts2(x, y, [0 2 4], [0 2 4])]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Automatically chosen edges with a number of bins.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[[N, xe, ye] = histcounts2([1 5 10 3 7], [2 4 6 8 1], 3)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${elementary_functions}histcounts">histcounts</link></see_also_item>
+    <see_also_item><link linkend="${data_analysis}discretize">discretize</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

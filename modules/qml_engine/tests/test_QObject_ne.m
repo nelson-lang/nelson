@@ -10,7 +10,9 @@
 % <--GUI MODE-->
 % <--WITH DISPLAY-->
 %=============================================================================
-h = msgbox({'Operation' 'Completed'});
-assert_isfalse(h ~= h);
-assert_istrue(h ~= QObject_root());
+qml_file_ok = [modulepath('qml_engine', 'tests'), '/test_qml_loadfile_window_qt6.qml'];
+qobj = qml_loadfile(qml_file_ok);
+asserts.isfalse(qobj ~= qobj);
+asserts.istrue(qobj ~= QObject_root());
+delete(qobj);
 %=============================================================================

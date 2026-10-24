@@ -39,7 +39,7 @@ public:
     isOpen();
 
     bool
-    addEntry(const char* filename, uint32_t attributes);
+    addEntry(const char* filename, uint32_t attributes, bool reproducible = false);
 
     void
     closeEntry();

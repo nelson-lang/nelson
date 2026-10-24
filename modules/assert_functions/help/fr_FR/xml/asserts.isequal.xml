@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>asserts.isequal</keyword>
+  <short_description>Verifie que les valeurs calculee et attendue sont egales.</short_description>
+  <syntax>
+    <syntax_item>asserts.isequal(computed, expected)</syntax_item>
+    <syntax_item>asserts.isequal(computed, expected, message)</syntax_item>
+    <syntax_item>[res, msg] = asserts.isequal(computed, expected)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>computed</param_name><param_description>Valeur calculee.</param_description></param_input_item>
+    <param_input_item><param_name>expected</param_name><param_description>Valeur attendue.</param_description></param_input_item>
+    <param_input_item><param_name>message</param_name><param_description>Message d&apos;echec personnalise optionnel.</param_description></param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>res</param_name><param_description>true si l&apos;assertion reussit, false sinon.</param_description></param_output_item>
+    <param_output_item><param_name>msg</param_name><param_description>message d&apos;echec de l&apos;assertion, vide en cas de succes.</param_description></param_output_item>
+  </param_output>
+  <description>
+    <p>Forme methode de assert_isequal.</p>
+    <p>Les diagnostics d&apos;echec incluent classe, dimensions et, pour les tableaux denses numeriques ou logiques de meme taille, le premier index different.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Equal arrays</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[asserts.isequal([1 2], [1 2]);]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Capture a diagnostic</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[[res, msg] = asserts.isequal([1 2], [1 3]);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${assert_functions}assert_isapprox">assert_isapprox</link></see_also_item>
+    <see_also_item><link linkend="${assert_functions}asserts.notEqual">asserts.notEqual</link></see_also_item>
+    <see_also_item><link linkend="${assert_functions}asserts.diff">asserts.diff</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item><history_version>2.0.0</history_version><history_description>version initiale</history_description></history_item>
+  </history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

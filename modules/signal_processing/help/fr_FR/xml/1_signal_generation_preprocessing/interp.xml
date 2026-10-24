@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>interp</keyword>
+  <short_description>Interpole un vecteur par un facteur entier.</short_description>
+  <syntax>
+    <syntax_item>Y = interp(X, R)</syntax_item>
+    <syntax_item>Y = interp(X, R, N)</syntax_item>
+    <syntax_item>Y = interp(X, R, N, alpha)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description>vecteur d'entree non vide. Sa longueur doit etre au moins 2*N+1.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>R</param_name>
+      <param_description>facteur entier positif d'interpolation.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>N</param_name>
+      <param_description>parametre entier positif de longueur du filtre. La valeur par defaut vaut 4.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>alpha</param_name>
+      <param_description>facteur de bande limitee dans l'intervalle (0, 1]. La valeur par defaut vaut 0.5.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>Y</param_name>
+      <param_description>vecteur interpole de longueur R fois la longueur de X.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>interp</b> insere R-1 echantillons entre les echantillons d'entree puis applique un filtre FIR d'interpolation aux moindres carres. Une extrapolation lineaire aux bords est appliquee avant le filtrage pour retourner un vecteur avec la phase et la longueur attendues.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[
+y = interp(1:8, 2, 2);
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${signal_processing}upsample">upsample</link></see_also_item>
+    <see_also_item><link linkend="${signal_processing}resample">resample</link></see_also_item>
+    <see_also_item><link linkend="${signal_processing}upfirdn">upfirdn</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

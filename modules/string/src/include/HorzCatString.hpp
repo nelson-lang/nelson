@@ -17,5 +17,6 @@ NLSSTRING_IMPEXP ArrayOf
 HorzCatString(ArrayOf A, ArrayOf B);
 NLSSTRING_IMPEXP ArrayOf
 HorzCatNdArrayString(ArrayOf A, ArrayOf B);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

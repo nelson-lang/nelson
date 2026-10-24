@@ -9,7 +9,7 @@
 %=============================================================================
 function out = websave(varargin)
   if nargin < 2
-    error(_('Wrong number of input arguments.'));
+    error('Nelson:notEnoughInputs', 'Not enough input arguments.');
   end
   filename = getArgumentAsCharactersVector(varargin{1});
   url = getArgumentAsCharactersVector(varargin{2});
@@ -28,7 +28,7 @@ function out = websave(varargin)
     options_position = -1;
   end
   if ~(options_position == -1 || options_position == nargin)
-    error(_('weboptions must be last argument.'));
+    error('Nelson:webtools:weboptionsMustBeLast', 'weboptions must be last argument.');
   end
   if options_position == -1
     last = nargin;
@@ -52,7 +52,7 @@ function str = getArgumentAsCharactersVector(arg)
   str = arg;
   supported = (isstring(str) && isscalar(str)) || (ischar(str) && (size(str, 1) == 1));
   if (~supported)
-    error(_('Invalid type for #1 input argument: ''char'' or ''string'' expected.'));
+    error('Nelson:types:wrongArgumentTypeExpected', 'Wrong type for argument #%d: %s expected.', 1, '''char'' or ''string''');
   end
   str = convertStringsToChars(str);
 end

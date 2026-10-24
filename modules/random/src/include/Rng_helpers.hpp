@@ -24,7 +24,9 @@ enum RNG_TYPE
     RNG_DSFMT19937,
     RNG_LAGGED_FIBONACCI_607,
     RNG_PHILOX,
-    RNG_THREEFRY
+    RNG_THREEFRY,
+    RNG_PCG64DXSM,
+    RNG_XOSHIRO256PP
 };
 //=============================================================================
 NLSRANDOM_IMPEXP wstringVector

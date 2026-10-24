@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>raylrnd</keyword>
+  <short_description>Nombres aleatoires Rayleigh</short_description>
+  <syntax>
+    <syntax_item>r = raylrnd(b)</syntax_item>
+    <syntax_item>r = raylrnd(b, sz)</syntax_item>
+    <syntax_item>r = raylrnd(b, sz1, ..., szN)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>b</param_name><param_description>scalaire positif ou tableau : parametre d'echelle.</param_description></param_input_item>
+    <param_input_item><param_name>sz</param_name><param_description>vecteur de taille ou scalaires de taille pour la sortie.</param_description></param_input_item>
+  </param_input>
+  <param_output><param_output_item><param_name>r</param_name><param_description>tableau : valeurs aleatoires.</param_description></param_output_item></param_output>
+  <description><p><b>raylrnd</b> genere des nombres aleatoires Rayleigh avec le generateur global de Nelson.</p></description>
+  <examples><example_item><example_item_type>nelson</example_item_type><example_item_description /><example_item_data runnable="cli"><![CDATA[rng(0);
+r = raylrnd(2, [2 3]);]]></example_item_data></example_item></examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}raylpdf">raylpdf</link></see_also_item>
+    <see_also_item><link linkend="${statistics}raylstat">raylstat</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>2.0.0</history_version><history_description>version initiale</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

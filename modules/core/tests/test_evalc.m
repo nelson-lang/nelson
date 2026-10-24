@@ -7,8 +7,9 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('evalc'), 1);
-assert_isequal(nargout('evalc'), -1);
+% <--WEIGHT 4-->
+asserts.isequal(nargin('evalc'), 1);
+asserts.isequal(nargout('evalc'), -1);
 %=============================================================================
 R = evalc('1');
 REF = '
@@ -17,15 +18,15 @@ ans =
      1
 
 ';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 [R, B] = evalc('1');
-assert_isequal(R, '');
-assert_isequal(B, 1);
+asserts.isequal(R, '');
+asserts.isequal(B, 1);
 %=============================================================================
 R = evalc('1;');
 REF = '';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = evalc('A = 32');
 REF = '
@@ -34,21 +35,24 @@ A =
     32
 
 ';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-R = evalc ('A = 32;');
-assert_isequal(R, '');
+R = evalc('A = 32;');
+asserts.isequal(R, '');
 %=============================================================================
-assert_checkerror('evalc(''cos(1,2)'')', _('Wrong number of input arguments.'));
+asserts.checkerror('evalc(''cos(1,2)'')', _('Too many input arguments.'));
 %=============================================================================
-assert_checkerror('evalc(''input(''''prompt'''')'')', _('input function not allowed from evalc.'));
+asserts.checkerror('evalc(''input(''''prompt'''')'')', _('input function not allowed from evalc.'));
 %=============================================================================
-assert_checkerror('R = evalc(''error (''''AA'''')'', ''error(''''BB'''')'')', 'BB');
+asserts.checkerror('R = evalc(''error (''''AA'''')'', ''error(''''BB'''')'')', 'BB');
 %=============================================================================
 R = evalc('warning(''this a warning'')');
 REF = 'this a warning';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-expected_msg = sprintf(_('Expecting %s'), _('an expression after ''+'''));
-assert_checkerror('evalc(''A++'')', expected_msg);
+expected_msg = strrep(_('Expecting %s'), '%s', _('an expression after ''+'''));
+asserts.checkerror('evalc(''A++'')', expected_msg);
+%=============================================================================
+capturedText = evalc('disp(''abc'')');
+asserts.istrue(contains(capturedText, 'abc'));
 %=============================================================================

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -15,49 +15,60 @@
 #include "MatrixCheck.hpp"
 #include "ComplexTranspose.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
-#include "PredefinedErrorMessages.hpp"
+#include "Decomplexify.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 static void
 complexTransposeInPlace(ArrayOf& A, bool& needToOverload);
 //=============================================================================
+static ArrayOf
+zeroRightDivideResult(NelsonType dataClass, const Dimensions& dimsC)
+{
+    if (dimsC.elementCount() == 0) {
+        ArrayOf res = ArrayOf::empty(dimsC);
+        res.promoteType(dataClass);
+        return res;
+    }
+    void* ptrC = ArrayOf::allocateArrayOf(dataClass, dimsC.elementCount(), stringVector(), true);
+    return ArrayOf(dataClass, dimsC, ptrC, false);
+}
+//=============================================================================
 ArrayOf
 RightDivide(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
 {
+    // a quotient with an empty operand is empty or all zeros: it is real
     if (A.isEmpty() || B.isEmpty()) {
-        Dimensions dimsA = A.getDimensions();
-        Dimensions dimsB = B.getDimensions();
+        Dimensions dimsA = A.dimensions();
+        Dimensions dimsB = B.dimensions();
 
         if (A.isEmpty() && B.isScalar()) {
-            return A;
+            return decomplexify(A);
         }
         if (B.isEmpty() && A.isScalar()) {
-            if (dimsB.getColumns() == 1 && dimsB.is2D()) {
-                return ArrayOf::emptyConstructor(Dimensions(1, 0));
+            if (dimsB.columns() == 1 && dimsB.is2D()) {
+                return ArrayOf::empty(Dimensions(1, 0));
             }
-            Error(_("Size mismatch on arguments to arithmetic operator") + " " + "/");
+            Error("Nelson:dimagree:sizeMismatchArgumentsArithmeticOperatorValue",
+                "Size mismatch on arguments to arithmetic operator %s", "/");
         }
         dimsA.simplify();
         dimsB.simplify();
-        if (dimsA.getColumns() != dimsB.getColumns()) {
-            Error(_("Size mismatch on arguments to arithmetic operator") + " " + "/");
+        if (dimsA.columns() != dimsB.columns()) {
+            Error("Nelson:dimagree:sizeMismatchArgumentsArithmeticOperatorValue",
+                "Size mismatch on arguments to arithmetic operator %s", "/");
         }
         if (dimsA.equals(dimsB)) {
-            return A;
+            return decomplexify(A);
         }
-        if (dimsA.getLength() > 2 || dimsB.getLength() > 2) {
-            Error(ERROR_WRONG_ARGUMENTS_SIZE_2D_MATRIX_EXPECTED);
+        if (dimsA.length() > 2 || dimsB.length() > 2) {
+            Error(L"Nelson:expected2D", L"%s must be 2-D.", L"Input arguments");
         }
-        if (dimsA[0] != 0 && dimsB[0] != 0) {
-            NelsonType commonClass = A.getDataClass();
-            Dimensions dimsC(dimsA[0], dimsB[0]);
-            void* pT = ArrayOf::allocateArrayOf(
-                commonClass, dimsC.getElementCount(), stringVector(), true);
-            return ArrayOf(commonClass, dimsC, pT, false);
-        }
-        Error(_("Size mismatch on arguments to arithmetic operator") + " " + "/");
+        NelsonType commonClass = A.dataClass();
+        Dimensions dimsC(dimsA[0], dimsB[0]);
+        return decomplexify(zeroRightDivideResult(commonClass, dimsC));
     }
 
     if (B.isScalar()) {
@@ -76,6 +87,9 @@ RightDivide(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
     if (needToOverload) {
         return R;
     }
+    if (R.isSparse()) {
+        return ComplexTranspose(R, needToOverload);
+    }
     complexTransposeInPlace(R, needToOverload);
     return R;
 }
@@ -85,9 +99,9 @@ void
 complexTransposeInPlaceRealTemplate(const Dimensions& dimsA, T* ptrA, T* ptrRes)
 {
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matOrigin(
-        (T*)ptrA, dimsA.getRows(), dimsA.getColumns());
+        (T*)ptrA, dimsA.rows(), dimsA.columns());
     Eigen::Map<Eigen::Matrix<T, Eigen::Dynamic, Eigen::Dynamic>> matTransposed(
-        (T*)ptrRes, dimsA.getColumns(), dimsA.getRows());
+        (T*)ptrRes, dimsA.columns(), dimsA.rows());
     matTransposed = matOrigin.conjugate().transpose().eval();
 }
 //=============================================================================
@@ -98,9 +112,9 @@ complexTransposeInPlaceComplexTemplate(const Dimensions& dimsA, T* ptrA, T* ptrR
     std::complex<T>* matCplxA = reinterpret_cast<std::complex<T>*>(ptrA);
     std::complex<T>* matCplxRes = reinterpret_cast<std::complex<T>*>(ptrRes);
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matOrigin(
-        matCplxA, dimsA.getRows(), dimsA.getColumns());
+        matCplxA, dimsA.rows(), dimsA.columns());
     Eigen::Map<Eigen::Matrix<std::complex<T>, Eigen::Dynamic, Eigen::Dynamic>> matTransposed(
-        matCplxRes, dimsA.getColumns(), dimsA.getRows());
+        matCplxRes, dimsA.columns(), dimsA.rows());
     matTransposed = matOrigin.conjugate().transpose().eval();
 }
 //=============================================================================
@@ -108,23 +122,25 @@ void
 complexTransposeInPlace(ArrayOf& A, bool& needToOverload)
 {
     needToOverload = false;
-    Dimensions dimsA = A.getDimensions();
-    Dimensions dimsTranspose(dimsA.getColumns(), dimsA.getRows());
-    switch (A.getDataClass()) {
+    // Raw in-place payload writes below: detach in case A is ever shared.
+    A.ensureSingleOwner();
+    Dimensions dimsA = A.dimensions();
+    Dimensions dimsTranspose(dimsA.columns(), dimsA.rows());
+    switch (A.dataClass()) {
     case NLS_DOUBLE: {
-        auto* ptrA = (double*)A.getDataPointer();
+        auto* ptrA = (double*)A.dataPointer();
         complexTransposeInPlaceRealTemplate<double>(dimsA, (double*)ptrA, (double*)ptrA);
     } break;
     case NLS_SINGLE: {
-        auto* ptrA = (single*)A.getDataPointer();
+        auto* ptrA = (single*)A.dataPointer();
         complexTransposeInPlaceRealTemplate<single>(dimsA, (single*)ptrA, (single*)ptrA);
     } break;
     case NLS_DCOMPLEX: {
-        auto* ptrA = (double*)A.getDataPointer();
+        auto* ptrA = (double*)A.dataPointer();
         complexTransposeInPlaceComplexTemplate<double>(dimsA, (double*)ptrA, (double*)ptrA);
     } break;
     case NLS_SCOMPLEX: {
-        auto* ptrA = (single*)A.getDataPointer();
+        auto* ptrA = (single*)A.dataPointer();
         complexTransposeInPlaceComplexTemplate<single>(dimsA, (single*)ptrA, (single*)ptrA);
     } break;
     default: {

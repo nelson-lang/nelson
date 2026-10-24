@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>getNFlowBlockHandle</keyword>
+  <short_description>Return the handle of a block by path, or -1 if not found.</short_description>
+  <syntax>
+    <syntax_item>h = getNFlowBlockHandle(path)</syntax_item>
+    <syntax_item>h = getNFlowBlockHandle(path, load)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>path</param_name><param_description>a block path ('model/BlockName'), or a cell array of block paths.</param_description></param_input_item>
+    <param_input_item><param_name>load</param_name><param_description>optional logical; when true, an unloaded model is loaded first if it can be found.</param_description></param_input_item>
+  </param_input>
+  <param_output><param_output_item><param_name>h</param_name><param_description>the numeric handle of the block, or <b>-1</b> when it is not found. For a cell array of paths, a numeric array of the same shape.</param_description></param_output_item></param_output>
+  <description>
+    <p><b>getNFlowBlockHandle</b> returns the numeric handle of a block given
+    its path, or <b>-1</b> when the block does not exist (no error is raised).</p>
+    <p>The handle equals <b>get_param(path, 'Handle')</b> and can be passed to
+    <b>get_param</b> and <b>set_param</b> in place of the path. A path that names
+    only a model (with no block) resolves to <b>-1</b>.</p>
+    <p>With a cell array of paths, the result is a numeric array of handles of
+    the same shape, each element being the handle or <b>-1</b>.</p>
+    <p>When <b>load</b> is true and the model is not loaded, it is loaded first
+    if it can be found; otherwise the result is still <b>-1</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data><![CDATA[new_system('demo');
+add_block('nflow/math/gain', 'demo/Gain');
+h = getNFlowBlockHandle('demo/Gain')
+missing = getNFlowBlockHandle('demo/None')
+get_param(h, 'BlockType')
+bdclose('demo');]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${nflow_engine}getfullname">getfullname</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}get_param">get_param</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}set_param">set_param</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}find_system">find_system</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>1.0.0</history_version><history_description>initial version</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

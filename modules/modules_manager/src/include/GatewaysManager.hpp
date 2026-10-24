@@ -26,13 +26,28 @@ public:
     destroy(Evaluator* eval);
     //=============================================================================
     bool
-    addGateway(Evaluator* eval, const std::wstring& libraryFullName, std::wstring& errorMessage);
+    addGateway(Evaluator* eval, const std::wstring& libraryFullName, std::wstring& errorMessage,
+        bool forceLoaded = false);
     //=============================================================================
     bool
     removeGateway(Evaluator* eval, const std::wstring& libraryFullName, std::wstring& errorMessage);
     //=============================================================================
+    bool
+    resolveLazyGateway(Evaluator* eval, const std::wstring& libraryFullName,
+        const std::string& functionName, std::wstring& errorMessage);
+    //=============================================================================
     wstringVector
     getLibraryNames();
+    //=============================================================================
+    std::wstring
+    getGatewayState(const std::wstring& libraryFullName, std::wstring& errorMessage);
+    //=============================================================================
+    // Gateway name and builtin list of a lazy (not yet loaded) gateway, served
+    // from the descriptor cache without loading the library. Returns false when
+    // the gateway is not registered lazily.
+    bool
+    getLazyGatewayInfo(
+        const std::wstring& libraryFullName, std::wstring& moduleName, stringVector& builtins);
     //=============================================================================
 private:
     GatewaysManager();
@@ -41,5 +56,5 @@ private:
     //=============================================================================
 };
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

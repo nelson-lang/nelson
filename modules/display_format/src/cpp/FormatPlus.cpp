@@ -49,5 +49,5 @@ formatComplexPlus(single realPart, single imagPart, bool trim)
     return formatPlus(realPart, trim);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

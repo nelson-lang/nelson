@@ -18,6 +18,6 @@ h.DeleteFcn = @uiinspect;
 global callbackSource;
 callbackSource = [];
 h = uicontrol('Style', 'pushbutton', 'CreateFcn', @storeCallbackSource);
-assert_isequal(callbackSource, h);
+asserts.isequal(callbackSource, h);
 clear global callbackSource;
 %=============================================================================

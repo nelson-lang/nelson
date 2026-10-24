@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -25,7 +25,7 @@ ElementaryFunctionsGateway::fliplrBuiltin(Evaluator* eval, int nLhs, const Array
     ArrayOf res = Fliplr(argIn[0], needToOverload);
     if (needToOverload) {
         ArrayOfVector args = argIn;
-        args.push_back(ArrayOf::doubleConstructor(2.));
+        args.push_back(ArrayOf::doubleScalar(2.));
         Context* context = eval->getContext();
         if (context != nullptr) {
             FunctionDef* funcDef = nullptr;
@@ -42,5 +42,5 @@ ElementaryFunctionsGateway::fliplrBuiltin(Evaluator* eval, int nLhs, const Array
     return retval;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

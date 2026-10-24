@@ -184,7 +184,7 @@ saveas(gcf(), [tempdir(),'example_plot.svg']);
       <link linkend="${help_tools}doc">doc</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${graphics}plot">plot (module graphique)</link>
+      <link linkend="${graphics}1_plots/1_line_plots/plot">plot (module graphique)</link>
     </see_also_item>
   </see_also>
   <history>

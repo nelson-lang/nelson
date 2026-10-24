@@ -1,0 +1,46 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Allan CORNET",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "comments": "Sine source sin(t): amplitude 1, frequency 1 rad/s (Frequency in Hz = 1/2pi), phase 0.",
+  "name": "If Then Else",
+  "blocks": [
+    {
+      "id": "src",
+      "type": "sine",
+      "x": 40,
+      "y": 160,
+      "rotation": 0,
+      "params": {
+        "Amplitude": 1,
+        "Frequency": 0.15915494309189535,
+        "Phase": 0
+      }
+    },
+    {
+      "id": "tw",
+      "type": "toWorkspace",
+      "x": 280,
+      "y": 160,
+      "rotation": 0,
+      "params": {
+        "VariableName": "if_then_else_out",
+        "MaxDataPoints": "inf",
+        "Decimation": 1,
+        "SaveFormat": "Array",
+        "SampleTime": "-1"
+      }
+    }
+  ],
+  "connections": [
+    { "from": "src", "to": "tw", "fromIndex": 0, "toIndex": 0 }
+  ],
+  "variables": "",
+  "runtime": 30,
+  "sampleTime": 0.1,
+  "autoRoute": true
+}

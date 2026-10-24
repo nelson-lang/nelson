@@ -15,5 +15,6 @@
 namespace Nelson::DynamicLinkGateway {
 ArrayOfVector
 libpointer_isvalidBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -17,5 +17,5 @@ static const wchar_t* VERT_DICT[6] = { GO_PROPERTY_VALUE_TOP_STR, GO_PROPERTY_VA
 //=============================================================================
 GOAlignVertProperty::GOAlignVertProperty() : GORestrictedStringProperty(VERT_DICT) { }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

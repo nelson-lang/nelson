@@ -9,20 +9,31 @@
     <syntax_item>inf</syntax_item>
     <syntax_item>Inf(n)</syntax_item>
     <syntax_item>Inf(n, m)</syntax_item>
+    <syntax_item>Inf(n, classname)</syntax_item>
+    <syntax_item>Inf(n, m, classname)</syntax_item>
+    <syntax_item>Inf(classname)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>n</param_name>
-      <param_description>a variable: n-by-n matrix</param_description>
+      <param_description>a scalar integer: number of rows (and columns if m is omitted).</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>m</param_name>
-      <param_description>a variable: n-by-m matrix</param_description>
+      <param_description>a scalar integer: number of columns.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>classname</param_name>
+      <param_description>a string: 'double' (default) or 'single'.</param_description>
     </param_input_item>
   </param_input>
   <description>
     <p>
-      <b>NaN</b> returns the IEEE symbol Inf (Infinity).</p>
+      <b>Inf</b> returns the IEEE symbol Inf (Infinity).</p>
+    <p><b>Inf(n)</b> returns an n-by-n matrix filled with <b>Inf</b>.</p>
+    <p><b>Inf(n, m)</b> returns an n-by-m matrix filled with <b>Inf</b>.</p>
+    <p>The optional <b>classname</b> argument selects the class of the result and
+      must be either <b>'double'</b> (default) or <b>'single'</b>.</p>
   </description>
   <used_function />
   <bibliography />

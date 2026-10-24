@@ -16,6 +16,7 @@
 //=============================================================================
 static std::set<void*> registeredMxPointers;
 static std::set<void*> persistentMxPointers;
+static std::set<void*> protectedMxPointers;
 //=============================================================================
 bool
 mxIsRegisteredPointer(void* ptr)
@@ -68,15 +69,26 @@ isPersistentMemory(void* ptr)
     return false;
 }
 //=============================================================================
+static bool
+isProtectedMemory(void* ptr)
+{
+    if (ptr != nullptr) {
+        std::set<void*>::iterator it;
+        it = protectedMxPointers.find(ptr);
+        return it != protectedMxPointers.end();
+    }
+    return false;
+}
+//=============================================================================
 void
 mexFreeAllRegisteredPointer()
 {
-    for (auto ptr : registeredMxPointers) {
-        if (!isPersistentMemory(ptr)) {
+    std::set<void*> pointers = registeredMxPointers;
+    for (auto ptr : pointers) {
+        if (!isPersistentMemory(ptr) && !isProtectedMemory(ptr)) {
             mxFree(ptr);
         }
     }
-    registeredMxPointers.clear();
 }
 //=============================================================================
 void
@@ -90,6 +102,62 @@ mxFree(void* ptr)
             }
         }
     }
+}
+//=============================================================================
+void
+mxProtectPointerFromFreeAll(void* ptr)
+{
+    if (ptr != nullptr) {
+        protectedMxPointers.insert(ptr);
+    }
+}
+//=============================================================================
+void
+mxUnprotectPointerFromFreeAll(void* ptr)
+{
+    if (ptr != nullptr) {
+        protectedMxPointers.erase(ptr);
+    }
+}
+//=============================================================================
+void
+mxProtectArrayFromFreeAll(mxArray* pm)
+{
+    if (pm == nullptr) {
+        return;
+    }
+    mxProtectPointerFromFreeAll(pm);
+    mxProtectPointerFromFreeAll(pm->realdata);
+    mxProtectPointerFromFreeAll(pm->imagdata);
+    mxProtectPointerFromFreeAll(pm->Ir);
+    mxProtectPointerFromFreeAll(pm->Jc);
+    if (pm->classID == mxCELL_CLASS && pm->realdata != nullptr) {
+        auto** elements = (mxArray**)pm->realdata;
+        size_t count = mxGetNumberOfElements(pm);
+        for (size_t k = 0; k < count; ++k) {
+            mxProtectArrayFromFreeAll(elements[k]);
+        }
+    }
+}
+//=============================================================================
+void
+mxUnprotectArrayFromFreeAll(mxArray* pm)
+{
+    if (pm == nullptr) {
+        return;
+    }
+    if (pm->classID == mxCELL_CLASS && pm->realdata != nullptr) {
+        auto** elements = (mxArray**)pm->realdata;
+        size_t count = mxGetNumberOfElements(pm);
+        for (size_t k = 0; k < count; ++k) {
+            mxUnprotectArrayFromFreeAll(elements[k]);
+        }
+    }
+    mxUnprotectPointerFromFreeAll(pm->Jc);
+    mxUnprotectPointerFromFreeAll(pm->Ir);
+    mxUnprotectPointerFromFreeAll(pm->imagdata);
+    mxUnprotectPointerFromFreeAll(pm->realdata);
+    mxUnprotectPointerFromFreeAll(pm);
 }
 //=============================================================================
 void*

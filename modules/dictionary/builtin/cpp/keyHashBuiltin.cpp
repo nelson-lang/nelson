@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -39,7 +39,7 @@ Nelson::DictionaryGateway::keyHashBuiltin(Evaluator* eval, int nLhs, const Array
     }
     ArrayOfVector retval;
     uint64 hashValue = (uint64)KeyHash(eval, argIn[0]);
-    retval << ArrayOf::uint64Constructor(hashValue);
+    retval << ArrayOf::uint64Scalar(hashValue);
     return retval;
 }
 //=============================================================================

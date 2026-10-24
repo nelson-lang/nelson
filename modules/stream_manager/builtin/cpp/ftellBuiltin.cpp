@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "ftellBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "File.hpp"
 #include "FileTell.hpp"
@@ -25,20 +26,20 @@ Nelson::StreamGateway::ftellBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
     ArrayOf param1 = argIn[0];
-    auto iValue = static_cast<int32>(param1.getContentAsDoubleScalar());
+    auto iValue = static_cast<int32>(param1.asDoubleScalar());
     auto* fm = static_cast<FilesManager*>(NelsonConfiguration::getInstance()->getFileManager());
     if (fm == nullptr) {
-        Error(_W("Problem with file manager."));
+        Error(L"Nelson:stream_manager:fileManagerNotAvailable", L"Problem with file manager.");
     }
     if (fm->isOpened(iValue)) {
         File* f = fm->getFile(iValue);
         if (f == nullptr) {
-            Error(_W("Invalid file identifier."));
+            Error(L"Nelson:stream_manager:invalidFileIdentifier", L"Invalid file identifier.");
         }
         auto dpos = static_cast<double>(FileTell(f));
-        retval << ArrayOf::doubleConstructor(dpos);
+        retval << ArrayOf::doubleScalar(dpos);
     } else {
-        Error(_W("Invalid file identifier."));
+        Error(L"Nelson:stream_manager:invalidFileIdentifier", L"Invalid file identifier.");
     }
     return retval;
 }

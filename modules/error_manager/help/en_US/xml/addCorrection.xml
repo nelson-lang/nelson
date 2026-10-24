@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>addCorrection</keyword>
+  <short_description>Add correction to MException.</short_description>
+  <syntax>
+    <syntax_item>ME = addCorrection(ME, correction)</syntax_item>
+    <syntax_item>ME = ME.addCorrection(correction)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>ME</param_name>
+      <param_description>a scalar MException object.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>correction</param_name>
+      <param_description>a nelson.lang.correction.AppendArgumentsCorrection, nelson.lang.correction.ConvertToFunctionNotationCorrection, or nelson.lang.correction.ReplaceIdentifierCorrection object.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>ME</param_name>
+      <param_description>a new MException object containing the correction.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>addCorrection</b> returns a new MException object with the <b>Correction</b> property set to <b>correction</b>.</p>
+    <p>Nelson correction objects are <b>nelson.lang.correction.AppendArgumentsCorrection</b>, <b>nelson.lang.correction.ConvertToFunctionNotationCorrection</b>, and <b>nelson.lang.correction.ReplaceIdentifierCorrection</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data><![CDATA[ME = MException('nelson:missingArgument', 'Missing argument.');
+correction = nelson.lang.correction.AppendArgumentsCorrection('value');
+ME = addCorrection(ME, correction)
+ME.Correction]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${error_manager}MException">MException</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${error_manager}addCause">addCause</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${error_manager}getReport">getReport</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${error_manager}nelson.lang.correction.AppendArgumentsCorrection">nelson.lang.correction.AppendArgumentsCorrection</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${error_manager}nelson.lang.correction.ConvertToFunctionNotationCorrection">nelson.lang.correction.ConvertToFunctionNotationCorrection</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${error_manager}nelson.lang.correction.ReplaceIdentifierCorrection">nelson.lang.correction.ReplaceIdentifierCorrection</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

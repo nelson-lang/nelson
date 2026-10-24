@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "grootBuiltin.hpp"
+#include "GOHelpers.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "GORoot.hpp"
 //=============================================================================
@@ -19,7 +20,7 @@ grootBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargincheck(argIn, 0, 0);
     nargoutcheck(nLhs, 0, 1);
     ArrayOfVector retval = {};
-    retval << ArrayOf::graphicsObjectConstructor(graphicsRootObject());
+    retval << graphicsObjectHandle(graphicsRootObject());
     return retval;
 }
 //=============================================================================

@@ -14,27 +14,28 @@
 #include <mutex>
 #include <stdexcept>
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "NelsonConfiguration.hpp"
-//===================================================================================
+#include "RuntimeDispatch.hpp"
+//=============================================================================
 namespace Nelson {
-//===================================================================================
+//=============================================================================
 namespace {
     library_handle nlsGuiHandleDynamicLibrary = nullptr;
     std::once_flag guiLibraryInitFlag;
-
     void
     logErrorAndThrow(const std::string& message)
     {
         const std::string msg = _(message.c_str());
         const std::string error_msg = get_dynamic_library_error();
         if (!error_msg.empty()) {
-            Error(msg + "\n" + error_msg);
+            RaiseError(msg + "\n" + error_msg, "Nelson:htmltopdf:conversionFailed");
         } else {
-            Error(msg);
+            Error("Nelson:htmltopdf:conversionFailed", msg);
         }
     }
-
+    //=============================================================================
     template <typename FuncPtr>
     FuncPtr
     getFunctionPointer(const char* functionName)
@@ -42,15 +43,20 @@ namespace {
         auto funcPtr
             = reinterpret_cast<FuncPtr>(get_function(nlsGuiHandleDynamicLibrary, functionName));
         if (funcPtr == nullptr) {
-            logErrorAndThrow(_("Gui Function not loaded."));
+            logErrorAndThrow(Nelson::resolveMessageTemplate(
+                "Nelson:help_tools:guiFunctionLoaded", "Gui Function not loaded."));
         }
         return funcPtr;
     }
-}
-//===================================================================================
+    //=============================================================================
+} // namespace
+//=============================================================================
 static void
 initGuiDynamicLibrary()
 {
+    if (!hasGuiServices()) {
+        logErrorAndThrow("Gui services not available.");
+    }
     std::call_once(guiLibraryInitFlag, []() {
         const std::wstring fullpathGuiSharedLibrary
             = L"libnlsGui" + get_dynamic_library_extensionW();
@@ -64,7 +70,7 @@ initGuiDynamicLibrary()
         }
     });
 }
-//===================================================================================
+//=============================================================================
 bool
 HtmlFileToPdfFile(const std::wstring& htmlsrcfilename, const std::wstring& pdfdestfilename)
 {
@@ -77,7 +83,7 @@ HtmlFileToPdfFile(const std::wstring& htmlsrcfilename, const std::wstring& pdfde
     }
     return HtmlFileToPdfFilePtr(htmlsrcfilename, pdfdestfilename);
 }
-//===================================================================================
+//=============================================================================
 bool
 HtmlStreamToPdfFile(const std::wstring& htmlstream, const std::wstring& pdfdestfilename)
 {
@@ -91,6 +97,6 @@ HtmlStreamToPdfFile(const std::wstring& htmlstream, const std::wstring& pdfdestf
     }
     return HtmlStreamToPdfFilePtr(htmlstream, pdfdestfilename);
 }
-//===================================================================================
+//=============================================================================
 } // namespace Nelson
-//===================================================================================
+//=============================================================================

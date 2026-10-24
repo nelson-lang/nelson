@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>crypto.hmac</keyword>
+  <short_description>Calcule un code d'authentification de message à clé (HMAC).</short_description>
+  <syntax>
+    <syntax_item>hexa_mac = crypto.hmac(algorithm, key, message)</syntax_item>
+    <syntax_item
+    >hexa_mac = crypto.hmac(algorithm, key, filename, &apos;-file&apos;)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>algorithm</param_name>
+      <param_description
+      >chaîne : &apos;sha256&apos; ou &apos;sha512&apos; (insensible à la casse, &apos;sha-256&apos; et &apos;sha-512&apos; acceptés).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>key</param_name>
+      <param_description
+      >vecteur uint8 (octets bruts) ou vecteur de caractères (octets UTF-8) : clé secrète, de longueur quelconque.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>message</param_name>
+      <param_description
+      >vecteur uint8 (octets bruts) ou vecteur de caractères (octets UTF-8) : contenu authentifié.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description
+      >chaîne : fichier existant dont les octets bruts sont authentifiés.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>&apos;-file&apos;</param_name>
+      <param_description>le troisième argument est un nom de fichier.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>hexa_mac</param_name>
+      <param_description
+      >vecteur de caractères : 64 (sha256) ou 128 (sha512) caractères hexadécimaux minuscules.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>crypto.hmac</b> calcule un HMAC (RFC 2104) avec SHA-256 ou SHA-512 sur les octets exacts d'un message, par exemple pour authentifier une requête d'API ou la charge utile d'un webhook.</p>
+    <p
+    >Une clé texte est utilisée via ses octets UTF-8 ; passez un vecteur uint8 pour une clé binaire (une clé hexadécimale doit d'abord être convertie). Les clés plus longues que le bloc du hachage sont d'abord hachées, comme l'exige la RFC.</p>
+    <p
+    >Comparez le résultat à la valeur attendue avec une comparaison en temps constant lorsque la vérification protège une décision de sécurité.</p>
+  </description>
+  <used_function>Monocypher, picoSHA2</used_function>
+  <bibliography
+  >https://www.rfc-editor.org/rfc/rfc2104, https://www.rfc-editor.org/rfc/rfc4231</bibliography>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>cas de test 2 de la RFC 4231</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[R = crypto.hmac('sha256', 'Jefe', 'what do ya want for nothing?')
+R = crypto.hmac('sha512', 'Jefe', 'what do ya want for nothing?')]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>clé binaire et message dans un fichier</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[key = uint8(repmat(11, 1, 20));
+filename = [tempdir(), 'hmac_example.txt'];
+filewrite(filename, 'Hi There');
+R = crypto.hmac('sha256', key, filename, '-file')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${core}sha256">sha256</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${core}crypto.sha512">crypto.sha512</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${core}crypto.ed25519.sign">crypto.ed25519.sign</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

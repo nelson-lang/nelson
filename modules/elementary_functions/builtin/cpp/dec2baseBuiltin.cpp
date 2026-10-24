@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -32,7 +32,7 @@ Nelson::ElementaryFunctionsGateway::dec2baseBuiltin(int nLhs, const ArrayOfVecto
     if (argIn.size() == 3) {
         param3 = argIn[2];
     } else {
-        param3 = ArrayOf::doubleConstructor(0.);
+        param3 = ArrayOf::doubleScalar(0.);
     }
     ArrayOf res = DecimalToBase(param1, param2, param3, needToOverload);
     if (needToOverload) {
@@ -55,12 +55,12 @@ Nelson::ElementaryFunctionsGateway::dec2hexBuiltin(int nLhs, const ArrayOfVector
     }
     bool needToOverload;
     ArrayOf param1 = argIn[0];
-    ArrayOf param2 = ArrayOf::doubleConstructor(16.);
+    ArrayOf param2 = ArrayOf::doubleScalar(16.);
     ArrayOf param3;
     if (argIn.size() == 2) {
         param3 = argIn[1];
     } else {
-        param3 = ArrayOf::doubleConstructor(0.);
+        param3 = ArrayOf::doubleScalar(0.);
     }
     ArrayOf res = DecimalToBase(param1, param2, param3, needToOverload);
     if (needToOverload) {
@@ -85,12 +85,12 @@ Nelson::ElementaryFunctionsGateway::dec2binBuiltin(int nLhs, const ArrayOfVector
 
     bool needToOverload;
     ArrayOf param1 = argIn[0];
-    ArrayOf param2 = ArrayOf::doubleConstructor(2.);
+    ArrayOf param2 = ArrayOf::doubleScalar(2.);
     ArrayOf param3;
     if (argIn.size() == 2) {
         param3 = argIn[1];
     } else {
-        param3 = ArrayOf::doubleConstructor(0.);
+        param3 = ArrayOf::doubleScalar(0.);
     }
     ArrayOf res = DecimalToBase(param1, param2, param3, needToOverload);
     if (needToOverload) {

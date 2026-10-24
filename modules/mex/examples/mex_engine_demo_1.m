@@ -7,13 +7,16 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-destinationdir = [tempdir(), 'mex_engine_demo_1/'];
-if isdir(destinationdir)
-  rmdir(destinationdir, 's');
+destinationdir = [tempname(), '/'];
+if ~havecompiler()
+  error('This example requires a configured C compiler.');
 end
 mkdir(destinationdir);
+source = [modulepath('mex'), '/examples/mex_engine_demo_1.c'];
 destination = [destinationdir, 'mex_engine_demo_1.c'];
-status = copyfile('mex_engine_demo_1.c', destinationdir);
+status = copyfile(source, destinationdir);
+previousDirectory = pwd();
+cleanupDirectory = onCleanup(@() cd(previousDirectory));
 cd(destinationdir);
 mex('-client', 'engine', 'mex_engine_demo_1.c');
 generated_executable = [destinationdir, 'mex_engine_demo_1'];

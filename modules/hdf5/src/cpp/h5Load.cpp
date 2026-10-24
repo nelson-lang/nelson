@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -14,12 +14,14 @@
 #include "StringHelpers.hpp"
 #include "FileSystemWrapper.hpp"
 #include "h5Load.hpp"
+#include "Evaluator.hpp"
 #include "h5SaveLoadHelpers.hpp"
 #include "characters_encoding.hpp"
 #include "h5LoadVariable.hpp"
 #include "haveNh5Header.hpp"
 #include "Warning.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
@@ -34,11 +36,11 @@ h5Load(Evaluator* eval, const std::wstring& filename, const wstringVector& names
         = FileSystemWrapper::Path::is_regular_file(hdf5_filename, permissionDenied);
     if (!fileExistPreviously) {
         if (permissionDenied) {
-            Error(_W("Permission denied."));
+            Error(L"Nelson:hdf5:permissionDenied", L"Permission denied.");
         }
     }
     if (!fileExistPreviously) {
-        Error(_W("File does not exist."));
+        Error(L"Nelson:hdf5:fileDoesNotExist", L"File does not exist.");
     }
 
     int16 nh5Version;
@@ -47,18 +49,18 @@ h5Load(Evaluator* eval, const std::wstring& filename, const wstringVector& names
     bool haveHeader = haveNh5Header(hdf5_filename.wstring(), header, nh5Version, nh5Endian);
     if (haveHeader) {
         if (nh5Version != NELSON_HEADER_VERSION) {
-            Error(_W("Invalid file format."));
+            Error(L"Nelson:hdf5:invalidFileFormat", L"Invalid file format.");
         }
     }
     hid_t fid
         = H5Fopen(wstring_to_utf8(hdf5_filename.wstring()).c_str(), H5F_ACC_RDONLY, H5P_DEFAULT);
     if (fid == H5I_INVALID_HID) {
-        Error(_W("Open file failed."));
+        Error(L"Nelson:hdf5:openFailed", L"Open file failed.");
     }
     if (!haveHeader) {
         if (!isNelsonH5File(fid)) {
             H5Fclose(fid);
-            Error(_W("Invalid file format."));
+            Error(L"Nelson:hdf5:invalidFileFormat", L"Invalid file format.");
         }
     }
     stringVector variableNamesInFile = getVariableNames(fid);
@@ -72,25 +74,30 @@ h5Load(Evaluator* eval, const std::wstring& filename, const wstringVector& names
                 != variableNamesInFile.end()) {
                 variableNames.push_back(name);
             } else {
-                std::string msg = _("Variable not found:") + std::string(" ") + name;
-                Warning(msg);
+                std::string msg = formatI18nMessage(
+                    resolveMessageTemplate("Nelson:hdf5:variableFoundS", "Variable not found: %s"),
+                    name);
+                RaiseWarning("Nelson:h5load:variableNotFound", msg);
             }
         }
     }
     ArrayOfVector values;
     for (const std::string& name : variableNames) {
         ArrayOf value;
-        if (h5LoadVariable(fid, "/", name, value)) {
+        if (h5LoadVariable(eval, fid, "/", name, value)) {
             values.push_back(value);
         } else {
             H5Fclose(fid);
-            std::string msg = _("Cannot read variable:") + std::string(" ") + name;
-            Error(msg);
+            std::string msg
+                = formatI18nMessage(resolveMessageTemplate("Nelson:hdf5:cannotReadVariableS",
+                                        "Cannot read variable: %s"),
+                    name);
+            Error("Nelson:hdf5:loadFailed", msg);
         }
     }
     herr_t status = H5Fclose(fid);
     if (asStruct) {
-        res = ArrayOf::structScalarConstructor(variableNames, values);
+        res = ArrayOf::structScalar(variableNames, values);
     } else {
         for (size_t i = 0; i < variableNames.size(); i++) {
             eval->getContext()->getCurrentScope()->insertVariable(variableNames[i], values[i]);

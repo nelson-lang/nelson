@@ -15,7 +15,8 @@
 profile on
 sind(5)
 profile off
-p = [tempdir(), 'profile_results_',  createGUID()];
+p = tempname();
 profsave(profile('info'), p)
-assert_istrue(isfile([p,'/index.html']))
+asserts.istrue(isfile([p, '/index.html']))
+rmdir(p, 's')
 %=============================================================================

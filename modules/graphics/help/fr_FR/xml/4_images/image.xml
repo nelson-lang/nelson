@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>image</keyword>
+  <short_description
+  >Affiche une image à partir d&apos;un tableau.</short_description>
+  <syntax>
+    <syntax_item>image()</syntax_item>
+    <syntax_item>image(C)</syntax_item>
+    <syntax_item>image(X, Y, C)</syntax_item>
+    <syntax_item>image(&apos;CData&apos;, C)</syntax_item>
+    <syntax_item>image(&apos;XData&apos;, X, &apos;YData&apos;, Y,&apos;CData&apos;, C)</syntax_item>
+    <syntax_item>image(..., propertyName, propertyValue)</syntax_item>
+    <syntax_item>image(parent, ...)</syntax_item>
+    <syntax_item>go = image(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description>Coordonnées x : vecteur ou matrice.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Y</param_name>
+      <param_description>Coordonnées y : vecteur ou matrice.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>C</param_name>
+      <param_description
+      >Tableau de couleurs : tableau m-par-n-par-3 de triplets RGB.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>parent</param_name>
+      <param_description
+      >Un objet graphique scalaire : conteneur parent, spécifié comme un axes.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName</param_name>
+      <param_description
+      >Une chaîne scalaire ou un vecteur ligne de caractères.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyValue</param_name>
+      <param_description>Une valeur.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>go</param_name>
+      <param_description>Un objet graphique : type image.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>image</b> affiche les données C sous forme d&apos;image.</p>
+    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.image.properties">proprietes de image</link> pour la liste complete des proprietes.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
+L = linspace(0, 1);
+R = L' * L;
+G = L' * (L .^ 2);
+B = L' * (0 *L + 1);
+C(:, :, 1) = G;
+C(:, :, 2) = G;
+C(:, :, 3) = B;
+im = image(C)]]></example_item_data>
+      <example_item_img
+        src="../../../images/image_1.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
+image();]]></example_item_data>
+      <example_item_img
+        src="../../../images/image_2.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.image.properties">proprietes de image</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}4_images/imagesc">imagesc</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}3_labels_styling/2_color_styling/colormaps/colormap">colormap</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>1.7.0</history_version>
+      <history_description
+      >Ajout des callbacks CreateFcn, DeleteFcn.</history_description>
+    </history_item>
+    <history_item>
+      <history_version>--</history_version>
+      <history_description
+      >Ajout de la propriété BeingDeleted.</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

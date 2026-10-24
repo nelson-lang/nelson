@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -22,6 +22,7 @@
 #include "MxArrayOf.hpp"
 #include "NelsonConfiguration.hpp"
 #include "i18n.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 bool
 mxIsClass(const mxArray* pm, const char* classname)
@@ -135,17 +136,19 @@ mxGetProperty(const mxArray* pa, mwIndex index, const char* propname)
             bool isSupportedObject
                 = ptr->isClassType() || ptr->isHandle() || ptr->isGraphicsObject();
             if (!isSupportedObject) {
-                mexErrMsgTxt(_("mxGetProperty object expected.").c_str());
+                mexErrMsgTxt(Nelson::resolveMessageTemplate(
+                    "Nelson:mex:mxgetpropertyObject", "mxGetProperty object expected.")
+                        .c_str());
             }
-            Nelson::Dimensions dims = ptr->getDimensions();
-            if (index > dims.getElementCount()) {
+            Nelson::Dimensions dims = ptr->dimensions();
+            if (index > dims.elementCount()) {
                 return res;
             }
             Nelson::ArrayOf obj;
             if (index == 0) {
                 obj = *ptr;
             } else {
-                Nelson::ArrayOf* elements = (Nelson::ArrayOf*)ptr->getDataPointer();
+                Nelson::ArrayOf* elements = (Nelson::ArrayOf*)ptr->dataPointer();
                 obj = elements[index];
             }
             Nelson::Evaluator* mainEvaluator
@@ -160,10 +163,10 @@ mxGetProperty(const mxArray* pa, mwIndex index, const char* propname)
                             Nelson::ArrayOfVector argIn;
                             Nelson::ArrayOfVector argOut;
                             argIn.push_back(obj);
-                            argIn.push_back(Nelson::ArrayOf::characterArrayConstructor(propname));
+                            argIn.push_back(Nelson::ArrayOf::characterArray(propname));
                             try {
                                 argOut = funcDef->evaluateFunction(mainEvaluator, argIn, 1);
-                            } catch (Nelson::Exception&) {
+                            } catch (Nelson::NelsonException&) {
                                 return nullptr;
                             }
                             if (!argOut.empty()) {
@@ -187,15 +190,17 @@ mxSetProperty(mxArray* pa, mwIndex index, const char* propname, const mxArray* v
             bool isSupportedObject
                 = ptr->isClassType() || ptr->isHandle() || ptr->isGraphicsObject();
             if (!isSupportedObject) {
-                mexErrMsgTxt(_("mxSetProperty object expected.").c_str());
+                mexErrMsgTxt(Nelson::resolveMessageTemplate(
+                    "Nelson:mex:mxsetpropertyObject", "mxSetProperty object expected.")
+                        .c_str());
             }
-            Nelson::Dimensions dims = ptr->getDimensions();
-            if (index <= dims.getElementCount()) {
+            Nelson::Dimensions dims = ptr->dimensions();
+            if (index <= dims.elementCount()) {
                 Nelson::ArrayOf obj;
                 if (index == 0) {
                     obj = *ptr;
                 } else {
-                    Nelson::ArrayOf* elements = (Nelson::ArrayOf*)ptr->getDataPointer();
+                    Nelson::ArrayOf* elements = (Nelson::ArrayOf*)ptr->dataPointer();
                     obj = elements[index];
                 }
                 Nelson::Evaluator* mainEvaluator
@@ -210,12 +215,11 @@ mxSetProperty(mxArray* pa, mwIndex index, const char* propname, const mxArray* v
                                 Nelson::ArrayOfVector argIn;
                                 Nelson::ArrayOfVector argOut;
                                 argIn.push_back(obj);
-                                argIn.push_back(
-                                    Nelson::ArrayOf::characterArrayConstructor(propname));
+                                argIn.push_back(Nelson::ArrayOf::characterArray(propname));
                                 argIn.push_back(Nelson::MxArrayToArrayOf(value));
                                 try {
                                     argOut = funcDef->evaluateFunction(mainEvaluator, argIn, 0);
-                                } catch (Nelson::Exception&) {
+                                } catch (Nelson::NelsonException&) {
                                 }
                             }
                         }

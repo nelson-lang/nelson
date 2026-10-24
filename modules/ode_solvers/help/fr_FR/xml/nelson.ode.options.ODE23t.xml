@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nelson.ode.options.ODE23t</keyword>
+  <short_description>Objet d'options pour le solveur ode23t.</short_description>
+  <syntax>
+    <syntax_item>options = nelson.ode.options.ODE23t()</syntax_item>
+    <syntax_item>options = nelson.ode.options.ODE23t(nom, valeur)</syntax_item>
+  </syntax>
+  <description>
+    <p>
+      <b>nelson.ode.options.ODE23t</b> cree une classe d'options compatible pour la valeur de solveur <b>'ode23t'</b> utilisee par le workflow objet <b>ode</b>.</p>
+    <table style="width:100%">
+  <tr><th>Groupe d'options</th><th>Noms</th><th>Role</th></tr>
+  <tr><td>Pas</td><td><b>InitialStep</b>, <b>MaxStep</b>, <b>MinStep</b></td><td>Borne la selection adaptative du pas.</td></tr>
+  <tr><td>Controle d'erreur</td><td><b>NormControl</b></td><td>Bascule entre un controle d'erreur par composante et par norme.</td></tr>
+  <tr><td>Evaluation</td><td><b>Vectorization</b></td><td>Declare que la fonction EDO accepte des matrices d'etats.</td></tr>
+  <tr><td>Sortie</td><td><b>OutputFcn</b>, <b>OutputSelection</b></td><td>Choisit les callbacks de sortie et les composantes retournees.</td></tr>
+</table>
+    <p>La valeur de solveur <b>'ode23t'</b> utilise une implementation de la regle des trapezes, adaptee aux problemes moderement raides quand une solution sans amortissement numerique est souhaitee.</p>
+    <p>Les proprietes prises en charge sont <b>InitialStep</b>, <b>MaxStep</b>, <b>MinStep</b>, <b>NormControl</b>, <b>OutputFcn</b>, <b>OutputSelection</b> et <b>Vectorization</b>. <b>InitialStep</b>, <b>MaxStep</b> et <b>MinStep</b> sont des scalaires positifs bornant le pas adaptatif ; leur valeur par defaut est vide, ce qui laisse le solveur les choisir automatiquement. <b>NormControl</b> accepte <b>'on'</b> ou <b>'off'</b> (par defaut <b>'off'</b>) et active un controle d'erreur base sur la norme de la solution au lieu d'un controle par composante. <b>Vectorization</b> accepte <b>'on'</b> ou <b>'off'</b> (par defaut <b>'off'</b>) et declare que la fonction EDO peut evaluer plusieurs colonnes d'etats a la fois. <b>OutputFcn</b> est un handle de fonction appele sur chaque point de sortie (par defaut vide). <b>OutputSelection</b> est un vecteur d'indices selectionnant les composantes de la solution transmises a la fonction de sortie (par defaut vide, toutes les composantes). La valeur <b>Refine</b> par defaut pour ce solveur est 1.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Creer un probleme moderement raide resolu avec les options ode23t.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[options = nelson.ode.options.ODE23t('MaxStep', 0.1);
+problem = ode('ODEFcn', @(t,y) -20 * y, 'InitialValue', 1, ...
+  'SolverOptions', options);
+result = solve(problem, 0, 1)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ode_solvers}ode">ode</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}ode23t">ode23t</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}nelson.ode.options.ODE23tb">nelson.ode.options.ODE23tb</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

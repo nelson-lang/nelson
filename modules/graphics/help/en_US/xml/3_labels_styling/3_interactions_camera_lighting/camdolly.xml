@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>camdolly</keyword>
+  <short_description>Move the camera position and target.</short_description>
+  <syntax>
+    <syntax_item>camdolly(dx, dy, dz)</syntax_item>
+    <syntax_item>camdolly(dx, dy, dz, coordsys)</syntax_item>
+    <syntax_item>camdolly(dx, dy, dz, coordsys, units)</syntax_item>
+    <syntax_item>camdolly(ax, ...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description>a scalar graphics object value: an axes.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>dx, dy, dz</param_name>
+      <param_description>the displacement along each axis of the chosen coordinate system.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>coordsys</param_name>
+      <param_description>'camera' (default: dx right, dy up, dz along the view direction) or 'data' (world axes).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>units</param_name>
+      <param_description>'normalized' (default: relative to the camera-to-target distance) or 'data'.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b>camdolly</b> moves the camera position and the camera target by the
+    same amount, sliding the view across the scene.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
+surf(peaks(40), 'EdgeColor', 'none');
+camproj('perspective');
+camdolly(0.2, 0, 0);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}3_labels_styling/3_interactions_camera_lighting/camorbit">camorbit</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}3_labels_styling/3_interactions_camera_lighting/camzoom">camzoom</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

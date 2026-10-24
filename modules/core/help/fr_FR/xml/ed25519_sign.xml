@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>crypto.ed25519.sign</keyword>
+  <short_description>Calcule une signature Ed25519.</short_description>
+  <syntax>
+    <syntax_item>signature = crypto.ed25519.sign(message, seed)</syntax_item>
+    <syntax_item>[signature, publicKey] = crypto.ed25519.sign(message, seed)</syntax_item>
+    <syntax_item
+    >[signature, publicKey] = crypto.ed25519.sign(filename, seed, &apos;-file&apos;)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>message</param_name>
+      <param_description
+      >vecteur uint8 (octets bruts) ou vecteur de caractères (octets UTF-8) : contenu à signer.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description
+      >chaîne : fichier existant dont les octets bruts sont signés.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>seed</param_name>
+      <param_description
+      >vecteur uint8 de 32 octets ou 64 caractères hexadécimaux : graine privée Ed25519.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>&apos;-file&apos;</param_name>
+      <param_description>le premier argument est un nom de fichier.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>signature</param_name>
+      <param_description
+      >vecteur de caractères : 128 caractères hexadécimaux minuscules (64 octets).</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>publicKey</param_name>
+      <param_description
+      >vecteur de caractères : 64 caractères hexadécimaux minuscules (32 octets), clé publique dérivée de la graine.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>crypto.ed25519.sign</b> calcule une signature Ed25519 pure (RFC 8032, section 5.1) sur les octets exacts d'un message. Les signatures sont déterministes : la même graine et le même message donnent toujours la même signature.</p>
+    <p
+    >La graine est la clé privée de 32 octets. Elle doit rester secrète : quiconque la détient peut signer. Cette fonction est destinée aux tests, au développement local et aux registres de paquets privés ; la clé publique renvoyée en second résultat est la valeur à distribuer aux vérificateurs.</p>
+  </description>
+  <used_function>Monocypher</used_function>
+  <bibliography
+  >https://www.rfc-editor.org/rfc/rfc8032, https://monocypher.org/</bibliography>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>vecteur de test 3 de la RFC 8032</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[seed = 'c5aa8df43f9f837bedb7442f31dcb7b166d38535076f094b85ce3a2e0b4458f7';
+[signature, publicKey] = crypto.ed25519.sign(uint8([175, 130]), seed)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>signer un message texte et le vérifier</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[seed = 'c5aa8df43f9f837bedb7442f31dcb7b166d38535076f094b85ce3a2e0b4458f7';
+[signature, publicKey] = crypto.ed25519.sign('Nelson', seed);
+tf = crypto.ed25519.verify('Nelson', signature, publicKey)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${core}crypto.ed25519.verify">crypto.ed25519.verify</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${core}sha256">sha256</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

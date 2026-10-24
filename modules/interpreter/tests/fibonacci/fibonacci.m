@@ -11,6 +11,6 @@ function x = fibonacci(n)
   if n < 2
     x = n;
   else
-    x = fibonacci(n-1) + fibonacci(n-2);
-   end
+    x = fibonacci(n - 1) + fibonacci(n - 2);
+  end
 end

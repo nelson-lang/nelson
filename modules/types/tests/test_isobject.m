@@ -7,15 +7,15 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('isobject'), 1);
-assert_isequal(nargout('isobject'), 1);
+asserts.isequal(nargin('isobject'), 1);
+asserts.isequal(nargout('isobject'), 1);
 %=============================================================================
 A = 1;
 res = isobject(A);
-assert_isfalse(res);
+asserts.isfalse(res);
 %=============================================================================
 addpath([modulepath('overload', 'root'), '/examples/complex']);
 A = complexObj(1, 2);
 res = isobject(A);
-assert_istrue(res);
+asserts.istrue(res);
 %=============================================================================

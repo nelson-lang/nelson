@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nelson.lang.HandlePlaceholder</keyword>
+  <short_description>Placeholder handle class used for missing handle targets.</short_description>
+  <syntax>
+    <syntax_item>obj = nelson.lang.HandlePlaceholder()</syntax_item>
+  </syntax>
+  <param_output>
+    <param_output_item>
+      <param_name>obj</param_name>
+      <param_description>a scalar handle object.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>nelson.lang.HandlePlaceholder</b> is a concrete handle class used when an API must return a handle object but no live target is available.</p>
+    <p>A placeholder object created with the constructor is a normal valid handle until it is deleted.</p>
+    <p>Weak references with no assigned target return an invalid handle whose class is <b>nelson.lang.HandlePlaceholder</b>.</p>
+    <p>The class does not define user properties or methods beyond the common handle operations.</p>
+    <p>Use this class as a neutral handle class when the original target class is unknown or not relevant.</p>
+    <p>A constructed placeholder object and an invalid placeholder handle are different values. The constructed object is valid until deleted; an invalid placeholder handle is never valid.</p>
+    <p>Placeholder handles can be checked with <b>isvalid</b>, compared by class name with <b>class</b>, and used anywhere a generic handle placeholder is appropriate.</p>
+    <p>The class is intentionally empty. It is not a container for user data.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Create and delete a placeholder handle.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[p = nelson.lang.HandlePlaceholder();
+class(p)
+isvalid(p)
+delete(p)
+isvalid(p)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Inspect the default handle returned by an empty weak reference.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[w = nelson.lang.WeakReference();
+h = w.Handle;
+class(h)
+isvalid(h)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Compare a valid placeholder object with an invalid placeholder handle.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[p = nelson.lang.HandlePlaceholder();
+q = nelson.lang.invalidHandle('nelson.lang.HandlePlaceholder');
+class(p)
+class(q)
+isvalid(p)
+isvalid(q)]]></example_item_data>
+    </example_item>
+  </examples>
+  <used_function />
+  <bibliography />
+  <see_also>
+    <see_also_item>
+      <link linkend="${handle}nelson.lang.WeakReference">nelson.lang.WeakReference</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}nelson.lang.invalidHandle">nelson.lang.invalidHandle</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}isvalid">isvalid</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${types}class">class</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

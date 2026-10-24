@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>writestruct</keyword>
+  <short_description>Write a structure as XML</short_description>
+  <syntax>
+    <syntax_item>writestruct(s, filename)</syntax_item>
+    <syntax_item>writestruct(s, filename, name, value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>s</param_name>
+      <param_description>a structure or object to serialize.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>a string: path to the output XML file.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>name, value</param_name>
+      <param_description>optional pairs: &apos;FileType&apos;, &apos;StructNodeName&apos;, &apos;AttributeSuffix&apos;, or &apos;PrettyPrint&apos;.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p>writestruct creates an XML document from a structure and writes it to a file.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[s = struct();
+s.name = 'Nelson';
+s.value = 12;
+filename = [tempdir(), 'writestruct_example.xml'];
+writestruct(s, filename, 'StructNodeName', 'root');
+fileread(filename)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${xml}readstruct">readstruct</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${xml}xmlwrite">xmlwrite</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

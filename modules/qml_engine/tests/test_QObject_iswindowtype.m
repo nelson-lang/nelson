@@ -10,18 +10,14 @@
 % <--ADV-CLI MODE-->
 % <--WITH DISPLAY-->
 %=============================================================================
-assert_isequal(nargin('QObject_iswindowtype'), 1);
-assert_isequal(nargout('QObject_iswindowtype'), 1);
+asserts.isequal(nargin('QObject_iswindowtype'), 1);
+asserts.isequal(nargout('QObject_iswindowtype'), 1);
 %=============================================================================
-if semver(qt_version(), '>=6.0')
-  qml_file_ok = [modulepath('qml_engine', 'tests'), '/test_qml_loadfile_window_qt6.qml'];
-else
-  qml_file_ok = [modulepath('qml_engine', 'tests'), '/test_qml_loadfile_window_qt5.qml'];
-end
+qml_file_ok = [modulepath('qml_engine', 'tests'), '/test_qml_loadfile_window_qt6.qml'];
 qobj = qml_loadfile(qml_file_ok);
-assert_istrue(QObject_iswindowtype(qobj));
+asserts.istrue(QObject_iswindowtype(qobj));
 child = qobj.children(1);
-assert_isfalse(QObject_iswindowtype(child));
+asserts.isfalse(QObject_iswindowtype(child));
 %=============================================================================
 delete(qobj);
 %=============================================================================

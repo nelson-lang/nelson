@@ -11,6 +11,9 @@
 ;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\libcurl.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_WEBTOOLS};
 Source: {#RootPath}bin\{#BinPath}\git2.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_WEBTOOLS};
+; libcurl and libgit2 link zlib (z.dll); ship it with WEBTOOLS so the module
+; loads without relying on another module that happens to also ship z.dll.
+Source: {#RootPath}bin\{#BinPath}\z.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_WEBTOOLS};
 Source: {#RootPath}bin\{#BinPath}\pcre.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_WEBTOOLS};
 ;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\libnlsWebtools.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_WEBTOOLS};
@@ -21,12 +24,12 @@ Source: {#RootPath}modules\{#MODULE_NAME}\etc\startup.m; DestDir: {app}\modules\
 Source: {#RootPath}modules\{#MODULE_NAME}\etc\finish.m; DestDir: {app}\modules\{#MODULE_NAME}\etc\;Components: {#COMPONENT_WEBTOOLS};
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\functions\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\;Components: {#COMPONENT_WEBTOOLS};
-Source: {#RootPath}modules\{#MODULE_NAME}\functions\@weboptions\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\@weboptions\;Components: {#COMPONENT_WEBTOOLS};
+Source: {#RootPath}modules\{#MODULE_NAME}\functions\@weboptions\weboptions.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\@weboptions\;Components: {#COMPONENT_WEBTOOLS};
+;==============================================================================
+Source: {#RootPath}modules\{#MODULE_NAME}\examples\*; DestDir: {app}\modules\{#MODULE_NAME}\examples\; Flags: recursesubdirs;Components: {#COMPONENT_WEBTOOLS};
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\help\*.nhz; DestDir: {app}\modules\{#MODULE_NAME}\help\; Flags: recursesubdirs;Components: {#COMPONENT_WEBTOOLS} and {#COMPONENT_HELP_FILES};
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.m; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs;Components: {#COMPONENT_WEBTOOLS} and {#COMPONENT_TESTS_MANAGER} and {#COMPONENT_UNIT_TESTS};
 Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.json; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs;Components: {#COMPONENT_WEBTOOLS} and {#COMPONENT_TESTS_MANAGER} and {#COMPONENT_UNIT_TESTS};
-;==============================================================================
-Source: {#RootPath}modules\{#MODULE_NAME}\examples\*.*; DestDir: {app}\modules\{#MODULE_NAME}\examples\; Flags: recursesubdirs;Components: {#COMPONENT_WEBTOOLS} and {#COMPONENT_TESTS_MANAGER} and {#COMPONENT_UNIT_TESTS};
 ;==============================================================================

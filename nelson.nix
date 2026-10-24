@@ -5,7 +5,6 @@
   cmake, # Build system generator
   pkg-config, # Package configuration tool
   zlib, # Compression library
-  boost, # Boost libraries
   openssl, # SSL support
   mpi, # MPI support
   hdf5, # HDF5 support
@@ -31,7 +30,6 @@
 stdenv.mkDerivation {
   buildInputs = [
     zlib # Compression library
-    boost # Boost libraries
     openssl # SSL support
     mpi # MPI support
     hdf5 # HDF5 support

@@ -7,27 +7,32 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('whosnh5'), 1);
-assert_isequal(nargout('whosnh5'), 1);
+asserts.isequal(nargin('whosnh5'), 1);
+asserts.isequal(nargout('whosnh5'), 1);
 %=============================================================================
+test_whosnh5_1_file = [tempname(), '.nh5'];
+test_whosnh5_file = [tempname(), '.nh5'];
 D = sparse(3i);
-savenh5([tempdir(), 'test_whosnh5_1.nh5'],  'D');
+savenh5(test_whosnh5_1_file, 'D');
 %=============================================================================
-S = whosnh5([tempdir(), 'test_whosnh5_1.nh5']);
-assert_isequal(S.name, 'D');
-assert_isequal(S.size, [1 1]);
-assert_isequal(S.bytes, NaN);
-assert_isequal(S.class, 'sparsedouble');
-assert_isequal(S.global, false);
-assert_isequal(S.sparse, true);
-assert_isequal(S.complex, true);
-assert_isequal(S.nesting, struct('function', '', 'level', 0));
-assert_isequal(S.persistent, false);
+S = whosnh5(test_whosnh5_1_file);
+asserts.isequal(S.name, 'D');
+asserts.isequal(S.size, [1 1]);
+asserts.isequal(S.bytes, NaN);
+asserts.isequal(S.class, 'sparsedouble');
+asserts.isequal(S.global, false);
+asserts.isequal(S.sparse, true);
+asserts.isequal(S.complex, true);
+asserts.isequal(S.nesting, struct('function', '', 'level', 0));
+asserts.isequal(S.persistent, false);
 %=============================================================================
 A = ones(3, 4);
 B = 'Nelson';
 C = sparse(true);
 D = sparse(3i);
-savenh5([tempdir(), 'test_whosnh5.nh5'], 'A', 'B', 'C', 'D');
-whosnh5([tempdir(), 'test_whosnh5.nh5'])
+savenh5(test_whosnh5_file, 'A', 'B', 'C', 'D');
+whosnh5(test_whosnh5_file)
+%=============================================================================
+rmfile(test_whosnh5_1_file);
+rmfile(test_whosnh5_file);
 %=============================================================================

@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "file": "create_temporary_module.m",
+      "title": "Create and test a module",
+      "description": "Build a minimal module in the temporary directory, load it, test it and unload it.",
+      "tags": [
+        "module",
+        "testing"
+      ],
+      "requirements": []
+    }
+  ]
+}

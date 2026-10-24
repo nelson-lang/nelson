@@ -66,5 +66,5 @@ getFiniteMinMax(const T* val, indexType nbElements, T& min, T& max, bool& isFini
     return true;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

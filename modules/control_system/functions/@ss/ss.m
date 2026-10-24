@@ -8,148 +8,217 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function varargout = ss(varargin)
-  % Generates a state space model from matrix A, B, C, D
-  % Input: A, B, C, D, Ts
-  % sys = ss(A, B, C, D)
-  % sys = ss(A, B, C, D, Ts)
-  % sys = ss(D)
-  
-  nargoutchk(0, 1);
-  
-  sys = [];
-  if (nargin == 0)
-    sys = ss_no_rhs();
+classdef ss
+  properties
+    A = []
+    B = []
+    C = []
+    D = []
+    E = []
+    Offsets = []
+    Scaled = false
+    StateName = {}
+    StatePath = {}
+    StateUnit = {}
+    InternalDelay = []
+    InputDelay = 0
+    OutputDelay = 0
+    InputName = {}
+    InputUnit = {}
+    InputGroup = []
+    OutputName = {}
+    OutputUnit = {}
+    OutputGroup = []
+    Notes = []
+    UserData = []
+    SamplingGrid = []
   end
-  if (nargin == 1)
-    sys = ss_one_rhs(varargin{1});
+
+  properties (Dependent)
+    Name
+    Ts
+    TimeUnit
   end
-  if (nargin == 4 || nargin == 5)
-    Ts = 0;
-    if (nargin == 5)
-      Ts = varargin{5};
-      isValidTs = isempty(Ts) || (isscalar(Ts) && (Ts == -1 || Ts >= 0));
-      if ~isValidTs
-        error(_('Ts property should be either a positive scalar, 0, or -1 to indicate that it is unspecified.'));
+
+  properties (Hidden)
+    NameValue = ''
+    TsValue = 0
+    TimeUnitValue = 'seconds'
+    Internal = []
+  end
+
+  methods
+    function obj = ss(varargin)
+      nargoutchk(0, 1);
+      obj.Internal.Version = 1;
+      obj.Internal.Ts = 0;
+      obj.Internal.IsStatic = false;
+      if nargin == 0
+        return
       end
+      [dataArgs, propertyArgs] = splitConstructorArguments(varargin);
+      obj = constructStateSpace(obj, dataArgs);
+      obj = applyPropertyPairs(obj, propertyArgs);
     end
-    A = varargin{1};
-    B = varargin{2};
-    C = varargin{3};
-    D = varargin{4};
-    sys = ss_ABCD(A, B, C, D, Ts);
+
+    function value = get.Ts(obj)
+      value = obj.TsValue;
+    end
+
+    function obj = set.Ts(obj, value)
+      value = ltiValidateSampleTime(value);
+      obj.TsValue = value;
+      obj.Internal.Ts = value;
+      obj.Internal.IsStatic = false;
+    end
+
+    function value = get.TimeUnit(obj)
+      value = obj.TimeUnitValue;
+    end
+
+    function obj = set.TimeUnit(obj, value)
+      value = ltiValidateTimeUnit(value);
+      obj.TimeUnitValue = value;
+    end
+
+    function value = get.Name(obj)
+      value = obj.NameValue;
+    end
+
+    function obj = set.Name(obj, value)
+      obj.NameValue = ltiValidateTextScalar('Name', value);
+    end
+
+    function st = struct(obj)
+      st = builtin('struct');
+      names = ltiPropertyNames('ss');
+      for k = 1:length(names)
+        name = names{k};
+        st.(name) = obj.(name);
+      end
+      st.Internal = obj.Internal;
+    end
   end
-  if (~isa(sys, 'ss'))
-    error(_('Wrong number of input arguments.'));
-  end
-  varargout{1} = sys;
 end
 %=============================================================================
-function sys = ss_no_rhs()
-  ss = {};
-  ss.A = [];
-  ss.B = [];
-  ss.C = [];
-  ss.D = [];
-  ss.E = [];
-  ss.Scaled = false;
-  ss.Ts = 0;
-  ss.Internal = [];
-  ss.Internal.Version = 1;
-  ss.Internal.Ts = 0;
-  ss.TimeUnit = 'seconds';
-  ss.UserData = [];
-  sys = class(ss, 'ss');
+function [dataArgs, propertyArgs] = splitConstructorArguments(args)
+  propertyStart = length(args) + 1;
+  for k = 1:length(args)
+    if isTextScalar(args{k}) && ~(k == 2 && islti(args{1}))
+      propertyStart = k;
+      break
+    end
+  end
+  dataArgs = args(1:propertyStart - 1);
+  propertyArgs = args(propertyStart:end);
 end
 %=============================================================================
-function sysOut = tf_to_ss(sysIn)
+function obj = constructStateSpace(obj, args)
+  switch length(args)
+    case 0
+      return
+    case 1
+      obj = ssOneArgument(obj, args{1});
+    case 4
+      obj = ssFromABCD(obj, args{1}, args{2}, args{3}, args{4}, 0);
+    case 5
+      obj = ssFromABCD(obj, args{1}, args{2}, args{3}, args{4}, args{5});
+    otherwise
+      error('Nelson:control_system:wrongNumberOfArguments', 'Wrong number of input arguments.');
+  end
+end
+%=============================================================================
+function obj = ssOneArgument(obj, value)
+  if islti(value)
+    if isa(value, 'ss')
+      obj = value;
+    elseif isa(value, 'tf')
+      obj = tfToSs(value);
+    elseif isa(value, 'zpk')
+      obj = tfToSs(tf(value));
+    else
+      error('Nelson:control_system:invalidType', '%s expected.', 'Supported LTI model')
+    end
+    return
+  end
+  obj = ssStaticGain(obj, value);
+end
+%=============================================================================
+function obj = ssFromABCD(obj, A, B, C, D, Ts)
+  ltiValidateSampleTime(Ts);
+  obj = ssABCD(obj, A, B, C, D, Ts);
+end
+%=============================================================================
+function obj = ssStaticGain(obj, value)
+  obj.B = zeros(0, size(value, 2));
+  obj.C = zeros(size(value, 1), 0);
+  obj.D = value;
+  obj.Ts = 0;
+  obj.Internal.Ts = -2;
+  obj.Internal.IsStatic = true;
+end
+%=============================================================================
+function obj = tfToSs(sysIn)
   if ~issiso(sysIn)
-    error(_('SISO LTI model expected.'));
+    error('Nelson:control_system:invalidType', '%s expected.', 'SISO LTI model');
   end
   Ts = sysIn.Ts;
-  [ny, nu] = size(sysIn.Numerator{1});
-  isemptytf = (isempty(sysIn.Numerator{1}) && isempty(sysIn.Denominator{1})) || ((ny == 0) || (nu == 0)); 
+  numerator = sysIn.Numerator{1};
+  denominator = sysIn.Denominator{1};
+  isemptytf = isempty(numerator) && isempty(denominator);
   A = [];
   B = [];
   C = [];
   D = [];
-  
   if ~isemptytf
-    numerator = sysIn.Numerator{1};
-    denominator = sysIn.Denominator{1};
     [A, B, C, D] = compreal(numerator, denominator);
   end
-  sysOut = ss(A, B, C, D, Ts);
+  obj = ss(A, B, C, D, Ts);
+  obj = ltiCopyModelMetadata(obj, sysIn);
 end
 %=============================================================================
-function sys = ss_one_rhs(D)
-  if islti(D)
-    if isa(D, 'ss')
-      sys = D;
-    elseif isa(D, 'tf')
-      sys = tf_to_ss(D);
-    else
-      error(_('Supported LTI model expected.'))
-    end
-    return 
-  end
-  sys = ss_no_rhs();
-  sys.B = zeros(0, size(D, 2));
-  sys.C = zeros(size(D, 1),0);
-  sys.D = D;
-  sys.Ts = 0;
-  sys.Internal.Ts = -2;
-end
-%=============================================================================
-function sys = ss_ABCD(A, B, C, D, Ts)
-  [A, B, C, D, Ts] = adapt_ABCD(A, B, C, D, Ts);
-  msg = checkABCDE(A, B, C, D);
-  
+function obj = ssABCD(obj, A, B, C, D, Ts)
+  [A, B, C, D, Ts] = adaptABCD(A, B, C, D, Ts);
+  msg = checkABCDELocal(A, B, C, D);
   if ~isempty(msg)
     error(msg.identifier, msg.message);
   end
-  
-  sys = ss_no_rhs();
-  
-  sys.A = A;
-  sys.B = B;
-  sys.C = C;
-  sys.D = D;
-  
-  if isequal(Ts, -1)
-    sys.Ts = -1;
-    sys.Internal.Ts = -1;
-  elseif isequal(Ts, -2)
-    sys.Ts = 0;
-    sys.Internal.Ts = -2;
+  obj.A = A;
+  obj.B = B;
+  obj.C = C;
+  obj.D = D;
+  if isequal(Ts, -2)
+    obj.Ts = 0;
+    obj.Internal.Ts = -2;
+    obj.Internal.IsStatic = true;
   else
-    sys.Ts = Ts;
-    sys.Internal.Ts = Ts;
+    obj.Ts = Ts;
+    obj.Internal.Ts = Ts;
+    obj.Internal.IsStatic = false;
   end
 end
 %=============================================================================
-function [A, B, C, D, Ts] = adapt_ABCD(A, B, C, D, Ts)
-  isDZero = (isscalar(D) && D(1) == 0);
+function [A, B, C, D, Ts] = adaptABCD(A, B, C, D, Ts)
+  isDZero = isscalar(D) && D(1) == 0;
   if isempty(A) && isempty(B) && isempty(C)
     [m, n] = size(D);
     A = [];
     B = zeros(0, n);
     C = zeros(m, 0);
     Ts = -2;
-    return;
+    return
   end
-  new_row_for_C_or_D = max(size(C, 1), size(D, 1));
+  newRowCount = max(size(C, 1), size(D, 1));
   if isempty(C)
-    C = eye(new_row_for_C_or_D, size(A, 1));
+    C = eye(newRowCount, size(A, 1));
   end
-  if (isempty(D) || isDZero)
-    D = zeros(new_row_for_C_or_D, size(B, 2));
+  if isempty(D) || isDZero
+    D = zeros(newRowCount, size(B, 2));
   end
 end
 %=============================================================================
-function msg = checkABCDE(varargin)
-  narginchk(4, 5);
-  if (nargin == 5)
+function msg = checkABCDELocal(varargin)
+  if nargin == 5
     E = varargin{5};
   else
     E = [];
@@ -158,50 +227,69 @@ function msg = checkABCDE(varargin)
   B = varargin{2};
   C = varargin{3};
   D = varargin{4};
-  
   [mA, nA] = size(A);
   [mB, nB] = size(B);
   [mC, nC] = size(C);
   [mD, nD] = size(D);
   [mE, nE] = size(E);
-  
   msg.message = '';
   msg.identifier = '';
   msg = msg(zeros(0, 1));
-  
-  if (mA ~= nA)
-    msg.message = _('Matrix A must be square.');
-    msg.identifier = 'Nelson:control_system:AMustBeSquare';
+  if mA ~= nA
+    msg.message = sprintf(_('%s must be square.'), 'Matrix A');
+    msg.identifier = 'Nelson:expectedSquare';
     return
   end
-  
-  if (mB ~= mA)
-    msg.message = _('The number of rows in matrices A and B must be equal.');
+  if mB ~= mA
+    msg.message = sprintf(_('The number of rows in matrices %s and %s must be equal.'), 'A', 'B');
     msg.identifier = 'Nelson:control_system:AAndBNumRowsMismatch';
     return
   end
-  
-  if (nC ~= nA)
-    msg.message = _('Matrices A and C should have an identical number of columns.');
+  if nC ~= nA
+    msg.message = sprintf(_('Matrices %s and %s should have an identical number of columns.'), 'A', 'C');
     msg.identifier = 'Nelson:control_system:AAndCNumColumnsMismatch';
     return
   end
-  
-  if (nB ~= nD)
-    msg.message = _('Matrices B and D should have an identical number of columns.');
+  if nB ~= nD
+    msg.message = sprintf(_('Matrices %s and %s should have an identical number of columns.'), 'B', 'D');
     msg.identifier = 'Nelson:control_system:BAndDNumColumnsMismatch';
     return
   end
-  
-  if (mC ~= mD)
-    msg.message = _('The number of rows in matrices C and D must be equal.');
+  if mC ~= mD
+    msg.message = sprintf(_('The number of rows in matrices %s and %s must be equal.'), 'C', 'D');
     msg.identifier = 'Nelson:control_system:CAndDNumRowsMismatch';
     return
   end
-  
   if ~isempty(E) && (mA ~= mE || nA ~= nE)
-    msg.message = _('Matrices A and E should have an identical size.');
+    msg.message = sprintf(_('Matrices %s and %s should have an identical size.'), 'A', 'E');
     msg.identifier = 'Nelson:control_system:AAndESizeMismatch';
   end
+end
+%=============================================================================
+function obj = applyPropertyPairs(obj, args)
+  if isempty(args)
+    return
+  end
+  if mod(length(args), 2) ~= 0
+    error('Nelson:control_system:nameValuePair', '%s expected.', 'Name-value arguments');
+  end
+  for k = 1:2:length(args)
+    name = resolvePropertyName(args{k}, ltiPropertyNames('ss'));
+    obj.(name) = args{k + 1};
+  end
+end
+function tf = isTextScalar(value)
+  tf = ischar(value) || isStringScalar(value);
+end
+function name = resolvePropertyName(value, supported)
+  value = ltiValidateTextScalar('Name', value);
+  matches = startsWith(upper(supported), upper(value));
+  if sum(matches) == 0
+    error('Nelson:control_system:unknownParameter', '"%s" is not a recognized parameter.', value);
+  end
+  if sum(matches) > 1
+    error('Nelson:control_system:ambiguousParameter', '"%s" matches multiple parameters.', value);
+  end
+  name = supported{find(matches, 1)};
 end
 %=============================================================================

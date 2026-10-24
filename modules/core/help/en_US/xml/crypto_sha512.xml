@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>crypto.sha512</keyword>
+  <short_description>Get SHA-512 checksum.</short_description>
+  <syntax>
+    <syntax_item>hexa_hash = crypto.sha512(str)</syntax_item>
+    <syntax_item>hexa_hash = crypto.sha512(filename)</syntax_item>
+    <syntax_item>hexa_hash = crypto.sha512(bytes)</syntax_item>
+    <syntax_item>hexa_hash = crypto.sha512(str, &apos;-file&apos;)</syntax_item>
+    <syntax_item>hexa_hash = crypto.sha512(str, &apos;-string&apos;)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>str</param_name>
+      <param_description
+      >a character vector, cell of strings or string array: UTF-8 bytes of the text are hashed.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description
+      >a string: existing filename: raw bytes of the file are hashed.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>bytes</param_name>
+      <param_description>a uint8 vector: raw bytes to hash.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>&apos;-file&apos; or &apos;-string&apos;</param_name>
+      <param_description
+      >force to hash as file or string content (default: a text naming an existing file is hashed as a file).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>hexa_hash</param_name>
+      <param_description
+      >a character vector, cell of strings or string array: 128 lowercase hexadecimal characters per input (empty when a file cannot be read).</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>crypto.sha512</b> computes the SHA-512 digest (FIPS 180-4) of text, raw bytes or a file, with the same conventions as <b>sha256</b>.</p>
+  </description>
+  <used_function>Monocypher</used_function>
+  <bibliography>https://monocypher.org/</bibliography>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[R = crypto.sha512('abc')
+R = crypto.sha512(uint8('abc'))
+R = crypto.sha512({'Hello', 'World'})]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>hash a file</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[filename = [tempdir(), 'sha512_example.txt'];
+filewrite(filename, 'abc');
+R = crypto.sha512(filename, '-file')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${core}sha256">sha256</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${core}crypto.hmac">crypto.hmac</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

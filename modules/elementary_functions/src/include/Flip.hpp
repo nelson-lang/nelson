@@ -20,5 +20,10 @@ Fliplr(const ArrayOf& arrayIn, bool& needToOverload);
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
 Flipud(const ArrayOf& arrayIn, bool& needToOverload);
 //=============================================================================
-}
+// General N-D flip along a 1-based dimension for dense numeric / char /
+// logical / complex arrays. Sets needToOverload for unsupported inputs.
+NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
+Flip(const ArrayOf& arrayIn, indexType dim, bool& needToOverload);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

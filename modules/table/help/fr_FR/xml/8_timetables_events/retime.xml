@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>retime</keyword>
+  <short_description>Ajuster les donnees d&apos;une timetable a de nouveaux temps de lignes.</short_description>
+  <syntax>
+    <syntax_item>TT2 = retime(TT1, newTimes)</syntax_item>
+    <syntax_item>TT2 = retime(TT1, newTimes, method)</syntax_item>
+    <syntax_item>TT2 = retime(TT1, newTimeStep, method)</syntax_item>
+    <syntax_item>TT2 = retime(TT1, 'regular', method, 'TimeStep', dt)</syntax_item>
+    <syntax_item>TT2 = retime(TT1, 'regular', method, 'SampleRate', Fs)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>TT1</param_name><param_description>Timetable d&apos;entree.</param_description></param_input_item>
+    <param_input_item><param_name>newTimes</param_name><param_description>Nouveaux temps datetime ou duration.</param_description></param_input_item>
+    <param_input_item><param_name>newTimeStep</param_name><param_description>Pas regulier nomme comme &apos;daily&apos;, &apos;hourly&apos; ou &apos;secondly&apos;.</param_description></param_input_item>
+    <param_input_item><param_name>method</param_name><param_description>Methode de remplissage, voisinage, interpolation ou agregation.</param_description></param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>TT2</param_name><param_description>Timetable retimee.</param_description></param_output_item>
+  </param_output>
+  <description>
+    <p><b>retime</b> renvoie une timetable dont les temps de lignes correspondent a <b>newTimes</b> ou a une grille reguliere.</p>
+    <p>Les methodes de remplissage et de voisinage incluent fillwithmissing, fillwithconstant, nearest, previous et next.</p>
+    <p>Les methodes d&apos;interpolation numerique incluent linear, spline, pchip et makima. Les methodes d&apos;agregation incluent sum, mean, min, max, median, prod, count, firstvalue et lastvalue.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item><example_item_type>nelson</example_item_type><example_item_description /><example_item_data runnable="cli"><![CDATA[t = datetime(2024, 1, 1) + days(0:2)';
+TT = timetable(t, [1; 3; 5]);
+TT2 = retime(TT, t(1):days(1):t(3), 'nearest')]]></example_item_data></example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${table}synchronize">synchronize</link></see_also_item>
+    <see_also_item><link linkend="${table}timetable">timetable</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>2.0.0</history_version><history_description>version initiale</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

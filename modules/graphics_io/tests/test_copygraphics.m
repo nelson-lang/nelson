@@ -9,7 +9,15 @@
 %=============================================================================
 % <--ADV-CLI MODE-->
 %=============================================================================
-plot(rand(5,5))
+plot(rand(5, 5))
 f = gcf();
-copygraphics(f);
+try
+  copygraphics(f);
+catch ex
+  close(f);
+  skip_testsuite(strcmp(ex.message, _('Cannot copy the figure to the clipboard.')), ...
+                 _('Native clipboard unavailable in this GUI test host.'));
+  rethrow(ex);
+end
+close(f);
 %=============================================================================

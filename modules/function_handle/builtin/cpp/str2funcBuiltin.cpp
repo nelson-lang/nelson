@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,9 +9,9 @@
 //=============================================================================
 #include "str2funcBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "StringToFunctionHandle.hpp"
-#include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -25,15 +25,15 @@ Nelson::FunctionHandleGateway::str2funcBuiltin(
     nargincheck(argIn, 1, 1);
     std::string functionname;
     if (argIn[0].isRowVectorCharacterArray() || argIn[0].isScalarStringArray()) {
-        functionname = argIn[0].getContentAsCString();
+        functionname = argIn[0].asUtf8String();
     } else {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+        Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1), L"string");
     }
     function_handle fptr = StringToFunctionHandle(eval, functionname);
     if (fptr.anonymousHandle == nullptr) {
-        Error(_W("A valid function name expected."));
+        Error(L"Nelson:dispatcher:invalidFunctionName", L"A valid function name expected.");
     }
-    retval << ArrayOf::functionHandleConstructor(fptr);
+    retval << ArrayOf::functionHandle(fptr);
     return retval;
 }
 //=============================================================================

@@ -8,19 +8,19 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #pragma once
+//=============================================================================
 #include "RandomInterface.hpp"
 #include <string>
 #include <vector>
 #include <cstdint>
-#include <random>
+#include <cmath>
 #include <philox4x32_10.h>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-#ifndef M_PI
-#define M_PI 3.141592653589793
-#endif
-//=============================================================================
+// Philox 4x32-10 counter-based generator (Random123). Uniform doubles use the
+// full 53-bit mantissa (two 32-bit outputs); randn uses the polar (Marsaglia)
+// method so that the normal distribution is consistent with the other engines.
 class RandomPhilox : public RandomInterface
 {
 public:
@@ -55,7 +55,7 @@ public:
         state[3] = counter[3];
         state[4] = key[0];
         state[5] = key[1];
-        state[6] = 0;
+        state[6] = buf_pos;
         return state;
     }
     //=============================================================================
@@ -69,13 +69,14 @@ public:
             counter[3] = _state[3];
             key[0] = _state[4];
             key[1] = _state[5];
-            position = 0;
+            buf_pos = (_state[6] <= 4) ? _state[6] : 4;
             buffer_valid = false;
+            has_gauss = false;
         }
     }
     //=============================================================================
     void
-    setSeed(uint32_t seed)
+    setSeed(uint32_t seed) override
     {
         seed_value = seed;
         counter[0] = 0;
@@ -84,43 +85,30 @@ public:
         counter[3] = seed + 1;
         key[0] = seed + 2;
         key[1] = seed + 3;
-        position = 0;
+        buf_pos = 4;
         buffer_valid = false;
+        has_gauss = false;
+        cached_gauss = 0.0;
     }
     //=============================================================================
     void
     getValuesAsDouble(double* ar, indexType nbElements, indexType lastDim,
         RNG_DISTRIBUTION_TYPE _type = RNG_DISTRIBUTION_UNIFORM_REAL) override
     {
-        indexType i = 0;
-        while (i < nbElements) {
-            generateBuffer();
-            counter[2] += 2;
-            for (int j = 0; j < 4 && i < nbElements; ++j, ++i) {
-                uint32_t nextUint32 = buffer[j];
-                if (_type == RNG_DISTRIBUTION_UNIFORM_REAL) {
-                    ar[i] = static_cast<double>(nextUint32) / 4294967296.0;
-                } else if (_type == RNG_DISTRIBUTION_NORMAL) {
-                    if (i + 1 < nbElements) {
-                        uint32_t u1_int = nextUint32;
-                        uint32_t u2_int = (j + 1 < 4) ? buffer[j + 1] : getNextUint32();
-                        double u1 = (static_cast<double>(u1_int) + 0.5) / 4294967296.0;
-                        double u2 = (static_cast<double>(u2_int) + 0.5) / 4294967296.0;
-                        double val1 = std::sqrt(-2.0 * std::log(u1)) * std::cos(2.0 * M_PI * u2);
-                        double val2 = std::sqrt(-2.0 * std::log(u1)) * std::sin(2.0 * M_PI * u2);
-                        ar[i] = val1;
-                        ++i;
-                        if (i < nbElements) {
-                            ar[i] = val2;
-                        }
-                        ++j;
-                    } else {
-                        double u1 = (static_cast<double>(nextUint32) + 0.5) / 4294967296.0;
-                        ar[i] = std::sqrt(-2.0 * std::log(u1)) * std::cos(2.0 * M_PI * 0.5);
-                    }
-                } else if (_type == RNG_DISTRIBUTION_UNIFORM_INT) {
-                    ar[i] = static_cast<double>(_min + (nextUint32 % (_max - _min + 1)));
-                }
+        for (indexType i = 0; i < nbElements; ++i) {
+            switch (_type) {
+            case RNG_DISTRIBUTION_UNIFORM_REAL:
+                ar[i] = nextDouble53();
+                break;
+            case RNG_DISTRIBUTION_NORMAL:
+                ar[i] = nextNormal();
+                break;
+            case RNG_DISTRIBUTION_UNIFORM_INT:
+                ar[i] = static_cast<double>(nextInt());
+                break;
+            default:
+                ar[i] = std::nan("");
+                break;
             }
         }
     }
@@ -129,49 +117,33 @@ public:
     getValuesAsSingle(single* ar, indexType nbElements, indexType lastDim,
         RNG_DISTRIBUTION_TYPE _type = RNG_DISTRIBUTION_UNIFORM_REAL) override
     {
-        indexType i = 0;
-        while (i < nbElements) {
-            generateBuffer();
-            counter[2] += 2;
-            for (int j = 0; j < 4 && i < nbElements; ++j, ++i) {
-                uint32_t nextUint32 = buffer[j];
-                if (_type == RNG_DISTRIBUTION_UNIFORM_REAL) {
-                    ar[i] = static_cast<float>(nextUint32) / 4294967296.0f;
-                } else if (_type == RNG_DISTRIBUTION_NORMAL) {
-                    if (i + 1 < nbElements) {
-                        uint32_t u1_int = nextUint32;
-                        uint32_t u2_int = (j + 1 < 4) ? buffer[j + 1] : getNextUint32();
-                        float u1 = (static_cast<float>(u1_int) + 0.5f) / 4294967296.0f;
-                        float u2 = (static_cast<float>(u2_int) + 0.5f) / 4294967296.0f;
-                        ar[i] = static_cast<single>(
-                            std::sqrt(-2.0f * std::log(u1)) * std::cos(2.0f * M_PI * u2));
-                        ++i;
-                        if (i < nbElements) {
-                            ar[i] = static_cast<single>(
-                                std::sqrt(-2.0f * std::log(u1)) * std::sin(2.0f * M_PI * u2));
-                        }
-                        ++j;
-                    } else {
-                        float u1 = (static_cast<float>(nextUint32) + 0.5f) / 4294967296.0f;
-                        ar[i] = static_cast<single>(
-                            std::sqrt(-2.0f * std::log(u1)) * std::cos(2.0f * M_PI * 0.5f));
-                    }
-                } else if (_type == RNG_DISTRIBUTION_UNIFORM_INT) {
-                    ar[i] = static_cast<single>(_min + (nextUint32 % (_max - _min + 1)));
-                }
+        for (indexType i = 0; i < nbElements; ++i) {
+            switch (_type) {
+            case RNG_DISTRIBUTION_UNIFORM_REAL:
+                ar[i] = static_cast<single>(nextDouble53());
+                break;
+            case RNG_DISTRIBUTION_NORMAL:
+                ar[i] = static_cast<single>(nextNormal());
+                break;
+            case RNG_DISTRIBUTION_UNIFORM_INT:
+                ar[i] = static_cast<single>(nextInt());
+                break;
+            default:
+                ar[i] = static_cast<single>(std::nan(""));
+                break;
             }
         }
     }
     //=============================================================================
     void
-    setMinMaxUniformIntDistribution(int min, int max) override
+    setMinMaxUniformIntDistribution(int64 min, int64 max) override
     {
         _min = min;
         _max = max;
     }
     //=============================================================================
     void
-    getMinMaxUniformIntDistribution(int& min, int& max) override
+    getMinMaxUniformIntDistribution(int64& min, int64& max) override
     {
         min = _min;
         max = _max;
@@ -186,30 +158,77 @@ public:
 private:
     uint32_t counter[4] = { 0, 0, 0, 1 };
     uint32_t key[2] = { 2, 3 };
-    uint32_t position = 0;
     uint32_t buffer[4] = { 0 };
+    uint32_t buf_pos = 4;
     bool buffer_valid = false;
     uint32_t seed_value = 0;
-    int _min = 0;
-    int _max = 0xFFFFFFFF;
-    //=============================================================================
-    uint32_t
-    getNextUint32()
-    {
-        generateBuffer();
-        return buffer[0];
-    }
+    bool has_gauss = false;
+    double cached_gauss = 0.0;
+    int64 _min = 0;
+    int64 _max = 0xFFFFFFFF;
     //=============================================================================
     void
-    generateBuffer()
+    incrementCounter()
     {
-        buffer[0] = counter[0];
-        buffer[1] = counter[1];
-        buffer[2] = counter[2];
-        buffer[3] = counter[3];
-        uint32_t working_key[2] = { key[0], key[1] };
-        philox4x32_10_alt(buffer, working_key);
-        buffer_valid = true;
+        if (++counter[0] == 0) {
+            if (++counter[1] == 0) {
+                if (++counter[2] == 0) {
+                    ++counter[3];
+                }
+            }
+        }
+    }
+    //=============================================================================
+    uint32_t
+    nextUint32()
+    {
+        if (buf_pos >= 4) {
+            if (buffer_valid) {
+                incrementCounter();
+            }
+            buffer[0] = counter[0];
+            buffer[1] = counter[1];
+            buffer[2] = counter[2];
+            buffer[3] = counter[3];
+            uint32_t working_key[2] = { key[0], key[1] };
+            philox4x32_10_alt(buffer, working_key);
+            buffer_valid = true;
+            buf_pos = 0;
+        }
+        return buffer[buf_pos++];
+    }
+    //=============================================================================
+    double
+    nextDouble53()
+    {
+        uint32_t a = nextUint32();
+        uint32_t b = nextUint32();
+        return ((a >> 5) * 67108864.0 + (b >> 6)) / 9007199254740992.0;
+    }
+    //=============================================================================
+    int64
+    nextInt()
+    {
+        return _min + static_cast<int64>(nextDouble53() * static_cast<double>(_max - _min + 1));
+    }
+    //=============================================================================
+    double
+    nextNormal()
+    {
+        if (has_gauss) {
+            has_gauss = false;
+            return cached_gauss;
+        }
+        double x1, x2, r2;
+        do {
+            x1 = 2.0 * nextDouble53() - 1.0;
+            x2 = 2.0 * nextDouble53() - 1.0;
+            r2 = x1 * x1 + x2 * x2;
+        } while (r2 >= 1.0 || r2 == 0.0);
+        double f = std::sqrt(-2.0 * std::log(r2) / r2);
+        cached_gauss = f * x1;
+        has_gauss = true;
+        return f * x2;
     }
     //=============================================================================
 };

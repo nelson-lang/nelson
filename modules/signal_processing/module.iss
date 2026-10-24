@@ -9,12 +9,17 @@
 ;==============================================================================
 #define MODULE_NAME "signal_processing"
 ;==============================================================================
+Source: {#RootPath}bin\{#BinPath}\libnlsSignal_processing_builtin.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_SIGNAL_PROCESSING};
+;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\loader.m; DestDir: {app}\modules\{#MODULE_NAME}\;Components: {#COMPONENT_SIGNAL_PROCESSING};
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\etc\startup.m; DestDir: {app}\modules\{#MODULE_NAME}\etc\;Components: {#COMPONENT_SIGNAL_PROCESSING};
 Source: {#RootPath}modules\{#MODULE_NAME}\etc\finish.m; DestDir: {app}\modules\{#MODULE_NAME}\etc\;Components: {#COMPONENT_SIGNAL_PROCESSING};
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\functions\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\;Components: {#COMPONENT_SIGNAL_PROCESSING};
+Source: {#RootPath}modules\{#MODULE_NAME}\functions\private\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\private\;Components: {#COMPONENT_SIGNAL_PROCESSING};
+;==============================================================================
+Source: {#RootPath}modules\{#MODULE_NAME}\examples\*; DestDir: {app}\modules\{#MODULE_NAME}\examples\; Flags: recursesubdirs;Components: {#COMPONENT_SIGNAL_PROCESSING};
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\help\*.nhz; DestDir: {app}\modules\{#MODULE_NAME}\help\; Flags: recursesubdirs;Components: {#COMPONENT_SIGNAL_PROCESSING} and {#COMPONENT_HELP_FILES};
 ;==============================================================================

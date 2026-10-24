@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -16,8 +16,8 @@ bool
 FunctionHandleIsEqual(const ArrayOf& A, const ArrayOf& B)
 {
     if (A.isFunctionHandle() && B.isFunctionHandle()) {
-        function_handle fhA = A.getContentAsFunctionHandle();
-        function_handle fhB = B.getContentAsFunctionHandle();
+        function_handle fhA = A.asFunctionHandle();
+        function_handle fhB = B.asFunctionHandle();
         bool bRes = (fhA.anonymousHandle == fhB.anonymousHandle);
         if (bRes) {
             return true;

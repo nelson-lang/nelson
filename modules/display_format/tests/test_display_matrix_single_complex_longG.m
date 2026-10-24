@@ -22,7 +22,7 @@ A =
   2.220446e-16 - 2.220446e-16i
 
 ';
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================
 A = single(complex(pi, -pi));
 R = evalc('A');
@@ -34,7 +34,7 @@ A =
       3.141593 -     3.141593i
 
 ';
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================
 A = single(complex(1.8e99, -eps));
 R = evalc('A');
@@ -46,7 +46,7 @@ A =
            Inf - 2.220446e-16i
 
 ';
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================
 A = single(complex(2, 3));
 R = evalc('A');
@@ -58,7 +58,7 @@ A =
              2 +            3i
 
 ';
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================
 A = single(complex(1e2, pi));
 R = evalc('A');
@@ -70,7 +70,7 @@ A =
            100 +     3.141593i
 
 ';
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================
 A = single(complex(rand(2, 2), 1));
 A(2, 2) = NaN;
@@ -84,7 +84,7 @@ A =
      0.9057919 +            1i           NaN +            0i
 
 ';
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================
 R = evalc('A = single(complex([6.5574e-04, 6.5574e-04], pi))');
 REF = '
@@ -95,7 +95,7 @@ A =
     0.00065574 +     3.141593i    0.00065574 +     3.141593i
 
 ';
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================
 R = evalc('A = single(complex(ones(2,2), pi*1e6))');
 REF = '
@@ -107,7 +107,7 @@ A =
              1 +      3141593i             1 +      3141593i
 
 ';
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================
 R = evalc('A = complex(ones(2,2)*1000,pi*1e6)');
 REF =  '
@@ -124,7 +124,7 @@ A =
                        1000 +      3141592.65358979i
 
 ';
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================
 R = evalc('A = single([0.3729   6.5574e-04    0.1393]+ eps * i)');
 REF =  '
@@ -141,10 +141,10 @@ A =
         0.1393 + 2.220446e-16i
 
 ';
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================
-A = complex(eye(3,3)*pi,-Inf);
-A(2,2) = pi*i;
+A = complex(eye(3, 3) * pi, -Inf);
+A(2, 2) = pi * i;
 R = evalc('A = single(A)');
 REF = '
 A =
@@ -164,5 +164,5 @@ A =
       3.141593 -          Infi
 
 ' ;
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -49,7 +49,7 @@ GORestrictedStringScalarProperty::get()
     if (!isEqual(GO_PROPERTY_VALUE_SCALAR_STR)) {
         return GORestrictedStringProperty::get();
     }
-    return ArrayOf::doubleConstructor(_scalar);
+    return ArrayOf::doubleScalar(_scalar);
 }
 //=============================================================================
 void
@@ -57,7 +57,7 @@ GORestrictedStringScalarProperty::set(ArrayOf arg)
 {
     GOGenericProperty::set(arg);
     if (arg.isRowVectorCharacterArray() || (arg.isStringArray() && arg.isScalar())) {
-        std::wstring str = arg.getContentAsWideString();
+        std::wstring str = arg.asWideString();
         double num = 0;
         if (parseWideDouble(str, num)) {
             data(GO_PROPERTY_VALUE_SCALAR_STR);
@@ -67,9 +67,9 @@ GORestrictedStringScalarProperty::set(ArrayOf arg)
         }
     } else {
         data(GO_PROPERTY_VALUE_SCALAR_STR);
-        _scalar = arg.getContentAsDoubleScalar();
+        _scalar = arg.asDoubleScalar();
     }
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

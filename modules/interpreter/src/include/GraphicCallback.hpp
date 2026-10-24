@@ -25,21 +25,29 @@ class NLSINTERPRETER_IMPEXP GraphicCallback : public CallbackBase
 private:
     bool interruptible = true;
     BUSY_ACTION busyAction = BUSY_ACTION::QUEUE;
+    int64 sourceHandle = -1;
 
 public:
     GraphicCallback() { };
-    GraphicCallback(bool _interruptible, BUSY_ACTION _busyAction, const ArrayOf& _callbackAsArrayOf)
+    GraphicCallback(bool _interruptible, BUSY_ACTION _busyAction, const ArrayOf& _callbackAsArrayOf,
+        int64 _sourceHandle = -1)
         : CallbackBase(_callbackAsArrayOf)
     {
         interruptible = _interruptible;
         busyAction = _busyAction;
+        sourceHandle = _sourceHandle;
     };
     ~GraphicCallback() { };
+    bool
+    execute(Evaluator* eval);
     bool
     isInterruptible() const;
     BUSY_ACTION
     getBusyActionState() const;
 };
 //=============================================================================
-}
+NLSINTERPRETER_IMPEXP int64
+getCurrentCallbackObject();
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

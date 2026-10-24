@@ -11,7 +11,7 @@ addpath([nelsonroot(), '/modules/memory_manager/tests/']);
 for i = 1:30
   r = test_persistent_function();
 end
-assert_isequal(r, 29);
+asserts.isequal(r, 29);
 clear functions
 r = test_persistent_function();
-assert_isequal(r, 0);
+asserts.isequal(r, 0);

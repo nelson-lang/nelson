@@ -13,21 +13,21 @@ function varargout = lqry(varargin)
   % [K, S, e] = lqry(sys, Q, R, N)
   narginchk(3, 4);
   nargoutchk(0, 3);
-  
+
   sys = ss(varargin{1});
   Q = varargin{2};
   R = varargin{3};
-  
+
   mustBeNumeric(Q, 2);
   mustBeNumeric(R, 3);
-  
+
   if nargin == 4
     N = varargin{4};
   else
     N = zeros(size(Q, 1), size(R, 1));
   end
   mustBeNumeric(R, 4);
-  
+
   [K, S, e] = lqry(sys, Q, R, N);
   varargout{1} = K;
   if nargout > 1

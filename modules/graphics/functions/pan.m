@@ -12,7 +12,7 @@ function pan(varargin)
   % pan
   % pan(fig, ...)
   % pan(ax, ...)
-  
+
   narginchk(0, 2);
   if (nargin == 0)
     ax = gca();
@@ -40,7 +40,7 @@ function pan(varargin)
     mustBeMember(tolower(option), {'on', 'off', 'xon', 'yon', 'toggle'}, optionPosition);
     __pan__(ax, option);
   else
-    error(_('Wrong type for input arguments.'));
+    error('Nelson:graphics:wrongTypeForInput', 'Wrong type for input arguments.');
   end
 end
 %=============================================================================

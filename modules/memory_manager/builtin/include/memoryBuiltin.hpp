@@ -15,5 +15,6 @@
 namespace Nelson::MemoryGateway {
 ArrayOfVector
 memoryBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

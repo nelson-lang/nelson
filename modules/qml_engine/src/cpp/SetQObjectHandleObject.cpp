@@ -9,6 +9,7 @@
 //=============================================================================
 #include "SetQObjectHandleObject.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
@@ -33,55 +34,57 @@ void
 SetQObjectHandleObject(const ArrayOf& A, const std::wstring& propertyName, const ArrayOf& B)
 {
     ArrayOf res;
-    HandleGenericObject* hlObj = A.getContentAsHandleScalar();
-    if (hlObj->getCategory() != NLS_HANDLE_QOBJECT_CATEGORY_STR) {
-        Error(_W("QObject handle expected."));
+    HandleGenericObject* hlObj = A.asHandleScalar();
+    if (hlObj->category() != NLS_HANDLE_QOBJECT_CATEGORY_STR) {
+        Error(L"Nelson:QObject:notHandle", L"QObject handle expected.");
     }
     QObjectHandleObject* qmlhandleobj = (QObjectHandleObject*)hlObj;
-    void* ptr = qmlhandleobj->getPointer();
+    void* ptr = qmlhandleobj->pointer();
     if (ptr == nullptr) {
-        Error(_W("QObject valid handle expected."));
+        Error(L"Nelson:QObject:invalidHandle", L"QObject valid handle expected.");
     }
     QObject* qobj = (QObject*)ptr;
     if (propertyName == utf8_to_wstring(QOBJECT_PROPERTY_PARENT_STR)) {
-        HandleGenericObject* hlObjParent = B.getContentAsHandleScalar();
+        HandleGenericObject* hlObjParent = B.asHandleScalar();
         if (hlObjParent == nullptr) {
-            Error(_W("QObject valid handle expected."));
+            Error(L"Nelson:QObject:invalidHandle", L"QObject valid handle expected.");
         } else {
-            if (hlObjParent->getCategory() != NLS_HANDLE_QOBJECT_CATEGORY_STR) {
-                Error(_W("QObject handle expected."));
+            if (hlObjParent->category() != NLS_HANDLE_QOBJECT_CATEGORY_STR) {
+                Error(L"Nelson:QObject:notHandle", L"QObject handle expected.");
             }
         }
         QObjectHandleObject* qmlhandleobjparent = (QObjectHandleObject*)hlObjParent;
-        void* ptr = qmlhandleobjparent->getPointer();
+        void* ptr = qmlhandleobjparent->pointer();
         if (ptr == nullptr) {
-            Error(_W("QObject valid handle expected."));
+            Error(L"Nelson:QObject:invalidHandle", L"QObject valid handle expected.");
         }
         QObject* qobjParent = (QObject*)ptr;
         if (qobjParent == qobj) {
-            Error(_W("QObject parent egals to the child."));
+            Error(L"Nelson:QObject:invalidParent", L"QObject parent equals to the child.");
         }
         qobj->setParent(qobjParent);
     } else if (propertyName == utf8_to_wstring(QOBJECT_PROPERTY_CHILDREN_STR)) {
-        Error(_W("'children' can not modified."));
+        Error(L"Nelson:QObject:readOnlyProperty", L"'%s' can not modified.", L"children");
     } else if (propertyName == utf8_to_wstring(QOBJECT_PROPERTY_CLASSNAME_STR)) {
-        Error(_W("'className' can not modified."));
+        Error(L"Nelson:QObject:readOnlyProperty", L"'%s' can not modified.", L"className");
     } else {
-        QVariant propertyValue = qobj->property(wstring_to_utf8(propertyName).c_str());
+        std::string propertyNameUtf8 = wstring_to_utf8(propertyName);
+        QVariant propertyValue = qobj->property(propertyNameUtf8.c_str());
         if (!propertyValue.isValid()) {
             QVariant v = ArrayOfToQVariant(B);
-            qobj->setProperty(wstring_to_utf8(propertyName).c_str(), v);
+            qobj->setProperty(propertyNameUtf8.c_str(), v);
+            if (qobj->property(propertyNameUtf8.c_str()).isValid()) {
+                qmlhandleobj->propertyChanged(propertyName);
+            }
         } else {
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
             QMetaType metatype = propertyValue.metaType();
             int id = metatype.id();
-#else
-            int id = QMetaType::type(propertyValue.typeName());
-
-#endif
             QVariant v = ArrayOfToQVariant(B, id);
             if (v.isValid()) {
-                qobj->setProperty(wstring_to_utf8(propertyName).c_str(), v);
+                qobj->setProperty(propertyNameUtf8.c_str(), v);
+                if (qobj->property(propertyNameUtf8.c_str()).isValid()) {
+                    qmlhandleobj->propertyChanged(propertyName);
+                }
 #ifdef _MSC_VER
                 if (qobj->isWindowType() && propertyName == L"visible") {
                     QWindow* qWindow = qobject_cast<QWindow*>(qobj);
@@ -89,11 +92,11 @@ SetQObjectHandleObject(const ArrayOf& A, const std::wstring& propertyName, const
                 }
 #endif
             } else {
-                Error(_W("QVariant invalid."));
+                Error(L"Nelson:QObject:invalidValue", L"QVariant invalid.");
             }
         }
     }
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

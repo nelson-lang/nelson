@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>parquetDatastore</keyword>
+  <short_description>Creer un datastore pour un ou plusieurs fichiers Parquet.</short_description>
+  <syntax>
+    <syntax_item>pds = parquetDatastore(location)</syntax_item>
+    <syntax_item>pds = parquetDatastore(location, Name, Value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>location</param_name>
+      <param_description>un nom de fichier, un dossier, un motif avec jokers, un tableau de chaines ou une cellule de vecteurs de caracteres.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Name, Value</param_name>
+      <param_description>arguments optionnels specifies sous forme de paires nom-valeur.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>pds</param_name>
+      <param_description>un objet <b>nelson.io.datastore.ParquetDatastore</b>.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>pds = parquetDatastore(location)</b> cree un datastore qui lit les fichiers Parquet locaux de l&apos;emplacement indique.</p>
+    <p>Lorsque <b>location</b> est un dossier, les fichiers qui se terminent par <b>.parquet</b> dans ce dossier sont selectionnes. Les motifs avec jokers peuvent selectionner plusieurs fichiers.</p>
+    <p>Les paires nom-valeur prises en charge sont <b>ReadSize</b>, <b>SelectedVariableNames</b>, <b>OutputType</b>, <b>RowTimes</b>, <b>RowFilter</b> et <b>VariableNamingRule</b>.</p>
+    <p>Le datastore lit un fichier a la fois. Utilisez <b>hasdata</b>, <b>read</b>, <b>readall</b>, <b>preview</b> et <b>reset</b> pour parcourir les donnees.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[folder = tempdir();
+file1 = [folder, 'doc_parquet_ds_1.parquet'];
+file2 = [folder, 'doc_parquet_ds_2.parquet'];
+parquetwrite(file1, table([1; 2], [10; 20], 'VariableNames', {'Id', 'Value'}));
+parquetwrite(file2, table([3; 4], [30; 40], 'VariableNames', {'Id', 'Value'}));
+pds = parquetDatastore([folder, 'doc_parquet_ds_*.parquet']);
+pds.VariableNames
+T = readall(pds)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[folder = tempdir();
+file1 = [folder, 'doc_parquet_ds_filter_1.parquet'];
+file2 = [folder, 'doc_parquet_ds_filter_2.parquet'];
+parquetwrite(file1, table([1; 2], [10; 20], 'VariableNames', {'Id', 'Value'}));
+parquetwrite(file2, table([3; 4], [30; 40], 'VariableNames', {'Id', 'Value'}));
+rf = rowfilter({'Id', 'Value'});
+pds = parquetDatastore([folder, 'doc_parquet_ds_filter_*.parquet'], ...
+  'SelectedVariableNames', {'Id', 'Value'}, 'RowFilter', rf.Value > 15);
+T = readall(pds)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${parquet}class_ParquetDatastore">nelson.io.datastore.ParquetDatastore</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${parquet}parquetread">parquetread</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${parquet}rowfilter">rowfilter</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

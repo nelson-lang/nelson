@@ -9,7 +9,9 @@
 ;==============================================================================
 #define MODULE_NAME "text_editor"
 ;==============================================================================
-Source: {#RootPath}bin\{#BinPath}\libno-nlsText_editor.dll; DestDir: {app}\bin\{#BinPath}\;DestName: libnlsText_editor.dll;Components: not {#COMPONENT_TEXT_EDITOR};
+; The reduced no- stub only satisfies the static import from graphics_qt (GUI);
+; a CLI-only install has no importer, so it ships only when the GUI is present.
+Source: {#RootPath}bin\{#BinPath}\libno-nlsText_editor.dll; DestDir: {app}\bin\{#BinPath}\;DestName: libnlsText_editor.dll;Components: {#COMPONENT_GUI} and not {#COMPONENT_TEXT_EDITOR};
 Source: {#RootPath}bin\{#BinPath}\libnlsText_editor.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_TEXT_EDITOR} and {#COMPONENT_GUI};
 Source: {#RootPath}bin\{#BinPath}\libnlsText_editor_builtin.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_TEXT_EDITOR} and {#COMPONENT_GUI};
 ;==============================================================================
@@ -24,7 +26,5 @@ Source: {#RootPath}modules\{#MODULE_NAME}\resources\*.*; DestDir: {app}\modules\
 Source: {#RootPath}modules\{#MODULE_NAME}\help\*.nhz; DestDir: {app}\modules\{#MODULE_NAME}\help\; Flags: recursesubdirs;Components: {#COMPONENT_GUI} and {#COMPONENT_TEXT_EDITOR} and {#COMPONENT_HELP_FILES};
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.m; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs;Components: {#COMPONENT_TESTS_MANAGER} and {#COMPONENT_GUI} and {#COMPONENT_TEXT_EDITOR} and {#COMPONENT_UNIT_TESTS};
-Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.txt; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs;Components: {#COMPONENT_TESTS_MANAGER} and {#COMPONENT_GUI} and {#COMPONENT_TEXT_EDITOR} and {#COMPONENT_UNIT_TESTS};
-Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.ref; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs;Components: {#COMPONENT_TESTS_MANAGER} and {#COMPONENT_GUI} and {#COMPONENT_TEXT_EDITOR} and {#COMPONENT_UNIT_TESTS};
 ;==============================================================================
 

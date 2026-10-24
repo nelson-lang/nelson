@@ -1,0 +1,119 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Allan CORNET",
+    "createdBy": "Allan CORNET",
+    "created": "2026-08-01",
+    "lastSavedBy": "Allan CORNET",
+    "lastSavedAt": "2026-10-17T19:48:24.440Z",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "comments": "StateSpace reference FMU (FMI 3.0 Co-Simulation) demo.",
+  "name": "StateSpace FMU",
+  "blocks": [
+    {
+      "id": "fmu1",
+      "type": "fmu",
+      "x": 320,
+      "y": 126,
+      "rotation": 0,
+      "params": {
+        "path": "StateSpace.fmu",
+        "numInputs": 1,
+        "numOutputs": 1,
+        "inputNames": [
+          "u"
+        ],
+        "outputNames": [
+          "y"
+        ]
+      }
+    },
+    {
+      "id": "src1",
+      "type": "sine",
+      "x": 120,
+      "y": 120,
+      "rotation": 0,
+      "params": {
+        "Amplitude": 1,
+        "Frequency": 0.5,
+        "Phase": 0
+      }
+    },
+    {
+      "id": "scope1",
+      "type": "scope",
+      "x": 540,
+      "y": 120,
+      "rotation": 0,
+      "params": {
+        "TMin": "",
+        "TMax": "",
+        "YMin": "",
+        "YMax": "",
+        "width": 220,
+        "height": 160,
+        "ShowTickLabels": false
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "src1",
+      "to": "fmu1",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [
+          200,
+          160
+        ],
+        [
+          300,
+          160
+        ],
+        [
+          300,
+          150
+        ],
+        [
+          320,
+          150
+        ]
+      ]
+    },
+    {
+      "from": "fmu1",
+      "to": "scope1",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [
+          416,
+          150
+        ],
+        [
+          520,
+          150
+        ],
+        [
+          520,
+          160
+        ],
+        [
+          540,
+          160
+        ]
+      ]
+    }
+  ],
+  "variables": "",
+  "runtime": "10",
+  "sampleTime": 0.02,
+  "autoRoute": true,
+  "locked": false,
+  "realTime": true
+}

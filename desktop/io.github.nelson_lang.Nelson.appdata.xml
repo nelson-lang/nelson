@@ -15,22 +15,22 @@
   <metadata_license>FSFAP</metadata_license>
   <project_license>LGPL-3.0-or-later</project_license>
   <name>Nelson</name>
-  <summary>Extensible and Modern numerical computing environment</summary>
+  <summary>Extensible numerical computing environment</summary>
   <summary
     xml:lang="fr"
-  >Environnement informatique numérique extensible et moderne</summary>
+  >Environnement de calcul numerique extensible</summary>
   <developer id="io.github.nelson_lang.Nelson">
     <name>Allan CORNET and others</name>
   </developer>
   <description>
-    <p>Nelson is a matrix and array programming language providing a powerful open computing environment for engineering and scientific applications using modern C/C++ libraries (Boost, Eigen, …) and others state of art numerical libraries.
-      It has sophisticated data structures (including cell, struct, linear systems, …), an interpreter and a high level programming language.
-      Nelson has been developed to be an open/modular system where an user can define these own data types and operations on these data types by using overload.
-      Syntax is very similar to GNU Octave or MATLAB® so that most programs are easily portable.</p>
-    <p xml:lang="fr">Nelson est un langage de programmation de matrices/tableaux fournissant un puissant environnement informatique ouvert pour les applications d&apos;ingénierie et scientifiques utilisant des bibliothèques C/C++ modernes (Boost, Eigen, …) et d&apos;autres bibliothèques numériques de pointe.
-      Il dispose de structures de données sophistiquées (y compris cell, struct, linear systems, …), d&apos;un interpréteur et d&apos;un langage de programmation de haut niveau.
-      Nelson a été développé pour être un système ouvert/modulaire où un utilisateur peut définir ses propres types de données et opérations sur ces types de données en utilisant la notion de surcharge.
-      La syntaxe est très similaire à GNU Octave ou MATLAB®, de sorte que la plupart des programmes sont facilement portables.</p>
+    <p>Nelson is a matrix and array programming language for engineering and scientific computing.
+      It provides an interpreter, a high-level language, plotting tools, and data structures such as cells, structs, and linear systems.
+      The module system lets users add data types and operations through overloads.
+      Its numerical-computing syntax helps port existing programs.</p>
+    <p xml:lang="fr">Nelson est un langage de programmation matricielle et tableau pour le calcul scientifique et l&apos;ingenierie.
+      Il fournit un interprete, un langage de haut niveau, des outils graphiques et des structures de donnees telles que cell, struct et systemes lineaires.
+      Le systeme de modules permet d&apos;ajouter des types de donnees et des operations au moyen de surcharges.
+      Sa syntaxe de calcul numerique facilite le portage de programmes existants.</p>
   </description>
   <screenshots>
     <screenshot type="default">
@@ -39,7 +39,7 @@
     </screenshot>
   </screenshots>
   <releases>
-    <release version="1.17.0" date="2026-05-25">
+    <release version="2.0.0" date="2026-08-13">
       <url type="details">https://github.com/nelson-lang/nelson/blob/master/CHANGELOG.md</url>
     </release>
   </releases>

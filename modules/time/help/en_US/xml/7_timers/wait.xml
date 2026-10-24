@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>wait</keyword>
+  <keyword_alias>timer.wait</keyword_alias>
+  <short_description>Wait for timer objects to stop.</short_description>
+  <syntax>
+    <syntax_item>wait(t)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>t</param_name>
+      <param_description>Timer object or timer object array.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b>wait</b> blocks until each timer in <b>t</b> stops. While it is waiting, Nelson continues processing timer callbacks so scheduled callbacks can complete.</p>
+    <p>Use <b>wait</b> in scripts and tests when later commands depend on timer callbacks having completed.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Wait until a repeated timer finishes all requested tasks.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[t = timer('ExecutionMode', 'fixedSpacing', ...
+  'Period', 0.05, ...
+  'TasksToExecute', 3, ...
+  'TimerFcn', @(src, event) disp('tick'));
+start(t);
+wait(t);
+get(t, 'Running')
+get(t, 'TasksExecuted')
+delete(t);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${time}timer">timer</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}start">start</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}stop">stop</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>hysteresis</keyword>
+  <keyword_alias>block:hysteresis</keyword_alias>
+  <short_description>Relais : bascule à deux seuils avec mémoire (uHigh, uLow, yHigh, yLow).</short_description>
+  <syntax>
+    <syntax_item>Type de bloc : hysteresis</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>ports d'entrée</param_name>
+      <param_description>1 port d'entrée déclaré.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>ports de sortie</param_name>
+      <param_description>1 port de sortie déclaré.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Relais : une bascule à mémoire avec deux seuils (hystérésis).</p>
+    <table border="1">
+      <tbody>
+        <tr><td>Module</td><td><code>nflow_blocks</code></td></tr>
+        <tr><td>Bibliothèque</td><td>Nonlinear</td></tr>
+        <tr><td>Type</td><td><code>hysteresis</code></td></tr>
+        <tr><td>Libellé</td><td>Relay</td></tr>
+      </tbody>
+    </table>
+    <p><img src="../../../../libraries/nonlinear/exports/hysteresis.svg" align="middle"/></p>
+    <p><b>Description</b></p>
+    <p>La sortie est mémorisée : elle bascule à <code>yHigh</code> quand l'entrée atteint ou dépasse <code>uHigh</code>, à <code>yLow</code> quand elle atteint ou passe sous <code>uLow</code>, et conserve sa valeur précédente entre les deux. Ce comportement à deux seuils est le relais classique avec hystérésis. Avec état (sortie mémorisée).</p>
+    <p><b>Ports</b></p>
+    <table border="1">
+      <thead><tr><th>Port</th><th>Rôle</th><th>Côté</th><th>Position</th></tr></thead>
+      <tbody>
+        <tr><td>Port_1</td><td>Entrée de commande comparée aux seuils.</td><td>gauche</td><td>x=0, y=40</td></tr>
+      </tbody>
+    </table>
+    <p><b>Sortie(s)</b></p>
+    <table border="1">
+      <thead><tr><th>Port</th><th>Rôle</th><th>Côté</th><th>Position</th></tr></thead>
+      <tbody>
+        <tr><td>Port_1</td><td>Sortie relais mémorisée (yHigh ou yLow).</td><td>droite</td><td>x=80, y=40</td></tr>
+      </tbody>
+    </table>
+    <p><b>Paramètres</b></p>
+    <table border="1">
+      <thead><tr><th>Paramètre</th><th>Valeur par défaut</th></tr></thead>
+      <tbody>
+        <tr><td><code>uHigh</code></td><td>1</td></tr>
+        <tr><td><code>uLow</code></td><td>-1</td></tr>
+        <tr><td><code>yHigh</code></td><td>1</td></tr>
+        <tr><td><code>yLow</code></td><td>0</td></tr>
+      </tbody>
+    </table>
+    <p><b>Caractéristiques du bloc</b></p>
+    <table border="1">
+      <tbody>
+        <tr><td>Type de bloc</td><td>hysteresis</td></tr>
+        <tr><td>Famille</td><td>Nonlinear</td></tr>
+        <tr><td>Taille de rendu</td><td>80 x 80</td></tr>
+        <tr><td>Phases</td><td>INIT, OUTPUT, UPDATE</td></tr>
+        <tr><td>État interne ou historique</td><td>oui (sortie mémorisée)</td></tr>
+        <tr><td>Type de données du signal</td><td>valeurs numériques double</td></tr>
+      </tbody>
+    </table>
+    <p><b>Algorithmes</b></p>
+    <ul>
+      <li>INIT : démarre à yLow.</li>
+      <li>OUTPUT : émet la valeur mémorisée.</li>
+      <li>UPDATE : bascule à yHigh au-dessus de uHigh, à yLow sous uLow, sinon conserve.</li>
+    </ul>
+    <p><b>Équation ou règle</b></p>
+    <latex>y \leftarrow \begin{cases} y_{High} &amp; u \ge u_{High} \\ y_{Low} &amp; u \le u_{Low} \\ y &amp; \text{sinon} \end{cases}</latex>
+    <p><b>Capacités étendues</b></p>
+    <p>Génération de code : supportée pour C et Rust.</p>
+    <p><b>Sources d'implémentation</b></p>
+    <p>Generation de code : prise en charge pour C et Rust.</p>
+    <source_code label="Manifest" path="modules/nflow_blocks/libraries/nonlinear/library.json" language="json"/>
+    <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/nonlinear/hysteresis.cpp" language="cpp"/>
+  </description>
+  <used_function/>
+  <bibliography/>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Relais piloté par un sinus franchissant les deux seuils.</example_item_description>
+      <example_item_data><![CDATA[d.blocks={ struct('id','s','type','sine','inputs',0,'outputs',1,'params',struct('Amplitude',2,'Frequency',1)), struct('id','r','type','hysteresis','inputs',1,'outputs',1,'params',struct('uHigh',1,'uLow',-1,'yHigh',1,'yLow',0)), struct('id','w','type','toWorkspace','inputs',1,'outputs',0,'params',struct('VariableName','y','SaveFormat','Array')) };
+d.connections={ struct('from','s','to','r','fromIndex',0,'toIndex',0), struct('from','r','to','w','fromIndex',0,'toIndex',0) };
+d.sampleTime=0.02; d.duration=2.0; d.solver='discrete'; d.variables=struct();
+r=jsondecode(__nflow_simulate__(jsonencode(d)));]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${nflow_blocks}nonlinear/saturation">saturation</link></see_also_item>
+    <see_also_item><link linkend="${nflow_blocks}nonlinear/deadZone">deadZone</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

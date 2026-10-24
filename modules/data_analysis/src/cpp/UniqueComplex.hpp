@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -13,6 +13,7 @@
 #include "ArrayOf.hpp"
 #include <vector>
 #include <algorithm>
+#include <cmath>
 #if WITH_OPENMP
 #include <omp.h>
 #endif
@@ -33,13 +34,31 @@ template <class T>
 bool
 operator<(const UniqueComplexEntry<T>& a, const UniqueComplexEntry<T>& b)
 {
-
-    if ((std::isnan(b.value.real()) || std::isnan(b.value.imag()))
-        && (!std::isnan(a.value.real()) && !std::isnan(a.value.imag()))) {
-        return true;
+    // total order on complex values:
+    //   primary key   : magnitude |z|            (ascending)
+    //   secondary key : angle atan2(imag, real)  (ascending)
+    //   NaN values are ordered last.
+    // The original-index tie-break keeps equal values adjacent and makes the
+    // first-occurrence selection (ia) deterministic.
+    bool aNaN = std::isnan(a.value.real()) || std::isnan(a.value.imag());
+    bool bNaN = std::isnan(b.value.real()) || std::isnan(b.value.imag());
+    if (aNaN || bNaN) {
+        if (aNaN != bNaN) {
+            return !aNaN;
+        }
+        return a.n < b.n;
     }
-    return complex_abs(a.value.real(), a.value.imag())
-        < complex_abs(b.value.real(), b.value.imag());
+    T absA = complex_abs(a.value.real(), a.value.imag());
+    T absB = complex_abs(b.value.real(), b.value.imag());
+    if (absA != absB) {
+        return absA < absB;
+    }
+    T angleA = std::atan2(a.value.imag(), a.value.real());
+    T angleB = std::atan2(b.value.imag(), b.value.real());
+    if (angleA != angleB) {
+        return angleA < angleB;
+    }
+    return a.n < b.n;
 }
 //=============================================================================
 template <class T>
@@ -54,20 +73,21 @@ ArrayOfVector
 UniqueComplexOneLhs(const ArrayOf& input)
 {
     bool isRowVector = input.isRowVector();
-    ompIndexType len = input.getElementCount();
-    const T* dp = static_cast<const T*>(input.getDataPointer());
+    ompIndexType len = input.elementCount();
+    const T* dp = static_cast<const T*>(input.dataPointer());
     auto* ptrDpz = reinterpret_cast<std::complex<T>*>((T*)dp);
 
     std::vector<UniqueComplexEntry<T>> values(len);
     OMP_PARALLEL_FOR_LOOP(len)
     for (ompIndexType k = 0; k < len; ++k) {
         values[k].value = ptrDpz[k];
+        values[k].n = (ompIndexType)k;
     }
     parallelSort(values);
     values.erase(std::unique(values.begin(), values.end()), values.end());
 
     ArrayOfVector retval;
-    NelsonType cls(input.getDataClass());
+    NelsonType cls(input.dataClass());
     T* op = (T*)ArrayOf::allocateArrayOf(cls, values.size());
     auto* ptrOpz = reinterpret_cast<std::complex<T>*>((T*)op);
 
@@ -86,8 +106,8 @@ ArrayOfVector
 UniqueComplexTwoLhs(const ArrayOf& input)
 {
     bool isRowVector = input.isRowVector();
-    ompIndexType len = input.getElementCount();
-    const T* dp = (T*)input.getDataPointer();
+    ompIndexType len = input.elementCount();
+    const T* dp = (T*)input.dataPointer();
     auto* ptrDpz = reinterpret_cast<std::complex<T>*>((T*)dp);
 
     std::vector<UniqueComplexEntry<T>> values(len);
@@ -100,7 +120,7 @@ UniqueComplexTwoLhs(const ArrayOf& input)
     values.erase(std::unique(values.begin(), values.end()), values.end());
 
     ArrayOfVector retval;
-    NelsonType cls(input.getDataClass());
+    NelsonType cls(input.dataClass());
     double* mp = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, values.size());
     T* op = (T*)ArrayOf::allocateArrayOf(cls, values.size());
     auto* ptrOpz = reinterpret_cast<std::complex<T>*>((T*)op);
@@ -114,7 +134,8 @@ UniqueComplexTwoLhs(const ArrayOf& input)
 
     Dimensions dimsOut = isRowVector ? Dimensions(1, elementCount) : Dimensions(elementCount, 1);
     retval << ArrayOf(cls, dimsOut, op);
-    retval << ArrayOf(NLS_DOUBLE, dimsOut, mp);
+    // ia is always a column vector, independent of the input orientation.
+    retval << ArrayOf(NLS_DOUBLE, Dimensions(elementCount, 1), mp);
 
     return retval;
 }
@@ -124,14 +145,14 @@ ArrayOfVector
 UniqueComplexThreeLhs(const ArrayOf& input)
 {
     bool isRowVector = input.isRowVector();
-    ompIndexType rows = input.getRows();
-    indexType cols = input.getColumns();
-    rows = input.getElementCount();
+    ompIndexType rows = input.rows();
+    indexType cols = input.columns();
+    rows = input.elementCount();
     cols = 1;
 
-    const T* dp = (const T*)input.getDataPointer();
+    const T* dp = (const T*)input.dataPointer();
     auto* ptrDpz = reinterpret_cast<std::complex<T>*>((T*)dp);
-    ompIndexType len = input.getElementCount();
+    ompIndexType len = input.elementCount();
     std::vector<UniqueComplexEntry<T>> values(len);
     OMP_PARALLEL_FOR_LOOP(len)
     for (ompIndexType k = 0; k < len; ++k) {
@@ -148,16 +169,16 @@ UniqueComplexThreeLhs(const ArrayOf& input)
 
     double* np = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, len);
     double* mp = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, cnt);
-    T* op = (T*)ArrayOf::allocateArrayOf(input.getDataClass(), cnt);
+    T* op = (T*)ArrayOf::allocateArrayOf(input.dataClass(), cnt);
     auto* ptrOpz = reinterpret_cast<std::complex<T>*>((T*)op);
     if (len > 0) {
-        ptrOpz[0] = dp[values[0].n];
+        ptrOpz[0] = ptrDpz[values[0].n];
         cnt = 1;
         np[values[0].n] = 1;
         mp[0] = (double)(values[0].n + 1);
         for (int i = 1; i < len; i++) {
             if (!(values[i] == values[i - 1])) {
-                ptrOpz[cnt] = dp[values[i].n];
+                ptrOpz[cnt] = ptrDpz[values[i].n];
                 mp[cnt] = (double)(values[i].n + 1);
                 cnt++;
             }
@@ -167,13 +188,13 @@ UniqueComplexThreeLhs(const ArrayOf& input)
     ArrayOfVector retval;
     Dimensions dimsOut = isRowVector ? Dimensions(1, cnt) : Dimensions(cnt, 1);
     if (len == 0) {
-        if (input.getRows() == input.getColumns()) {
+        if (input.rows() == input.columns()) {
             dimsOut = Dimensions(0, 1);
         } else {
-            dimsOut = Dimensions(input.getRows() != 0 ? 1 : 0, input.getColumns() != 0 ? 1 : 0);
+            dimsOut = Dimensions(input.rows() != 0 ? 1 : 0, input.columns() != 0 ? 1 : 0);
         }
     }
-    retval << ArrayOf(input.getDataClass(), dimsOut, op);
+    retval << ArrayOf(input.dataClass(), dimsOut, op);
     retval << ArrayOf(NLS_DOUBLE, Dimensions(cnt, 1), mp);
     retval << ArrayOf(NLS_DOUBLE, Dimensions(len, 1), np);
     return retval;
@@ -192,5 +213,5 @@ UniqueComplex(const ArrayOf& input, int nLhs)
     return UniqueComplexThreeLhs<T>(input);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

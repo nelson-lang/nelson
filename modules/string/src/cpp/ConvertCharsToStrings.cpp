@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -18,32 +18,32 @@ ConvertCharsToStrings(const ArrayOfVector& A)
 {
     ArrayOfVector res;
     for (const auto& value : A) {
-        Dimensions dims = value.getDimensions();
+        Dimensions dims = value.dimensions();
         if (value.isCharacterArray()) {
             if (value.isEmpty(false)) {
-                res.push_back(ArrayOf::stringArrayConstructor(""));
+                res.push_back(ArrayOf::stringArray(""));
             } else if (value.isColumnVector()) {
-                res.push_back(ArrayOf::stringArrayConstructor(value.getContentAsWideString()));
+                res.push_back(ArrayOf::stringArray(value.asWideString()));
             } else {
-                indexType len = dims.getElementCount() / dims.getRows();
-                auto* ptrChar = (charType*)value.getDataPointer();
+                indexType len = dims.elementCount() / dims.rows();
+                auto* ptrChar = (charType*)value.dataPointer();
                 std::wstring str;
-                str.reserve(dims.getElementCount());
-                for (indexType i = 0; i < dims.getRows(); i++) {
+                str.reserve(dims.elementCount());
+                for (indexType i = 0; i < dims.rows(); i++) {
                     for (indexType j = 0; j < len; j++) {
-                        size_t idx = i + j * dims.getRows();
+                        size_t idx = i + j * dims.rows();
                         if (ptrChar[idx] != 0) {
                             str.push_back(ptrChar[idx]);
                         }
                     }
                 }
-                res.push_back(ArrayOf::stringArrayConstructor(str));
+                res.push_back(ArrayOf::stringArray(str));
             }
         } else if (value.isCellArrayOfCharacterVectors()) {
-            auto* elementsString = new_with_exception<ArrayOf>(dims.getElementCount(), false);
+            auto* elementsString = new_with_exception<ArrayOf>(dims.elementCount(), false);
             ArrayOf valueAsString = ArrayOf(NLS_STRING_ARRAY, dims, elementsString);
-            auto* elementsCell = (ArrayOf*)value.getDataPointer();
-            ompIndexType elementCount = dims.getElementCount();
+            auto* elementsCell = (ArrayOf*)value.dataPointer();
+            ompIndexType elementCount = dims.elementCount();
             OMP_PARALLEL_FOR_LOOP(elementCount)
             for (ompIndexType q = 0; q < elementCount; q++) {
                 elementsString[q] = elementsCell[q];

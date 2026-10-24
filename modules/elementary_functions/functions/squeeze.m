@@ -8,16 +8,18 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function B = squeeze(A)
-  if ismatrix(A) 
+  if ismatrix(A)
     B = A;
-  else
-    sz = size(A);
-    sz(sz == 1) = [];
-    if ~isscalar(sz)
-      B = reshape(A,sz);
-    else
-      B = reshape(A, sz, 1);
-    end
+    return
   end
-end    
+  outputShape = size(A);
+  outputShape(outputShape == 1) = [];
+  B = reshape(A, matrixShape(outputShape));
+end
+%=============================================================================
+function outputShape = matrixShape(outputShape)
+  if isscalar(outputShape)
+    outputShape = [outputShape, 1];
+  end
+end
 %=============================================================================

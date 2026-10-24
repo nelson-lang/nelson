@@ -9,25 +9,25 @@
 %=============================================================================
 function model = ssdelete(varargin)
   % ssselect Extract subsystem from larger system.
-  % sysOut = ssdelete(sysIn, INPUTS, OUTPUTS)  
+  % sysOut = ssdelete(sysIn, INPUTS, OUTPUTS)
   % sysOut = ssdelete(sysIn, INPUTS, OUTPUTS, STATES)
   narginchk(3, 4);
   nargoutchk(0, 1);
-  
+
   sys = varargin{1};
   if ~islti(sys)
-    error(_('LTI model expected.'));
+    error('Nelson:control_system:invalidType', '%s expected.', 'LTI model');
   end
-  
+
   inputs = varargin{2};
   outputs = varargin{3};
-  
+
   if nargin == 3
     states = [];
-  else 
+  else
     states = varargin{4};
   end
-  
+
   A = sys.A;
   B = sys.B;
   C = sys.C;
@@ -37,20 +37,20 @@ function model = ssdelete(varargin)
   if (length(states) ~= nx)
     if ~isempty(sys.A)
       A(:, states) = [];
-      A(states,:) = [];
+      A(states, :) = [];
     else
       A = [];
     end
     if ~isempty(sys.B),
       B(states, :) = [];
       B(:, inputs) = [];
-    else 
-      B =[];
+    else
+      B = [];
     end
     if ~isempty(sys.C)
       C(:, states) = [];
       C(outputs, :) = [];
-    else 
+    else
       C = [];
     end
   else

@@ -21,47 +21,41 @@ i18nJsonSort(
     const std::wstring& jsonSource, const std::wstring& jsonDestination, std::wstring& errorMessage)
 {
     try {
-        // Create JSON objects for source and destination
         nlohmann::ordered_json sourceJson;
         nlohmann::ordered_json destJson;
 
-        // Read source JSON
         {
 #ifdef _MSC_VER
             std::wifstream sourceFile(jsonSource);
             if (!sourceFile.is_open()) {
-                errorMessage = _W("Unable to open source JSON file.");
+                errorMessage = L"Unable to open source JSON file.";
                 return false;
             }
             std::wstringstream wss;
             wss << sourceFile.rdbuf();
             sourceFile.close();
-            // Convert wide string to UTF-8
             std::string utf8Content = wstring_to_utf8(wss.str());
             sourceJson = nlohmann::json::parse(utf8Content);
 #else
             std::ifstream sourceFile(wstring_to_utf8(jsonSource));
             if (!sourceFile.is_open()) {
-                errorMessage = _W("Unable to open source JSON file.");
+                errorMessage = L"Unable to open source JSON file.";
                 return false;
             }
             sourceFile >> sourceJson;
 #endif
         }
 
-        // Function to recursively sort JSON object
         std::function<nlohmann::ordered_json(const nlohmann::ordered_json&)> sortJson
             = [&sortJson](const nlohmann::ordered_json& j) -> nlohmann::ordered_json {
             if (j.is_object()) {
                 nlohmann::ordered_json sorted;
-                // Create vector of keys and sort them
                 std::vector<std::string> keys;
                 for (const auto& item : j.items()) {
                     keys.push_back(item.key());
                 }
                 std::sort(keys.begin(), keys.end());
 
-                // Create new JSON object with sorted keys
                 for (const auto& key : keys) {
                     sorted[key] = sortJson(j[key]);
                 }
@@ -76,10 +70,8 @@ i18nJsonSort(
             return j;
         };
 
-        // Sort the JSON
         destJson = sortJson(sourceJson);
 
-        // Write to destination file
         {
 #ifdef _MSC_VER
             std::wofstream destFile(jsonDestination);
@@ -87,7 +79,7 @@ i18nJsonSort(
             std::ofstream destFile(wstring_to_utf8(jsonDestination));
 #endif
             if (!destFile.is_open()) {
-                errorMessage = _W("Unable to open destination JSON file.");
+                errorMessage = L"Unable to open destination JSON file.";
                 return false;
             }
 #ifdef _MSC_VER
@@ -107,5 +99,5 @@ i18nJsonSort(
     return false;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

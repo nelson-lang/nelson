@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>graphics</module_name>
+  <chapter>Proprietes des objets graphiques</chapter>
+  <chapter_description>
+    <p>Pages de reference des proprietes visibles des objets graphiques, types de valeurs pris en charge et actions associees.</p>
+  </chapter_description>
+</xmldoc>

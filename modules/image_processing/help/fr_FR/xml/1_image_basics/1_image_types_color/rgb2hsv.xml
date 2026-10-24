@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>rgb2hsv</keyword>
+  <short_description>Convertit des valeurs couleur RGB en valeurs HSV.</short_description>
+  <syntax>
+    <syntax_item>HSV = rgb2hsv(RGB)</syntax_item>
+    <syntax_item>hsvmap = rgb2hsv(map)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>RGB</param_name>
+      <param_description>Image RGB m-by-n-by-3 de classe double, single, uint8 ou uint16.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>map</param_name>
+      <param_description>Colormap RGB double avec des valeurs dans l'intervalle [0, 1].</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>HSV</param_name>
+      <param_description>Image HSV. La sortie est single uniquement lorsque l'image d'entree est single ; sinon elle est double.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>hsvmap</param_name>
+      <param_description>Colormap HSV avec le meme nombre de lignes que map.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Convertit des valeurs couleur RGB en valeurs HSV. Les images RGB doivent etre des tableaux reels double, single, uint8 ou uint16. Les valeurs d images RGB flottantes sont converties sans clipping. Les images RGB vides conservent leur taille.</p>
+    <p>Une colormap RGB double avec des valeurs dans [0, 1] est convertie ligne par ligne.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Afficher le canal teinte apres conversion RGB vers HSV</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[RGB=zeros(64,64,3);
+[X,Y]=meshgrid(linspace(0,1,64),linspace(0,1,64));
+RGB(:,:,1)=X; RGB(:,:,2)=Y; RGB(:,:,3)=1-X;
+HSV=rgb2hsv(RGB);
+figure; subplot(1,2,1); image(RGB); title('RGB');
+subplot(1,2,2); imagesc(HSV(:,:,1)); t=linspace(0,1,64)'; colormap([t zeros(64,1) 1-t]); title('Hue');]]></example_item_data>
+      <example_item_img
+        src="../../../images/rgb2hsv_1.png"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}hsv2rgb">hsv2rgb</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}rgb2ycbcr">rgb2ycbcr</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

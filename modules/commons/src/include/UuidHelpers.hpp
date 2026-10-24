@@ -20,5 +20,5 @@ generateUuid(std::wstring& wstr);
 NLSCOMMONS_IMPEXP void
 generateUuid(std::string& str);
 //=============================================================================
-}
+} // namespace Nelson::UuidHelpers
 //=============================================================================

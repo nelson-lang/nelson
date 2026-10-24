@@ -60,7 +60,7 @@ AfterEachFutureObject::afterEach(FunctionDef* funcDef, int nLhs, bool uniformOut
                         this->setException(futures[k]->getException(false));
                         {
                             FutureStateGuardWrite guard(this->stateMutex);
-                            this->state = THREAD_STATE::FINISHED;
+                            this->setState(THREAD_STATE::FINISHED);
                         }
                         return;
                     }
@@ -76,13 +76,13 @@ AfterEachFutureObject::afterEach(FunctionDef* funcDef, int nLhs, bool uniformOut
     }
     ArrayOfVector concat = allFutureResults[0];
     for (size_t k = 1; k < futures.size(); ++k) {
-        Exception e;
+        NelsonException e;
         concat = vertCatArrayOfVector(concat, allFutureResults[k], e);
         if (!e.isEmpty()) {
             this->setException(e);
             {
                 FutureStateGuardWrite guard(this->stateMutex);
-                this->state = THREAD_STATE::FINISHED;
+                this->setState(THREAD_STATE::FINISHED);
             }
             return;
         }
@@ -90,7 +90,7 @@ AfterEachFutureObject::afterEach(FunctionDef* funcDef, int nLhs, bool uniformOut
     this->setResult(concat);
     {
         FutureStateGuardWrite guard(this->stateMutex);
-        this->state = THREAD_STATE::FINISHED;
+        this->setState(THREAD_STATE::FINISHED);
     }
 }
 //=============================================================================

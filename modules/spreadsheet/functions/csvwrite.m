@@ -12,11 +12,11 @@ function varargout = csvwrite(varargin)
   narginchk(1, 4);
   filename = varargin{1};
   mustBeTextScalar(filename, 1);
-  
+
   M = varargin{2};
   if (nargin < 3)
     R = 0;
-  else 
+  else
     R = varargin{3};
   end
   if (nargin < 4)
@@ -25,7 +25,7 @@ function varargout = csvwrite(varargin)
     C = varargin{4};
   end
   try
-    dlmwrite(filename, M, ',', R, C); 
+    dlmwrite(filename, M, ',', R, C);
   catch e
     throw(e);
   end

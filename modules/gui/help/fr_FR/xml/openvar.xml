@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>openvar</keyword>
   <short_description
-  >Ouvre une variable dans l&apos;éditeur de variables</short_description>
+  >Ouvre une variable dans l&apos;Ã©diteur de variables</short_description>
   <syntax>
     <syntax_item>openvar(varname)</syntax_item>
   </syntax>
@@ -17,20 +17,20 @@
   </param_input>
   <description>
     <p>
-      <b>openvar(varname)</b> ouvre la variable nommée <b>varname</b> dans l&apos;éditeur de variables de Nelson pour inspection et édition graphique.</p>
+      <b>openvar(varname)</b> ouvre la variable nommÃ©e <b>varname</b> dans l&apos;Ã©diteur de variables de Nelson pour inspection et Ã©dition graphique.</p>
     <p
-    >Toutes les modifications effectuées dans l&apos;éditeur sont appliquées immédiatement dans le workspace.</p>
+    >Toutes les modifications effectuÃ©es dans l&apos;Ã©diteur sont appliquÃ©es immÃ©diatement dans le workspace.</p>
     <p
-    >L&apos;éditeur de variables supporte les scalaires, vecteurs, matrices, chaînes, cellules, tables et structures. Les tableaux multidimensionnels peuvent être visualisés mais leur édition peut être limitée.</p>
+    >L&apos;Ã©diteur de variables supporte les scalaires, vecteurs, matrices, chaÃ®nes, cellules, tables et structures. Les tableaux multidimensionnels peuvent Ãªtre visualisÃ©s mais leur Ã©dition peut Ãªtre limitÃ©e.</p>
     <p
-    >Vous pouvez également ouvrir une variable en double-cliquant dessus dans le panneau Variables.</p>
-    <p>L&apos;éditeur se synchronise automatiquement avec le workspace courant.</p>
+    >Vous pouvez Ã©galement ouvrir une variable en double-cliquant dessus dans le panneau Variables.</p>
+    <p>L&apos;Ã©diteur se synchronise automatiquement avec le workspace courant.</p>
     <p
-    >Contenu éditable : dans les structures (struct), cellules (cell) et tables (table), seuls les éléments scalaires sont éditables.</p>
+    >Contenu Ã©ditable : dans les structures (struct), cellules (cell) et tables (table), seuls les Ã©lÃ©ments scalaires sont Ã©ditables.</p>
     <p
-    >Nelson offre une intégration complète du presse-papiers avec des tableurs tels que <b>Microsoft Excel</b>, <b>LibreOffice Calc</b> et <b>OpenOffice Calc</b>.</p>
+    >Nelson offre une intÃ©gration complÃ¨te du presse-papiers avec des tableurs tels que <b>Microsoft Excel</b>, <b>LibreOffice Calc</b> et <b>OpenOffice Calc</b>.</p>
     <p
-    >Vous pouvez copier des variables depuis l&apos;éditeur de variables et les coller directement dans ces applications, et inversement.</p>
+    >Vous pouvez copier des variables depuis l&apos;Ã©diteur de variables et les coller directement dans ces applications, et inversement.</p>
     <p>
       <img src="../images/openvar.png" align="middle" />
     </p>

@@ -10,8 +10,30 @@
 % <--ADV-CLI MODE-->
 %=============================================================================
 cmaps = colormaplist();
-assert_istrue(isstring(cmaps));
-assert_istrue(iscolumn(cmaps));
-assert_istrue(numel(cmaps) >= 18);
-assert_istrue(any(contains(cmaps, "jet")));
+asserts.istrue(isstring(cmaps));
+asserts.istrue(iscolumn(cmaps));
+expected = ["parula";
+  "turbo";
+  "hsv";
+  "hot";
+  "cool";
+  "spring";
+  "summer";
+  "autumn";
+  "winter";
+  "gray";
+  "bone";
+  "copper";
+  "pink";
+  "sky";
+  "abyss";
+  "nebula";
+  "jet";
+  "lines";
+  "colorcube";
+  "prism";
+  "flag";
+  "white";
+  "viridis"];
+asserts.isequal(cmaps, expected);
 %=============================================================================

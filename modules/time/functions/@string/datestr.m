@@ -12,7 +12,7 @@ function varargout = datestr(varargin)
   nargoutchk(0, 1);
   dateStringIn = varargin{1};
   epochs = [];
-  
+
   if nargin == 1
     % DateString = datestr(DateStringIn)
     epochs = datenum(dateStringIn);
@@ -23,7 +23,7 @@ function varargout = datestr(varargin)
     mustBeTextScalar(varargin{2}, 2);
     formatOutOrLocal = convertStringsToChars(varargin{2});
     if (~ischar(formatOutOrLocal))
-      error(_('Second argument must be a scalar string or row vector of characters.'));
+      error('Nelson:time:secondArgumentScalarStringRow', 'Second argument must be a scalar string or row vector of characters.');
     end
     if strcmp(formatOutOrLocal, 'local')
       % DateString = datestr(DateStringIn, 'local')
@@ -45,7 +45,7 @@ function varargout = datestr(varargin)
     formatOutOrLocal = convertStringsToChars(varargin{3});
     if ischar(formatOutOrLocal)
       if ~strcmp(formatOutOrLocal, 'local')
-        error(_("Third argument must be a 'local'."));
+        error('Nelson:time:thirdArgumentLocal', 'Third argument must be a ''local''.');
       end
       % DateString = datestr(DateStringIn, formatOut, 'local')
       epochs = datenum(dateStringIn, formatOut);
@@ -55,7 +55,7 @@ function varargout = datestr(varargin)
       epochs = datenum(dateStringIn, formatOutOrLocal);
       varargout{1} = datestr(epochs, formatOut);
     else
-      error(_('Third argument must be a numeric scalar.'));
+      error('Nelson:time:thirdArgumentNumericScalar', '%s must be a numeric scalar.', 'Third argument');
     end
     return
   end
@@ -66,19 +66,19 @@ function varargout = datestr(varargin)
     mustBeNumeric(varargin{3}, 3);
     pivotYear = varargin{3};
     if (~isscalar(pivotYear))
-      error(_('Third argument must be a numeric scalar.'));
+      error('Nelson:time:thirdArgumentNumericScalar', '%s must be a numeric scalar.', 'Third argument');
     end
     mustBeTextScalar(varargin{4}, 4);
     local = convertStringsToChars(varargin{4});
     if (~ischar(local))
-      error( _("Fourth argument must be a 'local'."));
+      error('Nelson:time:fourthArgumentLocal', 'Fourth argument must be a ''local''.');
     end
     if (strcmp(local, 'local') == false)
-      error( _("Fourth argument must be a 'local'."));
+      error('Nelson:time:fourthArgumentLocal', 'Fourth argument must be a ''local''.');
     end
     epochs = datenum(dateStringIn, formatOut, pivotYear);
     varargout{1} = datestr(epochs, formatOut, 'local');
     return
   end
-end  
+end
 %=============================================================================

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>superclasses</keyword>
+  <short_description>Noms des superclasses d'une classe.</short_description>
+  <syntax>
+    <syntax_item>s = superclasses(className)</syntax_item>
+    <syntax_item>s = superclasses(obj)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>className</param_name>
+      <param_description>un nom de classe (chaîne ou vecteur de caractères).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>obj</param_name>
+      <param_description>un objet classdef ou handle.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>s</param_name>
+      <param_description>un tableau de cellules N-par-1 de caractères contenant les noms de toutes les superclasses visibles, ancêtre le plus proche en premier.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>superclasses</b> renvoie les noms de toutes les superclasses visibles d'une classe, spécifiée par son nom ou par un objet de cette classe. Les ancêtres sont renvoyés du plus proche au plus lointain, chaque nom apparaissant une seule fois.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Noms des superclasses d'une classe.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[d = [tempdir(), 'nelson_help_superclasses/'];
+mkdir(d);
+filewrite([d, '/NelsonHelpBase.m'], ["classdef NelsonHelpBase"; "end"]);
+filewrite([d, '/NelsonHelpDeriv.m'], ["classdef NelsonHelpDeriv < NelsonHelpBase"; "end"]);
+addpath(d);
+superclasses('NelsonHelpDeriv')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${handle}metaclass">metaclass</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}properties">properties</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}methods">methods</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${interpreter}classdef">classdef</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

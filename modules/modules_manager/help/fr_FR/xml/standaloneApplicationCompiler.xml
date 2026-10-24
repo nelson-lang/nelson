@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>standaloneApplicationCompiler</keyword>
+  <keyword_alias>standaloneApplicationCompiler</keyword_alias>
+  <short_description>Ouvrir l'éditeur de projet d'application autonome.</short_description>
+  <syntax><syntax_item>standaloneApplicationCompiler</syntax_item></syntax>
+  <description>
+    <p>Charge le module optionnel compiler et ouvre son éditeur de projet dans une session graphique Nelson. Un nouvel appel réutilise la fenêtre existante et conserve son projet. La commande n'accepte aucun argument d'entrée ni de sortie.</p>
+    <p>Les paramètres de l'application et de l'installateur, les ressources, l'analyse des dépendances, la construction, les projets et l'export de script utilisent les services programmatiques du compilateur. Les options non prises en charge ne sont pas activées silencieusement. Les sorties précédentes vérifiées peuvent être reconstruites ; les fichiers sans rapport ou modifiés ne sont pas écrasés.</p>
+    <p>Les commandes deploytool et standaloneApplicationCompiler ouvrent le même éditeur. Les anciens arguments -build et -package ne sont pas pris en charge ; utilisez les fonctions compiler.build et compiler.package.</p>
+    <p>Les projets .ncproj enregistrés utilisent des chemins relatifs pour les fichiers internes au dossier du projet, qui peut être déplacé avec ses sources. Les fichiers externes conservent leurs chemins absolus. Consultez compiler_project_tutorial pour la gestion des chemins et des anciens projets.</p>
+    <p>Enregistrez après la construction pour conserver sa référence. La réouverture restaure les sorties vérifiées pour créer un installateur sans reconstruire. Si le rapport ou les sorties ont changé, le projet reste accessible mais sa construction enregistrée est indisponible. Une construction restaurée est l'application précédente, pas une reconstruction des sources modifiées.</p>
+    <p>Les empreintes des sources distinguent les entrées inchangées des modifications confirmées, qui désactivent Installer jusqu'à reconstruction. Les sources manquantes ou impossibles à analyser rendent la vérification indisponible ; les anciennes constructions peuvent avoir un état des sources inconnu. Leurs sorties vérifiées restent distribuables comme instantané enregistré, sans être présentées comme à jour. Analyze actualise cet état ; Installer le revérifie. Consultez compiler_project_tutorial pour le périmètre et les limites.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples><example_item><example_item_type>nelson</example_item_type><example_item_description /><example_item_data runnable="false"><![CDATA[standaloneApplicationCompiler]]></example_item_data></example_item></examples>
+  <see_also>
+    <see_also_item><link linkend="${modules_manager}deploytool">deploytool</link></see_also_item>
+    <see_also_item><link linkend="${compiler}compiler_project_tutorial">compiler_project_tutorial</link></see_also_item>
+    <see_also_item><link linkend="${modules_manager}ncc">ncc</link></see_also_item>
+  </see_also>
+  <history />
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

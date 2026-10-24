@@ -9,126 +9,145 @@
 %=============================================================================
 R = int32(1):4;
 REF = int32([1 2 3 4]);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = 1:2:10;
-REF = [1  3  5  7  9];
-assert_isequal(R, REF);
+REF = [1 3 5 7 9];
+asserts.isequal(R, REF);
 %=============================================================================
 R = 1:single(2):10;
-REF = single([1  3  5  7  9]);
-assert_isequal(R, REF);
+REF = single([1 3 5 7 9]);
+asserts.isequal(R, REF);
 %=============================================================================
 R = 1:int64(3);
 REF = int64([1:3]);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = 1:int32(2):4;
 REF = int32([1 3]);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-assert_checkerror('R = 1:char(2):4;', _('For colon operator with char operands, first and last operands must be char.'));
+asserts.checkerror('R = 1:char(2):4;', _('For colon operator with char operands, first and last operands must be char.'));
 %=============================================================================
 R = 1:1;
 REF = 1;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-A = double(intmax('uint32'))-3;
+A = double(intmax('uint32')) - 3;
 B = intmax('uint32');
 R = A:1:B;
-REF = uint32([4294967292   4294967293   4294967294   4294967295]);
-assert_isequal(R, REF);
+REF = uint32([4294967292 4294967293 4294967294 4294967295]);
+asserts.isequal(R, REF);
 %=============================================================================
 R = 9:int32(-2):4;
-REF =  int32([9   7   5]);
-assert_isequal(R, REF);
+REF = int32([9 7 5]);
+asserts.isequal(R, REF);
 %=============================================================================
 R = 1:0:3;
 REF = zeros(1, 0);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = 1:5;
 REF = [1 2 3 4 5];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
+%=============================================================================
+firstValue = 2;
+lastValue = 6;
+R = firstValue:lastValue;
+REF = [2 3 4 5 6];
+asserts.isequal(R, REF);
+asserts.isequal(class(R), 'double');
+%=============================================================================
+firstValue = 6;
+lastValue = 2;
+R = firstValue:lastValue;
+REF = zeros(1, 0);
+asserts.isequal(R, REF);
+asserts.isequal(class(R), 'double');
 %=============================================================================
 R = 1:2:5;
 REF = [1 3 5];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = 1:1:0;
 REF = zeros(1, 0);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 % 5 > (1-0.9)*50
 % WARNING it is same than 1:4.9999999
-R = 1:(1-0.9)*50;
+R = 1:(1 - 0.9) * 50;
 REF = [1 2 3 4];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = 1:5;
 REF = [1 2 3 4 5];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = 1:(1 - 0.9) * 20:10;
-REF = [  1.0000    3.0000    5.0000    7.0000    9.0000];
-assert_isapprox(R,REF, 1e-4);
+REF = [1.0000 3.0000 5.0000 7.0000 9.0000];
+asserts.isapprox(R, REF, 1e-4);
 %=============================================================================
 R = 10:-0.9:1;
 REF = [10, 9.1, 8.2, 7.3, 6.4, 5.5, 4.6, 3.7, 2.8, 1.9, 1];
-assert_isapprox(R,REF, 1e-5);
+asserts.isapprox(R, REF, 1e-5);
 %=============================================================================
 R = 1:1:NaN;
 REF = NaN;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = 1:NaN:2;
 REF = NaN;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = NaN:2:4;
 REF = NaN;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = inf:4;
 REF = ones(1, 0);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-assert_checkerror('R = -inf:4;', _('Invalid range.'));
+asserts.checkerror('R = -inf:4;', _('Invalid range.'));
 %=============================================================================
 R = -inf:-inf:4;
 REF = ones(1, 0);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = inf:-inf:4;
 REF = NaN;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = -inf:inf:4;
 REF = NaN;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = 3:inf:4;
 REF = 3;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = 1:-inf:4;
 REF = ones(1, 0);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-assert_checkerror('R = 1:1:inf;',  _('Invalid range.'));
+asserts.checkerror('R = 1:1:inf;', _('Invalid range.'));
 %=============================================================================
-assert_checkerror('single(1):int32(2):single(4)', _('Colon operands must be all the same type, or mixed with real double scalar.'));
+asserts.checkerror('single(1):int32(2):single(4)', _('Colon operands must be all the same type, or mixed with real double scalar.'));
 %=============================================================================
-msg = _('Check for incorrect argument data type or missing argument in call to function ''%s''.');
-msg = sprintf(msg, 'colon');
-assert_checkerror('logical(0):logical(1)', msg);
-%=============================================================================
-msg = _('For colon operator with char operands, first and last operands must be char.');
-assert_checkerror('1:''A''', msg);
+R = logical(0):logical(1);
+asserts.isequal(R, [0 1]);
+asserts.isequal(class(R), 'double');
 %=============================================================================
 msg = _('For colon operator with char operands, first and last operands must be char.');
-assert_checkerror('''A'':1', msg);
+asserts.checkerror('1:''A''', msg);
+%=============================================================================
+msg = _('For colon operator with char operands, first and last operands must be char.');
+asserts.checkerror('''A'':1', msg);
 %=============================================================================
 R = 'A':'C';
-assert_isequal(R, 'ABC');
+asserts.isequal(R, 'ABC');
+%=============================================================================
+asserts.isequal(1:4, [1 2 3 4]);
+asserts.isequal(1:2:5, [1 3 5]);
+asserts.isequal(5:-2:1, [5 3 1]);
+asserts.isequal(size(1:0), [1 0]);
 %=============================================================================

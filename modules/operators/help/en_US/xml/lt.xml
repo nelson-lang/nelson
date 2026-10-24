@@ -28,7 +28,10 @@
       <b>C = lt(A, B)</b> returns a logical array with elements set to logical<b>true</b> A is less than B.</p>
     <p>
       <b>lt</b> compares only the real part of numeric arrays.</p>
-    <p />
+    <p>
+      When inputs are sparse numeric or logical arrays, the result is a sparse logical array. Sparse <b>single</b> and single-complex operands are supported.</p>
+    <p>
+      For sparse complex arrays, order comparisons use the magnitude of each value.</p>
   </description>
   <used_function />
   <bibliography />
@@ -90,6 +93,10 @@
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>sparse single and single-complex operands supported.</history_description>
     </history_item>
   </history>
   <authors>

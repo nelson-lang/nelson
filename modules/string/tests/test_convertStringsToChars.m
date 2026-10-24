@@ -7,27 +7,27 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('convertStringsToChars'), -1);
-assert_isequal(nargout('convertStringsToChars'), -1);
+asserts.isequal(nargin('convertStringsToChars'), -1);
+asserts.isequal(nargout('convertStringsToChars'), -1);
 %=============================================================================
-[A, B, C, D] = convertStringsToChars('one', 2, "three", ["four" ; "five"]);
-assert_isequal(A, 'one');
-assert_isequal(B, 2);
-assert_isequal(C, 'three');
-assert_isequal(D, {'four'; 'five'});
+[A, B, C, D] = convertStringsToChars('one', 2, "three", ["four"; "five"]);
+asserts.isequal(A, 'one');
+asserts.isequal(B, 2);
+asserts.isequal(C, 'three');
+asserts.isequal(D, {'four'; 'five'});
 %=============================================================================
-[A, B, C, D] = convertStringsToChars('one', 2, "three", ["four" ; string(NaN) ; "five"]);
-assert_isequal(A, 'one');
-assert_isequal(B, 2);
-assert_isequal(C, 'three');
-assert_isequal(D, {'four'; ''; 'five'});
+[A, B, C, D] = convertStringsToChars('one', 2, "three", ["four"; string(NaN); "five"]);
+asserts.isequal(A, 'one');
+asserts.isequal(B, 2);
+asserts.isequal(C, 'three');
+asserts.isequal(D, {'four'; ''; 'five'});
 %=============================================================================
-[A, B, C, D] = convertStringsToChars('one', 2, string(NaN), ["four" ; string(NaN) ; "five"]);
-assert_isequal(A, 'one');
-assert_isequal(B, 2);
-assert_isequal(C, '');
-assert_isequal(D, {'four'; ''; 'five'});
+[A, B, C, D] = convertStringsToChars('one', 2, string(NaN), ["four"; string(NaN); "five"]);
+asserts.isequal(A, 'one');
+asserts.isequal(B, 2);
+asserts.isequal(C, '');
+asserts.isequal(D, {'four'; ''; 'five'});
 %=============================================================================
 R = convertStringsToChars(string([]));
-assert_isequal(R, {});
+asserts.isequal(R, {});
 %=============================================================================

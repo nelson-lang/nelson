@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -12,17 +12,27 @@
 #include <limits>
 #include "GOVectorProperty.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 GOVectorProperty::GOVectorProperty(bool finiteOnly) { _finiteOnly = finiteOnly; }
 //=============================================================================
+GOVectorProperty::GOVectorProperty(bool finiteOnly, bool emptyAsMatrix)
+{
+    _finiteOnly = finiteOnly;
+    _emptyAsMatrix = emptyAsMatrix;
+}
+//=============================================================================
 ArrayOf
 GOVectorProperty::get()
 {
-    ArrayOf ret(ArrayOf::doubleRowVectorConstructor(_data.size()));
-    double* dp = (double*)ret.getReadWriteDataPointer();
+    if (_data.empty() && _emptyAsMatrix) {
+        return ArrayOf::empty(Dimensions(0, 0));
+    }
+    ArrayOf ret(ArrayOf::doubleRowVector(_data.size()));
+    double* dp = (double*)ret.readWriteDataPointer();
     OMP_PARALLEL_FOR_LOOP(_data.size())
     for (ompIndexType i = 0; i < (ompIndexType)_data.size(); i++) {
         dp[i] = _data[i];
@@ -37,11 +47,11 @@ GOVectorProperty::set(ArrayOf num)
         ArrayOf asDouble(num);
         asDouble.promoteType(NLS_DOUBLE);
         std::vector<double> values;
-        values.reserve(asDouble.getElementCount());
-        const double* dp = (const double*)asDouble.getDataPointer();
-        for (indexType i = 0; i < asDouble.getElementCount(); i++) {
+        values.reserve(asDouble.elementCount());
+        const double* dp = (const double*)asDouble.dataPointer();
+        for (indexType i = 0; i < asDouble.elementCount(); i++) {
             if (!std::isfinite(dp[i])) {
-                Error(_W("Finite value expected."));
+                Error(L"Nelson:graphics:expectedFinite", L"Finite value expected.");
             }
             values.push_back(dp[i]);
         }
@@ -50,10 +60,10 @@ GOVectorProperty::set(ArrayOf num)
     } else {
         GOGenericProperty::set(num);
         num.promoteType(NLS_DOUBLE);
-        const double* dp = (const double*)num.getDataPointer();
+        const double* dp = (const double*)num.dataPointer();
         _data.clear();
-        _data.reserve(num.getElementCount());
-        for (indexType i = 0; i < num.getElementCount(); i++) {
+        _data.reserve(num.elementCount());
+        for (indexType i = 0; i < num.elementCount(); i++) {
             _data.push_back(dp[i]);
         }
     }
@@ -87,7 +97,7 @@ GOVectorProperty::data(const std::vector<double>& m)
     if (_finiteOnly) {
         for (auto v : m) {
             if (!std::isfinite(v)) {
-                Error(_W("Finite value expected."));
+                Error(L"Nelson:graphics:expectedFinite", L"Finite value expected.");
             }
         }
     }
@@ -141,5 +151,5 @@ GOVectorProperty::toWideString()
     return msg;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

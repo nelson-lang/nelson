@@ -17,9 +17,11 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+class Evaluator;
+//=============================================================================
 bool
-h5LoadStringArray(hid_t fid, const std::string& location, const std::string& variableName,
-    bool isEmpty, const Dimensions& dims, ArrayOf& VariableValue);
+h5LoadStringArray(Evaluator* eval, hid_t fid, const std::string& location,
+    const std::string& variableName, bool isEmpty, const Dimensions& dims, ArrayOf& VariableValue);
 //=============================================================================
 bool
 h5LoadCharacterArray(hid_t fid, const std::string& location, const std::string& variableName,

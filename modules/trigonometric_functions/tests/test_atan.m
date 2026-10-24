@@ -7,39 +7,39 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('atan'), 1);
-assert_isequal(nargout('atan'), 1);
+asserts.isequal(nargin('atan'), 1);
+asserts.isequal(nargout('atan'), 1);
 %=============================================================================
-assert_isequal(atan(NaN),  NaN);
-assert_isequal(atan(-NaN), NaN);
-assert_isequal(atan(Inf), pi * 0.5);
-assert_isequal(atan(-Inf), -pi * 0.5);
+asserts.isequal(atan(NaN), NaN);
+asserts.isequal(atan(-NaN), NaN);
+asserts.isequal(atan(Inf), pi * 0.5);
+asserts.isequal(atan(-Inf), -pi * 0.5);
 %=============================================================================
 if ~ismac()
   A = rand(100, 100);
-  assert_isapprox(atan(-A), -atan(A));
+  asserts.isapprox(atan(-A), -atan(A));
 end
 %=============================================================================
-v = [1.   0.8660254   0.7071068   0.5   0.   0.  -0.5  -0.7071068  -0.8660254  -1];
+v = [1. 0.8660254 0.7071068 0.5 0. 0. -0.5 -0.7071068 -0.8660254 -1];
 r = atan(v);
-ref = [ 0.7854    0.7137    0.6155    0.4636         0         0   -0.4636   -0.6155   -0.7137   -0.7854];
-assert_isapprox(real(r), ref, 1e-4);
+ref = [0.7854 0.7137 0.6155 0.4636 0 0 -0.4636 -0.6155 -0.7137 -0.7854];
+asserts.isapprox(real(r), ref, 1e-4);
 %=============================================================================
 x = atan(0i);
 ref = 0;
-assert_isequal(x, ref);
+asserts.isequal(x, ref);
 %=============================================================================
 X = atan(zeros(3, 3, 3));
 REF = zeros(3, 3, 3);
-assert_isequal(X, REF);
+asserts.isequal(X, REF);
 %=============================================================================
 S = sparse(zeros(3, 3));
 X = atan(S);
 REF = sparse(3, 3);
-assert_isequal(X, REF);
+asserts.isequal(X, REF);
 %=============================================================================
-assert_isequal(atan([]), []);
+asserts.isequal(atan([]), []);
 %=============================================================================
 msg = sprintf(_('Check for incorrect argument data type or missing argument in call to function ''%s''.'), 'atan');
-assert_checkerror('atan(''a'')', msg);
+asserts.checkerror('atan(''a'')', msg);
 %=============================================================================

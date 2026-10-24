@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
@@ -24,6 +24,7 @@
   <description>
     <p>
       <b>test_makeref</b> crée un fichier &apos;.ref&apos; à partir d&apos;un fichier de test.</p>
+    <p><b>test_makeref</b> est un wrapper de compatibilite au dessus de <b>nelson.unittest.makeref</b>.</p>
     <p>Le fichier de test doit contenir la balise &lt;--CHECK REF--&gt;.</p>
   </description>
   <used_function />
@@ -31,6 +32,9 @@
   <see_also>
     <see_also_item>
       <link linkend="${tests_manager}test_run">test_run</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${tests_manager}nelson_unittest">nelson.unittest</link>
     </see_also_item>
   </see_also>
   <history>

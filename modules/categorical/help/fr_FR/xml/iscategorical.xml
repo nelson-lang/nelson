@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>iscategorical</keyword>
+  <short_description>Determiner si un tableau est categoriel.</short_description>
+  <syntax><syntax_item>tf = iscategorical(A)</syntax_item></syntax>
+  <param_input><param_input_item><param_name>A</param_name><param_description>Valeur d'entree.</param_description></param_input_item></param_input>
+  <param_output><param_output_item><param_name>tf</param_name><param_description>Scalaire logique qui vaut <b>true</b> lorsque <b>A</b> est un tableau categoriel.</param_description></param_output_item></param_output>
+  <description><p><b>iscategorical</b> verifie le type de stockage de son entree sans la modifier.</p></description>
+  <examples><example_item><example_item_type>nelson</example_item_type><example_item_description>Tester un tableau categoriel.</example_item_description><example_item_data runnable="cli"><![CDATA[A = categorical({'red','blue'}); tf = iscategorical(A)]]></example_item_data></example_item></examples>
+  <see_also>
+    <see_also_item><link linkend="${categorical}categorical">categorical</link></see_also_item>
+    <see_also_item><link linkend="${categorical}isordinal">isordinal</link></see_also_item>
+    <see_also_item><link linkend="${categorical}isprotected">isprotected</link></see_also_item>
+    <see_also_item><link linkend="${categorical}isundefined">isundefined</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

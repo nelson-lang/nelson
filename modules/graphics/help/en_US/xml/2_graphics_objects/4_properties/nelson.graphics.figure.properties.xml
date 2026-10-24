@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>figure properties</keyword>
+  <short_description>figure graphics object properties.</short_description>
+  <description>
+    <p>This page documents the visible properties returned by <b>properties</b> for a <b>figure</b> graphics object.</p>
+    <table>
+      <tr>
+        <th>Property</th>
+        <th>Action</th>
+        <th>Type and supported values</th>
+      </tr>
+      <tr>
+        <td><b>Alphamap</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: finite numeric vector. Supported values: numeric alpha values in [0,1].</td>
+      </tr>
+      <tr>
+        <td><b>AutoResizeChildren</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: on/off value. Supported values: 'on', 'off', true, or false.</td>
+      </tr>
+      <tr>
+        <td><b>BeingDeleted</b></td>
+        <td>Nelson computes this value; graphics operations update it.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'off', 'on'.</td>
+      </tr>
+      <tr>
+        <td><b>BusyAction</b></td>
+        <td>controls whether an interrupting callback is queued or canceled.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'queue', 'cancel'.</td>
+      </tr>
+      <tr>
+        <td><b>ButtonDownFcn</b></td>
+        <td>runs when the object receives a mouse-button event.</td>
+        <td>Type: callback value. Supported values: [], function handle, character vector, string scalar, or callback cell array.</td>
+      </tr>
+      <tr>
+        <td><b>Children</b></td>
+        <td>parenting operations update the vector.</td>
+        <td>Type: graphics object handle vector. Supported values: empty vector or child handles.</td>
+      </tr>
+      <tr>
+        <td><b>Clipping</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>CloseRequestFcn</b></td>
+        <td>the graphics event system invokes it for the associated event.</td>
+        <td>Type: callback value. Supported values: [], function handle, character vector, string scalar, or callback cell array.</td>
+      </tr>
+      <tr>
+        <td><b>Color</b></td>
+        <td>background color of the figure. Default: light gray [0.94 0.94 0.94] (light theme). Exports (saveas) use a white background instead while InvertHardcopy is 'on'.</td>
+        <td>Type: color value. Supported values: 'red'/'r', 'green'/'g', 'blue'/'b', 'cyan'/'c', 'magenta'/'m', 'yellow'/'y', 'black'/'k', 'white'/'w', RGB triplet [r g b] with values in [0,1], or hexadecimal color '#RRGGBB'/'#RGB'.</td>
+      </tr>
+      <tr>
+        <td><b>Colormap</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: finite numeric matrix. Supported values: m-by-3 RGB matrix with values in [0,1].</td>
+      </tr>
+      <tr>
+        <td><b>ContextMenu</b></td>
+        <td>attaches the menu used for context-click actions.</td>
+        <td>Type: graphics object handle scalar. Supported values: [] or a uicontextmenu handle.</td>
+      </tr>
+      <tr>
+        <td><b>CreateFcn</b></td>
+        <td>runs when the object is created.</td>
+        <td>Type: callback value. Supported values: [], function handle, character vector, string scalar, or callback cell array.</td>
+      </tr>
+      <tr>
+        <td><b>CurrentAxes</b></td>
+        <td>changes the figure target used by plotting commands that operate on the current axes.</td>
+        <td>Type: axes graphics handle. Supported values: an axes or polar axes child of the figure, or an empty graphics handle.</td>
+      </tr>
+      <tr>
+        <td><b>CurrentCharacter</b></td>
+        <td>reports keyboard input state for the current figure.</td>
+        <td>Type: single-character text value. Supported values: character row vector or string scalar containing the most recent character, or empty text.</td>
+      </tr>
+      <tr>
+        <td><b>CurrentObject</b></td>
+        <td>reports the object currently targeted by figure interaction.</td>
+        <td>Type: graphics handle. Supported values: child object handle under the pointer or current interaction target, or empty graphics handle.</td>
+      </tr>
+      <tr>
+        <td><b>CurrentPoint</b></td>
+        <td>position of the last mouse press or release in the figure, and of the pointer motion while WindowButtonMotionFcn is set. Updated before WindowButtonDownFcn, WindowButtonMotionFcn, WindowButtonUpFcn and ButtonDownFcn run.</td>
+        <td>Type: two-element vector [x y]. Supported values: coordinates in the figure Units from the bottom-left corner of the drawing area (pixels by default, logical pixels on scaled displays).</td>
+      </tr>
+      <tr>
+        <td><b>DeleteFcn</b></td>
+        <td>runs when the object is deleted.</td>
+        <td>Type: callback value. Supported values: [], function handle, character vector, string scalar, or callback cell array.</td>
+      </tr>
+      <tr>
+        <td><b>DevicePixelRatio</b></td>
+        <td>recomputes geometry, limits, or layout.</td>
+        <td>Type: finite numeric scalar. Supported values: finite scalar value.</td>
+      </tr>
+      <tr>
+        <td><b>DockControls</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: on/off value. Supported values: 'on', 'off', true, or false.</td>
+      </tr>
+      <tr>
+        <td><b>DrawLater</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: on/off value. Supported values: 'on', 'off', true, or false.</td>
+      </tr>
+      <tr>
+        <td><b>FileName</b></td>
+        <td>stores the file path associated with a persisted or loaded figure.</td>
+        <td>Type: text value. Supported values: character row vector, string scalar, or empty text.</td>
+      </tr>
+      <tr>
+        <td><b>GraphicsSmoothing</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: on/off value. Supported values: 'on', 'off', true, or false.</td>
+      </tr>
+      <tr>
+        <td><b>HandleVisibility</b></td>
+        <td>controls whether handle-search functions can find the object.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'on', 'off', 'callback'.</td>
+      </tr>
+      <tr>
+        <td><b>Icon</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: text scalar, image array, or empty array. Supported values: [] , image path, or image data.</td>
+      </tr>
+      <tr>
+        <td><b>InnerPosition</b></td>
+        <td>recomputes geometry, limits, or layout.</td>
+        <td>Type: finite numeric vector. Supported values: finite vector with the documented size, such as [left bottom width height], [x y z], [azimuth elevation], or [minor major].</td>
+      </tr>
+      <tr>
+        <td><b>IntegerHandle</b></td>
+        <td>updates the stored object state.</td>
+        <td>Type: integer scalar or numeric vector. Supported values: finite integer value, finite numeric value, or vector required by the property.</td>
+      </tr>
+      <tr>
+        <td><b>Interruptible</b></td>
+        <td>controls whether a running callback can be interrupted.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>InvertHardcopy</b></td>
+        <td>'on' (default): saveas exports the figure with a white background whatever its Color. 'off': the export keeps the on-screen figure Color.</td>
+        <td>Type: on/off value. Supported values: 'on', 'off', true, or false.</td>
+      </tr>
+      <tr>
+        <td><b>KeyPressFcn</b></td>
+        <td>the graphics event system invokes it for the associated event.</td>
+        <td>Type: callback value. Supported values: [], function handle, character vector, string scalar, or callback cell array.</td>
+      </tr>
+      <tr>
+        <td><b>KeyReleaseFcn</b></td>
+        <td>the graphics event system invokes it for the associated event.</td>
+        <td>Type: callback value. Supported values: [], function handle, character vector, string scalar, or callback cell array.</td>
+      </tr>
+      <tr>
+        <td><b>MenuBar</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'none', 'figure', 'auto'.</td>
+      </tr>
+      <tr>
+        <td><b>Name</b></td>
+        <td>updates the object name displayed by windows, managers, or object inspection.</td>
+        <td>Type: text value. Supported values: character row vector, string scalar, or empty text.</td>
+      </tr>
+      <tr>
+        <td><b>NextPlot</b></td>
+        <td>selects how the next plotting command reuses or resets existing children.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'add', 'replace', 'replacechildren', 'replaceall', 'new'.</td>
+      </tr>
+      <tr>
+        <td><b>Number</b></td>
+        <td>updates the stored object state.</td>
+        <td>Type: integer scalar or numeric vector. Supported values: finite integer value, finite numeric value, or vector required by the property.</td>
+      </tr>
+      <tr>
+        <td><b>NumberTitle</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: on/off value. Supported values: 'on', 'off', true, or false.</td>
+      </tr>
+      <tr>
+        <td><b>OuterPosition</b></td>
+        <td>recomputes geometry, limits, or layout.</td>
+        <td>Type: finite numeric vector. Supported values: finite vector with the documented size, such as [left bottom width height], [x y z], [azimuth elevation], or [minor major].</td>
+      </tr>
+      <tr>
+        <td><b>PaperOrientation</b></td>
+        <td>recomputes geometry, limits, or layout.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'vertical', 'horizontal'.</td>
+      </tr>
+      <tr>
+        <td><b>PaperPosition</b></td>
+        <td>recomputes geometry, limits, or layout.</td>
+        <td>Type: finite numeric vector. Supported values: finite vector with the documented size, such as [left bottom width height], [x y z], [azimuth elevation], or [minor major].</td>
+      </tr>
+      <tr>
+        <td><b>PaperPositionMode</b></td>
+        <td>'auto' lets Nelson recompute the paired property; 'manual' preserves the assigned value.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>PaperSize</b></td>
+        <td>recomputes geometry, limits, or layout.</td>
+        <td>Type: finite numeric vector. Supported values: finite vector with the documented size, such as [left bottom width height], [x y z], [azimuth elevation], or [minor major].</td>
+      </tr>
+      <tr>
+        <td><b>PaperType</b></td>
+        <td>recomputes geometry, limits, or layout.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'usletter', 'a4', 'a3', 'a5', 'b4', 'b5', 'tabloid', or 'legal'.</td>
+      </tr>
+      <tr>
+        <td><b>PaperUnits</b></td>
+        <td>recomputes geometry, limits, or layout.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'pixels', 'normalized', 'inches', 'centimeters', 'points', 'characters', 'data'.</td>
+      </tr>
+      <tr>
+        <td><b>Parent</b></td>
+        <td>reparents the object and updates Children on the old and new parents.</td>
+        <td>Type: graphics object handle scalar. Supported values: a valid parent handle for the object class.</td>
+      </tr>
+      <tr>
+        <td><b>Pointer</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'arrow', 'crosshair', 'ibeam', 'watch', 'topl', 'topr', 'botl', 'botr', 'circle', 'cross', 'fleur', 'left', 'right', 'top', 'bottom', 'custom'.</td>
+      </tr>
+      <tr>
+        <td><b>PointerShapeCData</b></td>
+        <td>replaces data and recomputes automatic limits that depend on it.</td>
+        <td>Type: numeric, logical, categorical, string, vector, matrix, or table-derived data. Supported values: [] or data with dimensions compatible with the rendered object.</td>
+      </tr>
+      <tr>
+        <td><b>PointerShapeHotSpot</b></td>
+        <td>recomputes geometry, limits, or layout.</td>
+        <td>Type: finite numeric vector. Supported values: finite vector with the documented size, such as [left bottom width height], [x y z], [azimuth elevation], or [minor major].</td>
+      </tr>
+      <tr>
+        <td><b>Position</b></td>
+        <td>recomputes geometry, limits, or layout.</td>
+        <td>Type: finite numeric vector. Supported values: finite vector with the documented size, such as [left bottom width height], [x y z], [azimuth elevation], or [minor major].</td>
+      </tr>
+      <tr>
+        <td><b>Renderer</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'opengl', 'painters'.</td>
+      </tr>
+      <tr>
+        <td><b>RendererMode</b></td>
+        <td>'auto' lets Nelson recompute the paired property; 'manual' preserves the assigned value.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>Resize</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: on/off value. Supported values: 'on', 'off', true, or false.</td>
+      </tr>
+      <tr>
+        <td><b>Scrollable</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: on/off value. Supported values: 'on', 'off', true, or false.</td>
+      </tr>
+      <tr>
+        <td><b>SelectionType</b></td>
+        <td>last mouse button press, set before WindowButtonDownFcn runs: 'normal' for a left click, 'extend' for shift-left or the middle button, 'alt' for ctrl-left or the right button, 'open' for a double click.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'normal', 'extend', 'alt', 'open'.</td>
+      </tr>
+      <tr>
+        <td><b>SizeChangedFcn</b></td>
+        <td>the graphics event system invokes it for the associated event.</td>
+        <td>Type: callback value. Supported values: [], function handle, character vector, string scalar, or callback cell array.</td>
+      </tr>
+      <tr>
+        <td><b>Tag</b></td>
+        <td>updates the stored object state.</td>
+        <td>Type: text scalar or character row vector. Supported values: empty text or an object identifier.</td>
+      </tr>
+      <tr>
+        <td><b>Theme</b></td>
+        <td>returns the active graphics theme object; assigning 'light' or 'dark' updates rendered output on the next graphics refresh.</td>
+        <td>Type: graphics theme object for reads, text scalar or character row vector for writes. Supported assigned values: 'light', 'dark'.</td>
+      </tr>
+      <tr>
+        <td><b>ThemeChangedFcn</b></td>
+        <td>the graphics event system invokes it for the associated event.</td>
+        <td>Type: callback value. Supported values: [], function handle, character vector, string scalar, or callback cell array.</td>
+      </tr>
+      <tr>
+        <td><b>ThemeMode</b></td>
+        <td>'auto' lets Nelson recompute the paired property; 'manual' preserves the assigned value.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>ToolBar</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'none', 'figure', 'auto'.</td>
+      </tr>
+      <tr>
+        <td><b>Type</b></td>
+        <td>Nelson computes this value; graphics operations update it.</td>
+        <td>Type: text scalar or character row vector. Supported values: read-only object type name, for example 'figure', 'axes', 'line', or 'scatter'.</td>
+      </tr>
+      <tr>
+        <td><b>Units</b></td>
+        <td>recomputes geometry, limits, or layout.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'pixels', 'normalized', 'inches', 'centimeters', 'points', 'characters', 'data'.</td>
+      </tr>
+      <tr>
+        <td><b>UserData</b></td>
+        <td>updates the stored object state.</td>
+        <td>Type: Nelson array. Supported values: any Nelson value, including [], numeric arrays, text, cells, structures, or handles.</td>
+      </tr>
+      <tr>
+        <td><b>Visible</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>WindowButtonDownFcn</b></td>
+        <td>the graphics event system invokes it for the associated event.</td>
+        <td>Type: callback value. Supported values: [], function handle, character vector, string scalar, or callback cell array.</td>
+      </tr>
+      <tr>
+        <td><b>WindowButtonMotionFcn</b></td>
+        <td>the graphics event system invokes it for the associated event.</td>
+        <td>Type: callback value. Supported values: [], function handle, character vector, string scalar, or callback cell array.</td>
+      </tr>
+      <tr>
+        <td><b>WindowButtonUpFcn</b></td>
+        <td>the graphics event system invokes it for the associated event.</td>
+        <td>Type: callback value. Supported values: [], function handle, character vector, string scalar, or callback cell array.</td>
+      </tr>
+      <tr>
+        <td><b>WindowKeyPressFcn</b></td>
+        <td>the graphics event system invokes it for the associated event.</td>
+        <td>Type: callback value. Supported values: [], function handle, character vector, string scalar, or callback cell array.</td>
+      </tr>
+      <tr>
+        <td><b>WindowKeyReleaseFcn</b></td>
+        <td>the graphics event system invokes it for the associated event.</td>
+        <td>Type: callback value. Supported values: [], function handle, character vector, string scalar, or callback cell array.</td>
+      </tr>
+      <tr>
+        <td><b>WindowScrollWheelFcn</b></td>
+        <td>the graphics event system invokes it for the associated event; when set, it replaces the built-in scroll wheel zoom of the axes.</td>
+        <td>Type: callback value. Supported values: [], function handle, character vector, string scalar, or callback cell array.</td>
+      </tr>
+      <tr>
+        <td><b>WindowState</b></td>
+        <td>recomputes geometry, limits, or layout.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'normal', 'minimized', 'maximized', 'fullscreen'.</td>
+      </tr>
+      <tr>
+        <td><b>WindowStyle</b></td>
+        <td>'docked' hosts the figure inside the Nelson desktop (GUI mode); 'alwaysontop' keeps the window above the other windows; 'normal' makes it a regular separate window again.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'normal', 'modal', 'docked', 'alwaysontop'.</td>
+      </tr>
+    </table>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Create the graphics object and list its properties.</example_item_description>
+      <example_item_data><![CDATA[h = figure('Visible', 'off');
+names = properties(h);
+close(h)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}2_graphics_objects/1_object_management/figure">figure</link></see_also_item>
+    <see_also_item><link linkend="${handle}properties">properties</link></see_also_item>
+    <see_also_item><link linkend="${handle}get">get</link></see_also_item>
+    <see_also_item><link linkend="${handle}set">set</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>Property page added.</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

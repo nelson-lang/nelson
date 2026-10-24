@@ -12,7 +12,7 @@ function varargout = planerot(varargin)
   nargoutchk(0, 2);
   X = varargin{1};
   if (size(X, 1) ~= 2) || ~iscolumn(X)
-    error(_('First input must be a column vector of length 2.'));
+    error('Nelson:planerot:invalidInput', 'First input must be a column vector of length 2.');
   end
   if X(2) == 0
     G = eye(2, class(X));
@@ -21,7 +21,7 @@ function varargout = planerot(varargin)
     G = [X'; [-X(2), X(1)]] ./ R;
     X = [R; 0];
   end
-  
+
   varargout{1} = G;
   if nargout() > 1
     varargout{2} = X;

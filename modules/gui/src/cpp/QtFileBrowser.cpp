@@ -8,53 +8,64 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "QtFileBrowser.h"
+#include "QtDockTitleBar.h"
 #include "QtTranslation.hpp"
 #include "Nelson_VERSION.h"
+#include "NelsonSettingsScope.hpp"
 #include "HistoryBrowser.hpp"
 #include "ForceWindowsTitleBarToDark.hpp"
 #include "QStringConverter.hpp"
+#include "ErrorID.hpp"
 #include "NelsonConfiguration.hpp"
 #include "PathFunctionIndexerManager.hpp"
 #include "IsValidVariableName.hpp"
 #include <QtCore/QSettings>
 #include <QtCore/QTextStream>
+#include <QtCore/QRegularExpression>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QFileDialog>
 #include <QtWidgets/QInputDialog>
+#include <QtWidgets/QMessageBox>
 #include <QtGui/QDesktopServices>
 #include <QtGui/QStandardItemModel>
+#include <QtGui/QClipboard>
+#include <QtGui/QPalette>
 //=============================================================================
 const QString SETTING_FILE_BROWSER_VISIBILITY = "fb_Visibility";
 const QString SETTING_FILE_BROWSER_GEOMETRY = "fb_Geometry";
 const QString SETTING_FILE_BROWSER_HEADER_SIZE = "fb_HeaderSectionSize_%1";
 const QString SETTING_FILE_BROWSER_HEADER_SECTION = "fb_HeaderSection_%1";
+const QString SETTING_FILE_BROWSER_SHOW_HIDDEN = "fb_ShowHiddenFiles";
+const QString SETTING_FILE_BROWSER_NAME_FILTER = "fb_NameFilter";
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 QVariant
 CustomFileSystemModel::data(const QModelIndex& index, int role) const
 {
-    QVariant value = QFileSystemModel::data(index, role);
-
-    if (role == Qt::ForegroundRole && this->_isOn) {
-        QString filePath = QFileSystemModel::filePath(index);
-        if (QFileInfo(filePath).isDir()) {
-            std::wstring wFilePath = QStringTowstring(filePath);
-            Nelson::wstringVector paths
-                = PathFunctionIndexerManager::getInstance()->getPathNameVector();
-            for (auto path : paths) {
-                if (path == wFilePath) {
-                    return QVariant::fromValue(QColor(Qt::black));
-                }
-            }
-            return QVariant::fromValue(QColor(Qt::gray));
+    if (role == Qt::ForegroundRole && this->_isOn && QFileSystemModel::isDir(index)) {
+        // This runs for every painted cell, so it must stay cheap: isDir() reuses the
+        // model's cached node type (no filesystem stat), and isAvailablePath() tests
+        // membership without copying the whole path vector.
+        const std::wstring wFilePath = QStringTowstring(QFileSystemModel::filePath(index));
+        if (PathFunctionIndexerManager::getInstance()->isAvailablePath(wFilePath)) {
+            // directory available in path: keep the theme default color
+            return QVariant();
         }
+        // directory not in path: dimmed color derived from the current palette
+        // so that it stays readable with both light and dark themes.
+        const QPalette palette = QApplication::palette();
+        QColor dimmed = palette.color(QPalette::Disabled, QPalette::WindowText);
+        if (!dimmed.isValid()) {
+            dimmed = palette.color(QPalette::WindowText);
+        }
+        return QVariant::fromValue(dimmed);
     }
 
-    return value;
+    return QFileSystemModel::data(index, role);
 }
 //=============================================================================
 QtFileBrowser::QtFileBrowser(QWidget* parent) : QDockWidget(TR("File Browser"), parent)
@@ -62,11 +73,20 @@ QtFileBrowser::QtFileBrowser(QWidget* parent) : QDockWidget(TR("File Browser"), 
 #ifdef _MSC_VER
     forceWindowsTitleBarToDark(this->winId());
 #endif
-    model = new CustomFileSystemModel;
-    modelBar = new QFileSystemModel;
+    model = new CustomFileSystemModel(this);
+    modelBar = new QFileSystemModel(this);
+    // Both models are asked for icons and types on the GUI thread for every
+    // entry of a changed directory: answer from the suffix, never the MIME
+    // database or the shell (see QtFileBrowserIconProvider).
+    model->setIconProvider(&iconProvider);
+    modelBar->setIconProvider(&iconProvider);
+    model->setOption(QFileSystemModel::DontUseCustomDirectoryIcons);
+    modelBar->setOption(QFileSystemModel::DontUseCustomDirectoryIcons);
 
     model->setRootPath(QDir::currentPath());
-    model->setFilter(QDir::AllEntries | QDir::NoDot | QDir::Drives);
+    lastKnownPath = QDir::currentPath();
+    updateModelFilter();
+    model->setNameFilterDisables(false);
 
     modelBar->setRootPath(QDir::currentPath());
     modelBar->setFilter(QDir::AllDirs | QDir::NoDotAndDotDot | QDir::Drives);
@@ -74,24 +94,24 @@ QtFileBrowser::QtFileBrowser(QWidget* parent) : QDockWidget(TR("File Browser"), 
     tree = new QTreeView;
     tree->setRootIndex(model->index(QDir::currentPath()));
     tree->setSelectionMode(QAbstractItemView::SingleSelection);
+    // Every row in a file listing has the same height: telling the view so lets it
+    // skip per-row size measurement, which keeps painting responsive when a directory
+    // holds a very large number of entries.
+    tree->setUniformRowHeights(true);
     tree->setSortingEnabled(true);
-    // Create the header
     QHeaderView* header = tree->header();
     header->resizeSection(0, 64);
 
-    // Set the context menu for the header
     header->setContextMenuPolicy(Qt::CustomContextMenu);
 
     QVBoxLayout* mainLayout = new QVBoxLayout;
     createTopBar(mainLayout);
+    loadBrowserSettings();
     mainLayout->addWidget(tree);
 
     setLayout(mainLayout);
 
     setFocusPolicy(Qt::StrongFocus);
-    sizeGrip = new QSizeGrip(this);
-    mainLayout->addWidget(sizeGrip, 0, Qt::AlignBottom | Qt::AlignRight);
-
     tree->setModel(model);
     connect(tree, SIGNAL(doubleClicked(const QModelIndex&)), this,
         SLOT(doubleClicked(const QModelIndex&)));
@@ -104,10 +124,8 @@ QtFileBrowser::QtFileBrowser(QWidget* parent) : QDockWidget(TR("File Browser"), 
     connect(header, SIGNAL(customContextMenuRequested(const QPoint&)), this,
         SLOT(showHeaderContextMenu(const QPoint&)));
 
-    connect(
-        this, &QDockWidget::dockLocationChanged, this, &QtFileBrowser::handleDockLocationChanged);
-
     setMinimumSize(50, 50);
+    setTitleBarWidget(new QtDockTitleBar(this, "fb"));
 }
 //=============================================================================
 void
@@ -132,6 +150,69 @@ QtFileBrowser::createTopBar(QVBoxLayout* mainlayout)
     connect(pathLineEdit, &QLineEdit::returnPressed, this, &QtFileBrowser::updatePathFromLineEdit);
 
     mainlayout->addWidget(pathLineEdit);
+
+    filterLineEdit = new QLineEdit(this);
+    filterLineEdit->setClearButtonEnabled(true);
+    filterLineEdit->setPlaceholderText(TR("Filter (e.g. *.m;*.nh5)"));
+    filterLineEdit->setToolTip(TR("Filter displayed files, patterns separated by ';'"));
+    connect(filterLineEdit, &QLineEdit::textChanged, this, &QtFileBrowser::applyNameFilter);
+
+    mainlayout->addWidget(filterLineEdit);
+}
+//=============================================================================
+void
+QtFileBrowser::updateModelFilter()
+{
+    QDir::Filters filters = QDir::AllEntries | QDir::NoDot | QDir::Drives;
+    if (showHiddenFiles) {
+        filters |= QDir::Hidden;
+    }
+    model->setFilter(filters);
+}
+//=============================================================================
+void
+QtFileBrowser::applyNameFilter()
+{
+    QStringList patterns;
+    const QString text = filterLineEdit->text().trimmed();
+    if (!text.isEmpty()) {
+        const QStringList splitted = text.split(QRegularExpression("[;,\\s]+"), Qt::SkipEmptyParts);
+        for (const QString& pattern : splitted) {
+            patterns << pattern;
+        }
+    }
+    model->setNameFilterDisables(false);
+    model->setNameFilters(patterns);
+}
+//=============================================================================
+void
+QtFileBrowser::toggleShowHiddenFiles()
+{
+    showHiddenFiles = !showHiddenFiles;
+    updateModelFilter();
+    saveBrowserSettings();
+}
+//=============================================================================
+void
+QtFileBrowser::saveBrowserSettings()
+{
+    QSettings settings(NELSON_SETTINGS_ORGANIZATION, NELSON_SETTINGS_APPLICATION);
+    settings.setValue(SETTING_FILE_BROWSER_SHOW_HIDDEN, showHiddenFiles);
+    if (filterLineEdit) {
+        settings.setValue(SETTING_FILE_BROWSER_NAME_FILTER, filterLineEdit->text());
+    }
+}
+//=============================================================================
+void
+QtFileBrowser::loadBrowserSettings()
+{
+    QSettings settings(NELSON_SETTINGS_ORGANIZATION, NELSON_SETTINGS_APPLICATION);
+    showHiddenFiles = settings.value(SETTING_FILE_BROWSER_SHOW_HIDDEN, false).toBool();
+    updateModelFilter();
+    if (filterLineEdit) {
+        filterLineEdit->setText(settings.value(SETTING_FILE_BROWSER_NAME_FILTER, "").toString());
+        applyNameFilter();
+    }
 }
 //=============================================================================
 void
@@ -151,7 +232,7 @@ QtFileBrowser::updatePathFromLineEdit()
 void
 QtFileBrowser::restorePosition()
 {
-    QSettings settings(NELSON_PRODUCT_NAME, NELSON_SEMANTIC_VERSION_STRING);
+    QSettings settings(NELSON_SETTINGS_ORGANIZATION, NELSON_SETTINGS_APPLICATION);
     restoreGeometry(settings.value(SETTING_FILE_BROWSER_GEOMETRY).toByteArray());
     loadHeaderSettings();
 }
@@ -159,7 +240,7 @@ QtFileBrowser::restorePosition()
 void
 QtFileBrowser::restoreVisibility()
 {
-    QSettings settings(NELSON_PRODUCT_NAME, NELSON_SEMANTIC_VERSION_STRING);
+    QSettings settings(NELSON_SETTINGS_ORGANIZATION, NELSON_SETTINGS_APPLICATION);
     bool savedVisibility = settings.value(SETTING_FILE_BROWSER_VISIBILITY, true).toBool();
     setVisible(savedVisibility);
 }
@@ -167,11 +248,12 @@ QtFileBrowser::restoreVisibility()
 void
 QtFileBrowser::savePositionAndVisibility()
 {
-    QSettings settings(NELSON_PRODUCT_NAME, NELSON_SEMANTIC_VERSION_STRING);
+    QSettings settings(NELSON_SETTINGS_ORGANIZATION, NELSON_SETTINGS_APPLICATION);
     settings.setValue(SETTING_FILE_BROWSER_VISIBILITY, isVisible());
     settings.setValue(SETTING_FILE_BROWSER_GEOMETRY, saveGeometry());
 
     saveHeaderSettings();
+    saveBrowserSettings();
 }
 //=============================================================================
 void
@@ -250,6 +332,7 @@ QtFileBrowser::contextMenuEvent(QContextMenuEvent* event)
     QString currentPath = model->filePath(qModelIndex);
     QFileInfo fileInfo(currentPath);
 
+    bool hasSelection = qModelIndex.isValid() && fileInfo.exists();
     bool isFile = (fileInfo.exists() && fileInfo.isFile());
     bool isDir = (fileInfo.exists() && fileInfo.isDir());
     QString fileNameIcon;
@@ -290,6 +373,7 @@ QtFileBrowser::contextMenuEvent(QContextMenuEvent* event)
 
     connect(deleteAction, &QAction::triggered, this, &QtFileBrowser::deleteSelected);
     contextMenu.addAction(deleteAction);
+    deleteAction->setEnabled(hasSelection);
 
     QAction* editFileAction = new QAction(TR("Edit"), this);
     connect(editFileAction, &QAction::triggered, this, &QtFileBrowser::editSelectedFile);
@@ -307,12 +391,26 @@ QtFileBrowser::contextMenuEvent(QContextMenuEvent* event)
     QAction* renameAction = new QAction(TR("Rename"), this);
     connect(renameAction, &QAction::triggered, this, &QtFileBrowser::renameSelectedFile);
     contextMenu.addAction(renameAction);
+    renameAction->setEnabled(hasSelection);
+
+    contextMenu.addSeparator();
+
+    QAction* copyFullPathAction = new QAction(TR("Copy full path"), this);
+    connect(copyFullPathAction, &QAction::triggered, this, &QtFileBrowser::copyFullPath);
+    contextMenu.addAction(copyFullPathAction);
+    copyFullPathAction->setEnabled(hasSelection);
+
+    QAction* setAsCurrentFolderAction = new QAction(TR("Set as Current Folder"), this);
+    connect(
+        setAsCurrentFolderAction, &QAction::triggered, this, &QtFileBrowser::setAsCurrentFolder);
+    contextMenu.addAction(setAsCurrentFolderAction);
+    setAsCurrentFolderAction->setEnabled(hasSelection);
 
     contextMenu.addSeparator();
 
     QAction* refreshAction = new QAction(TR("Refresh"), this);
     refreshAction->setShortcut(QKeySequence(Qt::Key_F5));
-    connect(refreshAction, &QAction::triggered, this, &QtFileBrowser::updateCurrentPath);
+    connect(refreshAction, &QAction::triggered, this, &QtFileBrowser::refreshView);
 
     contextMenu.addAction(refreshAction);
 
@@ -328,6 +426,13 @@ QtFileBrowser::contextMenuEvent(QContextMenuEvent* event)
     contextMenu.addAction(indicateIsInPathAction);
     indicateIsInPathAction->setCheckable(true);
     indicateIsInPathAction->setChecked(model->isEnabled());
+
+    QAction* showHiddenFilesAction = new QAction(TR("Show hidden files"), this);
+    connect(
+        showHiddenFilesAction, &QAction::triggered, this, &QtFileBrowser::toggleShowHiddenFiles);
+    contextMenu.addAction(showHiddenFilesAction);
+    showHiddenFilesAction->setCheckable(true);
+    showHiddenFilesAction->setChecked(showHiddenFiles);
 
     if (isDir) {
         bool isInPath = PathFunctionIndexerManager::getInstance()->isAvailablePath(
@@ -376,7 +481,7 @@ void
 QtFileBrowser::saveHeaderSettings()
 {
     QHeaderView* header = tree->header();
-    QSettings settings(NELSON_PRODUCT_NAME, NELSON_SEMANTIC_VERSION_STRING);
+    QSettings settings(NELSON_SETTINGS_ORGANIZATION, NELSON_SETTINGS_APPLICATION);
 
     for (int i = 0; i < header->count(); ++i) {
         settings.setValue(
@@ -389,7 +494,7 @@ void
 QtFileBrowser::loadHeaderSettings()
 {
     QHeaderView* header = tree->header();
-    QSettings settings(NELSON_PRODUCT_NAME, NELSON_SEMANTIC_VERSION_STRING);
+    QSettings settings(NELSON_SETTINGS_ORGANIZATION, NELSON_SETTINGS_APPLICATION);
 
     for (int i = 0; i < header->count(); ++i) {
         bool isVisible
@@ -404,24 +509,107 @@ QtFileBrowser::loadHeaderSettings()
 }
 //=============================================================================
 void
+QtFileBrowser::applyPath(const QString& path)
+{
+    lastKnownPath = path;
+    model->setRootPath(path);
+    modelBar->setRootPath(path);
+    tree->setRootIndex(model->index(path));
+    pathLineEdit->setText(path);
+}
+//=============================================================================
+void
 QtFileBrowser::updateCurrentPath()
 {
-    tree->setRootIndex(model->index(QDir::currentPath()));
-    pathLineEdit->setText(QDir::currentPath());
+    // called on each prompt: do nothing when the current directory did not change,
+    // to preserve the selection and the expanded state of the tree.
+    const QString currentPath = QDir::currentPath();
+    if (currentPath == lastKnownPath) {
+        return;
+    }
+    applyPath(currentPath);
+}
+//=============================================================================
+void
+QtFileBrowser::refreshView()
+{
+    applyPath(QDir::currentPath());
+}
+//=============================================================================
+void
+QtFileBrowser::copyFullPath()
+{
+    QModelIndex currentIndex = tree->currentIndex();
+    if (currentIndex.isValid()) {
+        QApplication::clipboard()->setText(QDir::toNativeSeparators(model->filePath(currentIndex)));
+    }
+}
+//=============================================================================
+void
+QtFileBrowser::setAsCurrentFolder()
+{
+    QModelIndex currentIndex = tree->currentIndex();
+    if (!currentIndex.isValid()) {
+        return;
+    }
+    QString selectedPath = model->filePath(currentIndex);
+    QFileInfo fileInfo(selectedPath);
+    if (fileInfo.isFile()) {
+        selectedPath = fileInfo.absolutePath();
+    }
+    if (QDir(selectedPath).exists()) {
+        emit postCommand("cd('" + selectedPath + "')");
+    }
 }
 //=============================================================================
 void
 QtFileBrowser::deleteSelected()
 {
-    QString currentPath = model->filePath(tree->currentIndex());
-    QFileInfo fileInfo(currentPath);
-    if (fileInfo.isFile()) {
-        QFile file(currentPath);
-        file.remove();
-    } else if (fileInfo.isDir()) {
-        QDir qDir(currentPath);
-        qDir.removeRecursively();
+    QModelIndex currentIndex = tree->currentIndex();
+    if (!currentIndex.isValid()) {
+        return;
     }
+    QString currentPath = model->filePath(currentIndex);
+    QFileInfo fileInfo(currentPath);
+    if (!fileInfo.exists()) {
+        return;
+    }
+    const bool isDir = fileInfo.isDir();
+
+    QMessageBox msgBox(this);
+    msgBox.setIcon(QMessageBox::Warning);
+    msgBox.setWindowTitle(isDir ? TR("Delete Directory") : TR("Delete File"));
+    msgBox.setText(isDir
+            ? TR("Are you certain you wish to delete the directory '%1'?").arg(fileInfo.fileName())
+            : TR("Are you certain you wish to delete the file '%1'?").arg(fileInfo.fileName()));
+    msgBox.setInformativeText(isDir
+            ? TR("The directory and all its content will be moved to the trash.")
+            : TR("The file will be moved to the trash."));
+    msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+    msgBox.setDefaultButton(QMessageBox::No);
+    if (msgBox.exec() != QMessageBox::Yes) {
+        return;
+    }
+
+    bool removed = QFile::moveToTrash(currentPath);
+    if (!removed) {
+        // trash not available: fallback on a permanent removal
+        if (isDir) {
+            QDir qDir(currentPath);
+            removed = qDir.removeRecursively();
+        } else {
+            QFile file(currentPath);
+            removed = file.remove();
+        }
+    }
+    if (!removed) {
+        QMessageBox::warning(this, isDir ? TR("Delete Directory") : TR("Delete File"),
+            wstringToQString(Nelson::resolveMessageTemplate(
+                                 L"Nelson:gui:unableDeletePath", L"Unable to delete '%1'."))
+                .arg(QDir::toNativeSeparators(currentPath)));
+        return;
+    }
+    refreshView();
 }
 //=============================================================================
 void
@@ -481,15 +669,21 @@ QtFileBrowser::renameSelectedFile()
 
         if (ok && !newFileName.isEmpty()) {
 
+            bool renamed = false;
             if (isDir) {
                 QDir dir(currentPath);
-                if (dir.rename(currentPath, newPath)) {
-                    updateCurrentPath();
-                }
+                renamed = dir.rename(currentPath, newPath);
             } else {
-                if (QFile::rename(currentPath, newPath)) {
-                    updateCurrentPath();
-                }
+                renamed = QFile::rename(currentPath, newPath);
+            }
+            if (renamed) {
+                refreshView();
+            } else {
+                QMessageBox::warning(this, isDir ? TR("Rename Directory") : TR("Rename File"),
+                    wstringToQString(Nelson::resolveMessageTemplate(L"Nelson:gui:unableRenamePath",
+                                         L"Unable to rename '%1' to '%2'."))
+                        .arg(QDir::toNativeSeparators(currentPath),
+                            QDir::toNativeSeparators(newPath)));
             }
         }
     }
@@ -525,7 +719,7 @@ QtFileBrowser::keyPressEvent(QKeyEvent* event)
     } else if (event->key() == Qt::Key_Delete) {
         deleteSelected();
     } else if (event->key() == Qt::Key_F5) {
-        updateCurrentPath();
+        refreshView();
     }
     QWidget::keyPressEvent(event);
 }
@@ -567,10 +761,20 @@ QtFileBrowser::createNewDirectory()
 
         if (!newDirName.isEmpty()) {
             QString newDirPath = currentPath + QDir::separator() + newDirName;
-            if (!QDir(newDirPath).exists()) {
-                if (QDir().mkdir(newDirPath)) {
-                    updateCurrentPath();
-                }
+            if (QDir(newDirPath).exists()) {
+                QMessageBox::warning(this, TR("Create New Directory"),
+                    wstringToQString(
+                        Nelson::resolveMessageTemplate(L"Nelson:gui:directoryAlreadyExists",
+                            L"The directory '%1' already exists."))
+                        .arg(QDir::toNativeSeparators(newDirPath)));
+            } else if (QDir().mkdir(newDirPath)) {
+                refreshView();
+            } else {
+                QMessageBox::warning(this, TR("Create New Directory"),
+                    wstringToQString(
+                        Nelson::resolveMessageTemplate(L"Nelson:gui:unableCreateDirectory",
+                            L"Unable to create the directory '%1'."))
+                        .arg(QDir::toNativeSeparators(newDirPath)));
             }
         }
     }
@@ -592,7 +796,12 @@ QtFileBrowser::createNewFileScript()
                 stream << "%% Nelson script\n";
                 stream << "%%\n";
                 file.close();
-                updateCurrentPath();
+                refreshView();
+            } else {
+                QMessageBox::warning(this, TR("Filename"),
+                    wstringToQString(Nelson::resolveMessageTemplate(L"Nelson:gui:unableCreateFile",
+                                         L"Unable to create the file '%1'."))
+                        .arg(QDir::toNativeSeparators(fileName)));
             }
         }
     }
@@ -624,7 +833,12 @@ QtFileBrowser::createNewFileFunction()
 
                 file.close();
 
-                updateCurrentPath();
+                refreshView();
+            } else {
+                QMessageBox::warning(this, TR("Filename"),
+                    wstringToQString(Nelson::resolveMessageTemplate(L"Nelson:gui:unableCreateFile",
+                                         L"Unable to create the file '%1'."))
+                        .arg(QDir::toNativeSeparators(fileName)));
             }
         }
     }
@@ -638,7 +852,7 @@ QtFileBrowser::addToPath()
         QString currentPath = model->filePath(currentIndex);
         PathFunctionIndexerManager::getInstance()->addPath(
             QStringTowstring(currentPath), false, false);
-        updateCurrentPath();
+        refreshView();
     }
 }
 //=============================================================================
@@ -649,14 +863,8 @@ QtFileBrowser::removeToPath()
     if (currentIndex.isValid()) {
         QString currentPath = model->filePath(currentIndex);
         PathFunctionIndexerManager::getInstance()->removePath(QStringTowstring(currentPath));
-        updateCurrentPath();
+        refreshView();
     }
-}
-//=============================================================================
-void
-QtFileBrowser::handleDockLocationChanged(Qt::DockWidgetArea area)
-{
-    sizeGrip->setVisible(area == Qt::NoDockWidgetArea);
 }
 //=============================================================================
 void

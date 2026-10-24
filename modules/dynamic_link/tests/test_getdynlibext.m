@@ -7,16 +7,17 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('getdynlibext'), 0);
-assert_isequal(nargout('getdynlibext'), 1);
+% <--WEIGHT 2-->
+asserts.isequal(nargin('getdynlibext'), 0);
+asserts.isequal(nargout('getdynlibext'), 1);
 %=============================================================================
 if ispc()
-  assert_isequal(getdynlibext(), '.dll');
+  asserts.isequal(getdynlibext(), '.dll');
 else
   if ismac()
-    assert_isequal(getdynlibext(), '.dylib');
+    asserts.isequal(getdynlibext(), '.dylib');
   else
-    assert_isequal(getdynlibext(), '.so');
+    asserts.isequal(getdynlibext(), '.so');
   end
 end
 %=============================================================================

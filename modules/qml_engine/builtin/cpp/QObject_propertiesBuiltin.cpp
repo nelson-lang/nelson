@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,9 +9,9 @@
 //=============================================================================
 #include "QObject_propertiesBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "fieldnamesQObjectHandleObject.hpp"
-#include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -26,7 +26,8 @@ Nelson::QmlEngineGateway::QObject_propertiesBuiltin(
     ArrayOfVector retval;
     ArrayOf param1 = argIn[0];
     if (!param1.isHandle()) {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
+        Error(
+            L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", ((1)), L"handle");
     }
     wstringVector fieldnames;
     fieldnamesQObjectHandleObject(param1, fullList, fieldnames);
@@ -46,7 +47,7 @@ Nelson::QmlEngineGateway::QObject_propertiesBuiltin(
             io->outputMessage(msg);
         }
     } else {
-        retval.push_back(ArrayOf::toCellArrayOfCharacterColumnVectors(fieldnames));
+        retval.push_back(ArrayOf::cellArrayFromArrayOfCharacterColumnVectors(fieldnames));
     }
     return retval;
 }

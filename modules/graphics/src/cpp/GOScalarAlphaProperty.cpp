@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -12,6 +12,7 @@
 #include <fmt/xchar.h>
 #include "GOScalarAlphaProperty.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
@@ -20,27 +21,29 @@ void
 GOScalarAlphaProperty::set(ArrayOf num)
 {
     if (num.isRowVectorCharacterArray() || num.isScalarStringArray()) {
-        std::wstring str = num.getContentAsWideString();
+        std::wstring str = num.asWideString();
         if (str == L"flat") {
             _isFlat = true;
         } else {
-            Error(_W("'flat' expected."));
+            Error(L"Nelson:graphics:expectedFlat", L"'%s' expected.", L"flat");
         }
         return;
     }
     ArrayOf copyNum(num);
     copyNum.promoteType(NLS_DOUBLE);
     if (!copyNum.isScalar()) {
-        Error(_W("Scalar value expected."));
+        Error(L"Nelson:validators:mustBeScalar", L"%s must be a scalar.", L"Value");
     }
-    const double* dp = (const double*)copyNum.getDataPointer();
+    const double* dp = (const double*)copyNum.dataPointer();
     if (dp[0] >= _minValue && dp[0] <= _maxValue) {
         GOFixedVectorProperty::set(num);
         _isFlat = false;
     } else {
         std::wstring message
-            = fmt::format(_W("Value is out of range {0} <= value <= {1}."), _minValue, _maxValue);
-        Error(message);
+            = formatI18nMessage(resolveMessageTemplate(L"Nelson:graphics:valueOutRangeS",
+                                    L"Value is out of range %s <= value <= %s."),
+                fmt::to_wstring(_minValue), fmt::to_wstring(_maxValue));
+        Error(L"Nelson:graphics:valueOutOfRange", message);
     }
 }
 //=============================================================================
@@ -52,8 +55,10 @@ GOScalarAlphaProperty::data(double x)
         _isFlat = false;
     } else {
         std::wstring message
-            = fmt::format(_W("Value is out of range {0} <= value <= {1}."), _minValue, _maxValue);
-        Error(message);
+            = formatI18nMessage(resolveMessageTemplate(L"Nelson:graphics:valueOutRangeS",
+                                    L"Value is out of range %s <= value <= %s."),
+                fmt::to_wstring(_minValue), fmt::to_wstring(_maxValue));
+        Error(L"Nelson:graphics:valueOutOfRange", message);
     }
 }
 //=============================================================================
@@ -85,5 +90,5 @@ GOScalarAlphaProperty::toWideString()
     return msg;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

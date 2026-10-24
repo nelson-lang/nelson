@@ -14,8 +14,8 @@ b = backgroundPool();
 %=============================================================================
 R = fieldnames(b);
 REF = {'NumWorkers'; 'Busy'; 'FevalQueue'};
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = struct(b);
-assert_istrue(isstruct(R));
+asserts.istrue(isstruct(R));
 %=============================================================================

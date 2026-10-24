@@ -1,0 +1,73 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Nelson nflow team",
+    "created": "2026-08-13T00:00:00.000Z",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "comments": "Frozen retro-read golden: variable-step solver selection and tolerances.",
+  "name": "golden_solver_varstep",
+  "blocks": [
+    {
+      "id": "src",
+      "type": "sine",
+      "x": 100,
+      "y": 100,
+      "rotation": 0,
+      "params": {
+        "Amplitude": 1,
+        "Frequency": 2,
+        "Phase": 0
+      }
+    },
+    {
+      "id": "integ",
+      "type": "integrator",
+      "x": 300,
+      "y": 100,
+      "rotation": 0,
+      "params": {
+        "InitialCondition": 0
+      }
+    },
+    {
+      "id": "tw",
+      "type": "toWorkspace",
+      "x": 500,
+      "y": 100,
+      "rotation": 0,
+      "params": {
+        "VariableName": "y_var",
+        "SaveFormat": "Array",
+        "Decimation": 1,
+        "MaxDataPoints": "inf"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "src",
+      "to": "integ",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "integ",
+      "to": "tw",
+      "fromIndex": 0,
+      "toIndex": 0
+    }
+  ],
+  "variables": "",
+  "runtime": 3,
+  "sampleTime": 0.01,
+  "autoRoute": true,
+  "locked": false,
+  "solver": "variableStiff",
+  "relTol": 1e-06,
+  "absTol": 1e-08,
+  "maxStep": 0.1,
+  "realTime": false
+}

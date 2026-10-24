@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,6 +10,7 @@
 #include "FileSystemWrapper.hpp"
 #include "nfilenameBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "GetCurrentNFilename.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -25,7 +26,7 @@ Nelson::CoreGateway::nfilenameBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     nargoutcheck(nLhs, 0, 1);
     if (argIn.size() == 1) {
         if (argIn[0].isRowVectorCharacterArray()) {
-            std::wstring argstr = argIn[0].getContentAsWideString();
+            std::wstring argstr = argIn[0].asWideString();
             if ((argstr == L"fullpath") || (argstr == L"fullpathext")) {
                 if (argstr == L"fullpath") {
                     iExt = 1;
@@ -34,11 +35,12 @@ Nelson::CoreGateway::nfilenameBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
                     iExt = 2;
                 }
             } else {
-                Error(
-                    _W("Wrong value for #1 argument, \'fullpathext\' or  \'fullpath\' expected."));
+                Error(L"Nelson:nfilename:invalidValue",
+                    L"Wrong value for #%d argument, \'fullpathext\' or \'fullpath\' expected.", 1);
             }
         } else {
-            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1),
+                L"string");
         }
     }
     FileSystemWrapper::Path path(GetCurrentNFilenameW(eval));
@@ -52,7 +54,7 @@ Nelson::CoreGateway::nfilenameBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     case 2:
         break;
     }
-    retval << ArrayOf::characterArrayConstructor(path.generic_wstring());
+    retval << ArrayOf::characterArray(path.generic_wstring());
     return retval;
 }
 //=============================================================================

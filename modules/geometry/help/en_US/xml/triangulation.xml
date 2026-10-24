@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>triangulation</keyword>
+  <short_description>Triangulation object</short_description>
+  <syntax>
+    <syntax_item>TR = triangulation(T, P)</syntax_item>
+    <syntax_item>TR = triangulation(T, x, y)</syntax_item>
+    <syntax_item>TR = triangulation(T, x, y, z)</syntax_item>
+    <syntax_item>E = edges(TR)</syntax_item>
+    <syntax_item>[idx, bary] = pointLocation(TR, Q)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>triangulation</b> stores points and a connectivity list and provides topology queries.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Create a triangulation and locate a point.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[P = [0 0; 1 0; 1 1; 0 1];
+T = delaunayn(P);
+TR = triangulation(T, P);
+[idx, bary] = pointLocation(TR, [0.25 0.25])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${geometry}delaunayTriangulation">delaunayTriangulation</link></see_also_item>
+    <see_also_item><link linkend="${geometry}delaunayn">delaunayn</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item><history_version>2.0.0</history_version><history_description>Initial version.</history_description></history_item>
+  </history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

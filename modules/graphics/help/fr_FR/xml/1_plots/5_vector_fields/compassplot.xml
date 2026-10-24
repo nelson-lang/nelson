@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>compassplot</keyword>
+  <short_description>Affiche des vecteurs depuis l'origine en coordonnees polaires.</short_description>
+  <syntax>
+    <syntax_item>compassplot(z)</syntax_item>
+    <syntax_item>compassplot(theta, r)</syntax_item>
+    <syntax_item>compassplot(parent, ...)</syntax_item>
+    <syntax_item>h = compassplot(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>compassplot</b> affiche des valeurs complexes ou des paires de coordonnees polaires sous forme de fleches partant de l'origine. Le handle retourne est un objet <b>compassplot</b>.</p>
+    <p>La page <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.compassplot.properties">proprietes de compassplot</link> liste les proprietes d'objet prises en charge.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Afficher des vecteurs complexes.</example_item_description>
+      <example_item_data><![CDATA[z = [1 + 1i, 1 - 1i, -1 + 0.5i];
+compassplot(z);]]></example_item_data>
+      <example_item_img src="../../../../images/compassplot_1.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/2_polar_plots/polarplot">polarplot</link></see_also_item>
+    <see_also_item><link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.compassplot.properties">proprietes de compassplot</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/5_vector_fields/quiver">quiver</link></see_also_item>
+  </see_also>
+</xmldoc>

@@ -7,11 +7,14 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-url = 'https://apod.nasa.gov/apod/image/2310/MoValleyEclipse.jpg';
-filename = fullfile(tempdir(), 'MoValleyEclipse_1.jpg');
+url = 'https://jsonplaceholder.typicode.com/posts/1';
+filename = fullfile(tempdir(), 'test_websave_get_1.json');
 max_attempts = 3;
 outfilename = '';
 for attempt = 1:max_attempts
+  if isfile(filename)
+    try delete(filename); catch; end
+  end
   try
     outfilename = websave(filename, url);
     if isfile(outfilename) && dir(outfilename).bytes > 0
@@ -33,5 +36,8 @@ end
 if isempty(outfilename)
   skip_testsuite(true, 'websave failed after retries or returned empty file');
 end
-assert_istrue(isfile(outfilename));
+asserts.istrue(isfile(outfilename));
+R = jsondecode(fileread(outfilename));
+asserts.isequal(R.id, 1);
+asserts.isequal(R.userId, 1);
 %=============================================================================

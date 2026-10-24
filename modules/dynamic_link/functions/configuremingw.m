@@ -10,7 +10,7 @@
 function [status, message] = configuremingw(mingw_bin_path)
   status = false;
   message = '';
-  clear('havecompiler');  % clear persistent variable
+  clear('havecompiler'); % clear persistent variable
   if ~ispc()
     status = false;
     message = _('Not implemented on this platform.');
@@ -36,10 +36,10 @@ function [status, message] = configuremingw(mingw_bin_path)
       loadcompilerconf();
       status = true;
     else
-      message = [ref_gcc_compiler, ' ', _('not found.')];
+      message = sprintf('%s not found.', ref_gcc_compiler);
     end
   else
-    message = [mingw_bin_path, ' ', _('not found.')];
+    message = sprintf('%s not found.', mingw_bin_path);
   end
 end
 %=============================================================================

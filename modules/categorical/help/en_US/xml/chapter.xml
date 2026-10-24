@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>categorical</module_name>
+  <chapter>Categorical arrays</chapter>
+  <chapter_description>
+    <p>The Categorical module provides arrays whose elements belong to a fixed set of text categories.</p>
+  </chapter_description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Create a categorical array and list its categories.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = categorical({'red','blue','red'}); categories(A)]]></example_item_data>
+    </example_item>
+  </examples>
+</xmldoc>

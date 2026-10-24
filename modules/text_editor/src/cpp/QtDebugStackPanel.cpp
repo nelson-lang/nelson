@@ -42,11 +42,9 @@ QtDebugStackPanel::refreshStack()
         return;
     }
 
-    // Get call stack from evaluator and convert to stackTrace
     Nelson::stackTrace positions;
     Nelson::DebugStack(nlsEvaluator->callstack, 0, positions);
 
-    // Iterate through stack frames (newest to oldest)
     for (int i = static_cast<int>(positions.size()) - 1; i >= 0; --i) {
         const Nelson::PositionScript& pos = positions[static_cast<size_t>(i)];
 
@@ -80,7 +78,6 @@ QtDebugStackPanel::refreshStack()
         if (!filenameStr.isEmpty() && line > 0) {
             item->setToolTip(QString("%1:%2").arg(filenameStr).arg(line));
 
-            // Store full filename and line as user data
             StackFrameData* frameData = new StackFrameData { filenameStr, line };
             item->setData(Qt::UserRole, QVariant::fromValue(reinterpret_cast<quintptr>(frameData)));
         } else {
@@ -94,7 +91,6 @@ QtDebugStackPanel::refreshStack()
 void
 QtDebugStackPanel::clear()
 {
-    // Clean up user data before clearing
     for (int i = 0; i < stackList->count(); ++i) {
         QListWidgetItem* item = stackList->item(i);
         quintptr dataPtr = item->data(Qt::UserRole).value<quintptr>();

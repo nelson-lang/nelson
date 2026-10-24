@@ -1,0 +1,87 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Allan CORNET",
+    "createdBy": "Allan CORNET",
+    "created": "2026-08-19",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "comments": "A linear chirp sweeps 0.1 -> 3 Hz over 20 s into a first-order low-pass 1/(0.15 s + 1). The scope overlays the raw chirp and the filtered output: as the sweep frequency climbs, the low-pass rolls the amplitude off, so the filtered trace shrinks while the input stays at full amplitude.",
+  "name": "Chirp Frequency Response - Low-pass",
+  "blocks": [
+    {
+      "id": "ch",
+      "type": "chirp",
+      "x": 80,
+      "y": 300,
+      "rotation": 0,
+      "params": {
+        "Amplitude": 1,
+        "f1": 0.1,
+        "f2": 3,
+        "T": 20
+      }
+    },
+    {
+      "id": "lp",
+      "type": "tf",
+      "x": 360,
+      "y": 360,
+      "rotation": 0,
+      "params": {
+        "Numerator": [
+          1
+        ],
+        "Denominator": [
+          0.15,
+          1
+        ]
+      }
+    },
+    {
+      "id": "sc",
+      "type": "scope",
+      "x": 640,
+      "y": 300,
+      "rotation": 0,
+      "params": {
+        "Title": "Chirp in vs low-pass out",
+        "TMin": "",
+        "TMax": "",
+        "YMin": -1.2,
+        "YMax": 1.2,
+        "width": 420,
+        "height": 300,
+        "ShowTickLabels": true
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "ch",
+      "to": "sc",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "ch",
+      "to": "lp",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "lp",
+      "to": "sc",
+      "fromIndex": 0,
+      "toIndex": 1
+    }
+  ],
+  "variables": "",
+  "runtime": 20,
+  "sampleTime": 0.01,
+  "autoRoute": true,
+  "solver": "ode45",
+  "stopFcn": "NFlow.plotScopes(out);"
+}

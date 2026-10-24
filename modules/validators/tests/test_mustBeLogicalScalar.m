@@ -7,17 +7,17 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('mustBeLogicalScalar'), -1);
-assert_isequal(nargout('mustBeLogicalScalar'), 0);
+asserts.isequal(nargin('mustBeLogicalScalar'), -1);
+asserts.isequal(nargout('mustBeLogicalScalar'), 0);
 %=============================================================================
 mustBeLogicalScalar(true);
 %=============================================================================
-assert_checkerror('mustBeLogicalScalar(1)', _('Value must be logical scalar.'));
+asserts.checkerror('mustBeLogicalScalar(1)', sprintf(_('%s must be a logical scalar.'), 'Value'));
 %=============================================================================
-assert_checkerror('mustBeLogicalScalar([true false])', _('Value must be logical scalar.'));
+asserts.checkerror('mustBeLogicalScalar([true false])', sprintf(_('%s must be a logical scalar.'), 'Value'));
 %=============================================================================
-assert_checkerror('mustBeLogicalScalar(logical([]))', _('Value must be logical scalar.'));
+asserts.checkerror('mustBeLogicalScalar(logical([]))', sprintf(_('%s must be a logical scalar.'), 'Value'));
 %=============================================================================
-msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10),  _('Value must be logical scalar.')];
-assert_checkerror('mustBeLogicalScalar(1, 3)', msg);
+msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10), sprintf(_('%s must be a logical scalar.'), 'Value')];
+asserts.checkerror('mustBeLogicalScalar(1, 3)', msg);
 %=============================================================================

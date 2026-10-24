@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nelson-format</keyword>
+  <short_description>Formateur de source Nelson en ligne de commande.</short_description>
+  <syntax>
+    <syntax_item>nelson-format [--include-subfolders true|false] [--indent-size n] [--full-format true|false] [--config file] [--check] path ...</syntax_item>
+  </syntax>
+  <description>
+    <p><b>nelson-format</b> formate les fichiers source Nelson depuis la ligne de commande.</p>
+    <p>Les fichiers sont formates sur place par defaut. Le formateur traite uniquement les fichiers avec l&apos;extension <b>.m</b>.</p>
+    <p><b>--include-subfolders</b> active le formatage recursif quand un dossier est passe en entree.</p>
+    <p><b>--indent-size</b> definit la taille d&apos;indentation. La valeur par defaut est <b>2</b>.</p>
+    <p><b>--full-format</b> active ou desactive le formatage complet. La valeur par defaut est <b>true</b>. Mettre <b>false</b> pour modifier uniquement l&apos;indentation de debut de ligne.</p>
+    <p><b>--config</b> charge un fichier de configuration JSON. Sans cette option, <b>nelson-format</b> cherche <b>nelson-format.json</b> depuis les chemins d&apos;entree puis depuis le dossier courant.</p>
+    <p><b>--check</b> signale les fichiers qui changeraient sans les ecrire.</p>
+    <p>Les blocs sur une seule ligne conservent leurs instructions d&apos;ouverture et de fermeture sans modifier l&apos;indentation des lignes suivantes. Les indexations utilisant <b>end</b> restent distinctes des fermetures de blocs.</p>
+    <p>Les clauses catch sur une ligne conservent le separateur apres la variable d&apos;exception facultative, notamment dans <b>catch err, value = err.message;</b>.</p>
+    <p>Les cles de configuration supportees sont <b>indentSize</b>, <b>fullFormat</b>, <b>includeSubfolders</b> et <b>excludePathContains</b>. Les options de ligne de commande remplacent les valeurs chargees depuis JSON.</p>
+    <p>Les fichiers listes par <b>nelson-format-ignore.json</b> ou par <b>excludePathContains</b> dans <b>nelson-format.json</b> sont ignores.</p>
+    <p>Le code retour <b>0</b> signifie succes ou aucun changement requis, <b>1</b> signifie que <b>--check</b> a trouve des fichiers qui changeraient, et <b>2</b> signifie une erreur d&apos;usage, d&apos;entree, de lecture/ecriture ou interne.</p>
+    <p>Le formatage complet preserve les references aux packages, aux membres et aux champs dynamiques comme <b>package.function(value.(name))</b>. Les noms contextuels des blocs de classe restent des identifiants ordinaires dans les instructions executables.</p>
+  </description>
+  <used_function>smartindent</used_function>
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Formatter recursivement tous les fichiers Nelson d&apos;un dossier.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[nelson-format --include-subfolders true modules/interpreter/functions]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Verifier qu&apos;un fichier est deja formate.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[nelson-format --check myfile.m]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Formatter avec un fichier de configuration explicite.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[nelson-format --config nelson-format.json modules/interpreter/functions]]></example_item_data>
+    </example_item>
+  </examples>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

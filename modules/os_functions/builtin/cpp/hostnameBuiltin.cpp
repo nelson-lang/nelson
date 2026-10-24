@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -19,7 +19,7 @@ Nelson::OsFunctionsGateway::hostnameBuiltin(int nLhs, const ArrayOfVector& argIn
     ArrayOfVector retval;
     nargincheck(argIn, 0, 0);
     nargoutcheck(nLhs, 0, 1);
-    retval << ArrayOf::characterArrayConstructor(GetHostname());
+    retval << ArrayOf::characterArray(GetHostname());
     return retval;
 }
 //=============================================================================

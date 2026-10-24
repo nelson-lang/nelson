@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>round</keyword>
+  <short_description>Arrondir à l'entier le plus proche</short_description>
+  <syntax>
+    <syntax_item>C = round(A)</syntax_item>
+    <syntax_item>C = round(A, N)</syntax_item>
+    <syntax_item>C = round(A, N, 'decimals')</syntax_item>
+    <syntax_item>C = round(A, N, 'significant')</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>une variable</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>N</param_name>
+      <param_description>nombre de chiffres : entier reel scalaire.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>type</param_name>
+      <param_description>'decimals' (defaut) ou 'significant'.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>C</param_name>
+      <param_description>résultat de round.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>round</b> arrondit les éléments à l'entier le plus proche.</p>
+    <p>
+      <b>round(A, N)</b> arrondit a <b>N</b> chiffres apres la virgule (<b>N</b> peut etre negatif). Equivalent a <b>round(A, N, 'decimals')</b>.</p>
+    <p>
+      <b>round(A, N, 'significant')</b> arrondit a <b>N</b> chiffres significatifs ; ici <b>N</b> doit etre positif.</p>
+    <p>
+      Les entrees sparse single et sparse single complexes sont prises en charge. Seules les
+      entrees non nulles stockees sont arrondies et le resultat conserve le stockage sparse.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[round(pi)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Arrondi a un nombre de decimales ou de chiffres significatifs.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[round(3.14159, 2)
+round(12345, 2, 'significant')]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Arrondi au plus proche d'une matrice sparse single.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[S = sparse(single([1.2 0; -2.7 3.1]));
+C = round(S)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${elementary_functions}floor">floor</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${elementary_functions}fix">fix</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${elementary_functions}ceil">ceil</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>prise en charge des entrees sparse single et sparse single complexes.</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>ajout de round(A, N) et des options 'decimals' / 'significant'.</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

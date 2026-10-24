@@ -20,6 +20,7 @@ class NLSGRAPHICS_IMPEXP GOVectorProperty : public GOGenericProperty
 {
 private:
     bool _finiteOnly = false;
+    bool _emptyAsMatrix = false;
 
 protected:
     std::vector<double> _data;
@@ -27,6 +28,7 @@ protected:
 public:
     GOVectorProperty() = default;
     GOVectorProperty(bool finiteOnly);
+    GOVectorProperty(bool finiteOnly, bool emptyAsMatrix);
     ~GOVectorProperty() override = default;
     ArrayOf
     get() override;
@@ -43,5 +45,5 @@ public:
     toWideString() override;
 };
 //=============================================================================
-};
+} // namespace Nelson
 //=============================================================================

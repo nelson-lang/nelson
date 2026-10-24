@@ -1,0 +1,47 @@
+# ==============================================================================
+# CPack post-build script for macOS .dmg file icon.
+# ==============================================================================
+# CPack executes this after the package file has been generated and before it is
+# copied back to the build directory.  CPACK_PACKAGE_FILES contains the absolute
+# package paths produced by the generator.
+# ==============================================================================
+set(_nelson_icns "@CMAKE_BINARY_DIR@/Nelson.icns")
+set(_icon_script "@CMAKE_SOURCE_DIR@/CMake/macOS/DMGFileIcon.scpt")
+
+if(NOT EXISTS "${_nelson_icns}")
+  message(WARNING "CPack DMG icon: icon not found: ${_nelson_icns}")
+  return()
+endif()
+if(NOT EXISTS "${_icon_script}")
+  message(WARNING "CPack DMG icon: script not found: ${_icon_script}")
+  return()
+endif()
+
+find_program(OSASCRIPT_EXECUTABLE osascript)
+if(NOT OSASCRIPT_EXECUTABLE)
+  message(WARNING "CPack DMG icon: osascript not found; file icon not set")
+  return()
+endif()
+
+foreach(_package_file IN LISTS CPACK_PACKAGE_FILES)
+  if(NOT _package_file MATCHES "\\.dmg$")
+    continue()
+  endif()
+  if(NOT EXISTS "${_package_file}")
+    message(WARNING "CPack DMG icon: package not found: ${_package_file}")
+    continue()
+  endif()
+
+  execute_process(
+    COMMAND "${OSASCRIPT_EXECUTABLE}" "${_icon_script}"
+      "${_nelson_icns}" "${_package_file}"
+    RESULT_VARIABLE _icon_rc
+    ERROR_VARIABLE _icon_err
+  )
+  if(_icon_rc EQUAL 0)
+    message(STATUS "CPack DMG icon: set file icon on ${_package_file}")
+  else()
+    message(WARNING
+      "CPack DMG icon: failed to set file icon on ${_package_file}: ${_icon_err}")
+  endif()
+endforeach()

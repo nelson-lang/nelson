@@ -12,27 +12,27 @@ function p = ancestor(varargin)
   nargoutchk(0, 1);
   h = varargin{1};
   type = varargin{2};
-  
-  if (ischar (type))
-    type = { type };
+
+  if (ischar(type))
+    type = {type};
   elseif (~iscellstr(type))
     p = [];
   end
-  
+
   do_once = true;
   if (nargin == 3)
     toplevel = varargin{3};
-    if (ischar (toplevel) && strcmpi (toplevel, 'toplevel'))
+    if (ischar(toplevel) && strcmpi(toplevel, 'toplevel'))
       do_once = false;
     else
-      error(_("'toplevel' expected as third argumnent."));
+      error('Nelson:ancestor:toplevelExpectedAsThird', '''toplevel'' expected as third argument.');
     end
   end
-  
-  mustReturnEmpty = isempty (h) || ~isgraphics(h);
+
+  mustReturnEmpty = isempty(h) || ~isgraphics(h);
   p = [];
-  if ~mustReturnEmpty 
-    p = cell (numel (h), 1);
+  if ~mustReturnEmpty
+    p = cell(numel(h), 1);
     H = cell(size(h));
     for i = 1:size(h, 1)
       for j = 1:size(h, 2)
@@ -45,13 +45,13 @@ function p = ancestor(varargin)
         if (isempty(h{nh}))
           break;
         end
-        if (any (strcmpi(get(h{nh}, 'Type'), type)))
+        if (any(strcmpi(get(h{nh}, 'Type'), type)))
           p{nh} = h{nh};
           if do_once
             break;
           end
         end
-        h{nh} = get(h{nh},  'Parent');
+        h{nh} = get(h{nh}, 'Parent');
       end
     end
     if (nh == 1)

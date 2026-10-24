@@ -8,75 +8,76 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function varargout = shiftdim(varargin)
-  % This function, shiftdim, is designed to shift the dimensions of an input array. 
-  % It can handle one or two input arguments and returns one or two outputs accordingly.
   narginchk(1, 2);
   nargoutchk(0, 2);
-  x = varargin{1};
-  if (nargin == 1)
-    [b, nshifts] = shiftdimOneInput(x);
+  inputArray = varargin{1};
+  if nargin == 1
+    result = removeLeadingSingletonDimensions(inputArray);
   else
-    n = varargin{2};
-    [b, nshifts] = shiftdimTwoInputs(x, n);
+    result = shiftByRequestedCount(inputArray, varargin{2});
   end
-  
-  varargout{1} = b;
+
+  varargout{1} = result.value;
   if nargout > 1
-    varargout{2} = nshifts;
+    varargout{2} = result.count;
   end
 end
 %=============================================================================
-function [b, nshifts] = shiftdimOneInput(x)
-  if isrow(x) && ~isscalar(x)
-    nshifts = 1;
-    b = x.';
-    return;
-  end
-  
-  if ismatrix(x)
-    nshifts = 0;
-    b = x;
-    return;
-  end
-  
-  sz = size(x);
-  n = find(sz ~= 1, 1) - 1;
-  nshifts = n;
-  if isequal(n, 0) || isempty(n)
-    b = x;
-    nshifts = 0;
+function result = removeLeadingSingletonDimensions(inputArray)
+  if isrow(inputArray) && ~isscalar(inputArray)
+    result.value = inputArray.';
+    result.count = 1;
     return
   end
-  
-  if (n > 0) % If the nonsingleton dimension is greater than zero.
-    if n == 1 && ismatrix(x) % If the nonsingleton dimension is 1 and x is a matrix.
-      b = x.'; % Transpose the matrix.
-    else
-      
-      b = permute(x, [n + 1:ndims(x),1:n]); % Permute the dimensions of x.
-    end
+
+  if ismatrix(inputArray)
+    result.value = inputArray;
+    result.count = 0;
     return
   end
-  b = reshape(x, [ones(1, -n), sz]); % Reshape x with singleton dimensions removed.
+
+  inputShape = size(inputArray);
+  shiftCount = find(inputShape ~= 1, 1) - 1;
+  if isempty(shiftCount) || shiftCount == 0
+    result.value = inputArray;
+    result.count = 0;
+    return
+  end
+
+  permutationOrder = [shiftCount + 1:ndims(inputArray), 1:shiftCount];
+  result.value = permute(inputArray, permutationOrder);
+  result.count = shiftCount;
 end
 %=============================================================================
-function [b, nshifts] = shiftdimTwoInputs(x, n)
-  if n > 0
-    n = rem(n, ndims(x));
+function result = shiftByRequestedCount(inputArray, requestedCount)
+  if requestedCount > 0
+    activeCount = rem(requestedCount, ndims(inputArray));
+  else
+    activeCount = requestedCount;
   end
-  sz = size(x);
-  nshifts = n;
-  if isequal(n,0) || isempty(n) % If the number of shifts is zero or empty.
-    b = x; % Return x as it is.
-    nshifts = 0;
-  elseif (n > 0) % If the number of shifts is greater than zero.
-    if n == 1 && ismatrix(x) % If the number of shifts is 1 and x is a matrix.
-      b = x.'; % Transpose the matrix.
+
+  if isempty(activeCount) || activeCount == 0
+    result.value = inputArray;
+    result.count = 0;
+    return
+  end
+
+  if activeCount > 0
+    if activeCount == 1 && ismatrix(inputArray)
+      result.value = inputArray.';
     else
-      b = permute(x, [n+1:ndims(x), 1:n]); % Permute the dimensions of x.
+      result.value = permute(inputArray, [activeCount + 1:ndims(inputArray), 1:activeCount]);
     end
   else
-    b = reshape(x, [ones(1, -n), sz]); % Reshape x with singleton dimensions removed.
+    result.value = reshape(inputArray, negativeShiftShape(size(inputArray), -activeCount));
+  end
+  result.count = activeCount;
+end
+%=============================================================================
+function targetShape = negativeShiftShape(inputShape, leadingSingletonCount)
+  targetShape = [ones(1, leadingSingletonCount), inputShape];
+  while numel(targetShape) > 2 && targetShape(end) == 1
+    targetShape(end) = [];
   end
 end
 %=============================================================================

@@ -10,6 +10,6 @@
 function x = atand(varargin)
   narginchk(1, 1);
   nargoutchk(0, 1);
-  x = 180 ./ pi .* atan (varargin{1});
+  x = 180 ./ pi .* atan(varargin{1});
 end
 %=============================================================================

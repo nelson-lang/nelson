@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>wblstat</keyword>
+  <short_description>Weibull mean and variance</short_description>
+  <syntax><syntax_item>[m, v] = wblstat(a, b)</syntax_item></syntax>
+  <param_input>
+    <param_input_item><param_name>a</param_name><param_description>positive scalar or array: scale parameter.</param_description></param_input_item>
+    <param_input_item><param_name>b</param_name><param_description>positive scalar or array: shape parameter.</param_description></param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>m</param_name><param_description>array: mean values.</param_description></param_output_item>
+    <param_output_item><param_name>v</param_name><param_description>array: variance values.</param_description></param_output_item>
+  </param_output>
+  <description><p><b>wblstat</b> returns the mean and variance of the Weibull distribution.</p></description>
+  <examples><example_item><example_item_type>nelson</example_item_type><example_item_description /><example_item_data runnable="cli"><![CDATA[[m, v] = wblstat(2, 3);]]></example_item_data></example_item></examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}wblpdf">wblpdf</link></see_also_item>
+    <see_also_item><link linkend="${statistics}wblcdf">wblcdf</link></see_also_item>
+    <see_also_item><link linkend="${statistics}wblinv">wblinv</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>2.0.0</history_version><history_description>initial version</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

@@ -9,6 +9,7 @@
 //=============================================================================
 #include "XmlDocBuild.hpp"
 #include "ModulesManager.hpp"
+#include "XmlDocLinkIndex.hpp"
 #include "NelsonConfiguration.hpp"
 #include "StringHelpers.hpp"
 #include "XmlDocListOfFiles.hpp"
@@ -27,19 +28,6 @@ struct PageBuildItem
     const XmlDocPage* page;
     std::wstring canonicalRelativeFilename;
 };
-//=============================================================================
-static std::wstring
-getDestinationFileExtension(DOCUMENT_OUTPUT documentOutput)
-{
-    switch (documentOutput) {
-    case DOCUMENT_OUTPUT::HTML_WEB:
-        return L".html";
-    case DOCUMENT_OUTPUT::MARKDOWN:
-        return L".md";
-    default:
-        return L".html";
-    }
-}
 //=============================================================================
 static std::wstring
 replaceXmlExtension(std::wstring filename, const std::wstring& extension)
@@ -67,8 +55,18 @@ bool
 xmldocbuild(const wstringVector& srcDir, std::wstring destDir, const std::wstring& mainTitle,
     DOCUMENT_OUTPUT documentOutput, bool overwrite, std::wstring& errorMessage)
 {
-    (void)mainTitle;
+    wstringVector warnings;
+    return xmldocbuild(srcDir, destDir, mainTitle, documentOutput, overwrite, errorMessage,
+        wstringVector(), warnings);
+}
+//=============================================================================
+bool
+xmldocbuild(const wstringVector& srcDir, std::wstring destDir, const std::wstring& mainTitle,
+    DOCUMENT_OUTPUT documentOutput, bool overwrite, std::wstring& errorMessage,
+    const wstringVector& indexDirectories, wstringVector& warnings)
+{
     errorMessage.clear();
+    warnings.clear();
     std::vector<XmlDocSection> xmldocFilesList;
     std::string language;
 
@@ -77,7 +75,23 @@ xmldocbuild(const wstringVector& srcDir, std::wstring destDir, const std::wstrin
     }
     (void)language;
 
-    std::wstring extDestination = getDestinationFileExtension(documentOutput);
+    // Link index over every module that pages may reference, current one included.
+    wstringVector indexRoots = indexDirectories;
+    indexRoots.insert(indexRoots.end(), srcDir.begin(), srcDir.end());
+    std::shared_ptr<const XmlDocLinkIndex> linkIndex
+        = xmlDocLinkIndexForDirectories(indexRoots, errorMessage);
+    if (!linkIndex) {
+        return false;
+    }
+    wstringVector currentModules;
+    for (const auto& xmlDocInfo : xmldocFilesList) {
+        if (!xmlDocInfo.moduleName.empty()) {
+            currentModules.push_back(xmlDocInfo.moduleName);
+        }
+    }
+    XmlDocLinkResolver linkResolver(linkIndex, currentModules, documentOutput);
+
+    std::wstring extDestination = documentOutputExtension(documentOutput);
     std::vector<PageBuildItem> pageBuildItems;
     for (const auto& xmlDocInfo : xmldocFilesList) {
         collectPages(xmlDocInfo, extDestination, pageBuildItems);
@@ -85,29 +99,39 @@ xmldocbuild(const wstringVector& srcDir, std::wstring destDir, const std::wstrin
 
     std::wstring helptoolsPath;
     ModulesManager::Instance().findModule(L"help_tools", helptoolsPath);
+    std::wstring resourcesPath = helptoolsPath + L"/resources/";
 
     std::wstring xsltFilename;
-    if (documentOutput == DOCUMENT_OUTPUT::HTML_WEB) {
-        std::wstring xsltTocHtmlFilename = helptoolsPath + L"/resources/nelson_toc2html.xslt";
-        std::wstring xsltSummaryHtmlFilename
-            = helptoolsPath + L"/resources/nelson_summary2html.xslt";
-
-        if (!XmlDocTocSummary(destDir, xmldocFilesList, xsltTocHtmlFilename,
-                xsltSummaryHtmlFilename, documentOutput, errorMessage)) {
-            return false;
-        }
-        xsltFilename = helptoolsPath + L"/resources/nelson_html.xslt";
+    std::wstring xsltTocFilename;
+    std::wstring xsltSummaryFilename;
+    switch (documentOutput) {
+    case DOCUMENT_OUTPUT::MARKDOWN:
+        xsltFilename = resourcesPath + L"nelson_markdown.xslt";
+        xsltTocFilename = resourcesPath + L"nelson_toc2md.xslt";
+        xsltSummaryFilename = resourcesPath + L"nelson_summary2md.xslt";
+        break;
+    case DOCUMENT_OUTPUT::TYPST:
+        xsltFilename = resourcesPath + L"nelson_typst.xslt";
+        xsltTocFilename = resourcesPath + L"nelson_toc2typ.xslt";
+        xsltSummaryFilename = resourcesPath + L"nelson_summary2typ.xslt";
+        break;
+    case DOCUMENT_OUTPUT::HTML_WEB:
+    default:
+        xsltFilename = resourcesPath + L"nelson_html.xslt";
+        xsltTocFilename = resourcesPath + L"nelson_toc2html.xslt";
+        xsltSummaryFilename = resourcesPath + L"nelson_summary2html.xslt";
+        break;
+    }
+    if (!XmlDocTocSummary(destDir, xmldocFilesList, xsltTocFilename, xsltSummaryFilename,
+            documentOutput, errorMessage, &linkResolver)) {
+        return false;
     }
 
-    if (documentOutput == DOCUMENT_OUTPUT::MARKDOWN) {
-        std::wstring xsltTocHtmlFilename = helptoolsPath + L"/resources/nelson_toc2md.xslt";
-        std::wstring xsltSummaryHtmlFilename = helptoolsPath + L"/resources/nelson_summary2md.xslt";
-
-        if (!XmlDocTocSummary(destDir, xmldocFilesList, xsltTocHtmlFilename,
-                xsltSummaryHtmlFilename, documentOutput, errorMessage)) {
-            return false;
-        }
-        xsltFilename = helptoolsPath + L"/resources/nelson_markdown.xslt";
+    // Typst pages are labelled "<module:page>" so cross-references resolve
+    // inside an assembled document; the module comes from the root chapter.
+    std::wstring moduleName = mainTitle;
+    if (!xmldocFilesList.empty() && !xmldocFilesList.front().moduleName.empty()) {
+        moduleName = xmldocFilesList.front().moduleName;
     }
 
     std::mutex errorMutex;
@@ -122,11 +146,13 @@ xmldocbuild(const wstringVector& srcDir, std::wstring destDir, const std::wstrin
         std::filesystem::create_directories(destinationFilename.parent_path());
 
         if (!XmlTransform(item.page->absoluteFilename, xsltFilename, destinationFilename.wstring(),
-                overwrite, documentOutput, localError, destDir, item.canonicalRelativeFilename)) {
+                overwrite, documentOutput, localError, destDir, item.canonicalRelativeFilename,
+                moduleName, &linkResolver)) {
             std::lock_guard<std::mutex> lock(errorMutex);
             errors.push_back(std::move(localError));
         }
     }
+    warnings = linkResolver.warnings();
     if (!errors.empty()) {
         errorMessage = std::move(errors[0]);
         return false;

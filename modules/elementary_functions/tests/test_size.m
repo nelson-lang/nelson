@@ -7,41 +7,46 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('size'), 2);
-assert_isequal(nargout('size'), -1);
+% <--WEIGHT 2-->
+asserts.isequal(nargin('size'), 2);
+asserts.isequal(nargout('size'), -1);
 %=============================================================================
 R1 = size(ones(3, 2), 'r');
 R2 = size(ones(3, 2), 1);
-assert_isequal(R1, R2);
-assert_isequal(R1, 3);
+asserts.isequal(R1, R2);
+asserts.isequal(R1, 3);
 %=============================================================================
 R1 = size(ones(3, 2), 'c');
 R2 = size(ones(3, 2), 2);
-assert_isequal(R1, R2);
-assert_isequal(R1, 2);
+asserts.isequal(R1, R2);
+asserts.isequal(R1, 2);
 %=============================================================================
 M = rand(6, 8);
 [R, C] = size(M);
-assert_isequal(R, 6);
-assert_isequal(C, 8);
+asserts.isequal(R, 6);
+asserts.isequal(C, 8);
 %=============================================================================
 R = size('NELSON');
-assert_isequal(R, [1 6]);
+asserts.isequal(R, [1 6]);
 %=============================================================================
 R = size("NELSON");
-assert_isequal(R, [1 1]);
+asserts.isequal(R, [1 1]);
 %=============================================================================
 M = rand(4, 5, 6, 7);
 %=============================================================================
 R = size(M);
-REF = [4 : 7];
-assert_isequal(R, REF);
+REF = [4:7];
+asserts.isequal(R, REF);
 %=============================================================================
 R = size(M, [2 4]);
-REF = [ 5 7 ];
-assert_isequal(R, REF);
+REF = [5 7];
+asserts.isequal(R, REF);
 %=============================================================================
 R = size(M, 2:4);
-REF = [ 5 6 7 ];
-assert_isequal(R, REF);
+REF = [5 6 7];
+asserts.isequal(R, REF);
+%=============================================================================
+A = reshape(1:6, 2, 3);
+asserts.isequal(size(A), [2 3]);
+asserts.isequal(size(reshape([], 0, 3)), [0 3]);
 %=============================================================================

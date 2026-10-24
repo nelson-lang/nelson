@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>optimconstr</keyword>
+  <short_description>Créer une contrainte d'optimization.</short_description>
+  <syntax>
+    <syntax_item>c = optimconstr()</syntax_item>
+    <syntax_item>c = optimconstr(lhs, relation, rhs)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>lhs, rhs</param_name>
+      <param_description>expressions gauche et droite.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>relation</param_name>
+      <param_description>relation de contrainte : &lt;=, == ou &gt;=.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>c</param_name>
+      <param_description>objet contrainte d'optimization.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>optimconstr</b> crée des contraintes utilisées par les problèmes d'optimization. Les opérateurs relationnels sur expressions créent aussi des contraintes.</p>
+  </description>
+  <used_function>
+    <used_function_item>optimproblem</used_function_item>
+    <used_function_item>optimexpr</used_function_item>
+  </used_function>
+  <bibliography>P. E. Gill, W. Murray and M. H. Wright, Practical Optimization, Academic Press, 1981.</bibliography>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[x = optimvar('x');
+c = optimconstr(x, '<=', 5)
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${optimization}optimproblem">optimproblem</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${optimization}prob2struct">prob2struct</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

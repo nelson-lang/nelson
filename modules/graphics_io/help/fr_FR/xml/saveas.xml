@@ -28,47 +28,32 @@
   <description>
     <p>
       <b>saveas</b> enregistre la figure dans un format de fichier spécifique.</p>
-    <p>
-      <b>Formats pris en charge</b> :</p>
-    <p />
+    <p>Le <b>formattype</b> explicite est prioritaire sur l&apos;extension du fichier. Sans extension,
+    PNG est sélectionné et <b>.png</b> est ajouté. Les modes bureau, web et headless utilisent le
+    même moteur de rendu et le même registre de formats.</p>
+    <p><b>Fond :</b> tant que la propriété <b>InvertHardcopy</b> de la figure vaut <b>'on'</b>
+    (valeur par défaut), le fond exporté est blanc quelle que soit la couleur <b>Color</b> affichée
+    (gris clair par défaut). Passer <b>InvertHardcopy</b> à <b>'off'</b> pour exporter la couleur
+    de fond affichée.</p>
+    <p>Les <b>formats vectoriels</b> utilisent des exporteurs de figure dédiés :</p>
     <table style="width:100%">
-      <tr>
-        <th>Option</th>
-        <th>Format</th>
-        <th>Extension</th>
-      </tr>
-      <tr>
-        <td>svg</td>
-        <td>SVG (scalable vector graphics)</td>
-        <td>.svg</td>
-      </tr>
-      <tr>
-        <td>pdf</td>
-        <td>Portable Document Format (PDF) page entière, couleur</td>
-        <td>.pdf</td>
-      </tr>
-      <tr>
-        <td>png</td>
-        <td>PNG 24-bit</td>
-        <td>.png</td>
-      </tr>
-      <tr>
-        <td>jpg</td>
-        <td>JPEG 24-bit</td>
-        <td>.jpg</td>
-      </tr>
-      <tr>
-        <td>gif</td>
-        <td>Graphics Interchange Format</td>
-        <td>.gif</td>
-      </tr>
-      <tr>
-        <td>tif</td>
-        <td>Tagged Image File Format</td>
-        <td>.tif</td>
-      </tr>
+      <tr><th>Option</th><th>Format</th><th>Extension</th></tr>
+      <tr><td>svg</td><td>Scalable Vector Graphics</td><td>.svg</td></tr>
+      <tr><td>pdf</td><td>Portable Document Format, page entière en couleur</td><td>.pdf</td></tr>
     </table>
-    <p />
+    <p>Les <b>formats raster</b> sont encodés par le même registre que <b>imwrite</b> :</p>
+    <table style="width:100%">
+      <tr><th>Option canonique</th><th>Alias</th><th>Extension</th></tr>
+      <tr><td>png</td><td>-</td><td>.png</td></tr>
+      <tr><td>jpg</td><td>jpeg, jfif</td><td>.jpg, .jpeg, .jfif</td></tr>
+      <tr><td>gif</td><td>-</td><td>.gif</td></tr>
+      <tr><td>webp</td><td>-</td><td>.webp</td></tr>
+      <tr><td>tiff</td><td>tif</td><td>.tiff, .tif</td></tr>
+      <tr><td>bmp</td><td>dib</td><td>.bmp, .dib</td></tr>
+      <tr><td>tga</td><td>-</td><td>.tga</td></tr>
+      <tr><td>pbm, pgm, ppm, pnm</td><td>-</td><td>.pbm, .pgm, .ppm, .pnm</td></tr>
+      <tr><td>pcx</td><td>-</td><td>.pcx</td></tr>
+    </table>
   </description>
   <used_function />
   <bibliography />
@@ -84,12 +69,16 @@ y = x;
 F = X.*exp(-X.^2-Y.^2);
 surf(X,Y,F);
 saveas(gcf(), [tempdir, 'svg-file.svg']);
+saveas(gcf(), [tempdir, 'webp-file.webp']);
+saveas(gcf(), [tempdir, 'bitmap-file.bmp']);
+saveas(gcf(), [tempdir, 'document-file.pdf']);
+close(gcf());
 ]]></example_item_data>
     </example_item>
   </examples>
   <see_also>
     <see_also_item>
-      <link linkend="${graphics}gcf">gcf</link>
+      <link linkend="${graphics}2_graphics_objects/1_object_management/gcf">gcf</link>
     </see_also_item>
   </see_also>
   <history>
@@ -100,6 +89,10 @@ saveas(gcf(), [tempdir, 'svg-file.svg']);
     <history_item>
       <history_version>1.13.0</history_version>
       <history_description>tiff format added</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>ajout des formats d&apos;export communs aux modes bureau, web et headless</history_description>
     </history_item>
   </history>
   <authors>

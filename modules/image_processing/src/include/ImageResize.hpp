@@ -39,7 +39,6 @@ struct ResizeOptions
     std::pair<size_t, size_t> outputSizeValue = { 0, 0 };
     std::wstring colormapMode = L"optimized";
     bool dither = true;
-    // Default constructor
     ResizeOptions() = default;
 };
 //=============================================================================
@@ -58,5 +57,5 @@ NLSIMAGE_PROCESSING_IMPEXP std::pair<ArrayOf, ArrayOf>
 ImageResizeIndexed(const ArrayOf& X, const ArrayOf& map, size_t numrows, size_t numcols,
     const ResizeOptions& options = ResizeOptions());
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

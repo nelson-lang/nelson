@@ -7,10 +7,10 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('newline'), -0);
-assert_isequal(nargout('newline'), 1);
+asserts.isequal(nargin('newline'), -0);
+asserts.isequal(nargout('newline'), 1);
 %=============================================================================
 R = newline();
 REF = char(10);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================

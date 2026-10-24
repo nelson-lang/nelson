@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nelson.mixin.CustomCompactDisplayProvider</keyword>
+  <short_description>Provide a compact display of an object inside containers.</short_description>
+  <syntax>
+    <syntax_item>classdef MyClass &lt; nelson.mixin.CustomCompactDisplayProvider</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>obj</param_name><param_description>an object of a class deriving from nelson.mixin.CustomCompactDisplayProvider.</param_description></param_input_item>
+    <param_input_item><param_name>config</param_name><param_description>display configuration used for compact output.</param_description></param_input_item>
+    <param_input_item><param_name>width</param_name><param_description>maximum display width.</param_description></param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>rep</param_name><param_description>compact display representation.</param_description></param_output_item>
+  </param_output>
+  <description>
+    <p>Derive from <b>nelson.mixin.CustomCompactDisplayProvider</b> to control how an object is
+    shown compactly when it appears inside a container such as a cell or a structure.</p>
+    <p>A subclass implements <b>compactRepresentationForSingleLine(obj, config, width)</b>, which
+    returns a <b>nelson.display.CompactDisplayRepresentation</b> describing the object on one line.
+    The representation is usually built with the inherited helper
+    <b>widthConstrainedDataRepresentation(obj, config, width, 'StringArray', text)</b>, which joins
+    the supplied data with the delimiter defined by <b>config</b> (a
+    <b>nelson.display.DisplayConfiguration</b>) and truncates it with the configured ellipsis when
+    it exceeds <b>width</b> characters. When an instance is displayed inside a container such as a
+    cell, a structure field or a <b>table</b> column, the resulting text is used instead of the
+    default <b>[1x1 ClassName]</b>.</p>
+    <p>A companion method <b>compactRepresentationForColumn(obj, config, width)</b> can be
+    implemented for column layouts, and <b>fullDataRepresentation(obj, config, ...)</b> builds an
+    unconstrained representation. When these methods are not overridden, the default representation
+    is used.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>A temperature shown compactly in a cell.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[classdef Temp < nelson.mixin.CustomCompactDisplayProvider
+  properties
+    Celsius = 0
+  end
+  methods
+    function obj = Temp(c)
+      if nargin > 0
+        obj.Celsius = c;
+      end
+    end
+    function rep = compactRepresentationForSingleLine(obj, config, width)
+      txt = [num2str(obj.Celsius), ' degC'];
+      rep = widthConstrainedDataRepresentation(obj, config, width, 'StringArray', string(txt));
+    end
+  end
+end
+c = {Temp(20), Temp(37)}   % shows {20 degC}  {37 degC}]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${handle}nelson.mixin.CustomDisplay">nelson.mixin.CustomDisplay</link></see_also_item>
+    <see_also_item><link linkend="${interpreter}classdef">classdef</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>2.0.0</history_version><history_description>initial version</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

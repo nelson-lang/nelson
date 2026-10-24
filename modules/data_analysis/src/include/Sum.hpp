@@ -13,9 +13,9 @@
 #include "nlsData_analysis_exports.h"
 //=============================================================================
 namespace Nelson {
-/* sum */
 /* if d == 0 --> Sum(X) */
 /* if d != 0 --> Sum(X, n) */
+/* if d == static_cast<indexType>(-1) --> Sum(X, 'all') */
 NLSDATA_ANALYSIS_IMPEXP ArrayOf
 Sum(ArrayOf A, indexType d, const std::wstring& strtype, bool withnan);
 //=============================================================================

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>setvaropts</keyword>
+  <short_description>Set variable import options for selected variables.</short_description>
+  <syntax>
+    <syntax_item>opts = setvaropts(opts, selection, Name, Value)</syntax_item>
+    <syntax_item>opts = setvaropts(opts, selection, Name1, Value1, Name2, Value2, ...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>opts</param_name>
+      <param_description>an import options object (delimited text or spreadsheet).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>selection</param_name>
+      <param_description>variable names (character vector, string array or cell of character vectors) or numeric indices.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Name, Value</param_name>
+      <param_description>per-variable options such as 'Type', 'InputFormat', 'WhitespaceRule', 'EmptyFieldRule' or 'FillValue'.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>opts</param_name>
+      <param_description>the updated import options object.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>setvaropts</b> sets per-variable import options for the selected variables of an import options object and returns the updated object.</p>
+    <p>The selection is validated against the declared variable names. Setting the 'Type' option also updates the corresponding entry of <b>VariableTypes</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      >opts = delimitedTextImportOptions('NumVariables', 2);
+opts.VariableNames = ["date", "value"];
+opts.VariableTypes = ["datetime", "double"];
+opts = setvaropts(opts, "date", 'InputFormat', 'MM/dd/yy')</example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${spreadsheet}getvaropts">getvaropts</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${spreadsheet}setvartype">setvartype</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${spreadsheet}delimitedTextImportOptions">delimitedTextImportOptions</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${spreadsheet}spreadsheetImportOptions">spreadsheetImportOptions</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${spreadsheet}readtable">readtable</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

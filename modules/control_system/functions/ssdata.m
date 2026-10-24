@@ -14,9 +14,9 @@ function varargout = ssdata(varargin)
   narginchk(1, 1);
   nargoutchk(0, 5);
   sys = varargin{1};
-  
+
   if ~islti(sys)
-    error(_('LTI model expected.'));
+    error('Nelson:control_system:invalidType', '%s expected.', 'LTI model');
   end
   sys = ss(sys);
   varargout{1} = sys.A;

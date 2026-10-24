@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,11 +9,13 @@
 //=============================================================================
 #include "warningBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "Warning.hpp"
 #include "WarningIds.hpp"
 #include "IsWarningStruct.hpp"
-#include "PredefinedErrorMessages.hpp"
+#include "ErrorFunction.hpp"
+#include "StringPrintf.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -107,30 +109,30 @@ warningStruct(const WARNING_IDS_STATES& list)
     dims[0] = list.IDs.size();
     dims[1] = 1;
     if (list.IDs.empty()) {
-        retval << ArrayOf::emptyStructConstructor(fieldnames, dims);
+        retval << ArrayOf::emptyStruct(fieldnames, dims);
     } else {
         auto* elements = static_cast<ArrayOf*>(
-            ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, dims.getElementCount(), fieldnames, false));
+            ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, dims.elementCount(), fieldnames, false));
         ArrayOf st = ArrayOf(NLS_STRUCT_ARRAY, dims, elements, false, fieldnames);
         ArrayOfVector identifiers;
         ArrayOfVector states;
         identifiers.reserve(dims[0]);
         states.reserve(dims[0]);
         for (size_t k = 0; k < list.IDs.size(); ++k) {
-            identifiers.push_back(ArrayOf::characterArrayConstructor(list.IDs[k]));
+            identifiers.push_back(ArrayOf::characterArray(list.IDs[k]));
             switch (list.states[k]) {
             case WARNING_STATE::AS_ERROR:
-                states.push_back(ArrayOf::characterArrayConstructor(L"aserror"));
+                states.push_back(ArrayOf::characterArray(L"aserror"));
                 break;
             case WARNING_STATE::DISABLED:
-                states.push_back(ArrayOf::characterArrayConstructor(L"off"));
+                states.push_back(ArrayOf::characterArray(L"off"));
                 break;
             case WARNING_STATE::ENABLED:
-                states.push_back(ArrayOf::characterArrayConstructor(L"on"));
+                states.push_back(ArrayOf::characterArray(L"on"));
                 break;
             case WARNING_STATE::NOT_FOUND:
             default:
-                states.push_back(ArrayOf::characterArrayConstructor(L"notfound"));
+                states.push_back(ArrayOf::characterArray(L"notfound"));
                 break;
             }
         }
@@ -154,7 +156,7 @@ warningBuiltinNoRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
         retval = warningStruct(getAllWarningState());
     } break;
     default: {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(L"Nelson:tooManyOutputs", L"Too many output arguments.");
     } break;
     }
     return retval;
@@ -171,32 +173,34 @@ warningBuiltinOneRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             clearWarningIdsList();
             for (const auto& state : states) {
                 if (!isState(state)) {
-                    Error(_W("Wrong value for #1 argument: valid warning struct expected."));
+                    Error(L"Nelson:warning:invalidStruct",
+                        L"Wrong value for #%d argument: valid warning struct expected.", 1);
                 }
             }
             for (size_t k = 0; k < identifiers.size(); k++) {
                 setWarningId(identifiers[k], stringToState(states[k]), false);
             }
         } else {
-            Error(_W("Wrong value for #1 argument: valid warning struct expected."));
+            Error(L"Nelson:warning:invalidStruct",
+                L"Wrong value for #%d argument: valid warning struct expected.", 1);
         }
     } else {
-        Exception lastWarning = eval->getLastWarningException();
-        std::wstring msg = argIn[0].getContentAsWideString();
+        NelsonException lastWarning = eval->getLastWarningException();
+        std::wstring msg = argIn[0].asWideString();
         if (msg.empty()) {
             eval->resetLastWarningException();
             switch (nLhs) {
             case 0: {
             } break;
             case 1: {
-                retval << ArrayOf::characterArrayConstructor(lastWarning.getMessage());
+                retval << ArrayOf::characterArray(lastWarning.message());
             } break;
             case 2: {
-                retval << ArrayOf::characterArrayConstructor(lastWarning.getMessage());
-                retval << ArrayOf::characterArrayConstructor(lastWarning.getIdentifier());
+                retval << ArrayOf::characterArray(lastWarning.message());
+                retval << ArrayOf::characterArray(lastWarning.identifier());
             } break;
             default: {
-                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                Error(L"Nelson:tooManyOutputs", L"Too many output arguments.");
             } break;
             }
         } else if (isQuery(msg)) {
@@ -208,7 +212,7 @@ warningBuiltinOneRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
                 retval = warningStruct(getAllWarningState());
             } break;
             default: {
-                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                Error(L"Nelson:tooManyOutputs", L"Too many output arguments.");
             } break;
             }
         } else if (isState(msg)) {
@@ -216,30 +220,28 @@ warningBuiltinOneRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
             setWarningId(L"all", stringToState(msg));
             switch (nLhs) {
             case 0: {
-                // NOTHING TO DO
             } break;
             case 1: {
                 retval = warningStruct(previousList);
             } break;
             default: {
-                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                Error(L"Nelson:tooManyOutputs", L"Too many output arguments.");
             } break;
             }
         } else {
             Warning(msg);
             switch (nLhs) {
             case 0: {
-                // NOTHING TO DO
             } break;
             case 1: {
-                retval << ArrayOf::characterArrayConstructor(lastWarning.getMessage());
+                retval << ArrayOf::characterArray(lastWarning.message());
             } break;
             case 2: {
-                retval << ArrayOf::characterArrayConstructor(lastWarning.getMessage());
-                retval << ArrayOf::characterArrayConstructor(lastWarning.getIdentifier());
+                retval << ArrayOf::characterArray(lastWarning.message());
+                retval << ArrayOf::characterArray(lastWarning.identifier());
             } break;
             default: {
-                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+                Error(L"Nelson:tooManyOutputs", L"Too many output arguments.");
             } break;
             }
         }
@@ -251,48 +253,104 @@ static ArrayOfVector
 warningBuiltinTwoRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    std::wstring id = argIn[0].getContentAsWideString();
-    std::wstring msg = argIn[1].getContentAsWideString();
+    std::wstring id = argIn[0].asWideString();
+    std::wstring msg = argIn[1].asWideString();
     if (isQuery(id)) {
-        Error(_W("warning('query') does not require an second argument."));
-    } else if (isState(id)) {
-        WARNING_STATE state = stringToState(id);
-        setWarningId(msg, state);
+        // warning('query', ID): ID may be 'all' for the global default
+        WARNING_STATE state = warningCheckState(msg);
+        if (state == WARNING_STATE::NOT_FOUND) {
+            state = WARNING_STATE::ENABLED;
+        }
         switch (nLhs) {
         case 0: {
-            // NOTHING TO DO
+            Interface* io = eval->getInterface();
+            if (io != nullptr) {
+                io->outputMessage(formatWarningIDStateLine(msg, state));
+            }
         } break;
         case 1: {
             wstringVector fieldnames;
             ArrayOfVector fieldvalues;
             fieldnames.push_back(L"identifier");
             fieldnames.push_back(L"state");
-            fieldvalues.push_back(ArrayOf::characterArrayConstructor(msg));
-            fieldvalues.push_back(ArrayOf::characterArrayConstructor(id));
-            retval << ArrayOf::structConstructor(fieldnames, fieldvalues);
+            fieldvalues.push_back(ArrayOf::characterArray(msg));
+            fieldvalues.push_back(ArrayOf::characterArray(stateToString(state)));
+            retval << ArrayOf::structArray(fieldnames, fieldvalues);
         } break;
         default: {
-            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+            Error(L"Nelson:tooManyOutputs", L"Too many output arguments.");
+        } break;
+        }
+    } else if (isState(id)) {
+        WARNING_STATE state = stringToState(id);
+        setWarningId(msg, state);
+        switch (nLhs) {
+        case 0: {
+        } break;
+        case 1: {
+            wstringVector fieldnames;
+            ArrayOfVector fieldvalues;
+            fieldnames.push_back(L"identifier");
+            fieldnames.push_back(L"state");
+            fieldvalues.push_back(ArrayOf::characterArray(msg));
+            fieldvalues.push_back(ArrayOf::characterArray(id));
+            retval << ArrayOf::structArray(fieldnames, fieldvalues);
+        } break;
+        default: {
+            Error(L"Nelson:tooManyOutputs", L"Too many output arguments.");
         } break;
         }
     } else {
-        Exception lastWarning = eval->getLastWarningException();
-        Warning(id, msg);
+        NelsonException lastWarning = eval->getLastWarningException();
+        RaiseWarning(id, msg);
         switch (nLhs) {
         case 0: {
-            // NOTHING TO DO
         } break;
         case 1: {
-            retval << ArrayOf::characterArrayConstructor(lastWarning.getMessage());
+            retval << ArrayOf::characterArray(lastWarning.message());
         } break;
         case 2: {
-            retval << ArrayOf::characterArrayConstructor(lastWarning.getMessage());
-            retval << ArrayOf::characterArrayConstructor(lastWarning.getIdentifier());
+            retval << ArrayOf::characterArray(lastWarning.message());
+            retval << ArrayOf::characterArray(lastWarning.identifier());
         } break;
         default: {
-            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+            Error(L"Nelson:tooManyOutputs", L"Too many output arguments.");
         } break;
         }
+    }
+    return retval;
+}
+//=============================================================================
+// warning(IDENTIFIER, FORMAT, A1, A2, ...): printf-style, like error(). The
+// first argument may also be a plain format string (no identifier).
+static ArrayOfVector
+warningBuiltinFormatRhs(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
+{
+    ArrayOfVector retval;
+    NelsonException lastWarning = eval->getLastWarningException();
+    ErrorParseResult parsed = ParseErrorFunctionArguments(argIn);
+    if (parsed.needsFormatting) {
+        std::wstring message;
+        std::wstring formatError;
+        if (!StringPrintf(message, formatError, eval, parsed.formatArguments)) {
+            Error(L"Nelson:warning:formatFailed", formatError);
+        }
+        parsed.exception.setMessage(message);
+    }
+    RaiseWarning(parsed.exception.identifier(), parsed.exception.message());
+    switch (nLhs) {
+    case 0: {
+    } break;
+    case 1: {
+        retval << ArrayOf::characterArray(lastWarning.message());
+    } break;
+    case 2: {
+        retval << ArrayOf::characterArray(lastWarning.message());
+        retval << ArrayOf::characterArray(lastWarning.identifier());
+    } break;
+    default: {
+        Error(L"Nelson:tooManyOutputs", L"Too many output arguments.");
+    } break;
     }
     return retval;
 }
@@ -312,7 +370,7 @@ Nelson::ErrorManagerGateway::warningBuiltin(Evaluator* eval, int nLhs, const Arr
         return warningBuiltinTwoRhs(eval, nLhs, argIn);
     } break;
     default: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        return warningBuiltinFormatRhs(eval, nLhs, argIn);
     } break;
     }
     return retval;

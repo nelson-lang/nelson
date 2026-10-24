@@ -17,5 +17,6 @@ namespace Nelson {
 //=============================================================================
 NLSSTREAM_MANAGER_IMPEXP bool
 printfFunction(const ArrayOfVector& args, std::wstring& errorMessage, std::wstring& result);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

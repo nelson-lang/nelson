@@ -21,7 +21,7 @@ function varargout = writematrix(varargin)
     mustBeTextScalar(filename, 2);
     filename = convertStringsToChars(filename);
   end
-  
+
   is_text = strcmp(fileparts(filename, 'extension'), '.txt') || strcmp(fileparts(filename, 'extension'), '.csv') || strcmp(fileparts(filename, 'extension'), '.dat');
   if (nargin < 3 && (isnumeric(M) || islogical(M)) && is_text)
     % dlmwrite is faster than convert to table and write
@@ -33,11 +33,11 @@ function varargout = writematrix(varargin)
     dlmwrite(filename, M, ',', 0, 0, eol, '%.15g');
     return;
   end
-  
+
   if (nargin > 3 && mod(nargin - 2, 2) ~= 0)
-    error(_('Incorrect number of arguments.'));
+    error('Nelson:spreadsheet:incorrectNumberArguments2', 'Incorrect number of arguments.');
   end
-  
+
   checkRestrictedOptions(varargin);
   if (nargin > 2)
     args = varargin(3:end);
@@ -51,10 +51,10 @@ end
 function checkRestrictedOptions(varargin)
   for i = 3:2:nargin
     if strcmp('WriteVariableNames', convertStringsToChars(varargin{i}))
-      error(_('WriteVariableNames not allowed.'));
+      error('Nelson:spreadsheet:writeVariableNamesNotAllowed', '%s not allowed.', 'WriteVariableNames');
     end
     if strcmp('WriteRowNames', convertStringsToChars(varargin{i}))
-      error(_('WriteRowNames not allowed.'));
+      error('Nelson:spreadsheet:writeRowNamesNotAllowed', '%s not allowed.', 'WriteRowNames');
     end
   end
 end

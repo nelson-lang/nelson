@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -19,12 +19,11 @@ Nelson::LocalizationGateway::setlanguageBuiltin(int nLhs, const ArrayOfVector& a
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 1, 1);
-    std::wstring desiredLang = argIn[0].getContentAsWideString();
+    std::wstring desiredLang = argIn[0].asWideString();
     if (Localization::Instance()->isSupportedLanguage(desiredLang)) {
-        retval << ArrayOf::logicalConstructor(
-            Localization::Instance()->setLanguage(desiredLang, true));
+        retval << ArrayOf::logicalScalar(Localization::Instance()->setLanguage(desiredLang, true));
     } else {
-        retval << ArrayOf::logicalConstructor(false);
+        retval << ArrayOf::logicalScalar(false);
     }
     return retval;
 }

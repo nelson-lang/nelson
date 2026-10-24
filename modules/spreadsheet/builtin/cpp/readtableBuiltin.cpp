@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,48 +9,30 @@
 //=============================================================================
 #include "readtableBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#include "ReadTable.hpp"
-#include "DetectImportOptions.hpp"
+#include "SpreadsheetTableIOHelpers.hpp"
+#include "JsonTableIOHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
-Nelson::SpreadsheetGateway::readtableBuiltin(int nLhs, const ArrayOfVector& argIn)
+Nelson::SpreadsheetGateway::readtableBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
-    nargincheck(argIn, 1, 2);
-    std::wstring filename = argIn[0].getContentAsWideString();
-    std::string errorMessage;
-    detectImportOptions options;
-
-    initializeDetectImportOptions(options);
-
-    if (argIn.size() > 1 && argIn[1].isClassType()
-        && argIn[1].getClassType() == "DelimitedTextImportOptions") {
-
-        options.Delimiter = argIn[1].getField("Delimiter").getContentAsCStringRowVector();
-        options.LineEnding = argIn[1].getField("LineEnding").getContentAsCStringRowVector();
-        options.CommentStyle = argIn[1].getField("CommentStyle").getContentAsCStringRowVector();
-        options.EmptyLineRule = argIn[1].getField("EmptyLineRule").getContentAsCString();
-        options.VariableNamesLine
-            = (int)argIn[1].getField("VariableNamesLine").getContentAsDoubleScalar();
-        options.VariableNames = argIn[1].getField("VariableNames").getContentAsCStringRowVector();
-        options.RowNamesColumn
-            = (int)argIn[1].getField("RowNamesColumn").getContentAsDoubleScalar();
-        options.DataLines = argIn[1].getField("DataLines").getContentAsDoubleVector();
-
-    } else {
-        analyzeFileFormatImportOptions(filename, 4096, options, errorMessage);
-        if (!errorMessage.empty()) {
-            Error(errorMessage);
-        }
+    nargincheck(argIn, 1);
+    std::wstring filename = argIn[0].asWideString();
+    if (isJsonReadRequest(filename, argIn, 1)) {
+        ArrayOfVector result = callJsonTableFunction(eval, "__readtable_json__", argIn, 1);
+        retval << normalizeImportedTimeTextColumns(result[0]);
+        return retval;
     }
-
-    retval << ReadTable(filename, options, errorMessage);
-    if (!errorMessage.empty()) {
-        Error(errorMessage);
+    nargincheck(argIn, 1, 16);
+    size_t firstNameValue = 1;
+    retval << readTableWithImportOptions(eval, filename, argIn, 1, firstNameValue);
+    if (firstNameValue != argIn.size()) {
+        Error(L"Nelson:spreadsheet:importOptionsExpected", L"Import options object expected.");
     }
     return retval;
 }

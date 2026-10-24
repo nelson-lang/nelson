@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "JuliaEnvironment_displayBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
@@ -29,18 +30,18 @@ Nelson::Julia_engineGateway::JuliaEnvironment_displayBuiltin(
     if (param1.isHandle()) {
         std::wstring name;
         if (argIn.size() == 2) {
-            name = argIn[1].getContentAsWideString();
+            name = argIn[1].asWideString();
         }
         Interface* io = eval->getInterface();
         DisplayVariableHeader(io, param1, name, false);
         if (param1.isScalar()) {
 
-            auto* juliaEnvironment = (JuliaEnvironment*)param1.getContentAsHandleScalar();
+            auto* juliaEnvironment = (JuliaEnvironment*)param1.asHandleScalar();
             juliaEnvironment->display(io);
         }
         DisplayVariableFooter(io, name.empty());
     } else {
-        Error(_W("JuliaEnvironment object expected."));
+        Error(L"Nelson:Julia:invalidEnvironmentObject", L"JuliaEnvironment object expected.");
     }
     return retval;
 }

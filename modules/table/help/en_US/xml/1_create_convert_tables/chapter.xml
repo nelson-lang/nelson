@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>table</module_name>
+  <chapter>Create and Convert Tables</chapter>
+  <chapter_description>
+    <p>Functions for creating tables and timetables and converting between tabular and other data forms.</p>
+  </chapter_description>
+</xmldoc>

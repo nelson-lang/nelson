@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>timeseries.setuniformtime</keyword>
+  <short_description>Definit un vecteur de temps a pas uniforme.</short_description>
+  <syntax>
+    <syntax_item>tsOut = setuniformtime(ts, &apos;StartTime&apos;, startTime, &apos;Interval&apos;, step, &apos;Length&apos;, n)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>ts</param_name>
+      <param_description>Objet timeseries en entree.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>startTime</param_name>
+      <param_description>Temps du premier echantillon.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>step</param_name>
+      <param_description>Pas uniforme entre les echantillons.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>n</param_name>
+      <param_description>Nombre d'echantillons.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>tsOut</param_name>
+      <param_description>Objet timeseries de sortie avec un vecteur de temps a pas uniforme.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>setuniformtime</b> Genere un vecteur de temps uniforme a partir des parametres nom-valeur et l'assigne a l'objet.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_data runnable="cli"><![CDATA[ts = timeseries([1; 2; 3; 4]);
+ts = setuniformtime(ts, 'StartTime', 0, 'Interval', 2, 'Length', 4);
+ts.Time
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${time}timeseries">timeseries</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

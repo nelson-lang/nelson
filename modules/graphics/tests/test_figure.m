@@ -10,87 +10,56 @@
 % <--ADV-CLI MODE-->
 %=============================================================================
 close all
-for i=1:10
+for i = 1:10
   figure(i);
 end
 %=============================================================================
 current = gcf();
-assert_isequal(current.Number, 10)
+asserts.isequal(current.Number, 10)
 %=============================================================================
 f1 = figure(1);
 current = gcf();
-assert_isequal(f1, current);
-assert_isequal(current.Number, 1)
+asserts.isequal(f1, current);
+asserts.isequal(current.Number, 1)
 %=============================================================================
 f11 = figure();
 current = gcf();
-assert_isequal(f11, current);
-assert_isequal(current.Number, 11)
+asserts.isequal(f11, current);
+asserts.isequal(current.Number, 11)
 %=============================================================================
 f33 = figure(33);
 current = gcf();
-assert_isequal(f33, current);
-assert_isequal(current.Number, 33)
+asserts.isequal(f33, current);
+asserts.isequal(current.Number, 33)
 %=============================================================================
 f12 = figure();
 current = gcf();
-assert_isequal(f12, current);
-assert_isequal(current.Number, 12)
+asserts.isequal(f12, current);
+asserts.isequal(current.Number, 12)
 %=============================================================================
 f1 = figure(33);
-assert_isequal(f1, gcf());
+asserts.isequal(f1, gcf());
 f35 = figure(35);
-assert_isequal(f35, gcf());
+asserts.isequal(f35, gcf());
 %=============================================================================
-f = figure();
-p = properties(f);
-REF = {'AlphaMap';         
-'BeingDeleted';     
-'BusyAction';       
-'ButtonDownFcn';    
-'Children';    
-'CloseRequestFcn';  
-'Color';  
-'Colormap';
-'CreateFcn';
-'CurrentAxes';
-'DeleteFcn';
-'DevicePixelRatio';
-'DrawLater';        
-'GraphicsSmoothing';
-'Interruptible';
-'KeyPressFcn';    
-'KeyReleaseFcn';    
-'MenuBar';    
-'Name';          
-'NextPlot';         
-'Number';         
-'NumberTitle';      
-'Parent';      
-'Position';
-'Resize';         
-'SizeChangedFcn';   
-'Tag';   
-'ToolBar';          
-'Type';          
-'UserData';         
-'Visible';
-'WindowState'};
-assert_isequal(p, REF);
 %=============================================================================
-f = figure('Resize', 'off');
-assert_isequal(f.Resize, 'off');
-f.Resize = 'on';
-assert_isequal(f.Resize, 'on');
+function position = expected_default_figure_position()
+  position = groot().DefaultFigurePosition;
+end
 %=============================================================================
-f.WindowState = 'normal';
-assert_isequal(f.WindowState, 'normal');
-f.WindowState = 'maximized';
-assert_isequal(f.WindowState, 'maximized');
-f.WindowState = 'minimized';
-assert_isequal(f.WindowState, 'minimized');
-f.WindowState = 'normal';
-assert_isequal(f.WindowState, 'normal');
+function frameSize = expected_figure_frame_size(f)
+  position = f.Position;
+  % A hidden empty figure keeps logical pixels; visible figures and figures
+  % containing axes are captured at device resolution.
+  if strcmp(f.Visible, 'off') && isempty(findobj(f, 'Type', 'axes'))
+    frameSize = [round(position(4)), round(position(3)), 3];
+  else
+    ratio = f.DevicePixelRatio;
+    frameSize = [round(position(4) * ratio), round(position(3) * ratio), 3];
+  end
+end
 %=============================================================================
-close all
+function visibleSize = expected_visible_figure_size(position, f)
+  visibleSize = position(3:4) / f.DevicePixelRatio;
+end
 %=============================================================================

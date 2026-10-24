@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>fileSink</keyword>
+  <keyword_alias>block:fileSink</keyword_alias>
+  <short_description>Represente un recepteur de sortie fichier.</short_description>
+  <syntax>
+    <syntax_item>Block type: fileSink</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>input ports</param_name>
+      <param_description>1 port(s) d entree declare(s).</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p>Represente un recepteur de sortie fichier.</p>
+    <table border="1">
+      <tbody>
+        <tr>
+          <td>Module</td>
+          <td>
+            <code>nflow_blocks</code>
+          </td>
+        </tr>
+        <tr>
+          <td>Bibliotheque</td>
+          <td>Blocs puits</td>
+        </tr>
+        <tr>
+          <td>Type</td>
+          <td>
+            <code>fileSink</code>
+          </td>
+        </tr>
+        <tr>
+          <td>Libelle</td>
+          <td>Output File</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <img src="../../../../libraries/sink/exports/fileSink.svg" align="middle"/>
+    </p>
+    <p>
+      <b>Description</b>
+    </p>
+    <p>Represente un recepteur de sortie fichier.</p>
+    <p>
+      <b>Ports</b>
+    </p>
+    <p>
+      <b>Entree(s)</b>
+    </p>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Port</th>
+          <th>Role</th>
+          <th>Cote</th>
+          <th>Position</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Port_1</td>
+          <td>Signal numerique lu par le bloc.</td>
+          <td>left</td>
+          <td>x=0, y=40</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Sortie(s)</b>
+    </p>
+    <p>Ce bloc ne declare aucune sortie.</p>
+    <p>
+      <b>Parametres</b>
+    </p>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Parametre</th>
+          <th>Valeur par defaut</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <code>path</code>
+          </td>
+          <td>output.csv</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Cles de l inspecteur</b>
+    </p>
+    <p>Ces cles serialisees sont exposees par l inspecteur du bloc.</p>
+    <ul>
+      <li>
+        <code>path</code>
+      </li>
+    </ul>
+    <p>
+      <b>Caracteristiques du bloc</b>
+    </p>
+    <table border="1">
+      <tbody>
+        <tr>
+          <td>Type de bloc</td>
+          <td>fileSink</td>
+        </tr>
+        <tr>
+          <td>Famille</td>
+          <td>Blocs puits</td>
+        </tr>
+        <tr>
+          <td>Taille graphique</td>
+          <td>80 x 80</td>
+        </tr>
+        <tr>
+          <td>Phases</td>
+          <td>none</td>
+        </tr>
+        <tr>
+          <td>Traversee directe</td>
+          <td>voir Algorithmes</td>
+        </tr>
+        <tr>
+          <td>Etat ou historique interne</td>
+          <td>non observe dans le code documente</td>
+        </tr>
+        <tr>
+          <td>Type de donnees signaux</td>
+          <td>valeurs numeriques double</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Algorithmes</b>
+    </p>
+    <ul>
+      <li>INIT : tronque le fichier CSV (parametre FileName) et ecrit l en-tete "t,&lt;id&gt;" (une colonne par element pour un signal vectoriel).</li>
+      <li>AFTER_STEP : ajoute une ligne par echantillon (temps puis valeurs) ; le fichier est ouvert et ferme a chaque phase, une execution annulee garde les lignes deja ecrites.</li>
+      <li>Le code genere ne fait aucune E/S fichier : le bloc devient une colonne de sortie du CSV du programme genere (etiquetee avec l identifiant du bloc).</li>
+    </ul>
+    <p>
+      <b>Capacites et limites</b>
+    </p>
+    <p>La page decrit le comportement runtime natif observe dans les sources C++ du module. Les phases declarees indiquent quand le moteur de simulation appelle le bloc.</p>
+    <p>Generation de code : prise en charge pour C et Rust.</p>
+    <p>
+      <b>Sources d implementation</b>
+    </p>
+    <source_code label="Manifest" path="modules/nflow_blocks/libraries/sink/library.json" language="json"/>
+    <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/sink/fileSink.cpp" language="cpp"/>
+  </description>
+  <used_function/>
+  <bibliography/>
+  <see_also>
+    <see_also_item>
+      <link linkend="${nflow_blocks}sink/scope">scope</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${nflow_blocks}sink/display">display</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${nflow_blocks}source/fileSource">fileSource</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

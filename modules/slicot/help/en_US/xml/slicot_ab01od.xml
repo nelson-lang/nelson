@@ -141,6 +141,20 @@ KSTAIR_IN = zeros(1,N);
 ]]></example_item_data>
     </example_item>
   </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${slicot}slicot_sb01bd">slicot_sb01bd</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${slicot}slicot_tb01id">slicot_tb01id</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${control_system}ctrb">ctrb</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${control_system}ctrbf">ctrbf</link>
+    </see_also_item>
+  </see_also>
   <history>
     <history_item>
       <history_version>1.0.0</history_version>

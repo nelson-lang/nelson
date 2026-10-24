@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -12,6 +12,7 @@
 #include "AfterAllFutureObject.hpp"
 #include "AfterEachFutureObject.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
@@ -32,7 +33,7 @@ Nelson::ParallelGateway::Future_displayBuiltin(
     if (param1.isHandle()) {
         std::wstring name;
         if (argIn.size() == 2) {
-            name = argIn[1].getContentAsWideString();
+            name = argIn[1].asWideString();
         }
         Interface* io = eval->getInterface();
         DisplayVariableHeader(io, param1, name, false);
@@ -50,7 +51,7 @@ Nelson::ParallelGateway::Future_displayBuiltin(
         }
         DisplayVariableFooter(io, name.empty());
     } else {
-        Error(_W("Future handle expected."));
+        Error(L"Nelson:future:handleExpected", L"Future handle expected.");
     }
     return retval;
 }

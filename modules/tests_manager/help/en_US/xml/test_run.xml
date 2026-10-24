@@ -11,6 +11,7 @@
     <syntax_item>status = test_run(&apos;-stoponfail&apos;)</syntax_item>
     <syntax_item>status = test_run(modules)</syntax_item>
     <syntax_item>status = test_run(file_to_test)</syntax_item>
+    <syntax_item>status = test_run(module_name, test_name)</syntax_item>
     <syntax_item>status = test_run(modules, &apos;-stoponfail&apos;)</syntax_item>
     <syntax_item>status = test_run(file_to_test, &apos;-stoponfail&apos;)</syntax_item>
     <syntax_item>status = test_run(modules, option)</syntax_item>
@@ -32,17 +33,27 @@
     <param_input_item>
       <param_name>module_name</param_name>
       <param_description
-      >a string or a cell of string: module name or list of modules.</param_description>
+      >a string or a cell of string: module name or list of modules. Cell arrays are processed in linear
+        index order, including row and column vectors.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>file_to_test</param_name>
       <param_description
-      >a string or a cell of string: file to test or list of filenames.</param_description>
+      >a string or a cell of string: file to test or list of filenames. Cell arrays are processed in
+        linear index order, including row and column vectors.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>test_name</param_name>
+      <param_description
+      >a string or a cell of string: test file name in the module tests directory. The .m extension is
+        optional.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>options</param_name>
       <param_description
-      >a string or a cell of string: supported options &apos;all&apos;, &apos;all_tests&apos;, &apos;unitary_tests&apos;, &apos;nonreg_tests&apos; or &apos;benchs&apos;.</param_description>
+      >a string or a cell of string: supported options &apos;all&apos;, &apos;all_tests&apos;,
+        &apos;unitary_tests&apos;, &apos;nonreg_tests&apos; or &apos;benchs&apos;. The default is
+        &apos;all_tests&apos;.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>xunitfile</param_name>
@@ -56,6 +67,12 @@
       <param_description
       >a string: stop tests execution at first &apos;fails&apos; detected.</param_description>
     </param_input_item>
+    <param_input_item>
+      <param_name>&apos;Launcher&apos;, value</param_name>
+      <param_description
+      >an optional name/value pair: <b>&apos;default&apos;</b> (default) or <b>&apos;webview&apos;</b> to run
+        ADV-CLI-tagged tests through <b>nelson-adv-cli --webview</b> (web/RenderWeb figure backend).</param_description>
+    </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
@@ -65,12 +82,21 @@
   </param_output>
   <description>
     <p>
-      <b>test_run</b> function searchs &apos;test_*.m&apos;, &apos;bug_*.m&apos;, and &apos;bench_*.m&apos; files, executes them, and displays a report about success or failures.</p>
-    <p
-    >Each test or bench is executed in a separated process using the &apos;unix&apos; command.</p>
+      <b>test_run</b> searches &apos;test_*.m&apos; and &apos;bug_*.m&apos; files by default, executes them,
+        and displays a report about success or failures.</p>
+    <p>Use the explicit <b>all</b> option to include &apos;bench_*.m&apos; files, or use <b>bench_run</b>
+      to execute benchmarks separately.</p>
+    <p><b>test_run</b> is a compatibility wrapper over <b>nelson.unittest.run</b>.</p>
+    <p>The optional <b>&apos;Launcher&apos;, &apos;webview&apos;</b> pair may be placed anywhere in the argument
+      list. It routes ADV-CLI-tagged tests to <b>nelson-adv-cli --webview</b> so figures use the headless web
+      (RenderWeb) backend; CLI and GUI tags are unchanged. The same choice can be set with the
+      <b>NELSON_UNITTEST_LAUNCHER</b> environment variable.</p>
+    <p>Each test or bench is executed by a supervised child process. Process reuse requires the explicit
+      <b>&lt;--REUSE PROCESS--&gt;</b> tag.</p>
     <p
     >That enables the current command to continue, even if the test as created an unstable environment.</p>
     <p>It also enables the tests to be independent from one another.</p>
+    <p>Use <b>test_run(module_name, test_name)</b> to run one test file from a module tests directory.</p>
     <p
     >Some special tags can be inserted in the .m files to help the processing of the corresponding test.</p>
     <p>These tags are expected to be found in Nelson comments:</p>
@@ -97,7 +123,8 @@
     <p>
       <b>
         &lt;--CHECK REF--&gt;
-      </b> This test will compare .ref available in same directory with output generated. see <b>test_makeref</b> to generate .ref file.</p>
+      </b> This test will compare .ref available in same directory with output generated. see
+        <b>test_makeref</b> to generate .ref file.</p>
     <p>
       <b>
         &lt;--ENGLISH IMPOSED--&gt;
@@ -140,6 +167,10 @@
       </b> This test will be executed if an audio output is available.</p>
     <p>
       <b>
+        &lt;--AUDIO REQUIRED--&gt;
+      </b> This test requires the audio module (its file functions such as audioread and audiowrite) but no physical audio device. The module is loaded even in a test that belongs to another module; the test is not skipped when no audio device is present.</p>
+    <p>
+      <b>
         &lt;--C/C++ COMPILER REQUIRED--&gt;
       </b> This test will be executed if an C/C++ compiler is available.</p>
     <p>
@@ -157,7 +188,7 @@
     <p>
       <b>
         &lt;--SEQUENTIAL TEST REQUIRED--&gt;
-      </b> This test will be executed sequentialy (1 worker).</p>
+      </b> This test will be executed sequentially (1 worker).</p>
     <p>
       <b>
         &lt;--NATIVE ARCHITECTURE TEST REQUIRED--&gt;
@@ -174,16 +205,41 @@
       <b>
         &lt;--JULIA ENVIRONMENT REQUIRED--&gt;
       </b> This test will be executed if julia environment is available and configured.</p>
-    <p />
+    <p>
+      <b>
+        &lt;--REUSE PROCESS--&gt;
+      </b> This test or bench authorizes the runner to reuse the same child process for several tagged files.</p>
+    <p><b>nelson.unittest.tuneReuse</b> audits these tags with isolated and reused native campaigns. Adding tags
+      requires the explicit <b>AllowAdd</b> option; source changes require <b>Apply</b>.</p>
+    <p>
+      <b>
+        &lt;--WEIGHT N--&gt;
+      </b> Positive scheduling weight. Heavier files are started first by the dynamic worker queue.</p>
+    <p><b>nelson.unittest.tuneWeights</b> can propose or explicitly update these tags from measured results.</p>
+    <p>
+      <b>
+        &lt;--TIMEOUT N--&gt;
+      </b> Positive per-file execution timeout, in seconds, that overrides the default timer for this file
+      only. It does not change the scheduling priority (that is <b>&lt;--WEIGHT N--&gt;</b>). Use it for a
+      legitimately long test or bench that would otherwise be killed by the default timer. The global
+      <b>Timeout</b> run option, when set, still takes precedence over the tag.</p>
     <p>Test can also skipped dynamically using <b>skip_testsuite</b> function.</p>
     <p
-    >To avoid to block the application, tests have an execution timer of 2 minutes and the benchs have a timer of 6 minutes.</p>
+    >To avoid to block the application, tests have an execution timer of 2 minutes and the benchs have a timer
+      of 6 minutes, unless a <b>&lt;--TIMEOUT N--&gt;</b> tag sets a per-file value.</p>
     <p>
-      <b>test_run</b> uses n th workers to execute and speed up tests executions.</p>
+      <b>test_run</b> uses workers to execute tests. Untagged files are executed in separated child processes;
+      files tagged with <b>&lt;--REUSE PROCESS--&gt;</b> can share a child process.</p>
+    <p>Results are displayed progressively in a stable order. Each result line contains a status icon and its
+      elapsed time using the <b>🟢[   9.800s]</b> format.</p>
     <p>Tests with <b>
         &lt;--SEQUENTIAL TEST REQUIRED--&gt;
       </b> are evaluated last.</p>
-    <p>Benchs are evaluated sequentialy.</p>
+    <p>Benchs use one worker when five threads or fewer are available, and two workers otherwise.</p>
+    <p>For the namespaced API, use <b>nelson.unittest.discover</b>, <b>nelson.unittest.select</b>,
+      <b>nelson.unittest.plan</b>, <b>nelson.unittest.run</b>, <b>nelson.unittest.tuneWeights</b>,
+      <b>nelson.unittest.tuneReuse</b>, and <b>nelson.unittest.report</b>.</p>
+    <p>The internal test file executor is private and is not documented as a user function.</p>
   </description>
   <used_function />
   <bibliography />
@@ -200,6 +256,13 @@
       <example_item_description />
       <example_item_data
         runnable="cli"
+      ><![CDATA[test_run('string', 'test_strfind')]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
       ><![CDATA[test_run({'string', 'time'})]]></example_item_data>
     </example_item>
     <example_item>
@@ -209,8 +272,22 @@
         runnable="cli"
       ><![CDATA[test_run({'string', 'time'}, 'all', [tempdir(), 'tests.xml'])]]></example_item_data>
     </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Calibrate process-reuse tags and scheduling weights for tests and benches in
+        every module. An empty target selects all modules. These commands update source files.</example_item_description>
+      <example_item_data><![CDATA[
+nelson.unittest.tuneReuse([], ...
+  'Trials', 3, 'AllowAdd', true, 'Apply', true);
+nelson.unittest.tuneWeights([], ...
+  'Apply', true, 'Workers', 1);
+]]></example_item_data>
+    </example_item>
   </examples>
   <see_also>
+    <see_also_item>
+      <link linkend="${tests_manager}bench_run">bench_run</link>
+    </see_also_item>
     <see_also_item>
       <link linkend="${assert_functions}assert">assert</link>
     </see_also_item>
@@ -219,6 +296,15 @@
     </see_also_item>
     <see_also_item>
       <link linkend="${tests_manager}skip_testsuite">skip_testsuite</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${tests_manager}nelson_unittest">nelson.unittest</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${tests_manager}nelson.unittest.tuneReuse">nelson.unittest.tuneReuse</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${tests_manager}nelson.unittest.tuneWeights">nelson.unittest.tuneWeights</link>
     </see_also_item>
   </see_also>
   <history>

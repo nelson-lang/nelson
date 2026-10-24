@@ -10,17 +10,13 @@
 % <--ADV-CLI MODE-->
 % <--WITH DISPLAY-->
 %=============================================================================
-assert_isequal(nargin('methods'), 1);
-assert_isequal(nargout('methods'), 1);
+asserts.isequal(nargin('methods'), 1);
+asserts.isequal(nargout('methods'), 1);
 %=============================================================================
-if semver(qt_version(), '>=6.0')
-  qml_file_ok = [modulepath('qml_engine', 'tests'), '/test_qml_methods_qt6.qml'];
-else
-  qml_file_ok = [modulepath('qml_engine', 'tests'), '/test_qml_methods_qt5.qml'];
-end
+qml_file_ok = [modulepath('qml_engine', 'tests'), '/test_qml_methods_qt6.qml'];
 qobj = qml_loadfile(qml_file_ok);
 r = methods(qobj);
-assert_istrue(iscellstr(r));
+asserts.istrue(iscellstr(r));
 %=============================================================================
 if ismethod(qobj.children(2), 'myQmlFunction1')
   idx = 2;
@@ -35,7 +31,7 @@ for e = r(:)'
     ok = ok + 1;
   end
 end
-assert_isequal(ok, 3);
+asserts.isequal(ok, 3);
 %=============================================================================
 delete(qobj);
 %=============================================================================

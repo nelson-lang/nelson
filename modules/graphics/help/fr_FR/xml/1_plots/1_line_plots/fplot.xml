@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>fplot</keyword>
+  <short_description>Trace une expression ou une fonction parametrique.</short_description>
+  <syntax>
+    <syntax_item>fplot(f)</syntax_item>
+    <syntax_item>fplot(f, [xmin xmax])</syntax_item>
+    <syntax_item>fplot(xfun, yfun)</syntax_item>
+    <syntax_item>fplot(xfun, yfun, [tmin tmax])</syntax_item>
+    <syntax_item>fplot(..., lineSpec)</syntax_item>
+    <syntax_item>fplot(..., propertyName, propertyValue)</syntax_item>
+    <syntax_item>fplot(ax, ...)</syntax_item>
+    <syntax_item>h = fplot(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>f</param_name>
+      <param_description>fonction evaluee sur les valeurs x.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>xfun</param_name>
+      <param_description>fonction evaluee sur le parametre pour produire les donnees x.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>yfun</param_name>
+      <param_description>fonction evaluee sur le parametre pour produire les donnees y.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>lineSpec</param_name>
+      <param_description>specification de style, marqueur et couleur.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName</param_name>
+      <param_description>nom d&apos;une <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.line.properties">propriete de line</link>.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyValue</param_name>
+      <param_description>valeur d'une propriete de l'objet line.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description>objet axes cible.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>h</param_name>
+      <param_description>objet graphique <b>functionline</b> pour y = f(x), ou objet graphique <b>parameterizedfunctionline</b> pour x = x(t), y = y(t).</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>fplot</b> echantillonne des fonctions sur un intervalle fini et trace le resultat comme un objet graphique de fonction. L'intervalle par defaut est [-5 5].</p>
+    <p>Pour y = f(x), <b>fplot</b> retourne un objet <b>functionline</b>. Pour les courbes parametriques, il retourne un objet <b>parameterizedfunctionline</b>.</p>
+    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.functionline.properties">proprietes de functionline</link> et <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.parameterizedfunctionline.properties">proprietes de parameterizedfunctionline</link> pour les listes completes des proprietes.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="adv-cli"><![CDATA[fplot(@(x) sin(x), [0 2*pi]);
+]]></example_item_data>
+      <example_item_img src="../../../../images/fplot_1.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="adv-cli"><![CDATA[fplot(@(x) exp(-x.^2), [-3 3], '-r', 'LineWidth', 1.5);
+]]></example_item_data>
+      <example_item_img src="../../../../images/fplot_2.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="adv-cli"><![CDATA[fplot(@(t) cos(t), @(t) sin(t), [0 2*pi]);
+axis equal
+]]></example_item_data>
+      <example_item_img src="../../../../images/fplot_3.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}1_plots/1_line_plots/plot">plot</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.functionline.properties">proprietes de functionline</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.parameterizedfunctionline.properties">proprietes de parameterizedfunctionline</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}1_plots/7_surfaces_volumes_polygons/fsurf">fsurf</link>
+    </see_also_item>
+  </see_also>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

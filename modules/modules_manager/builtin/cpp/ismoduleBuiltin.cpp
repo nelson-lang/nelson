@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,9 +9,9 @@
 //=============================================================================
 #include "ismoduleBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "ModulesManager.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -24,22 +24,22 @@ Nelson::ModulesManagerGateway::ismoduleBuiltin(int nLhs, const ArrayOfVector& ar
     std::wstring moduleshortname;
     bool checkIsProtected = false;
     if (argIn.size() == 2) {
-        std::wstring param = argIn[1].getContentAsWideString();
+        std::wstring param = argIn[1].asWideString();
         if (param != L"isprotected") {
-            Error(_("'isprotected' value expected."));
+            Error("Nelson:ismodule:invalidValue", "'isprotected' value expected.");
         }
         checkIsProtected = true;
     }
     if (argIn[0].isRowVectorCharacterArray() || (argIn[0].isStringArray() && argIn[0].isScalar())) {
-        moduleshortname = argIn[0].getContentAsWideString();
+        moduleshortname = argIn[0].asWideString();
     } else {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+        Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1), L"string");
     }
 
     bool bRes = checkIsProtected ? IsProtectedModuleName(moduleshortname)
                                  : IsExistingModuleName(moduleshortname);
 
-    retval << ArrayOf::logicalConstructor(bRes);
+    retval << ArrayOf::logicalScalar(bRes);
     return retval;
 }
 //=============================================================================

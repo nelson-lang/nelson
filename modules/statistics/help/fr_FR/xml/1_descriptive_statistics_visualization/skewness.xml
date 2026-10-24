@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>skewness</keyword>
+  <short_description>Asymetrie d'un jeu de donnees.</short_description>
+  <syntax>
+    <syntax_item>y = skewness(X)</syntax_item>
+    <syntax_item>y = skewness(X, flag)</syntax_item>
+    <syntax_item>y = skewness(X, flag, dim)</syntax_item>
+    <syntax_item>y = skewness(X, flag, vecdim)</syntax_item>
+    <syntax_item>y = skewness(X, flag, 'all')</syntax_item>
+  </syntax>
+  <description>
+    <p><b>skewness</b> calcule l'asymetrie d'echantillon de donnees numeriques. Les valeurs <b>NaN</b> sont omises.</p>
+    <p><b>flag</b> vaut 1 par defaut. Mettre <b>flag</b> a 0 applique la correction de biais.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[X = [1 2 5; 2 4 8; 3 8 13];
+y = skewness(X)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}kurtosis">kurtosis</link></see_also_item>
+    <see_also_item><link linkend="${statistics}mean">mean</link></see_also_item>
+    <see_also_item><link linkend="${statistics}std">std</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

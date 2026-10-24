@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nflow_codegenerate</keyword>
+  <short_description>Genere du code C ou Rust autonome depuis un modele nflow.</short_description>
+  <syntax>
+    <syntax_item>nflow_codegenerate(model)</syntax_item>
+    <syntax_item>nflow_codegenerate(model, destination)</syntax_item>
+    <syntax_item>nflow_codegenerate(model, destination, includeMain)</syntax_item>
+    <syntax_item>nflow_codegenerate(model, destination, includeMain, lang)</syntax_item>
+    <syntax_item>r = nflow_codegenerate(model, destination, includeMain, lang, options)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>model</param_name><param_description>une chaine : chemin du fichier .nflow.</param_description></param_input_item>
+    <param_input_item><param_name>destination</param_name><param_description>une chaine : repertoire de destination (un sous-repertoire au nom du modele est cree). Defaut : le repertoire du modele.</param_description></param_input_item>
+    <param_input_item><param_name>includeMain</param_name><param_description>un logique : emet aussi un main executable (ecriture CSV) et l'echafaudage de build (CMakeLists.txt pour C, Cargo.toml pour Rust). Defaut : true.</param_description></param_input_item>
+    <param_input_item><param_name>lang</param_name><param_description>une chaine : 'C' (defaut) ou 'rust'.</param_description></param_input_item>
+    <param_input_item><param_name>options</param_name><param_description>une struct scalaire : champs 'build' (logique, compile le code genere via CMake / cargo), 'buildConfig' ('Release' par defaut), 'failOnWarning' (logique, transforme les warnings codegen en erreurs).</param_description></param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>r</param_name><param_description>une struct : 'dir' (repertoire genere) et 'warnings' (cell des warnings codegen, p. ex. une retrogradation de solveur).</param_description></param_output_item>
+  </param_output>
+  <description>
+    <p><b>nflow_codegenerate</b> abaisse un diagramme nflow en <b>C</b> ou <b>Rust</b> autonome sans dependance runtime : une struct <code>ModelState</code>, <code>nflow_init</code> / <code>nflow_step</code> / <code>nflow_terminate</code>, un champ <code>ModelInput</code> par label source externe et un champ <code>ModelOutput</code> par label sink externe (et par <code>fileSink</code>).</p>
+    <p><b>Solveurs.</b> Pas fixe <code>ode1</code> (Euler avant par bloc) et <code>ode4</code> (un Runge–Kutta 4 global sur l'etat continu empaquete), plus l'adaptatif embarque <code>ode45</code> (Dormand–Prince 5(4)). Sous <code>ode4</code> / <code>ode45</code>, les surfaces de zero-crossing (integrateur borne, saturation, zone morte, switch, step) sont localisees par bissection exactement comme le simulateur. Les solveurs runtime-only (<code>dae</code>, ...) sont rejetes. Quand un bloc ne peut pas rejoindre le schema RK4, le modele est retrograde en Euler avec un warning <code>solverDowngrade</code> explicite ; <code>ode1</code> avertit que les croisements ne sont pas localises.</p>
+    <p><b>Couverture.</b> Discret, math, logique, lookup (splines incluses), routage, abaissement bus et complexes, quantification des petits entiers/booleens, voies entieres 64 bits exactes, blocs discrets multi-cadence, ilots acausaux (lineaires, Newton embarque et mecanique plane sans joints), et sous-systemes conditionnels (gates enable, trigger, reset, action). Les constructions non supportees sont rejetees avec un message type nommant le bloc fautif, jamais de code silencieusement faux.</p>
+    <p><b>Verification.</b> Le code genere est valide localement par le harnais numerique (<code>nflow_codegen_check_numeric</code>) : compiler, executer, et comparer les trajectoires echantillon par echantillon contre <code>__nflow_simulate__</code>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Generer du C, puis du Rust, depuis un fichier modele.</example_item_description>
+      <example_item_data><![CDATA[% model = 'C:/models/lowpass.nflow';
+% nflow_codegenerate(model, tempdir(), true, 'C');
+% nflow_codegenerate(model, tempdir(), true, 'rust');
+% r = nflow_codegenerate(model, tempdir(), true, 'C', struct('build', true));]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${nflow_engine}sim">sim</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>1.0.0</history_version><history_description>initial version</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

@@ -17,7 +17,7 @@ function y = pinv(varargin)
   end
   [U, S, V] = svd(A, 'econ');
   s = diag(S);
-  if nargin < 2 
+  if nargin < 2
     tol = max(size(A)) * eps(norm(s, inf));
   else
     tol = varargin{2};

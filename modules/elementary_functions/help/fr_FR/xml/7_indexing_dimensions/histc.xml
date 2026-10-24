@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright><language>fr_FR</language><keyword>histc</keyword>
+  <short_description>Comptage d'histogramme avec bornes explicites.</short_description>
+  <syntax><syntax_item>N = histc(X, edges)</syntax_item><syntax_item>[N, bin] = histc(X, edges)</syntax_item><syntax_item>N = histc(X, edges, dim)</syntax_item></syntax>
+  <param_input><param_input_item><param_name>X</param_name><param_description>Tableau numerique ou logique.</param_description></param_input_item><param_input_item><param_name>edges</param_name><param_description>Vecteur numerique de bornes.</param_description></param_input_item><param_input_item><param_name>dim</param_name><param_description>Dimension de travail.</param_description></param_input_item></param_input>
+  <param_output><param_output_item><param_name>N</param_name><param_description>Comptages pour chaque intervalle.</param_description></param_output_item><param_output_item><param_name>bin</param_name><param_description>Indice de classe pour chaque element de X.</param_description></param_output_item></param_output>
+  <description><p><b>histc</b> compte les valeurs dans les classes definies par <b>edges</b>. Les valeurs egales a la derniere borne sont comptees dans la derniere classe.</p></description>
+  <used_function /><bibliography />
+  <examples><example_item><example_item_type>nelson</example_item_type><example_item_description /><example_item_data runnable="cli"><![CDATA[[N, bin] = histc([0 1 1.5 2], [0 1 2])]]></example_item_data></example_item></examples>
+  <see_also><see_also_item><link linkend="${elementary_functions}histcounts">histcounts</link></see_also_item></see_also>
+  <history><history_item><history_version>2.0.0</history_version><history_description>initial version</history_description></history_item></history><authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

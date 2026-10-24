@@ -7,14 +7,13 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
+skip_testsuite(~findcmake(), 'C toolchain (cmake) not available')
 if ispc() && ~havecompiler()
   configuremsvc();
 end
 %=============================================================================
-destinationdir = [tempdir(), 'test_engine/'];
-if isdir(destinationdir)
-  rmdir(destinationdir, 's');
-end
+destinationdir = [tempname(), '/'];
 mkdir(destinationdir);
 destination = [destinationdir, 'test_engine.c'];
 status = copyfile('test_engine.c', destinationdir);
@@ -25,5 +24,5 @@ if ispc()
 else
   generated_executable = [destinationdir, 'test_engine'];
 end
-assert_istrue(isfile(generated_executable));
+asserts.istrue(isfile(generated_executable));
 %=============================================================================

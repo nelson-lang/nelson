@@ -8,9 +8,9 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function varargout = cylinder(varargin)
-  narginchk(0,3);
-  nargoutchk(0,3);
-  
+  narginchk(0, 3);
+  nargoutchk(0, 3);
+
   if (nargin == 3)
     cax = varargin{1};
     args = {varargin{1}, varargin{2}};
@@ -59,8 +59,8 @@ function varargout = cylinder(varargin)
   sintheta(n + 1) = 0;
   x = r * cos(theta);
   y = r * sintheta;
-  z = (0:m-1)' / (m-1) * ones(1, n + 1);
-  
+  z = (0:m - 1)' / (m - 1) * ones(1, n + 1);
+
   if (nargout == 0)
     cax = newplot(cax);
     surf(x, y, z, 'Parent', cax);

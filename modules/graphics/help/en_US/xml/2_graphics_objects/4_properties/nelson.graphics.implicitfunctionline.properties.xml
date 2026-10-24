@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>implicitfunctionline properties</keyword>
+  <short_description>implicitfunctionline graphics object properties.</short_description>
+  <description>
+    <p>This page documents the visible properties returned by <b>properties</b> for an <b>implicitfunctionline</b> graphics object.</p>
+    <table>
+      <tr>
+        <th>Property</th>
+        <th>Action</th>
+        <th>Type and supported values</th>
+      </tr>
+      <tr>
+        <td><b>Annotation</b></td>
+        <td>updates annotation metadata used by graphics inspection.</td>
+        <td>Type: graphics annotation object or empty handle value. Supported values: annotation handle or empty handle.</td>
+      </tr>
+      <tr>
+        <td><b>BeingDeleted</b></td>
+        <td>reports object deletion state.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'off', 'on'.</td>
+      </tr>
+      <tr>
+        <td><b>BusyAction</b></td>
+        <td>controls callback queuing while another callback is running.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'queue', 'cancel'.</td>
+      </tr>
+      <tr>
+        <td><b>ButtonDownFcn</b></td>
+        <td>runs when the object receives a mouse-button event.</td>
+        <td>Type: callback value. Supported values: [], function handle, character vector, string scalar, or callback cell array.</td>
+      </tr>
+      <tr>
+        <td><b>Children</b></td>
+        <td>stores child graphics handles.</td>
+        <td>Type: graphics object handle vector. Supported values: empty vector or child handles.</td>
+      </tr>
+      <tr>
+        <td><b>Clipping</b></td>
+        <td>controls clipping to the parent axes.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>Color</b></td>
+        <td>sets the implicit curve color.</td>
+        <td>Type: RGB triplet or color name. Supported values: RGB triplet, short color name, or long color name.</td>
+      </tr>
+      <tr>
+        <td><b>ColorMode</b></td>
+        <td>'auto' lets Nelson recompute the paired property; 'manual' preserves the assigned value.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>ContextMenu</b></td>
+        <td>attaches a context menu to the object.</td>
+        <td>Type: graphics object handle scalar. Supported values: [] or a uicontextmenu handle.</td>
+      </tr>
+      <tr>
+        <td><b>ContourMatrix</b></td>
+        <td>stores generated contour segment data.</td>
+        <td>Type: numeric matrix. Supported values: [] or a contour matrix.</td>
+      </tr>
+      <tr>
+        <td><b>CreateFcn</b></td>
+        <td>runs when the object is created.</td>
+        <td>Type: callback value. Supported values: [], function handle, character vector, string scalar, or callback cell array.</td>
+      </tr>
+      <tr>
+        <td><b>DataTipTemplate</b></td>
+        <td>updates interactive data tip content.</td>
+        <td>Type: data tip template object or empty handle value. Supported values: data tip template handle or empty handle.</td>
+      </tr>
+      <tr>
+        <td><b>DeleteFcn</b></td>
+        <td>runs when the object is deleted.</td>
+        <td>Type: callback value. Supported values: [], function handle, character vector, string scalar, or callback cell array.</td>
+      </tr>
+      <tr>
+        <td><b>DisplayName</b></td>
+        <td>sets the label used by legends and object identification.</td>
+        <td>Type: text value. Supported values: character row vector or string scalar.</td>
+      </tr>
+      <tr>
+        <td><b>EdgeAlpha</b></td>
+        <td>sets internal contour line transparency.</td>
+        <td>Type: numeric scalar. Supported values: values in [0, 1].</td>
+      </tr>
+      <tr>
+        <td><b>EdgeColor</b></td>
+        <td>sets the internal contour line color.</td>
+        <td>Type: color value. Supported values: RGB triplet, short or long color name, 'flat', 'interp', or 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>FaceAlpha</b></td>
+        <td>sets internal filled contour transparency.</td>
+        <td>Type: numeric scalar or text value. Supported values: values in [0, 1], 'flat', or 'interp'.</td>
+      </tr>
+      <tr>
+        <td><b>FaceColor</b></td>
+        <td>sets internal filled contour color.</td>
+        <td>Type: color value. Supported values: RGB triplet, short or long color name, 'flat', 'interp', or 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>Fill</b></td>
+        <td>controls internal contour filling.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'off', 'on'.</td>
+      </tr>
+      <tr>
+        <td><b>Floating</b></td>
+        <td>controls whether contours use their level as z-coordinate.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'off', 'on'.</td>
+      </tr>
+      <tr>
+        <td><b>Function</b></td>
+        <td>sets the function sampled to generate the implicit curve.</td>
+        <td>Type: function handle. Supported values: scalar function handle with two inputs.</td>
+      </tr>
+      <tr>
+        <td><b>HandleVisibility</b></td>
+        <td>controls handle discovery.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'on', 'off', 'callback'.</td>
+      </tr>
+      <tr>
+        <td><b>HitTest</b></td>
+        <td>controls whether the object can receive pointer events.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>Interruptible</b></td>
+        <td>controls whether callbacks can be interrupted.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>LabelColor</b></td>
+        <td>sets internal contour label color.</td>
+        <td>Type: color value. Supported values: RGB triplet, short or long color name, 'flat', 'interp', or 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>LabelFormat</b></td>
+        <td>sets internal contour label formatting.</td>
+        <td>Type: text value or function handle. Supported values: format text, string scalar, or function handle.</td>
+      </tr>
+      <tr>
+        <td><b>LabelSpacing</b></td>
+        <td>sets spacing between internal contour labels.</td>
+        <td>Type: numeric scalar. Supported values: finite nonnegative values.</td>
+      </tr>
+      <tr>
+        <td><b>LevelList</b></td>
+        <td>stores the implicit zero level used for drawing.</td>
+        <td>Type: numeric vector. Supported values: real finite level values.</td>
+      </tr>
+      <tr>
+        <td><b>LevelListMode</b></td>
+        <td>stores automatic or manual internal contour levels.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>LevelStep</b></td>
+        <td>sets internal contour level spacing.</td>
+        <td>Type: numeric scalar. Supported values: finite positive values.</td>
+      </tr>
+      <tr>
+        <td><b>LevelStepMode</b></td>
+        <td>stores automatic or manual internal level spacing.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>LineColor</b></td>
+        <td>sets the internal contour line color.</td>
+        <td>Type: color value. Supported values: RGB triplet, short or long color name, 'flat', 'interp', or 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>LineStyle</b></td>
+        <td>sets the implicit curve line style.</td>
+        <td>Type: text scalar or character row vector. Supported values: '-', '--', ':', '-.', or 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>LineStyleMode</b></td>
+        <td>'auto' lets Nelson recompute the paired property; 'manual' preserves the assigned value.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>LineWidth</b></td>
+        <td>sets the implicit curve line width.</td>
+        <td>Type: numeric scalar. Supported values: finite positive values.</td>
+      </tr>
+      <tr>
+        <td><b>Marker</b></td>
+        <td>sets the implicit curve marker.</td>
+        <td>Type: text scalar or character row vector. Supported values: marker names such as 'none', 'o', '+', '*', '.', 'x', 'square', or 'diamond'.</td>
+      </tr>
+      <tr>
+        <td><b>MarkerEdgeColor</b></td>
+        <td>sets the marker edge color.</td>
+        <td>Type: RGB triplet or color name. Supported values: 'auto', 'none', RGB triplet, or color name.</td>
+      </tr>
+      <tr>
+        <td><b>MarkerFaceColor</b></td>
+        <td>sets the marker fill color.</td>
+        <td>Type: RGB triplet or color name. Supported values: 'auto', 'none', RGB triplet, or color name.</td>
+      </tr>
+      <tr>
+        <td><b>MarkerMode</b></td>
+        <td>'auto' lets Nelson recompute the paired property; 'manual' preserves the assigned value.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>MarkerSize</b></td>
+        <td>sets the marker size.</td>
+        <td>Type: numeric scalar. Supported values: finite positive values.</td>
+      </tr>
+      <tr>
+        <td><b>MeshDensity</b></td>
+        <td>sets the number of sample points in each direction.</td>
+        <td>Type: positive integer scalar. Supported values: integers greater than one.</td>
+      </tr>
+      <tr>
+        <td><b>Parent</b></td>
+        <td>sets the parent axes.</td>
+        <td>Type: graphics object handle scalar. Supported values: axes handle.</td>
+      </tr>
+      <tr>
+        <td><b>PickableParts</b></td>
+        <td>controls which parts can receive pointer events.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'visible', 'all', 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>Selected</b></td>
+        <td>sets object selection state.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'off', 'on'.</td>
+      </tr>
+      <tr>
+        <td><b>SelectionHighlight</b></td>
+        <td>controls selection highlighting.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>SeriesIndex</b></td>
+        <td>stores series ordering.</td>
+        <td>Type: integer scalar. Supported values: finite integer value.</td>
+      </tr>
+      <tr>
+        <td><b>ShowText</b></td>
+        <td>controls internal contour label display.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'off', 'on'.</td>
+      </tr>
+      <tr>
+        <td><b>SourceTable</b></td>
+        <td>binds the object data to a table; the variable properties select columns.</td>
+        <td>Type: table. Supported values: empty table or a table providing bound variables.</td>
+      </tr>
+      <tr>
+        <td><b>Tag</b></td>
+        <td>stores user text for object identification.</td>
+        <td>Type: text value. Supported values: character row vector or string scalar.</td>
+      </tr>
+      <tr>
+        <td><b>TextList</b></td>
+        <td>sets internal contour levels that receive labels.</td>
+        <td>Type: numeric vector. Supported values: real finite level values.</td>
+      </tr>
+      <tr>
+        <td><b>TextListMode</b></td>
+        <td>stores automatic or manual internal labeled levels.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>TextStep</b></td>
+        <td>sets spacing between internal labeled contour levels.</td>
+        <td>Type: numeric scalar. Supported values: finite positive values.</td>
+      </tr>
+      <tr>
+        <td><b>TextStepMode</b></td>
+        <td>stores automatic or manual internal label spacing.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>Type</b></td>
+        <td>reports the graphics object type.</td>
+        <td>Type: read-only text. Supported values: 'implicitfunctionline'.</td>
+      </tr>
+      <tr>
+        <td><b>UserData</b></td>
+        <td>stores user data on the object.</td>
+        <td>Type: any Nelson value. Supported values: any value.</td>
+      </tr>
+      <tr>
+        <td><b>Visible</b></td>
+        <td>controls object visibility.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>XData</b></td>
+        <td>stores sampled x-coordinates.</td>
+        <td>Type: numeric matrix. Supported values: real numeric matrix matching YData and ZData.</td>
+      </tr>
+      <tr>
+        <td><b>XDataMode</b></td>
+        <td>stores automatic or manual x-coordinate data.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>XDataSource</b></td>
+        <td>stores the x-data source expression.</td>
+        <td>Type: text value. Supported values: character row vector or string scalar.</td>
+      </tr>
+      <tr>
+        <td><b>XRange</b></td>
+        <td>sets the sampled x-interval.</td>
+        <td>Type: two-element numeric vector. Supported values: finite increasing limits.</td>
+      </tr>
+      <tr>
+        <td><b>XRangeMode</b></td>
+        <td>selects automatic or manual x-range limits.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>XVariable</b></td>
+        <td>updates the stored object state.</td>
+        <td>Type: text scalar or character row vector. Supported values: empty text or a workspace/table variable name.</td>
+      </tr>
+      <tr>
+        <td><b>YData</b></td>
+        <td>stores sampled y-coordinates.</td>
+        <td>Type: numeric matrix. Supported values: real numeric matrix matching XData and ZData.</td>
+      </tr>
+      <tr>
+        <td><b>YDataMode</b></td>
+        <td>stores automatic or manual y-coordinate data.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>YDataSource</b></td>
+        <td>stores the y-data source expression.</td>
+        <td>Type: text value. Supported values: character row vector or string scalar.</td>
+      </tr>
+      <tr>
+        <td><b>YRange</b></td>
+        <td>sets the sampled y-interval.</td>
+        <td>Type: two-element numeric vector. Supported values: finite increasing limits.</td>
+      </tr>
+      <tr>
+        <td><b>YRangeMode</b></td>
+        <td>selects automatic or manual y-range limits.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>YVariable</b></td>
+        <td>updates the stored object state.</td>
+        <td>Type: text scalar or character row vector. Supported values: empty text or a workspace/table variable name.</td>
+      </tr>
+      <tr>
+        <td><b>ZData</b></td>
+        <td>stores sampled function values.</td>
+        <td>Type: numeric matrix. Supported values: real numeric matrix matching XData and YData.</td>
+      </tr>
+      <tr>
+        <td><b>ZDataMode</b></td>
+        <td>'auto' lets Nelson recompute the paired property; 'manual' preserves the assigned value.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>ZDataSource</b></td>
+        <td>stores the z-data source expression.</td>
+        <td>Type: text value. Supported values: character row vector or string scalar.</td>
+      </tr>
+      <tr>
+        <td><b>ZLocation</b></td>
+        <td>sets the z-plane used to draw the internal contour.</td>
+        <td>Type: numeric scalar or text value. Supported values: finite scalar, 'zmin', or 'zmax'.</td>
+      </tr>
+      <tr>
+        <td><b>ZVariable</b></td>
+        <td>updates the stored object state.</td>
+        <td>Type: text scalar or character row vector. Supported values: empty text or a workspace/table variable name.</td>
+      </tr>
+    </table>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Inspect implicit function line properties.</example_item_description>
+      <example_item_data><![CDATA[h = fimplicit(@(x, y) x.^2 + y.^2 - 1);
+names = properties(h);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/7_surfaces_volumes_polygons/fimplicit">fimplicit</link></see_also_item>
+    <see_also_item><link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.functioncontour.properties">functioncontour properties</link></see_also_item>
+  </see_also>
+</xmldoc>

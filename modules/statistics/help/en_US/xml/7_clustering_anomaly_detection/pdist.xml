@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>pdist</keyword>
+  <short_description>Pairwise distances between observations.</short_description>
+  <syntax>
+    <syntax_item>D = pdist(X)</syntax_item>
+    <syntax_item>D = pdist(X, distance)</syntax_item>
+    <syntax_item>D = pdist(X, distance, distanceParameter)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description>real numeric matrix. Rows are observations and columns are variables.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>distance</param_name>
+      <param_description>distance name: euclidean, squaredeuclidean, sqeuclidean, cityblock, chebychev, cosine, correlation, hamming, jaccard, minkowski, seuclidean, mahalanobis, or spearman.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>distanceParameter</param_name>
+      <param_description>positive scalar for minkowski, scale vector for seuclidean, or covariance matrix for mahalanobis.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>D</param_name>
+      <param_description>row vector containing distances in condensed form.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>pdist</b> computes distances between pairs of rows of <b>X</b>.</p>
+    <p>The output order is compatible with <b>squareform</b>: pairs are stored as (2,1), (3,1), (3,2), and so on.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Compute distances and expand them to a symmetric matrix.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[X = [0 0; 1 0; 0 2];
+D = pdist(X)
+Z = squareform(D)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${statistics}squareform">squareform</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}pdist2">pdist2</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

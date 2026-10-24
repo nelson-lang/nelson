@@ -13,15 +13,15 @@ p = libpointer('int8Ptr', int8([3 4]));
 %=============================================================================
 R = evalc('display(p)');
 REF = '
-p =
+p = 
 
   1×1 handle [libpointer] 
 
 ';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = evalc('disp(p)');
 REF = '  1×1 handle [libpointer] 
 ';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================

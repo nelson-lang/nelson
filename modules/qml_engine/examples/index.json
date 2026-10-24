@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "file": "basic_window/basic_window.m",
+      "title": "Basic QML window",
+      "description": "Open a minimal declarative user interface.",
+      "tags": [
+        "qml",
+        "beginner"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    },
+    {
+      "file": "basic_layouts/basic_layouts.m",
+      "title": "QML layouts",
+      "description": "Arrange controls with declarative layouts.",
+      "tags": [
+        "qml",
+        "layout"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    },
+    {
+      "file": "checkboxes/checkboxes.m",
+      "title": "Checkbox callbacks",
+      "description": "Exchange checkbox state between QML and Nelson.",
+      "tags": [
+        "qml",
+        "callbacks"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    },
+    {
+      "file": "clock/clock.m",
+      "title": "Animated clock",
+      "description": "Run a richer QML scene with bundled assets.",
+      "tags": [
+        "qml",
+        "animation"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    },
+    {
+      "file": "colors/colors.m",
+      "title": "Color grid",
+      "description": "Display a reusable QML component grid.",
+      "tags": [
+        "qml",
+        "components"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    },
+    {
+      "file": "drag_demo/drag_demo.m",
+      "title": "Drag interaction",
+      "description": "Handle a draggable object and callback.",
+      "tags": [
+        "qml",
+        "interaction"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    },
+    {
+      "file": "dynamic_scene_demo/dynamic_scene_demo.m",
+      "title": "Dynamic QML scene",
+      "description": "Create and update scene objects dynamically.",
+      "tags": [
+        "qml",
+        "dynamic"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    },
+    {
+      "file": "qcharts_demo/qcharts_demo.m",
+      "title": "QML chart gallery",
+      "description": "Explore chart components in a declarative interface.",
+      "tags": [
+        "qml",
+        "charts"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    },
+    {
+      "file": "qml_demos/qml_demos.m",
+      "title": "QML controls gallery",
+      "description": "Browse a collection of reusable controls.",
+      "tags": [
+        "qml",
+        "controls"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    }
+  ]
+}

@@ -32,7 +32,6 @@ template <typename T, typename Enable = void> struct utf8_arg
     }
 };
 //=============================================================================
-// std::wstring
 template <typename T>
 struct utf8_arg<T, std::enable_if_t<std::is_same_v<std::decay_t<T>, std::wstring>>>
 {
@@ -43,7 +42,6 @@ struct utf8_arg<T, std::enable_if_t<std::is_same_v<std::decay_t<T>, std::wstring
     }
 };
 //=============================================================================
-// std::wstring_view (copy required)
 template <typename T>
 struct utf8_arg<T, std::enable_if_t<std::is_same_v<std::decay_t<T>, std::wstring_view>>>
 {
@@ -54,7 +52,6 @@ struct utf8_arg<T, std::enable_if_t<std::is_same_v<std::decay_t<T>, std::wstring
     }
 };
 //=============================================================================
-// const wchar_t*
 template <typename T>
 struct utf8_arg<T, std::enable_if_t<std::is_same_v<std::decay_t<T>, const wchar_t*>>>
 {
@@ -65,7 +62,6 @@ struct utf8_arg<T, std::enable_if_t<std::is_same_v<std::decay_t<T>, const wchar_
     }
 };
 //=============================================================================
-// Helper
 template <typename T>
 auto
 to_utf8_arg(T&& v)
@@ -73,22 +69,17 @@ to_utf8_arg(T&& v)
     return utf8_arg<T>::convert(std::forward<T>(v));
 }
 //=============================================================================
-// fmt sprintf no support wstring -> use fmt::format or this workaround
-// for speed, use fmt::format
-// Public API
+// fmt::sprintf does not accept wstring: format and arguments go through UTF-8.
+// fmt::format is faster when the format string is known at compile time.
 template <typename... Args>
 std::wstring
 sprintf_w_utf8(const std::wstring& wfmt, Args&&... args)
 {
-    // 1) Convert format string (UTF-16 -> UTF-8, optimized)
     std::string fmt_utf8 = wstring_to_utf8(wfmt);
-    // 2) Convert arguments (wstring / wstring_view safe)
     auto utf8_args = std::make_tuple(to_utf8_arg(std::forward<Args>(args))...);
-    // 3) Format using fmt::sprintf
     std::string result_utf8 = std::apply(
         [&](auto&&... a) { return fmt::sprintf(fmt_utf8, std::forward<decltype(a)>(a)...); },
         utf8_args);
-    // 4) Convert result back to UTF-16
     return utf8_to_wstring(result_utf8);
 }
 //=============================================================================

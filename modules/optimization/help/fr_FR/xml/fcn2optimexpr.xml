@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>fcn2optimexpr</keyword>
+  <short_description>Convertir une fonction en expression d'optimization.</short_description>
+  <syntax>
+    <syntax_item>expr = fcn2optimexpr(fcn, in1, ..., inN)</syntax_item>
+    <syntax_item>expr = fcn2optimexpr(fcn, in1, ..., inN, name, value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>fcn</param_name>
+      <param_description>handle de fonction à convertir en expression d'optimization.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>in1, ..., inN</param_name>
+      <param_description>arguments passés à <b>fcn</b> : variables d'optimization, expressions d'optimization ou constantes numériques.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>name, value</param_name>
+      <param_description>arguments optionnels nom-valeur : 'OutputSize', 'ReuseEvaluation', 'Analysis'.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>expr</param_name>
+      <param_description>objet expression d'optimization.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>fcn2optimexpr</b> convertit une fonction en expression d'optimization, afin que les fonctions qui ne peuvent pas être composées à partir des opérateurs élémentaires pris en charge puissent quand même servir d'objectif ou de contrainte dans un modèle problem-based.</p>
+    <p>Lors de l'évaluation de l'expression, chaque argument d'entrée est évalué pour les valeurs courantes des variables, puis <b>fcn</b> est appelée sur les valeurs numériques obtenues.</p>
+  </description>
+  <used_function>
+    <used_function_item>optimvar</used_function_item>
+    <used_function_item>optimexpr</used_function_item>
+    <used_function_item>evaluate</used_function_item>
+  </used_function>
+  <bibliography>J. Nocedal and S. J. Wright, Numerical Optimization, Springer, 2006.</bibliography>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Encapsuler une fonction scalaire d'une variable.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[x = optimvar('x');
+expr = fcn2optimexpr(@(v) sin(v), x);
+value = evaluate(expr, struct('x', pi / 2))
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Utiliser une fonction convertie comme objectif.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[x = optimvar('x');
+prob = optimproblem('Objective', fcn2optimexpr(@(v) (v - 3) .^ 2 + 1, x));
+[sol, fval] = solve(prob, struct('x', 0))
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${optimization}optimexpr">optimexpr</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${optimization}optimvar">optimvar</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${optimization}evaluate">evaluate</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

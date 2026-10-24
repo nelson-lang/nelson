@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function varargout = winter(varargin)
-  nargoutchk(0, 1);    
+  nargoutchk(0, 1);
   narginchk(0, 1);
   if nargin < 1
     R = groot();
@@ -21,15 +21,15 @@ function varargout = winter(varargin)
   else
     n = varargin{1};
   end
-  
+
   if (n == 1)
-    varargout{1} = [ 0,   0,     1];
+    varargout{1} = [0, 0, 1];
   else
     if (n <= 0)
-      varargout{1} = zeros (0, 3);
+      varargout{1} = zeros(0, 3);
     else
-      r = (0:n-1)' / max(n-1, 1); 
-      varargout{1} = [zeros(n,1), r, 0.5 + (1 - r)/2];
+      r = (0:n - 1)' / max(n - 1, 1);
+      varargout{1} = [zeros(n, 1), r, 0.5 + (1 - r) / 2];
     end
   end
 end

@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>tscollection.display</keyword>
+  <short_description>Display a time series collection object.</short_description>
+  <syntax>
+    <syntax_item>display(tsc)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>tsc</param_name>
+      <param_description>A tscollection object.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b>display</b> prints collection time limits and member time series names.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_data runnable="cli"><![CDATA[count1 = timeseries([11; 7; 14], (1:3)', 'Name', 'Intersection1');
+count2 = timeseries([9; 8; 12], (1:3)', 'Name', 'Intersection2');
+tsc = tscollection(count1, 'Name', 'count_coll');
+tsc = addts(tsc, count2);
+display(tsc)
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${time}tscollection">tscollection</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

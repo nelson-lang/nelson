@@ -7,7 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-test_h5save_file = [tempdir(), 'test_h5save_string.nh5'];
+test_h5save_file = [tempname(), '.nh5'];
 if isfile(test_h5save_file)
   rmfile(test_h5save_file);
 end
@@ -17,36 +17,38 @@ end
 A = "Nelson";
 savenh5(test_h5save_file, 'A');
 R = h5readatt(test_h5save_file, '/A', 'NELSON_class');
-assert_isequal(R, 'string');
+asserts.isequal(R, 'string');
 R = h5readatt(test_h5save_file, '/A', 'NELSON_dimensions');
-assert_isequal(R, uint64(size(A)'));
+asserts.isequal(R, uint64(size(A)'));
 R = h5readatt(test_h5save_file, '/A/0', 'NELSON_class');
-assert_isequal(R, 'char');
+asserts.isequal(R, 'char');
 R = h5readatt(test_h5save_file, '/A/0', 'NELSON_dimensions');
-assert_isequal(R, uint64([1; 6]));
+asserts.isequal(R, uint64([1; 6]));
 R = h5read(test_h5save_file, '/A/0');
-REF = uint16([78     101     108     115     111     110]);
-assert_isequal(R, REF);
+REF = uint16([78 101 108 115 111 110]);
+asserts.isequal(R, REF);
 %=============================================================================
-A = ["Nelson" , string(NaN)];
+A = ["Nelson", string(NaN)];
 savenh5(test_h5save_file, 'A');
 R = h5readatt(test_h5save_file, '/A/1', 'NELSON_class');
-assert_isequal(R, 'double');
+asserts.isequal(R, 'double');
 R = h5readatt(test_h5save_file, '/A/1', 'NELSON_dimensions');
-assert_isequal(R, uint64([1; 1]));
+asserts.isequal(R, uint64([1; 1]));
 R = h5read(test_h5save_file, '/A/1');
-assert_isequal(R, NaN);
+asserts.isequal(R, NaN);
 %=============================================================================
 A = string();
 savenh5(test_h5save_file, 'A');
 R = h5readatt(test_h5save_file, '/A', 'NELSON_class');
-assert_isequal(R, 'string');
+asserts.isequal(R, 'string');
 R = h5readatt(test_h5save_file, '/A', 'NELSON_dimensions');
-assert_isequal(R, uint64([1; 1]));
+asserts.isequal(R, uint64([1; 1]));
 R = h5readatt(test_h5save_file, '/A/0', 'NELSON_class');
-assert_isequal(R, 'char');
+asserts.isequal(R, 'char');
 R = h5readatt(test_h5save_file, '/A/0', 'NELSON_dimensions');
-assert_isequal(R, uint64([0; 0]));
+asserts.isequal(R, uint64([0; 0]));
 R = h5read(test_h5save_file, '/A/0');
-assert_isequal(R, uint16(0));
+asserts.isequal(R, uint16(0));
+%=============================================================================
+rmfile(test_h5save_file);
 %=============================================================================

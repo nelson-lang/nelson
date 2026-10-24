@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>runstest</keyword>
+  <short_description>Test des runs pour le hasard.</short_description>
+  <syntax>
+    <syntax_item>h = runstest(x)</syntax_item>
+    <syntax_item>h = runstest(x, v)</syntax_item>
+    <syntax_item>h = runstest(x, 'ud')</syntax_item>
+    <syntax_item>h = runstest(..., Name, Value)</syntax_item>
+    <syntax_item>[h, p, stats] = runstest(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>runstest</b> teste si les valeurs d&apos;un vecteur apparaissent dans un ordre aleatoire. Le test par defaut compte les runs au-dessus et au-dessous de la moyenne de <b>x</b>. Une valeur scalaire <b>v</b> peut etre fournie comme reference. Le mode <b>ud</b> compte les runs de montee et descente.</p>
+    <p>Les arguments nom-valeur incluent <b>Alpha</b>, <b>Method</b> et <b>Tail</b>. Les valeurs <b>NaN</b> et les valeurs exactement egales a la reference sont omises.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[x = [1 2 3 4 5 0 -1 -2];
+[h, p, stats] = runstest(x)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}signtest">signtest</link></see_also_item>
+    <see_also_item><link linkend="${statistics}signrank">signrank</link></see_also_item>
+    <see_also_item><link linkend="${statistics}normcdf">normcdf</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

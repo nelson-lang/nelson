@@ -13,10 +13,10 @@
 % clear('functionName') clears all persistent variables of functionName function
 %=============================================================================
 addpath([nelsonroot(), '/modules/memory_manager/tests/']);
-assert_isequal(test_clear_persistent(), 0);
-assert_isequal(test_clear_persistent(), 1);
-assert_isequal(test_clear_persistent(), 2);
+asserts.isequal(test_clear_persistent(), 0);
+asserts.isequal(test_clear_persistent(), 1);
+asserts.isequal(test_clear_persistent(), 2);
 clear test_clear_persistent
-assert_isequal(test_clear_persistent(), 0);
-assert_isequal(test_clear_persistent(), 1);
-assert_isequal(test_clear_persistent(), 2);
+asserts.isequal(test_clear_persistent(), 0);
+asserts.isequal(test_clear_persistent(), 1);
+asserts.isequal(test_clear_persistent(), 2);

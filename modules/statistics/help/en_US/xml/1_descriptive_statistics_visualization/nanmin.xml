@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nanmin</keyword>
+  <short_description>Minimum, ignoring NaN values.</short_description>
+  <syntax>
+    <syntax_item>y = nanmin(X)</syntax_item>
+    <syntax_item>[y, idx] = nanmin(X)</syntax_item>
+    <syntax_item>y = nanmin(X, Y)</syntax_item>
+    <syntax_item>[y, idx] = nanmin(X, [], dim)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>nanmin</b> returns the minimum after removing <b>NaN</b> values; a slice made only of <b>NaN</b> yields <b>NaN</b>.</p>
+    <p><b>nanmin(X, Y)</b> returns the element-wise minimum of <b>X</b> and <b>Y</b>, ignoring <b>NaN</b>.</p>
+    <p>The optional second output <b>idx</b> holds the indices of the minima. It is equivalent to <b>min(X, ..., 'omitnan')</b>.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[[y, idx] = nanmin([4 NaN 1 NaN 3])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${data_analysis}min">min</link></see_also_item>
+    <see_also_item><link linkend="${statistics}nanmax">nanmax</link></see_also_item>
+    <see_also_item><link linkend="${statistics}nansum">nansum</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

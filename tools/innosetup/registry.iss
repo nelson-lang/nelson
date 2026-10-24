@@ -59,3 +59,31 @@ Root: HKA; Subkey: "Software\Classes\{#APPLICATION_EXTENSION_MAT}\DefaultIcon"; 
 Root: HKA; Subkey: "Software\Classes\{#APPLICATION_EXTENSION_MAT}\shell\{cm:RegKeyLoadWith} Nelson\command"; ValueType: string; ValueName: ""; ValueData: """{app}\bin\{#BinPath}\Nelson-gui.exe"" {#ARGUMENT_ACTION_LOAD} ""%1"""; Flags: deletekey uninsdeletekey noerror; Tasks: AssociateMatFiles;Components: {#COMPONENT_IPC} and {#COMPONENT_GUI};
 Root: HKA; Subkey: "Software\Classes\Applications\{#APPLICATION_NAME}\SupportedTypes"; ValueType: string; ValueName: "{#MAT_ENTRY}"; ValueData: ""; Flags: deletekey uninsdeletekey noerror; Tasks: AssociateMatFiles;Components: {#COMPONENT_IPC} and {#COMPONENT_GUI};
 ;==============================================================================
+;*.nflow
+;==============================================================================
+#define APPLICATION_EXTENSION_NFLOW "Nelson.nflow"
+#define NFLOW_ENTRY ".nflow"
+#define ICON_NFLOW_POS 4
+;==============================================================================
+Root: HKA; Subkey: "Software\Classes\{#NFLOW_ENTRY}\OpenWithProgids"; ValueType: string; ValueName: "{#APPLICATION_EXTENSION_NFLOW}"; ValueData: ""; Flags: deletekey uninsdeletekey noerror; Tasks: AssociateNFlowFiles; Components: {#COMPONENT_IPC} and {#COMPONENT_GUI} and {#COMPONENT_NFLOW};
+Root: HKA; Subkey: "Software\Classes\{#APPLICATION_EXTENSION_NFLOW}"; ValueType: string; ValueName: ""; ValueData: "NFlow model ({#NFLOW_ENTRY})"; Flags: deletekey uninsdeletekey noerror; Tasks: AssociateNFlowFiles; Components: {#COMPONENT_IPC} and {#COMPONENT_GUI} and {#COMPONENT_NFLOW};
+Root: HKA; Subkey: "Software\Classes\{#APPLICATION_EXTENSION_NFLOW}\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\bin\{#BinPath}\Nelson-gui.exe,{#ICON_NFLOW_POS}"; Flags: deletekey uninsdeletekey noerror; Tasks: AssociateNFlowFiles; Components: {#COMPONENT_IPC} and {#COMPONENT_GUI} and {#COMPONENT_NFLOW};
+Root: HKA; Subkey: "Software\Classes\{#APPLICATION_EXTENSION_NFLOW}\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\bin\{#BinPath}\Nelson-gui.exe"" --associated-files ""%1"""; Flags: deletekey uninsdeletekey noerror; Tasks: AssociateNFlowFiles; Components: {#COMPONENT_IPC} and {#COMPONENT_GUI} and {#COMPONENT_NFLOW};
+Root: HKA; Subkey: "Software\Classes\Applications\{#APPLICATION_NAME}\SupportedTypes"; ValueType: string; ValueName: "{#NFLOW_ENTRY}"; ValueData: ""; Flags: deletekey uninsdeletekey noerror; Tasks: AssociateNFlowFiles; Components: {#COMPONENT_IPC} and {#COMPONENT_GUI} and {#COMPONENT_NFLOW};
+;==============================================================================
+;*.nlx (Notebook document)
+;==============================================================================
+#define APPLICATION_EXTENSION_NLX "Nelson.nlx"
+#define NLX_ENTRY ".nlx"
+; Icon position 0 is the application icon. A dedicated Notebook icon can be
+; generated from resources/nlx.svg (resources/nlx.ico) and embedded in
+; Nelson-gui.exe at a new index, then referenced here.
+#define ICON_NLX_POS 0
+;==============================================================================
+Root: HKA; Subkey: "Software\Classes\{#NLX_ENTRY}\OpenWithProgids"; ValueType: string; ValueName: "{#APPLICATION_EXTENSION_NLX}"; ValueData: ""; Flags: deletekey uninsdeletekey noerror; Tasks: AssociateNlxFiles; Components: {#COMPONENT_IPC} and {#COMPONENT_GUI};
+Root: HKA; Subkey: "Software\Classes\{#APPLICATION_EXTENSION_NLX}"; ValueType: string; ValueName: ""; ValueData: "Nelson Notebook ({#NLX_ENTRY})"; Flags: deletekey uninsdeletekey noerror; Tasks: AssociateNlxFiles; Components: {#COMPONENT_IPC} and {#COMPONENT_GUI};
+Root: HKA; Subkey: "Software\Classes\{#APPLICATION_EXTENSION_NLX}\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\bin\{#BinPath}\Nelson-gui.exe,{#ICON_NLX_POS}"; Flags: deletekey uninsdeletekey noerror; Tasks: AssociateNlxFiles; Components: {#COMPONENT_IPC} and {#COMPONENT_GUI};
+Root: HKA; Subkey: "Software\Classes\{#APPLICATION_EXTENSION_NLX}\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\bin\{#BinPath}\Nelson-gui.exe"" {#ARGUMENT_ACTION_EXECUTE} ""%1"""; Flags: deletekey uninsdeletekey noerror; Tasks: AssociateNlxFiles; Components: {#COMPONENT_IPC} and {#COMPONENT_GUI};
+Root: HKA; Subkey: "Software\Classes\{#APPLICATION_EXTENSION_NLX}\shell\{cm:RegKeyRunWith} Nelson\command"; ValueType: string; ValueName: ""; ValueData: """{app}\bin\{#BinPath}\Nelson-gui.exe"" {#ARGUMENT_ACTION_OPEN} ""%1"""; Flags: deletekey uninsdeletekey noerror; Tasks: AssociateNlxFiles; Components: {#COMPONENT_IPC} and {#COMPONENT_GUI};
+Root: HKA; Subkey: "Software\Classes\Applications\{#APPLICATION_NAME}\SupportedTypes"; ValueType: string; ValueName: "{#NLX_ENTRY}"; ValueData: ""; Flags: deletekey uninsdeletekey noerror; Tasks: AssociateNlxFiles; Components: {#COMPONENT_IPC} and {#COMPONENT_GUI};
+;==============================================================================

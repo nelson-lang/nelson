@@ -8,9 +8,9 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 R = horzcat(int32(zeros(0, 0)), int32(2));
-assert_isequal(R, int32(2));
+asserts.isequal(R, int32(2));
 R = horzcat(int32(zeros(1, 0)), int32(2));
-assert_isequal(R, int32(2));
+asserts.isequal(R, int32(2));
 R = horzcat(int32(zeros(0, 1)), int32(2));
-assert_isequal(R, int32(2));
+asserts.isequal(R, int32(2));
 %=============================================================================

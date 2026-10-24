@@ -15,5 +15,6 @@
 namespace Nelson {
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
 AbsoluteValue(const ArrayOf& arrayIn, bool& needToOverload);
-}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

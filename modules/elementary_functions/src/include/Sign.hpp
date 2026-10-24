@@ -17,5 +17,5 @@ namespace Nelson {
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
 Sign(const ArrayOf& A, bool& needToOverload);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

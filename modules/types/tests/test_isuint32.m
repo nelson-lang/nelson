@@ -7,14 +7,14 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('isuint32'), 1);
-assert_isequal(nargout('isuint32'), 1);
+asserts.isequal(nargin('isuint32'), 1);
+asserts.isequal(nargout('isuint32'), 1);
 %=============================================================================
 A = 3;
 res = isuint32(A);
-assert_isfalse(res);
+asserts.isfalse(res);
 %=============================================================================
 A = uint32(3);
 res = isuint32(A);
-assert_istrue(res);
+asserts.istrue(res);
 %=============================================================================

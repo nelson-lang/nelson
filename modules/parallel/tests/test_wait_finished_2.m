@@ -10,11 +10,13 @@
 % <--SEQUENTIAL TEST REQUIRED-->
 %=============================================================================
 fptr = str2func('pause');
-f = parfeval(backgroundPool, fptr, 0, 55);
+pool = backgroundPool();
+f = parfeval(pool, fptr, 0, 2);
 tic()
 R = wait(f, 'finished', 1);
 T = toc();
-assert_isequal(f.State, 'running');
-assert_isfalse(R);
-assert_istrue(abs(T - 1) < 1);
+asserts.isequal(f.State, 'running');
+asserts.isfalse(R);
+asserts.istrue(abs(T - 1) < 1);
+wait(f, 'finished', 3);
 %=============================================================================

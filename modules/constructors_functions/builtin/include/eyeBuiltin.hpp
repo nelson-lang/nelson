@@ -10,11 +10,12 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson::ConstructorsGateway {
 //=============================================================================
 ArrayOfVector
-eyeBuiltin(int nLhs, const ArrayOfVector& argIn);
+eyeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
 }; // namespace Nelson
 //=============================================================================

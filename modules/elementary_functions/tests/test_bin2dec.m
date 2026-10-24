@@ -7,10 +7,12 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('bin2dec'), 1)
-assert_isequal(nargout('bin2dec'), 1)
+asserts.isequal(nargin('bin2dec'), 1)
+asserts.isequal(nargout('bin2dec'), 1)
 %=============================================================================
 R = bin2dec('11');
 REF = 3;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
+%=============================================================================
+asserts.isequal(bin2dec('1010'), 10);
 %=============================================================================

@@ -17,5 +17,5 @@ namespace Nelson {
 NLSXML_IMPEXP void
 XmlPrettyPrint(const wstringVector& xmlFiles, bool formatSpace, std::wstring& errorMessage);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

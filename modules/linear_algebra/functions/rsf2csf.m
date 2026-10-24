@@ -12,25 +12,30 @@ function varargout = rsf2csf(varargin)
   nargoutchk(0, 2);
   U = varargin{1};
   T = varargin{2};
-  n = size(T, 2);
-  for m = n:-1:2
-    m1 = m - 1;
-    if (T(m, m1) ~= 0)
-      k = m1:m;
-      mu = eig(T(k, k)) - T(m, m);
-      r = hypot(mu(1), T(m, m1));
-      c = mu(1) / r;
-      s = T(m, m1) / r;
-      G = [c', s; -s, c];
-      T(k, m1:n) = G * T(k, m1:n);
-      T(1:m, k) = T(1:m, k) * G';
-      U(:, k) = U(:, k) * G';
-      T(m, m1) = 0;
+  order = size(T, 2);
+  for blockEnd = order:-1:2
+    subDiagonal = blockEnd - 1;
+    if T(blockEnd, subDiagonal) ~= 0
+      block = subDiagonal:blockEnd;
+      rotation = schurBlockRotation(T(block, block), T(blockEnd, blockEnd), ...
+        T(blockEnd, subDiagonal));
+      T(block, subDiagonal:order) = rotation * T(block, subDiagonal:order);
+      T(1:blockEnd, block) = T(1:blockEnd, block) * rotation';
+      U(:, block) = U(:, block) * rotation';
+      T(blockEnd, subDiagonal) = 0;
     end
   end
   varargout{1} = U;
   if (nargout == 2)
     varargout{2} = T;
   end
+end
+%=============================================================================
+function rotation = schurBlockRotation(block, diagonalValue, subDiagonalValue)
+  delta = eig(block) - diagonalValue;
+  scale = hypot(delta(1), subDiagonalValue);
+  cosineValue = delta(1) / scale;
+  sineValue = subDiagonalValue / scale;
+  rotation = [cosineValue', sineValue; -sineValue, cosineValue];
 end
 %=============================================================================

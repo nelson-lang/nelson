@@ -13,38 +13,36 @@ function varargout = xmldoclinkchecker(varargin)
 
     if nargin == 0
         modules_path = [nelsonroot(), '/modules/'];
-        module_list = dir(modules_path);
+        module_list = get_modules_help_list();
         disp(_('Checking XML documentation links...'));
         for i = 1:length(module_list)
-            if module_list(i).isdir && ~ismember(module_list(i).name, {'.', '..'})
-                module_name = module_list(i).name;
-                for lang = getavailablelanguages()'
-                    help_path = [modules_path, module_name, '/help/', lang{1}, '/xml/'];
-                    if isdir(help_path) && isfile([help_path, 'chapter.xml'])
-                        switch nargout()
-                        case 0
-                            xmldoclinkchecker(help_path);
-                        case 1
-                            state = xmldoclinkchecker(help_path);
-                            if ~state
-                                varargout{1} = state;
-                                return
-                            end
-                        case 2
-                            [state, errors_detected] = xmldoclinkchecker(help_path);
-                            if ~state
-                                varargout{1} = state;
-                                varargout{2} = errors_detected;
-                                return
-                            end
-                        case 3
-                            [state, errors_detected, warnings_detected] = xmldoclinkchecker(help_path);
-                            if ~state
-                                varargout{1} = state;
-                                varargout{2} = errors_detected;
-                                varargout{3} = warnings_detected;
-                                return
-                            end
+            module_name = module_list{i};
+            for lang = getavailablelanguages()'
+                help_path = [modules_path, module_name, '/help/', lang{1}, '/xml/'];
+                if isdir(help_path) && isfile([help_path, 'chapter.xml'])
+                    switch nargout()
+                    case 0
+                        xmldoclinkchecker(help_path);
+                    case 1
+                        state = xmldoclinkchecker(help_path);
+                        if ~state
+                            varargout{1} = state;
+                            return
+                        end
+                    case 2
+                        [state, errors_detected] = xmldoclinkchecker(help_path);
+                        if ~state
+                            varargout{1} = state;
+                            varargout{2} = errors_detected;
+                            return
+                        end
+                    case 3
+                        [state, errors_detected, warnings_detected] = xmldoclinkchecker(help_path);
+                        if ~state
+                            varargout{1} = state;
+                            varargout{2} = errors_detected;
+                            varargout{3} = warnings_detected;
+                            return
                         end
                     end
                 end
@@ -77,7 +75,7 @@ function varargout = xmldoclinkchecker(varargin)
             index_dirs = localResolveIndexDirectories(target);
         else
             if ~isfile(target)
-                error(_('File not found: %s'), target);
+                error('Nelson:FileNotFound', 'File ''%s'' not found.', target);
             end
             files_to_check = {target};
             index_dirs = localResolveIndexDirectories(fileparts(target));
@@ -88,7 +86,7 @@ function varargout = xmldoclinkchecker(varargin)
 
     if nargout == 0
         if ~state
-            error(errors_detected{1});
+            error('Nelson:xmldoclinkchecker:validationError', errors_detected{1});
         end
         return;
     end
@@ -153,7 +151,7 @@ function index_dirs = localResolveIndexDirectories(pathname)
 
     xml_root = localFindXmlRoot(pathname);
     if isempty(xml_root)
-        error(_('No XML documentation root found from: %s'), pathname);
+        error('Nelson:xmldoclinkchecker:rootNotFound', 'No XML documentation root found from: %s', pathname);
     end
     index_dirs = {xml_root};
 end

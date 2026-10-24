@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nbincdf</keyword>
+  <short_description>Negative binomial cumulative distribution function</short_description>
+  <syntax>
+    <syntax_item>pout = nbincdf(x, r, p)</syntax_item>
+    <syntax_item>pout = nbincdf(x, r, p, 'upper')</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>x</param_name><param_description>real numeric array: number of failures.</param_description></param_input_item>
+    <param_input_item><param_name>r</param_name><param_description>positive scalar or array: number of successes.</param_description></param_input_item>
+    <param_input_item><param_name>p</param_name><param_description>scalar or array in the range [0, 1]: success probability.</param_description></param_input_item>
+  </param_input>
+  <param_output><param_output_item><param_name>pout</param_name><param_description>cumulative probabilities.</param_description></param_output_item></param_output>
+  <description><p><b>nbincdf</b> computes cumulative probabilities for the negative binomial distribution.</p></description>
+  <examples><example_item><example_item_type>nelson</example_item_type><example_item_description /><example_item_data runnable="cli"><![CDATA[x = 0:5;
+pout = nbincdf(x, 3, 0.4);]]></example_item_data></example_item></examples>
+  <history><history_item><history_version>2.0.0</history_version><history_description>initial version</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

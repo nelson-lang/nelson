@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "svdBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "OverloadRequired.hpp"
 #include "SVD.hpp"
@@ -30,18 +31,18 @@ Nelson::LinearAlgebraGateway::svdBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (argIn.size() == 2) {
         ArrayOf param2 = argIn[1];
         if (param2.isRowVectorCharacterArray()) {
-            std::wstring paramAsString = param2.getContentAsWideString();
+            std::wstring paramAsString = param2.asWideString();
             if (L"econ" == paramAsString) {
                 svdFlag = SVD_FLAG::SVD_ECON;
             } else {
-                Error(_W("svd(X, 0) or svd(X, 'econ') expected."));
+                Error(L"Nelson:svd:invalidOption", L"%s expected.", L"svd(X, 0) or svd(X, 'econ')");
             }
         } else {
-            indexType paramAsIndex = param2.getContentAsScalarIndex(true);
+            indexType paramAsIndex = param2.asScalarIndex(true);
             if (paramAsIndex == 0) {
                 svdFlag = SVD_FLAG::SVD_0;
             } else {
-                Error(_W("svd(X, 0) or svd(X, 'econ') expected."));
+                Error(L"Nelson:svd:invalidOption", L"%s expected.", L"svd(X, 0) or svd(X, 'econ')");
             }
         }
     }
@@ -69,7 +70,7 @@ Nelson::LinearAlgebraGateway::svdBuiltin(int nLhs, const ArrayOfVector& argIn)
         retval << V;
     } break;
     default:
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(L"Nelson:tooManyOutputs", L"Too many output arguments.");
         break;
     }
     return retval;

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -18,8 +18,8 @@ Nelson::TypeGateway::isint16Builtin(int nLhs, const ArrayOfVector& argIn)
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 1, 1);
-    bool bRes = (argIn[0].getDataClass() == NLS_INT16);
-    retval << ArrayOf::logicalConstructor(bRes);
+    bool bRes = (argIn[0].dataClass() == NLS_INT16);
+    retval << ArrayOf::logicalScalar(bRes);
     return retval;
 }
 //=============================================================================

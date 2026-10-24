@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>contourslice</keyword>
+  <short_description>Afficher des lignes de contour sur des coupes de volume.</short_description>
+  <syntax>
+    <syntax_item>contourslice(V, xs, ys, zs)</syntax_item>
+    <syntax_item>contourslice(V, XI, YI, ZI)</syntax_item>
+    <syntax_item>contourslice(X, Y, Z, V, xs, ys, zs)</syntax_item>
+    <syntax_item>contourslice(X, Y, Z, V, XI, YI, ZI)</syntax_item>
+    <syntax_item>contourslice(..., levels)</syntax_item>
+    <syntax_item>contourslice(..., method)</syntax_item>
+    <syntax_item>contourslice(parent, ...)</syntax_item>
+    <syntax_item>h = contourslice(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>contourslice</b> calcule des lignes de contour sur les coupes demandees et retourne un vecteur colonne d'objets patch.</p>
+    <p>L'entree <b>levels</b> peut etre un nombre scalaire de niveaux de contour ou un vecteur de valeurs de contour. Une valeur de coupe egale a <b>NaN</b> selectionne toutes les coupes dans cette direction.</p>
+    <p>Lorsque <b>XI</b>, <b>YI</b> et <b>ZI</b> sont des matrices, les contours sont traces sur la surface definie par ces matrices.</p>
+    <p>L'entree optionnelle <b>method</b> peut valoir <b>'nearest'</b>, <b>'linear'</b> ou <b>'cubic'</b>. La methode par defaut pour les coupes alignees sur les axes est <b>'nearest'</b>; la methode par defaut pour les coupes de surface est <b>'linear'</b>.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Afficher des contours dans plusieurs plans de coupe.</example_item_description>
+      <example_item_data><![CDATA[[X, Y, Z] = meshgrid(-2:.2:2);
+V = X .* exp(-X.^2 - Y.^2 - Z.^2);
+xslice = [-1.2, 0.8, 2];
+yslice = [];
+zslice = [];
+contourslice(X, Y, Z, V, xslice, yslice, zslice);
+view(3);
+grid on;]]></example_item_data>
+      <example_item_img src="../../../../images/contourslice_1.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Specifier les niveaux de contour et ajouter une barre de couleurs.</example_item_description>
+      <example_item_data><![CDATA[[X, Y, Z] = meshgrid(-2:.2:2);
+V = X .* exp(-X.^2 - Y.^2 - Z.^2);
+xslice = [-1.2, 0.8, 2];
+levels = -0.2:0.01:0.4;
+contourslice(X, Y, Z, V, xslice, [], [], levels);
+colorbar;
+view(3);
+grid on;]]></example_item_data>
+      <example_item_img src="../../../../images/contourslice_2.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Afficher des contours sur une coupe de surface.</example_item_description>
+      <example_item_data><![CDATA[[X, Y, Z] = meshgrid(-5:0.2:5);
+V = X .* exp(-X.^2 - Y.^2 - Z.^2);
+[xsurf, ysurf] = meshgrid(-2:0.2:2);
+zsurf = xsurf.^2 - ysurf.^2;
+contourslice(X, Y, Z, V, xsurf, ysurf, zsurf, 20);
+view(3);
+grid on;]]></example_item_data>
+      <example_item_img src="../../../../images/contourslice_3.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/7_surfaces_volumes_polygons/slice">slice</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/3_contour_plots/contour">contour</link></see_also_item>
+  </see_also>
+</xmldoc>

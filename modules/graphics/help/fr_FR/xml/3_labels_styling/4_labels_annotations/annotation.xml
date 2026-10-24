@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>annotation</keyword>
+  <short_description>Creer des annotations de figure.</short_description>
+  <syntax>
+    <syntax_item>annotation(lineType, x, y)</syntax_item>
+    <syntax_item>annotation(lineType)</syntax_item>
+    <syntax_item>annotation(shapeType, dim)</syntax_item>
+    <syntax_item>annotation(shapeType)</syntax_item>
+    <syntax_item>annotation(..., propertyName, propertyValue)</syntax_item>
+    <syntax_item>annotation(fig, ...)</syntax_item>
+    <syntax_item>go = annotation(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>lineType</param_name>
+      <param_description>&apos;line&apos;, &apos;arrow&apos;, &apos;doublearrow&apos; ou &apos;textarrow&apos;.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>shapeType</param_name>
+      <param_description>&apos;rectangle&apos;, &apos;ellipse&apos; ou &apos;textbox&apos;.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>x, y</param_name>
+      <param_description>Vecteurs a deux elements qui definissent les coordonnees de debut et de fin.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>dim</param_name>
+      <param_description>Vecteur a quatre elements [x y w h].</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>fig</param_name>
+      <param_description>Figure cible.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>go</param_name>
+      <param_description>Objet graphique annotation.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>annotation</b> cree des annotations dans les coordonnees de la figure. Les unites par defaut sont normalisees.</p>
+    <p>Les unites prises en charge sont &apos;normalized&apos;, &apos;inches&apos;, &apos;centimeters&apos;, &apos;characters&apos;, &apos;points&apos; et &apos;pixels&apos;.</p>
+    <p>Les rectangles et ellipses prennent en charge Position, Rotation, Units, Color, FaceColor, LineStyle et LineWidth. Rectangle prend aussi en charge FaceAlpha.</p>
+    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.annotation.properties">proprietes de annotation</link> pour la liste complete des proprietes.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Ajouter une annotation line.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[
+f = figure();
+plot(1:10);
+annotation('line', [0.15 0.85], [0.75 0.75], ...
+  'Color', [0 0.45 0.74], 'LineWidth', 2);
+]]></example_item_data>
+      <example_item_img src="../../../../images/annotation_1.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Ajouter une annotation arrow.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[
+f = figure();
+plot(1:10);
+annotation('arrow', [0.25 0.55], [0.65 0.45], ...
+  'Color', 'red', 'LineStyle', '--', 'HeadStyle', 'plain');
+]]></example_item_data>
+      <example_item_img src="../../../../images/annotation_2.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Ajouter une annotation doublearrow.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[
+f = figure();
+plot(1:10);
+annotation('doublearrow', [0.25 0.75], [0.25 0.25], ...
+  'Head1Style', 'vback1', 'Head2Style', 'cback3', 'LineWidth', 1.5);
+]]></example_item_data>
+      <example_item_img src="../../../../images/annotation_3.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Ajouter une annotation textarrow.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[
+f = figure();
+plot(1:10);
+annotation('textarrow', [0.3 0.55], [0.7 0.55], ...
+  'String', 'y = x', 'TextBackgroundColor', 'white');
+]]></example_item_data>
+      <example_item_img src="../../../../images/annotation_4.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Ajouter une annotation rectangle.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[
+f = figure();
+plot(1:10);
+annotation('rectangle', [0.3 0.4 0.25 0.2], ...
+  'Color', 'red', 'FaceColor', 'yellow', 'FaceAlpha', 0.35, 'Rotation', 20);
+]]></example_item_data>
+      <example_item_img src="../../../../images/annotation_5.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Ajouter une annotation ellipse.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[
+f = figure();
+plot(1:10);
+annotation('ellipse', [0.55 0.35 0.25 0.2], ...
+  'Color', [0.49 0.18 0.56], 'FaceColor', 'none', 'LineWidth', 1.5);
+]]></example_item_data>
+      <example_item_img src="../../../../images/annotation_6.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Ajouter une annotation textbox.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[
+f = figure();
+plot(1:10);
+annotation('textbox', [0.18 0.78 0.28 0.1], ...
+  'String', 'Region importante', 'FitBoxToText', 'on', ...
+  'BackgroundColor', 'white', 'EdgeColor', 'black');
+]]></example_item_data>
+      <example_item_img src="../../../images/annotation_7.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.annotation.properties">proprietes de annotation</link>
+    </see_also_item>
+  </see_also>
+</xmldoc>

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -41,7 +41,7 @@ PropertyCompleter(const std::wstring& prefix)
         variable = variable.substr(lastCharacterIndex + 1);
     }
 
-    Exception lastError = eval->getLastErrorException();
+    NelsonException lastError = eval->getLastErrorException();
 
     try {
         ArrayOfVector variableArray
@@ -57,7 +57,7 @@ PropertyCompleter(const std::wstring& prefix)
             ArrayOfVector propertiesArray = EvaluateCommand(
                 eval, 1, utf8_to_wstring("properties(" + variable + ")"), std::wstring());
             if (propertiesArray.size() == 1) {
-                propertyNames = propertiesArray[0].getContentAsCStringVector();
+                propertyNames = propertiesArray[0].asUtf8StringVector();
             }
         }
 
@@ -66,7 +66,7 @@ PropertyCompleter(const std::wstring& prefix)
                 res.push_back(utf8_to_wstring(name));
             }
         }
-    } catch (const Exception&) {
+    } catch (const NelsonException&) {
         eval->setLastErrorException(lastError);
     }
 

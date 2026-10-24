@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>shg</keyword>
+  <short_description>Affiche la fenêtre graphique courante.</short_description>
+  <syntax>
+    <syntax_item>shg</syntax_item>
+    <syntax_item>shg()</syntax_item>
+  </syntax>
+  <description>
+    <p><b>shg</b> met la figure courante au premier plan, en créant une si aucune
+      n&apos;existe. C&apos;est équivalent à <b>figure(gcf)</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
+plot(1:10);
+shg]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}2_graphics_objects/1_object_management/gcf">gcf</link></see_also_item>
+    <see_also_item><link linkend="${graphics}2_graphics_objects/1_object_management/figure">figure</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item><history_version>2.0.0</history_version><history_description>Version initiale.</history_description></history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

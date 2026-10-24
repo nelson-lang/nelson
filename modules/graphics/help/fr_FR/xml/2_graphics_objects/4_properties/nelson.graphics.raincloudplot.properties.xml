@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>raincloudplot properties</keyword>
+  <short_description>Proprietes de l'objet graphique raincloudplot.</short_description>
+  <description>
+    <p>Cette page documente les proprietes visibles retournees par <b>properties</b> pour un objet graphique <b>raincloudplot</b>.</p>
+    <table>
+      <tr>
+        <th>Propriete</th>
+        <th>Action</th>
+        <th>Type et valeurs prises en charge</th>
+      </tr>
+      <tr>
+        <td><b>Annotation</b></td>
+        <td>met a jour les metadonnees d'annotation utilisees par les outils interactifs.</td>
+        <td>Type: objet d'annotation graphique ou handle vide. Valeurs prises en charge: objet annotation associe ou handle graphique vide.</td>
+      </tr>
+      <tr>
+        <td><b>BeingDeleted</b></td>
+        <td>Nelson calcule cette valeur pendant les operations graphiques.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'off', 'on'.</td>
+      </tr>
+      <tr>
+        <td><b>BusyAction</b></td>
+        <td>controle si un callback interrompant est mis en file ou annule.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'queue', 'cancel'.</td>
+      </tr>
+      <tr>
+        <td><b>ButtonDownFcn</b></td>
+        <td>s'execute quand l'objet recoit un evenement souris.</td>
+        <td>Type: valeur de callback. Valeurs prises en charge: [], function handle, vecteur de caracteres, string scalaire ou tableau de callback.</td>
+      </tr>
+      <tr>
+        <td><b>Children</b></td>
+        <td>les operations de parentage mettent a jour ce vecteur.</td>
+        <td>Type: vecteur de handles graphiques. Valeurs prises en charge: vecteur vide.</td>
+      </tr>
+      <tr>
+        <td><b>Clipping</b></td>
+        <td>met a jour le rognage au prochain rafraichissement graphique.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>ContextMenu</b></td>
+        <td>associe le menu utilise par les actions de clic contextuel.</td>
+        <td>Type: handle graphique scalaire. Valeurs prises en charge: [] ou handle uicontextmenu.</td>
+      </tr>
+      <tr>
+        <td><b>CreateFcn</b></td>
+        <td>s'execute quand l'objet est cree.</td>
+        <td>Type: valeur de callback. Valeurs prises en charge: [], function handle, vecteur de caracteres, string scalaire ou tableau de callback.</td>
+      </tr>
+      <tr>
+        <td><b>DataTipTemplate</b></td>
+        <td>met a jour le contenu utilise par les data tips interactifs.</td>
+        <td>Type: objet data tip template ou handle vide. Valeurs prises en charge: objet data tip template de l'objet graphique ou handle graphique vide.</td>
+      </tr>
+      <tr>
+        <td><b>DeleteFcn</b></td>
+        <td>s'execute quand l'objet est supprime.</td>
+        <td>Type: valeur de callback. Valeurs prises en charge: [], function handle, vecteur de caracteres, string scalaire ou tableau de callback.</td>
+      </tr>
+      <tr>
+        <td><b>DensityWidth</b></td>
+        <td>definit la largeur maximale du nuage de pluie en unites des donnees de groupement.</td>
+        <td>Type: scalaire numerique fini. Valeurs prises en charge: scalaire fini positif.</td>
+      </tr>
+      <tr>
+        <td><b>DisplayName</b></td>
+        <td>met a jour le libelle utilise par les legendes et l'identification.</td>
+        <td>Type: texte. Valeurs prises en charge: vecteur de caracteres ou string scalaire.</td>
+      </tr>
+      <tr>
+        <td><b>EdgeColor</b></td>
+        <td>definit la couleur du contour du nuage; suit FaceColor tant que EdgeColorMode vaut 'auto'.</td>
+        <td>Type: valeur de couleur. Valeurs prises en charge: noms courts de couleur, triplet RGB dans [0,1], couleur hexadecimale ou 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>EdgeColorMode</b></td>
+        <td>'auto' fait suivre FaceColor a EdgeColor; 'manual' conserve la valeur affectee.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>FaceAlpha</b></td>
+        <td>definit la transparence du nuage et du remplissage des marqueurs.</td>
+        <td>Type: scalaire numerique. Valeurs prises en charge: valeurs dans [0,1].</td>
+      </tr>
+      <tr>
+        <td><b>FaceColor</b></td>
+        <td>definit la couleur de remplissage du nuage; la valeur par defaut vient de ColorOrder des axes et de SeriesIndex.</td>
+        <td>Type: valeur de couleur. Valeurs prises en charge: noms courts de couleur, triplet RGB dans [0,1], couleur hexadecimale ou 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>FaceColorMode</b></td>
+        <td>'auto' prend FaceColor dans ColorOrder des axes; 'manual' conserve la valeur affectee.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>HandleVisibility</b></td>
+        <td>controle si les fonctions de recherche de handles peuvent trouver l'objet.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'on', 'off', 'callback'.</td>
+      </tr>
+      <tr>
+        <td><b>HitTest</b></td>
+        <td>inclut ou exclut l'objet du test de clic souris.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>Interruptible</b></td>
+        <td>controle si un callback en cours peut etre interrompu.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>LineWidth</b></td>
+        <td>definit la largeur du contour du nuage et du contour des marqueurs en points.</td>
+        <td>Type: scalaire numerique fini. Valeurs prises en charge: scalaire fini positif.</td>
+      </tr>
+      <tr>
+        <td><b>Marker</b></td>
+        <td>definit le symbole des marqueurs de la pluie.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'o', '+', '*', '.', 'x', 'square', 'diamond', '^', 'v', '&gt;', '&lt;', 'pentagram', 'hexagram', 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>MarkerEdgeColor</b></td>
+        <td>definit la couleur du contour des marqueurs; suit EdgeColor tant que MarkerEdgeColorMode vaut 'auto'.</td>
+        <td>Type: valeur de couleur. Valeurs prises en charge: noms courts de couleur, triplet RGB dans [0,1], couleur hexadecimale ou 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>MarkerEdgeColorMode</b></td>
+        <td>'auto' fait suivre EdgeColor a MarkerEdgeColor; 'manual' conserve la valeur affectee.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>MarkerFaceColor</b></td>
+        <td>definit la couleur de remplissage des marqueurs; suit FaceColor tant que MarkerFaceColorMode vaut 'auto'.</td>
+        <td>Type: valeur de couleur. Valeurs prises en charge: noms courts de couleur, triplet RGB dans [0,1], couleur hexadecimale ou 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>MarkerFaceColorMode</b></td>
+        <td>'auto' fait suivre FaceColor a MarkerFaceColor; 'manual' conserve la valeur affectee.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>MarkerSize</b></td>
+        <td>definit la surface des marqueurs en points au carre.</td>
+        <td>Type: scalaire numerique fini. Valeurs prises en charge: scalaire fini positif.</td>
+      </tr>
+      <tr>
+        <td><b>Orientation</b></td>
+        <td>choisit l'alignement du graphique: avec 'horizontal' les valeurs sont le long de l'axe x.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'horizontal', 'vertical'.</td>
+      </tr>
+      <tr>
+        <td><b>Parent</b></td>
+        <td>definit les axes qui possedent l'objet.</td>
+        <td>Type: handle graphique scalaire. Valeurs prises en charge: handle axes ou hggroup.</td>
+      </tr>
+      <tr>
+        <td><b>PickableParts</b></td>
+        <td>controle si les parties visibles ou toutes les parties peuvent etre selectionnees.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'visible', 'all', 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>Selected</b></td>
+        <td>marque l'objet comme selectionne ou non.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>SelectionHighlight</b></td>
+        <td>controle l'affichage des poignees de selection.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>SeriesIndex</b></td>
+        <td>choisit la ligne de ColorOrder des axes utilisee par les couleurs automatiques.</td>
+        <td>Type: scalaire numerique positif. Valeurs prises en charge: entier positif.</td>
+      </tr>
+      <tr>
+        <td><b>SourceTable</b></td>
+        <td>stocke la table utilisee pour creer le graphique.</td>
+        <td>Type: table ou valeur vide. Valeurs prises en charge: [] ou table fournie a raincloudplot.</td>
+      </tr>
+      <tr>
+        <td><b>Tag</b></td>
+        <td>stocke un texte utilisateur pour identifier l'objet.</td>
+        <td>Type: texte. Valeurs prises en charge: vecteur de caracteres ou string scalaire.</td>
+      </tr>
+      <tr>
+        <td><b>Type</b></td>
+        <td>identifie le type de l'objet graphique.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'raincloudplot'.</td>
+      </tr>
+      <tr>
+        <td><b>UserData</b></td>
+        <td>stocke des donnees utilisateur sur l'objet.</td>
+        <td>Type: valeur Nelson quelconque. Valeurs prises en charge: toute valeur.</td>
+      </tr>
+      <tr>
+        <td><b>Visible</b></td>
+        <td>affiche ou masque l'objet.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>XData</b></td>
+        <td>definit les donnees de groupement utilisees pour placer les nuages de pluie.</td>
+        <td>Type: vecteur numerique reel. Valeurs prises en charge: valeurs numeriques finies; les valeurs non finies sont ignorees pour le dessin.</td>
+      </tr>
+      <tr>
+        <td><b>XDataMode</b></td>
+        <td>'auto' quand les positions viennent d'une table ou des valeurs par defaut; 'manual' quand XData est affecte.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>XVariable</b></td>
+        <td>stocke le nom de variable de table utilise pour les donnees x.</td>
+        <td>Type: texte. Valeurs prises en charge: vecteur de caracteres ou string scalaire.</td>
+      </tr>
+      <tr>
+        <td><b>YData</b></td>
+        <td>definit les donnees de l'echantillon.</td>
+        <td>Type: vecteur numerique reel. Valeurs prises en charge: valeurs numeriques finies; les valeurs non finies sont ignorees pour le dessin.</td>
+      </tr>
+      <tr>
+        <td><b>YDataMode</b></td>
+        <td>'auto' quand l'echantillon vient d'une table; 'manual' quand YData est affecte.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>YVariable</b></td>
+        <td>stocke le nom de variable de table utilise pour l'echantillon.</td>
+        <td>Type: texte. Valeurs prises en charge: vecteur de caracteres ou string scalaire.</td>
+      </tr>
+    </table>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Inspecter les proprietes de raincloudplot.</example_item_description>
+      <example_item_data><![CDATA[r = raincloudplot(randn(50, 1));
+props = properties(r)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/4_data_distribution_plots/raincloudplot">raincloudplot</link></see_also_item>
+    <see_also_item><link linkend="${handle}properties">properties</link></see_also_item>
+  </see_also>
+</xmldoc>

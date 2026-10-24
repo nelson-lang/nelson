@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>dltarget</keyword>
+  <short_description
+  >Returns the architecture the dynamic-link tools build for.</short_description>
+  <syntax>
+    <syntax_item>arch = dltarget()</syntax_item>
+  </syntax>
+  <param_output>
+    <param_output_item>
+      <param_name>arch</param_name>
+      <param_description
+      >a string: the running architecture (see computer('arch')), or 'wasm32' for a cross build.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>dltarget()</b> returns the architecture that <b>dlgeneratemake</b>, <b>dlmake</b> and <b>getdynlibext</b> build for.</p>
+    <p
+    >By default it is the running architecture. When the environment variable <b>NELSON_DL_TARGET</b> is set to <b>wasm32</b>, the dynamic-link tools describe an Emscripten side module for the WebAssembly engine instead of a host library: <b>dlgeneratemake</b> generates a CMake project that includes the engine's shared compile and link settings (<b>NELSON_WASM_BUILD_DIR/generated/wasm-runtime/side-module.cmake</b>, default <b>temp/build-wasm</b>), <b>dlmake</b> configures it with the Emscripten toolchain found through <b>EMSDK</b>, and <b>getdynlibext</b> returns <b>.so</b> whatever the host is. A toolbox builder based on these functions therefore needs no change to be packaged for the browser with <b>nmm('pack', ..., '-target', 'wasm32')</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[dltarget()
+setenv('NELSON_DL_TARGET', 'wasm32');
+dltarget()
+getdynlibext()
+setenv('NELSON_DL_TARGET', '');]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${dynamic_link}dlgeneratemake">dlgeneratemake</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${dynamic_link}dlmake">dlmake</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${dynamic_link}getdynlibext">getdynlibext</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

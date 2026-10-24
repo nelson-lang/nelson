@@ -36,6 +36,11 @@ if(NOT LIBFFI_INCLUDE_DIR)
   endif()
 endif()
 if(NOT LIBFFI_INCLUDE_DIR)
+  if(EXISTS "/opt/homebrew/opt/libffi/include/ffi.h")
+    set(LIBFFI_INCLUDE_DIR /opt/homebrew/opt/libffi/include)
+  endif()
+endif()
+if(NOT LIBFFI_INCLUDE_DIR)
   if(EXISTS "/usr/local/opt/libffi/include/ffi.h")
     set(LIBFFI_INCLUDE_DIR /usr/local/opt/libffi/include)
   endif()
@@ -49,5 +54,30 @@ if(NOT LIBFFI_INCLUDE_DIR)
   if(EXISTS "/usr/include/x86_64-linux-gnu/ffi.h")
     set(LIBFFI_INCLUDE_DIR "/usr/include/x86_64-linux-gnu")
   endif()
+endif()
+if(LIBFFI_INCLUDE_DIR AND NOT LIBFFI_LIBRARY)
+  find_library(LIBFFI_LIBRARY
+    NAMES
+    ffi
+    HINTS
+    "${LIBFFI_INCLUDE_DIR}/../lib"
+    /opt/homebrew/opt/libffi/lib
+    /usr/local/opt/libffi/lib
+  )
+endif()
+# The fallbacks above use plain set(), which stay local; force the resolved
+# values into the cache so every scope (e.g. the dynamic_link module) sees them.
+if(LIBFFI_INCLUDE_DIR)
+  set(
+    LIBFFI_INCLUDE_DIR
+    "${LIBFFI_INCLUDE_DIR}"
+    CACHE
+      PATH
+      "libffi include directory"
+    FORCE
+  )
+endif()
+if(LIBFFI_LIBRARY)
+  set(LIBFFI_LIBRARY "${LIBFFI_LIBRARY}" CACHE FILEPATH "libffi library" FORCE)
 endif()
 mark_as_advanced(LIBFFI_INCLUDE_DIR LIBFFI_LIBRARY)

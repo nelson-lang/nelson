@@ -1,8 +1,18 @@
 //=============================================================================
+// Copyright (c) 2025-present Allan CORNET (Nelson)
+//=============================================================================
+// This file is part of Nelson.
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// SPDX-License-Identifier: LGPL-3.0-or-later
+// LICENCE_BLOCK_END
+//=============================================================================
 #include "QtVariableTextEdit.h"
+#include "DefaultFont.hpp"
+#include "QStringConverter.hpp"
 #include <QtCore/QTimer>
+#include <QtGui/QFont>
 #include <QtWidgets/QScrollBar>
-
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -10,15 +20,19 @@ QtVariableTextEdit::QtVariableTextEdit(
     const QString& variableName, ArrayOf array, Evaluator* evaluator, QWidget* parent)
     : QTextEdit(parent)
 {
-    // Set up the text edit properties
     setReadOnly(true);
-    setFont(QFont("Courier", 10)); // Monospace font for better formatting
+    std::wstring fontName = getDefaultFontName();
+    if (fontName.empty()) {
+        fontName = L"Monospace";
+    }
+    QFont monospaced(wstringToQString(fontName));
+    monospaced.setStyleHint(QFont::Monospace);
+    monospaced.setFixedPitch(true);
+    setFont(monospaced);
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-    // Create the model
     m_model = new VariableDefaultModel(variableName, array, evaluator, this, this);
 
-    // Set up connections
     setupConnections();
 }
 //=============================================================================
@@ -90,17 +104,14 @@ void
 QtVariableTextEdit::onModelContentChanged()
 {
     if (m_model) {
-        // Update the text content from the model
         QString newContent = m_model->getFormattedContent();
 
-        // Preserve cursor position and scroll position
         QTextCursor cursor = textCursor();
         int cursorPosition = cursor.position();
         int scrollValue = verticalScrollBar()->value();
 
         setPlainText(newContent);
 
-        // Restore cursor and scroll position
         int newLength = toPlainText().length();
         cursor.setPosition(qMin(cursorPosition, newLength));
         setTextCursor(cursor);

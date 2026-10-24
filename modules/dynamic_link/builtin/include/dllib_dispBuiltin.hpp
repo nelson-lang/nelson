@@ -19,7 +19,7 @@ namespace DynamicLinkGateway {
     ArrayOfVector
     dllib_dispBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
     //=============================================================================
-}
+} // namespace DynamicLinkGateway
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

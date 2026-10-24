@@ -62,15 +62,14 @@ DebugStack(const CallStack& callstack, int nbOmitLines, stackTrace& stackPositio
     while (i < callstack.size()) {
         if (callstack.getID(i) == 0) {
             size_t j = i + 1;
-            while ((j < callstack.size()) && (callstack.getContext(j) == callstack.getContext(i))
-                && (callstack.getDetail(j) == callstack.getDetail(i))
-                && (callstack.getID(j) != 0)) {
+            while ((j < callstack.size()) && (callstack.getID(j) != 0)) {
                 j++;
             }
-            std::wstring filename = utf8_to_wstring(callstack.getContext(j - 1));
-            std::wstring functionname = utf8_to_wstring(callstack.getDetail(j - 1));
+            std::wstring filename = utf8_to_wstring(callstack.getContext(i));
+            std::wstring functionname = utf8_to_wstring(callstack.getDetail(i));
             int lineposition = callstack.getID(j - 1) & 0x0000FFFF;
-            stackPositions.emplace_back(PositionScript(functionname, filename, lineposition));
+            stackPositions.emplace_back(
+                PositionScript(functionname, filename, lineposition, callstack.isDirectScript(i)));
             i = j;
         } else {
             i++;

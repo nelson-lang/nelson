@@ -7,11 +7,11 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('username'), 0);
-assert_isequal(nargout('username'), 1);
+asserts.isequal(nargin('username'), 0);
+asserts.isequal(nargout('username'), 1);
 %=============================================================================
 R = username();
-assert_istrue(ischar(R));
-assert_istrue(isvector(R));
-assert_isfalse(isempty(R));
+asserts.istrue(ischar(R));
+asserts.istrue(isvector(R));
+asserts.isfalse(isempty(R));
 %=============================================================================

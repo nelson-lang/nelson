@@ -37,6 +37,9 @@
     <ClCompile Include="..\cpp\FileSystemWrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\cpp\FinalPathName.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\cpp\DynamicLibrary.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -25,7 +25,7 @@ Nelson::JsonGateway::jsonprettyprintBuiltin(int nLhs, const ArrayOfVector& argIn
         || argIn[0].isClassType()) {
         OverloadRequired("jsonprettyprint");
     }
-    retval << jsonPrettyPrint(argIn[0].getContentAsWideString());
+    retval << jsonPrettyPrint(argIn[0].asWideString());
     return retval;
 }
 //=============================================================================

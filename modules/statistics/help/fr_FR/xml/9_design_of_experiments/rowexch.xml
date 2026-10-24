@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>rowexch</keyword>
+  <short_description>Plan D-optimal par echange de lignes.</short_description>
+  <syntax>
+    <syntax_item>dRE = rowexch(nfactors, nruns)</syntax_item>
+    <syntax_item>[dRE, X] = rowexch(nfactors, nruns, modelspec)</syntax_item>
+  </syntax>
+  <description><p><b>rowexch</b> genere des candidats avec candgen et selectionne un sous-ensemble D-optimal avec candexch.</p></description>
+  <used_function>
+    <link linkend="${statistics}candgen">candgen</link>
+    <link linkend="${statistics}candexch">candexch</link>
+    <link linkend="${statistics}cordexch">cordexch</link>
+    <link linkend="${random}rng">rng</link>
+  </used_function>
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Creer un plan D-optimal de trois essais depuis des lignes candidates.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[rng(5);
+[dRE, X] = rowexch(2, 3, 'linear', 'Display', 'off', 'AvoidDuplicates', true);
+dRE
+X]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Utiliser des niveaux de facteurs bornes.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[rng(6);
+bounds = [0 1; -1 1];
+[dRE, X] = rowexch(2, 3, 'linear', 'Bounds', bounds, 'Display', 'off')]]></example_item_data>
+    </example_item>
+  </examples>
+</xmldoc>

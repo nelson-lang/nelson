@@ -28,6 +28,9 @@ getAsFormattedString(ArrayOf* elements, indexType idx, NumericFormatDisplay curr
 static indexType
 getColsPerPage(const std::vector<size_t>& vSize, indexType termWidth);
 //=============================================================================
+static std::wstring
+alignCellEntry(const ArrayOf& element, const std::wstring& entry, size_t width);
+//=============================================================================
 static void
 DisplayEmptyCell(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing);
@@ -71,11 +74,11 @@ void
 Display2dCell(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
-    indexType rows = A.getRows();
-    indexType columns = A.getColumns();
-    indexType nbElements = A.getElementCount();
+    indexType rows = A.rows();
+    indexType columns = A.columns();
+    indexType nbElements = A.elementCount();
 
-    ArrayOf* elements = (ArrayOf*)A.getDataPointer();
+    ArrayOf* elements = (ArrayOf*)A.dataPointer();
     std::vector<size_t> vSize(columns, (size_t)0);
     wstringVector cellSummarize(nbElements, std::wstring(L""));
     sizeType termWidth = io->getTerminalWidth();
@@ -98,7 +101,7 @@ Display2dCell(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::ws
 
     indexType pageCount
         = static_cast<indexType>(ceil(columns / (static_cast<single>(colsPerPage))));
-    bool withColumsHeader = (rows * columns > 1) && pageCount > 1;
+    bool withColumnsHeader = (rows * columns > 1) && pageCount > 1;
 
     bool continueDisplay = true;
     indexType block_page = 0;
@@ -117,7 +120,7 @@ Display2dCell(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::ws
                 buffer.append(L"\n");
             }
         }
-        if (withColumsHeader) {
+        if (withColumnsHeader) {
             buffer.append(columnsHeader(k * colsPerPage + 1, k * colsPerPage + colsInThisPage));
             if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
                 buffer.append(L"\n\n");
@@ -135,7 +138,7 @@ Display2dCell(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::ws
                 indexType idx = i + (k * colsPerPage + j) * rows;
                 indexType len = vSize[colsPos];
                 buffer.append(BLANKS_AT_BOL);
-                buffer.append(completeWithBlanksAtTheEnd(cellSummarize[idx], len));
+                buffer.append(alignCellEntry(elements[idx], cellSummarize[idx], len));
             }
             buffer.append(L"\n");
             if (block_page >= io->getTerminalHeight()) {
@@ -162,14 +165,14 @@ DisplayNdCell(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::ws
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
     sizeType termWidth = io->getTerminalWidth();
-    Dimensions dims = A.getDimensions();
+    Dimensions dims = A.dimensions();
 
-    Dimensions wdims(dims.getLength());
-    indexType rows(A.getRows());
-    indexType columns(A.getColumns());
+    Dimensions wdims(dims.length());
+    indexType rows(A.rows());
+    indexType columns(A.columns());
     indexType offset = 0;
 
-    ArrayOf* elements = (ArrayOf*)A.getDataPointer();
+    ArrayOf* elements = (ArrayOf*)A.dataPointer();
     if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
         io->outputMessage(L"\n");
     }
@@ -189,10 +192,10 @@ DisplayNdCell(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::ws
         }
 
         io->outputMessage(name + L"(:,:");
-        for (indexType m = 2; m < dims.getLength(); m++) {
+        for (indexType m = 2; m < dims.length(); m++) {
             io->outputMessage(fmt::format(",{0}", static_cast<int>(wdims[m]) + 1));
         }
-        io->outputMessage(L") =\n");
+        io->outputMessage(L")" + displayHeaderEqualSign(A, true) + L"\n");
         if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
             io->outputMessage(L"\n");
         }
@@ -209,13 +212,13 @@ DisplayNdCell(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::ws
         }
         indexType colsPerPage = getColsPerPage(vSize, termWidth);
         int pageCount = static_cast<int>(ceil(columns / (static_cast<single>(colsPerPage))));
-        bool withColumsHeader = (rows * columns > 1) && pageCount > 1;
+        bool withColumnsHeader = (rows * columns > 1) && pageCount > 1;
         for (int k = 0;
             k < pageCount && !NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID);
             k++) {
             indexType colsInThisPage = columns - colsPerPage * k;
             colsInThisPage = (colsInThisPage > colsPerPage) ? colsPerPage : colsInThisPage;
-            if (withColumsHeader) {
+            if (withColumnsHeader) {
                 std::wstring msg
                     = columnsHeader(k * colsPerPage + 1, k * colsPerPage + colsInThisPage);
                 if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
@@ -238,7 +241,8 @@ DisplayNdCell(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::ws
                     indexType colsPos = k * colsPerPage + j;
                     indexType idx = i + (k * colsPerPage + j) * rows;
                     indexType len = vSize[colsPos];
-                    std::wstring msg = completeWithBlanksAtBeginning(cellSummarize[idx], len);
+                    std::wstring msg
+                        = alignCellEntry(elements[idx + offset], cellSummarize[idx], len);
                     io->outputMessage(BLANKS_AT_BOL + msg);
                 }
                 io->outputMessage(L"\n");
@@ -257,7 +261,19 @@ getAsFormattedString(ArrayOf* elements, indexType idx, NumericFormatDisplay curr
     indexType termWidth, bool asColumnsVector)
 {
     std::wstring msg;
-    switch (elements[idx].getDataClass()) {
+    if (elements[idx].isEmpty()) {
+        return lightDescription(elements[idx], L"{", L"}");
+    }
+    if (elements[idx].isSparse()) {
+        if (elements[idx].rows() != 1 || elements[idx].columns() >= termWidth) {
+            return lightDescription(elements[idx], L"{", L"}");
+        }
+        // a sparse row reads like its full counterpart: {[1 0 2]}
+        ArrayOf dense(elements[idx]);
+        dense.makeDense();
+        return getAsFormattedString(&dense, 0, currentNumericFormat, termWidth, asColumnsVector);
+    }
+    switch (elements[idx].dataClass()) {
     case NLS_CHAR: {
         if (elements[idx].isRowVector()) {
             indexType nbCharsMax;
@@ -266,7 +282,7 @@ getAsFormattedString(ArrayOf* elements, indexType idx, NumericFormatDisplay curr
             } else {
                 nbCharsMax = 16;
             }
-            msg = elements[idx].getContentAsWideString(nbCharsMax);
+            msg = elements[idx].asWideString(nbCharsMax);
 
             if (msg.length() > nbCharsMax - 1) {
                 msg.pop_back();
@@ -275,7 +291,7 @@ getAsFormattedString(ArrayOf* elements, indexType idx, NumericFormatDisplay curr
             }
             msg = L"{'" + msg + L"'}";
         } else {
-            msg = summarizeCellEntry(elements[idx], 0, termWidth, currentNumericFormat, true);
+            msg = lightDescription(elements[idx], L"{", L"}");
         }
     } break;
     case NLS_MISSING_ARRAY: {
@@ -354,6 +370,21 @@ getAsFormattedString(ArrayOf* elements, indexType idx, NumericFormatDisplay curr
         msg = L"{" + msg + L"}";
     } break;
 
+    case NLS_STRUCT_ARRAY: {
+        msg = lightDescription(elements[idx], L"{", L"}");
+    } break;
+    case NLS_FUNCTION_HANDLE: {
+        if (callObjectCompactDisplayHook(elements[idx], msg)) {
+            msg = L"{" + msg + L"}";
+        } else {
+            msg = lightDescription(elements[idx], L"{", L"}");
+        }
+    } break;
+    case NLS_HANDLE:
+    case NLS_CLASS_ARRAY:
+    case NLS_CLASSDEF_ARRAY: {
+        msg = L"{" + summarizeCellObjectEntry(elements[idx], 0, termWidth, false) + L"}";
+    } break;
     default: {
         if (elements[idx].isScalar()) {
             msg = summarizeCellEntry(elements[idx], 0, termWidth, currentNumericFormat, true);
@@ -382,6 +413,36 @@ getColsPerPage(const std::vector<size_t>& vSize, indexType termWidth)
         colsPerPage = 1;
     }
     return colsPerPage;
+}
+//=============================================================================
+/**
+ * Pads an entry to the column width inside its braces: numbers are right
+ * aligned inside the brackets {[  1 2]}, strings and objects left aligned {["a" ]},
+ * function handles right aligned {  @sin}, other entries padded before the
+ * closing brace {'abc'  }.
+ */
+std::wstring
+alignCellEntry(const ArrayOf& element, const std::wstring& entry, size_t width)
+{
+    if (entry.length() >= width) {
+        return entry;
+    }
+    std::wstring blanks(width - entry.length(), L' ');
+    if (entry.empty() || entry.back() != L'}') {
+        return entry + blanks;
+    }
+    if (element.isFunctionHandle() && entry.compare(0, 2, L"{@") == 0) {
+        return L"{" + blanks + entry.substr(1);
+    }
+    bool bracketed = entry.length() > 4 && entry.compare(0, 2, L"{[") == 0
+        && entry.compare(entry.length() - 2, 2, L"]}") == 0;
+    bool leftAligned = element.isStringArray() || element.dataClass() == NLS_MISSING_ARRAY
+        || element.isClassType() || element.isHandle();
+    if (!bracketed || leftAligned) {
+        size_t closing = bracketed ? entry.length() - 2 : entry.length() - 1;
+        return entry.substr(0, closing) + blanks + entry.substr(closing);
+    }
+    return L"{[" + blanks + entry.substr(2);
 }
 //=============================================================================
 } // namespace Nelson

@@ -11,6 +11,8 @@
     <syntax_item>status = mkdir(parentdir, dirname)</syntax_item>
     <syntax_item>[status, msg] = mkdir(dirname)</syntax_item>
     <syntax_item>[status, msg] = mkdir(parentdir, dirname)</syntax_item>
+    <syntax_item>[status, msg, msgID] = mkdir(dirname)</syntax_item>
+    <syntax_item>[status, msg, msgID] = mkdir(parentdir, dirname)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -31,6 +33,10 @@
     <param_output_item>
       <param_name>msg</param_name>
       <param_description>a string: error message</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>msgID</param_name>
+      <param_description>a string: message identifier</param_description>
     </param_output_item>
   </param_output>
   <description>
@@ -71,6 +77,10 @@ end
       <history_version>1.4.0</history_version>
       <history_description
       >input arguments support scalar string array type</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>msgID output argument added.</history_description>
     </history_item>
   </history>
   <authors>

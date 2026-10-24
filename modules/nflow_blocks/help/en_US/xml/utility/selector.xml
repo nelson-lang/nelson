@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>selector</keyword>
+  <keyword_alias>block:selector</keyword_alias>
+  <short_description>Selects elements from an input signal by one-based indices.</short_description>
+  <syntax><syntax_item>Block type: selector</syntax_item></syntax>
+  <description>
+    <p>The <b>Selector</b> block copies the elements listed by <b>Indices</b> to its output. Indices are one-based and the output width equals the number of selected indices.</p>
+    <p>Indices outside the available input range are clamped to the nearest valid element.</p>
+    <p><img src="../../../../libraries/utility/exports/selector.svg" align="middle"/></p>
+    <p><b>Extended Capabilities</b></p>
+    <p>Code generation: supported for C and Rust.</p>
+    <p><b>Implementation Sources</b></p>
+    <source_code label="Manifest" path="modules/nflow_blocks/libraries/utility/library.json" language="json"/>
+    <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/routing/selector.cpp" language="cpp"/>
+  </description>
+</xmldoc>

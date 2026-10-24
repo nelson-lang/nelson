@@ -7,24 +7,24 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
+skip_testsuite(~findcmake(), 'C toolchain (cmake) not available')
 if ispc() && ~havecompiler()
   configuremsvc();
 end
+skip_testsuite(~havecompiler())
 %=============================================================================
 if exist('mexEvalString') == 0
-  test_dir = [tempdir(), 'mexEvalString'];
-  if isdir(test_dir)
-    rmdir(test_dir,'s');
-  end
+  test_dir = tempname();
   mkdir(test_dir);
   status = copyfile('mexEvalString.c', test_dir);
-  assert_istrue(status);
+  asserts.istrue(status);
   cd(test_dir);
   mex('mexEvalString.c');
   addpath(pwd())
 end
 %=============================================================================
 mexEvalString();
-assert_isequal(A, 'Hello World');
-assert_isequal(B, 100);
+asserts.isequal(A, 'Hello World');
+asserts.isequal(B, 100);
 %=============================================================================

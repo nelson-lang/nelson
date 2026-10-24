@@ -24,5 +24,6 @@ SparseConstructor(const ArrayOf& I, const ArrayOf& J, const ArrayOf& V, indexTyp
 NLSSPARSE_IMPEXP ArrayOf
 SparseConstructor(
     const ArrayOf& I, const ArrayOf& J, const ArrayOf& V, indexType m, indexType n, indexType nnz);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

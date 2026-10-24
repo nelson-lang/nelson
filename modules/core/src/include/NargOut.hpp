@@ -16,5 +16,6 @@
 namespace Nelson {
 NLSCORE_IMPEXP int
 NargOut(Evaluator* eval, const std::wstring& functionName);
-}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

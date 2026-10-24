@@ -10,28 +10,28 @@
 % http://slicot.org/objects/software/shared/doc/MB04MD.html
 % [MAXRED_OUT, A_OUT, SCALE, INFO] = slicot_mb04md(MAXRED_IN, A_IN)
 %=============================================================================
-assert_isequal(nargin('slicot_mb04md'), 2);
-assert_isequal(nargout('slicot_mb04md'), 4);
+asserts.isequal(nargin('slicot_mb04md'), 2);
+asserts.isequal(nargout('slicot_mb04md'), 4);
 %=============================================================================
-MAXRED_IN  = 0.0;
-A_IN = [1.0   0.0   0.0   0.0;
-300.0 400.0 500.0 600.0;
-1.0   2.0   0.0   0.0;
-1.0   1.0   1.0   1.0];
+MAXRED_IN = 0.0;
+A_IN = [1.0 0.0 0.0 0.0;
+  300.0 400.0 500.0 600.0;
+  1.0 2.0 0.0 0.0;
+  1.0 1.0 1.0 1.0];
 [MAXRED_OUT, A_OUT, SCALE, INFO] = slicot_mb04md(MAXRED_IN, A_IN);
 %=============================================================================
 MAXRED_OUT_REF = 1.3977;
-assert_isapprox(MAXRED_OUT, MAXRED_OUT_REF, 1e-4);
+asserts.isapprox(MAXRED_OUT, MAXRED_OUT_REF, 1e-4);
 %=============================================================================
-A_OUT_REF = [ 1       0       0       0;
-30     400      50      60;
-1      20       0       0;
-1      10       1       1];
-assert_isequal(A_OUT, A_OUT_REF);
+A_OUT_REF = [1 0 0 0;
+  30 400 50 60;
+  1 20 0 0;
+  1 10 1 1];
+asserts.isequal(A_OUT, A_OUT_REF);
 %=============================================================================
-SCALE_REF = [1     10      1      1];
-assert_isequal(SCALE, SCALE_REF);
+SCALE_REF = [1 10 1 1];
+asserts.isequal(SCALE, SCALE_REF);
 %=============================================================================
 INFO_REF = int32(0);
-assert_isequal(INFO, INFO_REF);
+asserts.isequal(INFO, INFO_REF);
 %=============================================================================

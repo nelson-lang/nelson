@@ -6,7 +6,7 @@
   <chapter>Moteur Julia</chapter>
   <chapter_description>
     <p
-    >Le module Julia Engine permet aux utilisateurs de Nelson d&apos;interfacer de manière transparente le langage de programmation Julia, combinant les capacités numériques haute-performance de Julia avec l&apos;environnement Nelson.</p>
+    >Le module Julia Engine permet à Nelson d&apos;appeler du code Julia et d&apos;utiliser des bibliothèques numériques Julia depuis l&apos;environnement Nelson.</p>
     <p
     >Il fournit des fonctions pour exécuter du code Julia, gérer les environnements d&apos;interpréteur et échanger des données entre Nelson et Julia.</p>
   </chapter_description>

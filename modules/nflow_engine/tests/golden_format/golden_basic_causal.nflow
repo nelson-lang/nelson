@@ -1,0 +1,139 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Nelson nflow team",
+    "createdBy": "Nelson nflow team",
+    "created": "2026-08-13T00:00:00.000Z",
+    "lastSavedBy": "Nelson nflow team",
+    "lastSavedAt": "2026-08-13T00:00:00.000Z",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "comments": "Frozen retro-read golden: basic causal blocks, wire labels and routed points.",
+  "name": "golden_basic_causal",
+  "blocks": [
+    {
+      "id": "src",
+      "type": "step",
+      "x": 100,
+      "y": 100,
+      "rotation": 0,
+      "params": {
+        "Time": 1
+      }
+    },
+    {
+      "id": "g",
+      "type": "gain",
+      "x": 280,
+      "y": 100,
+      "rotation": 0,
+      "params": {
+        "Gain": "k"
+      }
+    },
+    {
+      "id": "sum",
+      "type": "sum",
+      "x": 460,
+      "y": 100,
+      "rotation": 0,
+      "params": {
+        "Inputs": "+-"
+      }
+    },
+    {
+      "id": "integ",
+      "type": "integrator",
+      "x": 640,
+      "y": 100,
+      "rotation": 0,
+      "params": {
+        "InitialCondition": 0.5
+      }
+    },
+    {
+      "id": "sc",
+      "type": "scope",
+      "x": 820,
+      "y": 60,
+      "rotation": 0,
+      "params": {
+        "TMin": "",
+        "TMax": "",
+        "YMin": "",
+        "YMax": "",
+        "width": 220,
+        "height": 160,
+        "ShowTickLabels": true
+      }
+    },
+    {
+      "id": "tw",
+      "type": "toWorkspace",
+      "x": 820,
+      "y": 240,
+      "rotation": 0,
+      "params": {
+        "VariableName": "y_golden",
+        "SaveFormat": "Array",
+        "Decimation": 1,
+        "MaxDataPoints": "inf"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "src",
+      "to": "g",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [180, 140],
+        [280, 140]
+      ]
+    },
+    {
+      "from": "g",
+      "to": "sum",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "label": "u",
+      "points": [
+        [360, 140],
+        [460, 140]
+      ]
+    },
+    {
+      "from": "sum",
+      "to": "integ",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "integ",
+      "to": "sum",
+      "fromIndex": 0,
+      "toIndex": 1
+    },
+    {
+      "from": "integ",
+      "to": "sc",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "integ",
+      "to": "tw",
+      "fromIndex": 0,
+      "toIndex": 0
+    }
+  ],
+  "variables": "k = 2.5;",
+  "runtime": 5,
+  "sampleTime": 0.01,
+  "autoRoute": true,
+  "locked": false,
+  "canvasBackground": "#ffffff"
+}

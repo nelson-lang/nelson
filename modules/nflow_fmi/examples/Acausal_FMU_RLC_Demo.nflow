@@ -1,0 +1,160 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Allan CORNET",
+    "created": "2026-09-16",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "comments": "Co-simulation demo mixing an FMU with an acausal physical network. A Van der Pol oscillator (FMI 3.0 Co-Simulation FMU) produces a nonlinear signal x0 that drives a SignalVoltage source. That source feeds a series R-L-C circuit built from acausal electrical components (undirected physical connections to Ground). A VoltageSensor reads the capacitor voltage -- the damped second-order response of the circuit to the oscillator excitation. The top scope shows the FMU source signal; the bottom scope shows the circuit response; ToWorkspace exports the capacitor voltage.",
+  "name": "Acausal RLC driven by FMU",
+  "blocks": [
+    {
+      "id": "F1",
+      "type": "fmuMe",
+      "params": {
+        "path": "VanDerPol.fmu",
+        "numInputs": 0,
+        "numOutputs": 2,
+        "numContinuousStates": 2,
+        "numEventIndicators": 0,
+        "inputNames": [],
+        "outputNames": ["x0", "x1"]
+      },
+      "inputs": 0,
+      "outputs": 2,
+      "x": 60,
+      "y": 110,
+      "rotation": 0
+    },
+    {
+      "id": "V1",
+      "type": "SignalVoltage",
+      "params": { "name": "Vsrc" },
+      "x": 60,
+      "y": 300,
+      "rotation": 90
+    },
+    {
+      "id": "R1",
+      "type": "Resistor",
+      "params": { "name": "R1", "R": 20 },
+      "x": 230,
+      "y": 230,
+      "rotation": 0
+    },
+    {
+      "id": "L1",
+      "type": "Inductor",
+      "params": { "name": "L1", "L": 1, "i0": 0 },
+      "x": 410,
+      "y": 230,
+      "rotation": 0
+    },
+    {
+      "id": "C1",
+      "type": "Capacitor",
+      "params": { "name": "C1", "C": 0.02, "v0": 0 },
+      "x": 570,
+      "y": 300,
+      "rotation": 90
+    },
+    {
+      "id": "VS",
+      "type": "VoltageSensor",
+      "params": { "name": "Vc" },
+      "x": 710,
+      "y": 300,
+      "rotation": 90
+    },
+    {
+      "id": "G",
+      "type": "Ground",
+      "params": {},
+      "x": 60,
+      "y": 430,
+      "rotation": 90
+    },
+    {
+      "id": "G2",
+      "type": "Ground",
+      "params": {},
+      "x": 570,
+      "y": 430,
+      "rotation": 90
+    },
+    {
+      "id": "scSrc",
+      "type": "scope",
+      "params": {
+        "TMin": "",
+        "TMax": "",
+        "YMin": "",
+        "YMax": "",
+        "width": 320,
+        "height": 200,
+        "ShowTickLabels": true
+      },
+      "x": 900,
+      "y": 90,
+      "rotation": 0
+    },
+    {
+      "id": "scOut",
+      "type": "scope",
+      "params": {
+        "TMin": "",
+        "TMax": "",
+        "YMin": "",
+        "YMax": "",
+        "width": 320,
+        "height": 200,
+        "ShowTickLabels": true
+      },
+      "x": 900,
+      "y": 330,
+      "rotation": 0
+    },
+    {
+      "id": "tw",
+      "type": "toWorkspace",
+      "params": { "VariableName": "vc" },
+      "inputs": 1,
+      "outputs": 0,
+      "x": 900,
+      "y": 560,
+      "rotation": 0
+    },
+    {
+      "id": "tw2",
+      "type": "toWorkspace",
+      "params": { "VariableName": "src" },
+      "inputs": 1,
+      "outputs": 0,
+      "x": 900,
+      "y": 660,
+      "rotation": 0
+    }
+  ],
+  "connections": [
+    { "from": "F1", "to": "V1", "fromIndex": 0, "toIndex": 0 },
+    { "from": "F1", "to": "scSrc", "fromIndex": 0, "toIndex": 0 },
+    { "from": "F1", "to": "tw2", "fromIndex": 0, "toIndex": 0 },
+    { "from": "VS", "to": "scOut", "fromIndex": 0, "toIndex": 0 },
+    { "from": "VS", "to": "tw", "fromIndex": 0, "toIndex": 0 }
+  ],
+  "solver": "dae",
+  "runtime": 20,
+  "sampleTime": 0.05,
+  "autoRoute": true,
+  "locked": false,
+  "variables": {},
+  "physicalWires": [
+    { "pins": ["V1.p", "R1.p"] },
+    { "pins": ["R1.n", "L1.p"] },
+    { "pins": ["L1.n", "C1.p", "VS.p"] },
+    { "pins": ["G.p", "V1.n"] },
+    { "pins": ["G2.p", "C1.n", "VS.n"] }
+  ]
+}

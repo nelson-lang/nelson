@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>pcg</keyword>
+  <short_description>Methode des gradients conjugues preconditionnes.</short_description>
+  <syntax>
+    <syntax_item>x = pcg(A, b)</syntax_item>
+    <syntax_item>x = pcg(A, b, tol, maxit)</syntax_item>
+    <syntax_item>x = pcg(A, b, tol, maxit, M1, M2, x0)</syntax_item>
+    <syntax_item>[x, flag, relres, iter, resvec] = pcg(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>une matrice carree sparse flottante symetrique ou hermitienne definie positive.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>b</param_name>
+      <param_description>un vecteur second membre flottant.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>tol</param_name>
+      <param_description>tolerance de convergence scalaire reelle finie. La valeur par defaut est 1e-6.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>maxit</param_name>
+      <param_description>nombre maximal d&apos;iterations, entier positif ou nul.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>M1, M2</param_name>
+      <param_description>matrices sparse optionnelles de preconditionnement ou vecteurs diagonaux.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>x0</param_name>
+      <param_description>vecteur initial optionnel.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>x</param_name>
+      <param_description>vecteur solution calcule.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>flag</param_name>
+      <param_description>0 si la convergence est atteinte, 1 si maxit est atteint, 4 en cas de rupture numerique.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>relres</param_name>
+      <param_description>norme relative du residu.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>iter</param_name>
+      <param_description>nombre d&apos;iterations.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>resvec</param_name>
+      <param_description>historique des normes de residu.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>pcg</b> resout <b>A * x = b</b> avec la methode des gradients conjugues preconditionnes.</p>
+    <p>La methode est destinee aux matrices sparse flottantes symetriques ou hermitiennes definies positives.</p>
+    <p>Les matrices sparse single et sparse single complexes sont prises en charge. Si <b>M1</b>, <b>M2</b> ou <b>x0</b> est complexe, le calcul utilise le chemin complexe adapte.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[A = sparse([4 -1 0; -1 4 -1; 0 -1 3]);
+b = [15; 10; 10];
+[x, flag, relres, iter] = pcg(A, b, 1e-12, 20)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[A = sparse([4 -1 0; -1 4 -1; 0 -1 3]);
+b = [15; 10; 10];
+L = ichol(A);
+[x, flag, relres, iter] = pcg(A, b, 1e-12, 20, L, L')
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Resolution sparse single complexe avec ichol.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = sparse(single([4 1i; -1i 3]));
+b = single([1; 2]);
+L = ichol(A);
+[x, flag] = pcg(A, b, 1e-6, 20, L, L')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${linear_algebra}bicgstab">bicgstab</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${linear_algebra}ichol">ichol</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>prise en charge des donnees sparse single et sparse single complexes.</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

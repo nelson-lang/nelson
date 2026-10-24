@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>concatenate</keyword>
+  <keyword_alias>block:concatenate</keyword_alias>
+  <short_description>Concatène les signaux d'entrée selon une dimension sélectionnée.</short_description>
+  <syntax><syntax_item>Type de bloc : concatenate</syntax_item></syntax>
+  <description>
+    <p>Le bloc <b>Concatenate</b> assemble tous les signaux d'entrée selon <b>ConcatenateDimension</b>. La dimension 1 assemble les lignes, la dimension 2 les colonnes et les valeurs supérieures utilisent une dimension supplémentaire.</p>
+    <p>Toutes les dimensions autres que la dimension de concaténation doivent être compatibles.</p>
+    <p><img src="../../../../libraries/utility/exports/concatenate.svg" align="middle"/></p>
+    <p><b>Extended Capabilities</b></p>
+    <p><b>Implementation Sources</b></p>
+    <p>Generation de code : prise en charge pour C et Rust.</p>
+    <source_code label="Manifest" path="modules/nflow_blocks/libraries/utility/library.json" language="json"/>
+    <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/routing/concatenate.cpp" language="cpp"/>
+  </description>
+</xmldoc>

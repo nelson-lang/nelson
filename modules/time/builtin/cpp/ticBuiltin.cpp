@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -22,7 +22,7 @@ Nelson::TimeGateway::ticBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& 
     nargoutcheck(nLhs, 0, 1);
     Tic(eval);
     if (nLhs == 1) {
-        retval << ArrayOf::uint64Constructor(eval->TimerValue);
+        retval << ArrayOf::uint64Scalar(eval->TimerValue);
         eval->TimerValue = static_cast<uint64>(0);
     }
     return retval;

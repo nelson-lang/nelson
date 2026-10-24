@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -19,7 +19,7 @@ Nelson::QmlEngineGateway::QObject_invokeBuiltin(int nLhs, const ArrayOfVector& a
     nargincheck(argIn, 2);
     nargoutcheck(nLhs, 0, 1);
     ArrayOf param2 = argIn[1];
-    std::wstring methodname = param2.getContentAsWideString();
+    std::wstring methodname = param2.asWideString();
     ArrayOfVector params;
     for (size_t k = 2; k < argIn.size(); k++) {
         params.push_back(argIn[k]);

@@ -13,22 +13,24 @@ R = struct();
 R_REF = R;
 %=============================================================================
 for v = matver
-  test_file_mat = [tempdir(), 'test_save_struct_empty_1', v{1}, '.mat'];
+  test_file_mat = [tempname(), '.mat'];
   savemat(test_file_mat, 'R', v{1});
   clear R;
   loadmat(test_file_mat);
-  assert_isequal(R, R_REF);
+  asserts.isequal(R, R_REF);
+  rmfile(test_file_mat);
 end
 %=============================================================================
 R = struct([]);
 R_REF = R;
 %=============================================================================
 for v = matver
-  test_file_mat = [tempdir(), 'test_save_struct_empty_2', v{1}, '.mat'];
+  test_file_mat = [tempname(), '.mat'];
   savemat(test_file_mat, 'R', v{1});
   clear R;
   loadmat(test_file_mat);
-  assert_isequal(R, R_REF);
+  asserts.isequal(R, R_REF);
+  rmfile(test_file_mat);
 end
 %=============================================================================
 R = struct();
@@ -38,10 +40,11 @@ R.c = R;
 R_REF = R;
 %=============================================================================
 for v = matver
-  test_file_mat = [tempdir(), 'test_save_struct', v{1}, '.mat'];
+  test_file_mat = [tempname(), '.mat'];
   savemat(test_file_mat, 'R', v{1});
   clear R;
   loadmat(test_file_mat);
-  assert_isequal(R, R_REF);
+  asserts.isequal(R, R_REF);
+  rmfile(test_file_mat);
 end
 %=============================================================================

@@ -16,14 +16,25 @@ class QtTextIndent : public QObject
 {
     Q_OBJECT
     QtTextEdit* m_te;
+    int m_indentSize;
+    bool m_enabled;
 
 public:
-    QtTextIndent();
+    QtTextIndent(QObject* parent = nullptr);
     ~QtTextIndent() override;
     void
     setDocument(QtTextEdit* te);
     [[nodiscard]] QtTextEdit*
     document() const;
+    void
+    setIndentSize(int indentSize);
+    [[nodiscard]] int
+    indentSize() const;
+    // automatic indentation is only meaningful for Nelson scripts
+    void
+    setEnabled(bool enabled);
+    [[nodiscard]] bool
+    isEnabled() const;
 private slots:
     void
     update();

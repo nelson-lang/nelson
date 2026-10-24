@@ -107,6 +107,17 @@ X_IN = zeros(N, N);
 [A_OUT, X_OUT, NBLCKS, BLSIZE, WR, WI, INFO] = slicot_mb03rd(JOBX, SORT, PMAX, A_IN, X_IN, TOL)]]></example_item_data>
     </example_item>
   </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${slicot}slicot_mb04md">slicot_mb04md</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${control_system}bdschur">bdschur</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${control_system}schord">schord</link>
+    </see_also_item>
+  </see_also>
   <history>
     <history_item>
       <history_version>1.0.0</history_version>

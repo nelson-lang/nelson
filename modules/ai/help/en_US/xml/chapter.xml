@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>ai</module_name>
+  <chapter>AI and MCP integration.</chapter>
+  <description>
+    <p>The ai module exposes Nelson to MCP-compatible agents and provides simple AI client helpers.</p>
+    <p>See <b>mcpusage</b> for a complete MCP setup guide.</p>
+  </description>
+</xmldoc>

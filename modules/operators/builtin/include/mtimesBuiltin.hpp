@@ -15,4 +15,6 @@
 namespace Nelson::OperatorsGateway {
 ArrayOfVector
 mtimesBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
+//=============================================================================

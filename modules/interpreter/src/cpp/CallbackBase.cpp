@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "CallbackBase.hpp"
 #include "AnonymousMacroFunctionDef.hpp"
+#include <memory>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -23,8 +24,8 @@ CallbackBase::executeCallbackImpl(Evaluator* eval)
     }
 
     if (callbackAsArrayOf.isCell()) {
-        size_t nbElements = callbackAsArrayOf.getElementCount();
-        const ArrayOf* elements = (const ArrayOf*)callbackAsArrayOf.getDataPointer();
+        size_t nbElements = callbackAsArrayOf.elementCount();
+        const ArrayOf* elements = (const ArrayOf*)callbackAsArrayOf.dataPointer();
         const ArrayOf& fhArrayOf = elements[0];
         if (!fhArrayOf.isFunctionHandle()) {
             running = false;
@@ -34,13 +35,13 @@ CallbackBase::executeCallbackImpl(Evaluator* eval)
         for (size_t k = 1; k < nbElements; ++k) {
             argIn.push_back(elements[k]);
         }
-        function_handle fh = fhArrayOf.getContentAsFunctionHandle();
+        function_handle fh = fhArrayOf.asFunctionHandle();
         AnonymousMacroFunctionDef* anonymousFunction
             = reinterpret_cast<AnonymousMacroFunctionDef*>(fh.anonymousHandle);
         try {
             anonymousFunction->evaluateFunction(eval, argIn, 0);
-        } catch (const Exception& e) {
-            eval->getInterface()->errorMessage(e.getFormattedErrorMessage());
+        } catch (const NelsonException& e) {
+            eval->getInterface()->errorMessage(e.formattedErrorMessage());
             eval->setLastErrorException(e);
             running = false;
             return false;
@@ -49,14 +50,15 @@ CallbackBase::executeCallbackImpl(Evaluator* eval)
         return true;
     } else if (callbackAsArrayOf.isRowVectorCharacterArray()
         || callbackAsArrayOf.isScalarStringArray()) {
-        std::wstring callbackString = callbackAsArrayOf.getContentAsWideCharactersPointer();
+        std::unique_ptr<wchar_t[]> buffer(callbackAsArrayOf.toAllocatedWideCString());
+        std::wstring callbackString = buffer.get();
         callbackString += L"\n";
         try {
             bool result = eval->evaluateString(callbackString, true);
             running = false;
             return result;
-        } catch (const Exception& e) {
-            eval->getInterface()->errorMessage(e.getFormattedErrorMessage());
+        } catch (const NelsonException& e) {
+            eval->getInterface()->errorMessage(e.formattedErrorMessage());
             eval->setLastErrorException(e);
             running = false;
             return false;
@@ -66,5 +68,5 @@ CallbackBase::executeCallbackImpl(Evaluator* eval)
     return false;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

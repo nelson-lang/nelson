@@ -9,13 +9,13 @@
 %=============================================================================
 function r = isprop(H, propertyName)
   if ~isscalar(H)
-    error(_('Wrong size for argument #1: scalar expected.'));
+    error('Nelson:scalarExpected', 'Wrong size for argument #%d: scalar expected.', 1);
   end
   if (strcmp(class(H), 'MPI_Comm') == false)
-    error(_('Wrong type for argument #1: MPI_Comm expected.'));
+    error('Nelson:types:wrongArgumentTypeExpected', 'Wrong type for argument #%d: %s expected.', 1, 'MPI_Comm');
   end
   if ~ischar(propertyName)
-    error(_('Wrong type for argument #2: string expected.'));
+    error('Nelson:types:wrongArgumentTypeExpected', 'Wrong type for argument #%d: %s expected.', 2, 'string');
   end
   r = false;
 end

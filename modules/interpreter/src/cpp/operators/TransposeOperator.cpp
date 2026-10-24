@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,27 +10,16 @@
 #include "Evaluator.hpp"
 #include "Operators.hpp"
 #include "OverloadHelpers.hpp"
+#include "BinaryOperatorHelpers.hpp"
 #include "OverloadRequired.hpp"
 #include "Transpose.hpp"
 //=============================================================================
 namespace Nelson {
-//=============================================================================
-ArrayOf
-Evaluator::transposeOperator(AbstractSyntaxTreePtr t)
-{
-    callstack.pushID((size_t)t->getContext());
-    ArrayOf retval = this->transposeOperator(expression(t->down));
-    callstack.popID();
-    return retval;
-}
-//=============================================================================
 ArrayOf
 Evaluator::transposeOperator(const ArrayOf& A)
 {
     bool wasFound = false;
-    ArrayOf res = callOverloadedFunction(this,
-        NelsonConfiguration::getInstance()->getOverloadLevelCompatibility(), A,
-        TRANSPOSE_OPERATOR_STR, ClassName(A), A.getDataClass(), wasFound);
+    ArrayOf res = callOperatorOverload(this, A, TRANSPOSE_OPERATOR_STR, wasFound);
     if (wasFound) {
         return res;
     }

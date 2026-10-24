@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -14,6 +14,7 @@
 #include "omp_for_loop.hpp"
 #include "GCD.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "IEEEFP.hpp"
 //=============================================================================
@@ -34,7 +35,6 @@ basic_gcd(double a, double b)
 }
 //=============================================================================
 // wrapper to compute gcd for various integer types using std::gcd
-// signed version
 template <class T, typename std::enable_if_t<std::is_signed<T>::value, int> = 0>
 inline T
 gcd_wrapper(T a, T b) noexcept
@@ -50,7 +50,7 @@ gcd_wrapper(T a, T b) noexcept
     long long g = std::gcd(aa, bb);
     return static_cast<T>(g);
 }
-// unsigned version
+//=============================================================================
 template <class T, typename std::enable_if_t<!std::is_signed<T>::value, int> = 0>
 inline T
 gcd_wrapper(T a, T b) noexcept
@@ -65,7 +65,7 @@ template <class T>
 static ArrayOf
 realGCD(NelsonType destinationClass, T* ptrA, T* ptrB, const Dimensions& commonDims)
 {
-    indexType N = commonDims.getElementCount();
+    indexType N = commonDims.elementCount();
     T* ptrRes = (T*)ArrayOf::allocateArrayOf(destinationClass, N);
     ArrayOf res = ArrayOf(destinationClass, commonDims, ptrRes);
     OMP_PARALLEL_FOR_LOOP(N)
@@ -79,7 +79,7 @@ template <class T>
 static ArrayOf
 realGCD(NelsonType destinationClass, T* ptrA, T b, const Dimensions& commonDims)
 {
-    indexType N = commonDims.getElementCount();
+    indexType N = commonDims.elementCount();
     T* ptrRes = (T*)ArrayOf::allocateArrayOf(destinationClass, N);
     ArrayOf res = ArrayOf(destinationClass, commonDims, ptrRes);
     OMP_PARALLEL_FOR_LOOP(N)
@@ -93,7 +93,7 @@ template <class T>
 static ArrayOf
 realGCD(NelsonType destinationClass, T a, T* ptrB, const Dimensions& commonDims)
 {
-    indexType N = commonDims.getElementCount();
+    indexType N = commonDims.elementCount();
     T* ptrRes = (T*)ArrayOf::allocateArrayOf(destinationClass, N);
     ArrayOf res = ArrayOf(destinationClass, commonDims, ptrRes);
     OMP_PARALLEL_FOR_LOOP(N)
@@ -107,7 +107,7 @@ template <class T>
 static ArrayOf
 integerGCD(NelsonType destinationClass, T* ptrA, T* ptrB, const Dimensions& commonDims)
 {
-    indexType N = commonDims.getElementCount();
+    indexType N = commonDims.elementCount();
     T* ptrRes = (T*)ArrayOf::allocateArrayOf(destinationClass, N);
     ArrayOf res = ArrayOf(destinationClass, commonDims, ptrRes);
     OMP_PARALLEL_FOR_LOOP(N)
@@ -121,7 +121,7 @@ template <class T>
 static ArrayOf
 integerGCD(NelsonType destinationClass, T* ptrA, T b, const Dimensions& commonDims)
 {
-    indexType N = commonDims.getElementCount();
+    indexType N = commonDims.elementCount();
     T* ptrRes = (T*)ArrayOf::allocateArrayOf(destinationClass, N);
     ArrayOf res = ArrayOf(destinationClass, commonDims, ptrRes);
     OMP_PARALLEL_FOR_LOOP(N)
@@ -135,7 +135,7 @@ template <class T>
 static ArrayOf
 integerGCD(NelsonType destinationClass, T a, T* ptrB, const Dimensions& commonDims)
 {
-    indexType N = commonDims.getElementCount();
+    indexType N = commonDims.elementCount();
     T* ptrRes = (T*)ArrayOf::allocateArrayOf(destinationClass, N);
     ArrayOf res = ArrayOf(destinationClass, commonDims, ptrRes);
     OMP_PARALLEL_FOR_LOOP(N)
@@ -154,16 +154,16 @@ GCD(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
         needToOverload = true;
         return res;
     }
-    Dimensions dimsA = A.getDimensions();
-    Dimensions dimsB = B.getDimensions();
+    Dimensions dimsA = A.dimensions();
+    Dimensions dimsB = B.dimensions();
     bool supportedDimensions = dimsA.equals(dimsB) || dimsA.isScalar() || dimsB.isScalar();
     if (!supportedDimensions) {
-        Error(_W("Inputs must be the same size."));
+        Error(L"Nelson:dimagree:inputsSize", L"Inputs must be the same size.");
     }
-    switch (A.getDataClass()) {
+    switch (A.dataClass()) {
     case NLS_LOGICAL: {
-        auto* ptrA = (logical*)A.getDataPointer();
-        auto* ptrB = (logical*)B.getDataPointer();
+        auto* ptrA = (logical*)A.dataPointer();
+        auto* ptrB = (logical*)B.dataPointer();
         if (dimsA.equals(dimsB)) {
             res = integerGCD<logical>(NLS_LOGICAL, ptrA, ptrB, dimsA);
         } else {
@@ -175,8 +175,8 @@ GCD(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
         }
     } break;
     case NLS_UINT8: {
-        auto* ptrA = (uint8*)A.getDataPointer();
-        auto* ptrB = (uint8*)B.getDataPointer();
+        auto* ptrA = (uint8*)A.dataPointer();
+        auto* ptrB = (uint8*)B.dataPointer();
         if (dimsA.equals(dimsB)) {
             res = integerGCD<uint8>(NLS_UINT8, ptrA, ptrB, dimsA);
         } else {
@@ -188,8 +188,8 @@ GCD(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
         }
     } break;
     case NLS_INT8: {
-        int8* ptrA = (int8*)A.getDataPointer();
-        int8* ptrB = (int8*)B.getDataPointer();
+        int8* ptrA = (int8*)A.dataPointer();
+        int8* ptrB = (int8*)B.dataPointer();
         if (dimsA.equals(dimsB)) {
             res = integerGCD<int8>(NLS_INT8, ptrA, ptrB, dimsA);
         } else {
@@ -201,8 +201,8 @@ GCD(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
         }
     } break;
     case NLS_UINT16: {
-        auto* ptrA = (uint16*)A.getDataPointer();
-        auto* ptrB = (uint16*)B.getDataPointer();
+        auto* ptrA = (uint16*)A.dataPointer();
+        auto* ptrB = (uint16*)B.dataPointer();
         if (dimsA.equals(dimsB)) {
             res = integerGCD<uint16>(NLS_UINT16, ptrA, ptrB, dimsA);
         } else {
@@ -214,8 +214,8 @@ GCD(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
         }
     } break;
     case NLS_INT16: {
-        auto* ptrA = (int16*)A.getDataPointer();
-        auto* ptrB = (int16*)B.getDataPointer();
+        auto* ptrA = (int16*)A.dataPointer();
+        auto* ptrB = (int16*)B.dataPointer();
         if (dimsA.equals(dimsB)) {
             res = integerGCD<int16>(NLS_INT16, ptrA, ptrB, dimsA);
         } else {
@@ -227,8 +227,8 @@ GCD(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
         }
     } break;
     case NLS_UINT32: {
-        auto* ptrA = (uint32*)A.getDataPointer();
-        auto* ptrB = (uint32*)B.getDataPointer();
+        auto* ptrA = (uint32*)A.dataPointer();
+        auto* ptrB = (uint32*)B.dataPointer();
         if (dimsA.equals(dimsB)) {
             res = integerGCD<uint32>(NLS_UINT32, ptrA, ptrB, dimsA);
         } else {
@@ -240,8 +240,8 @@ GCD(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
         }
     } break;
     case NLS_INT32: {
-        auto* ptrA = (int32*)A.getDataPointer();
-        auto* ptrB = (int32*)B.getDataPointer();
+        auto* ptrA = (int32*)A.dataPointer();
+        auto* ptrB = (int32*)B.dataPointer();
         if (dimsA.equals(dimsB)) {
             res = integerGCD<int32>(NLS_INT32, ptrA, ptrB, dimsA);
         } else {
@@ -253,8 +253,8 @@ GCD(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
         }
     } break;
     case NLS_UINT64: {
-        auto* ptrA = (uint64*)A.getDataPointer();
-        auto* ptrB = (uint64*)B.getDataPointer();
+        auto* ptrA = (uint64*)A.dataPointer();
+        auto* ptrB = (uint64*)B.dataPointer();
         if (dimsA.equals(dimsB)) {
             res = integerGCD<uint64>(NLS_UINT64, ptrA, ptrB, dimsA);
         } else {
@@ -266,8 +266,8 @@ GCD(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
         }
     } break;
     case NLS_INT64: {
-        auto* ptrA = (int64*)A.getDataPointer();
-        auto* ptrB = (int64*)B.getDataPointer();
+        auto* ptrA = (int64*)A.dataPointer();
+        auto* ptrB = (int64*)B.dataPointer();
         if (dimsA.equals(dimsB)) {
             res = integerGCD<int64>(NLS_INT64, ptrA, ptrB, dimsA);
         } else {
@@ -279,8 +279,8 @@ GCD(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
         }
     } break;
     case NLS_CHAR: {
-        auto* ptrA = (charType*)A.getDataPointer();
-        auto* ptrB = (charType*)B.getDataPointer();
+        auto* ptrA = (charType*)A.dataPointer();
+        auto* ptrB = (charType*)B.dataPointer();
         if (dimsA.equals(dimsB)) {
             res = integerGCD<charType>(NLS_CHAR, ptrA, ptrB, dimsA);
         } else {
@@ -292,12 +292,12 @@ GCD(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
         }
     } break;
     case NLS_SINGLE: {
-        auto* ptrA = (single*)A.getDataPointer();
-        auto* ptrB = (single*)B.getDataPointer();
-        bool isIntegerA = IsIntegerForm(ptrA, dimsA.getElementCount()) || A.isEmpty();
-        bool isIntegerB = IsIntegerForm(ptrB, dimsB.getElementCount()) || B.isEmpty();
+        auto* ptrA = (single*)A.dataPointer();
+        auto* ptrB = (single*)B.dataPointer();
+        bool isIntegerA = IsIntegerForm(ptrA, dimsA.elementCount()) || A.isEmpty();
+        bool isIntegerB = IsIntegerForm(ptrB, dimsB.elementCount()) || B.isEmpty();
         if (!isIntegerA || !isIntegerB) {
-            Error(_W("Inputs must be real integers."));
+            Error(L"Nelson:gcd:mustBeRealIntegers", L"Inputs must be real integers.");
         }
         if (dimsA.equals(dimsB)) {
             res = realGCD<single>(NLS_SINGLE, ptrA, ptrB, dimsA);
@@ -310,12 +310,12 @@ GCD(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
         }
     } break;
     case NLS_DOUBLE: {
-        auto* ptrA = (double*)A.getDataPointer();
-        auto* ptrB = (double*)B.getDataPointer();
-        bool isIntegerA = IsIntegerForm(ptrA, dimsA.getElementCount()) || A.isEmpty();
-        bool isIntegerB = IsIntegerForm(ptrB, dimsB.getElementCount()) || B.isEmpty();
+        auto* ptrA = (double*)A.dataPointer();
+        auto* ptrB = (double*)B.dataPointer();
+        bool isIntegerA = IsIntegerForm(ptrA, dimsA.elementCount()) || A.isEmpty();
+        bool isIntegerB = IsIntegerForm(ptrB, dimsB.elementCount()) || B.isEmpty();
         if (!isIntegerA || !isIntegerB) {
-            Error(_W("Inputs must be real integers."));
+            Error(L"Nelson:gcd:mustBeRealIntegers", L"Inputs must be real integers.");
         }
         if (dimsA.equals(dimsB)) {
             res = realGCD<double>(NLS_DOUBLE, ptrA, ptrB, dimsA);
@@ -329,7 +329,7 @@ GCD(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
     } break;
     case NLS_SCOMPLEX:
     case NLS_DCOMPLEX: {
-        Error(_W("Inputs must be real integers."));
+        Error(L"Nelson:gcd:mustBeRealIntegers", L"Inputs must be real integers.");
     } break;
     default: {
         needToOverload = true;

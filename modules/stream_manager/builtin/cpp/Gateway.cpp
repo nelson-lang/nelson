@@ -10,7 +10,9 @@
 #include "FilesManager.hpp"
 #include "Interface.hpp"
 #include "NelsonGateway.hpp"
+#include "BuiltInFunctionDefManager.hpp"
 #include "NelsonConfiguration.hpp"
+#include "cprintfBuiltin.hpp"
 #include "diaryBuiltin.hpp"
 #include "fcloseBuiltin.hpp"
 #include "fgetlBuiltin.hpp"
@@ -23,6 +25,7 @@
 #include "frewindBuiltin.hpp"
 #include "fseekBuiltin.hpp"
 #include "fsizeBuiltin.hpp"
+#include "readlinesBuiltin.hpp"
 #include "ftellBuiltin.hpp"
 #include "fwriteBuiltin.hpp"
 #include "loadBuiltin.hpp"
@@ -40,9 +43,11 @@ static const nlsGateway gateway[] = {
     { "diary", (ptrBuiltin)Nelson::StreamGateway::diaryBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "fprintf", (ptrBuiltin)Nelson::StreamGateway::fprintfBuiltin, 1, 3,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "frewind", (ptrBuiltin)Nelson::StreamGateway::frewindBuiltin, 0, 1,
+    { "cprintf", (ptrBuiltin)Nelson::StreamGateway::cprintfBuiltin, 1, -1,
         CPP_BUILTIN_WITH_EVALUATOR },
+    { "frewind", (ptrBuiltin)Nelson::StreamGateway::frewindBuiltin, 0, 1, CPP_BUILTIN },
     { "fileread", (ptrBuiltin)Nelson::StreamGateway::filereadBuiltin, 1, 1 },
+    { "readlines", (ptrBuiltin)Nelson::StreamGateway::readlinesBuiltin, 1, -1, CPP_BUILTIN },
     { "filewrite", (ptrBuiltin)Nelson::StreamGateway::filewriteBuiltin, 0, 2 },
     { "load", (ptrBuiltin)Nelson::StreamGateway::loadBuiltin, 1, 1, CPP_BUILTIN_WITH_EVALUATOR },
     { "save", (ptrBuiltin)Nelson::StreamGateway::saveBuiltin, 0, 1, CPP_BUILTIN_WITH_EVALUATOR },
@@ -75,10 +80,11 @@ initializeModule(Nelson::Evaluator* eval)
         }
         if (fm) {
             NelsonConfiguration::getInstance()->setFileManager((void*)fm);
-            return true;
         }
     }
-    return false;
+    BuiltInFunctionDefManager::getInstance()->setCallerContextAccess(
+        (ptrBuiltin)Nelson::StreamGateway::loadBuiltin, true);
+    return true;
 }
 //=============================================================================
 static bool
@@ -94,11 +100,7 @@ finishModule(Nelson::Evaluator* eval)
     return false;
 }
 //=============================================================================
-NLSGATEWAYFUNCEXTENDED(gateway, (void*)initializeModule)
+NLS_GATEWAY_FUNC_EXTENDED(gateway, (void*)initializeModule)
 //=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVEEXTENDED(gateway, (void*)finishModule)
-//=============================================================================
-NLSGATEWAYNAME()
+NLS_GATEWAY_REMOVE_EXTENDED(gateway, (void*)finishModule)
 //=============================================================================

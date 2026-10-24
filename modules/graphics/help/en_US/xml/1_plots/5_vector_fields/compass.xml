@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>compass</keyword>
+  <short_description>Display arrows from the origin on a polar grid.</short_description>
+  <syntax>
+    <syntax_item>compass(Z)</syntax_item>
+    <syntax_item>compass(U, V)</syntax_item>
+    <syntax_item>compass(..., LineSpec)</syntax_item>
+    <syntax_item>compass(..., propertyName, propertyValue)</syntax_item>
+    <syntax_item>compass(parent, ...)</syntax_item>
+    <syntax_item>h = compass(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>compass</b> draws arrows starting from the origin toward the cartesian points defined by the input components on a polar grid.</p>
+    <p>With a single complex input <b>Z</b>, the real parts are the horizontal components and the imaginary parts are the vertical components; this is equivalent to <b>compass(real(Z), imag(Z))</b>.</p>
+    <p>With two real inputs <b>U</b> and <b>V</b>, each pair (U, V) is a cartesian point and the arrow points from the origin to that point. When <b>U</b> and <b>V</b> are matrices, one arrow is drawn for each element.</p>
+    <p>Each vector is drawn as a <b>Line</b> object made of a shaft from the origin and a short two-segment arrowhead, over a polar reference grid. <b>h = compass(...)</b> returns a column vector of <b>Line</b> objects, one per vector.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Display arrows from complex values.</example_item_description>
+      <example_item_data><![CDATA[Z = [1 + 2i, 2 - 1i, -1 + 1i];
+compass(Z);]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Use cartesian components with a line style and line properties.</example_item_description>
+      <example_item_data><![CDATA[U = [1 3 2];
+V = [2 1 -1];
+h = compass(U, V, '-r');
+set(h, 'LineWidth', 1.5);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/5_vector_fields/compassplot">compassplot</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/5_vector_fields/feather">feather</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/5_vector_fields/quiver">quiver</link></see_also_item>
+  </see_also>
+</xmldoc>

@@ -9,24 +9,31 @@
 %=============================================================================
 A = [5, 1, 4, 3];
 k = 2;
-[val, idx] = mink (A, k);
-assert_isequal(val, [1 3]);
-assert_isequal(idx, [2 4]);
+[val, idx] = mink(A, k);
+asserts.isequal(val, [1 3]);
+asserts.isequal(idx, [2 4]);
 %=============================================================================
 A = [5; 1; 4; 3];
-[val, idx] = mink (A, 2);
-assert_isequal(val, [1; 3]);
-assert_isequal(idx, [2; 4]);
+[val, idx] = mink(A, 2);
+asserts.isequal(val, [1; 3]);
+asserts.isequal(idx, [2; 4]);
 %=============================================================================
 A = [1 4 2; 7 3 5]; % 2x3
-[val, idx] = mink (A, 1);
-assert_isequal(val, [1 3 2]);
-assert_isequal(idx, [1 2 1]);
+[val, idx] = mink(A, 1);
+asserts.isequal(val, [1 3 2]);
+asserts.isequal(idx, [1 2 1]);
 %=============================================================================
-[val, idx] = mink (A, 2, 2);
-assert_isequal(val, [1 2; 3 5]);
-assert_isequal(idx, [1 3; 2 3]);
+[val, idx] = mink(A, 2, 2);
+asserts.isequal(val, [1 2; 3 5]);
+asserts.isequal(idx, [1 3; 2 3]);
 %=============================================================================
-cmd = 'R = mink ([1, 2, 3], 5);';
-assert_checkerror(cmd, _('Number of elements exceeds size of array.'));
+% k larger than the array size returns all elements sorted (reference-implementation semantics)
+[val, idx] = mink([1, 2, 3], 5);
+asserts.isequal(val, [1 2 3]);
+asserts.isequal(idx, [1 2 3]);
+%=============================================================================
+[minValues, minIndices] = mink([5 1 4 3], 2);
+asserts.isequal(minValues, [1 3]);
+asserts.isequal(minIndices, [2 4]);
+asserts.isequal(mink([1, 2, 3], 5), [1 2 3]);
 %=============================================================================

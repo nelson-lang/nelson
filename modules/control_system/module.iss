@@ -16,8 +16,11 @@ Source: {#RootPath}modules\{#MODULE_NAME}\etc\finish.m; DestDir: {app}\modules\{
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\functions\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\;Components: {#COMPONENT_CONTROL_SYSTEM};
 Source: {#RootPath}modules\{#MODULE_NAME}\functions\private\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\private\;Components: {#COMPONENT_CONTROL_SYSTEM};
+; classdef model folders and external methods
 Source: {#RootPath}modules\{#MODULE_NAME}\functions\@tf\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\@tf\;Components: {#COMPONENT_CONTROL_SYSTEM};
 Source: {#RootPath}modules\{#MODULE_NAME}\functions\@ss\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\@ss\;Components: {#COMPONENT_CONTROL_SYSTEM};
+;==============================================================================
+Source: {#RootPath}modules\{#MODULE_NAME}\examples\*; DestDir: {app}\modules\{#MODULE_NAME}\examples\; Flags: recursesubdirs;Components: {#COMPONENT_CONTROL_SYSTEM};
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\help\*.nhz; DestDir: {app}\modules\{#MODULE_NAME}\help\; Flags: recursesubdirs;Components: {#COMPONENT_CONTROL_SYSTEM} and {#COMPONENT_HELP_FILES};
 ;==============================================================================

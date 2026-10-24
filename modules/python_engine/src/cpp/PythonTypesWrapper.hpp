@@ -30,5 +30,21 @@ arrayOfToPyObject(const ArrayOf& A);
 ArrayOf
 PyMemoryViewToArrayOf(PyObject* pyObject);
 //=============================================================================
-}
+// Never raises: returns false when pandas is not importable.
+bool
+isPandasDataFrame(PyObject* pyObject);
+//=============================================================================
+// Never raises: returns false when pandas is not importable.
+bool
+isPandasSeries(PyObject* pyObject);
+//=============================================================================
+// Splits a pandas DataFrame or Series into the pieces of a Nelson table: one column per
+// DataFrame column, the column labels as variable names and the row names. A non-default
+// index becomes a leading 'index' variable, so rowNames is always empty. Returns false and
+// leaves the outputs untouched for any other object or when pandas is unavailable.
+bool
+PyPandasToTableData(
+    PyObject* pyObject, ArrayOf& columns, ArrayOf& variableNames, ArrayOf& rowNames);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

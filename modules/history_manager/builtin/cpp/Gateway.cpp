@@ -48,11 +48,7 @@ finishHistoryManagerModule(Nelson::Evaluator* eval)
     return true;
 }
 //=============================================================================
-NLSGATEWAYFUNCEXTENDED(gateway, (void*)initializeHistoryManagerModule)
+NLS_GATEWAY_FUNC_EXTENDED(gateway, (void*)initializeHistoryManagerModule)
 //=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVEEXTENDED(gateway, (void*)finishHistoryManagerModule)
-//=============================================================================
-NLSGATEWAYNAME()
+NLS_GATEWAY_REMOVE_EXTENDED(gateway, (void*)finishHistoryManagerModule)
 //=============================================================================

@@ -7,28 +7,28 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function varargout = isbanded (varargin)
+function varargout = isbanded(varargin)
   narginchk(3, 3);
   nargoutchk(0, 1);
-  
+
   A = varargin{1};
   lower = varargin{2};
-  if (~isreal (lower) || lower < 0)
-    error(_('LOWER must be non-negative integers.'));
+  if (~isreal(lower) || lower < 0)
+    error('Nelson:isbanded:invalidLower', '%s must be nonnegative integers.', 'LOWER');
   end
-  
+
   upper = varargin{3};
-  if (~isreal (upper) || upper < 0)
-    error(_('UPPER must be non-negative integers.'));
+  if (~isreal(upper) || upper < 0)
+    error('Nelson:isbanded:invalidUpper', '%s must be nonnegative integers.', 'UPPER');
   end
-  
+
   res = [];
-  if ~isempty (A)
-    res = (islogical(A) || isnumeric (A)) && (ndims(A) == 2);
+  if ~isempty(A)
+    res = (islogical(A) || isnumeric(A)) && (ndims(A) == 2);
     if (res)
       [i, j] = find(A);
       u = j >= i;
-      res = all (j(u) - i(u) <= upper);
+      res = all(j(u) - i(u) <= upper);
       if (res)
         l = i >= j;
         res = all(i(l) - j(l) <= lower);

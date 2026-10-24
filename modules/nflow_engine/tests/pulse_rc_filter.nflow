@@ -1,0 +1,76 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Allan CORNET",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "comments": "Pulse train (period 4 s, 50% duty) through a first-order low-pass 1/(0.5 s + 1).",
+  "name": "pulse_rc_filter",
+  "blocks": [
+    {
+      "id": "pu",
+      "type": "pulse",
+      "x": 40,
+      "y": 180,
+      "rotation": 0,
+      "params": {
+        "Amplitude": 1,
+        "Period": 4,
+        "Width": 50,
+        "StartTime": 0,
+        "Offset": 0
+      }
+    },
+    {
+      "id": "p1",
+      "type": "tf",
+      "x": 220,
+      "y": 180,
+      "rotation": 0,
+      "params": {
+        "Numerator": [
+          1
+        ],
+        "Denominator": [
+          0.5,
+          1
+        ]
+      }
+    },
+    {
+      "id": "tw",
+      "type": "toWorkspace",
+      "x": 400,
+      "y": 180,
+      "rotation": 0,
+      "params": {
+        "VariableName": "pulse_rc_filter_out",
+        "MaxDataPoints": "inf",
+        "Decimation": 1,
+        "SaveFormat": "Array",
+        "SampleTime": "-1"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "pu",
+      "to": "p1",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "p1",
+      "to": "tw",
+      "fromIndex": 0,
+      "toIndex": 0
+    }
+  ],
+  "variables": "",
+  "runtime": 12,
+  "sampleTime": 0.02,
+  "autoRoute": true,
+  "solver": "ode45"
+}

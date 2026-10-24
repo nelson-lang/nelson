@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>imextendedmin</keyword>
+  <short_description>Trouve les minima etendus dans une image 2-D.</short_description>
+  <syntax>
+    <syntax_item>BW = imextendedmin(I, h)</syntax_item>
+    <syntax_item>BW = imextendedmin(I, h, conn)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>I</param_name>
+      <param_description>Image 2-D reelle finie.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>h</param_name>
+      <param_description>Hauteur finie non negative pour la transformation h-minima.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>conn</param_name>
+      <param_description>Connectivite, soit 4, 8, ou une matrice 3-by-3 equivalente.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>BW</param_name>
+      <param_description>Masque logique des minima regionaux apres suppression h-minima.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>imextendedmin applique imhmin puis trouve les minima regionaux. Cette fonction aide a construire des masques de marqueurs qui ignorent les minima moins profonds que h.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Trouver les minima etendus</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[I=[5 5 5 5 5;5 1 5 2 5;5 5 5 5 5];
+BW=imextendedmin(I,2);
+figure; subplot(1,2,1); imagesc(I); title('Image');
+subplot(1,2,2); imagesc(BW); title('Minima etendus');]]></example_item_data>
+      <example_item_img
+        src="../../../images/imextendedmin_1.png"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}imhmin">imhmin</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}imregionalmin">imregionalmin</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}imimposemin">imimposemin</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}watershed">watershed</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

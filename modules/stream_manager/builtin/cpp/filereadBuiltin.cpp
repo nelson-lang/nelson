@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -13,6 +13,7 @@
 #include "filereadBuiltin.hpp"
 #include "FileSystemWrapper.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "MapFileRead.hpp"
 #include "characters_encoding.hpp"
@@ -46,25 +47,25 @@ Nelson::StreamGateway::filereadBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOfVector retval;
     nargincheck(argIn, 1, 4);
     nargoutcheck(nLhs, 0, 1);
-    std::wstring fileToRead = argIn[0].getContentAsWideString();
+    std::wstring fileToRead = argIn[0].asWideString();
     bool bIsFile = FileSystemWrapper::Path::is_regular_file(fileToRead);
     if (!bIsFile) {
-        Error(_W("A valid filename expected."));
+        Error(L"Nelson:fileread:invalidFilename", L"A valid filename expected.");
     }
     std::wstring outputClass = L"char";
     if (argIn.size() > 1) {
         ArrayOf param2 = argIn[1];
-        std::wstring str = param2.getContentAsWideString();
+        std::wstring str = param2.asWideString();
         if (str == L"char" || str == L"cell" || str == L"string") {
             outputClass = str;
         } else {
-            Error(_W("Wrong value for #2 argument."));
+            Error(L"Nelson:stream_manager:invalidArgument", L"Wrong value for #%d argument.", 2);
         }
     }
     std::wstring eol = L"\n";
     if (argIn.size() > 2) {
         ArrayOf param3 = argIn[2];
-        std::wstring str = param3.getContentAsWideString();
+        std::wstring str = param3.asWideString();
         if (str == L"native" || str == L"pc" || str == L"unix") {
             if (str == L"native") {
 #ifdef _MSC_VER
@@ -80,19 +81,20 @@ Nelson::StreamGateway::filereadBuiltin(int nLhs, const ArrayOfVector& argIn)
                 }
             }
         } else {
-            Error(_W("Wrong value for #3 argument."));
+            Error(L"Nelson:stream_manager:invalidArgument", L"Wrong value for #%d argument.", 3);
         }
         if (outputClass == L"cell") {
-            Error(_W("Wrong value for #2 argument."));
+            Error(L"Nelson:stream_manager:invalidArgument", L"Wrong value for #%d argument.", 2);
         }
     }
     std::wstring encoding = L"UTF-8";
     if (argIn.size() > 3) {
         ArrayOf param4 = argIn[3];
-        encoding = param4.getContentAsWideString();
+        encoding = param4.asWideString();
         if (encoding != L"auto") {
             if (!isSupportedEncoding(encoding)) {
-                Error(_W("Wrong value for #4 argument."));
+                Error(
+                    L"Nelson:stream_manager:invalidArgument", L"Wrong value for #%d argument.", 4);
             }
         }
     }
@@ -101,21 +103,20 @@ Nelson::StreamGateway::filereadBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (MapFileRead(fileToRead, eol, encoding, content, errorMessage)) {
         ArrayOf res;
         if (outputClass == L"char") {
-            res = ArrayOf::characterArrayConstructor(content);
+            res = ArrayOf::characterArray(content);
         } else {
             wstringVector results = getLines(content);
             if (outputClass == L"string") {
                 Dimensions dims(results.size(), 1);
-                res = ArrayOf::stringArrayConstructor(results, dims);
+                res = ArrayOf::stringArray(results, dims);
             } else {
-                // cell
-                res = ArrayOf::toCellArrayOfCharacterColumnVectors(results);
+                res = ArrayOf::cellArrayFromArrayOfCharacterColumnVectors(results);
             }
         }
         retval << res;
     } else {
         if (!errorMessage.empty()) {
-            Error(errorMessage);
+            Error(L"Nelson:fileread:readFailed", errorMessage);
         }
     }
     return retval;

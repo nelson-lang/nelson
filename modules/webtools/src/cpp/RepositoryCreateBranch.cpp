@@ -20,11 +20,11 @@ RepositoryCreateBranch(
 {
     std::string localPathUtf8 = wstring_to_utf8(localPath);
     std::string branchUtf8 = wstring_to_utf8(branchName);
-    git_repository* repo;
-    git_reference *head, *branch;
-    git_commit* commit;
+    git_repository* repo = nullptr;
+    git_reference* head = nullptr;
+    git_reference* branch = nullptr;
+    git_commit* commit = nullptr;
     git_oid commit_oid;
-    int ret = 0;
 
     git_libgit2_init();
 
@@ -44,14 +44,17 @@ RepositoryCreateBranch(
     }
 
     const char* currentBranch = git_reference_shorthand(head);
-    if (currentBranch == branchUtf8) {
+    if (currentBranch != nullptr && branchUtf8 == currentBranch) {
+        git_reference_free(head);
         git_repository_free(repo);
         git_libgit2_shutdown();
+        return;
     }
 
     errorCode = git_reference_name_to_id(&commit_oid, repo, "HEAD");
     if (errorCode != 0) {
         errorMessage = gitErrorCodeToMessage(errorCode);
+        git_reference_free(head);
         git_repository_free(repo);
         git_libgit2_shutdown();
         return;
@@ -60,6 +63,7 @@ RepositoryCreateBranch(
     errorCode = git_commit_lookup(&commit, repo, &commit_oid);
     if (errorCode != 0) {
         errorMessage = gitErrorCodeToMessage(errorCode);
+        git_reference_free(head);
         git_repository_free(repo);
         git_libgit2_shutdown();
         return;
@@ -70,10 +74,14 @@ RepositoryCreateBranch(
         errorMessage = gitErrorCodeToMessage(errorCode);
     }
 
+    git_reference_free(head);
+    git_commit_free(commit);
+    if (branch != nullptr) {
+        git_reference_free(branch);
+    }
     git_repository_free(repo);
     git_libgit2_shutdown();
 }
 //=============================================================================
-
-}
+} // namespace Nelson
 //=============================================================================

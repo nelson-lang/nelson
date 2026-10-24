@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="306.5" height="302.5" viewBox="-153.25 -153.25 306.5 302.5">
+  <rect x="-153.25" y="-153.25" width="306.5" height="302.5" rx="57.475" fill="#E1F5EE" stroke="#9FE1CB" stroke-width="3.25"/>
+  <g transform="matrix(1 0 0 -1 0 0)">
+    <rect x="-100" y="-100" width="200" height="200" fill="#FFFFFF" stroke="#085041" stroke-width="3.25"/>
+    <g transform="translate(0,130) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32" fill="#085041">LPF</text></g>
+    <polyline points="-80,78 -80,-90" fill="none" stroke="#9FE1CB" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="-79.56,91.82 -87.56,69.82 -71.56,69.82 -79.56,91.82" fill="#9FE1CB" stroke="#9FE1CB" stroke-width="3.25" stroke-linejoin="round"/>
+    <g transform="translate(-1.94 -1.82) rotate(0)">
+    <path d="M81.94 36.06 Q65.36 36.06 39.875 4.93 Q14.39 -26.2 -7.79 43.64 Q-29.97 113.48 -47.67 26.13 Q-65.37 -61.22 -78.06 -78.18" fill="none" stroke="#085041" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+    <polyline points="-90.98,-80.77 81.02,-80.77" fill="none" stroke="#9FE1CB" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="91.34,-79.82 69.34,-71.82 69.34,-87.82 91.34,-79.82" fill="#9FE1CB" stroke="#9FE1CB" stroke-width="3.25" stroke-linejoin="round"/>
+    <g transform="translate(23.415,-39.735) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="45.224" fill="#085041">LowpassButterworthFilter</text></g>
+    <g transform="translate(8,-126) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32" fill="#085041">f</text></g>
+    <g transform="translate(46,71) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="36.8" fill="#085041">2</text></g>
+  </g>
+</svg>

@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>legend</keyword>
+  <short_description>Add a legend to axes.</short_description>
+  <syntax>
+    <syntax_item>legend()</syntax_item>
+    <syntax_item>legend(label1, ..., labelN)</syntax_item>
+    <syntax_item>legend(labels)</syntax_item>
+    <syntax_item>legend(plotHandles, labels)</syntax_item>
+    <syntax_item>legend(&apos;off&apos;)</syntax_item>
+    <syntax_item>legend(&apos;hide&apos;)</syntax_item>
+    <syntax_item>legend(&apos;show&apos;)</syntax_item>
+    <syntax_item>legend(&apos;toggle&apos;)</syntax_item>
+    <syntax_item>legend(&apos;boxon&apos;)</syntax_item>
+    <syntax_item>legend(&apos;boxoff&apos;)</syntax_item>
+    <syntax_item>legend(ax, ...)</syntax_item>
+    <syntax_item>legend(ax, plotHandles, labels)</syntax_item>
+    <syntax_item>legend(..., &apos;Location&apos;, lcn)</syntax_item>
+    <syntax_item>legend(..., propertyName, propertyValue)</syntax_item>
+    <syntax_item>L = legend(...)</syntax_item>
+    <syntax_item>[L, icons, plots, text] = legend(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>label1, ..., labelN</param_name>
+      <param_description>sets the legend labels: character vectors or string scalars.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>labels</param_name>
+      <param_description>cell array of character vectors or string array.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>plotHandles</param_name>
+      <param_description>graphics objects to include in the legend.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>&apos;off&apos;</param_name>
+      <param_description>delete the legend.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>&apos;toggle&apos;</param_name>
+      <param_description>toggle legend visibility.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>&apos;hide&apos;</param_name>
+      <param_description>hide the legend.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>&apos;show&apos;</param_name>
+      <param_description>show the legend.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>&apos;boxon&apos;</param_name>
+      <param_description>display the box around the legend.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>&apos;boxoff&apos;</param_name>
+      <param_description>hide the box around the legend.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description>target axes or polar axes.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>lcn</param_name>
+      <param_description>legend location string. The default is &apos;northeast&apos;.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName</param_name>
+      <param_description>a scalar string or character vector.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyValue</param_name>
+      <param_description>a value.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>L</param_name>
+      <param_description>a legend graphics object.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>icons</param_name>
+      <param_description>graphics object vector reserved for legend icon objects.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>plots</param_name>
+      <param_description>graphics objects represented by the legend.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>text</param_name>
+      <param_description>graphics object vector reserved for legend text objects.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>legend</b> creates or updates a legend attached to the target axes.</p>
+    <p>
+      When labels are omitted, labels are taken from the <b>DisplayName</b> property of
+      the plotted objects. If <b>AutoUpdate</b> is <b>on</b>, newly added plotted
+      objects are included automatically.
+    </p>
+    <p><b>Location for legend on the plot:</b></p>
+    <p>&apos;northeast&apos; or &apos;NE&apos;: top right (default).</p>
+    <p>&apos;north&apos; or &apos;N&apos;: top center.</p>
+    <p>&apos;south&apos; or &apos;S&apos;: bottom center.</p>
+    <p>&apos;east&apos; or &apos;E&apos;: middle right.</p>
+    <p>&apos;west&apos; or &apos;W&apos;: middle left.</p>
+    <p>&apos;northwest&apos; or &apos;NW&apos;: top left.</p>
+    <p>&apos;southeast&apos; or &apos;SE&apos;: bottom right.</p>
+    <p>&apos;southwest&apos; or &apos;SW&apos;: bottom left.</p>
+    <p>
+      Outside locations are also supported:
+      &apos;northoutside&apos;, &apos;southoutside&apos;, &apos;eastoutside&apos;,
+      and &apos;westoutside&apos;.
+    </p>
+    <p>See <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.legend.properties">legend properties</link> for the complete property list.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="adv-cli"><![CDATA[f = figure();
+x = linspace(0, 10);
+y1 = sin(x);
+y2 = cos(x);
+ax = gca();
+plot(ax, x, y1, 'DisplayName', 'sin(x)');
+hold(ax, 'on');
+plot(ax, x, y2, 'DisplayName', 'cos(x)');
+legend(ax, 'Location', 'N')]]></example_item_data>
+      <example_item_img src="../../../../images/legend.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="adv-cli"><![CDATA[f = figure();
+x = 1:5;
+plot(x, x);
+hold on
+plot(x, x .^ 2);
+lgd = legend({'linear'; 'quadratic'}, 'NumColumns', 2);
+title(lgd, 'Curves')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.legend.properties">legend properties</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}3_labels_styling/4_labels_annotations/title">title</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}3_labels_styling/4_labels_annotations/text">text</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}1_plots/1_line_plots/plot">plot</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

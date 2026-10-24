@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="309.5" height="308.5" viewBox="-153.25 -153.25 309.5 308.5">
+  <rect x="-153.25" y="-153.25" width="309.5" height="308.5" rx="58.615" fill="#FAEEDA" stroke="#FAC775" stroke-width="3.25"/>
+  <g transform="matrix(1 0 0 -1 0 0)">
+    <rect x="-100" y="-100" width="200" height="200" fill="#FFFFFF" stroke="#633806" stroke-width="3.25"/>
+    <g transform="translate(0,130) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32" fill="#633806">Sine</text></g>
+    <polyline points="-80,68 -80,-80" fill="none" stroke="#FAC775" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="-80,90 -88,68 -72,68 -80,90" fill="#FAC775" stroke="#FAC775" stroke-width="3.25" stroke-linejoin="round"/>
+    <polyline points="-90,0 68,0" fill="none" stroke="#FAC775" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="90,0 68,8 68,-8 90,0" fill="#FAC775" stroke="#FAC775" stroke-width="3.25" stroke-linejoin="round"/>
+    <path d="M-80 0 Q-68.7 34.2 -65.1 43.65 Q-61.5 53.1 -58.3 59.75 Q-55.1 66.4 -52.25 70.5 Q-49.4 74.6 -46.6 76.85 Q-43.8 79.1 -41 79.45 Q-38.2 79.8 -35.4 78.2 Q-32.6 76.6 -29.75 73.15 Q-26.9 69.7 -24.1 64.55 Q-21.3 59.4 -18.1 51.75 Q-14.9 44.1 -10.865 32.65 Q-6.83 21.2 1.635 -4.8 Q10.1 -30.8 13.7 -40.5 Q17.3 -50.2 20.5 -57.2 Q23.7 -64.2 26.5 -68.65 Q29.3 -73.1 32.15 -75.75 Q35 -78.4 37.8 -79.2 Q40.6 -80 43.4 -78.8 Q46.2 -77.6 49.05 -74.55 Q51.9 -71.5 54.7 -66.7 Q57.5 -61.9 60.7 -54.55 Q63.9 -47.2 67.95 -36 Q72 -24.8 80 0" fill="none" stroke="#633806" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <g transform="translate(3,-132) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32" fill="#633806">f</text></g>
+  </g>
+</svg>

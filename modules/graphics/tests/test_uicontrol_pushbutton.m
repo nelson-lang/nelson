@@ -17,9 +17,11 @@ buttonWidth = 100;
 buttonHeight = 50;
 buttonX = (figWidth - buttonWidth) / 2;
 buttonY = (figHeight - buttonHeight) / 2;
-fun = @(src, event)disp('Button Clicked!')
-button = uicontrol('Style', 'pushbutton', 'String', 'Click Me!', 'Position', [buttonX, buttonY, buttonWidth, buttonHeight], 'Callback', fun);
-pause(2);
+fun = @(src, event) disp('Button Clicked!')
+uicontrol('Style', 'pushbutton', 'String', 'Click Me!', ...
+    'Position', [buttonX, buttonY, buttonWidth, buttonHeight], 'Callback', fun);
+drawnow();
+pause(0.1);
 %=============================================================================
 fig = figure('Position', [500, 500, 400, 300]);
-h = uicontrol('Style', 'pushbutton', 'Position', [50, 50, 100, 100]);
+uicontrol('Style', 'pushbutton', 'Position', [50, 50, 100, 100]);

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>timerfind</keyword>
+  <short_description>Trouver les objets timer visibles qui correspondent a des criteres de proprietes.</short_description>
+  <syntax>
+    <syntax_item>out = timerfind()</syntax_item>
+    <syntax_item>out = timerfind(&apos;PropertyName&apos;, PropertyValue, ...)</syntax_item>
+    <syntax_item>out = timerfind(t, &apos;PropertyName&apos;, PropertyValue, ...)</syntax_item>
+    <syntax_item>out = timerfind(values)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>t</param_name>
+      <param_description>Tableau d&apos;objets timer utilise comme source de recherche.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>PropertyName, PropertyValue</param_name>
+      <param_description>Criteres de proprietes. Les timers retournes doivent correspondre a toutes les valeurs demandees.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>values</param_name>
+      <param_description>Structure scalaire dont les champs contiennent les criteres de proprietes.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>out</param_name>
+      <param_description>Tableau d&apos;objets timer correspondants dont la propriete <b>ObjectVisibility</b> vaut <b>on</b>.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>timerfind</b> retourne les objets timer visibles qui correspondent a tous les criteres de proprietes specifies. Sans critere, elle retourne tous les timers visibles.</p>
+    <p>Utilisez <b>timerfindall</b> pour inclure les timers dont la propriete <b>ObjectVisibility</b> vaut <b>off</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Trouver un timer visible par tag.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[t = timer('Name', 'visibleTimer', ...
+  'Tag', 'demo-visible', ...
+  'TimerFcn', @(src, event) disp('visible'));
+found = timerfind('Tag', 'demo-visible')
+delete(t);]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Rechercher dans un tableau de timers fourni.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[t1 = timer('Tag', 'groupA', 'TimerFcn', @(src, event) disp('a'));
+t2 = timer('Tag', 'groupB', 'TimerFcn', @(src, event) disp('b'));
+found = timerfind([t1 t2], 'Tag', 'groupB')
+delete([t1 t2]);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${time}timer">timer</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}timerfindall">timerfindall</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}timer.get">get</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -16,9 +16,9 @@ function tempdest = tempname(varargin)
     tempdirdest = convertStringsToChars(varargin{1});
   end
   if (strcmp(tempdirdest, tempdir()))
-    tempdest = [tempdirdest, 'tp', strrep(createGUID,'-','_')];
+    tempdest = [tempdirdest, 'tp', strrep(createGUID, '-', '_')];
   else
-    tempdest = [tempdirdest, '/', 'tp', strrep(createGUID,'-','_')];
+    tempdest = [tempdirdest, '/', 'tp', strrep(createGUID, '-', '_')];
   end
   if isdir(tempdest) || isfile(tempdest)
     tempdest = tempname(tempdirdest);

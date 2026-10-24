@@ -25,7 +25,9 @@ function varargout = deployhelp(varargin)
         case 'add'
             if ~deployhelp_status()
                 install_help(true);
-                docroot('.');
+                if ~using_help_cache_override()
+                    docroot('.');
+                end
             end
             [status, message] = deployhelp_add(varargin{2}, varargin{3});
             if status
@@ -44,8 +46,11 @@ function varargout = deployhelp(varargin)
             else
                 verbose = true;
             end
-            docroot('.');
+            if ~using_help_cache_override()
+                docroot('.');
+            end
             install_help(verbose);
+            status = deployhelp_status();
         case 'uninstall'
             [status, message] = uninstall_help();
         case 'status'
@@ -54,14 +59,15 @@ function varargout = deployhelp(varargin)
             status = deployhelp_status();
             message = '';
         case 'refresh'
+            install_help(false);
             [status, message] = refresh_help();
         otherwise
             status = false;
-            message = sprintf(_('Unknown action: %s'), action);
+            message = sprintf('Unknown action: %s', action);
     end
 
     if (nargout == 0 && ~status)
-      error(message);
+      error('Nelson:deployhelp:deployFailed', message);
     end
     if nargout >= 1
       varargout{1} = status;
@@ -74,20 +80,24 @@ function varargout = deployhelp(varargin)
 function status = deployhelp_status()
   ver_number = version('-number');
   version_string = sprintf('%d.%d.%d', ver_number(1), ver_number(2), ver_number(3));
-  help_dir = [userdir(), '/Nelson/', version_string, '/help/'];
-  status = isdir(help_dir);
+  help_dir = deployhelp_cache_dir(version_string);
+  language_dir = [help_dir, getlanguage()];
+  if ~isdir(language_dir)
+    language_dir = [help_dir, getdefaultlanguage()];
+  end
+  status = isfile([language_dir, '/index.html']) && isfile([language_dir, '/index.json']);
 end
 %=============================================================================
 function [status, message] = deployhelp_add(module_name, module_help_dir)
   status = false;
   message = '';
-  
+
   ver_number = version('-number');
   version_string = sprintf('%d.%d.%d', ver_number(1), ver_number(2), ver_number(3));
-  help_dir = [userdir(), '/Nelson/', version_string, '/help/'];
+  help_dir = deployhelp_cache_dir(version_string);
   if ~isdir(help_dir)
     status = false;
-    message = _('Help directory does not exist.');
+    message = 'Help directory does not exist.';
     return;
   end
   for lang = getavailablelanguages()'
@@ -104,14 +114,14 @@ function [status, message] = deployhelp_add(module_name, module_help_dir)
 end
 %=============================================================================
 function [status, message] = deployhelp_remove(module_name)
-  status = false;
+  status = true;
   message = '';
   ver_number = version('-number');
   version_string = sprintf('%d.%d.%d', ver_number(1), ver_number(2), ver_number(3));
-  help_dir = [userdir(), '/Nelson/', version_string, '/help/'];
+  help_dir = deployhelp_cache_dir(version_string);
   if ~isdir(help_dir)
     status = false;
-    message = _('Help directory does not exist.');
+    message = 'Help directory does not exist.';
     return;
   end
   for lang = getavailablelanguages()'
@@ -125,6 +135,29 @@ function [status, message] = deployhelp_remove(module_name)
         end
       end
     end
+  end
+end
+%=============================================================================
+function help_dir = deployhelp_cache_dir(version_string)
+  help_dir = getenv('NELSON_HELP_CACHE_DIR');
+  if ~isempty(help_dir)
+    help_dir = ensureTrailingFileSeparator(help_dir);
+    return
+  end
+  if ~isempty(getenv('NELSON_PREFERENCES_PATH'))
+    help_dir = [prefdir(), '/help/'];
+    return
+  end
+  help_dir = [userdir(), '/Nelson/', version_string, '/help/'];
+end
+%=============================================================================
+function tf = using_help_cache_override()
+  tf = ~isempty(getenv('NELSON_HELP_CACHE_DIR'));
+end
+%=============================================================================
+function path = ensureTrailingFileSeparator(path)
+  if ~endsWith(path, '/')
+    path = [path, '/'];
   end
 end
 %=============================================================================

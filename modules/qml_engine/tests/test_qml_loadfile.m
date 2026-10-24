@@ -10,25 +10,17 @@
 % <--ADV-CLI MODE-->
 % <--WITH DISPLAY-->
 %=============================================================================
-assert_isequal(nargin('qml_loadfile'), 1);
-assert_isequal(nargout('qml_loadfile'), 1);
+asserts.isequal(nargin('qml_loadfile'), 1);
+asserts.isequal(nargout('qml_loadfile'), 1);
 %=============================================================================
-if semver(qt_version(), '>=6.0')
-  qml_file_ok = [modulepath('qml_engine', 'tests'), '/test_qml_loadfile_window_qt6.qml'];
-else
-  qml_file_ok = [modulepath('qml_engine', 'tests'), '/test_qml_loadfile_window_qt5.qml'];
-end
+qml_file_ok = [modulepath('qml_engine', 'tests'), '/test_qml_loadfile_window_qt6.qml'];
 qobj = qml_loadfile(qml_file_ok);
-assert_istrue(QObject_iswindowtype(qobj));
+asserts.istrue(QObject_iswindowtype(qobj));
 delete(qobj);
 %=============================================================================
-if semver(qt_version(), '>=6.0')
-  qml_file_ko = [modulepath('qml_engine', 'tests'), '/test_qml_loadfile_rectangle_qt6.qml'];
-else
-  qml_file_ko = [modulepath('qml_engine', 'tests'), '/test_qml_loadfile_rectangle_qt5.qml'];
-end
+qml_file_ko = [modulepath('qml_engine', 'tests'), '/test_qml_loadfile_rectangle_qt6.qml'];
 qobj = qml_loadfile(qml_file_ko);
-assert_isfalse(QObject_iswindowtype(qobj));
-assert_isfalse(QObject_iswidgettype(qobj));
+asserts.isfalse(QObject_iswindowtype(qobj));
+asserts.isfalse(QObject_iswidgettype(qobj));
 delete(qobj);
 %=============================================================================

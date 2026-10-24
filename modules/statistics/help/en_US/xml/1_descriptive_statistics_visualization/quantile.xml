@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>quantile</keyword>
+  <short_description>Quantiles of a data set.</short_description>
+  <syntax>
+    <syntax_item>Q = quantile(A, p)</syntax_item>
+    <syntax_item>Q = quantile(A, n)</syntax_item>
+    <syntax_item>Q = quantile(A, p, dim)</syntax_item>
+    <syntax_item>Q = quantile(A, p, vecdim)</syntax_item>
+    <syntax_item>Q = quantile(A, p, 'all')</syntax_item>
+    <syntax_item>Q = quantile(..., 'Method', method)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>quantile</b> returns quantiles for probabilities in the interval [0,1]. If the second input is an integer greater than one, it is interpreted as the number of evenly spaced quantiles.</p>
+    <p><b>NaN</b> values are omitted. Supported methods are <b>midpoint</b>, <b>exact</b>, <b>inclusive</b>, <b>exclusive</b>, and <b>approximate</b>.</p>
+    <p><b>A</b> can be a real numeric array, a <b>datetime</b> array or a <b>duration</b> array. For datetime or duration input data, the quantiles have the same class and Format as <b>A</b>, and <b>NaT</b> values are omitted like <b>NaN</b> values.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[A = [2 5 6 10 11 13];
+Q = quantile(A, [0.25 0.5 0.75])]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>datetime and duration input data</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[d = hours([1 2 3 4 10]);
+Q = quantile(d, [0.25 0.5 0.75])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}prctile">prctile</link></see_also_item>
+    <see_also_item><link linkend="${statistics}iqr">iqr</link></see_also_item>
+    <see_also_item><link linkend="${statistics}median">median</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>datetime and duration input data supported.</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

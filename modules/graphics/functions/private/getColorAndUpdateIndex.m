@@ -9,13 +9,13 @@
 %=============================================================================
 function color = getColorAndUpdateIndex(go)
   colorOrder = go.ColorOrder;
-  if isempty (colorOrder)
+  if isempty(colorOrder)
     color = [0 0 0];
     return;
   end
   colorIndex = go.ColorOrderIndex;
-  nbColors = size (colorOrder, 1);
-  colorIndex = mod (colorIndex, nbColors);
+  nbColors = size(colorOrder, 1);
+  colorIndex = mod(colorIndex, nbColors);
   if (colorIndex == 0)
     colorIndex = nbColors;
   elseif (colorIndex < 0)
@@ -24,7 +24,7 @@ function color = getColorAndUpdateIndex(go)
   color = colorOrder(colorIndex, :);
   if (colorIndex >= nbColors)
     colorIndex = colorIndex + 1;
-    colorIndex = mod (colorIndex, nbColors);
+    colorIndex = mod(colorIndex, nbColors);
     if (colorIndex == 0)
       colorIndex = 1;
     end

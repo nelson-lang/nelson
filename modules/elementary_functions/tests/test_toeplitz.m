@@ -7,22 +7,24 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('toeplitz'), -1)
-assert_isequal(nargout('toeplitz'), 1)
+asserts.isequal(nargin('toeplitz'), -1)
+asserts.isequal(nargout('toeplitz'), 1)
 %=============================================================================
 v = [1 2 3];
 R = toeplitz(v);
-REF = [   1     2     3;2     1     2;3     2     1];
-assert_isequal(R, REF);
+REF = [1 2 3; 2 1 2; 3 2 1];
+asserts.isequal(R, REF);
 %=============================================================================
-c = [1  2  3 4];
+c = [1 2 3 4];
 r = [4 5 6];
 R = toeplitz(c, r);
-REF = [1, 5, 6;2, 1, 5;3, 2, 1;4, 3, 2];
-assert_isequal(R, REF);
+REF = [1, 5, 6; 2, 1, 5; 3, 2, 1; 4, 3, 2];
+asserts.isequal(R, REF);
 %=============================================================================
 R = toeplitz(Inf);
 REF = Inf;
-assert_isequal(R, REF);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
+asserts.isequal(R, REF);
+%=============================================================================
+asserts.isequal(toeplitz([1 2 3]), [1 2 3; 2 1 2; 3 2 1]);
 %=============================================================================

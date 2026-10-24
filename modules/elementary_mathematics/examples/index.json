@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "file": "matrix_arithmetic.m",
+      "title": "Matrix arithmetic",
+      "description": "Compare matrix multiplication with element-wise operations.",
+      "tags": [
+        "beginner",
+        "matrices"
+      ],
+      "requirements": []
+    }
+  ]
+}

@@ -7,48 +7,45 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <QtWidgets/QPushButton>
-#include <QtWidgets/QRadioButton>
-#include <QtWidgets/QCheckBox>
-#include <QtWidgets/QSlider>
-#include <QtWidgets/QLabel>
-#include <QtWidgets/QLineEdit>
-#include <QtWidgets/QComboBox>
-#include <QtWidgets/QListWidget>
-#include <QtGui/QImage>
-#include <QtGui/QPainter>
-#include <QtGui/QPixmap>
-#include "QMultiLineEdit.h"
-#include "QStringConverter.hpp"
+#include <cmath>
 #include "GOUIControl.h"
 #include "GOPropertyValues.hpp"
 #include "GOPropertyNames.hpp"
-#include "GOColorProperty.hpp"
-#include "GOStringProperty.hpp"
-#include "GOStringVectorProperty.hpp"
-#include "GOArrayOfProperty.hpp"
-#include "GOGObjectsProperty.hpp"
 #include "GOScalarDoubleProperty.hpp"
-#include "GOFontAngleProperty.hpp"
-#include "GOFontUnitsProperty.hpp"
-#include "GOFontWeightProperty.hpp"
-#include "GOStringOnOffProperty.hpp"
-#include "GOAlignHorizProperty.hpp"
-#include "GOVectorFourDoubleProperty.hpp"
-#include "GOUnitsProperty.hpp"
-#include "GOVectorProperty.hpp"
-#include "GOControlStyleProperty.hpp"
-#include "GOCallbackProperty.hpp"
-#include "AnonymousMacroFunctionDef.hpp"
-#include "GOHelpers.hpp"
-#include "Error.hpp"
-#include "i18n.hpp"
+#include "GOPositionHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+static UIControlBindingFactory uiControlBindingFactory = nullptr;
+//=============================================================================
+void
+setUIControlBindingFactory(UIControlBindingFactory factory)
+{
+    uiControlBindingFactory = factory;
+}
+//=============================================================================
+UIControlBindingFactory
+getUIControlBindingFactory()
+{
+    return uiControlBindingFactory;
+}
+//=============================================================================
+static UIControlKeyInjector uiControlKeyInjector = nullptr;
+//=============================================================================
+void
+setUIControlKeyInjector(UIControlKeyInjector injector)
+{
+    uiControlKeyInjector = injector;
+}
+//=============================================================================
+UIControlKeyInjector
+getUIControlKeyInjector()
+{
+    return uiControlKeyInjector;
+}
+//=============================================================================
 GOUIControl::GOUIControl()
 {
-    widget = nullptr;
     constructProperties();
     setupDefaults();
 }
@@ -68,122 +65,99 @@ GOUIControl::getType()
 void
 GOUIControl::updateState()
 {
-    bool createWidget = onStylePropertyChanged();
-
-    if (!widget) {
+    syncButtonGroupSelection();
+    const std::wstring style = findStringProperty(GO_STYLE_PROPERTY_NAME_STR);
+    if ((style == GO_PROPERTY_VALUE_LISTBOX_STR || style == GO_PROPERTY_VALUE_POPUPMENU_STR)
+        && findScalarDoubleProperty(GO_VALUE_PROPERTY_NAME_STR) == 0) {
+        setScalarDoubleDefault(GO_VALUE_PROPERTY_NAME_STR, 1);
+    }
+    // Text-entry and list widgets default to a white background, unlike the light gray of
+    // buttons/text/slider. The base default is gray for every style (the Style is not known when
+    // defaults are set), so when the Style is established as one of these and the background is
+    // still the untouched gray, it is switched to white.
+    if ((style == GO_PROPERTY_VALUE_EDIT_STR || style == GO_PROPERTY_VALUE_LISTBOX_STR
+            || style == GO_PROPERTY_VALUE_POPUPMENU_STR)
+        && hasChanged(GO_STYLE_PROPERTY_NAME_STR)) {
+        std::vector<double> bg = findVectorDoubleProperty(GO_BACKGROUND_COLOR_PROPERTY_NAME_STR);
+        const double gray = 245.0 / 255.0;
+        if (bg.size() == 3 && std::abs(bg[0] - gray) < 1e-6 && std::abs(bg[1] - gray) < 1e-6
+            && std::abs(bg[2] - gray) < 1e-6) {
+            setThreeVectorDefault(GO_BACKGROUND_COLOR_PROPERTY_NAME_STR, 1.0, 1.0, 1.0);
+        }
+    }
+    bool positionChanged = hasChanged(GO_POSITION_PROPERTY_NAME_STR)
+        || hasChanged(GO_INNER_POSITION_PROPERTY_NAME_STR)
+        || hasChanged(GO_OUTER_POSITION_PROPERTY_NAME_STR);
+    syncSimplePositionTriplet(this);
+    if (positionChanged) {
+        findProperty(GO_POSITION_PROPERTY_NAME_STR)->setModified(true);
+    }
+    // Headless figure host (WEB_GUI): no widget backend is registered; the
+    // web path reads/writes properties only (describeForWeb / applyWebAction).
+    if (!binding && parentGoWindow && !parentGoWindow->isHeadlessHost()
+        && uiControlBindingFactory) {
+        binding = uiControlBindingFactory(this);
+    }
+    if (!binding) {
         clearAllChanged();
         return;
     }
-
-    onStringPropertyChanged(createWidget);
-    onParentPositionChanged(createWidget);
-    onVisiblePropertyChanged(createWidget);
-    onBackgroundPropertyChanged(createWidget);
-
-    onFontNameChanged(createWidget);
-    onFontSizeOrUnitChanged(createWidget);
-    onFontAngleChanged(createWidget);
-    onFontWeightChanged(createWidget);
-    onHAlignmentChanged(createWidget);
-
-    onEnableChanged(createWidget);
-    onToolTipsChanged(createWidget);
-    onRadioButtonChanged(createWidget);
-    onCheckBoxChanged(createWidget);
-    onSliderChanged(createWidget);
-    onToggleButtonChanged(createWidget);
-    onEditPropertyChanged(createWidget);
-    onCDataPropertyChanged(createWidget);
-    onListTopBoxChanged(createWidget);
-    onPopupMenuChanged(createWidget);
-
-    onValueChanged(createWidget);
-    onUnitsChanged(createWidget);
-    onPositionPropertyChanged(createWidget);
-
-    if (widget) {
-        widget->raise();
-        widget->setFocus();
+    // A Style change destroys the current widget and creates the one matching the new Style.
+    bool isNewWidget = false;
+    if (hasChanged(GO_STYLE_PROPERTY_NAME_STR)) {
+        binding->destroy();
+        if (binding->create()) {
+            isNewWidget = true;
+            clearChanged(GO_STYLE_PROPERTY_NAME_STR);
+        }
     }
+    if (!binding->exists()) {
+        clearAllChanged();
+        return;
+    }
+    binding->applyState(isNewWidget);
+    binding->setFocus();
 }
 //=============================================================================
 void
-GOUIControl::buildWidget(GOWindow* f)
+GOUIControl::buildWidget(GOFigureHost* f)
 {
     parentGoWindow = f;
 }
 //=============================================================================
-QWidget*
-GOUIControl::getParentWidget()
+void
+GOUIControl::deleteWidget()
 {
-    return parentGoWindow->getMainQWigdet();
+    if (binding) {
+        binding->hide();
+        delete binding;
+        binding = nullptr;
+    }
 }
 //=============================================================================
-bool
-GOUIControl::handleKeyEvent(
-    QEvent* event, const std::wstring& callbackPropertyStr, const std::wstring& eventType)
+void
+GOUIControl::show()
 {
-    GOCallbackProperty* goCallback = (GOCallbackProperty*)findProperty(callbackPropertyStr);
-    ArrayOf callbackArrayOf = goCallback->get();
-    if (callbackArrayOf.isEmpty()) {
-        return true;
+    if (binding) {
+        binding->show();
     }
-
-    QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
-    wstringVector modifiersWstringVector = getModifiers(keyEvent);
-    std::wstring key = getKeyString(keyEvent);
-    std::wstring character = getCharacterString(keyEvent);
-
-    goCallback->pushKeyEvent(
-        this, L"UIClientComponentKeyEvent", eventType, character, key, modifiersWstringVector);
-    return true;
 }
 //=============================================================================
-bool
-GOUIControl::handleMouseEvent(
-    QEvent* event, const std::wstring& callbackPropertyStr, const std::wstring& eventType)
+void
+GOUIControl::hide()
 {
-    GOCallbackProperty* goCallback = (GOCallbackProperty*)findProperty(callbackPropertyStr);
-    ArrayOf callbackArrayOf = goCallback->get();
-    if (callbackArrayOf.isEmpty()) {
-        return true;
+    if (binding) {
+        binding->hide();
     }
-    goCallback->pushEvent(this, L"MouseData", eventType);
-    return true;
 }
 //=============================================================================
-wstringVector
-GOUIControl::getModifiers(QKeyEvent* keyEvent)
+void
+GOUIControl::setFocus()
 {
-    wstringVector modifiersWstringVector;
-    modifiersWstringVector.reserve(4);
-    Qt::KeyboardModifiers modifiers = keyEvent->modifiers();
-    if (modifiers & Qt::ShiftModifier) {
-        modifiersWstringVector.push_back(L"shift");
+    if (binding) {
+        binding->setFocus();
     }
-    if (modifiers & Qt::ControlModifier) {
-        modifiersWstringVector.push_back(L"control");
-    }
-    if (modifiers & Qt::AltModifier) {
-        modifiersWstringVector.push_back(L"alt");
-    }
-    if (modifiers & Qt::MetaModifier) {
-        modifiersWstringVector.push_back(L"meta");
-    }
-    return modifiersWstringVector;
 }
 //=============================================================================
-std::wstring
-GOUIControl::getKeyString(QKeyEvent* keyEvent)
-{
-    return QStringTowstring(QKeySequence(keyEvent->key()).toString());
-}
-//=============================================================================
-std::wstring
-GOUIControl::getCharacterString(QKeyEvent* keyEvent)
-{
-    return QStringTowstring(keyEvent->text());
-}
-//=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

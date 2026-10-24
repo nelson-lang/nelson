@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>Conflits de file de timers</keyword>
+  <keyword_alias>gestion des conflits de file de timer</keyword_alias>
+  <keyword_alias>busy mode timer</keyword_alias>
+  <short_description>Controler le comportement lorsque des callbacks de timer sont encore en file quand un timer a cadence fixe se declenche a nouveau.</short_description>
+  <description>
+    <p>L&apos;execution des callbacks de timer est serialisee par l&apos;evaluateur. Un timer a cadence fixe peut se declencher a nouveau alors qu&apos;un callback <b>TimerFcn</b> precedent est encore en file ou en cours. La propriete <b>BusyMode</b> controle la resolution de ce conflit par Nelson.</p>
+    <table border="1">
+      <tr>
+        <th>BusyMode</th>
+        <th>Comportement</th>
+      </tr>
+      <tr>
+        <td>drop</td>
+        <td>Conserve au plus un callback en attente pour le timer. Les declenchements supplementaires sont ignores.</td>
+      </tr>
+      <tr>
+        <td>queue</td>
+        <td>Met chaque declenchement en file. Le timer peut continuer a executer des callbacks apres le passage des heures de declenchement prevues.</td>
+      </tr>
+      <tr>
+        <td>error</td>
+        <td>Arrete le timer et execute <b>ErrorFcn</b>, puis <b>StopFcn</b> si ces callbacks sont definis.</td>
+      </tr>
+    </table>
+    <p><b>BusyMode</b> s&apos;applique a l&apos;execution <b>fixedRate</b>. Pour <b>fixedDelay</b> et <b>fixedSpacing</b>, le declenchement suivant est planifie apres la fin du callback, donc les callbacks ne s&apos;accumulent pas de la meme maniere.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Utiliser le mode queue lorsque chaque declenchement planifie doit etre conserve.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[t = timer('ExecutionMode', 'fixedRate', ...
+  'BusyMode', 'queue', ...
+  'Period', 0.02, ...
+  'TasksToExecute', 3, ...
+  'TimerFcn', @(src, event) sleep(0.03));
+start(t);
+wait(t);
+get(t, 'TasksExecuted')
+delete(t);]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Utiliser le mode error pour arreter le timer lorsque la file de callbacks ne suit pas.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[t = timer('ExecutionMode', 'fixedRate', ...
+  'BusyMode', 'error', ...
+  'Period', 0.02, ...
+  'TasksToExecute', 5, ...
+  'TimerFcn', @(src, event) sleep(0.03), ...
+  'ErrorFcn', @(src, event) disp('timer queue conflict'));
+start(t);
+wait(t);
+get(t, 'Running')
+delete(t);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${time}timer">timer</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}Fonctions de callback de timer">Fonctions de callback de timer</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}timer.set">set</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

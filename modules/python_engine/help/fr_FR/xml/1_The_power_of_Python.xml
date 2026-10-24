@@ -17,9 +17,9 @@
     <p
     >En appelant Python depuis Nelson, les utilisateurs peuvent accéder à cet écosystème sans sacrifier les fonctionnalités de base de Nelson.</p>
     <p
-    >- Intégration transparente : la capacité de Nelson à appeler des fonctions externes permet une intégration fluide avec Python.</p>
+    >- Intégration Python : Nelson peut appeler des fonctions externes et échanger des données avec du code Python.</p>
     <p
-    >Ainsi, les utilisateurs de Nelson peuvent exploiter les fonctionnalités de Python dans leur environnement Nelson familier, améliorant productivité et flux de travail.</p>
+    >Les utilisateurs peuvent appeler des bibliothèques Python depuis Nelson tout en conservant leur environnement habituel de calcul numérique.</p>
     <p />
     <p
     >- Bibliothèques spécialisées : bien que Nelson propose de nombreuses fonctions intégrées, certaines tâches de niche sont mieux couvertes par des bibliothèques Python.</p>
@@ -29,15 +29,15 @@
     <p
     >- Prototypage et développement rapides : Python est souvent préféré pour le prototypage rapide grâce à sa syntaxe concise et à son large écosystème.</p>
     <p
-    >En tirant parti de Python depuis Nelson, les utilisateurs bénéficient du prototypage rapide de Python tout en conservant l&apos;environnement Nelson pour la production.</p>
+    >L&apos;appel de Python depuis Nelson combine les bibliothèques de prototypage Python avec l&apos;environnement de calcul numérique de Nelson.</p>
     <p />
     <p
-    >- Collaboration communautaire : intégrer Python aux flux de travail Nelson permet de tirer parti des deux communautés, favorisant la collaboration et l&apos;innovation.</p>
+    >- Pratiques communautaires : intégrer Python aux flux de travail Nelson permet d&apos;utiliser des bibliothèques et pratiques issues des deux écosystèmes.</p>
     <p />
     <p
-    >En conclusion, appeler Python depuis Nelson offre une synergie puissante qui combine les forces des deux plateformes.</p>
+    >Appeler Python depuis Nelson permet de combiner les bibliothèques Python avec l&apos;environnement de calcul numérique de Nelson.</p>
     <p
-    >Qu&apos;il s&apos;agisse d&apos;accéder à des bibliothèques spécialisées, de prototyper des algorithmes ou de favoriser la collaboration, l&apos;intégration de Python dans les workflows Nelson peut améliorer la productivité et ouvrir de nouvelles possibilités pour le calcul scientifique et l&apos;analyse de données.</p>
+    >L&apos;intégration de Python dans les flux de travail Nelson donne accès à des bibliothèques spécialisées et à des outils de prototypage pour le calcul scientifique et l&apos;analyse de données.</p>
   </description>
   <see_also>
     <see_also_item>

@@ -17,5 +17,5 @@ namespace Nelson {
 NLSSTRING_IMPEXP ArrayOf
 StringJoin(const ArrayOf& A, const ArrayOf& delimiter, size_t dimension);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

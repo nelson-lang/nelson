@@ -7,5 +7,6 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+delete(timerfindall());
 rmpath(modulepath('time', 'functions'));
 removegateway(modulepath('time', 'builtin'));

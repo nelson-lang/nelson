@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -12,6 +12,7 @@
 #include "UminusSparse.hpp"
 #include "ClassName.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "SparseType.hpp"
 #include "lapack_eigen_config.hpp"
@@ -43,19 +44,30 @@ sparsedouble_uminus(NelsonType dclass, indexType rows, indexType cols, const voi
 ArrayOf
 sparsedouble_uminus(const ArrayOf& a)
 {
-    switch (a.getDataClass()) {
+    switch (a.dataClass()) {
     case NLS_DOUBLE: {
-        void* res = sparsedouble_uminus<double>(
-            NLS_DOUBLE, a.getRows(), a.getColumns(), a.getSparseDataPointer());
-        return ArrayOf(NLS_DOUBLE, a.getDimensions(), res, true);
+        void* res
+            = sparsedouble_uminus<double>(NLS_DOUBLE, a.rows(), a.columns(), a.sparseDataPointer());
+        return ArrayOf(NLS_DOUBLE, a.dimensions(), res, true);
     } break;
     case NLS_DCOMPLEX: {
         void* res = sparsedouble_uminus<doublecomplex>(
-            NLS_DCOMPLEX, a.getRows(), a.getColumns(), a.getSparseDataPointer());
-        return ArrayOf(NLS_DCOMPLEX, a.getDimensions(), res, true);
+            NLS_DCOMPLEX, a.rows(), a.columns(), a.sparseDataPointer());
+        return ArrayOf(NLS_DCOMPLEX, a.dimensions(), res, true);
+    } break;
+    case NLS_SINGLE: {
+        void* res
+            = sparsedouble_uminus<single>(NLS_SINGLE, a.rows(), a.columns(), a.sparseDataPointer());
+        return ArrayOf(NLS_SINGLE, a.dimensions(), res, true);
+    } break;
+    case NLS_SCOMPLEX: {
+        void* res = sparsedouble_uminus<singlecomplex>(
+            NLS_SCOMPLEX, a.rows(), a.columns(), a.sparseDataPointer());
+        return ArrayOf(NLS_SCOMPLEX, a.dimensions(), res, true);
     } break;
     default: {
-        Error(_("Cannot do uminus with current type") + " '" + ClassName(a) + "'.");
+        Error("Nelson:types:uminusUnsupportedType", "Cannot do uminus with current type '%s'.",
+            ClassName(a));
     } break;
     }
     return {};
@@ -66,7 +78,7 @@ sparselogical_uminus(const ArrayOf& a)
 {
     Eigen::SparseMatrix<double, 0, signedIndexType>* res
         = (Eigen::SparseMatrix<double, 0, signedIndexType>*)Eigen_TypeConvertSparse(
-            NLS_DOUBLE, a.getRows(), a.getColumns(), a.getSparseDataPointer(), NLS_LOGICAL);
+            NLS_DOUBLE, a.rows(), a.columns(), a.sparseDataPointer(), NLS_LOGICAL);
     for (signedIndexType k = 0; k < res->outerSize(); ++k) {
         for (Eigen::SparseMatrix<double, 0, signedIndexType>::InnerIterator it(*res, k); it; ++it) {
             res->coeffRef(it.row(), it.col()) = -it.value();
@@ -74,7 +86,7 @@ sparselogical_uminus(const ArrayOf& a)
     }
     res->finalize();
     res->makeCompressed();
-    return ArrayOf(NLS_DOUBLE, a.getDimensions(), (void*)res, true);
+    return ArrayOf(NLS_DOUBLE, a.dimensions(), (void*)res, true);
 }
 //=============================================================================
 } // namespace Nelson

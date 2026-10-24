@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>time</module_name>
+  <chapter>Composants de date et heure</chapter>
+  <chapter_description>
+    <p>Fonctions pour extraire et separer les composants de date et heure.</p>
+  </chapter_description>
+</xmldoc>

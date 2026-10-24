@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>fitcensemble</keyword>
+  <short_description>Ajuste un classifieur d'ensemble.</short_description>
+  <syntax>
+    <syntax_item>mdl = fitcensemble(X, Y)</syntax_item>
+    <syntax_item>mdl = fitcensemble(X, Y, Name, Value)</syntax_item>
+    <syntax_item>label = predict(mdl, Xnew)</syntax_item>
+    <syntax_item>[label, score] = predict(mdl, Xnew)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>fitcensemble</b> cree un objet <b>ClassificationEnsemble</b> a partir de predicteurs numeriques <b>X</b> et d'etiquettes de classes <b>Y</b>.</p>
+    <p>L'implementation actuelle prend en charge les ensembles <b>Bag</b> d'apprenants arbre. Les arguments nom-valeur incluent <b>ClassNames</b>, <b>Method</b>, <b>Learners</b>, <b>NumLearningCycles</b>, <b>MaxNumSplits</b>, <b>MinLeafSize</b> et <b>MinParentSize</b>.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[X = [0 0; 0 1; 5 5; 5 6; 10 0; 10 1];
+Y = [1; 1; 2; 2; 3; 3];
+mdl = fitcensemble(X, Y, 'NumLearningCycles', 5);
+[label, score] = predict(mdl, [0.2 0.2; 5.2 5.2; 10.2 0.2])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}fitctree">fitctree</link></see_also_item>
+    <see_also_item><link linkend="${statistics}fitcecoc">fitcecoc</link></see_also_item>
+    <see_also_item><link linkend="${statistics}fitcknn">fitcknn</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

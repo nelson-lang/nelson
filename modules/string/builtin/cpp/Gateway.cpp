@@ -13,9 +13,14 @@
 //=============================================================================
 #include "NelsonGateway.hpp"
 #include "charBuiltin.hpp"
+#include "composeBuiltin.hpp"
 #include "containsBuiltin.hpp"
 #include "countBuiltin.hpp"
 #include "endsWithBuiltin.hpp"
+#include "eraseBuiltin.hpp"
+#include "extractBuiltin.hpp"
+#include "extractAfterBuiltin.hpp"
+#include "extractBeforeBuiltin.hpp"
 #include "int2strBuiltin.hpp"
 #include "num2strBuiltin.hpp"
 #include "mat2strBuiltin.hpp"
@@ -30,6 +35,7 @@
 #include "strrepBuiltin.hpp"
 #include "tolowerBuiltin.hpp"
 #include "toupperBuiltin.hpp"
+#include "vectorizeBuiltin.hpp"
 #include "strtrimBuiltin.hpp"
 #include "stringBuiltin.hpp"
 #include "stringsBuiltin.hpp"
@@ -47,6 +53,10 @@
 #include "regexpBuiltin.hpp"
 #include "regexprepBuiltin.hpp"
 #include "regexptranslateBuiltin.hpp"
+#include "padBuiltin.hpp"
+#include "reverseBuiltin.hpp"
+#include "stripBuiltin.hpp"
+#include "textUtilitiesBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -55,17 +65,21 @@ const std::wstring gatewayName = L"string";
 static const nlsGateway gateway[] = {
     { "sprintf", (ptrBuiltin)Nelson::StringGateway::sprintfBuiltin, 2, -1,
         CPP_BUILTIN_WITH_EVALUATOR },
+    { "compose", (ptrBuiltin)Nelson::StringGateway::composeBuiltin, 1, -1,
+        CPP_BUILTIN_WITH_EVALUATOR },
     { "char", (ptrBuiltin)Nelson::StringGateway::charBuiltin, 1, -1 },
     { "strcmp", (ptrBuiltin)Nelson::StringGateway::strcmpBuiltin, 1, 2 },
     { "strcmpi", (ptrBuiltin)Nelson::StringGateway::strcmpiBuiltin, 1, 2 },
     { "strncmp", (ptrBuiltin)Nelson::StringGateway::strncmpBuiltin, 1, 3 },
     { "strncmpi", (ptrBuiltin)Nelson::StringGateway::strncmpiBuiltin, 1, 3 },
-    { "matches", (ptrBuiltin)Nelson::StringGateway::matchesBuiltin, 1, 2 },
+    { "matches", (ptrBuiltin)Nelson::StringGateway::matchesBuiltin, 1, -3 },
     { "tolower", (ptrBuiltin)Nelson::StringGateway::tolowerBuiltin, 1, 1 },
     { "lower", (ptrBuiltin)Nelson::StringGateway::tolowerBuiltin, 1, 1 },
     { "toupper", (ptrBuiltin)Nelson::StringGateway::toupperBuiltin, 1, 1 },
     { "upper", (ptrBuiltin)Nelson::StringGateway::toupperBuiltin, 1, 1 },
     { "strfind", (ptrBuiltin)Nelson::StringGateway::strfindBuiltin, 1, 2 },
+    { "vectorize", (ptrBuiltin)Nelson::StringGateway::vectorizeBuiltin, 1, 1 },
+    { "findstr", (ptrBuiltin)Nelson::StringGateway::findstrBuiltin, 1, 2 },
     { "regexp", (ptrBuiltin)Nelson::StringGateway::regexpBuiltin, -1, -2,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "regexpi", (ptrBuiltin)Nelson::StringGateway::regexpiBuiltin, -1, -2,
@@ -83,7 +97,14 @@ static const nlsGateway gateway[] = {
     { "count", (ptrBuiltin)Nelson::StringGateway::countBuiltin, 1, -3 },
     { "strrep", (ptrBuiltin)Nelson::StringGateway::strrepBuiltin, 1, 3 },
     { "replace", (ptrBuiltin)Nelson::StringGateway::replaceBuiltin, 1, 3 },
+    { "erase", (ptrBuiltin)Nelson::StringGateway::eraseBuiltin, 1, 2 },
+    { "extract", (ptrBuiltin)Nelson::StringGateway::extractBuiltin, 1, 2 },
+    { "extractAfter", (ptrBuiltin)Nelson::StringGateway::extractAfterBuiltin, 1, 2 },
+    { "extractBefore", (ptrBuiltin)Nelson::StringGateway::extractBeforeBuiltin, 1, 2 },
     { "strtrim", (ptrBuiltin)Nelson::StringGateway::strtrimBuiltin, 1, 1 },
+    { "strip", (ptrBuiltin)Nelson::StringGateway::stripBuiltin, 1, -3 },
+    { "pad", (ptrBuiltin)Nelson::StringGateway::padBuiltin, 1, -4 },
+    { "reverse", (ptrBuiltin)Nelson::StringGateway::reverseBuiltin, 1, 1 },
     { "deblank", (ptrBuiltin)Nelson::StringGateway::deblankBuiltin, 1, 1 },
     { "strlength", (ptrBuiltin)Nelson::StringGateway::strlengthBuiltin, 1, 1 },
     { "string", (ptrBuiltin)Nelson::StringGateway::stringBuiltin, 1, 1 },
@@ -100,13 +121,17 @@ static const nlsGateway gateway[] = {
     { "isletter", (ptrBuiltin)Nelson::StringGateway::isletterBuiltin, 1, 1 },
     { "join", (ptrBuiltin)Nelson::StringGateway::joinBuiltin, 1, -2 },
     { "strjust", (ptrBuiltin)Nelson::StringGateway::strjustBuiltin, 1, 2 },
+    { "split", (ptrBuiltin)Nelson::StringGateway::splitBuiltin, 2, -2 },
+    { "splitlines", (ptrBuiltin)Nelson::StringGateway::splitlinesBuiltin, 1, 1 },
+    { "strjoin", (ptrBuiltin)Nelson::StringGateway::strjoinBuiltin, 1, -2 },
+    { "strmatch", (ptrBuiltin)Nelson::StringGateway::strmatchBuiltin, 1, -3 },
+    { "strread", (ptrBuiltin)Nelson::StringGateway::strreadBuiltin, -1, -2 },
+    { "strsplit", (ptrBuiltin)Nelson::StringGateway::strsplitBuiltin, 2, -2 },
+    { "strtok", (ptrBuiltin)Nelson::StringGateway::strtokBuiltin, 2, -2 },
+    { "strvcat", (ptrBuiltin)Nelson::StringGateway::strvcatBuiltin, 1, -1 },
 };
 //=============================================================================
-NLSGATEWAYFUNC(gateway)
+NLS_GATEWAY_FUNC(gateway)
 //=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+NLS_GATEWAY_REMOVE(gateway)
 //=============================================================================

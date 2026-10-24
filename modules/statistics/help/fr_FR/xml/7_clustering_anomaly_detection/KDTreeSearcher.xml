@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>KDTreeSearcher</keyword>
+  <short_description>Objet de recherche de plus proches voisins.</short_description>
+  <syntax>
+    <syntax_item>Mdl = KDTreeSearcher(X)</syntax_item>
+    <syntax_item>Mdl = KDTreeSearcher(X, Name, Value)</syntax_item>
+    <syntax_item>[idx, D] = knnsearch(Mdl, Y, Name, Value)</syntax_item>
+    <syntax_item>[idx, D] = rangesearch(Mdl, Y, radius, Name, Value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description>les données à interroger, sous la forme d&apos;une matrice numérique réelle avec un point par ligne.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Name, Value</param_name>
+      <param_description>options : <b>Distance</b> (défaut <b>'euclidean'</b>), <b>P</b> (exposant de Minkowski) et <b>BucketSize</b>.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>Mdl</param_name>
+      <param_description>un objet KDTreeSearcher contenant les données et les options de recherche.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>KDTreeSearcher</b> stocke un ensemble de points et la métrique de
+      distance utilisée pour les interroger, afin que les recherches de plus
+      proches voisins puissent être exécutées sur les mêmes données avec
+      <b>knnsearch</b> et <b>rangesearch</b>. L&apos;objet expose les propriétés
+      <b>X</b>, <b>Distance</b>, <b>DistParameter</b> et <b>BucketSize</b>.</p>
+    <p>Les recherches sont déléguées aux fonctions <b>knnsearch</b> et
+      <b>rangesearch</b>, en transmettant la métrique de distance stockée dans
+      l&apos;objet.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[X = [0 0; 1 0; 0 2; 4 4];
+Mdl = KDTreeSearcher(X);
+[idx, D] = knnsearch(Mdl, [0 1; 3 4], 'K', 2)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${statistics}knnsearch">knnsearch</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}rangesearch">rangesearch</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

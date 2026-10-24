@@ -1,4 +1,8 @@
 [alias]
 format = "run --release --bin nelson-fmt"
 format-check = "run --release --bin nelson-fmt -- --check"
+format-tracked = "run --release --bin nelson-fmt -- --tracked"
+format-tracked-check = "run --release --bin nelson-fmt -- --tracked --check"
 update-version = "run --release --bin nelson-update-version --"
+install-typos = "install typos-cli --locked --version 1.48.0"
+typos = "run --release --quiet --bin cargo-typos --"

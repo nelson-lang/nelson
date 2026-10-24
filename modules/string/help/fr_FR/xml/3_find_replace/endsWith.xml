@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>endsWith</keyword>
+  <short_description>vérifie si une chaîne se termine par un motif.</short_description>
+  <syntax>
+    <syntax_item>tf = endsWith(str, pattern)</syntax_item>
+    <syntax_item>tf = endsWith(str, pattern,&apos;IgnoreCase&apos;, true)</syntax_item>
+    <syntax_item>tf = endsWith(str, pattern,&apos;IgnoreCase&apos;, false)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>str</param_name>
+      <param_description
+      >une chaîne, un tableau de chaînes, une cellule de chaînes ou un tableau catégoriel.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>pattern</param_name>
+      <param_description>une chaîne à rechercher.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>tf</param_name>
+      <param_description>une matrice de booléens.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>endsWith</b> renvoie <b>vrai</b> si <b>str</b> se termine par<b>pattern</b>.</p>
+    <p>Si <b>str</b> est un tableau catégoriel, <b>endsWith</b> teste le nom de catégorie de chaque élément et renvoie un tableau logique de même taille. Les éléments non définis renvoient <b>false</b>. <b>pattern</b> ne peut pas être catégoriel.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[
+str = 'To make a mountain out of a molehill';
+k = endsWith (str, 'hill')
+k = endsWith (str, 'molehill')
+k = endsWith (str, 'Hill', 'IgnoreCase', true)
+
+A = {'Nel', 'son'; 'Nelson', 'Modules'}
+k = endsWith(A, 'son')
+
+A = ["Nel", "son"; "Nelson", "Modules"]
+k = endsWith(A, "son")
+
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Recherche de motif sur les noms de catégorie d&apos;un tableau catégoriel.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[C = categorical({'winter storm', 'fire', 'Thunder Storm', ''});
+tf = endsWith(C, "storm", 'IgnoreCase', true)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${string}startsWith">startsWith</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${string}contains">contains</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${categorical}categorical">categorical</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>tableau catégoriel accepté comme entrée str.</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

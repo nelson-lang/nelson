@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -51,8 +51,8 @@ template <class T>
 ArrayOfVector
 UniqueSortedRealOneLhs(const ArrayOf& input)
 {
-    ompIndexType len = input.getElementCount();
-    const T* dp = static_cast<const T*>(input.getDataPointer());
+    ompIndexType len = input.elementCount();
+    const T* dp = static_cast<const T*>(input.dataPointer());
     ArrayOfVector retval;
     std::vector<T> values(dp, dp + len);
     parallelSort(values, [](const T& a, const T& b) {
@@ -67,7 +67,7 @@ UniqueSortedRealOneLhs(const ArrayOf& input)
     values.erase(std::unique(values.begin(), values.end()), values.end());
 
     len = static_cast<ompIndexType>(values.size());
-    T* op = static_cast<T*>(ArrayOf::allocateArrayOf(input.getDataClass(), len));
+    T* op = static_cast<T*>(ArrayOf::allocateArrayOf(input.dataClass(), len));
 
     std::copy(values.begin(), values.end(), op);
 
@@ -75,7 +75,7 @@ UniqueSortedRealOneLhs(const ArrayOf& input)
     if (len == 0) {
         dimsOut = getUniqueEmptyDimensions(input);
     }
-    retval << ArrayOf(input.getDataClass(), dimsOut, op);
+    retval << ArrayOf(input.dataClass(), dimsOut, op);
     return retval;
 }
 //=============================================================================
@@ -84,13 +84,13 @@ ArrayOfVector
 UniqueSortedRealTwoLhs(const ArrayOf& input)
 {
     bool isRowVector = input.isRowVector();
-    ompIndexType rows = input.getRows();
-    indexType cols = input.getColumns();
-    rows = input.getElementCount();
+    ompIndexType rows = input.rows();
+    indexType cols = input.columns();
+    rows = input.elementCount();
     cols = 1;
 
-    const T* dp = (const T*)input.getDataPointer();
-    ompIndexType len = input.getElementCount();
+    const T* dp = (const T*)input.dataPointer();
+    ompIndexType len = input.elementCount();
     ArrayOfVector retval;
     std::vector<UniqueRealEntry<T>> values(len);
     OMP_PARALLEL_FOR_LOOP(len)
@@ -103,7 +103,7 @@ UniqueSortedRealTwoLhs(const ArrayOf& input)
 
     len = values.size();
     double* mp = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, len);
-    T* op = (T*)ArrayOf::allocateArrayOf(input.getDataClass(), len);
+    T* op = (T*)ArrayOf::allocateArrayOf(input.dataClass(), len);
 
     OMP_PARALLEL_FOR_LOOP(len)
     for (ompIndexType k = 0; k < len; ++k) {
@@ -115,7 +115,7 @@ UniqueSortedRealTwoLhs(const ArrayOf& input)
     if (len == 0) {
         dimsOut = getUniqueEmptyDimensions(input);
     }
-    retval << ArrayOf(input.getDataClass(), dimsOut, op);
+    retval << ArrayOf(input.dataClass(), dimsOut, op);
     retval << ArrayOf(NLS_DOUBLE, Dimensions(len, 1), mp);
     return retval;
 }
@@ -125,13 +125,13 @@ ArrayOfVector
 UniqueSortedRealThreeLhs(const ArrayOf& input)
 {
     bool isRowVector = input.isRowVector();
-    ompIndexType rows = input.getRows();
-    indexType cols = input.getColumns();
-    rows = input.getElementCount();
+    ompIndexType rows = input.rows();
+    indexType cols = input.columns();
+    rows = input.elementCount();
     cols = 1;
 
-    const T* dp = (const T*)input.getDataPointer();
-    ompIndexType len = input.getElementCount();
+    const T* dp = (const T*)input.dataPointer();
+    ompIndexType len = input.elementCount();
     ArrayOfVector retval;
     std::vector<UniqueRealEntry<T>> values(len);
     OMP_PARALLEL_FOR_LOOP(len)
@@ -149,7 +149,7 @@ UniqueSortedRealThreeLhs(const ArrayOf& input)
     }
     double* np = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, len);
     double* mp = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, cnt);
-    T* op = (T*)ArrayOf::allocateArrayOf(input.getDataClass(), cnt);
+    T* op = (T*)ArrayOf::allocateArrayOf(input.dataClass(), cnt);
     if (len > 0) {
         op[0] = dp[values[0].n];
         cnt = 1;
@@ -168,7 +168,7 @@ UniqueSortedRealThreeLhs(const ArrayOf& input)
     if (len == 0) {
         dimsOut = getUniqueEmptyDimensions(input);
     }
-    retval << ArrayOf(input.getDataClass(), dimsOut, op);
+    retval << ArrayOf(input.dataClass(), dimsOut, op);
     retval << ArrayOf(NLS_DOUBLE, Dimensions(cnt, 1), mp);
     retval << ArrayOf(NLS_DOUBLE, Dimensions(len, 1), np);
     return retval;
@@ -187,5 +187,5 @@ UniqueReal(const ArrayOf& input, int nLhs)
     return UniqueSortedRealThreeLhs<T>(input);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

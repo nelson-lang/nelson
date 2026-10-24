@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -11,6 +11,7 @@
 #include <limits>
 #include "tilenumBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "Dimensions.hpp"
 #include "GOTiledChartLayout.hpp"
@@ -49,19 +50,22 @@ tilenumBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (argIn.size() == 3) {
         ArrayOf tArg = argIn[0];
         if (!tArg.isGraphicsObject()) {
-            Error(_W("First argument must be a TiledChartLayout handle."));
+            Error(L"Nelson:graphics:expectedLayoutHandle",
+                L"First argument must be a TiledChartLayout handle.");
         }
-        int64 h = tArg.getContentAsGraphicsObjectScalar();
+        int64 h = tArg.asGraphicsObjectScalar();
         GraphicsObject* go = findGraphicsObject(h, false);
         if (!go || go->getType() != GO_PROPERTY_VALUE_TILED_LAYOUT_STR) {
-            Error(_W("First argument must be a TiledChartLayout handle."));
+            Error(L"Nelson:graphics:expectedLayoutHandle",
+                L"First argument must be a TiledChartLayout handle.");
         }
         GOTiledChartLayout* layout = dynamic_cast<GOTiledChartLayout*>(go);
 
-        std::vector<double> rows = argIn[1].getContentAsDoubleVector();
-        std::vector<double> cols = argIn[2].getContentAsDoubleVector();
+        std::vector<double> rows = argIn[1].asDoubleVector();
+        std::vector<double> cols = argIn[2].asDoubleVector();
         if (rows.size() != cols.size()) {
-            Error(_W("Row and column arguments must have the same number of elements."));
+            Error(L"Nelson:tilenum:sizeMismatch",
+                L"Row and column arguments must have the same number of elements.");
         }
 
         std::vector<double> nums(rows.size());
@@ -85,18 +89,18 @@ tilenumBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (argIn.size() == 1) {
         ArrayOf objArg = argIn[0];
         if (!objArg.isGraphicsObject()) {
-            Error(
-                _W("Argument must be a graphics object handle or TiledChartLayout with row/col."));
+            Error(L"Nelson:tilenum:invalidArgument",
+                L"Argument must be a graphics object handle or TiledChartLayout with row/col.");
         }
 
         std::vector<int64> handles;
         if (objArg.isScalar()) {
-            handles.push_back(objArg.getContentAsGraphicsObjectScalar());
+            handles.push_back(objArg.asGraphicsObjectScalar());
         } else {
             ArrayOf dbl = objArg;
             dbl.promoteType(NLS_DOUBLE);
-            auto* ptr = static_cast<const double*>(dbl.getDataPointer());
-            indexType n = dbl.getElementCount();
+            auto* ptr = static_cast<const double*>(dbl.dataPointer());
+            indexType n = dbl.elementCount();
             for (indexType i = 0; i < n; ++i) {
                 handles.push_back((int64)ptr[i]);
             }
@@ -163,7 +167,7 @@ tilenumBuiltin(int nLhs, const ArrayOfVector& argIn)
         return retval;
     }
 
-    Error(_W("Invalid number of arguments."));
+    Error(L"Nelson:tilenum:invalidNumberOfArguments", L"Invalid number of arguments.");
     return retval;
 }
 //=============================================================================
@@ -241,7 +245,7 @@ getTileFromLayoutOptions(int64 objHandle, double& tileNum, bool& isEdgeTile)
 
     ArrayOf tileValue = tileProp->get();
     if (tileValue.isNumeric() && !tileValue.isComplex() && tileValue.isScalar()) {
-        tileNum = tileValue.getContentAsDoubleScalar();
+        tileNum = tileValue.asDoubleScalar();
         return true;
     }
     if (tileValue.isRowVectorCharacterArray()
@@ -339,16 +343,15 @@ ArrayOf
 rowVectorFromDoubles(const std::vector<double>& values)
 {
     if (values.size() == 1) {
-        return ArrayOf::doubleConstructor(values[0]);
+        return ArrayOf::doubleScalar(values[0]);
     }
     Dimensions dims(1, values.size());
-    double* ptr
-        = static_cast<double*>(ArrayOf::allocateArrayOf(NLS_DOUBLE, dims.getElementCount()));
+    double* ptr = static_cast<double*>(ArrayOf::allocateArrayOf(NLS_DOUBLE, dims.elementCount()));
     for (size_t i = 0; i < values.size(); ++i) {
         ptr[i] = values[i];
     }
     return ArrayOf(NLS_DOUBLE, dims, ptr);
 }
 //=============================================================================
-}
+} // namespace Nelson::GraphicsGateway
 //=============================================================================

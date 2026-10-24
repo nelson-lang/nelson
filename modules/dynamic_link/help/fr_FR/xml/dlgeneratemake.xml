@@ -81,6 +81,10 @@
     <p>
       <b>dlgeneratemake</b> génère un makefile adapté à votre environnement pour construire des bibliothèques partagées.</p>
     <p>Nelson s&apos;appuie sur <b>CMake</b> pour cette tâche.</p>
+    <p>Appelée avec au moins un argument de sortie, <b>dlgeneratemake</b> retourne
+      <b>res</b> (un logique) et <b>message</b>. Appelée sans argument de sortie,
+      elle lève l'erreur <b>Nelson:dlgeneratemake:failed</b> en cas d'échec au lieu
+      de retourner un statut faux.</p>
   </description>
   <used_function />
   <bibliography />

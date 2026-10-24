@@ -8,11 +8,23 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function mu = lin2mu(y)
-  % https://en.wikipedia.org/wiki/%CE%9C-law_algorithm    
-  y = 32768 * y;
-  sig = sign(y) + double(y == 0);
-  y = min(abs(y), 32635);
-  [f, e] = log2(y + 132);
-  mu = (64 * sig) - 16 * e - fix(32 * f) + 335;
+  % https://en.wikipedia.org/wiki/%CE%9C-law_algorithm
+  sample = 32768 .* y;
+  polarity = samplePolarity(sample);
+  magnitudeCode = compressedMagnitude(abs(sample));
+  mu = magnitudeCode + 64 .* polarity;
+end
+%=============================================================================
+function polarity = samplePolarity(sample)
+  polarity = sign(sample);
+  polarity(sample == 0) = 1;
+end
+%=============================================================================
+function code = compressedMagnitude(sampleMagnitude)
+  clippedMagnitude = min(sampleMagnitude, 32635);
+  biasedMagnitude = clippedMagnitude + 132;
+  exponent = floor(log2(biasedMagnitude)) + 1;
+  fraction = biasedMagnitude ./ pow2(exponent);
+  code = 335 - 16 .* exponent - fix(32 .* fraction);
 end
 %=============================================================================

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup><Filter Include="Source Files" /><Filter Include="Header Files" /></ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\cpp\Gateway.cpp"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\cpp\applicationArchiveBuiltin.cpp"><Filter>Source Files</Filter></ClCompile>
+    <ClInclude Include="..\include\applicationArchiveBuiltin.hpp"><Filter>Header Files</Filter></ClInclude>
+    <ClCompile Include="..\cpp\applicationExecutableBuiltin.cpp"><Filter>Source Files</Filter></ClCompile>
+    <ClInclude Include="..\include\applicationExecutableBuiltin.hpp"><Filter>Header Files</Filter></ClInclude>
+    <ClCompile Include="..\cpp\applicationPlanBuiltin.cpp"><Filter>Source Files</Filter></ClCompile>
+    <ClInclude Include="..\include\applicationPlanBuiltin.hpp"><Filter>Header Files</Filter></ClInclude>
+  </ItemGroup>
+</Project>

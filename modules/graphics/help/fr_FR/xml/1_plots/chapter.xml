@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>graphics</module_name>
+  <chapter>Fonctions de traces 2-D et 3-D</chapter>
+  <chapter_description>
+    <p>Fonctions regroupees par type de visualisation, notamment les lignes, distributions, donnees discretes, graphiques polaires, contours, champs de vecteurs, surfaces, volumes, polygones et animations.</p>
+  </chapter_description>
+</xmldoc>

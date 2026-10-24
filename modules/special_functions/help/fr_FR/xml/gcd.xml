@@ -6,6 +6,7 @@
   <short_description>Plus grand commun diviseur</short_description>
   <syntax>
     <syntax_item>G = gcd(A, B)</syntax_item>
+    <syntax_item>[G, C, D] = gcd(A, B)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -25,10 +26,19 @@
       <param_description
       >résultat de la fonction gcd (Plus grand commun diviseur).</param_description>
     </param_output_item>
+    <param_output_item>
+      <param_name>C, D</param_name>
+      <param_description
+      >coefficients de Bezout tels que C .* A + D .* B == G.</param_description>
+    </param_output_item>
   </param_output>
   <description>
     <p>
       <b>G = gcd(A, B)</b> calcule le plus grand commun diviseur en utilisant l&apos;algorithme euclidien.</p>
+    <p>
+      <b>[G, C, D] = gcd(A, B)</b> renvoie aussi les coefficients de Bezout
+      <b>C</b> et <b>D</b> tels que <b>C .* A + D .* B == G</b>. Les entiers non
+      signés ne sont pas pris en charge par cette syntaxe.</p>
   </description>
   <used_function />
   <bibliography

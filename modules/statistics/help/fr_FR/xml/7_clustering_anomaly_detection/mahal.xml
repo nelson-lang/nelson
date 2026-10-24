@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>mahal</keyword>
+  <short_description>Distance de Mahalanobis au carre vers des echantillons de reference.</short_description>
+  <syntax>
+    <syntax_item>d2 = mahal(Y, X)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>mahal</b> renvoie la distance de Mahalanobis au carre de chaque observation de <b>Y</b> vers la matrice d'echantillons de reference <b>X</b>.</p>
+    <p><b>X</b> et <b>Y</b> doivent avoir le meme nombre de colonnes. <b>X</b> doit avoir plus de lignes que de colonnes.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[X = [1 2; 2 3; 3 5; 4 4; 5 7; 6 8];
+Y = [3 4; 5 6; 8 10];
+d2 = mahal(Y, X)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}cov">cov</link></see_also_item>
+    <see_also_item><link linkend="${statistics}pdist2">pdist2</link></see_also_item>
+    <see_also_item><link linkend="${statistics}pca">pca</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

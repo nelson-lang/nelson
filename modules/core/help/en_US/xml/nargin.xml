@@ -23,13 +23,24 @@
     <param_output_item>
       <param_name>R</param_name>
       <param_description
-      >an integer value: number of input argument</param_description>
+      >an integer value: number of input arguments</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p>
-      <b>nargin</b> returns the number of input arguments of an function.</p>
-    <p>If the last input argument of the function is <b>varargin</b> the returned value is negative.</p>
+      <b>nargin</b> returns the number of input arguments of a function.</p>
+    <p>
+      When called without an input argument, <b>nargin</b> returns the number
+      of input arguments used to call the currently executing function.</p>
+    <p>
+      When called with a function name or function handle, <b>nargin</b>
+      returns the number of input arguments declared by that function.</p>
+    <p>
+      If the last declared input argument is <b>varargin</b>, the returned
+      value is negative. Its absolute value is the total number of declared
+      input arguments, including <b>varargin</b>. For example, for a function
+      declared as <b>f(a, b, varargin)</b>, <b>nargin('f')</b> returns
+      <b>-3</b>.</p>
   </description>
   <used_function />
   <bibliography />

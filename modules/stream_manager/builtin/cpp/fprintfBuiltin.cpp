@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,15 +9,17 @@
 //=============================================================================
 #include "fprintfBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "File.hpp"
 #include "FilesManager.hpp"
 #include "Interface.hpp"
 #include "PrintfFunction.hpp"
+#include "AnsiSgr.hpp"
 #include "characters_encoding.hpp"
 #include "NelsonConfiguration.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#include "PredefinedErrorMessages.hpp"
+#include "OverloadHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -35,12 +37,15 @@ Nelson::StreamGateway::fprintfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
     indexType firstArgumentPosition = 0;
     ArrayOfVector args;
     if (param1.isDoubleType() && param1.isScalar()) {
-        dID = param1.getContentAsDoubleScalar();
+        if (argIn.size() < 2) {
+            Error(L"Nelson:stream_manager:noFormat", L"No format character vector.");
+        }
+        dID = param1.asDoubleScalar();
         ArrayOf param2 = argIn[1];
         bool isSupported
             = param2.isCharacterArray() || (param2.isStringArray() && param2.isScalar());
         if (!isSupported) {
-            Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+            Error(L"Nelson:stream_manager:invalidFormat", L"Invalid format.");
         }
         firstArgumentPosition = 1;
     } else if (param1.isRowVectorCharacterArray()
@@ -48,18 +53,19 @@ Nelson::StreamGateway::fprintfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
         dID = 1;
         firstArgumentPosition = 0;
     } else {
-        Error(_W("valid format expected."));
+        Error(L"Nelson:stream_manager:invalidFormat", L"Invalid format.");
     }
     for (size_t i = firstArgumentPosition; i < argIn.size(); i++) {
         args.push_back(argIn[i]);
     }
+    args = convertObjectPrintfArguments(eval, args);
     if (!printfFunction(args, errorMessage, result)) {
-        Error(errorMessage);
+        Error(L"Nelson:fprintf:formatFailed", errorMessage);
     }
     auto* fm = static_cast<FilesManager*>(NelsonConfiguration::getInstance()->getFileManager());
     auto iValue = static_cast<int32>(dID);
     if (fm == nullptr) {
-        Error(_W("Problem with file manager."));
+        Error(L"Nelson:stream_manager:fileManagerNotAvailable", L"Problem with file manager.");
     }
     size_t len = 0;
     if (fm->isOpened(iValue)) {
@@ -68,24 +74,18 @@ Nelson::StreamGateway::fprintfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
             if ((f->getFileName() == L"stdout") || (f->getFileName() == L"stderr")) {
                 Interface* io = eval->getInterface();
                 if (io) {
-                    if (f->getFileName() == L"stdout") {
-                        io->outputMessage(result);
-                    } else {
-                        io->errorMessage(result);
-                    }
+                    io->outputAnsiText(result, f->getFileName() == L"stderr");
                 }
-                len = result.length();
+                len = ansiVisibleLength(result);
             } else {
-                Error(_W("ID not supported."));
+                Error(L"Nelson:fprintf:idNotSupported", L"ID not supported.");
             }
         } else {
             FILE* filepointer = static_cast<FILE*>(f->getFilePointer());
             if (filepointer) {
                 std::wstring encoding = f->getEncoding();
-                // Convert wide string to UTF-8 bytes and write raw bytes to the file.
                 std::string data = wstring_to_utf8(result);
                 if (encoding == L"UTF-8") {
-                    // Write raw UTF-8 bytes to file.
                     size_t written = fwrite(data.c_str(), 1, data.size(), filepointer);
                     len = (size_t)written;
                 } else {
@@ -95,19 +95,21 @@ Nelson::StreamGateway::fprintfBuiltin(Evaluator* eval, int nLhs, const ArrayOfVe
                             = fwrite(converted.c_str(), 1, converted.size(), filepointer);
                         len = (size_t)written;
                     } else {
-                        Error(_W("Cannot use encoding: ") + encoding);
+                        Error(L"Nelson:stream_manager:invalidEncoding", L"Cannot use encoding: %s",
+                            encoding);
                     }
                 }
 
             } else {
-                Error(_W("ID not supported."));
+                Error(L"Nelson:fprintf:idNotSupported", L"ID not supported.");
             }
         }
         if (nLhs > 0) {
-            retval << ArrayOf::doubleConstructor((double)len);
+            retval << ArrayOf::doubleScalar((double)len);
         }
     } else {
-        Error(_W("Wrong value for #1 argument: a valid file ID expected."));
+        Error(L"Nelson:stream_manager:invalidFileIdentifierArgument",
+            L"Wrong value for #%d argument: a valid file ID expected.", 1);
     }
     return retval;
 }

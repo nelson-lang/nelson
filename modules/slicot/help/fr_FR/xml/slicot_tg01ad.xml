@@ -118,6 +118,17 @@ C_IN = [-0.1      0.0    0.001    0.0;
 [A_OUT, E_OUT, B_OUT, C_OUT, LSCALE, RSCALE, INFO] = slicot_tg01ad(JOB, THRESH, A_IN, E_IN, B_IN, C_IN)]]></example_item_data>
     </example_item>
   </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${slicot}slicot_tb01id">slicot_tb01id</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${slicot}slicot_sb10jd">slicot_sb10jd</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${control_system}balreal">balreal</link>
+    </see_also_item>
+  </see_also>
   <history>
     <history_item>
       <history_version>1.0.0</history_version>

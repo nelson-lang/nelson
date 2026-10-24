@@ -9,6 +9,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <memory>
 #include <string>
 #include "AbstractSyntaxTree.hpp"
 #include "FunctionDef.hpp"
@@ -19,6 +20,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+class BytecodeChunk;
 class MacroFunctionDef;
 //=============================================================================
 /**
@@ -45,15 +47,24 @@ public:
      */
     AbstractSyntaxTreePtr code;
     AbstractSyntaxTreePtrVector ptrAstCodeAsVector;
+    std::unique_ptr<BytecodeChunk> bytecodeChunk;
+    std::string classdefOwnerClassName;
+    // Constructor with a non-public Access attribute: calls are checked
+    // against the caller classdef context before entering the function.
+    bool classdefConstructorRestricted = false;
+    // True for the generated class constructor. Used to mark the owning class
+    // as "under construction" while it runs, so immutable (SetAccess) property
+    // assignments are allowed during construction and rejected afterwards.
+    bool classdefConstructor = false;
+    // Per-type overload probe miss cache, valid while the function tables
+    // generation matches (see FunctionsInMemory::generation()).
+    uint64 overloadProbeGeneration = 0;
+    uint32 overloadProbeMissMask = 0;
 
     /**
-     * For some function files, there are multiple functions defined in
-     * a single file.  The subsequent functions are local to the function
-     * scope of the main function, and override global functions inside
-     * the body of the current function (they are essentially hidden inside
-     * the scope of the current function).  These functions are parsed
-     * and form a linked list of function definitions, with the main function
-     * at the head of the list.
+     * A function file can define several functions. The ones after the main
+     * function are local to its scope and override global functions inside its
+     * body. They form a linked list with the main function at the head.
      */
     MacroFunctionDef* nextFunction;
     MacroFunctionDef* prevFunction;
@@ -62,18 +73,12 @@ public:
      * linked list.
      */
     bool localFunction;
-    /**
-     * constructors.
-     */
+    bool nestedFunction;
     MacroFunctionDef();
-    MacroFunctionDef(const std::wstring& filename, bool withWatcher, bool isOverload);
+    MacroFunctionDef(
+        const std::wstring& filename, bool withWatcher, bool isOverload, bool directScript = false);
 
-    /**
-     * The destructor
-     */
     ~MacroFunctionDef() override;
-    /** The type of the function
-     */
     [[nodiscard]] FunctionType
     type() const override
     {
@@ -95,7 +100,7 @@ public:
     outputArgCount() override;
     /**
      * Evaluate the function and return the outputs.
-     * Throws an Exception if
+     * Throws an NelsonException if
      *   - the special variable 'varargout' is not defined in the body of the
      *     of the function as promised by the function declaration.
      *   - the variable 'varargout' contains too few elements to satisfy the
@@ -116,6 +121,12 @@ public:
     updateCode() override;
     //=============================================================================
     void
+    invalidateBytecode();
+    //=============================================================================
+    bool
+    ensureBytecodeCompiled();
+    //=============================================================================
+    void
     setIsScript(bool _isScript)
     {
         isScript = _isScript;
@@ -133,15 +144,31 @@ public:
         return this->withWatcher;
     }
     //=============================================================================
-    void
-    addCleanupFunction(ArrayOf& task)
-    {
-        cleanupTasks.push_back(task);
-    }
+    // True when this function can run without a context scope of its own
+    // (bytecode gate, cached per FunctionsInMemory generation).
+    bool
+    canEvaluateScopeFree(Evaluator* eval);
+    //=============================================================================
+    const std::string&
+    getCompleteName();
     //=============================================================================
 private:
+    struct LocalFunctionBinding
+    {
+        std::string name;
+        FunctionDefPtr previousFunction = nullptr;
+        bool restorePreviousFunction = false;
+    };
+
     std::string
-    getCompleteName();
+    computeCompleteName();
+
+    std::string completeNameCache;
+    int needsContextScopeCache = -1;
+    // Generation of FunctionsInMemory when needsContextScopeCache was computed:
+    // the scope-free decision resolves callee names, so table mutations
+    // invalidate it.
+    uint64 needsContextScopeGeneration = 0;
 
     ArrayOfVector
     evaluateMFunction(Evaluator* eval, const ArrayOfVector& inputs, int nargout);
@@ -149,8 +176,12 @@ private:
     ArrayOfVector
     evaluateMScript(Evaluator* eval, const ArrayOfVector& inputs, int nargout);
 
-    void
+    std::vector<LocalFunctionBinding>
     insertLocalFunctions(Context* context);
+
+    void
+    restoreLocalFunctions(
+        Context* context, const std::vector<LocalFunctionBinding>& localFunctionBindings);
 
     void
     setInputArgumentNames(Context* context, const ArrayOfVector& inputs);
@@ -185,13 +216,62 @@ private:
     void
     validateFunctionNamesAndFilename();
 
-    ArrayOfVector cleanupTasks;
-    void
-    onCleanup(Evaluator* eval);
-
     bool isScript;
+    bool directScript;
     bool withWatcher;
 };
+//=============================================================================
+// Transient-owner keep-alive registry.
+//
+// A MacroFunctionDef created only to run (typically a script executed through
+// run()/EvaluateScriptFile) frees its local/nested function definitions, with
+// its nextFunction chain, when it is destroyed. Function handles created while
+// it runs may capture those definitions by raw pointer and outlive it, which
+// would leave them dangling.
+//
+// A transient owner registers its shared_ptr here (keyed by the chain head) for
+// the duration of its run. Code that captures one of its local function
+// definitions looks the head up and takes a shared reference. Definitions owned
+// by the function tables are kept alive by the retain registry below. The
+// registry is per-thread: the owner runs, and every capture happens, on the
+// same thread.
+NLSINTERPRETER_IMPEXP void
+registerTransientScriptOwner(const std::shared_ptr<MacroFunctionDef>& owner);
+//=============================================================================
+NLSINTERPRETER_IMPEXP void
+unregisterTransientScriptOwner(MacroFunctionDef* owner);
+//=============================================================================
+// Registered shared owner whose chain head is `head`, or nullptr.
+NLSINTERPRETER_IMPEXP std::shared_ptr<MacroFunctionDef>
+lookupTransientScriptOwner(MacroFunctionDef* head);
+//=============================================================================
+// Retain registry for definitions owned by the function tables.
+//
+// FunctionsInMemory owns path function definitions by raw pointer and frees them,
+// with their nextFunction chain, on `clear functions`, on `clear <name>` and when
+// the file watcher reloads a modified file. A handle to a local or nested
+// function holds its definition by raw pointer and can outlive the table entry
+// (callback in a graphics object, onCleanup task, workspace variable).
+//
+// A capturing handle retains the exact definition it points at, not the chain
+// head. The head is found by walking nextFunction when the tables free the file.
+//
+// Retaining a definition the tables do not own (one of a transient script) is
+// harmless: nothing frees it through here, so the retain expires with the handle.
+//
+// Freeing a file whose chain holds a retained definition only drops it from the
+// function tables; the last release of that chain frees it. Files no handle
+// retained are freed straight away.
+NLSINTERPRETER_IMPEXP void
+retainMacroFunctionDef(MacroFunctionDef* definition);
+//=============================================================================
+NLSINTERPRETER_IMPEXP void
+releaseMacroFunctionDef(MacroFunctionDef* definition);
+//=============================================================================
+// Free a file definition owned by the function tables, with its nextFunction
+// chain, or defer freeing to the last release when a handle retains one of them.
+NLSINTERPRETER_IMPEXP void
+destroyMacroFunctionDef(MacroFunctionDef* head);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

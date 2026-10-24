@@ -16,17 +16,20 @@ function buildhelpweb(varargin)
   else
     lang = getdefaultlanguage();
   end
-  
+
   dirdest = varargin{1};
   if ~isdir(dirdest)
-    error(_('Existing directory expected.'));
+    error('Nelson:buildhelpweb:directoryDoesNotExist', 'Existing directory expected.');
   end
- 
+
   modules_help_list = get_modules_help_list();
   for m = modules_help_list'
     help_file = [nelsonroot() '/modules/' m{1} '/help/' nelsonappid() '.modules.' m{1} '.help.' lang '.nhz'];
     if ~isfile(help_file)
       help_file = [nelsonroot() '/modules/' m{1} '/help/' nelsonappid() '.modules.' m{1} '.help.' getdefaultlanguage() '.nhz'];
+    end
+    if ~isfile(help_file)
+      continue
     end
     unzip(help_file, dirdest);
   end
@@ -38,7 +41,7 @@ function buildhelpweb(varargin)
   end
   unzip(main_help_file, dirdest);
   if ~isdir([dirdest, '/main'])
-    error(sprintf(_('Directory expected: %s'), [dirdest, '/main']));
+    error('Nelson:buildhelpweb:directoryExpected', 'Directory expected: %s', [dirdest, '/main']);
   end
   d = dir([dirdest, '/main/*.*']);
   for k = 1:length(d)

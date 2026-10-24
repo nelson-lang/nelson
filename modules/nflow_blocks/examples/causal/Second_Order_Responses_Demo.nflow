@@ -1,0 +1,137 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Allan CORNET",
+    "createdBy": "Allan CORNET",
+    "created": "2026-08-19",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "comments": "Second-order step responses: the same unit step drives three plants that differ only in their damping. Underdamped 1/(s^2+0.4s+1) rings, overdamped 1/(s^2+3s+2) crawls, resonant 4/(s^2+0.5s+4) overshoots strongly. The scope overlays the three so the damping regimes can be compared at a glance.",
+  "name": "Second-Order Responses - Damping Comparison",
+  "blocks": [
+    {
+      "id": "r1",
+      "type": "step",
+      "x": 80,
+      "y": 300,
+      "rotation": 0,
+      "params": {
+        "Time": 0
+      }
+    },
+    {
+      "id": "p_under",
+      "type": "tf",
+      "x": 340,
+      "y": 140,
+      "rotation": 0,
+      "params": {
+        "Numerator": [
+          1
+        ],
+        "Denominator": [
+          1,
+          0.4,
+          1
+        ]
+      }
+    },
+    {
+      "id": "p_over",
+      "type": "tf",
+      "x": 340,
+      "y": 300,
+      "rotation": 0,
+      "params": {
+        "Numerator": [
+          1
+        ],
+        "Denominator": [
+          1,
+          3,
+          2
+        ]
+      }
+    },
+    {
+      "id": "p_res",
+      "type": "tf",
+      "x": 340,
+      "y": 460,
+      "rotation": 0,
+      "params": {
+        "Numerator": [
+          4
+        ],
+        "Denominator": [
+          1,
+          0.5,
+          4
+        ]
+      }
+    },
+    {
+      "id": "sc",
+      "type": "scope",
+      "x": 620,
+      "y": 280,
+      "rotation": 0,
+      "params": {
+        "Title": "Underdamped / Overdamped / Resonant",
+        "TMin": "",
+        "TMax": "",
+        "YMin": -0.1,
+        "YMax": 1.8,
+        "width": 380,
+        "height": 320,
+        "ShowTickLabels": true
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "r1",
+      "to": "p_under",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "r1",
+      "to": "p_over",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "r1",
+      "to": "p_res",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "p_under",
+      "to": "sc",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "p_over",
+      "to": "sc",
+      "fromIndex": 0,
+      "toIndex": 1
+    },
+    {
+      "from": "p_res",
+      "to": "sc",
+      "fromIndex": 0,
+      "toIndex": 2
+    }
+  ],
+  "variables": "",
+  "runtime": 20,
+  "sampleTime": 0.02,
+  "solver": "ode45",
+  "autoRoute": true,
+  "stopFcn": "NFlow.plotScopes(out);"
+}

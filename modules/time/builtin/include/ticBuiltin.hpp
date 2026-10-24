@@ -15,5 +15,6 @@
 namespace Nelson::TimeGateway {
 ArrayOfVector
 ticBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

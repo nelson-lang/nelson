@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "file": "spreadsheet_roundtrip.m",
+      "title": "Spreadsheet round trip",
+      "description": "Write a table to a temporary workbook and read it back.",
+      "tags": [
+        "spreadsheet",
+        "table"
+      ],
+      "requirements": []
+    }
+  ]
+}

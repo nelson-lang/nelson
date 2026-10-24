@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "UnaryPlus.hpp"
+#include "Decomplexify.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -16,7 +17,7 @@ UnaryPlus(const ArrayOf& A, bool& needToOverload)
 {
     ArrayOf res;
     needToOverload = false;
-    switch (A.getDataClass()) {
+    switch (A.dataClass()) {
     case NLS_LOGICAL:
     case NLS_CHAR: {
         res = A;
@@ -32,10 +33,14 @@ UnaryPlus(const ArrayOf& A, bool& needToOverload)
     case NLS_INT32:
     case NLS_INT64:
     case NLS_SINGLE:
-    case NLS_DOUBLE:
+    case NLS_DOUBLE: {
+        res = A;
+        res.ensureSingleOwner();
+    } break;
     case NLS_SCOMPLEX:
     case NLS_DCOMPLEX: {
-        res = A;
+        // an empty complex array gives an empty real array
+        res = A.isEmpty() ? decomplexify(A) : A;
         res.ensureSingleOwner();
     } break;
     default: {

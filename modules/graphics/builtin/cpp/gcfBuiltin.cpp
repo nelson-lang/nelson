@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -21,21 +21,29 @@ gcfBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargoutcheck(nLhs, 0, 1);
     ArrayOfVector retval;
     int64 currentFigureID = getCurrentFigure();
+    if (currentFigureID != -1 && !isVisibleGraphicsHandle(currentFigureID)) {
+        currentFigureID = -1;
+    }
     if (currentFigureID == -1) {
         std::vector<int64> figs = getFigureGraphicsObjects();
-        if (figs.empty()) {
+        for (auto it = figs.rbegin(); it != figs.rend(); ++it) {
+            if (isVisibleGraphicsHandle(*it)) {
+                currentFigureID = *it;
+                notifyCurrentFigureChanged(currentFigureID);
+                break;
+            }
+        }
+        if (currentFigureID == -1) {
             currentFigureID = createNewFigure();
-        } else {
-            currentFigureID = figs.back();
         }
     }
     GOFigure* fig = findGOFigure(currentFigureID);
     if (fig) {
         fig->setRenderingStateInvalid(true);
     }
-    retval << ArrayOf::graphicsObjectConstructor(currentFigureID);
+    retval << graphicsObjectHandle(currentFigureID);
     return retval;
 }
 //=============================================================================
-}
+} // namespace Nelson::GraphicsGateway
 //=============================================================================

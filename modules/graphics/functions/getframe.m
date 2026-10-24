@@ -15,11 +15,11 @@ function varargout = getframe(varargin)
   else
     go = varargin{1};
   end
-  if ~isgraphics(go, 'axes') && ~isgraphics(go, 'figure')
-    error(_('figure or axes handle expected.'));
+  isAxes = isgraphics(go, 'axes') || isgraphics(go, 'polaraxes');
+  if ~isAxes && ~isgraphics(go, 'figure')
+    error('Nelson:getframe:figureOrAxesExpected', 'figure or axes handle expected.');
   end
-  drawnow();
-  if isgraphics(go, 'axes')
+  if isAxes
     cdata = getframeAxes(go);
   else
     cdata = getframeFigure(go);
@@ -33,23 +33,22 @@ function varargout = getframe(varargin)
 end
 %=============================================================================
 function cdata = getframeAxes(ax)
-    gof = ancestor(ax, 'figure');
-    units = ax.Units;
-    ax.Units = 'pixels';
-    pos = ax.Position;
-    ax.Units = units;
-    cdata = __getframe__(gof);
-    dpr = gof.DevicePixelRatio;
-    idxx1 = max (floor((pos(1)-1)*dpr+1), 1);
-    idxx2 = min (ceil((pos(1)+pos(3)-1)*dpr), size (cdata, 2));
-    idxx = idxx1:idxx2;
-    idxy1 = max (floor((pos(2) - 1) * dpr + 1), 1);
-    idxy2 = min (ceil((pos(2) + pos(4) - 1) * dpr), size(cdata, 1));
-    idxy = fliplr(size(cdata, 1) - (idxy1:idxy2) + 1);
-    cdata = cdata(idxy, idxx, :);
+  gof = ancestor(ax, 'figure');
+  cdata = __getframe__(gof);
+  units = ax.Units;
+  ax.Units = 'pixels';
+  pos = ax.Position;
+  ax.Units = units;
+  idxx1 = min(max(floor(pos(1)), 1), size(cdata, 2));
+  idxx2 = min(idxx1 + max(round(pos(3)), 1) - 1, size(cdata, 2));
+  idxx = idxx1:idxx2;
+  idxy1 = min(max(floor(pos(2)), 1), size(cdata, 1));
+  idxy2 = min(idxy1 + max(round(pos(4)), 1) - 1, size(cdata, 1));
+  idxy = fliplr(size(cdata, 1) - (idxy1:idxy2) + 1);
+  cdata = cdata(idxy, idxx, :);
 end
 %=============================================================================
 function cdata = getframeFigure(f)
-    cdata = __getframe__(f);
+  cdata = __getframe__(f);
 end
 %=============================================================================

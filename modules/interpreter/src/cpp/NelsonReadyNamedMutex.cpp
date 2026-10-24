@@ -11,10 +11,10 @@
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include "NelsonReadyNamedMutex.hpp"
-#ifdef _MSC_VER
+#if defined(_MSC_VER)
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
-#else
+#elif !defined(__EMSCRIPTEN__)
 #include <semaphore.h>
 #include <fcntl.h>
 #include <errno.h>
@@ -23,8 +23,10 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-#ifdef _MSC_VER
+#if defined(_MSC_VER)
 static HANDLE nelson_ready_mutex = nullptr;
+#elif defined(__EMSCRIPTEN__)
+static bool nelson_ready_mutex = false;
 #else
 static sem_t* nelson_ready_sem = nullptr;
 #endif
@@ -40,14 +42,12 @@ openIsReadyNelsonMutex(int pid)
 {
     bool res = false;
     std::string name = getNamedMutex(pid);
-#ifdef _MSC_VER
+#if defined(_MSC_VER)
     if (nelson_ready_mutex == nullptr) {
-        // Try to remove any existing handle by opening and closing it
         HANDLE hOld = OpenMutexA(SYNCHRONIZE | MUTEX_MODIFY_STATE, FALSE, name.c_str());
         if (hOld) {
             CloseHandle(hOld);
         }
-        // Create a named mutex and take initial ownership (locked)
         HANDLE h = CreateMutexA(nullptr, TRUE, name.c_str());
         if (h != nullptr) {
             nelson_ready_mutex = h;
@@ -56,16 +56,16 @@ openIsReadyNelsonMutex(int pid)
             res = false;
         }
     }
+#elif defined(__EMSCRIPTEN__)
+    nelson_ready_mutex = true;
+    res = true;
 #else
     // POSIX named semaphore: use name starting with '/'
     std::string sname = std::string("/") + name;
     if (nelson_ready_sem == nullptr) {
-        // unlink any previous semaphore with same name
         sem_unlink(sname.c_str());
-        // create semaphore with initial value 0 so it's considered 'locked'
         sem_t* s = sem_open(sname.c_str(), O_CREAT | O_EXCL, 0600, 0);
         if (s == SEM_FAILED) {
-            // If already exists try opening without O_EXCL
             s = sem_open(sname.c_str(), O_CREAT, 0600, 0);
             if (s == SEM_FAILED) {
                 res = false;
@@ -74,7 +74,6 @@ openIsReadyNelsonMutex(int pid)
                 res = true;
             }
         } else {
-            // successfully created
             nelson_ready_sem = s;
             res = true;
         }
@@ -88,19 +87,20 @@ closeIsReadyNelsonMutex(int pid)
 {
     bool res = false;
     std::string name = getNamedMutex(pid);
-#ifdef _MSC_VER
+#if defined(_MSC_VER)
     if (nelson_ready_mutex) {
-        // Release ownership if we hold it
-        // It's safe to call ReleaseMutex only if we own it. Try, ignore errors.
+        // ReleaseMutex fails when the mutex is not owned; the error is ignored.
         ReleaseMutex(nelson_ready_mutex);
         CloseHandle(nelson_ready_mutex);
         nelson_ready_mutex = nullptr;
         res = true;
     }
+#elif defined(__EMSCRIPTEN__)
+    res = nelson_ready_mutex;
+    nelson_ready_mutex = false;
 #else
     std::string sname = std::string("/") + name;
     if (nelson_ready_sem) {
-        // unlink the named semaphore and close our handle
         sem_unlink(sname.c_str());
         sem_close(nelson_ready_sem);
         nelson_ready_sem = nullptr;
@@ -115,8 +115,7 @@ haveIsReadyNelsonMutex(int pid)
 {
     bool res = false;
     std::string name = getNamedMutex(pid);
-#ifdef _MSC_VER
-    // Try to open existing named mutex without creating it
+#if defined(_MSC_VER)
     HANDLE h = OpenMutexA(SYNCHRONIZE | MUTEX_MODIFY_STATE, FALSE, name.c_str());
     if (h) {
         CloseHandle(h);
@@ -124,15 +123,15 @@ haveIsReadyNelsonMutex(int pid)
     } else {
         res = false;
     }
+#elif defined(__EMSCRIPTEN__)
+    res = nelson_ready_mutex;
 #else
     std::string sname = std::string("/") + name;
-    // Try to open existing semaphore without creating it
     sem_t* s = sem_open(sname.c_str(), 0);
     if (s != SEM_FAILED) {
         sem_close(s);
         res = true;
     } else {
-        // errno == ENOENT means does not exist
         res = false;
     }
 #endif

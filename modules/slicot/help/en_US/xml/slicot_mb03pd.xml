@@ -95,6 +95,14 @@ A_IN = [   1.    2.    6.    3.    5.;
 [A_OUT, JPVT_OUT, TAU, RANK, SVAL, INFO] = slicot_mb03pd(JOBRQ, A_IN, JPVT_IN, RCOND, SVLMAX)]]></example_item_data>
     </example_item>
   </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${slicot}slicot_mb03od">slicot_mb03od</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${slicot}slicot_mb04gd">slicot_mb04gd</link>
+    </see_also_item>
+  </see_also>
   <history>
     <history_item>
       <history_version>1.0.0</history_version>

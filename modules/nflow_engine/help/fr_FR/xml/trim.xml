@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>trim</keyword>
+  <short_description>Trouver un point de fonctionnement d'équilibre d'un modèle nflow.</short_description>
+  <syntax>
+    <syntax_item>[x, u, y, dx] = trim(model)</syntax_item>
+    <syntax_item>[x, u, y, dx] = trim(model, x0, u0)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>model</param_name>
+      <param_description>un système chargé (nom ou handle) ou le chemin d'un fichier .nflow.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>x0</param_name>
+      <param_description>état continu initial (longueur nx) pour la recherche (optionnel).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>u0</param_name>
+      <param_description>entrées fixées (longueur nu), blocs Label Source de port externe (optionnel).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>x</param_name>
+      <param_description>l'état continu d'équilibre.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>u</param_name>
+      <param_description>les entrées à la solution (égales à u0).</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>y</param_name>
+      <param_description>les sorties à la solution.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>dx</param_name>
+      <param_description>la dérivée d'état à la solution ; sa norme mesure la proximité de l'équilibre.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>trim</b> trouve un point de fonctionnement d'équilibre de <b>model</b> : un état continu <b>x</b> tel que <b>xdot = f(x, u0) = 0</b> pour les entrées fixées <b>u0</b>.</p>
+    <p>L'équation est résolue par une itération de Newton sur la jacobienne d'état <b>A = d(xdot)/dx</b> calculée par <b>linmod</b>, à partir de <b>x0</b>. Pour un modèle linéaire l'équilibre est <b>x = -A\(B*u0)</b>, atteint en une étape.</p>
+  </description>
+  <used_function>linmod</used_function>
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Équilibre d'un modèle d'état du premier ordre</example_item_description>
+      <example_item_data><![CDATA[d.blocks = { ...
+  struct('id','u','type','labelSource','inputs',0,'outputs',1,'params',struct('label','u','isExternalPort',true)), ...
+  struct('id','ss','type','stateSpace','inputs',1,'outputs',1,'params',struct('A',-2,'B',1,'C',1,'D',0)), ...
+  struct('id','y','type','labelSink','inputs',1,'outputs',0,'params',struct('label','y')), ...
+  struct('id','sc','type','scope','inputs',1,'outputs',0,'params',struct()) };
+d.connections = { ...
+  struct('from','u','to','ss','fromIndex',0,'toIndex',0), ...
+  struct('from','ss','to','y','fromIndex',0,'toIndex',0), ...
+  struct('from','ss','to','sc','fromIndex',0,'toIndex',0) };
+f = [tempdir(), 'trim_demo.nflow'];
+fid = fopen(f,'wt'); fwrite(fid, jsonencode(d)); fclose(fid);
+[x, u, y, dx] = trim(f, 0, 2)  % x = 1 (xdot = 0)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${nflow_engine}linmod">linmod</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}sim">sim</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>1.0.0</history_version><history_description>initial version</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

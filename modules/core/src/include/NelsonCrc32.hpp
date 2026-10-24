@@ -20,5 +20,5 @@ computeStringToCrc32(const std::wstring& str);
 NLSCORE_IMPEXP std::wstring
 computeFileToCrc32(const std::wstring& filename);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

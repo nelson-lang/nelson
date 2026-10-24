@@ -9,7 +9,7 @@
 %=============================================================================
 function varargout = clim(varargin)
   varargin = convertStringToCharArgs(varargin);
-  if ((nargin > 0)  && isscalar(varargin{1}) && isgraphics(varargin{1}))
+  if ((nargin > 0) && isscalar(varargin{1}) && isgraphics(varargin{1}))
     handle = varargin{1};
     varargin(1) = [];
     nargin = nargin - 1;
@@ -36,14 +36,15 @@ function varargout = clim(varargin)
       varargout = {};
       return;
     end
-    msg = _('"manual" or "auto" argument expected.');
-    error(msg);
-    
-  elseif (isnumeric(varargin{1}) && numel(varargin{1})==2)
-    ax = gca();
-    ax.CLim = varargin{1};
+    error('Nelson:clim:invalidArgument', '"%s" or "%s" argument expected.', 'manual', 'auto');
+
+  elseif (isnumeric(varargin{1}) && numel(varargin{1}) == 2)
+    value = varargin{1};
+    if ~isequal(handle.CLim, value)
+      handle.CLim = value;
+    end
   else
-    error(_('Error setting property'));
+    error('Nelson:clim:errorSettingProperty', 'Error setting property');
   end
   varargout = {};
 end

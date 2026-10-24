@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>imwarp</keyword>
+  <short_description>Transforme une image ou un volume avec une matrice numerique.</short_description>
+  <syntax>
+    <syntax_item>J = imwarp(I, T)</syntax_item>
+    <syntax_item>J = imwarp(I, RI, T)</syntax_item>
+    <syntax_item>J = imwarp(V, RV, T)</syntax_item>
+    <syntax_item>J = imwarp(I, T, method)</syntax_item>
+    <syntax_item>J = imwarp(I, T, Name, Value)</syntax_item>
+    <syntax_item>[J, R] = imwarp(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>I, V</param_name>
+      <param_description>Image 2-D en niveaux de gris, RGB, RGBA, ou volume 3-D.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>RI, RV</param_name>
+      <param_description>Reference spatiale source optionnelle, imref2d pour les images ou imref3d pour les volumes.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>T</param_name>
+      <param_description>Matrice de transformation numerique ou structure de transformation affine/projective.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Name, Value</param_name>
+      <param_description>Les options prises en charge sont Interpolation, FillValues et OutputView.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>J</param_name>
+      <param_description>Image ou volume transforme, avec preservation de la classe pour les classes image courantes.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>R</param_name>
+      <param_description>Reference spatiale de sortie.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Transforme une image avec une matrice projective 3-by-3, une matrice affine 2-by-3, ou une structure.</p>
+    <p>Une structure imref2d peut etre fournie apres l image pour definir les coordonnees monde source.</p>
+    <p>Les methodes d interpolation 2-D supportees sont nearest, linear, bilinear et cubic.</p>
+    <p>OutputView peut etre un vecteur de taille, same, full, ou une structure imref2d.</p>
+    <p>FillValues peut etre scalaire ou contenir une valeur par canal image, avec des valeurs numeriques ou logiques.</p>
+    <p>Pour les volumes 3-D, imwarp accepte affine3d ou une matrice affine 4-by-4.</p>
+    <p>Les appels 3-D supportent imref3d, l interpolation nearest ou linear, et des FillValues scalaires.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Transformer une image</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[I=zeros(64,64); I(20:36,24:40)=1;
+T=[1 0 0;0 1 0;10 6 1];
+J=imwarp(I,T,'Interpolation','nearest');
+figure; subplot(1,2,1); imagesc(I); g=linspace(0,1,64)'; colormap([g g g]); title('Input');
+subplot(1,2,2); imagesc(J); g=linspace(0,1,64)'; colormap([g g g]); title('Warped');]]></example_item_data>
+      <example_item_img
+        src="../../../images/imwarp_1.png"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}3_geometry_registration_3d/6_geometric_transforms/imref3d">imref3d</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}3_geometry_registration_3d/6_geometric_transforms/affine3d">affine3d</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

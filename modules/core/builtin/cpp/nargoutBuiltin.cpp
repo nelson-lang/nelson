@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "nargoutBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "NargOut.hpp"
 #include "characters_encoding.hpp"
@@ -26,34 +27,39 @@ Nelson::CoreGateway::nargoutBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
     if (argIn.empty()) {
         Context* context = eval->getContext();
         if (context->getCurrentScope()->getName() == "base") {
-            Error(_W("not allowed in base scope."));
+            Error(L"Nelson:core:notAllowedInBaseScope", L"not allowed in base scope.");
         } else {
             int nargout = context->getCurrentScope()->getNargOut();
-            retval << ArrayOf::doubleConstructor(nargout);
+            retval << ArrayOf::doubleScalar(nargout);
         }
     } else {
-        // argIn.size() == 1
         ArrayOf param1 = argIn[0];
         if (param1.isRowVectorCharacterArray()) {
-            std::wstring name = param1.getContentAsWideString();
-            retval << ArrayOf::doubleConstructor(NargOut(eval, name));
+            std::wstring name = param1.asWideString();
+            retval << ArrayOf::doubleScalar(NargOut(eval, name));
         } else if (param1.isFunctionHandle()) {
-            function_handle fh = param1.getContentAsFunctionHandle();
+            function_handle fh = param1.asFunctionHandle();
             if (fh.anonymousHandle == nullptr) {
-                Error(ERROR_WRONG_ARGUMENT_1_TYPE_FUNCTION_HANDLE_EXPECTED);
+                Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1),
+                    L"function handle");
             }
             AnonymousMacroFunctionDef* anonymousFunction
                 = reinterpret_cast<AnonymousMacroFunctionDef*>(fh.anonymousHandle);
             if (anonymousFunction) {
-                if (anonymousFunction->isFunctionHandle()) {
-                    retval << ArrayOf::doubleConstructor(
+                if (anonymousFunction->isBoundNestedFunctionHandle()) {
+                    // A handle to a nested function is not resolvable by name from
+                    // this scope; introspect the bound function directly.
+                    retval << ArrayOf::doubleScalar(anonymousFunction->boundFunctionNargout());
+                } else if (anonymousFunction->isFunctionHandle()) {
+                    retval << ArrayOf::doubleScalar(
                         NargOut(eval, utf8_to_wstring(anonymousFunction->getName())));
                 } else {
-                    retval << ArrayOf::doubleConstructor(anonymousFunction->nargout());
+                    retval << ArrayOf::doubleScalar(anonymousFunction->nargout());
                 }
             }
         } else {
-            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_FUNCTION_HANDLE_EXPECTED);
+            Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1),
+                L"string or function handle");
         }
     }
     return retval;

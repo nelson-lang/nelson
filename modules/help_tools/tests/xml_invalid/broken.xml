@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>broken</keyword>
+  <short_description>Broken XML fixture.</short_description>
+  <syntax>
+    <syntax_item>broken()</syntax_item>
+  </syntax>
+  <param_output />
+  <description>
+    <p>Invalid fixture used by xmldocchecker tests.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples />
+  <see_also />
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

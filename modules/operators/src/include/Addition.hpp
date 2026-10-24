@@ -17,5 +17,15 @@ namespace Nelson {
 NLSOPERATORS_IMPEXP ArrayOf
 Addition(const ArrayOf& A, const ArrayOf& B);
 //=============================================================================
+/**
+ * Fast element-wise sum of a complex operand and a real operand.
+ * Adds the real operand to the real part ((a + bi) + c = (a + c) + bi) instead of
+ * promoting it to complex. The result is bit-identical for every value (no cross
+ * term), so it runs for dense operands of matching float width with equal shapes or
+ * one scalar, and returns false otherwise. Either operand order is accepted.
+ */
+NLSOPERATORS_IMPEXP bool
+dotPlusComplexRealScaling(const ArrayOf& A, const ArrayOf& B, ArrayOf& result);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

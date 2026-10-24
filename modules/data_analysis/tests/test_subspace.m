@@ -8,9 +8,11 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 H = hadamard(8);
-A = H(:,2:4);
-B = H(:,5:8);
-theta = subspace(A,B);
-expectedTheta = pi/2;
-assert_isapprox(theta, expectedTheta, 1e-3)
+A = H(:, 2:4);
+B = H(:, 5:8);
+theta = subspace(A, B);
+expectedTheta = pi / 2;
+asserts.isapprox(theta, expectedTheta, 1e-3)
+%=============================================================================
+asserts.isapprox(subspace([1; 0], [0; 1]), pi / 2, 1e-12);
 %=============================================================================

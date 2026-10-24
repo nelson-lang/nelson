@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>odeSensitivity</keyword>
+  <short_description>Sensitivity definition object for ODE workflows.</short_description>
+  <syntax>
+    <syntax_item>S = odeSensitivity()</syntax_item>
+    <syntax_item>S = odeSensitivity(name, value)</syntax_item>
+  </syntax>
+  <description>
+    <p>
+      <b>odeSensitivity</b> stores sensitivity settings for the <b>ode</b> object workflow. Nelson solves direct forward sensitivities for explicit and fully implicit problems with a numeric parameter vector.</p>
+    <table style="width:100%">
+      <tr>
+        <th>Object</th>
+        <th>Purpose</th>
+        <th>Used by</th>
+      </tr>
+      <tr>
+        <td><b>odeSensitivity</b></td>
+        <td>Stores a reusable definition for the <b>ode</b> object workflow.</td>
+        <td>The matching <b>ode</b> property and <b>solve</b>.</td>
+      </tr>
+      <tr>
+        <td>Validation</td>
+        <td>Checks supported names and shapes at construction time.</td>
+        <td>Tests and errors stay explicit before integration.</td>
+      </tr>
+    </table>
+    <p>When the optional SUNDIALS backend is available, <b>cvodesnonstiff</b>, <b>cvodesstiff</b>, and <b>idas</b> use native direct forward sensitivity support for problems without event callbacks. <b>cvodesnonstiff</b>, <b>cvodesstiff</b>, and <b>idas</b> also support adjoint gradients for scalar final objectives and optional scalar integral objectives.</p>
+    <p>The direct <b>Sensitivity</b> result is an array with dimensions state-by-parameter-by-time. Event locations without callbacks also populate <b>EventSensitivity</b>. The adjoint result is <b>AdjointGradient</b>, a row vector ordered like <b>ParameterIndices</b>. Output functions receive the physical state only. Mass matrices, nonnegative state constraints, and delayed equations are supported for explicit direct sensitivities. Event callbacks, separated complex parts, delayed output functions, and delayed adjoints are not supported yet.</p>
+    <p>
+      <b>Method</b> defaults to <b>direct</b>. The value <b>forward</b> is accepted as an alias for <b>direct</b>. With <b>Method</b> set to <b>adjoint</b>, provide <b>ObjectiveFcn</b>, <b>QuadratureFcn</b>, or both. These functions are called as <b>f(t,y,p)</b> and must return a real scalar. <b>ObjectiveTime</b> is reserved for final-time objectives and must match the solve final time when provided. <b>AdjointRelativeTolerance</b> and <b>AdjointAbsoluteTolerance</b> override the backward problem tolerances.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_data runnable="cli"><![CDATA[F = ode('ODEFcn', @(t,y,p) p(1) * y, ...
+  'InitialValue', 1, ...
+  'Parameters', 2, ...
+  'Sensitivity', odeSensitivity('ParameterIndices', 1));
+R = solve(F, 0, 0.2);
+Sfinal = R.Sensitivity(1, 1, length(R.Time))]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_data runnable="cli"><![CDATA[F = ode('ODEFcn', @(t,y,p) p(1), ...
+  'InitialValue', 0, ...
+  'Parameters', 2, ...
+  'Sensitivity', odeSensitivity(), ...
+  'EventDefinition', odeEvent('EventFcn', @(t,y) y - 0.5, 'Response', 'stop'));
+R = solve(F, 0, 1);
+R.EventSensitivity(1, 1, 1)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_data runnable="cli"><![CDATA[F = ode('EquationType', 'fullyimplicit', ...
+  'ODEFcn', @(t,y,yp,p) yp + p(1) * y, ...
+  'InitialValue', 1, ...
+  'InitialSlope', -2, ...
+  'Parameters', 2, ...
+  'Sensitivity', odeSensitivity());
+R = solve(F, 0, 0.2);
+Sfinal = R.Sensitivity(1, 1, length(R.Time))]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_data runnable="cli"><![CDATA[F = ode('ODEFcn', @(t,y,p) p(1) * y, ...
+  'InitialValue', 1, ...
+  'Parameters', 2, ...
+  'Sensitivity', odeSensitivity('Method', 'adjoint', ...
+    'ObjectiveFcn', @(t,y,p) y(1)), ...
+  'Solver', 'cvodesnonstiff');
+R = solve(F, 0, 0.5);
+R.AdjointGradient]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ode_solvers}ode">ode</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}odeJacobian">odeJacobian</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

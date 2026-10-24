@@ -165,6 +165,14 @@ D = [0.0   0.0;
 ]]></example_item_data>
     </example_item>
   </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${slicot}slicot_ag08bd">slicot_ag08bd</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${control_system}tzero">tzero</link>
+    </see_also_item>
+  </see_also>
   <history>
     <history_item>
       <history_version>1.0.0</history_version>

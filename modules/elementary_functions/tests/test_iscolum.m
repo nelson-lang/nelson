@@ -7,23 +7,24 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('iscolumn'), 1)
-assert_isequal(nargout('iscolumn'), 1)
+% <--WEIGHT 2-->
+asserts.isequal(nargin('iscolumn'), 1)
+asserts.isequal(nargout('iscolumn'), 1)
 %=============================================================================
 s.c = 1;
-assert_istrue(iscolumn(s))
+asserts.istrue(iscolumn(s))
 %=============================================================================
-assert_istrue(iscolumn("n"))
-assert_istrue(iscolumn('n'))
-assert_istrue(iscolumn("nelson"))
-assert_isfalse(iscolumn('nelson'))
-assert_istrue(iscolumn(["test"; "ing"]))
-assert_isfalse(iscolumn(["test", "ing"]))
+asserts.istrue(iscolumn("n"))
+asserts.istrue(iscolumn('n'))
+asserts.istrue(iscolumn("nelson"))
+asserts.isfalse(iscolumn('nelson'))
+asserts.istrue(iscolumn(["test"; "ing"]))
+asserts.isfalse(iscolumn(["test", "ing"]))
 %=============================================================================
-assert_isfalse(iscolumn([1, 2, 3]))
-assert_istrue(iscolumn([1; 2; 3]))
-assert_istrue(iscolumn(1))
-assert_isfalse(iscolumn([]))
-assert_isfalse(iscolumn([1, 2; 3, 4]))
+asserts.isfalse(iscolumn([1, 2, 3]))
+asserts.istrue(iscolumn([1; 2; 3]))
+asserts.istrue(iscolumn(1))
+asserts.isfalse(iscolumn([]))
+asserts.isfalse(iscolumn([1, 2; 3, 4]))
 %=============================================================================
 

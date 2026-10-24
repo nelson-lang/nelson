@@ -15,4 +15,7 @@ else
 end
 r = addpath(a);
 np = path();
-assert_isequal(r, p);
+asserts.isequal(r, p);
+%=============================================================================
+txt = evalc('addpath(a)');
+asserts.isfalse(contains(txt, 'ans ='));

@@ -14,5 +14,6 @@
 namespace Nelson::CoreGateway {
 ArrayOfVector
 prefdirBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="306.5" height="226.5" viewBox="-153.25 -103.25 306.5 226.5">
+  <rect x="-153.25" y="-103.25" width="306.5" height="226.5" rx="43.035" fill="#FEF6E1" stroke="#E7C98A" stroke-width="3.25"/>
+  <g transform="matrix(1 0 0 -1 0 0)">
+    <polyline points="-50,-120 -30,-100" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-30,-120 -10,-100" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-10,-120 10,-100" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="10,-120 30,-100" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-30,-100 30,-100" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="0,-60 0,-101" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="-100,10 20,10 20,41 90,0 20,-41 20,-10 -100,-10 -100,10" fill="#E7C98A" stroke="#8C5A08" stroke-width="3.25" stroke-linejoin="round"/>
+    <g transform="translate(-115,-47) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="24" fill="#8C5A08">f</text></g>
+    <g transform="translate(0,70) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32" fill="#8C5A08">TrapezoidForce</text></g>
+    <polygon points="50,-54 -30,-54 -30,-46 -60,-60 -30,-74 -30,-66 50,-66 50,-54" fill="#E7C98A" stroke="#8C5A08" stroke-width="3.25" stroke-linejoin="round"/>
+    <g transform="translate(-50 -55) rotate(0)">
+    <polyline points="-34.02,-29.4 -25.2,-29.4 -12.6,16.8 3.78,16.8 16.38,-29.4 25.62,-29.4 37.8,16.8" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+  </g>
+</svg>

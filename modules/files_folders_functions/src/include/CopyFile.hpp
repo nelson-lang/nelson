@@ -23,5 +23,6 @@ CopyDirectory(
 NLSFILES_FOLDERS_FUNCTIONS_IMPEXP bool
 CopyFiles(
     const wstringVector& srcFiles, const std::wstring& destDir, bool bForce, std::wstring& message);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

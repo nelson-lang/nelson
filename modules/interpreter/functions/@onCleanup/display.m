@@ -17,12 +17,12 @@ function display(varargin)
   currentFormat = format();
   if ~isempty(name)
     if strcmp(currentFormat.LineSpacing, 'loose')
-      disp(' ');
+      fprintf('\n');
     end
-    disp([name, ' ='])
+    fprintf('%s = \n', name);
   end
   if strcmp(currentFormat.LineSpacing, 'loose')
-    disp(' ');
+    fprintf('\n');
   end
   disp(onCleanupObj);
 end

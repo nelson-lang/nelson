@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>fromWorkspace</keyword>
+<keyword_alias>block:fromWorkspace</keyword_alias>
+  <short_description>Reads a signal from a Nelson workspace variable.</short_description>
+  <syntax>
+    <syntax_item>Block type: fromWorkspace</syntax_item>
+  </syntax>
+  <param_output>
+    <param_output_item>
+      <param_name>output ports</param_name>
+      <param_description>1 output port (scalar or vector double, width taken from the variable).</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Emits the signal stored in the base-workspace variable <code>VariableName</code>. The variable is read once when the simulation starts. Two data formats are accepted:</p>
+    <ul>
+      <li>a <code>[time, values]</code> matrix: first column = time, remaining columns = signal elements;</li>
+      <li>a struct with fields <code>time</code> (Nx1) and <code>signals.values</code> (NxW).</li>
+    </ul>
+    <p>
+      <img src="../../../../libraries/source/exports/fromWorkspace.svg" align="middle"/>
+    </p>
+    <p>Time values must be non-decreasing, without Inf or NaN; duplicated time stamps describe discontinuities. With <code>Interpolate</code> on, output is linearly interpolated (before the first point: linear extrapolation from the first two points; at a duplicated time the newest value wins). With <code>Interpolate</code> off, the block holds the latest sample (zero before the first point).</p>
+    <p>After the final data point, <code>OutputAfterFinalValue</code> selects <code>Extrapolation</code> (linear, requires interpolation), <code>Setting to zero</code> or <code>Holding final value</code>.</p>
+    <p>Code generation bakes the samples into constant tables with the same lookup semantics (scalar signals).</p>
+    <p>
+      <b>Parameters</b>
+    </p>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+          <th>Default value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <code>VariableName</code>
+          </td>
+          <td>simin</td>
+        </tr>
+        <tr>
+          <td>
+            <code>SampleTime</code>
+          </td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>
+            <code>Interpolate</code>
+          </td>
+          <td>on</td>
+        </tr>
+        <tr>
+          <td>
+            <code>OutputAfterFinalValue</code>
+          </td>
+          <td>Extrapolation</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Block Characteristics</b>
+    </p>
+    <table border="1">
+      <tbody>
+        <tr>
+          <td>Block type</td>
+          <td>fromWorkspace</td>
+        </tr>
+        <tr>
+          <td>Family</td>
+          <td>Source blocks</td>
+        </tr>
+        <tr>
+          <td>Phases</td>
+          <td>INIT, OUTPUT</td>
+        </tr>
+        <tr>
+          <td>Signal data type</td>
+          <td>double, scalar or vector</td>
+        </tr>
+        <tr>
+          <td>Code generation</td>
+          <td>yes (constant tables, scalar signals)</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>Code generation: supported for C and Rust.</p>
+    <source_code label="Manifest" path="modules/nflow_blocks/libraries/source/library.json" language="json"/>
+    <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/source/fromWorkspace.cpp" language="cpp"/>
+  </description>
+  <used_function/>
+  <bibliography/>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Run the From/To Workspace demo (defines 'simin' then opens the model)</example_item_description>
+      <example_item_data><![CDATA[run([modulepath('nflow_blocks'), '/examples/workspace/From_Workspace_Demo.m']);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${nflow_blocks}sink/toWorkspace">toWorkspace</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${nflow_blocks}source/fileSource">fileSource</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

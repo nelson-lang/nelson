@@ -14,5 +14,6 @@
 namespace Nelson::FunctionsGateway {
 ArrayOfVector
 clearfunBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

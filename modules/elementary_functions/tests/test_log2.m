@@ -7,116 +7,121 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('log2'), 1)
-assert_isequal(nargout('log2'), 2)
+% <--WEIGHT 2-->
+asserts.isequal(nargin('log2'), 1)
+asserts.isequal(nargout('log2'), 2)
 %=============================================================================
 V = [1 pi -3 eps];
 R = log2(V);
-REF = [0.0000 + 0.0000i   1.6515 + 0.0000i   1.5850 + 4.5324i -52.0000 + 0.0000i];
-assert_isapprox(R, REF, 1e-4);
+REF = [0.0000 + 0.0000i 1.6515 + 0.0000i 1.5850 + 4.5324i -52.0000 + 0.0000i];
+asserts.isapprox(R, REF, 1e-4);
 %=============================================================================
 V = [1 pi -3 eps];
 [F, E] = log2(V);
-REF_F = [0.5000    0.7854   -0.7500    0.5000];
-REF_E = [1     2     2   -51];
-assert_isapprox(F, REF_F, 1e-4);
-assert_isapprox(E, REF_E, 1e-4);
+REF_F = [0.5000 0.7854 -0.7500 0.5000];
+REF_E = [1 2 2 -51];
+asserts.isapprox(F, REF_F, 1e-4);
+asserts.isapprox(E, REF_E, 1e-4);
 %=============================================================================
 R = log2([]);
 REF = [];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = log2(0);
 REF = -Inf;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = log2(1);
 REF = 0;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = log2(NaN);
 REF = NaN;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = log2(Inf);
 REF = Inf;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = log2(-Inf);
 REF = Inf + 4.5324i;
 %=============================================================================
 [F, E] = log2([]);
 REF_F = [];
-assert_isequal(F, REF_F);
+asserts.isequal(F, REF_F);
 REF_E = [];
-assert_isequal(E, REF_E);
+asserts.isequal(E, REF_E);
 %=============================================================================
 [F, E] = log2(0);
 REF_F = 0;
-assert_isequal(F, REF_F);
+asserts.isequal(F, REF_F);
 REF_E = 0;
-assert_isequal(E, REF_E);
+asserts.isequal(E, REF_E);
 %=============================================================================
 [F, E] = log2(1);
 REF_F = 0.5;
 REF_E = 1;
-assert_isequal(F, REF_F);
-assert_isequal(E, REF_E);
+asserts.isequal(F, REF_F);
+asserts.isequal(E, REF_E);
 %=============================================================================
 [F, E] = log2(NaN);
 REF_F = NaN;
 REF_E = 0;
-assert_isequal(F, REF_F);
-assert_isequal(E, REF_E);
+asserts.isequal(F, REF_F);
+asserts.isequal(E, REF_E);
 %=============================================================================
 [F, E] = log2(Inf);
 REF_F = Inf;
 REF_E = 0;
-assert_isequal(F, REF_F);
-assert_isequal(E, REF_E);
+asserts.isequal(F, REF_F);
+asserts.isequal(E, REF_E);
 %=============================================================================
 [F, E] = log2(-Inf);
 REF_F = -Inf;
 REF_E = 0;
-assert_isequal(F, REF_F);
-assert_isequal(E, REF_E);
+asserts.isequal(F, REF_F);
+asserts.isequal(E, REF_E);
 %=============================================================================
 V = [0 1 2 10 Inf NaN];
 R = log2(V);
-REF = [ -Inf         0    1.0000    3.3219       Inf       NaN];
-assert_isapprox(R, REF, 1e-4);
+REF = [-Inf 0 1.0000 3.3219 Inf NaN];
+asserts.isapprox(R, REF, 1e-4);
 %=============================================================================
 V = [0 1 2 10 Inf NaN];
 [F, E] = log2(V);
-REF_F = [0    0.5000    0.5000    0.6250       Inf       NaN];
-REF_E = [0     1     2     4     0     0];
-assert_isapprox(F, REF_F, 1e-4);
-assert_isapprox(E, REF_E, 1e-4);
+REF_F = [0 0.5000 0.5000 0.6250 Inf NaN];
+REF_E = [0 1 2 4 0 0];
+asserts.isapprox(F, REF_F, 1e-4);
+asserts.isapprox(E, REF_E, 1e-4);
 %=============================================================================
-M = [1, 2, complex(9,8), complex(2,3); complex(2,3), complex(0,1), 0 , 6];
+M = [1, 2, complex(9, 8), complex(2, 3); complex(2, 3), complex(0, 1), 0, 6];
 R = log2(M);
-REF = [   0.0000+0.0000i,   1.0000+0.0000i,   3.5900+1.0483i,   1.8502+1.4179i;
-1.8502+1.4179i,   0.0000+2.2662i,     -Inf+0.0000i,   2.5850+0.0000i];
-assert_isapprox(R, REF, 1e-4);
+REF = [0.0000 + 0.0000i, 1.0000 + 0.0000i, 3.5900 + 1.0483i, 1.8502 + 1.4179i;
+  1.8502 + 1.4179i, 0.0000 + 2.2662i, -Inf + 0.0000i, 2.5850 + 0.0000i];
+asserts.isapprox(R, REF, 1e-4);
 %=============================================================================
-M = [1, 2, complex(9,8), complex(2,3); complex(2,3), complex(0,1), 0 , 6];
+M = [1, 2, complex(9, 8), complex(2, 3); complex(2, 3), complex(0, 1), 0, 6];
 [F, E] = log2(M);
-REF_F = [    0.5000    0.5000    0.5625    0.5000;
-0.5000         0         0    0.7500];
-REF_E = [1     2     4     2;
-2     0     0     3];
-assert_isapprox(F, REF_F, 1e-4);
-assert_isapprox(E, REF_E, 1e-4);
+REF_F = [0.5000 0.5000 0.5625 0.5000;
+  0.5000 0 0 0.7500];
+REF_E = [1 2 4 2;
+  2 0 0 3];
+asserts.isapprox(F, REF_F, 1e-4);
+asserts.isapprox(E, REF_E, 1e-4);
 %=============================================================================
 C = complex(3.99, 3.99);
 R = log2(C);
 REF = 2.4964 + 1.1331i;
-assert_isapprox(R, REF, 1e-4);
+asserts.isapprox(R, REF, 1e-4);
 %=============================================================================
 C = complex(3.99, 3.99);
 [F, E] = log2(C);
 REF_F = 0.9975;
 REF_E = 2;
-assert_isapprox(F, REF_F, 1e-4);
-assert_isapprox(E, REF_E, 1e-4);
+asserts.isapprox(F, REF_F, 1e-4);
+asserts.isapprox(E, REF_E, 1e-4);
+%=============================================================================
+[fraction, exponentValue] = log2([0 1 2 10 Inf NaN]);
+asserts.isapprox(fraction, [0 0.5 0.5 0.625 Inf NaN], 1e-12);
+asserts.isequal(exponentValue, [0 1 2 4 0 0]);
 %=============================================================================

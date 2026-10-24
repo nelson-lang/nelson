@@ -22,7 +22,6 @@ namespace Nelson {
 #define NBR_DAY_IN_A_WEEK 7
 #define NBR_WEEK_IN_A_MONTH_MAX 6
 //=============================================================================
-
 // Helper: integer division that floors for negative values
 static constexpr long long
 div_floor(long long a, long long b) noexcept
@@ -34,13 +33,12 @@ div_floor(long long a, long long b) noexcept
     }
     return q;
 }
-
+//=============================================================================
 // Howard Hinnant algorithms: civil_from_days / days_from_civil
 // days = number of days since 1970-01-01 (1970-01-01 -> 0)
 static void
 civil_from_days(long long z, long long& y, unsigned& m, unsigned& d) noexcept
 {
-    // z is days since 1970-01-01
     z += 719468; // shift to civil algorithm epoch
     const long long era = div_floor(z, 146097);
     const long long doe = z - era * 146097; // [0, 146096]
@@ -52,11 +50,10 @@ civil_from_days(long long z, long long& y, unsigned& m, unsigned& d) noexcept
     m = static_cast<unsigned>(mp + (mp < 10 ? 3 : -9)); // [1, 12]
     y += (m <= 2);
 }
-
+//=============================================================================
 static long long
 days_from_civil(long long y, unsigned m, unsigned d) noexcept
 {
-    // returns days since 1970-01-01
     long long yy = static_cast<long long>(y) - (m <= 2);
     unsigned mm = m + (m <= 2 ? 12u : 0u);
     long long era = yy / 400;
@@ -66,13 +63,13 @@ days_from_civil(long long y, unsigned m, unsigned d) noexcept
     long long days = era * 146097 + doe - 719468; // shift back to 1970-01-01 epoch
     return days;
 }
-
+//=============================================================================
 static bool
 is_leap_year(long long y) noexcept
 {
     return (y % 4 == 0) && ((y % 100 != 0) || (y % 400 == 0));
 }
-
+//=============================================================================
 static unsigned
 days_in_month(unsigned year_u, unsigned month) noexcept
 {
@@ -83,12 +80,12 @@ days_in_month(unsigned year_u, unsigned month) noexcept
     }
     return mdays[month - 1];
 }
-
+//=============================================================================
 // Return weekday for a civil date (y,m,d) with 0=Sunday, 1=Monday, ...
 static unsigned
 weekday_from_ymd(long long y, unsigned m, unsigned d) noexcept
 {
-    long long days = days_from_civil(y, m, d); // days since 1970-01-01
+    long long days = days_from_civil(y, m, d);
     // 1970-01-01 was a Thursday. (0 => Sunday)
     long long w = (days + 4) % 7;
     if (w < 0) {
@@ -96,7 +93,7 @@ weekday_from_ymd(long long y, unsigned m, unsigned d) noexcept
     }
     return static_cast<unsigned>(w);
 }
-
+//=============================================================================
 // Get current UTC civil date from system_clock::now() (C++17 has no tz database)
 static void
 current_utc_ymd(long long& y, unsigned& m, unsigned& d) noexcept
@@ -104,18 +101,15 @@ current_utc_ymd(long long& y, unsigned& m, unsigned& d) noexcept
     using namespace std::chrono;
     auto now = system_clock::now();
     auto secs = duration_cast<std::chrono::seconds>(now.time_since_epoch()).count();
-    // floor division to days since epoch (UTC)
     long long days = div_floor(secs, 86400);
     civil_from_days(days, y, m, d);
 }
-
 //=============================================================================
 Calendar::Calendar()
 {
     long long yy = 0;
     unsigned mm = 0;
     unsigned dd = 0;
-    // Note: we use UTC date because C++17 std::chrono has no built-in timezone database.
     current_utc_ymd(yy, mm, dd);
     y = static_cast<uint64>(yy);
     m = static_cast<uint8>(mm);
@@ -148,13 +142,12 @@ Calendar::~Calendar()
 }
 //=============================================================================
 std::wstring
-Calendar::getAsFormatedText()
+Calendar::getAsFormattedText()
 {
-    // compute first day weekday and number of days in month using chrono-based helpers
     unsigned firstdate
         = weekday_from_ymd(static_cast<long long>(this->y), static_cast<unsigned>(this->m), 1);
     unsigned dim = days_in_month(static_cast<unsigned>(this->y), static_cast<unsigned>(this->m));
-    // fix: last index must be firstdate + dim - 1 (was + dim, off-by-one)
+    // last index is firstdate + dim - 1
     unsigned lastdate = firstdate + (dim > 0 ? dim - 1 : 0);
     wstringVector names = getNameOfDays();
     std::wstring msg = getMonthName() + L" " + std::to_wstring(getYear()) + L"\n";
@@ -204,7 +197,7 @@ Calendar::get()
     unsigned firstdate
         = weekday_from_ymd(static_cast<long long>(this->y), static_cast<unsigned>(this->m), 1);
     unsigned dim = days_in_month(static_cast<unsigned>(this->y), static_cast<unsigned>(this->m));
-    // fix: last index must be firstdate + dim - 1
+    // last index is firstdate + dim - 1
     unsigned lastdate = firstdate + (dim > 0 ? dim - 1 : 0);
 
     double* Month = static_cast<double*>(ArrayOf::allocateArrayOf(

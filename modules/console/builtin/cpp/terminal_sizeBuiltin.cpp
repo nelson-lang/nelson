@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -23,14 +23,14 @@ Nelson::ConsoleGateway::terminal_sizeBuiltin(Evaluator* eval, int nLhs, const Ar
         Interface* io = eval->getInterface();
         if (io) {
             if (nLhs < 2) {
-                ArrayOf v = ArrayOf::doubleRowVectorConstructor(2);
-                double* ptrDouble = (double*)v.getDataPointer();
+                ArrayOf v = ArrayOf::doubleRowVector(2);
+                double* ptrDouble = (double*)v.dataPointer();
                 ptrDouble[0] = (double)io->getTerminalHeight();
                 ptrDouble[1] = (double)io->getTerminalWidth();
                 res << v;
             } else {
-                res << ArrayOf::doubleConstructor((double)io->getTerminalHeight());
-                res << ArrayOf::doubleConstructor((double)io->getTerminalWidth());
+                res << ArrayOf::doubleScalar((double)io->getTerminalHeight());
+                res << ArrayOf::doubleScalar((double)io->getTerminalWidth());
             }
         }
     }

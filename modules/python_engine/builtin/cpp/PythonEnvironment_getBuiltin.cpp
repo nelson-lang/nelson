@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,9 +9,9 @@
 //=============================================================================
 #include "PythonEnvironment_getBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "HandleGenericObject.hpp"
-
 #include "InputOutputArgumentsCheckers.hpp"
 #include "PythonEnvironment.hpp"
 //=============================================================================
@@ -24,17 +24,17 @@ Nelson::Python_engineGateway::PythonEnvironment_getBuiltin(int nLhs, const Array
     nargoutcheck(nLhs, 0, 1);
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = argIn[1];
-    std::wstring propertyName = param2.getContentAsWideString();
+    std::wstring propertyName = param2.asWideString();
     ArrayOfVector retval(1);
-    if (param1.getHandleCategory() != NLS_HANDLE_PYTHON_ENVIRONMENT_CATEGORY_STR) {
-        Error(_W("PythonEnvironment object expected."));
+    if (param1.handleCategory() != NLS_HANDLE_PYTHON_ENVIRONMENT_CATEGORY_STR) {
+        Error(L"Nelson:python:invalidEnvironment", L"PythonEnvironment object expected.");
     }
 
     ArrayOf res;
     PythonEnvironment* pythonEnvironment = PythonEnvironment::getInstance();
 
     if (!pythonEnvironment->get(propertyName, res)) {
-        Error(ERROR_WRONG_ARGUMENT_2_VALUE + L" " + propertyName);
+        Error(L"Nelson:python:invalidProperty", L"Invalid property: %s.", propertyName);
     }
     retval << res;
     return retval;

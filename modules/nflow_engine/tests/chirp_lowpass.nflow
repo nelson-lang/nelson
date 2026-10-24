@@ -1,0 +1,75 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Allan CORNET",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "comments": "Linear chirp 0.1->2 Hz over 30 s through a first-order low-pass 1/(0.2 s + 1).",
+  "name": "chirp_lowpass",
+  "blocks": [
+    {
+      "id": "ch",
+      "type": "chirp",
+      "x": 40,
+      "y": 180,
+      "rotation": 0,
+      "params": {
+        "Amplitude": 1,
+        "f1": 0.1,
+        "f2": 2,
+        "T": 30
+      }
+    },
+    {
+      "id": "p1",
+      "type": "tf",
+      "x": 220,
+      "y": 180,
+      "rotation": 0,
+      "params": {
+        "Numerator": [
+          1
+        ],
+        "Denominator": [
+          0.2,
+          1
+        ]
+      }
+    },
+    {
+      "id": "tw",
+      "type": "toWorkspace",
+      "x": 400,
+      "y": 180,
+      "rotation": 0,
+      "params": {
+        "VariableName": "chirp_lowpass_out",
+        "MaxDataPoints": "inf",
+        "Decimation": 1,
+        "SaveFormat": "Array",
+        "SampleTime": "-1"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "ch",
+      "to": "p1",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "p1",
+      "to": "tw",
+      "fromIndex": 0,
+      "toIndex": 0
+    }
+  ],
+  "variables": "",
+  "runtime": 30,
+  "sampleTime": 0.02,
+  "autoRoute": true,
+  "solver": "ode45"
+}

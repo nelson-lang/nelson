@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "file": "call_c.m",
+      "title": "Call a C function",
+      "description": "Load the platform C runtime and invoke its process identifier function.",
+      "tags": [
+        "c",
+        "native"
+      ],
+      "requirements": []
+    },
+    {
+      "file": "call_fortran.m",
+      "title": "Call a Fortran function",
+      "description": "Load an available BLAS library and invoke its absolute-sum routine.",
+      "tags": [
+        "fortran",
+        "native"
+      ],
+      "requirements": []
+    },
+    {
+      "file": "dllibinfo_demo.m",
+      "title": "Inspect a dynamic library",
+      "description": "List symbols and metadata exposed by a loaded library.",
+      "tags": [
+        "native",
+        "inspection"
+      ],
+      "requirements": []
+    }
+  ]
+}

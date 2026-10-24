@@ -24,7 +24,7 @@ function varargout = damp(varargin)
     Damping = -cos(angle(log(Poles)));
     TimeConstant = (1 ./ (Frequency .* Damping));
   end
-  
+
   % sort
   sPoles = size(Poles);
   for k = 1:prod(sPoles(3:end))
@@ -39,9 +39,9 @@ function varargout = damp(varargin)
     varargout{2} = Damping;
   end
   if nargout > 2
-    varargout{3} = Poles;  
+    varargout{3} = Poles;
   end
   if nargout > 3
-    varargout{4} = TimeConstant;  
+    varargout{4} = TimeConstant;
   end
 end

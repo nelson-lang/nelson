@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -25,24 +25,24 @@ ConvertToArrayOfCharacter(const std::string& pStr, ArrayOf& pVal)
 {
     double value;
     if (ConvertToDouble(pStr, value)) {
-        pVal = ArrayOf::doubleConstructor(value);
+        pVal = ArrayOf::doubleScalar(value);
         return;
     }
     std::complex<double> cvalue;
     if (ConvertToDoubleComplex(pStr, cvalue)) {
         if (cvalue.imag() == 0) {
-            pVal = ArrayOf::doubleConstructor(cvalue.real());
+            pVal = ArrayOf::doubleScalar(cvalue.real());
         } else {
-            pVal = ArrayOf::dcomplexConstructor(cvalue.real(), cvalue.imag());
+            pVal = ArrayOf::dsingleComplexScalar(cvalue.real(), cvalue.imag());
         }
         return;
     }
     if (pStr == "<Missing>") {
         Dimensions dims(1, 1);
-        pVal = ArrayOf::stringArrayConstructorAllMissing(dims);
+        pVal = ArrayOf::missingStringArray(dims);
         return;
     }
-    pVal = ArrayOf::characterArrayConstructor(pStr);
+    pVal = ArrayOf::characterArray(pStr);
 }
 //=============================================================================
 static void
@@ -50,19 +50,19 @@ ConvertToArrayOfString(const std::string& pStr, ArrayOf& pVal)
 {
     double value;
     if (ConvertToDouble(pStr, value)) {
-        pVal = ArrayOf::doubleConstructor(value);
+        pVal = ArrayOf::doubleScalar(value);
         return;
     }
     std::complex<double> cvalue;
     if (ConvertToDoubleComplex(pStr, cvalue)) {
         if (cvalue.imag() == 0) {
-            pVal = ArrayOf::doubleConstructor(cvalue.real());
+            pVal = ArrayOf::doubleScalar(cvalue.real());
         } else {
-            pVal = ArrayOf::dcomplexConstructor(cvalue.real(), cvalue.imag());
+            pVal = ArrayOf::dsingleComplexScalar(cvalue.real(), cvalue.imag());
         }
         return;
     }
-    pVal = ArrayOf::stringArrayConstructor(pStr);
+    pVal = ArrayOf::stringArray(pStr);
 }
 //=============================================================================
 ArrayOf

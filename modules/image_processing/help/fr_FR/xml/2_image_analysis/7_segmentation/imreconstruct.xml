@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>imreconstruct</keyword>
+  <short_description>Effectue une reconstruction morphologique par dilatation.</short_description>
+  <syntax>
+    <syntax_item>J = imreconstruct(marker, mask)</syntax_item>
+    <syntax_item>J = imreconstruct(marker, mask, conn)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>marker</param_name>
+      <param_description>Image marqueur. Les valeurs doivent etre inferieures ou egales aux valeurs de mask.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>mask</param_name>
+      <param_description>Image masque de meme taille que marker.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>conn</param_name>
+      <param_description>Connectivite, soit 4, 8, ou une matrice 3-by-3 equivalente.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>J</param_name>
+      <param_description>Image reconstruite, convertie comme mask.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>imreconstruct dilate marker de facon repetee sous la contrainte de mask jusqu'a stabilite. La fonction prend en charge les images 2-D reelles finies en niveaux de gris ou binaires.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Reconstruire un composant binaire depuis un marqueur</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[mask=false(64,64); mask(18:46,18:46)=true;
+marker=false(64,64); marker(32,32)=true;
+J=imreconstruct(marker,mask,4);
+figure; subplot(1,3,1); imagesc(mask); title('Masque');
+subplot(1,3,2); imagesc(marker); title('Marqueur');
+subplot(1,3,3); imagesc(J); title('Reconstruite');]]></example_item_data>
+      <example_item_img
+        src="../../../images/imreconstruct_1.png"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}imhmin">imhmin</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}imhmax">imhmax</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}imregionalmin">imregionalmin</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}watershed">watershed</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

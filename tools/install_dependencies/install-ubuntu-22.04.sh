@@ -45,6 +45,7 @@ apt-get install -y \
     gnupg \
     software-properties-common \
     wget \
+    curl \
     ninja-build \
     xvfb \
     libopenmpi-dev \
@@ -52,7 +53,6 @@ apt-get install -y \
     libtool \
     automake \
     openmpi-bin \
-    gettext \
     pkg-config \
     libffi-dev \
     libicu-dev \
@@ -60,7 +60,6 @@ apt-get install -y \
     libxslt1-dev \
     libopenblas-openmp-dev \
     liblapack-dev \
-    liblapacke-dev \
     fftw3 \
     fftw3-dev \
     libasound-dev \
@@ -70,19 +69,16 @@ apt-get install -y \
     alsa-utils \
     libsqlite3-dev \
     libgl-dev \
-    hdf5-tools \
     zlib1g-dev \
     libcurl4-openssl-dev \
     libgit2-dev \
     libpcre2-dev \
-    libboost-all-dev \
     libeigen3-dev \
     libhdf5-dev \
     libmatio-dev \
     qt6-base-dev \
     libqt6svg6-dev \
     qt6-declarative-dev \
-    qt6-documentation-tools \
     qml6-module-qtquick \
     qml6-module-qtquick-templates \
     qml6-module-qtquick-controls \
@@ -90,12 +86,55 @@ apt-get install -y \
     qml6-module-qtquick-dialogs \
     qml6-module-qtqml-workerscript \
     qml6-module-qtquick-layouts \
-    qt6-tools-dev \
     python3 \
     python3-numpy \
     libtbb-dev \
     libgif-dev \
-    libtiff-dev
+    libjpeg-turbo8-dev \
+    libpng-dev \
+    libtiff-dev \
+    libwebp-dev \
+    libqhull-dev \
+    libnetcdf-dev
+
+print_status "Installing Apache Arrow and Parquet libraries"
+if ! apt-get install -y libarrow-dev libparquet-dev; then
+    print_status "Falling back to the official Apache Arrow repository"
+    distro_id=$(. /etc/os-release && echo "$ID")
+    distro_codename=$(. /etc/os-release && echo "$VERSION_CODENAME")
+    wget -q -O /tmp/apache-arrow-apt-source.deb \
+        "https://packages.apache.org/artifactory/arrow/${distro_id}/apache-arrow-apt-source-latest-${distro_codename}.deb"
+    apt-get install -y /tmp/apache-arrow-apt-source.deb
+    rm -f /tmp/apache-arrow-apt-source.deb
+    apt-get update -y
+    apt-get install -y libarrow-dev libparquet-dev
+fi
+
+# WebView runtime for the HTML viewer (`web()`), the examples gallery and the
+# Markdown renderer. WebUI dlopen()s "libgtk-3.so.0" and "libwebkit2gtk-4.1.so.0"
+# (falling back to "libwebkit2gtk-4.0.so.37") at run time and never links them,
+# so only the runtime libraries are needed here, not the -dev packages. Without
+# them `web()` silently opens a web browser instead of a native window.
+install_first_available() {
+    for candidate in "$@"; do
+        if apt-get install -y "$candidate"; then
+            return 0
+        fi
+    done
+    echo "None of '$*' is available: the native WebView will not be used."
+}
+
+print_status "Installing WebView runtime (GTK3 + WebKit2GTK)"
+install_first_available libgtk-3-0 libgtk-3-0t64
+install_first_available libwebkit2gtk-4.1-0 libwebkit2gtk-4.0-37
+
+# Optional libraries: the related modules are simply disabled when missing.
+# - SUNDIALS >= 7 (sundials_core) is required by the ode_solvers backend
+# - HiGHS is used by the optimization module (linprog, intlinprog)
+for pkg in libsundials-dev highs libhighs1 libhighs-dev; do
+    print_status "Installing optional package: $pkg"
+    apt-get install -y "$pkg" || echo "Optional package '$pkg' not available: skipped."
+done
 
 # Install static clang-format-20 on amd64, else fallback to apt
 arch=$(uname -m)
@@ -120,6 +159,18 @@ if ! command -v rustup &>/dev/null; then
     export PATH="$HOME/.cargo/bin:$PATH"
 else
     rustup update stable
+fi
+
+print_status "Installing Node.js with nvm"
+# This installer runs as root (for apt), but nvm installs Node.js per user.
+# When invoked through sudo, install Node.js for the invoking user so a later
+# cmake run (as that user) finds ~/.nvm instead of root's home.
+if [ -n "${SUDO_USER:-}" ] && [ "$SUDO_USER" != "root" ]; then
+    sudo -u "$SUDO_USER" -H bash "$(dirname "$0")/install-node-nvm.sh" || \
+        print_status "WARNING: Node.js/nvm setup failed; continuing (only the GUI JS build is affected)."
+else
+    bash "$(dirname "$0")/install-node-nvm.sh" || \
+        print_status "WARNING: Node.js/nvm setup failed; continuing (only the GUI JS build is affected)."
 fi
 
 # Clean up

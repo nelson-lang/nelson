@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nflow_wire_editing</keyword>
+  <short_description>Wire routing and editing in the nflow editor.</short_description>
+  <syntax>
+    <syntax_item>Concept page: wire routing, pinned waypoints, rounded bends</syntax_item>
+  </syntax>
+  <description>
+    <p><b>Creating a connection</b></p>
+    <p>Drag from an output port toward an input port. A ghost wire follows the pointer, compatible targets are highlighted, and the active target is emphasized without moving the diagram. An incompatible target is refused immediately with a short explanation in Diagnostics.</p>
+    <p
+    >The nflow editor routes connection wires automatically with an orthogonal (horizontal/vertical) router that avoids blocks, spreads overlapping wires apart, draws hop arcs at crossings, and keeps routes stable across edits (a rerouted wire keeps its shape unless a clearly better route exists).</p>
+    <p>
+      <b>Behavior while dragging blocks</b>
+    </p>
+    <p
+    >While a block is dragged, its wires are deformed locally: only the segments attached to the moved ports stretch, the rest of each route stays frozen. As soon as the pointer pauses (about 50 ms), the router computes real routes in the background and applies them only when they are clearly better; wires never flicker or jump. The final routes are computed on drop.</p>
+    <p>
+      <b>Editing a wire segment</b>
+    </p>
+    <p
+    >Hover an interior segment of a wire: the cursor changes to a resize arrow. Drag the segment perpendicular to itself to place it where you want; its neighbor segments stretch to follow. On release, the moved segment ends become <b
+      >pinned waypoints</b>: the wire keeps this exact shape through automatic rerouting, and other wires route around it.</p>
+    <p
+    >Pinned wires are drawn with a slightly stronger stroke and small anchor dots on the pinned waypoints. When one of the wire's blocks moves, only the free parts between the ports and the pinned anchors are rerouted; the pinned middle is preserved verbatim.</p>
+    <p
+    >To hand a pinned wire back to the automatic router, double-click it, or right-click it and choose <b
+      >Auto-route Wire</b>.</p>
+    <p
+    >Pinned waypoints are saved in the <b>.nflow</b> file (each pinned point is stored as <code
+      >[x, y, 1]</code> in the connection's <code>points</code> array) and restored on load; undo and redo cover segment edits.</p>
+    <p>
+      <b>Appearance</b>
+    </p>
+    <p
+    >Wire bends are drawn with small rounded corners by default. Set the UI preference <code
+      >nflow.wireRoundedCorners</code> to <code>0</code> to draw sharp corners instead.</p>
+    <p
+    >Crossings between wires are drawn as small hop arcs; exactly one of the two crossing wires draws the hop, chosen deterministically.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <see_also>
+    <see_also_item>
+      <link linkend="${nflow_gui}nflow_workspace">nflow_workspace</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${nflow_gui}open_system">open_system</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

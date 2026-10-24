@@ -1,0 +1,721 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "file": "colorbar/demo_colorbar.m",
+      "title": "Colorbar layouts",
+      "description": "Compare colorbar placement and styling options.",
+      "tags": [
+        "plot",
+        "color"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    },
+    {
+      "file": "essential_plot_types.m",
+      "title": {
+        "en_US": "Essential plot types",
+        "fr_FR": "Tracés essentiels"
+      },
+      "description": {
+        "en_US": "Compare line, error-bar, bar, histogram, contour and surface plots in a compact gallery.",
+        "fr_FR": "Comparer courbes, barres d’erreur, diagrammes en barres, histogrammes, contours et surfaces."
+      },
+      "tags": [
+        "plot",
+        "beginner",
+        "visualization"
+      ],
+      "requirements": [
+        "plots"
+      ]
+    },
+    {
+      "file": "cube/demo_cube.m",
+      "title": "Draw a three-dimensional cube",
+      "description": "Build and render a simple polygonal object.",
+      "tags": [
+        "3d",
+        "geometry"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    },
+    {
+      "file": "movie/demo_movie.m",
+      "title": "Animate image frames",
+      "description": "Create an animation from bundled image sequences.",
+      "tags": [
+        "animation",
+        "images"
+      ],
+      "requirements": [
+        "gui",
+        "graphics-io"
+      ]
+    },
+    {
+      "file": "surface-lighting/demo_surface_lighting.m",
+      "title": "Surface lighting",
+      "description": "Explore lighting on a three-dimensional surface.",
+      "tags": [
+        "3d",
+        "lighting"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    },
+    {
+      "file": "rainbow_rose.m",
+      "title": {
+        "en_US": "Parametric rainbow rose",
+        "fr_FR": "Rose paramétrique multicolore"
+      },
+      "description": {
+        "en_US": "Build a colorful three-dimensional flower from parametric equations.",
+        "fr_FR": "Construire une fleur tridimensionnelle colorée à partir d’équations paramétriques."
+      },
+      "tags": [
+        "3d",
+        "parametric",
+        "surface"
+      ],
+      "requirements": [
+        "plots"
+      ]
+    },
+    {
+      "file": "dot_tunnel.m",
+      "title": {
+        "en_US": "Animated dot tunnel",
+        "fr_FR": "Tunnel de points animé"
+      },
+      "description": {
+        "en_US": "Animate rings of points with depth, rotation and frame pacing.",
+        "fr_FR": "Animer des anneaux de points avec profondeur, rotation et cadence maîtrisée."
+      },
+      "tags": [
+        "animation",
+        "scatter",
+        "3d-effect"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    },
+    {
+      "file": "abstract_particle_vortex.m",
+      "title": {
+        "en_US": "Abstract particle vortex",
+        "fr_FR": "Vortex abstrait de particules"
+      },
+      "description": {
+        "en_US": "Animate a relaxing school-like vortex of luminous colored rectangles with depth, glow, paced rendering and an original ambient soundtrack.",
+        "fr_FR": "Animer un vortex relaxant façon banc de mini-rectangles colorés lumineux avec profondeur, lueur, rendu cadencé et musique ambiante originale."
+      },
+      "tags": [
+        "animation",
+        "particles",
+        "scatter",
+        "realtime"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    },
+    {
+      "file": "retro_raycaster.m",
+      "title": {
+        "en_US": "Retro raycasting maze",
+        "fr_FR": "Labyrinthe rétro en raycasting"
+      },
+      "description": {
+        "en_US": "Explore a textured first-person maze rendered by a pure Nelson software raycaster.",
+        "fr_FR": "Explorer un labyrinthe texturé à la première personne, rendu par un moteur logiciel écrit en Nelson pur."
+      },
+      "tags": [
+        "animation",
+        "raycasting",
+        "game",
+        "realtime"
+      ],
+      "requirements": [
+        "gui",
+        "graphics-io"
+      ]
+    },
+    {
+      "file": "particle_funnel.m",
+      "title": {
+        "en_US": "Particle funnel",
+        "fr_FR": "Entonnoir de particules"
+      },
+      "description": {
+        "en_US": "Animate five hundred soft particles bouncing through a polished funnel with fluid paced rendering.",
+        "fr_FR": "Animer cinq cents particules souples qui rebondissent dans un entonnoir soigné avec un rendu fluide et cadencé."
+      },
+      "tags": [
+        "animation",
+        "simulation",
+        "particles",
+        "realtime"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    },
+    {
+      "file": "uicontrol/uicontrol_demo.m",
+      "title": {
+        "en_US": "Interactive controls",
+        "fr_FR": "Contrôles interactifs"
+      },
+      "description": {
+        "en_US": "Connect buttons and sliders to a plotted signal.",
+        "fr_FR": "Relier des boutons et un curseur à un signal tracé."
+      },
+      "tags": [
+        "ui",
+        "callbacks"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    },
+    {
+      "file": "uicontrol/uicontrol_demo_interruptible.m",
+      "title": {
+        "en_US": "Interruptible controls",
+        "fr_FR": "Contrôles interruptibles"
+      },
+      "description": {
+        "en_US": "Keep an interactive control responsive during updates.",
+        "fr_FR": "Maintenir un contrôle interactif réactif pendant les mises à jour."
+      },
+      "tags": [
+        "ui",
+        "callbacks"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    },
+    {
+      "file": "uicontrol/complete_uicontrol_demo.m",
+      "title": {
+        "en_US": "Complete UI controls",
+        "fr_FR": "Contrôles graphiques complets"
+      },
+      "description": {
+        "en_US": "Coordinate text, edit, slider, menu, checkbox, radio, list, toggle and push-button controls.",
+        "fr_FR": "Coordonner texte, édition, curseur, menu, cases, boutons radio, liste, bascule et bouton d’action."
+      },
+      "tags": [
+        "ui",
+        "uicontrol",
+        "callbacks"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    },
+    {
+      "file": "uicontrol/complete_ui_components_demo.m",
+      "title": {
+        "en_US": "Modern UI component gallery",
+        "fr_FR": "Galerie de composants graphiques modernes"
+      },
+      "description": {
+        "en_US": "Explore UI figures, layouts, tabs, axes, containers, controls, indicators, trees and tables.",
+        "fr_FR": "Explorer fenêtres, dispositions, onglets, axes, conteneurs, contrôles, indicateurs, arbres et tables."
+      },
+      "tags": [
+        "ui",
+        "components",
+        "callbacks"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    },
+    {
+      "file": "nefertiti-mask/nefertiti_mask.m",
+      "title": "Nefertiti point cloud",
+      "description": "Render a bundled three-dimensional scan.",
+      "tags": [
+        "3d",
+        "data"
+      ],
+      "requirements": [
+        "gui",
+        "hdf5"
+      ]
+    },
+    {
+      "file": "stanford-bunny/stanford_bunny.m",
+      "title": "Bunny surface",
+      "description": "Render a bundled triangulated surface.",
+      "tags": [
+        "3d",
+        "mesh"
+      ],
+      "requirements": [
+        "gui",
+        "hdf5"
+      ]
+    },
+    {
+      "file": "utah-teapot/utah_teapot.m",
+      "title": "Teapot surface",
+      "description": "Render a classic parametric surface dataset.",
+      "tags": [
+        "3d",
+        "mesh"
+      ],
+      "requirements": [
+        "gui",
+        "hdf5"
+      ]
+    },
+    {
+      "file": "mandelbrot_fractal.m",
+      "title": {
+        "en_US": "Mandelbrot fractal",
+        "fr_FR": "Fractale de Mandelbrot"
+      },
+      "description": {
+        "en_US": "Render escape iterations across the complex plane.",
+        "fr_FR": "Afficher les itérations d’échappement dans le plan complexe."
+      },
+      "tags": [
+        "fractal",
+        "complex",
+        "image"
+      ],
+      "requirements": [
+        "plots"
+      ]
+    },
+    {
+      "file": "moebius_strip.m",
+      "title": {
+        "en_US": "Moebius strip",
+        "fr_FR": "Ruban de Möbius"
+      },
+      "description": {
+        "en_US": "Build a one-sided parametric surface with a half twist.",
+        "fr_FR": "Construire une surface paramétrique à une face avec un demi-tour."
+      },
+      "tags": [
+        "3d",
+        "parametric",
+        "topology"
+      ],
+      "requirements": [
+        "plots"
+      ]
+    },
+    {
+      "file": "fractal_tree.m",
+      "title": {
+        "en_US": "Fractal tree",
+        "fr_FR": "Arbre fractal"
+      },
+      "description": {
+        "en_US": "Grow a binary tree through repeated rotations and scaling.",
+        "fr_FR": "Faire croître un arbre binaire par rotations et changements d’échelle répétés."
+      },
+      "tags": [
+        "fractal",
+        "tree",
+        "geometry"
+      ],
+      "requirements": [
+        "plots"
+      ]
+    },
+    {
+      "file": "conway_game_of_life.m",
+      "title": {
+        "en_US": "Conway Game of Life",
+        "fr_FR": "Jeu de la vie de Conway"
+      },
+      "description": {
+        "en_US": "Animate a cellular automaton with reproducible initial conditions.",
+        "fr_FR": "Animer un automate cellulaire avec des conditions initiales reproductibles."
+      },
+      "tags": [
+        "cellular-automaton",
+        "animation",
+        "simulation"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    },
+    {
+      "file": "gray_scott_reaction_diffusion.m",
+      "title": {
+        "en_US": "Gray-Scott reaction diffusion",
+        "fr_FR": "Réaction-diffusion de Gray-Scott"
+      },
+      "description": {
+        "en_US": "Simulate pattern formation in a two-species reaction-diffusion model.",
+        "fr_FR": "Simuler la formation de motifs dans un modèle de réaction-diffusion à deux espèces."
+      },
+      "tags": [
+        "reaction-diffusion",
+        "animation",
+        "simulation"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    },
+    {
+      "file": "fluid_simulation_2d.m",
+      "title": {
+        "en_US": "2D fluid simulation",
+        "fr_FR": "Simulation de fluide 2D"
+      },
+      "description": {
+        "en_US": "Animate an incompressible jet that breaks on an obstacle into fine smoke vortices, solved in real time.",
+        "fr_FR": "Animer un jet incompressible qui se brise sur un obstacle en fins tourbillons de fumée, résolu en temps réel."
+      },
+      "tags": [
+        "fluid",
+        "animation",
+        "simulation",
+        "realtime"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    },
+    {
+      "file": "fluid_sph_2d.m",
+      "title": {
+        "en_US": "2D SPH particle fluid",
+        "fr_FR": "Fluide particulaire SPH 2D"
+      },
+      "description": {
+        "en_US": "Stir an interactive 2D fluid of separate Smoothed Particle Hydrodynamics particles that fill the tank and bounce off its walls, each dot tinted by its speed.",
+        "fr_FR": "Remuer à la souris un fluide 2D interactif de particules SPH distinctes qui remplissent le bassin et rebondissent sur ses parois, chaque point teinté par sa vitesse."
+      },
+      "tags": [
+        "fluid",
+        "animation",
+        "simulation",
+        "particles",
+        "realtime"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    },
+    {
+      "file": "mathematical_shader.m",
+      "title": {
+        "en_US": "Mathematical shader",
+        "fr_FR": "Image mathématique"
+      },
+      "description": {
+        "en_US": "Compose a colorful image from vectorized waves, rings and projection.",
+        "fr_FR": "Composer une image colorée avec des ondes, des anneaux et une projection vectorisés."
+      },
+      "tags": [
+        "generative-art",
+        "image",
+        "vectorization"
+      ],
+      "requirements": [
+        "plots"
+      ]
+    },
+    {
+      "file": "analog_clock.m",
+      "title": {
+        "en_US": "Interactive analog clock",
+        "fr_FR": "Horloge analogique interactive"
+      },
+      "description": {
+        "en_US": "Animate clock hands live and stop the animation with a UI control.",
+        "fr_FR": "Animer les aiguilles en continu et arrêter l’animation avec un contrôle graphique."
+      },
+      "tags": [
+        "animation",
+        "uicontrol",
+        "time"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    },
+    {
+      "file": "twisted_surface_animation.m",
+      "title": {
+        "en_US": "Twisted surface animation",
+        "fr_FR": "Animation de surface torsadée"
+      },
+      "description": {
+        "en_US": "Animate a bounded sequence of smoothly deformed parametric surfaces.",
+        "fr_FR": "Animer une séquence bornée de surfaces paramétriques déformées avec fluidité."
+      },
+      "tags": [
+        "3d",
+        "surface",
+        "animation"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    },
+    {
+      "file": "boing_ball_3d.m",
+      "title": {
+        "en_US": "Realtime 3D Boing Ball",
+        "fr_FR": "Boing Ball 3D en temps réel"
+      },
+      "description": {
+        "en_US": "Bounce a shaded checkered ball across a three-dimensional room with direction-linked spin and dynamic floor and wall shadows.",
+        "fr_FR": "Faire rebondir une balle à damier ombrée dans une pièce 3D avec rotation liée au déplacement et ombres dynamiques au sol et au mur."
+      },
+      "tags": [
+        "animation",
+        "3d",
+        "shadows",
+        "realtime"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    },
+    {
+      "file": "formula_racing_aero_tradeoff.m",
+      "title": {
+        "en_US": "Formula racing aerodynamic trade-off",
+        "fr_FR": "Compromis aérodynamique en course"
+      },
+      "description": {
+        "en_US": "Compare low-drag and high-downforce setups with animated cars, speed profiles and lap-time delta.",
+        "fr_FR": "Comparer deux réglages aérodynamiques avec voitures animées, profils de vitesse et écart au tour."
+      },
+      "tags": [
+        "animation",
+        "simulation",
+        "vehicle-dynamics"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    },
+    {
+      "file": "aircraft_flight_animation.m",
+      "title": {
+        "en_US": "Aircraft flight animation",
+        "fr_FR": "Animation de vol d’un avion"
+      },
+      "description": {
+        "en_US": "Follow a fixed-wing aircraft along a three-dimensional path with synchronized telemetry and an artificial horizon.",
+        "fr_FR": "Suivre un avion sur une trajectoire tridimensionnelle avec télémétrie et horizon artificiel synchronisés."
+      },
+      "tags": [
+        "animation",
+        "simulation",
+        "flight-dynamics",
+        "3d"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    },
+    {
+      "file": "rigid_triple_pendulum.m",
+      "title": {
+        "en_US": "Rigid triple pendulum",
+        "fr_FR": "Triple pendule rigide"
+      },
+      "description": {
+        "en_US": "Animate three distributed-mass rigid rods with coupled nonlinear dynamics, angle traces and energy monitoring.",
+        "fr_FR": "Animer trois barres rigides à masse répartie avec dynamique non linéaire couplée, suivi des angles et de l’énergie."
+      },
+      "tags": [
+        "animation",
+        "simulation",
+        "mechanics",
+        "chaos"
+      ],
+      "requirements": [
+        "plots",
+        "ode-solvers"
+      ]
+    },
+    {
+      "file": "fourier_epicycles.m",
+      "title": {
+        "en_US": "Fourier epicycles",
+        "fr_FR": "Épicycles de Fourier"
+      },
+      "description": {
+        "en_US": "Draw a closed shape with a chain of rotating Fourier epicycles built from the FFT of a heart contour.",
+        "fr_FR": "Dessiner une forme fermée avec une chaîne d’épicycles de Fourier construits à partir de la FFT d’un contour en coeur."
+      },
+      "tags": [
+        "fft",
+        "fourier",
+        "animation"
+      ],
+      "requirements": [
+        "gui",
+        "fft"
+      ]
+    },
+    {
+      "file": "potential_flow_cylinder.m",
+      "title": {
+        "en_US": "Potential flow past a cylinder",
+        "fr_FR": "Écoulement potentiel autour d’un cylindre"
+      },
+      "description": {
+        "en_US": "Advect tracer particles through the potential flow past a circular cylinder, with live sliders for circulation and free-stream speed.",
+        "fr_FR": "Advecter des particules traceuses dans l’écoulement potentiel autour d’un cylindre circulaire, avec curseurs interactifs pour la circulation et la vitesse amont."
+      },
+      "tags": [
+        "fluid",
+        "animation",
+        "potential-flow"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    },
+    {
+      "file": "vibrating_membrane.m",
+      "title": {
+        "en_US": "Vibrating membrane (normal modes)",
+        "fr_FR": "Membrane vibrante (modes propres)"
+      },
+      "description": {
+        "en_US": "Animated 3D surface of the standing-wave normal modes of a rectangular membrane, with live sliders to reshape the mode amplitudes.",
+        "fr_FR": "Surface 3D animée des modes propres en ondes stationnaires d’une membrane rectangulaire, avec des curseurs pour ajuster en direct les amplitudes des modes."
+      },
+      "tags": [
+        "animation",
+        "waves",
+        "surface"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    },
+    {
+      "file": "harmonograph.m",
+      "title": {
+        "en_US": "Harmonograph",
+        "fr_FR": "Harmonographe"
+      },
+      "description": {
+        "en_US": "Animate a harmonograph tracing decaying Lissajous figures with a moving pen and interactive frequency and damping controls.",
+        "fr_FR": "Animer un harmonographe traçant des figures de Lissajous amorties avec un stylo mobile et des contrôles interactifs de fréquence et d’amortissement."
+      },
+      "tags": [
+        "animation",
+        "curves",
+        "lissajous"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    },
+    {
+      "file": "demoscene.m",
+      "title": {
+        "en_US": "Realtime demoscene reel",
+        "fr_FR": "Démo temps réel façon demoscene"
+      },
+      "description": {
+        "en_US": "Run a fullscreen, music-synchronized demoscene reel with plasma, tunnel, starfield, rotozoomer, a flat-shaded 3D vector cube and a sine scroller, all software-rendered in pure Nelson over a procedurally generated synthwave soundtrack.",
+        "fr_FR": "Lancer une démo plein écran synchronisée à la musique avec plasma, tunnel, champ d’étoiles, rotozoomer, cube vectoriel 3D ombré et scroller sinusoïdal, entièrement rendus en Nelson pur sur une bande-son synthwave générée procéduralement."
+      },
+      "tags": [
+        "animation",
+        "demoscene",
+        "realtime",
+        "audio"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    },
+    {
+      "file": "uihtml_unit_converter.m",
+      "title": "uihtml: a page and Nelson exchanging values",
+      "description": "A slider in an HTML page sends its value to Nelson, which converts it and writes the result back into Data.",
+      "tags": [
+        "uihtml",
+        "html",
+        "interactive"
+      ],
+      "requirements": [
+        "web_gui"
+      ]
+    },
+    {
+      "file": "uihtml_wave_packet.m",
+      "title": "uihtml: wave packet in a well you shape",
+      "description": "Nelson diagonalises the Hamiltonian once per shape change; the page animates the exact evolution at 60 fps, phase drawn as hue.",
+      "tags": [
+        "uihtml",
+        "quantum",
+        "interactive",
+        "animation"
+      ],
+      "requirements": [
+        "web_gui"
+      ]
+    },
+    {
+      "file": "portable_peaks.m",
+      "title": {
+        "en_US": "Portable curves and peaks",
+        "fr_FR": "Courbes et surface peaks portables"
+      },
+      "description": {
+        "en_US": "Render a sine curve and an interactive peaks surface with the portable plotting backend.",
+        "fr_FR": "Afficher une sinusoïde et une surface peaks interactive avec le moteur graphique portable."
+      },
+      "tags": [
+        "plot",
+        "surface",
+        "portable"
+      ],
+      "requirements": [
+        "plots"
+      ]
+    },
+    {
+      "file": "ventilator/ventilator_gui.m",
+      "title": {
+        "en_US": "Bi-level ventilator monitor",
+        "fr_FR": "Moniteur de ventilation bi-niveau"
+      },
+      "description": {
+        "en_US": "Simulate a single-compartment lung under bi-level PC-AC ventilation with live pressure, flow and volume waveforms, a pressure-volume loop, real-time monitoring and adjustable settings.",
+        "fr_FR": "Simuler un poumon mono-compartiment en ventilation bi-niveau PC-AC avec courbes de pression, débit et volume en direct, boucle pression-volume, monitoring en temps réel et réglages ajustables."
+      },
+      "tags": [
+        "ui",
+        "simulation",
+        "realtime",
+        "medical"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    }
+  ]
+}

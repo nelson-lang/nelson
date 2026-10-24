@@ -8,8 +8,12 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 ogg_audio = [modulepath('audio'), '/examples/drums.ogg'];
+devices = audiodevinfo();
+if isempty(devices.output)
+  error('This example requires an audio output device.');
+end
 [y, fs] = audioread(ogg_audio);
-Y = [y;y;y;y];
+Y = [y; y; y; y];
 playObj = audioplayer(Y, fs);
 playblocking(playObj)
 delete(playObj)

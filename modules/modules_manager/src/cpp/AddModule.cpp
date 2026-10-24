@@ -9,6 +9,7 @@
 //=============================================================================
 #include "AddModule.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "EvaluateScriptFile.hpp"
 #include "FindDynamicLibraryName.hpp"
@@ -40,24 +41,28 @@ AddModule(Evaluator* eval, const std::wstring& modulerootpath, const std::wstrin
             } else {
                 if ((IsExistingModuleName(moduleshortname)
                         && IsExistingModulePath(_modulerootpath))) {
-                    Error(
-                        moduleshortname + _W(": This module is already used: ") + moduleshortname);
+                    Error(L"Nelson:addmodule:moduleAlreadyUsed",
+                        L"%s: This module is already used: %s", moduleshortname, moduleshortname);
                 } else {
                     if (IsExistingModuleName(moduleshortname)) {
-                        Error(_W("An existing module with the same name already used: ")
-                            + moduleshortname);
+                        Error(L"Nelson:addmodule:moduleNameAlreadyUsed",
+                            L"An existing module with the same name already used: %s",
+                            moduleshortname);
                     }
                     if (IsExistingModulePath(_modulerootpath)) {
-                        Error(_W("An existing module with the same path already defined: \n")
-                            + _modulerootpath);
+                        Error(L"Nelson:addmodule:modulePathAlreadyUsed",
+                            L"An existing module with the same path already defined: \n%s",
+                            _modulerootpath);
                     }
                 }
             }
         } else {
-            Error(_W("startup.m does not exist") + L" (" + moduleshortname + L").");
+            Error(L"Nelson:addmodule:startupNotFound", L"startup.m does not exist (%s).",
+                moduleshortname);
         }
     } else {
-        Error(_W("An existing module root path expected") + L" (" + moduleshortname + L")");
+        Error(L"Nelson:addmodule:invalidRootPath", L"An existing module root path expected (%s)",
+            moduleshortname);
     }
 }
 //=============================================================================

@@ -8,17 +8,17 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function varargout = ord2(varargin)
-  narginchk(2,2);
+  narginchk(2, 2);
   nargoutchk(2, 4);
-  
+
   wn = varargin{1};
   z = varargin{2};
   if (nargout == 2)
     varargout{1} = 1;
-    varargout{2} = [1 2*z*wn wn*wn];
+    varargout{2} = [1 2 * z * wn wn * wn];
   else
-    varargout{1} = [0 1;-wn*wn, -2*z*wn];
-    varargout{2} = [0;1];
+    varargout{1} = [0 1; -wn * wn, -2 * z * wn];
+    varargout{2} = [0; 1];
     varargout{3} = [1 0];
     varargout{4} = 0;
   end

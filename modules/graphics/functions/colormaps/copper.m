@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function varargout = copper(varargin)
-  nargoutchk(0, 1);    
+  nargoutchk(0, 1);
   narginchk(0, 1);
   if nargin < 1
     R = groot();
@@ -21,6 +21,6 @@ function varargout = copper(varargin)
   else
     m = varargin{1};
   end
-  varargout{1} = min(1,gray(m) * diag([1.2500 0.7812 0.4975]));
+  varargout{1} = min(1, gray(m) * diag([1.2500 0.7812 0.4975]));
 end
 %=============================================================================

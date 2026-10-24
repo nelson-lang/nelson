@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -12,12 +12,15 @@
 #include <fmt/xchar.h>
 #include "VertCat.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "Operators.hpp"
 #include "Evaluator.hpp"
+#include "ClassdefConcatenationHelpers.hpp"
+#include "ConcatenationConversionErrors.hpp"
+#include "BinaryOperatorHelpers.hpp"
 #include "FindCommonConcatenateType.hpp"
 #include "OverloadHelpers.hpp"
-#include "OverloadRequired.hpp"
 #include "OverloadRequired.hpp"
 //=============================================================================
 namespace Nelson {
@@ -30,66 +33,92 @@ cellVertCat(const ArrayOfVector& v, NelsonType commonType);
 ArrayOf
 Evaluator::vertcatOperator(const ArrayOfVector& v)
 {
-    ArrayOf res;
     switch (v.size()) {
     case 0: {
-        res = ArrayOf::emptyConstructor();
-    } break;
+        return ArrayOf::empty();
+    }
     case 1: {
-        res = v[0];
-    } break;
+        return v[0];
+    }
     default: {
+        ClassdefConcatenationHelpers::rejectScalarClassConcatenation(v);
+        ArrayOfVector handleArgs;
+        if (ClassdefConcatenationHelpers::prepareHandleArguments(
+                this, v, VERTCAT_OPERATOR_STR, handleArgs)) {
+            return vertcatOperator(handleArgs);
+        }
+        ArrayOfVector missingArgs;
+        if (convertMissingOperands(v, missingArgs)) {
+            return vertcatOperator(missingArgs);
+        }
+        ArrayOfVector loweredEnumArgs;
+        if (ClassdefConcatenationHelpers::lowerBuiltinBaseEnumerationOperands(
+                this, v, loweredEnumArgs)) {
+            return vertcatOperator(loweredEnumArgs);
+        }
         std::string commonTypeName = NLS_UNKNOWN_STR;
         NelsonType commonType = NLS_UNKNOWN;
         bool isSparse = false;
         bool isComplex = false;
 
         ArrayOf res;
+        ArrayOfVector catArgs(v);
         if (FindCommonConcatenateType(v, commonType, isSparse, isComplex, commonTypeName)) {
             bool overloadWasFound = false;
-            res = callOverloadedFunction(this,
-                NelsonConfiguration::getInstance()->getOverloadLevelCompatibility(), v,
-                VERTCAT_OPERATOR_STR, commonTypeName, commonType, overloadWasFound);
+            res = callOperatorOverload(
+                this, v, VERTCAT_OPERATOR_STR, commonTypeName, commonType, overloadWasFound);
             if (overloadWasFound) {
                 return res;
             }
         }
-        if (isSparse
-            && (commonType != NLS_DOUBLE && commonType != NLS_DCOMPLEX
-                && commonType != NLS_LOGICAL)) {
-            Error(_("Attempt to convert to unimplemented sparse type"), "Nelson:UnableToConvert");
+        ArrayOfVector convertedClassdefArgs;
+        std::string convertedClassdefTypeName;
+        if (ClassdefConcatenationHelpers::prepareArguments(
+                this, v, convertedClassdefTypeName, convertedClassdefArgs)) {
+            catArgs = convertedClassdefArgs;
+            commonTypeName = convertedClassdefTypeName;
+            commonType = NLS_CLASSDEF_ARRAY;
+            isSparse = false;
+            isComplex = false;
         }
+        if (isSparse) {
+            checkSparseConcatenationOperands(v, commonType);
+        }
+        if (isSparse
+            && (commonType != NLS_DOUBLE && commonType != NLS_DCOMPLEX && commonType != NLS_SINGLE
+                && commonType != NLS_SCOMPLEX && commonType != NLS_LOGICAL
+                && commonType != NLS_STRING_ARRAY)) {
+            raiseUnsupportedSparseConcatenation(v, commonType);
+            Error("Nelson:UnableToConvert", "Attempt to convert to unimplemented sparse type");
+        }
+        prepareMissingConcatenation(catArgs, commonType);
+        if (commonType == NLS_STRUCT_ARRAY) {
+            prepareStructConcatenationOperands(catArgs);
+        }
+        if (!isSparse) {
+            isComplex = concatenationIsComplex(catArgs, commonType);
+        }
+        checkComplexIntegerConcatenation(catArgs, commonType);
         switch (commonType) {
         case NLS_LOGICAL: {
             if (isSparse) {
-                bool overloadWasFound = false;
-                res = callOverloadedFunction(this, NLS_OVERLOAD_ALL_TYPES, v, VERTCAT_OPERATOR_STR,
-                    NLS_SPARSE_LOGICAL_STR, commonType, overloadWasFound);
-                if (overloadWasFound) {
-                    return res;
-                } else {
-                    OverloadRequired(VERTCAT_OPERATOR_STR);
-                }
+                return VertCat(catArgs, commonType);
             }
-            return VertCat(v, commonType);
+            return VertCat(catArgs, commonType);
         } break;
         case NLS_DOUBLE:
         case NLS_DCOMPLEX: {
             if (isSparse) {
-                bool overloadWasFound = false;
-                res = callOverloadedFunction(this, NLS_OVERLOAD_ALL_TYPES, v, VERTCAT_OPERATOR_STR,
-                    NLS_SPARSE_DOUBLE_STR, commonType, overloadWasFound);
-                if (overloadWasFound) {
-                    return res;
-                } else {
-                    OverloadRequired(VERTCAT_OPERATOR_STR);
-                }
+                return VertCat(catArgs, commonType);
             }
-            return VertCat(v, isComplex ? NLS_DCOMPLEX : NLS_DOUBLE);
+            return VertCat(catArgs, isComplex ? NLS_DCOMPLEX : NLS_DOUBLE);
         } break;
         case NLS_SINGLE:
         case NLS_SCOMPLEX: {
-            return VertCat(v, isComplex ? NLS_SCOMPLEX : NLS_SINGLE);
+            if (isSparse) {
+                return VertCat(catArgs, commonType);
+            }
+            return VertCat(catArgs, isComplex ? NLS_SCOMPLEX : NLS_SINGLE);
         } break;
         case NLS_INT8:
         case NLS_INT16:
@@ -100,32 +129,29 @@ Evaluator::vertcatOperator(const ArrayOfVector& v)
         case NLS_UINT32:
         case NLS_UINT64:
         case NLS_STRUCT_ARRAY:
+        case NLS_MISSING_ARRAY:
+        case NLS_CLASSDEF_ARRAY:
         case NLS_CLASS_ARRAY:
         case NLS_GO_HANDLE: {
-            return VertCat(v, commonType);
+            return VertCat(catArgs, commonType);
         } break;
         case NLS_CHAR: {
-            if (isComplex) {
-                Error(_("Complex values cannot be converted to chars."));
-            }
-            return VertCat(v, commonType);
+            checkCharConcatenationOperands(catArgs);
+            return VertCat(catArgs, commonType);
         } break;
         case NLS_CELL_ARRAY: {
-            return cellVertCat(v, commonType);
+            return cellVertCat(catArgs, commonType);
         } break;
         case NLS_STRING_ARRAY: {
-            return stringVertCat(v, commonType);
+            return stringVertCat(catArgs, commonType);
         } break;
         case NLS_FUNCTION_HANDLE: {
-            std::string msg = _(
-                "Nonscalar arrays of function handles are not allowed; use cell arrays instead.");
-            std::string id = "Nelson:err_non_scalar_function_handles";
-            Error(msg, id);
+            return concatenateFunctionHandles(catArgs, 0);
         } break;
         case NLS_HANDLE: {
             bool overloadWasFound = false;
-            res = callOverloadedFunction(this, NLS_OVERLOAD_ALL_TYPES, v, VERTCAT_OPERATOR_STR,
-                commonTypeName, commonType, overloadWasFound);
+            res = callOverloadedFunction(this, NLS_OVERLOAD_ALL_TYPES, catArgs,
+                VERTCAT_OPERATOR_STR, commonTypeName, commonType, overloadWasFound);
             if (overloadWasFound) {
                 return res;
             } else {
@@ -134,27 +160,30 @@ Evaluator::vertcatOperator(const ArrayOfVector& v)
         } break;
         case NLS_UNKNOWN:
         default: {
-            std::string msg
-                = fmt::format(_("Operator '{0}' is not supported for operands of type '{1}'."),
-                    VERTCAT_OPERATOR_STR, ClassToString(commonType));
-            Error(msg, "Nelson:UndefinedFunction");
+            std::string msg = formatI18nMessage(
+                Nelson::resolveMessageTemplate("Nelson:interpreter:operatorSupportedOperandsType",
+                    "Operator '%s' is not supported for operands of type '%s'."),
+                VERTCAT_OPERATOR_STR, ClassToString(commonType));
+            Error("Nelson:UndefinedFunction", msg);
         } break;
         }
     } break;
     }
-    return res;
+    return ArrayOf::empty();
 }
 //=============================================================================
 ArrayOf
 stringVertCat(const ArrayOfVector& v, NelsonType commonType)
 {
+    checkStringConcatenationOperands(v);
     ArrayOfVector _argIn(v);
     for (ompIndexType k = 0; k < (ompIndexType)v.size(); ++k) {
         if (!v[k].isStringArray()) {
             bool needOverload = false;
             _argIn[k] = ArrayOf::toStringArray(v[k], needOverload);
             if (needOverload) {
-                Error(_W("Cannot promote to string array."));
+                Error(L"Nelson:interpreter:cannotPromoteToString",
+                    L"Cannot promote to string array.");
             }
         } else {
             _argIn[k] = v[k];
@@ -172,7 +201,7 @@ cellVertCat(const ArrayOfVector& v, NelsonType commonType)
         if (k.isEmpty()) {
             _argIn.push_back(k);
         } else {
-            _argIn.push_back(ArrayOf::toCell(k));
+            _argIn.push_back(ArrayOf::cellArrayFrom(k));
         }
     }
     return VertCat(_argIn, commonType);

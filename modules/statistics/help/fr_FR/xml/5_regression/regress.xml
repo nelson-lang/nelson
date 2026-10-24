@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>regress</keyword>
+  <short_description>Regression lineaire multiple.</short_description>
+  <syntax>
+    <syntax_item>b = regress(y, X)</syntax_item>
+    <syntax_item>[b, bint] = regress(y, X)</syntax_item>
+    <syntax_item>[b, bint, r] = regress(y, X)</syntax_item>
+    <syntax_item>[b, bint, r, rint] = regress(y, X)</syntax_item>
+    <syntax_item>[b, bint, r, rint, stats] = regress(y, X)</syntax_item>
+    <syntax_item>[...] = regress(y, X, alpha)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>regress</b> estime les coefficients d'un modele de regression lineaire multiple du vecteur reponse <b>y</b> sur la matrice de predicteurs <b>X</b>.</p>
+    <p>Les lignes contenant des valeurs <b>NaN</b> dans <b>y</b> ou <b>X</b> sont ignorees pendant l'ajustement. Ajouter une colonne de uns dans <b>X</b> pour ajuster une constante.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[y = [1; 2.1; 2.9; 4.2; 5.1; 5.9];
+X = [ones(6, 1), (1:6)'];
+[b, bint, r, rint, stats] = regress(y, X)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}corr">corr</link></see_also_item>
+    <see_also_item><link linkend="${statistics}partialcorr">partialcorr</link></see_also_item>
+    <see_also_item><link linkend="${statistics}tcdf">tcdf</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

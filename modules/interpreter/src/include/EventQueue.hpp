@@ -24,10 +24,11 @@ class NLSINTERPRETER_IMPEXP EventQueue : public SingletonHelper<EventQueue>,
 
 private:
     using Base = detail::QueueCommon<EventCallback>;
-    // storage & synchronization handled by Base
     EventQueue() = default;
 
 public:
+    static EventQueue*
+    getInstance();
     void
     clear()
     {
@@ -46,7 +47,7 @@ public:
     bool
     processCallback(Evaluator* eval)
     {
-        if (!eval || !eval->haveEventsLoop()) {
+        if (!eval) {
             return false;
         }
         return process(eval);

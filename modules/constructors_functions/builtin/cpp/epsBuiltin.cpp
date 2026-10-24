@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,6 +10,7 @@
 #include "epsBuiltin.hpp"
 #include "Epsilon.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
@@ -22,34 +23,37 @@ Nelson::ConstructorsGateway::epsBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargincheck(argIn, 0, 1);
     ArrayOfVector retval(1);
     if (argIn.empty()) {
-        retval << ArrayOf::doubleConstructor(Epsilon(1.0));
+        retval << ArrayOf::doubleScalar(Epsilon(1.0));
     } else {
-        if (argIn[0].getDataClass() == NLS_DOUBLE || argIn[0].getDataClass() == NLS_DCOMPLEX) {
+        if (argIn[0].dataClass() == NLS_DOUBLE || argIn[0].dataClass() == NLS_DCOMPLEX) {
             if (!argIn[0].isScalar()) {
-                Error(ERROR_WRONG_ARGUMENT_1_SIZE_SCALAR_EXPECTED);
+                Error(L"Nelson:scalarExpected", L"Wrong size for argument #%d: scalar expected.",
+                    (1));
             }
-            auto* pV = (double*)argIn[0].getDataPointer();
+            auto* pV = (double*)argIn[0].dataPointer();
             double dV = pV[0];
-            retval << ArrayOf::doubleConstructor(Epsilon(dV));
-        } else if (argIn[0].getDataClass() == NLS_SINGLE
-            || argIn[0].getDataClass() == NLS_SCOMPLEX) {
+            retval << ArrayOf::doubleScalar(Epsilon(dV));
+        } else if (argIn[0].dataClass() == NLS_SINGLE || argIn[0].dataClass() == NLS_SCOMPLEX) {
             if (!argIn[0].isScalar()) {
-                Error(ERROR_WRONG_ARGUMENT_1_SIZE_SCALAR_EXPECTED);
+                Error(L"Nelson:scalarExpected", L"Wrong size for argument #%d: scalar expected.",
+                    (1));
             }
-            auto* pV = (single*)argIn[0].getDataPointer();
+            auto* pV = (single*)argIn[0].dataPointer();
             single dV = pV[0];
-            retval << ArrayOf::singleConstructor(Epsilon(dV));
+            retval << ArrayOf::singleScalar(Epsilon(dV));
         } else if (argIn[0].isRowVectorCharacterArray()) {
-            std::wstring arg = argIn[0].getContentAsWideString();
+            std::wstring arg = argIn[0].asWideString();
             if (arg == L"single") {
-                retval << ArrayOf::singleConstructor(Epsilon(static_cast<single>(1.0)));
+                retval << ArrayOf::singleScalar(Epsilon(static_cast<single>(1.0)));
             } else if (arg == L"double") {
-                retval << ArrayOf::doubleConstructor(Epsilon(1.0));
+                retval << ArrayOf::doubleScalar(Epsilon(1.0));
             } else {
-                Error(_W("Type \'double\' or \'single\' expected."));
+                Error(L"Nelson:constructors_functions:typeDoubleSingleExpected",
+                    L"Type \'double\' or \'single\' expected.");
             }
         } else {
-            Error(_W("Type \'double\' or \'single\' expected."));
+            Error(L"Nelson:constructors_functions:typeDoubleSingleExpected",
+                L"Type \'double\' or \'single\' expected.");
         }
     }
     return retval;

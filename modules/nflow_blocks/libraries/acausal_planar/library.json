@@ -1,0 +1,661 @@
+{
+  "id": "builtin.acausal_planar",
+  "title": "Planar (acausal)",
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Allan CORNET",
+    "tool": "Nelson nflow"
+  },
+  "comment": "Planar 2-D multibody blocks (frame connectors); lower to planarMechanicalIsland.",
+  "license": "LGPL-3.0",
+  "builtin": true,
+  "renderModule": false,
+  "blocks": [
+    {
+      "type": "PlanarWorld",
+      "label": "PlanarWorld",
+      "acausal": true,
+      "domain": "planar",
+      "width": 90,
+      "height": 70,
+      "physicalPins": [
+        {
+          "name": "frame",
+          "x": 0,
+          "y": 35,
+          "side": "left",
+          "domain": "planar"
+        }
+      ],
+      "inputs": [],
+      "outputs": [],
+      "defaultParams": {
+        "gravity": 9.81
+      },
+      "icon": "PlanarWorld.svg",
+      "render": {
+        "type": "image",
+        "src": "PlanarWorld.svg"
+      },
+      "help": "Inertial world with uniform gravity (down = -y); provides a fixed frame at the origin."
+    },
+    {
+      "type": "PlanarFixed",
+      "label": "PlanarFixed",
+      "acausal": true,
+      "domain": "planar",
+      "width": 90,
+      "height": 70,
+      "physicalPins": [
+        {
+          "name": "frame",
+          "x": 0,
+          "y": 35,
+          "side": "left",
+          "domain": "planar"
+        }
+      ],
+      "inputs": [],
+      "outputs": [],
+      "defaultParams": {
+        "x": 0,
+        "y": 0
+      },
+      "icon": "PlanarFixed.svg",
+      "render": {
+        "type": "image",
+        "src": "PlanarFixed.svg"
+      },
+      "help": "Frame rigidly fixed at the world point (x, y)."
+    },
+    {
+      "type": "PlanarBody",
+      "label": "PlanarBody",
+      "acausal": true,
+      "domain": "planar",
+      "width": 90,
+      "height": 70,
+      "physicalPins": [
+        {
+          "name": "com",
+          "x": 0,
+          "y": 35,
+          "side": "left",
+          "domain": "planar"
+        }
+      ],
+      "inputs": [],
+      "outputs": [],
+      "defaultParams": {
+        "m": 1,
+        "I": 1,
+        "x0": 0,
+        "y0": 0,
+        "phi0": 0,
+        "vx0": 0,
+        "vy0": 0,
+        "w0": 0
+      },
+      "icon": "PlanarBody.svg",
+      "render": {
+        "type": "image",
+        "src": "PlanarBody.svg"
+      },
+      "help": "Rigid body: mass m, central inertia I; six states (xc, yc, phi, vx, vy, w). Named frames are body-fixed offsets from the COM."
+    },
+    {
+      "type": "PlanarPointMass",
+      "label": "PlanarPointMass",
+      "acausal": true,
+      "domain": "planar",
+      "width": 90,
+      "height": 70,
+      "physicalPins": [
+        {
+          "name": "com",
+          "x": 0,
+          "y": 35,
+          "side": "left",
+          "domain": "planar"
+        }
+      ],
+      "inputs": [],
+      "outputs": [],
+      "defaultParams": {
+        "m": 1,
+        "x0": 0,
+        "y0": 0,
+        "vx0": 0,
+        "vy0": 0
+      },
+      "icon": "PlanarPointMass.svg",
+      "render": {
+        "type": "image",
+        "src": "PlanarPointMass.svg"
+      },
+      "help": "Point mass (no orientation): four states (xc, yc, vx, vy); attach joints at its point."
+    },
+    {
+      "type": "PlanarRevolute",
+      "label": "PlanarRevolute",
+      "acausal": true,
+      "domain": "planar",
+      "width": 90,
+      "height": 70,
+      "physicalPins": [
+        {
+          "name": "a",
+          "x": 0,
+          "y": 35,
+          "side": "left",
+          "domain": "planar"
+        },
+        {
+          "name": "b",
+          "x": 90,
+          "y": 35,
+          "side": "right",
+          "domain": "planar"
+        }
+      ],
+      "inputs": [],
+      "outputs": [],
+      "defaultParams": {},
+      "icon": "PlanarRevolute.svg",
+      "render": {
+        "type": "image",
+        "src": "PlanarRevolute.svg"
+      },
+      "help": "Revolute (pin) joint: frames a and b share position, free relative rotation."
+    },
+    {
+      "type": "PlanarPrismatic",
+      "label": "PlanarPrismatic",
+      "acausal": true,
+      "domain": "planar",
+      "width": 90,
+      "height": 70,
+      "physicalPins": [
+        {
+          "name": "a",
+          "x": 0,
+          "y": 35,
+          "side": "left",
+          "domain": "planar"
+        },
+        {
+          "name": "b",
+          "x": 90,
+          "y": 35,
+          "side": "right",
+          "domain": "planar"
+        }
+      ],
+      "inputs": [],
+      "outputs": [],
+      "defaultParams": {
+        "dx": 1,
+        "dy": 0
+      },
+      "icon": "PlanarPrismatic.svg",
+      "render": {
+        "type": "image",
+        "src": "PlanarPrismatic.svg"
+      },
+      "help": "Prismatic joint: frame b slides along the world axis (dx, dy) through frame a, relative rotation locked."
+    },
+    {
+      "type": "PlanarDistance",
+      "label": "PlanarDistance",
+      "acausal": true,
+      "domain": "planar",
+      "width": 90,
+      "height": 70,
+      "physicalPins": [
+        {
+          "name": "a",
+          "x": 0,
+          "y": 35,
+          "side": "left",
+          "domain": "planar"
+        },
+        {
+          "name": "b",
+          "x": 90,
+          "y": 35,
+          "side": "right",
+          "domain": "planar"
+        }
+      ],
+      "inputs": [],
+      "outputs": [],
+      "defaultParams": {
+        "length": 1
+      },
+      "icon": "PlanarDistance.svg",
+      "render": {
+        "type": "image",
+        "src": "PlanarDistance.svg"
+      },
+      "help": "Rigid rod: holds a fixed distance L between the points at frames a and b."
+    },
+    {
+      "type": "PlanarRollingWheel",
+      "label": "PlanarRollingWheel",
+      "acausal": true,
+      "domain": "planar",
+      "width": 90,
+      "height": 70,
+      "physicalPins": [
+        {
+          "name": "a",
+          "x": 0,
+          "y": 35,
+          "side": "left",
+          "domain": "planar"
+        }
+      ],
+      "inputs": [],
+      "outputs": [],
+      "defaultParams": {
+        "dx": 1,
+        "dy": 0,
+        "px": 0,
+        "py": 0,
+        "radius": 1
+      },
+      "icon": "PlanarRollingWheel.svg",
+      "render": {
+        "type": "image",
+        "src": "PlanarRollingWheel.svg"
+      },
+      "help": "Wheel at frame a rolls without slipping on the fixed surface line (px,py)+(dx,dy), staying at height radius."
+    },
+    {
+      "type": "PlanarPositionSensor",
+      "label": "PlanarPositionSensor",
+      "acausal": true,
+      "domain": "planar",
+      "width": 90,
+      "height": 70,
+      "physicalPins": [
+        {
+          "name": "a",
+          "x": 0,
+          "y": 35,
+          "side": "left",
+          "domain": "planar"
+        }
+      ],
+      "inputs": [],
+      "outputs": [
+        {
+          "x": 45,
+          "y": 70,
+          "side": "bottom",
+          "name": "out"
+        }
+      ],
+      "defaultParams": {
+        "axis": "x"
+      },
+      "icon": "PlanarPositionSensor.svg",
+      "render": {
+        "type": "image",
+        "src": "PlanarPositionSensor.svg"
+      },
+      "help": "Absolute position of the frame-a point along the chosen axis (x, y) or the body angle (phi)."
+    },
+    {
+      "type": "PlanarVelocitySensor",
+      "label": "PlanarVelocitySensor",
+      "acausal": true,
+      "domain": "planar",
+      "width": 90,
+      "height": 70,
+      "physicalPins": [
+        {
+          "name": "a",
+          "x": 0,
+          "y": 35,
+          "side": "left",
+          "domain": "planar"
+        }
+      ],
+      "inputs": [],
+      "outputs": [
+        {
+          "x": 45,
+          "y": 70,
+          "side": "bottom",
+          "name": "out"
+        }
+      ],
+      "defaultParams": {
+        "axis": "x"
+      },
+      "icon": "PlanarVelocitySensor.svg",
+      "render": {
+        "type": "image",
+        "src": "PlanarVelocitySensor.svg"
+      },
+      "help": "Absolute velocity of the frame-a point along the chosen axis (x, y) or the angular velocity (omega)."
+    },
+    {
+      "type": "PlanarAccelerationSensor",
+      "label": "PlanarAccelerationSensor",
+      "acausal": true,
+      "domain": "planar",
+      "width": 90,
+      "height": 70,
+      "physicalPins": [
+        {
+          "name": "a",
+          "x": 0,
+          "y": 35,
+          "side": "left",
+          "domain": "planar"
+        }
+      ],
+      "inputs": [],
+      "outputs": [
+        {
+          "x": 45,
+          "y": 70,
+          "side": "bottom",
+          "name": "out"
+        }
+      ],
+      "defaultParams": {
+        "axis": "x"
+      },
+      "icon": "PlanarAccelerationSensor.svg",
+      "render": {
+        "type": "image",
+        "src": "PlanarAccelerationSensor.svg"
+      },
+      "help": "Absolute acceleration of the body at frame a along the chosen axis (x, y) or the angular acceleration (alpha)."
+    },
+    {
+      "type": "PlanarRelPositionSensor",
+      "label": "PlanarRelPositionSensor",
+      "acausal": true,
+      "domain": "planar",
+      "width": 90,
+      "height": 70,
+      "physicalPins": [
+        {
+          "name": "a",
+          "x": 0,
+          "y": 35,
+          "side": "left",
+          "domain": "planar"
+        },
+        {
+          "name": "b",
+          "x": 90,
+          "y": 35,
+          "side": "right",
+          "domain": "planar"
+        }
+      ],
+      "inputs": [],
+      "outputs": [
+        {
+          "x": 45,
+          "y": 70,
+          "side": "bottom",
+          "name": "out"
+        }
+      ],
+      "defaultParams": {
+        "axis": "x"
+      },
+      "icon": "PlanarRelPositionSensor.svg",
+      "render": {
+        "type": "image",
+        "src": "PlanarRelPositionSensor.svg"
+      },
+      "help": "Relative position of the frame-a point minus the frame-b point along the chosen axis (x, y)."
+    },
+    {
+      "type": "PlanarDistanceSensor",
+      "label": "PlanarDistanceSensor",
+      "acausal": true,
+      "domain": "planar",
+      "width": 90,
+      "height": 70,
+      "physicalPins": [
+        {
+          "name": "a",
+          "x": 0,
+          "y": 35,
+          "side": "left",
+          "domain": "planar"
+        },
+        {
+          "name": "b",
+          "x": 90,
+          "y": 35,
+          "side": "right",
+          "domain": "planar"
+        }
+      ],
+      "inputs": [],
+      "outputs": [
+        {
+          "x": 45,
+          "y": 70,
+          "side": "bottom",
+          "name": "out"
+        }
+      ],
+      "defaultParams": {},
+      "icon": "PlanarDistanceSensor.svg",
+      "render": {
+        "type": "image",
+        "src": "PlanarDistanceSensor.svg"
+      },
+      "help": "Distance between the points at frames a and b."
+    },
+    {
+      "type": "PlanarSpringDamper",
+      "label": "PlanarSpringDamper",
+      "acausal": true,
+      "domain": "planar",
+      "width": 90,
+      "height": 70,
+      "physicalPins": [
+        {
+          "name": "a",
+          "x": 0,
+          "y": 35,
+          "side": "left",
+          "domain": "planar"
+        },
+        {
+          "name": "b",
+          "x": 90,
+          "y": 35,
+          "side": "right",
+          "domain": "planar"
+        }
+      ],
+      "inputs": [],
+      "outputs": [],
+      "defaultParams": {
+        "c": 100,
+        "d": 1
+      },
+      "icon": "PlanarSpringDamper.svg",
+      "render": {
+        "type": "image",
+        "src": "PlanarSpringDamper.svg"
+      },
+      "help": "Linear 2D spring-damper between the points at frames a and b: F = -(c dr + d dv)."
+    },
+    {
+      "type": "PlanarSpring",
+      "label": "PlanarSpring",
+      "acausal": true,
+      "domain": "planar",
+      "width": 90,
+      "height": 70,
+      "physicalPins": [
+        {
+          "name": "a",
+          "x": 0,
+          "y": 35,
+          "side": "left",
+          "domain": "planar"
+        },
+        {
+          "name": "b",
+          "x": 90,
+          "y": 35,
+          "side": "right",
+          "domain": "planar"
+        }
+      ],
+      "inputs": [],
+      "outputs": [],
+      "defaultParams": {
+        "c": 100
+      },
+      "icon": "PlanarSpring.svg",
+      "render": {
+        "type": "image",
+        "src": "PlanarSpring.svg"
+      },
+      "help": "Linear 2D spring between the points at frames a and b: F = -c dr."
+    },
+    {
+      "type": "PlanarDamper",
+      "label": "PlanarDamper",
+      "acausal": true,
+      "domain": "planar",
+      "width": 90,
+      "height": 70,
+      "physicalPins": [
+        {
+          "name": "a",
+          "x": 0,
+          "y": 35,
+          "side": "left",
+          "domain": "planar"
+        },
+        {
+          "name": "b",
+          "x": 90,
+          "y": 35,
+          "side": "right",
+          "domain": "planar"
+        }
+      ],
+      "inputs": [],
+      "outputs": [],
+      "defaultParams": {
+        "d": 10
+      },
+      "icon": "PlanarDamper.svg",
+      "render": {
+        "type": "image",
+        "src": "PlanarDamper.svg"
+      },
+      "help": "Linear 2D damper between the points at frames a and b: F = -d dv."
+    },
+    {
+      "type": "PlanarForce",
+      "label": "PlanarForce",
+      "acausal": true,
+      "domain": "planar",
+      "width": 90,
+      "height": 70,
+      "physicalPins": [
+        {
+          "name": "a",
+          "x": 0,
+          "y": 35,
+          "side": "left",
+          "domain": "planar"
+        }
+      ],
+      "inputs": [],
+      "outputs": [],
+      "defaultParams": {
+        "fx": 0,
+        "fy": 0
+      },
+      "icon": "PlanarForce.svg",
+      "render": {
+        "type": "image",
+        "src": "PlanarForce.svg"
+      },
+      "help": "External world force (fx, fy) applied at the frame-a point (adds a torque when offset from the COM)."
+    },
+    {
+      "type": "PlanarTorque",
+      "label": "PlanarTorque",
+      "acausal": true,
+      "domain": "planar",
+      "width": 90,
+      "height": 70,
+      "physicalPins": [
+        {
+          "name": "a",
+          "x": 0,
+          "y": 35,
+          "side": "left",
+          "domain": "planar"
+        }
+      ],
+      "inputs": [],
+      "outputs": [],
+      "defaultParams": {
+        "tau": 0
+      },
+      "icon": "PlanarTorque.svg",
+      "render": {
+        "type": "image",
+        "src": "PlanarTorque.svg"
+      },
+      "help": "External torque tau applied to the body at frame a."
+    },
+    {
+      "type": "PlanarRelativeTorque",
+      "label": "PlanarRelativeTorque",
+      "acausal": true,
+      "domain": "planar",
+      "width": 90,
+      "height": 70,
+      "physicalPins": [
+        {
+          "name": "a",
+          "x": 0,
+          "y": 35,
+          "side": "left",
+          "domain": "planar"
+        },
+        {
+          "name": "b",
+          "x": 90,
+          "y": 35,
+          "side": "right",
+          "domain": "planar"
+        }
+      ],
+      "inputs": [],
+      "outputs": [],
+      "defaultParams": {
+        "tau": 0
+      },
+      "icon": "PlanarRelativeTorque.svg",
+      "render": {
+        "type": "image",
+        "src": "PlanarRelativeTorque.svg"
+      },
+      "help": "Actuator torque: +tau on the body at frame a, -tau on the body at frame b (drives a joint)."
+    }
+  ]
+}

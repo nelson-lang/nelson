@@ -33,59 +33,62 @@
   <description>
     <p>
       <b>imread</b> reads the image data from the given file into a matrix.</p>
-    <p />
+    <p>The file type is detected from its signature. The extension is used as a fallback for
+    textual or ambiguous formats. For animated GIF files, the first composited frame is returned;
+    for TIFF files, the first page is returned.</p>
+    <p>Indexed images return an M-by-N <b>uint8</b> matrix, a K-by-3 double colormap in [0, 1]
+    and, when present, an M-by-N <b>uint8</b> transparency matrix. RGB and RGBA images return an
+    M-by-N-by-3 <b>uint8</b> array; RGBA transparency is returned separately as the third output.
+    Sixteen-bit grayscale PNG, TIFF and PGM images return an
+    M-by-N <b>uint16</b> matrix.</p>
     <table style="width:100%">
       <tr>
         <th>Format</th>
-        <th>Description</th>
+        <th>Access</th>
       </tr>
       <tr>
-        <th>BMP</th>
-        <th>Windows Bitmap</th>
+        <th>BMP/DIB</th>
+        <td>read</td>
       </tr>
       <tr>
         <th>GIF</th>
-        <th>Graphic Interchange Format (optional)</th>
+        <td>read, first composited frame</td>
       </tr>
       <tr>
-        <th>JPG</th>
-        <th>Joint Photographic Experts Group</th>
+        <th>JPEG/JFIF (JPG)</th>
+        <td>read</td>
       </tr>
       <tr>
         <th>TIFF</th>
-        <th>Tagged Image File Format</th>
-      </tr>
-      <tr>
-        <th>JPEG</th>
-        <th>Joint Photographic Experts Group</th>
+        <td>read, first page</td>
       </tr>
       <tr>
         <th>PCX</th>
-        <th>PiCture eXchange</th>
+        <td>read</td>
       </tr>
       <tr>
         <th>PNG</th>
-        <th>Portable Network Graphics</th>
+        <td>read</td>
       </tr>
       <tr>
         <th>PBM</th>
-        <th>Portable Bitmap</th>
+        <td>read</td>
       </tr>
       <tr>
         <th>PGM</th>
-        <th>Portable Graymap</th>
+        <td>read</td>
       </tr>
       <tr>
         <th>PPM</th>
-        <th>Portable Pixmap</th>
+        <td>read</td>
       </tr>
       <tr>
-        <th>XBM</th>
-        <th>X11 Bitmap</th>
+        <th>WebP, TGA, PNM</th>
+        <td>read</td>
       </tr>
       <tr>
-        <th>XPM</th>
-        <th>X11 Pixmap</th>
+        <th>PSD, HDR/RGBE, PIC</th>
+        <td>read only</td>
       </tr>
     </table>
   </description>
@@ -98,20 +101,38 @@
       <example_item_data
         runnable="adv-cli"
       ><![CDATA[f = figure();
-filename = [tempdir, 'ngc6543a.gif'];
-websave(filename, 'https://solarviews.com/raw/ds/ngc6543a.gif');
+filename = [tempname, '.webp'];
+imwrite(rand(32, 32, 3), filename, 'Quality', 90);
 img = imread(filename);
-imagesc(img);]]></example_item_data>
+imagesc(img);
+close(f);]]></example_item_data>
       <example_item_img
         src="../../images/imread.png"
         align="middle"
         generate="true"
       />
     </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>WebP transparency, indexed PNG and 16-bit grayscale data.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[source = rand(16, 16, 3);
+alphaSource = rand(16, 16);
+webpFile = [tempname, '.webp'];
+png16File = [tempname, '.png'];
+indexedFile = [tempname, '.png'];
+imwrite(source, webpFile, 'Alpha', alphaSource);
+imwrite(uint16(reshape(0:255, 16, 16) * 257), png16File);
+indices = uint8([0 1; 1 0]);
+palette = [1 0 0; 0 0 1];
+imwrite(indices, palette, indexedFile);
+[rgb, map, alpha] = imread(webpFile);
+gray16 = imread(png16File);
+[X, indexedMap, indexedAlpha] = imread(indexedFile);]]></example_item_data>
+    </example_item>
   </examples>
   <see_also>
     <see_also_item>
-      <link linkend="${graphics}imagesc">imagesc</link>
+      <link linkend="${graphics}4_images/imagesc">imagesc</link>
     </see_also_item>
     <see_also_item>
       <link linkend="${graphics_io}imformats">imformats</link>
@@ -125,6 +146,10 @@ imagesc(img);]]></example_item_data>
     <history_item>
       <history_version>1.13.0</history_version>
       <history_description>pcx, tiff formats added</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>WebP and deterministic Qt-free codecs added</history_description>
     </history_item>
   </history>
   <authors>

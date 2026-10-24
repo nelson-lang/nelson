@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>lsqnonlin</keyword>
+  <short_description>Nonlinear least-squares solution.</short_description>
+  <syntax>
+    <syntax_item>x = lsqnonlin(fun, x0)</syntax_item>
+    <syntax_item>[x, resnorm, residual, exitflag, output, lambda, jacobian] = lsqnonlin(fun, x0, lb, ub, options)</syntax_item>
+    <syntax_item>[x, resnorm, residual, exitflag, output, lambda, jacobian] = lsqnonlin(fun, x0, lb, ub, A, b, Aeq, beq, nonlcon, options)</syntax_item>
+    <syntax_item>x = lsqnonlin(problem)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>fun</param_name>
+      <param_description>function returning a residual array.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>x0</param_name>
+      <param_description>initial point.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>lb, ub</param_name>
+      <param_description>bounds, optionally empty.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>A, b, Aeq, beq</param_name>
+      <param_description>linear inequality and equality constraints, optionally empty.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>nonlcon</param_name>
+      <param_description>nonlinear constraint function returning [c, ceq], optionally empty.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>options</param_name>
+      <param_description>solver options.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>x</param_name>
+      <param_description>estimated solution, with the shape of x0.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>resnorm</param_name>
+      <param_description>squared residual norm sum(fun(x).^2).</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>residual</param_name>
+      <param_description>residual at x, with the shape returned by fun.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>exitflag</param_name>
+      <param_description>reason the solver stopped: 1 (gradient below tolerance), 2 (step below StepTolerance), 3 (residual change below FunctionTolerance), 4 (search direction below StepTolerance), 0 (iteration or evaluation limit), -1 (stopped by output function), -2 (inconsistent bounds).</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>output</param_name>
+      <param_description>structure with firstorderopt, iterations, funcCount, cgiterations, algorithm, stepsize, message, bestfeasible and constrviolation fields.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>lambda</param_name>
+      <param_description>Lagrange multipliers structure with lower, upper, eqlin, ineqlin, eqnonlin and ineqnonlin fields.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>jacobian</param_name>
+      <param_description>final finite-difference or user-provided Jacobian.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>lsqnonlin</b> solves nonlinear least-squares problems min sum(fun(x).^2), optionally subject to bounds and constraints.</p>
+    <p>The <b>Algorithm</b> option selects the engine: <b>'trust-region-reflective'</b> (default), <b>'levenberg-marquardt'</b> (also accepts bounds) or <b>'interior-point'</b>. Linear or nonlinear constraints automatically use the <b>interior-point</b> algorithm.</p>
+    <p>The default <b>MaxFunctionEvaluations</b> is <b>100*numberOfVariables</b>, <b>MaxIterations</b> is 400 and <b>FunctionTolerance</b> and <b>StepTolerance</b> are 1e-6. The <b>Display</b> option supports 'off', 'none', 'final', 'final-detailed', 'notify', 'notify-detailed', 'iter' and 'iter-detailed'.</p>
+    <p>If <b>Jacobian</b> is 'on' or <b>SpecifyObjectiveGradient</b> is true, fun must also return the Jacobian of the residuals.</p>
+  </description>
+  <used_function>
+    <used_function_item>optimoptions</used_function_item>
+  </used_function>
+  <bibliography>K. Levenberg, "A method for the solution of certain non-linear problems in least squares", Quarterly of Applied Mathematics, 1944.
+D. W. Marquardt, "An algorithm for least-squares estimation of nonlinear parameters", SIAM Journal on Applied Mathematics, 1963.</bibliography>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[fun = @(x) [x(1) - 2; x(2) + 1];
+[x, resnorm] = lsqnonlin(fun, [0; 0])
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${optimization}fsolve">fsolve</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${optimization}lsqnonneg">lsqnonneg</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

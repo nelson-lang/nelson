@@ -25,9 +25,9 @@
 #endif
 #include "Console.hpp"
 #include "Nelson_VERSION.h"
-//===================================================================================
+//=============================================================================
 namespace Nelson {
-//===================================================================================
+//=============================================================================
 bool
 CreateConsole()
 {
@@ -42,18 +42,12 @@ CreateConsole()
     FILE* fpOut = nullptr;
     FILE* fpErr = nullptr;
 
-    // Use secure variants and check results
     if (freopen_s(&fpIn, "CONIN$", "r", stdin) != 0 || fpIn == nullptr) {
         // attempt fallback: leave stdin untouched
     }
-    if (freopen_s(&fpOut, "CONOUT$", "w", stdout) != 0 || fpOut == nullptr) {
-        // attempt fallback
-    }
-    if (freopen_s(&fpErr, "CONOUT$", "w", stderr) != 0 || fpErr == nullptr) {
-        // attempt fallback
-    }
+    if (freopen_s(&fpOut, "CONOUT$", "w", stdout) != 0 || fpOut == nullptr) { }
+    if (freopen_s(&fpErr, "CONOUT$", "w", stderr) != 0 || fpErr == nullptr) { }
 
-    // Ensure text mode and disable buffering for interactive output
     if (fpOut) {
         _setmode(_fileno(fpOut), _O_TEXT);
         setvbuf(fpOut, nullptr, _IONBF, 0);
@@ -69,28 +63,23 @@ CreateConsole()
     if (hNelSonConsole) {
         ShowWindow(hNelSonConsole, SW_HIDE);
 
-        // Disable the Close (X) button on the console window to prevent closing via the cross
-        // button
+        // Disable the Close (X) button so the console cannot be closed with it.
         HMENU hMenu = GetSystemMenu(hNelSonConsole, FALSE);
         if (hMenu) {
-            // Gray out the Close menu item
             EnableMenuItem(hMenu, SC_CLOSE, MF_BYCOMMAND | MF_GRAYED);
-            // Update the window menu bar
             DrawMenuBar(hNelSonConsole);
         }
 
-        // Set console title to "Nelson - <version>"
         std::string title = "Nelson - " + std::string(NELSON_VERSION_STRING);
         SetConsoleTitleA(title.c_str());
         SetWindowTextA(hNelSonConsole, title.c_str());
     }
 
-    // success if at least stdout or stderr reopened
     res = (fpOut != nullptr) || (fpErr != nullptr);
 #endif
     return res;
 }
-//===================================================================================
+//=============================================================================
 bool
 DestroyConsole()
 {
@@ -99,9 +88,9 @@ DestroyConsole()
 #endif
     return false;
 }
-//===================================================================================
+//=============================================================================
 } // namespace Nelson
-//===================================================================================
+//=============================================================================
 bool
 ShowConsoleWindow(bool show)
 {
@@ -118,7 +107,7 @@ ShowConsoleWindow(bool show)
 #endif
     return false;
 }
-//===================================================================================
+//=============================================================================
 bool
 ConsoleIsVisible()
 {
@@ -130,10 +119,10 @@ ConsoleIsVisible()
 #endif
     return false;
 }
-//===================================================================================
+//=============================================================================
 bool
 ToggleConsole()
 {
     return ShowConsoleWindow(!ConsoleIsVisible());
 }
-//===================================================================================
+//=============================================================================

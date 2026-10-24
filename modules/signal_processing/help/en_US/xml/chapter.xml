@@ -6,10 +6,10 @@
   <chapter>Signal Processing</chapter>
   <chapter_description>
     <p
-    >The Signal Processing module provides tools for analyzing and manipulating sampled signals in Nelson.</p>
+    >The Signal Processing module provides tools for analyzing, filtering, transforming, and resampling sampled signals in Nelson.</p>
     <p
-    >It includes windowing functions, digital filtering, cross-correlation, and conversions between magnitude, power, and decibel representations.</p>
+    >It includes windowing functions, FIR and IIR filter design, digital filtering, zero-pole and second-order-section conversions, cross-correlation, and conversions between magnitude, power, and decibel representations.</p>
     <p
-    >The module also supports transformation between zero-pole representations and transfer functions, enabling efficient design and analysis of discrete-time signal processing systems.</p>
+    >The module also supports multirate processing, spectral estimation, time-frequency analysis, waveform generation, and common signal measurements.</p>
   </chapter_description>
 </xmldoc>

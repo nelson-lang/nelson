@@ -1,77 +1,49 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>msgbox</keyword>
-  <short_description>Crée une boîte de dialogue de message.</short_description>
+  <short_description>Cree une boite de dialogue de message.</short_description>
   <syntax>
     <syntax_item>h = msgbox(message)</syntax_item>
-    <syntax_item>h = msgbox(message, mode)</syntax_item>
     <syntax_item>h = msgbox(message, title)</syntax_item>
-    <syntax_item>h = msgbox(message, title, mode)</syntax_item>
     <syntax_item>h = msgbox(message, title, icon)</syntax_item>
     <syntax_item>h = msgbox(message, title, icon, mode)</syntax_item>
+    <syntax_item>h = msgbox(message, mode)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>message</param_name>
-      <param_description
-      >a string or a cell of string: the message to display.</param_description>
-    </param_input_item>
-    <param_input_item>
-      <param_name>title</param_name>
-      <param_description
-      >a string : titre de la boîte de dialogue.</param_description>
-    </param_input_item>
-    <param_input_item>
-      <param_name>icon</param_name>
-      <param_description
-      >a string: &apos;none&apos;, &apos;error&apos;, &apos;help&apos;, &apos;warn&apos; or &apos;question&apos;.</param_description>
-    </param_input_item>
-    <param_input_item>
-      <param_name>mode</param_name>
-      <param_description
-      >a string: &apos;modal&apos;, &apos;on&apos; or &apos;nonmodal&apos;.</param_description>
+      <param_description>Message text. Use a character vector, string array, or cell array of character vectors for multiple lines.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>h</param_name>
-      <param_description>a QObject handle.</param_description>
+      <param_description>Graphics figure handle.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p>
-      <b>msgbox</b> creates an message dialog box.</p>
-    <p>
-      <b>msgbox</b> crée une boîte de dialogue de message.</p>
-    <p>
-      <b>h = msgbox(message, title, &apos;on&apos;)</b> indique si une boîte de dialogue existante portant le même nom doit être remplacée.</p>
+    <p>msgbox creates a message dialog and returns a graphics figure handle. The handle can be used with get, set, close, delete, and waitfor.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description />
-      <example_item_data
-        runnable="adv-cli"
-      ><![CDATA[h = msgbox('help string')]]></example_item_data>
+      <example_item_description>Creer une boite de message.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[h = msgbox({'Operation', 'completed'}, 'Status', 'help', 'non-modal');]]></example_item_data>
+      <example_item_img
+        src="../images/msgbox_example.svg"
+        align="middle"
+        generate="true"
+      />
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description />
-      <example_item_data
-        runnable="adv-cli"
-      ><![CDATA[h = msgbox('help string', 'dialog title')]]></example_item_data>
-    </example_item>
-    <example_item>
-      <example_item_type>nelson</example_item_type>
-      <example_item_description />
-      <example_item_data
-        runnable="adv-cli"
-      ><![CDATA[h = msgbox('help string', 'dialog title')
-h = msgbox('help string', 'dialog title', 'on')]]></example_item_data>
+      <example_item_description>Create a plain message box.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[h = msgbox('Ready.', 'Status', 'none', 'non-modal');
+close(h)]]></example_item_data>
     </example_item>
   </examples>
   <see_also>
@@ -79,19 +51,19 @@ h = msgbox('help string', 'dialog title', 'on')]]></example_item_data>
       <link linkend="${gui}helpdlg">helpdlg</link>
     </see_also_item>
     <see_also_item>
+      <link linkend="${gui}warndlg">warndlg</link>
+    </see_also_item>
+    <see_also_item>
       <link linkend="${gui}errordlg">errordlg</link>
     </see_also_item>
     <see_also_item>
       <link linkend="${gui}questdlg">questdlg</link>
     </see_also_item>
-    <see_also_item>
-      <link linkend="${gui}warndlg">warndlg</link>
-    </see_also_item>
   </see_also>
   <history>
     <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>version initiale</history_description>
+      <history_version>2.0.0</history_version>
+      <history_description>version aide API dialogue mise a jour.</history_description>
     </history_item>
   </history>
   <authors>

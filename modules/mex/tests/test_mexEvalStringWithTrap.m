@@ -8,28 +8,26 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 % <--ENGLISH IMPOSED-->
+skip_testsuite(~findcmake(), 'C toolchain (cmake) not available')
 if ispc() && ~havecompiler()
   configuremsvc();
 end
 %=============================================================================
 if exist('mexEvalStringWithTrap') == 0
-  test_dir = [tempdir(), 'mexEvalStringWithTrap'];
-  if isdir(test_dir)
-    rmdir(test_dir,'s');
-  end
+  test_dir = tempname();
   mkdir(test_dir);
   status = copyfile('mexEvalStringWithTrap.c', test_dir);
-  assert_istrue(status);
+  asserts.istrue(status);
   cd(test_dir);
   mex('mexEvalStringWithTrap.c');
   addpath(pwd())
 end
 %=============================================================================
 R = mexEvalStringWithTrap('A');
-assert_isequal(R, 'It works !!!');
+asserts.isequal(R, 'It works !!!');
 %=============================================================================
 R = mexEvalStringWithTrap();
-assert_isequal(class(R), 'MException');
+asserts.isequal(class(R), 'MException');
 REF = 'Undefined variable or function: NOT_EXIST';
-assert_isequal(R.message, REF);
+asserts.isequal(R.message, REF);
 %=============================================================================

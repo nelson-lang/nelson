@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -17,7 +17,7 @@
 #include "Error.hpp"
 #include "i18n.hpp"
 #include "characters_encoding.hpp"
-#include "PredefinedErrorMessages.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -153,7 +153,7 @@ convertBitsPerSample(SF_INFO& sfinfo, int BitsPerSample)
 static bool
 isSupportedDataType(const ArrayOf& data)
 {
-    NelsonType dataClass = data.getDataClass();
+    NelsonType dataClass = data.dataClass();
     return (dataClass == NLS_UINT8) || (dataClass == NLS_INT16) || (dataClass == NLS_INT32)
         || (dataClass == NLS_SINGLE) || (dataClass == NLS_DOUBLE);
 }
@@ -163,23 +163,25 @@ AudioWrite(const std::wstring& filename, const ArrayOf& data, int fs, const wstr
     int BitsPerSample, int BitRate, std::wstring& errorMessage)
 {
     if (!data.isNumeric() || data.isComplex() || data.isSparse()) {
-        errorMessage = ERROR_WRONG_ARGUMENT_1_TYPE;
+        errorMessage = Nelson::formatI18nMessage(L"Wrong type: #%d argument.", (1));
         return false;
     }
     if (!isSupportedDataType(data)) {
-        errorMessage = ERROR_WRONG_ARGUMENT_1_TYPE;
+        errorMessage = Nelson::formatI18nMessage(L"Wrong type: #%d argument.", (1));
         return false;
     }
     if (data.isEmpty()) {
-        errorMessage = _W("Empty matrix not allowed.");
+        errorMessage = resolveMessageTemplate(
+            L"Nelson:audio:emptyMatrixAllowed", L"Empty matrix not allowed.");
         return false;
     }
     if (!data.is2D() && !data.isVector()) {
-        errorMessage = _W("Vector or matrix 2D expected.");
+        errorMessage = Nelson::resolveMessageTemplate(
+            L"Nelson:audio:vectorMatrix", L"Vector or matrix 2D expected.");
         return false;
     }
-    indexType rows = data.getRows();
-    indexType columns = data.getColumns();
+    indexType rows = data.rows();
+    indexType columns = data.columns();
     ArrayOf audioData;
     if (columns > rows) {
         bool needToOverload;
@@ -187,8 +189,8 @@ AudioWrite(const std::wstring& filename, const ArrayOf& data, int fs, const wstr
     } else {
         audioData = data;
     }
-    rows = audioData.getRows();
-    columns = audioData.getColumns();
+    rows = audioData.rows();
+    columns = audioData.columns();
     int nbChannels = static_cast<int>(columns);
     FileSystemWrapper::Path pathFilename = filename;
     std::wstring extension;
@@ -196,7 +198,8 @@ AudioWrite(const std::wstring& filename, const ArrayOf& data, int fs, const wstr
         extension = pathFilename.extension().generic_wstring();
         int format;
         if (!extensionToFormat(extension, format)) {
-            errorMessage = _W("Invalid file extension.");
+            errorMessage = resolveMessageTemplate(
+                L"Nelson:audio:invalidFileExtension", L"Invalid file extension.");
             return false;
         }
         SF_INFO sfinfo;
@@ -205,11 +208,13 @@ AudioWrite(const std::wstring& filename, const ArrayOf& data, int fs, const wstr
         sfinfo.channels = nbChannels;
         sfinfo.samplerate = fs;
         if (!convertBitsPerSample(sfinfo, BitsPerSample)) {
-            errorMessage = _W("Invalid BitsPerSample value.");
+            errorMessage = resolveMessageTemplate(
+                L"Nelson:audio:invalidBitspersample", L"Invalid BitsPerSample value.");
             return false;
         }
         if (!sf_format_check(&sfinfo)) {
-            errorMessage = _W("Invalid parameters values.");
+            errorMessage = resolveMessageTemplate(
+                L"Nelson:audio:invalidParameters", L"Invalid parameters values.");
             return false;
         }
         SNDFILE* file = nullptr;
@@ -227,13 +232,11 @@ AudioWrite(const std::wstring& filename, const ArrayOf& data, int fs, const wstr
         int BUFFER = 8192;
         int writecount = 0;
         long total = 0;
-        size_t idx = 0;
-        switch (audioData.getDataClass()) {
+        switch (audioData.dataClass()) {
         case NLS_UINT8: {
-            auto* ptrAudioData = (uint8*)audioData.getDataPointer();
+            auto* ptrAudioData = (uint8*)audioData.dataPointer();
             single* buffer = (single*)ArrayOf::allocateArrayOf(
                 NLS_SINGLE, BUFFER * sfinfo.channels, stringVector(), true);
-            size_t idx = 0;
             do {
                 writecount = BUFFER;
                 if (total + writecount > rows) {
@@ -241,18 +244,21 @@ AudioWrite(const std::wstring& filename, const ArrayOf& data, int fs, const wstr
                 }
                 for (int ch = 0; ch < sfinfo.channels; ch++) {
                     for (int k = 0; k < writecount; k++) {
-                        single value
-                            = (single)((ptrAudioData[idx++] - std::pow(2.0, 7)) / std::pow(2.0, 7));
+                        single value = (single)((ptrAudioData[(size_t)(total + k)
+                                                     + (size_t)ch * (size_t)rows]
+                                                    - std::pow(2.0, 7))
+                            / std::pow(2.0, 7));
                         single max_val = (value < single(-1.0)) ? single(-1.0) : value;
                         single min_val = (single(1.0) < max_val) ? single(1.0) : max_val;
-                        buffer[(size_t)(k) * ((size_t)sfinfo.channels + (size_t)ch)] = min_val;
+                        buffer[(size_t)(k) * (size_t)sfinfo.channels + (size_t)ch] = min_val;
                     }
                 }
                 if (writecount > 0) {
                     sf_count_t audio_data_written = sf_writef_float(file, buffer, writecount);
                     if (audio_data_written != writecount) {
                         delete[] buffer;
-                        errorMessage = _W("Write failed.");
+                        errorMessage
+                            = resolveMessageTemplate(L"Nelson:audio:writeFailed", L"Write failed.");
                         sf_close(file);
                         return false;
                     }
@@ -262,7 +268,7 @@ AudioWrite(const std::wstring& filename, const ArrayOf& data, int fs, const wstr
             delete[] buffer;
         } break;
         case NLS_INT16: {
-            auto* ptrAudioData = (int16*)audioData.getDataPointer();
+            auto* ptrAudioData = (int16*)audioData.dataPointer();
             int16* buffer = (int16*)ArrayOf::allocateArrayOf(
                 NLS_INT16, BUFFER * sfinfo.channels, stringVector(), true);
             do {
@@ -272,15 +278,16 @@ AudioWrite(const std::wstring& filename, const ArrayOf& data, int fs, const wstr
                 }
                 for (int ch = 0; ch < sfinfo.channels; ch++) {
                     for (int k = 0; k < writecount; k++) {
-                        buffer[(size_t)(k) * ((size_t)sfinfo.channels + (size_t)ch)]
-                            = ptrAudioData[idx++];
+                        buffer[(size_t)(k) * (size_t)sfinfo.channels + (size_t)ch]
+                            = ptrAudioData[(size_t)(total + k) + (size_t)ch * (size_t)rows];
                     }
                 }
                 if (writecount > 0) {
                     sf_count_t audio_data_written = sf_writef_short(file, buffer, writecount);
                     if (audio_data_written != writecount) {
                         delete[] buffer;
-                        errorMessage = _W("Write failed.");
+                        errorMessage
+                            = resolveMessageTemplate(L"Nelson:audio:writeFailed", L"Write failed.");
                         sf_close(file);
                         return false;
                     }
@@ -290,7 +297,7 @@ AudioWrite(const std::wstring& filename, const ArrayOf& data, int fs, const wstr
             delete[] buffer;
         } break;
         case NLS_INT32: {
-            auto* ptrAudioData = (int32*)audioData.getDataPointer();
+            auto* ptrAudioData = (int32*)audioData.dataPointer();
             int32* buffer = (int32*)ArrayOf::allocateArrayOf(
                 NLS_INT32, BUFFER * sfinfo.channels, stringVector(), true);
             do {
@@ -301,14 +308,15 @@ AudioWrite(const std::wstring& filename, const ArrayOf& data, int fs, const wstr
                 for (int ch = 0; ch < sfinfo.channels; ch++) {
                     for (int k = 0; k < writecount; k++) {
                         buffer[(size_t)(k) * (size_t)sfinfo.channels + (size_t)(ch)]
-                            = ptrAudioData[idx++];
+                            = ptrAudioData[(size_t)(total + k) + (size_t)ch * (size_t)rows];
                     }
                 }
                 if (writecount > 0) {
                     sf_count_t audio_data_written = sf_writef_int(file, buffer, writecount);
                     if (audio_data_written != writecount) {
                         delete[] buffer;
-                        errorMessage = _W("Write failed.");
+                        errorMessage
+                            = resolveMessageTemplate(L"Nelson:audio:writeFailed", L"Write failed.");
                         sf_close(file);
                         return false;
                     }
@@ -318,7 +326,7 @@ AudioWrite(const std::wstring& filename, const ArrayOf& data, int fs, const wstr
             delete[] buffer;
         } break;
         case NLS_SINGLE: {
-            auto* ptrAudioData = (single*)audioData.getDataPointer();
+            auto* ptrAudioData = (single*)audioData.dataPointer();
             single* buffer = (single*)ArrayOf::allocateArrayOf(
                 NLS_SINGLE, BUFFER * sfinfo.channels, stringVector(), true);
             do {
@@ -329,14 +337,15 @@ AudioWrite(const std::wstring& filename, const ArrayOf& data, int fs, const wstr
                 for (int ch = 0; ch < sfinfo.channels; ch++) {
                     for (int k = 0; k < writecount; k++) {
                         buffer[(size_t)(k) * (size_t)(sfinfo.channels) + (size_t)(ch)]
-                            = ptrAudioData[idx++];
+                            = ptrAudioData[(size_t)(total + k) + (size_t)ch * (size_t)rows];
                     }
                 }
                 if (writecount > 0) {
                     sf_count_t audio_data_written = sf_writef_float(file, buffer, writecount);
                     if (audio_data_written != writecount) {
                         delete[] buffer;
-                        errorMessage = _W("Write failed.");
+                        errorMessage
+                            = resolveMessageTemplate(L"Nelson:audio:writeFailed", L"Write failed.");
                         sf_close(file);
                         return false;
                     }
@@ -346,7 +355,7 @@ AudioWrite(const std::wstring& filename, const ArrayOf& data, int fs, const wstr
             delete[] buffer;
         } break;
         case NLS_DOUBLE: {
-            auto* ptrAudioData = (double*)audioData.getDataPointer();
+            auto* ptrAudioData = (double*)audioData.dataPointer();
             double* buffer = (double*)ArrayOf::allocateArrayOf(
                 NLS_DOUBLE, BUFFER * sfinfo.channels, stringVector(), true);
             do {
@@ -357,14 +366,15 @@ AudioWrite(const std::wstring& filename, const ArrayOf& data, int fs, const wstr
                 for (int ch = 0; ch < sfinfo.channels; ch++) {
                     for (int k = 0; k < writecount; k++) {
                         buffer[(size_t)(k) * (size_t)sfinfo.channels + (size_t)(ch)]
-                            = ptrAudioData[idx++];
+                            = ptrAudioData[(size_t)(total + k) + (size_t)ch * (size_t)rows];
                     }
                 }
                 if (writecount > 0) {
                     sf_count_t audio_data_written = sf_writef_double(file, buffer, writecount);
                     if (audio_data_written != writecount) {
                         delete[] buffer;
-                        errorMessage = _W("Write failed.");
+                        errorMessage
+                            = resolveMessageTemplate(L"Nelson:audio:writeFailed", L"Write failed.");
                         sf_close(file);
                         return false;
                     }
@@ -386,7 +396,8 @@ AudioWrite(const std::wstring& filename, const ArrayOf& data, int fs, const wstr
         sf_close(file);
         return true;
     }
-    errorMessage = _W("Filename must have an extension.");
+    errorMessage = resolveMessageTemplate(
+        L"Nelson:audio:filenameHaveExtension", L"Filename must have an extension.");
 
     return false;
 }

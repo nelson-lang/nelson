@@ -8,7 +8,7 @@
     <p
     >The i18n module provides tools for internationalization and localization of text within Nelson.</p>
     <p
-    >It enables retrieval of translated strings for the current locale, supports utilities for managing translation workflows, and facilitates the generation of translation file headers.</p>
+    >It retrieves translated strings for the current locale, provides utilities for translation workflows, and generates translation file headers.</p>
     <p
     >This module helps developers create software that can adapt dynamically to multiple languages and cultural contexts.</p>
   </chapter_description>

@@ -7,33 +7,34 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('convertCharsToStrings'), -1);
-assert_isequal(nargout('convertCharsToStrings'), -1);
+% <--WEIGHT 2-->
+asserts.isequal(nargin('convertCharsToStrings'), -1);
+asserts.isequal(nargout('convertCharsToStrings'), -1);
 %=============================================================================
-[A, B, C, D] = convertCharsToStrings("one", 2, 'three', {'four' ; 'five'});
-assert_isequal(A, "one");
-assert_isequal(B, 2);
-assert_isequal(C, "three");
-assert_isequal(D, ["four"; "five"]);
+[A, B, C, D] = convertCharsToStrings("one", 2, 'three', {'four'; 'five'});
+asserts.isequal(A, "one");
+asserts.isequal(B, 2);
+asserts.isequal(C, "three");
+asserts.isequal(D, ["four"; "five"]);
 %=============================================================================
-[A, B, C, D] = convertCharsToStrings("one", 2, 'three', {'four' ; NaN ; 'five'});
-assert_isequal(A, "one");
-assert_isequal(B, 2);
-assert_isequal(C, "three");
-assert_isequal(D, {'four' ; NaN ; 'five'});
+[A, B, C, D] = convertCharsToStrings("one", 2, 'three', {'four'; NaN; 'five'});
+asserts.isequal(A, "one");
+asserts.isequal(B, 2);
+asserts.isequal(C, "three");
+asserts.isequal(D, {'four'; NaN; 'five'});
 %=============================================================================
-[A, B, C, D] = convertCharsToStrings("one", 2, 'three', {'four' ; 'NaN' ;'five'});
-assert_isequal(A, "one");
-assert_isequal(B, 2);
-assert_isequal(C, "three");
-assert_isequal(D, ["four"; "NaN"; "five"]);
+[A, B, C, D] = convertCharsToStrings("one", 2, 'three', {'four'; 'NaN'; 'five'});
+asserts.isequal(A, "one");
+asserts.isequal(B, 2);
+asserts.isequal(C, "three");
+asserts.isequal(D, ["four"; "NaN"; "five"]);
 %=============================================================================
-R = convertCharsToStrings(char(ones(0,3)));
-assert_isequal(R, "");
+R = convertCharsToStrings(char(ones(0, 3)));
+asserts.isequal(R, "");
 %=============================================================================
 R = convertCharsToStrings({});
-assert_isequal(R, string([]));
+asserts.isequal(R, string([]));
 %=============================================================================
-R = convertCharsToStrings(['Nelson' ; '  is  '; '  good']);
-assert_isequal(R, string('Nelson  is    good'));
+R = convertCharsToStrings(['Nelson'; '  is  '; '  good']);
+asserts.isequal(R, string('Nelson  is    good'));
 %=============================================================================

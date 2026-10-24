@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -11,10 +11,10 @@
 #include "ArrayOf.hpp"
 #include "BuiltInFunctionDefManager.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "PathFunctionIndexerManager.hpp"
 #include "characters_encoding.hpp"
-#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -26,7 +26,7 @@ Nelson::FunctionHandleGateway::function_handle_extractionBuiltin(
     if (!argIn.empty()) {
         ArrayOf Arg1 = argIn[0];
         if (Arg1.isFunctionHandle()) {
-            function_handle fh = Arg1.getContentAsFunctionHandle();
+            function_handle fh = Arg1.asFunctionHandle();
             FunctionDef* funcDef = reinterpret_cast<FunctionDef*>(fh.anonymousHandle);
             if (funcDef != nullptr) {
                 ArrayOfVector m;
@@ -35,13 +35,14 @@ Nelson::FunctionHandleGateway::function_handle_extractionBuiltin(
                 }
                 retval = funcDef->evaluateFunction(eval, m, nLhs);
             } else {
-                Error(_W("Function does not exist."));
+                Error(L"Nelson:function_handle:functionDoesNotExist", L"Function does not exist.");
             }
         } else {
-            Error(_W("Argument #1 must be a valid function_handle."));
+            Error(L"Nelson:types:functionHandleExpected",
+                L"Argument #1 must be a valid function_handle.");
         }
     } else {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(L"Nelson:notEnoughInputs", L"Not enough input arguments.");
     }
     return retval;
 }

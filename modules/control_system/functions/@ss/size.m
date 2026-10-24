@@ -10,7 +10,7 @@
 function varargout = size(varargin)
   narginchk(1, 2);
   nargoutchk(0, 2);
-  
+
   sys = varargin{1};
   p = 0; % Number of outputs
   m = 0; % Number of inputs
@@ -24,17 +24,17 @@ function varargout = size(varargin)
     m = size(sys.B, 2);
     n = size(sys.A, 1);
   end
-  
+
   if (nargout == 0 && nargin == 1)
     disp(sprintf(_('State-space model with %d outputs, %d inputs, and %d states.'), p, m, n));
   else
     if (nargin == 2)
       pos = varargin{2};
       if (pos < 1)
-        error(_('Second argument must be a positive integer.'));
+        error('Nelson:validators:mustBePositiveInteger', '%s must be a positive integer.', 'Second argument');
       end
       switch pos
-        case  1
+        case 1
           varargout{1} = p;
         case 2
           varargout{1} = m;
@@ -42,16 +42,16 @@ function varargout = size(varargin)
           varargout{1} = n;
         otherwise
           varargout{1} = 1;
-        end
-      else
-        varargout{1} = p;
-        if nargout > 1
-          varargout{2} = m;
-        end
-        if nargout > 2
-          varargout{3} = n;
-        end
+      end
+    else
+      varargout{1} = p;
+      if nargout > 1
+        varargout{2} = m;
+      end
+      if nargout > 2
+        varargout{3} = n;
       end
     end
   end
-  %=============================================================================
+end
+%=============================================================================

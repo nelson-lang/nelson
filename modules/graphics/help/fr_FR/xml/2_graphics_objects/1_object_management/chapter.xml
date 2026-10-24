@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>graphics</module_name>
+  <chapter>Gestion des objets graphiques</chapter>
+  <chapter_description>
+    <p>Fonctions pour creer, rechercher, interroger, effacer et fermer des objets graphiques.</p>
+  </chapter_description>
+</xmldoc>

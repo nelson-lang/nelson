@@ -7,23 +7,24 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+skip_testsuite(iswasm(), 'Requires a native shell and process creation, unavailable in WebAssembly.');
 if ispc()
   tic();
-  [s, w, d] = system(["PING -n 5 127.0.0.1>nul", "PING -n 7 127.0.0.1>nul", "PING -n 10 127.0.0.1>nul"], [1, 5, 3]);
+  [s, w, d] = system(["PING -n 3 127.0.0.1>nul", "PING -n 4 127.0.0.1>nul", "PING -n 5 127.0.0.1>nul"], [1, 3, 2]);
   t = toc();
 else
   tic();
-  [s, w, d] = system(["sleep 4", "sleep 6", "sleep 9"], [1, 5, 3]);
+  [s, w, d] = system(["sleep 2", "sleep 3", "sleep 4"], [1, 3, 2]);
   t = toc();
 end
-assert_istrue(t >= 5 && t < 10)
-assert_istrue(d(1) >= 1000 && d(1) <= 5000)
-assert_istrue(d(2) >= 5000 && d(2) <= 7000)
-assert_istrue(d(3) >= 3000 && d(2) <= 10000)
+asserts.istrue(t >= 3 && t < 8)
+asserts.istrue(d(1) >= 1000 && d(1) <= 4000)
+asserts.istrue(d(2) >= 3000 && d(2) <= 6000)
+asserts.istrue(d(3) >= 2000 && d(3) <= 5000)
 if ispc()
-  assert_isequal(s, [258, 258, 258])
+  asserts.isequal(s, [258, 258, 258])
 else
-  assert_isequal(s, [134,134, 134])
+  asserts.isequal(s, [134, 134, 134])
 end
-assert_isequal(w, ["ABORTED", "ABORTED", "ABORTED"])
+asserts.isequal(w, ["ABORTED", "ABORTED", "ABORTED"])
 %=============================================================================

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -7,13 +7,12 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <thread>
 #include <chrono>
 #include "FevalFutureFetchNext.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "HandleManager.hpp"
-#include "ProcessEventsDynamicFunction.hpp"
 #include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson {
@@ -22,8 +21,8 @@ inline ArrayOfVector
 emptyResultFetchNext()
 {
     ArrayOfVector _result;
-    _result << ArrayOf::emptyConstructor();
-    _result << ArrayOf::emptyConstructor();
+    _result << ArrayOf::empty();
+    _result << ArrayOf::empty();
     return _result;
 }
 //=============================================================================
@@ -48,11 +47,11 @@ FevalFutureFetchNext(
                 switch (futures[k]->state) {
                 case THREAD_STATE::FINISHED: {
                     if (!futures[k]->wasRead()) {
-                        Exception e = futures[k]->getException();
+                        NelsonException e = futures[k]->getException();
                         if (!e.isEmpty()) {
                             throw e;
                         }
-                        _result << ArrayOf::doubleConstructor((double)k + 1);
+                        _result << ArrayOf::doubleScalar((double)k + 1);
                         _result += futures[k]->getResult();
                         return _result;
                     }
@@ -68,10 +67,10 @@ FevalFutureFetchNext(
             }
         }
         if (!haveRunnnings) {
-            Error(_W("There are no unread Futures to fetch."));
+            Error(L"Nelson:fetchNext:noUnreadFutures", L"There are no unread Futures to fetch.");
         }
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(uint64(1)));
+        FutureObject::waitForAnyStateChange(std::chrono::milliseconds(10));
         std::chrono::nanoseconds current_time
             = std::chrono::high_resolution_clock::now().time_since_epoch();
         std::chrono::nanoseconds difftime = (current_time - begin_time);
@@ -85,12 +84,9 @@ FevalFutureFetchNext(
                 return emptyResultFetchNext();
             }
         }
-        if (eval != nullptr && eval->haveEventsLoop()) {
-            ProcessEventsDynamicFunctionWithoutWait();
-        }
     }
     return _result;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

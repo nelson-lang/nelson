@@ -15,5 +15,6 @@
 namespace Nelson::StreamGateway {
 ArrayOfVector
 loadBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

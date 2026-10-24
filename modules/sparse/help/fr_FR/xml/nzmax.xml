@@ -12,7 +12,7 @@
     <param_input_item>
       <param_name>M</param_name>
       <param_description
-      >une matrice : double ou logique, sparse ou non.</param_description>
+      >tableau numerique, logique ou caractere, sparse ou plein.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -24,6 +24,10 @@
   <description>
     <p>
       <b>nzmax</b> retourne la quantité de stockage allouée pour les éléments non nuls.</p>
+    <p>
+      Pour les tableaux pleins, <b>nzmax</b> retourne <b>numel(M)</b>. Pour les matrices sparse, il retourne la capacite de stockage sparse reservee, qui peut etre superieure a <b>nnz(M)</b>.</p>
+    <p>
+      Les matrices sparse double, single, logiques, double complexes et single complexes sont prises en charge. Les valeurs nulles stockees peuvent contribuer a la capacite reservee meme si <b>nnz</b> les ignore.</p>
   </description>
   <used_function />
   <bibliography />
@@ -41,16 +45,28 @@ size(sp)
 nnz(sp)
 nzmax(sp)]]></example_item_data>
     </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[S = sparse([1 2 1 2], [1 1 2 2], single([0 -0 complex(0, 0) complex(0, 2)]), 2, 2, 4);
+[nnz(S), nzmax(S)]]]></example_item_data>
+    </example_item>
   </examples>
   <see_also>
     <see_also_item>
       <link linkend="${sparse}sparse">sparse</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${sparse}nzmax">nnz</link>
+      <link linkend="${sparse}nnz">nnz</link>
     </see_also_item>
   </see_also>
   <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>comportement sparse single et stockage reserve documentes</history_description>
+    </history_item>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>version initiale</history_description>

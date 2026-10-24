@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -13,9 +13,10 @@
 #include <algorithm>
 #include "CorrelationCoefficients.hpp"
 #include "MatrixCheck.hpp"
-#include "Exception.hpp"
+#include "NelsonException.hpp"
 #include "RealPart.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
@@ -57,28 +58,44 @@ CorrelationCoefficients(const ArrayOf& A, bool& needToOverload)
         needToOverload = true;
         return res;
     }
-    Dimensions dimsA = A.getDimensions();
-    if (!dimsA.is2D() && !dimsA.isVector()) {
-        Error(_W("Inputs must be 2-D."));
+    Dimensions dimsA = A.dimensions();
+    if (!dimsA.is2D()) {
+        Error(L"Nelson:statistics:inputsMustBe2D", L"Inputs must be 2-D.");
     }
-    switch (A.getDataClass()) {
+    if (dimsA.isVector() && A.elementCount() > 1) {
+        switch (A.dataClass()) {
+        case NLS_DOUBLE: {
+            return ArrayOf::doubleScalar(1.);
+        } break;
+        case NLS_SINGLE: {
+            return ArrayOf::singleScalar(1.f);
+        } break;
+        case NLS_SCOMPLEX:
+        case NLS_DCOMPLEX: {
+            return ArrayOf::doubleScalar(1.);
+        } break;
+        default: {
+        } break;
+        }
+    }
+    switch (A.dataClass()) {
     case NLS_DOUBLE: {
         res = CorrelationCoefficients<double>(
-            (double*)A.getDataPointer(), dimsA.getRows(), dimsA.getColumns(), NLS_DOUBLE);
+            (double*)A.dataPointer(), dimsA.rows(), dimsA.columns(), NLS_DOUBLE);
     } break;
     case NLS_SINGLE: {
         res = CorrelationCoefficients<single>(
-            (single*)A.getDataPointer(), dimsA.getRows(), dimsA.getColumns(), NLS_SINGLE);
+            (single*)A.dataPointer(), dimsA.rows(), dimsA.columns(), NLS_SINGLE);
     } break;
     case NLS_SCOMPLEX: {
         ArrayOf realA = RealPart(A);
         res = CorrelationCoefficients<single>(
-            (single*)realA.getDataPointer(), dimsA.getRows(), dimsA.getColumns(), NLS_SINGLE);
+            (single*)realA.dataPointer(), dimsA.rows(), dimsA.columns(), NLS_SINGLE);
     } break;
     case NLS_DCOMPLEX: {
         ArrayOf realA = RealPart(A);
         res = CorrelationCoefficients<double>(
-            (double*)realA.getDataPointer(), dimsA.getRows(), dimsA.getColumns(), NLS_DOUBLE);
+            (double*)realA.dataPointer(), dimsA.rows(), dimsA.columns(), NLS_DOUBLE);
     } break;
     default: {
         needToOverload = true;

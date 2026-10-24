@@ -15,37 +15,37 @@ function varargout = gram(varargin)
   nargoutchk(0, 1);
   option = varargin{2};
   option = tolower(convertStringsToChars(option));
-  
+
   sys = varargin{1};
-  
+
   % Get sample time
   sampleTime = sys.Ts;
-  
-  if(sampleTime > 0)
+
+  if (sampleTime > 0)
     % Discrete way
     A = sys.A;
     B = sys.B;
     C = sys.C;
-    
-    if(strcmp(option, 'c'))
+
+    if (strcmp(option, 'c'))
       X = dlyap(A, B * B');
-    elseif(strcmp(option, 'o'))
+    elseif (strcmp(option, 'o'))
       X = dlyap(A', C' * C);
     else
-      error(_("'o', 'c' second argument expected."));
+      error('Nelson:control_system:wrongArgumentValue', '%s expected.', "'o', 'c' second argument");
     end
   else
-    % Continous way
+    % Continuous way
     A = sys.A;
     B = sys.B;
     C = sys.C;
-    
+
     if (strcmp(option, 'c'))
-      X = lyap(A, B*B');
+      X = lyap(A, B * B');
     elseif (strcmp(option, 'o'))
       X = lyap(A', C' * C);
     else
-      error(_("'o', 'c' second argument expected."));
+      error('Nelson:control_system:wrongArgumentValue', '%s expected.', "'o', 'c' second argument");
     end
   end
   varargout{1} = X;

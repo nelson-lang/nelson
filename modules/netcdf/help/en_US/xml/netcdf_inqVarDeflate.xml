@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>netcdf.inqVarDeflate</keyword>
+  <short_description>Configure or inspect netCDF-4 variable storage options.</short_description>
+  <syntax>
+    <syntax_item>[shuffle, deflate, deflateLevel] = netcdf.inqVarDeflate(ncid, varid)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>ncid</param_name>
+      <param_description>Open netCDF file or group identifier.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>varid</param_name>
+      <param_description>Variable identifier.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>storage</param_name>
+      <param_description>NC_CHUNKED or NC_CONTIGUOUS.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>chunksizes</param_name>
+      <param_description>Chunk size vector.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>fillValue</param_name>
+      <param_description>Default value used for unwritten data.</param_description>
+    </param_input_item>
+  </param_input>
+    <param_output>
+    <param_output_item>
+      <param_name>[shuffle, deflate, deflateLevel]</param_name>
+      <param_description>Return value described by the syntax shown above.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>netcdf.inqVarDeflate controls variable storage metadata for netCDF-4 files.</p>
+    <p>Compression, chunking, fill values, and checksums must be defined before leaving define mode.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Copy-paste example for netcdf.inqVarDeflate.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[filename = [tempdir(), 'help_netcdf_inqVarDeflate.nc'];
+mode = bitor(netcdf.getConstant('NC_CLOBBER'), netcdf.getConstant('NC_NETCDF4'));
+ncid = netcdf.create(filename, mode);
+dimid = netcdf.defDim(ncid, 'x', 4);
+varid = netcdf.defVar(ncid, 'temperature', netcdf.getConstant('NC_DOUBLE'), dimid);
+netcdf.defVarDeflate(ncid, varid, 1, 1, 1);
+[shuffle, deflate, level] = netcdf.inqVarDeflate(ncid, varid);
+netcdf.close(ncid);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${netcdf}netcdf.defVar">netcdf.defVar</link></see_also_item>
+    <see_also_item><link linkend="${netcdf}netcdf.endDef">netcdf.endDef</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <language>en_US</language>
+  <module_name>chapter_table_help</module_name>
+  <chapter>Chapter Table Module</chapter>
+  <chapter_description>
+    <p>Chapter description with a <b>bold word</b> and a table.</p>
+    <table style="width:100%">
+      <tr>
+        <th>Function</th>
+        <th>What it does</th>
+      </tr>
+      <tr>
+        <td>
+          <b>tablefun</b></td>
+        <td>Renders a chapter table in the summary.</td>
+      </tr>
+    </table>
+  </chapter_description>
+</xmldoc>

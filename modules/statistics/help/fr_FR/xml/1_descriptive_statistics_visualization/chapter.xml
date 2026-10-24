@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>statistics</module_name>
+  <chapter>Statistiques descriptives et visualisation</chapter>
+  <chapter_description>
+    <p>Fonctions pour resumer, explorer, classer et visualiser des donnees statistiques.</p>
+  </chapter_description>
+</xmldoc>

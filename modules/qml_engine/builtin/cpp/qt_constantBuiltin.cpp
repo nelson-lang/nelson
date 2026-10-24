@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,8 +10,8 @@
 #include "qt_constantBuiltin.hpp"
 #include "QtConstants.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
-#include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -23,20 +23,20 @@ Nelson::QmlEngineGateway::qt_constantBuiltin(int nLhs, const ArrayOfVector& argI
     ArrayOfVector retval;
     switch (argIn.size()) {
     case 0: {
-        retval.push_back(ArrayOf::toCellArrayOfCharacterColumnVectors(QtConstants()));
+        retval.push_back(ArrayOf::cellArrayFromArrayOfCharacterColumnVectors(QtConstants()));
     } break;
     case 1: {
-        std::wstring constantName = argIn[0].getContentAsWideString();
+        std::wstring constantName = argIn[0].asWideString();
         bool found;
         ArrayOf res = QtConstant(constantName, found);
         if (!found) {
-            Error(_W("Name not found."));
+            Error(L"Nelson:qt_constant:nameNotFound", L"Name not found.");
         } else {
             retval.push_back(res);
         }
     } break;
     default: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(L"Nelson:tooManyInputs", L"Too many input arguments.");
     } break;
     }
     return retval;

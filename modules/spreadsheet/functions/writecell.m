@@ -19,11 +19,11 @@ function varargout = writecell(varargin)
     mustBeTextScalar(filename, 2);
     filename = convertStringsToChars(filename);
   end
-  
+
   if (nargin > 2 && mod(nargin - 2, 2) ~= 0)
-    error(_('Incorrect number of arguments.'));
+    error('Nelson:spreadsheet:incorrectNumberArguments2', 'Incorrect number of arguments.');
   end
-  
+
   checkRestrictedOptions(varargin);
   if (nargin > 2)
     args = varargin(3:end);
@@ -37,16 +37,23 @@ end
 function checkRestrictedOptions(varargin)
   for i = 3:2:nargin
     if strcmp('WriteVariableNames', convertStringsToChars(varargin{i}))
-      error(_('WriteVariableNames not allowed.'));
+      error('Nelson:spreadsheet:writeVariableNamesNotAllowed', '%s not allowed.', 'WriteVariableNames');
     end
     if strcmp('WriteRowNames', convertStringsToChars(varargin{i}))
-      error(_('WriteRowNames not allowed.'));
+      error('Nelson:spreadsheet:writeRowNamesNotAllowed', '%s not allowed.', 'WriteRowNames');
     end
   end
 end
 %=============================================================================
 function writeData(M, filename, args)
-  T = table(M);
+  nbColumns = size(M, 2);
+  columns = cell(1, nbColumns);
+  variableNames = cell(1, nbColumns);
+  for k = 1:nbColumns
+    columns{k} = M(:, k);
+    variableNames{k} = ['Var', int2str(k)];
+  end
+  T = table(columns{:}, 'VariableNames', variableNames);
   writetable(T, filename, args{:}, 'WriteVariableNames', false, 'WriteRowNames', false);
 end
 %=============================================================================

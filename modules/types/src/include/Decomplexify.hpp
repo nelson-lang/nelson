@@ -14,6 +14,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+// Real inputs and complex inputs with a nonzero imaginary part are returned unchanged.
 NLSTYPES_IMPEXP ArrayOf
 decomplexify(const ArrayOf& A);
 //=============================================================================

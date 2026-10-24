@@ -7,12 +7,12 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('mustBeNonNan'), -1);
-assert_isequal(nargout('mustBeNonNan'), 0);
+asserts.isequal(nargin('mustBeNonNan'), -1);
+asserts.isequal(nargout('mustBeNonNan'), 0);
 %=============================================================================
 mustBeNonNan(1);
-assert_checkerror('mustBeNonNan(NaN)', _('Value must not be NaN.'), 'Nelson:validators:mustBeNonNan');
+asserts.checkerror('mustBeNonNan(NaN)', sprintf(_('%s must not be NaN.'), 'Value'), 'Nelson:validators:mustBeNonNan');
 %=============================================================================
-msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10),  _('Value must not be NaN.')];
-assert_checkerror('mustBeNonNan(NaN, 3)', msg, 'Nelson:validators:mustBeNonNan');
+msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10), sprintf(_('%s must not be NaN.'), 'Value')];
+asserts.checkerror('mustBeNonNan(NaN, 3)', msg, 'Nelson:validators:mustBeNonNan');
 %=============================================================================

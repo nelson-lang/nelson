@@ -1,3 +1,7 @@
 files:
-  - source: /locale/nelson-en_US.json
-    translation: /locale/nelson-%locale_with_underscore%.json
+  - source: /modules/nflow_gui/locale/nelson-en_US.json
+    translation: /modules/nflow_gui/locale/nelson-%locale_with_underscore%.json
+  - source: /modules/nflow_gui/locale/nflow-ui-en_US.json
+    translation: /modules/nflow_gui/locale/nflow-ui-%locale_with_underscore%.json
+  - source: /modules/nmm_gui/locale/nmm-ui-en_US.json
+    translation: /modules/nmm_gui/locale/nmm-ui-%locale_with_underscore%.json

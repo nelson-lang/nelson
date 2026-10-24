@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 // Copyright (c) 2002, 2003 Samit Basu
 //=============================================================================
@@ -15,6 +15,7 @@
 #include <cstdlib>
 #include "Dimensions.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
 //=============================================================================
@@ -28,19 +29,21 @@ Dimensions::Dimensions(const std::vector<indexType>& dimsVector)
 #ifndef NLS_INDEX_TYPE_64
     for (auto k : dimsVector) {
         if (k < 0) {
-            Error(_W("Illegal argument to Dimensions constructor"));
+            Error(L"Nelson:types:invalidDimensions:illegalArgumentDimensionsConstructor",
+                L"Illegal argument to Dimensions constructor");
         }
     }
 #else
     if (szVector > maxDims) {
-        Error(_W("Illegal argument to Dimensions constructor"));
+        Error(L"Nelson:types:invalidDimensions:illegalArgumentDimensionsConstructor",
+            L"Illegal argument to Dimensions constructor");
     }
 #endif
     reset();
     for (indexType k = 0; k < szVector; ++k) {
         data[k] = dimsVector[k];
     }
-    length = szVector;
+    length_ = szVector;
 }
 //=============================================================================
 Dimensions::Dimensions(indexType rows, indexType cols)
@@ -48,36 +51,37 @@ Dimensions::Dimensions(indexType rows, indexType cols)
     reset();
     data[0] = rows;
     data[1] = cols;
-    length = 2;
+    length_ = 2;
 }
 //=============================================================================
 Dimensions::Dimensions(indexType dimCount)
 {
 #ifndef NLS_INDEX_TYPE_64
     if (dimCount < 0) {
-        Error(_W("Illegal argument to Dimensions constructor"));
+        Error(L"Nelson:types:invalidDimensions:illegalArgumentDimensionsConstructor",
+            L"Illegal argument to Dimensions constructor");
     }
 #endif
     reset();
-    length = dimCount;
+    length_ = dimCount;
 }
 //=============================================================================
 std::vector<indexType>
-Dimensions::getAsVector()
+Dimensions::asVector()
 {
     std::vector<indexType> vector;
-    vector.resize(length, 0);
-    for (indexType k = 0; k < length; ++k) {
+    vector.resize(length_, 0);
+    for (indexType k = 0; k < length_; ++k) {
         vector[k] = data[k];
     }
     return vector;
 }
 //=============================================================================
 indexType
-Dimensions::getMax()
+Dimensions::maximum()
 {
     sizeType maxL = 0;
-    for (indexType i = 0; i < length; i++) {
+    for (indexType i = 0; i < length_; i++) {
         maxL = (maxL > data[i]) ? maxL : data[i];
     }
     return maxL;
@@ -87,82 +91,105 @@ indexType&
 Dimensions::operator[](indexType i)
 {
     if (i >= maxDims) {
-        Error(_("Too many dimensions! Current limit is") + " " + std::to_string(Nelson::maxDims)
-            + ".");
+        Error(formatI18nMessage(
+            Nelson::resolveMessageTemplate("Nelson:types:tooManyDimensionsCurrent",
+                "Too many dimensions! Current limit is %d."),
+            Nelson::maxDims));
     }
-    if (i >= length) {
+    if (i >= length_) {
         indexType new_length = i + 1;
-        for (indexType j = length; j < new_length; j++) {
+        for (indexType j = length_; j < new_length; j++) {
             data[j] = 1;
         }
-        length = new_length;
+        length_ = new_length;
     }
     return data[i];
 }
 //=============================================================================
 indexType
-Dimensions::getAt(indexType i, bool checkLength) const
+Dimensions::at(indexType i, bool checkLength) const
 {
     if (i >= maxDims) {
-        Error(_("Too many dimensions! Current limit is") + " " + std::to_string(Nelson::maxDims)
-            + ".");
+        Error(formatI18nMessage(
+            Nelson::resolveMessageTemplate("Nelson:types:tooManyDimensionsCurrent",
+                "Too many dimensions! Current limit is %d."),
+            Nelson::maxDims));
     }
     if (checkLength) {
-        if (i >= length) {
-            Error(_("Invalid dimension position."));
+        if (i >= length_) {
+            Error("Nelson:types:invalidDimensions:invalidDimensionPosition",
+                "Invalid dimension position.");
         }
     }
     return data[i];
 }
 //=============================================================================
 indexType
-Dimensions::getLength() const
+Dimensions::length() const
 {
-    return length;
+    return length_;
 }
 //=============================================================================
 indexType
-Dimensions::getElementCount() const
+Dimensions::elementCount() const
 {
     indexType retval;
-    if (length == 0) {
+    if (length_ == 0) {
         return 0;
     }
     retval = 1;
-    for (indexType i = 0; i < length; i++) {
+    for (indexType i = 0; i < length_; i++) {
         retval *= data[i];
     }
     return retval;
 }
 //=============================================================================
 indexType
-Dimensions::getRows() const
+Dimensions::rows() const
 {
-    if (length == 0) {
+    if (length_ == 0) {
         return 0;
     }
     return data[0];
 }
 //=============================================================================
 indexType
-Dimensions::getColumns() const
+Dimensions::columns() const
 {
-    if (length == 0) {
+    if (length_ == 0) {
         return 0;
     }
-    if (length == 1) {
+    if (length_ == 1) {
         return 1;
     }
     return data[1];
 }
 //=============================================================================
 indexType
-Dimensions::getDimensionLength(indexType arg) const
+Dimensions::dimensionLength(indexType arg) const
 {
-    if (length <= arg) {
+    if (length_ <= arg) {
         return 1;
     }
     return data[arg];
+}
+//=============================================================================
+Dimensions
+Dimensions::foldForSubscriptCount(indexType subscriptCount) const
+{
+    Dimensions result(subscriptCount);
+    if (subscriptCount == 0) {
+        return result;
+    }
+    for (indexType i = 0; i < subscriptCount - 1; i++) {
+        result[i] = dimensionLength(i);
+    }
+    indexType folded = 1;
+    for (indexType k = subscriptCount - 1; k < length_; k++) {
+        folded *= data[k];
+    }
+    result[subscriptCount - 1] = folded;
+    return result;
 }
 //=============================================================================
 void
@@ -179,17 +206,17 @@ Dimensions::mapPoint(const Dimensions& point)
     indexType testableDims;
     retval = 0;
     nextCoeff = 1;
-    testableDims = (point.length < length) ? point.length : length;
+    testableDims = (point.length_ < length_) ? point.length_ : length_;
     for (indexType i = 0; i < testableDims; i++) {
         if ((point.data[i] < 0) || (point.data[i] >= data[i])) {
-            Error(_W("Index exceeds dimensions."));
+            Error(L"Nelson:badsubscript", L"Index exceeds array bounds.");
         }
         retval += nextCoeff * point.data[i];
         nextCoeff *= data[i];
     }
-    for (indexType j = testableDims; j < point.length; j++) {
+    for (indexType j = testableDims; j < point.length_; j++) {
         if (point.data[j] != 0) {
-            Error(_W("Index exceeds dimensions."));
+            Error(L"Nelson:badsubscript", L"Index exceeds array bounds.");
         }
     }
     return retval;
@@ -201,35 +228,13 @@ Dimensions::expandToCover(const Dimensions& a)
     sizeType sze;
     sizeType i;
     Dimensions dimensions(*this);
-    /**
-     * First, compute the larger of the two: the number of current dimensions
-     * and the number of requested dimensions.
-     */
-    sze = (a.length > length) ? a.length : dimensions.length;
-    /**
-     * Allocate a dimension vector to hold the new dimensions.  It should
-     * be of size sze.
-     */
+    sze = (a.length_ > length_) ? a.length_ : dimensions.length_;
     reset();
-    /**
-     * Now we loop over the dimensions.  For each dimensions, we could have
-     * three cases to deal with:
-     *   1. a[i] is undefined but dimensions[i] is -> newsize[i] = dimensions[i];
-     *   2. a[i] is defined but dimensions[i] is not -> newsize[i] = a[i];
-     *   3. a[i] and dimensions[i] are both defined ->
-     *                                newsize[i] = max(a[i],dimensions[i]);
-     */
+    // Each dimension takes the one that is defined, or the larger when both are.
     for (i = 0; i < sze; i++) {
-        /**
-         * Case 1:
-         */
-        if (i >= a.length) {
+        if (i >= a.length_) {
             (*this)[i] = dimensions[i];
-        }
-        /**
-         * Case 2:
-         */
-        else if (i >= dimensions.length) {
+        } else if (i >= dimensions.length_) {
             (*this)[i] = a.data[i];
         } else {
             (*this)[i] = (a.data[i] > dimensions[i]) ? a.data[i] : dimensions[i];
@@ -242,7 +247,7 @@ Dimensions::incrementModulo(const Dimensions& limit, int ordinal)
 {
     indexType n;
     data[ordinal]++;
-    for (n = ordinal; n < length - 1; n++) {
+    for (n = ordinal; n < length_ - 1; n++) {
         if (data[n] >= limit.data[n]) {
             data[n] = 0;
             data[n + 1]++;
@@ -253,28 +258,28 @@ Dimensions::incrementModulo(const Dimensions& limit, int ordinal)
 bool
 Dimensions::inside(const Dimensions& limit)
 {
-    return (data[length - 1] < limit.data[length - 1]);
+    return (data[length_ - 1] < limit.data[length_ - 1]);
 }
 //=============================================================================
 void
 Dimensions::simplify()
 {
-    if (length <= 2) {
+    if (length_ <= 2) {
         return;
     }
-    indexType i = length - 1;
+    indexType i = length_ - 1;
     while (i > 1 && data[i] == 1) {
         i--;
     }
-    length = i + 1;
+    length_ = i + 1;
 }
 //=============================================================================
 bool
 Dimensions::equals(const Dimensions& alt) const
 {
     bool retval;
-    retval = (length == alt.length);
-    for (indexType i = 0; i < length; i++) {
+    retval = (length_ == alt.length_);
+    for (indexType i = 0; i < length_; i++) {
         retval = retval && (data[i] == alt.data[i]);
     }
     return retval;
@@ -285,20 +290,20 @@ Dimensions::toWideString() const
 {
 #define MIDDLE_WMULTIPLY L"\U000000D7"
     std::wstring text;
-    if (length > 4) {
-        text.append(std::to_wstring(length) + L"-D");
+    if (length_ > 4) {
+        text.append(std::to_wstring(length_) + L"-D");
     } else {
-        if (length > 0) {
-            for (indexType i = 0; i < length - 1; i++) {
+        if (length_ > 0) {
+            for (indexType i = 0; i < length_ - 1; i++) {
                 unsigned long long int val = static_cast<unsigned long long int>(data[i]);
                 text.append(std::to_wstring(val));
-                if (length >= 1) {
+                if (length_ >= 1) {
                     text.append(MIDDLE_WMULTIPLY);
                 }
             }
         }
-        if (length >= 1) {
-            unsigned long long int val = static_cast<unsigned long long int>(data[length - 1]);
+        if (length_ >= 1) {
+            unsigned long long int val = static_cast<unsigned long long int>(data[length_ - 1]);
             text.append(std::to_wstring(val));
         }
     }
@@ -315,20 +320,20 @@ void
 Dimensions::reset()
 {
     std::fill(data.begin(), data.end(), 0);
-    length = 0;
+    length_ = 0;
 }
 //=============================================================================
 void
 Dimensions::zeroOut()
 {
-    std::fill_n(data.begin(), length, (indexType)0);
+    std::fill_n(data.begin(), length_, (indexType)0);
 }
 //=============================================================================
 void
 Dimensions::makeScalar()
 {
     reset();
-    length = 2;
+    length_ = 2;
     data[0] = 1;
     data[1] = 1;
 }
@@ -336,10 +341,10 @@ Dimensions::makeScalar()
 bool
 Dimensions::isScalar() const
 {
-    if (getLength() == 2) {
+    if (length() == 2) {
         return (data[0] == 1 && data[1] == 1);
     }
-    return (getElementCount() == 1);
+    return (elementCount() == 1);
 }
 //=============================================================================
 bool
@@ -351,43 +356,43 @@ Dimensions::isVector() const
 bool
 Dimensions::isRowVector() const
 {
-    return (getLength() == 2 && getRows() == 1);
+    return (length() == 2 && rows() == 1);
 }
 //=============================================================================
 bool
 Dimensions::isColumnVector() const
 {
-    return (getLength() == 2 && getColumns() == 1);
+    return (length() == 2 && columns() == 1);
 }
 //=============================================================================
 bool
 Dimensions::is2D() const
 {
-    return length <= 2;
+    return length_ <= 2;
 }
 //=============================================================================
 bool
 Dimensions::isSquare() const
 {
-    return is2D() && (getRows() == getColumns());
+    return is2D() && (rows() == columns());
 }
 //=============================================================================
 bool
 Dimensions::isEmpty(bool allDimensionsIsZero) const
 {
     if (allDimensionsIsZero) {
-        indexType l = getLength();
+        indexType l = length();
         for (indexType k = 0; k < l; k++) {
-            if (getDimensionLength(k) != 0) {
+            if (dimensionLength(k) != 0) {
                 return false;
             }
         }
         return true;
     }
-    if (getLength() == 0) {
+    if (length() == 0) {
         return true;
     }
-    return (getElementCount() == 0);
+    return (elementCount() == 0);
 }
 //=============================================================================
 Dimensions

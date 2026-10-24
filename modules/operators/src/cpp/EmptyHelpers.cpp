@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -15,7 +15,7 @@ Dimensions
 emptyDimensionsHelper(Dimensions& dims, indexType dim)
 {
     Dimensions dimsOut(dims);
-    if (dims.getLength() == 2) {
+    if (dims.length() == 2) {
         switch (dim) {
         case 0: {
             dimsOut[0] = 1;
@@ -37,7 +37,7 @@ emptyDimensionsHelper(Dimensions& dims, indexType dim)
             if (dims[0] == 0 && dims[1] == 0) {
                 dimsOut[0] = 0;
             } else {
-                dimsOut[0] = dims.getAt(0);
+                dimsOut[0] = dims.at(0);
             }
             dimsOut[1] = 1;
         } break;
@@ -52,18 +52,18 @@ emptyDimensionsHelper(Dimensions& dims, indexType dim)
     }
     int d = dim == 0 ? -1 : (int)dim;
     if (d < 0) {
-        for (indexType i = 0; i < dims.getLength(); i++) {
-            if (dims.getDimensionLength(i) != 1) {
+        for (indexType i = 0; i < dims.length(); i++) {
+            if (dims.dimensionLength(i) != 1) {
                 dim = i;
                 break;
             }
         }
     }
-    if (dim < dims.getLength()) {
+    if (dim < dims.length()) {
         dimsOut[dim] = 1;
     }
     return dimsOut;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

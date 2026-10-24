@@ -34,5 +34,5 @@ end
 if isempty(R)
   skip_testsuite(true, 'webread failed after retries or returned empty result');
 end
-assert_istrue(ischar(R));
+asserts.istrue(ischar(R));
 %=============================================================================

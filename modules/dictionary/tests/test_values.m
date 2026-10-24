@@ -9,7 +9,19 @@
 %=============================================================================
 names = ["Unicycle" "Bicycle" "Tricycle"];
 wheels = [1 2 3];
-d = dictionary(wheels,names);
+d = dictionary(wheels, names);
 R = values(d);
 REF = ["Unicycle"; "Bicycle"; "Tricycle"];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
+%=============================================================================
+d = dictionary(string({'scalar', 'vector', 'cell'}), {1, [2 3], {4, 5}});
+R = values(d, 'cell');
+asserts.isequal(R{1}, 1);
+asserts.isequal(R{2}, [2 3]);
+asserts.isequal(R{3}, {4, 5});
+R = values(d);
+asserts.isequal(numel(R), 3);
+asserts.isequal(R{1}, 1);
+asserts.isequal(R{2}, [2 3]);
+asserts.isequal(R{3}, {4, 5});
+%=============================================================================

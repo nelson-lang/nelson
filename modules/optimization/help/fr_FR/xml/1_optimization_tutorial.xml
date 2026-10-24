@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>optimization tutorial</keyword>
+  <short_description>Tutoriel du module optimization.</short_description>
+  <description>
+    <p>
+      Le module <b>optimization</b> fournit des solveurs num&#233;riques directs et une couche de mod&#233;lisation par probl&#232;me. Utiliser les solveurs directs lorsque les matrices de coefficients, la fonction r&#233;siduelle ou la fonction objectif sont d&#233;j&#224; disponibles. Utiliser la couche par probl&#232;me lorsque le mod&#232;le est plus lisible sous forme de variables, expressions et contraintes.
+    </p>
+    <table style="width:100%">
+      <tr>
+        <th>Type de probl&#232;me</th>
+        <th>Solveur direct</th>
+        <th>Entr&#233;es usuelles</th>
+      </tr>
+      <tr>
+        <td>Minimisation scalaire born&#233;e</td>
+        <td><b>fminbnd</b></td>
+        <td>Fonction objectif et intervalle fini.</td>
+      </tr>
+      <tr>
+        <td>Minimisation sans contrainte</td>
+        <td><b>fminunc</b>, <b>fminsearch</b></td>
+        <td>Fonction objectif et point initial.</td>
+      </tr>
+      <tr>
+        <td>Recherche de z&#233;ro</td>
+        <td><b>fzero</b></td>
+        <td>Fonction et encadrement ou point initial.</td>
+      </tr>
+      <tr>
+        <td>Programmation lin&#233;aire</td>
+        <td><b>linprog</b></td>
+        <td>Objectif lin&#233;aire, contraintes lin&#233;aires et bornes.</td>
+      </tr>
+      <tr>
+        <td>Programmation lin&#233;aire mixte enti&#232;re</td>
+        <td><b>intlinprog</b></td>
+        <td>Objectif lin&#233;aire, indices entiers, contraintes et bornes.</td>
+      </tr>
+      <tr>
+        <td>Programmation quadratique</td>
+        <td><b>quadprog</b></td>
+        <td>Objectif quadratique, contraintes lin&#233;aires et bornes.</td>
+      </tr>
+      <tr>
+        <td>Minimisation non lin&#233;aire contrainte</td>
+        <td><b>fmincon</b></td>
+        <td>Objectif non lin&#233;aire, contraintes et bornes.</td>
+      </tr>
+      <tr>
+        <td>Moindres carr&#233;s</td>
+        <td><b>lsqnonneg</b>, <b>lsqnonlin</b></td>
+        <td>Mod&#232;le r&#233;siduel lin&#233;aire ou non lin&#233;aire.</td>
+      </tr>
+      <tr>
+        <td>Syst&#232;mes non lin&#233;aires</td>
+        <td><b>fsolve</b></td>
+        <td>Fonction vectorielle et point initial.</td>
+      </tr>
+    </table>
+    <p>
+      Le comportement des solveurs se contr&#244;le avec <b>optimoptions</b> ou <b>optimset</b>. Utiliser <b>optimget</b> pour lire une option avec une valeur de repli. Les probl&#232;mes lin&#233;aires et lin&#233;aires mixtes entiers utilisent le backend HiGHS lorsqu&apos;il est disponible. La compilation problem-based route les probl&#232;mes lin&#233;aires continus, lin&#233;aires mixtes entiers, quadratiques et non lin&#233;aires contraints vers le solveur direct correspondant. Les probl&#232;mes non lin&#233;aires avec variables enti&#232;res ou binaires sont refus&#233;s explicitement.
+    </p>
+    <p>
+      Le workflow par probl&#232;me commence avec <b>optimvar</b> et <b>optimproblem</b>. Les expressions et contraintes sont construites avec l&apos;arithm&#233;tique ordinaire. <b>solve</b> appelle un solveur direct pris en charge, et <b>prob2struct</b> retourne la structure de solveur direct pour inspection ou ex&#233;cution bas niveau.
+    </p>
+    <p>
+      Les variables binaires cr&#233;&#233;es avec <b>optimvar</b> ont par d&#233;faut les bornes 0 et 1. Les variables enti&#232;res et binaires dirigent les mod&#232;les lin&#233;aires vers <b>intlinprog</b>; les mod&#232;les lin&#233;aires continus vers <b>linprog</b>; les mod&#232;les continus non lin&#233;aires contraints vers <b>fmincon</b>. Les probl&#232;mes de maximisation sont convertis en interne en minimisation, puis <b>solve</b> retourne la valeur objectif dans le sens original du probl&#232;me.
+    </p>
+    <p>
+      Lorsqu&apos;un solveur direct prouve qu&apos;un probl&#232;me est infaisable et ne retourne pas de vecteur primal, <b>solve</b> retourne une structure de solution avec les noms des variables du mod&#232;le et des valeurs vides. Les diagnostics comme <b>exitflag</b> et <b>output.message</b> restent ainsi disponibles sans erreur de d&#233;paquetage du r&#233;sultat.
+    </p>
+  </description>
+  <used_function>
+    <used_function_item>fminbnd</used_function_item>
+    <used_function_item>fminunc</used_function_item>
+    <used_function_item>fminsearch</used_function_item>
+    <used_function_item>fzero</used_function_item>
+    <used_function_item>fmincon</used_function_item>
+    <used_function_item>linprog</used_function_item>
+    <used_function_item>intlinprog</used_function_item>
+    <used_function_item>optimproblem</used_function_item>
+    <used_function_item>optimvar</used_function_item>
+    <used_function_item>solve</used_function_item>
+    <used_function_item>prob2struct</used_function_item>
+  </used_function>
+  <bibliography>Brent, R. P., Algorithms for Minimization Without Derivatives, Prentice-Hall, 1973.
+Nelder, J. A. et Mead, R., A simplex method for function minimization, The Computer Journal, 1965.
+Lawson, C. L. et Hanson, R. J., Solving Least Squares Problems, SIAM, 1995.
+Nocedal, J. et Wright, S. J., Numerical Optimization, Springer, 2006.
+Huangfu, Q. et Hall, J. A. J., Parallelizing the dual revised simplex method, Mathematical Programming Computation, 2018.</bibliography>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Minimiser une fonction scalaire sur un intervalle born&#233;.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[opts = optimset('Display', 'off');
+[x, fval] = fminbnd(@(x) (x - 1.5)^2 + 0.25, -2, 4, opts)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Minimiser une fonction non lin&#233;aire sans contrainte.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[fun = @(x) 3*x(1)^2 + 2*x(1)*x(2) + x(2)^2 - 4*x(1) + 5*x(2);
+opts = optimoptions('fminunc', 'Display', 'off');
+[x, fval] = fminunc(fun, [1, 1], opts)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>R&#233;soudre un probl&#232;me lin&#233;aire avec variables positives.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[f = [-1; -1];
+A = [1 2; 4 2];
+b = [4; 12];
+opts = optimoptions('linprog', 'Display', 'off');
+[x, fval, exitflag] = linprog(f, A, b, [], [], [0; 0], [], opts)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>R&#233;soudre un petit probl&#232;me lin&#233;aire mixte entier.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[f = [-5; -4; -3];
+intcon = 1:3;
+A = [2 3 1; 4 1 2];
+b = [5; 8];
+lb = [0; 0; 0];
+ub = [1; 1; 1];
+opts = optimoptions('intlinprog', 'Display', 'off');
+[x, fval, exitflag] = intlinprog(f, intcon, A, b, [], [], lb, ub, [], opts)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Construire et r&#233;soudre un mod&#232;le lin&#233;aire par probl&#232;me.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[x = optimvar('x', 2, 'LowerBound', 0);
+prob = optimproblem('Objective', -x(1) - x(2));
+prob.Constraints.capacity = [1 2; 4 2] * x <= [4; 12];
+problem = prob2struct(prob);
+[sol, fval, exitflag] = solve(prob);
+sol.x
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${optimization}optimoptions">optimoptions</link></see_also_item>
+    <see_also_item><link linkend="${optimization}optimproblem">optimproblem</link></see_also_item>
+    <see_also_item><link linkend="${optimization}fminunc">fminunc</link></see_also_item>
+    <see_also_item><link linkend="${optimization}fmincon">fmincon</link></see_also_item>
+    <see_also_item><link linkend="${optimization}solve">solve</link></see_also_item>
+    <see_also_item><link linkend="${optimization}linprog">linprog</link></see_also_item>
+    <see_also_item><link linkend="${optimization}intlinprog">intlinprog</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>tutoriel ajout&#233;</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

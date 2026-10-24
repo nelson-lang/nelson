@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72" width="72" height="72">
+  <rect width="72" height="72" rx="14" fill="#E6F1FB" stroke="#B5D4F4" stroke-width="1.5"/>
+  <rect x="14" y="18" width="44" height="34" rx="5" fill="#0c1f3a" stroke="#B5D4F4" stroke-width="1"/>
+  <line x1="22" y1="18" x2="22" y2="52" stroke="#B5D4F4" stroke-width="0.5"/>
+  <line x1="36" y1="18" x2="36" y2="52" stroke="#B5D4F4" stroke-width="0.5"/>
+  <line x1="50" y1="18" x2="50" y2="52" stroke="#B5D4F4" stroke-width="0.5"/>
+  <line x1="14" y1="29" x2="58" y2="29" stroke="#B5D4F4" stroke-width="0.5"/>
+  <line x1="14" y1="41" x2="58" y2="41" stroke="#B5D4F4" stroke-width="0.5"/>
+  <path d="M19 45 C26 27 35 49 43 31 C49 19 54 24 57 20" fill="none" stroke="#0C447C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+  <polygon points="-1,22 -1,30 5,26" fill="#0C447C" opacity="0.7"/>
+  <polygon points="-1,32 -1,40 5,36" fill="#0C447C" opacity="0.7"/>
+  <polygon points="-1,42 -1,50 5,46" fill="#0C447C" opacity="0.7"/>
+</svg>

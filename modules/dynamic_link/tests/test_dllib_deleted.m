@@ -12,5 +12,5 @@ lib = dlopen([modulepath('nelson', 'builtin'), '/libnlsDynamic_link', getdynlibe
 f = dlsym(lib, 'dynlibTestReturnTypeScalarUInt8', 'uint8', {});
 dlclose(lib);
 %=============================================================================
-assert_checkerror('r = dlcall(f);', _('dllib valid handle expected.'));
+asserts.checkerror('r = dlcall(f);', _('dllib valid handle expected.'));
 %=============================================================================

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // This file is part of Nelson.
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
@@ -9,8 +9,10 @@
 //=============================================================================
 #include <algorithm>
 #include "slicot_ab07ndBuiltin.hpp"
+#include "SlicotFortranAbi.hpp"
 #include "Error.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -18,9 +20,10 @@ using namespace Nelson;
 extern "C"
 {
 #endif
-    extern int
+    extern SLICOT_SUBROUTINE
     ab07nd_(int* N, int* M, double* A, int* LDA, double* B, int* LDB, double* C, int* LDC,
-        double* D, int* LDD, double* RCOND, int* IWORK, double* DWORK, int* LDWORK, int* INFO);
+        double* D, int* LDD, double* RCOND, int* IWORK, double* DWORK, int* LDWORK,
+        int* INFO SLICOT_STRLEN_DECL(0));
 #ifdef __cplusplus
 }
 #endif
@@ -36,88 +39,100 @@ Nelson::SlicotGateway::slicot_ab07ndBuiltin(int nLhs, const ArrayOfVector& argIn
     // INPUT VARIABLES
     // IN/OUT VARIABLES
     ArrayOf A = argIn[0];
-    Dimensions dimsA = A.getDimensions();
+    Dimensions dimsA = A.dimensions();
     A.promoteType(NLS_DOUBLE);
     ArrayOf A_output = A;
     A_output.ensureSingleOwner();
-    double* A_output_ptr = (double*)A_output.getDataPointer();
+    double* A_output_ptr = (double*)A_output.dataPointer();
     ArrayOf B = argIn[1];
-    Dimensions dimsB = B.getDimensions();
+    Dimensions dimsB = B.dimensions();
     B.promoteType(NLS_DOUBLE);
     ArrayOf B_output = B;
     B_output.ensureSingleOwner();
-    double* B_output_ptr = (double*)B_output.getDataPointer();
+    double* B_output_ptr = (double*)B_output.dataPointer();
     ArrayOf C = argIn[2];
-    Dimensions dimsC = C.getDimensions();
+    Dimensions dimsC = C.dimensions();
     C.promoteType(NLS_DOUBLE);
     ArrayOf C_output = C;
     C_output.ensureSingleOwner();
-    double* C_output_ptr = (double*)C_output.getDataPointer();
+    double* C_output_ptr = (double*)C_output.dataPointer();
     ArrayOf D = argIn[3];
-    Dimensions dimsD = D.getDimensions();
+    Dimensions dimsD = D.dimensions();
     D.promoteType(NLS_DOUBLE);
     ArrayOf D_output = D;
     D_output.ensureSingleOwner();
-    double* D_output_ptr = (double*)D_output.getDataPointer();
+    double* D_output_ptr = (double*)D_output.dataPointer();
     // LOCAL VARIABLES
-    ArrayOf N = ArrayOf::int32RowVectorConstructor(1);
-    int* N_ptr = (int*)N.getDataPointer();
-    N_ptr[0] = (int)A.getRows();
-    ArrayOf M = ArrayOf::int32RowVectorConstructor(1);
-    int* M_ptr = (int*)M.getDataPointer();
-    M_ptr[0] = (int)B.getColumns();
-    ArrayOf LDA = ArrayOf::int32RowVectorConstructor(1);
-    int* LDA_ptr = (int*)LDA.getDataPointer();
-    LDA_ptr[0] = std::max(1, (int)A.getRows());
-    ArrayOf LDB = ArrayOf::int32RowVectorConstructor(1);
-    int* LDB_ptr = (int*)LDB.getDataPointer();
-    LDB_ptr[0] = std::max(1, (int)A.getRows());
-    ArrayOf LDC = ArrayOf::int32RowVectorConstructor(1);
-    int* LDC_ptr = (int*)LDC.getDataPointer();
-    LDC_ptr[0] = std::max(1, (int)B.getColumns());
-    ArrayOf LDD = ArrayOf::int32RowVectorConstructor(1);
-    int* LDD_ptr = (int*)LDD.getDataPointer();
-    LDD_ptr[0] = std::max(1, (int)B.getColumns());
-    ArrayOf IWORK = ArrayOf::int32Matrix2dConstructor(1, 2 * (int)B.getColumns());
-    int* IWORK_ptr = (int*)IWORK.getDataPointer();
-    ArrayOf DWORK = ArrayOf::doubleMatrix2dConstructor(1, std::max(1, 4 * (int)B.getColumns()));
-    double* DWORK_ptr = (double*)DWORK.getDataPointer();
-    ArrayOf LDWORK = ArrayOf::int32RowVectorConstructor(1);
-    int* LDWORK_ptr = (int*)LDWORK.getDataPointer();
-    LDWORK_ptr[0] = std::max(1, 4 * (int)B.getColumns());
+    ArrayOf N = ArrayOf::int32RowVector(1);
+    int* N_ptr = (int*)N.dataPointer();
+    N_ptr[0] = (int)A.rows();
+    ArrayOf M = ArrayOf::int32RowVector(1);
+    int* M_ptr = (int*)M.dataPointer();
+    M_ptr[0] = (int)B.columns();
+    ArrayOf LDA = ArrayOf::int32RowVector(1);
+    int* LDA_ptr = (int*)LDA.dataPointer();
+    LDA_ptr[0] = std::max(1, (int)A.rows());
+    ArrayOf LDB = ArrayOf::int32RowVector(1);
+    int* LDB_ptr = (int*)LDB.dataPointer();
+    LDB_ptr[0] = std::max(1, (int)A.rows());
+    ArrayOf LDC = ArrayOf::int32RowVector(1);
+    int* LDC_ptr = (int*)LDC.dataPointer();
+    LDC_ptr[0] = std::max(1, (int)B.columns());
+    ArrayOf LDD = ArrayOf::int32RowVector(1);
+    int* LDD_ptr = (int*)LDD.dataPointer();
+    LDD_ptr[0] = std::max(1, (int)B.columns());
+    ArrayOf IWORK = ArrayOf::int32Matrix2d(1, 2 * (int)B.columns());
+    int* IWORK_ptr = (int*)IWORK.dataPointer();
+    ArrayOf DWORK = ArrayOf::doubleMatrix2d(1, std::max(1, 4 * (int)B.columns()));
+    double* DWORK_ptr = (double*)DWORK.dataPointer();
+    ArrayOf LDWORK = ArrayOf::int32RowVector(1);
+    int* LDWORK_ptr = (int*)LDWORK.dataPointer();
+    LDWORK_ptr[0] = std::max(1, 4 * (int)B.columns());
     // OUTPUT VARIABLES
-    ArrayOf RCOND_output = ArrayOf::doubleRowVectorConstructor(1);
-    double* RCOND_output_ptr = (double*)RCOND_output.getDataPointer();
-    ArrayOf INFO_output = ArrayOf::int32RowVectorConstructor(1);
-    int* INFO_output_ptr = (int*)INFO_output.getDataPointer();
+    ArrayOf RCOND_output = ArrayOf::doubleRowVector(1);
+    double* RCOND_output_ptr = (double*)RCOND_output.dataPointer();
+    ArrayOf INFO_output = ArrayOf::int32RowVector(1);
+    int* INFO_output_ptr = (int*)INFO_output.dataPointer();
     // CHECK INPUT VARIABLES DIMENSIONS
-    Dimensions dimsA_expected(std::max(1, (int)A.getRows()), (int)A.getRows());
+    Dimensions dimsA_expected(std::max(1, (int)A.rows()), (int)A.rows());
     if (!dimsA.equals(dimsA_expected)) {
-        Error(_("Input argument #1: wrong size.") + " " + dimsA_expected.toString() + " "
-            + "expected" + ".");
+        RaiseError(formatI18nMessage(Nelson::resolveMessageTemplate("Nelson:slicot:inputWrongSize",
+                                         "Input argument #%d: wrong size."),
+                       1)
+                + " " + dimsA_expected.toString() + " " + "expected" + ".",
+            "Nelson:slicot:wrongSize");
     }
-    Dimensions dimsB_expected(std::max(1, (int)A.getRows()), (int)B.getColumns());
+    Dimensions dimsB_expected(std::max(1, (int)A.rows()), (int)B.columns());
     if (!dimsB.equals(dimsB_expected)) {
-        Error(_("Input argument #2: wrong size.") + " " + dimsB_expected.toString() + " "
-            + "expected" + ".");
+        RaiseError(formatI18nMessage(Nelson::resolveMessageTemplate("Nelson:slicot:inputWrongSize",
+                                         "Input argument #%d: wrong size."),
+                       2)
+                + " " + dimsB_expected.toString() + " " + "expected" + ".",
+            "Nelson:slicot:wrongSize");
     }
-    Dimensions dimsC_expected(std::max(1, (int)B.getColumns()), (int)A.getRows());
+    Dimensions dimsC_expected(std::max(1, (int)B.columns()), (int)A.rows());
     if (!dimsC.equals(dimsC_expected)) {
-        Error(_("Input argument #3: wrong size.") + " " + dimsC_expected.toString() + " "
-            + "expected" + ".");
+        RaiseError(formatI18nMessage(Nelson::resolveMessageTemplate("Nelson:slicot:inputWrongSize",
+                                         "Input argument #%d: wrong size."),
+                       3)
+                + " " + dimsC_expected.toString() + " " + "expected" + ".",
+            "Nelson:slicot:wrongSize");
     }
-    Dimensions dimsD_expected(std::max(1, (int)B.getColumns()), (int)B.getColumns());
+    Dimensions dimsD_expected(std::max(1, (int)B.columns()), (int)B.columns());
     if (!dimsD.equals(dimsD_expected)) {
-        Error(_("Input argument #4: wrong size.") + " " + dimsD_expected.toString() + " "
-            + "expected" + ".");
+        RaiseError(formatI18nMessage(Nelson::resolveMessageTemplate("Nelson:slicot:inputWrongSize",
+                                         "Input argument #%d: wrong size."),
+                       4)
+                + " " + dimsD_expected.toString() + " " + "expected" + ".",
+            "Nelson:slicot:wrongSize");
     }
     // CALL EXTERN FUNCTION
     try {
         ab07nd_(N_ptr, M_ptr, A_output_ptr, LDA_ptr, B_output_ptr, LDB_ptr, C_output_ptr, LDC_ptr,
             D_output_ptr, LDD_ptr, RCOND_output_ptr, IWORK_ptr, DWORK_ptr, LDWORK_ptr,
-            INFO_output_ptr);
+            INFO_output_ptr SLICOT_STRLEN_ARGS(0));
     } catch (const std::runtime_error&) {
-        Error("ab07nd function fails.");
+        Error("Nelson:slicot:computationFailed", "%s function fails.", "ab07nd");
     }
     // ASSIGN OUTPUT VARIABLES
     if (nLhs > 0) {

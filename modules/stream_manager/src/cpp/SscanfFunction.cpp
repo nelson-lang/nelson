@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -21,9 +21,9 @@
 #include "SscanfFunction.hpp"
 #include "characters_encoding.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "FileSystemWrapper.hpp"
-#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -40,8 +40,8 @@ convertToArrayOfSscanf(ArrayOfVector& values, NelsonType classDestination, bool 
 
     if (mixed) {
         ArrayOf v = values[0];
-        M = v.getRows();
-        N = v.getColumns();
+        M = v.rows();
+        N = v.columns();
     } else {
         if (!haveThirdArgument) {
             M = values.size();
@@ -64,24 +64,24 @@ convertToArrayOfSscanf(ArrayOfVector& values, NelsonType classDestination, bool 
 
     if (mixed) {
         ArrayOf v = values[0];
-        T* src = (T*)v.getDataPointer();
+        T* src = (T*)v.dataPointer();
         std::memcpy(ptr, src, sizeof(T) * minLength);
     } else {
         switch (classDestination) {
         case NLS_UINT64: {
             for (indexType k = 0; k < minLength; k++) {
-                ptr[k] = (T)values[k].getContentAsUnsignedInteger64Scalar();
+                ptr[k] = (T)values[k].asUint64Scalar();
             }
         } break;
         case NLS_INT64: {
             for (indexType k = 0; k < minLength; k++) {
-                ptr[k] = (T)values[k].getContentAsInteger64Scalar();
+                ptr[k] = (T)values[k].asInt64Scalar();
             }
         } break;
         case NLS_DOUBLE:
         default: {
             for (indexType k = 0; k < minLength; k++) {
-                ptr[k] = (T)values[k].getContentAsDoubleScalar();
+                ptr[k] = (T)values[k].asDoubleScalar();
             }
         } break;
         }
@@ -114,7 +114,8 @@ fscanfAsInt64(FILE* filepointer, const std::string& fmt, int64& value, std::stri
     value = (int64)sdumint64;
     if (feof(filepointer) || resf == EOF || resf == 0) {
         if (resf == 0) {
-            errorMessage = _("Matching failure in format.");
+            errorMessage = Nelson::resolveMessageTemplate(
+                "Nelson:stream_manager:matchingFailureFormat", "Matching failure in format.");
         }
         return false;
     }
@@ -125,20 +126,7 @@ static bool
 fscanfAsCharacterVector(FILE* filepointer, const std::string& fmt, bool asChar, std::string& value,
     std::string& errorMessage)
 {
-    int pos = 0;
-    char buffer[8192];
-    int resf = fscanf(filepointer, fmt.c_str(), buffer, &pos);
-    if (asChar) {
-        buffer[resf] = 0;
-    }
-    value = buffer;
-    if (resf == EOF || resf == 0) {
-        if (resf == 0) {
-            errorMessage = _("Matching failure in format.");
-        }
-        return false;
-    }
-    return true;
+    return scanfReadCharsOrString(filepointer, fmt.c_str(), asChar, value);
 }
 //=============================================================================
 static bool
@@ -150,7 +138,8 @@ fscanfAsUInt64(FILE* filepointer, const std::string& fmt, uint64& value, std::st
     value = (uint64)sdumint64;
     if (resf == EOF || resf == 0) {
         if (resf == 0) {
-            errorMessage = _("Matching failure in format.");
+            errorMessage = Nelson::resolveMessageTemplate(
+                "Nelson:stream_manager:matchingFailureFormat", "Matching failure in format.");
         }
         return false;
     }
@@ -166,7 +155,8 @@ fscanfUnsignedIntegerAsDouble(
     int resf = fscanf(filepointer, fmt.c_str(), &dumpUnsignedInt, &pos);
     value = (double)dumpUnsignedInt;
     if (resf == EOF || resf == 0) {
-        errorMessage = _("Matching failure in format.");
+        errorMessage = Nelson::resolveMessageTemplate(
+            "Nelson:stream_manager:matchingFailureFormat", "Matching failure in format.");
         return false;
     }
     return true;
@@ -182,7 +172,8 @@ fscanfIntegerAsDouble(
     value = (double)sdumdouble;
     if (resf == EOF || resf == 0) {
         if (resf == 0) {
-            errorMessage = _("Matching failure in format.");
+            errorMessage = Nelson::resolveMessageTemplate(
+                "Nelson:stream_manager:matchingFailureFormat", "Matching failure in format.");
         }
         return false;
     }
@@ -196,24 +187,8 @@ fscanfAsDouble(FILE* filepointer, const std::string& fmt, double& value, std::st
     int resf = fscanf(filepointer, fmt.c_str(), &value, &pos);
     if (resf == EOF || resf == 0) {
         if (resf == 0) {
-            errorMessage = _("Matching failure in format.");
-        }
-        return false;
-    }
-    return true;
-}
-//=============================================================================
-static bool
-fscanfSingleAsDouble(
-    FILE* filepointer, const std::string& fmt, double& value, std::string& errorMessage)
-{
-    int pos = 0;
-    single dumpAsFloat = single(0.);
-    int resf = fscanf(filepointer, fmt.c_str(), &dumpAsFloat, &pos);
-    value = (double)dumpAsFloat;
-    if (resf == EOF || resf == 0) {
-        if (resf == 0) {
-            errorMessage = _("Matching failure in format.");
+            errorMessage = Nelson::resolveMessageTemplate(
+                "Nelson:stream_manager:matchingFailureFormat", "Matching failure in format.");
         }
         return false;
     }
@@ -241,13 +216,16 @@ fscanfInternal(FILE* filepointer, const std::string& format, double m, double n,
         try {
             buff = new char[format.size() + 1];
         } catch (std::bad_alloc&) {
-            errorMessage = wstring_to_utf8(ERROR_MEMORY_ALLOCATION);
+            errorMessage
+                = wstring_to_utf8(L"Memory allocation error... You may have run out of memory!");
             return {};
         }
         strcpy(buff, format.c_str());
         char* dp = buff;
         char* np;
         char sv;
+        size_t valuesBefore = values.size();
+        bool literalConsumed = false;
         while (*dp) {
             pos = 0;
             np = dp;
@@ -263,6 +241,7 @@ fscanfInternal(FILE* filepointer, const std::string& format, double m, double n,
                 fmt += fmtPosition;
             }
             resf = fscanf(filepointer, fmt.c_str(), &pos);
+            literalConsumed = literalConsumed || pos > 0;
             pos = 0;
             if (feof(filepointer)) {
                 bContinue = false;
@@ -272,12 +251,14 @@ fscanfInternal(FILE* filepointer, const std::string& format, double m, double n,
                 np = validateScanFormatSpec(dp + 1);
                 if (!np) {
                     delete[] buff;
-                    errorMessage = _("Invalid format.");
+                    errorMessage = Nelson::resolveMessageTemplate(
+                        "Nelson:stream_manager:invalidFormat", "Invalid format.");
                     goto endLoopWscanf;
                 } else {
                     if (*(np - 1) == '%') {
                         pos = 0;
                         resf = fscanf(filepointer, "%%%n", &pos);
+                        literalConsumed = literalConsumed || pos > 0;
                         if (resf == EOF) {
                             bContinue = false;
                         }
@@ -290,6 +271,16 @@ fscanfInternal(FILE* filepointer, const std::string& format, double m, double n,
                         }
                         sv = *np;
                         *np = 0;
+                        if (*(dp + 1) == '*') {
+                            // Assignment suppression ("%*d"): advance the input, store nothing.
+                            bool bOK = scanfConsumeSuppressed(filepointer, std::string(dp));
+                            if (!bOK) {
+                                bContinue = false;
+                            }
+                            *np = sv;
+                            dp = np;
+                            continue;
+                        }
                         switch (*(np - 1)) {
                         case 'd':
                         case 'i': {
@@ -310,7 +301,7 @@ fscanfInternal(FILE* filepointer, const std::string& format, double m, double n,
                                     bContinue = false;
                                     break;
                                 }
-                                values.push_back(ArrayOf::int64Constructor(value));
+                                values.push_back(ArrayOf::int64Scalar(value));
                             } else {
                                 if (outType == AS_NONE) {
                                     outType = AS_DOUBLE;
@@ -327,7 +318,7 @@ fscanfInternal(FILE* filepointer, const std::string& format, double m, double n,
                                     bContinue = false;
                                     break;
                                 }
-                                values.push_back(ArrayOf::doubleConstructor(value));
+                                values.push_back(ArrayOf::doubleScalar(value));
                             }
                         } break;
                         case 'o':
@@ -350,7 +341,7 @@ fscanfInternal(FILE* filepointer, const std::string& format, double m, double n,
                                     bContinue = false;
                                     break;
                                 }
-                                values.push_back(ArrayOf::uint64Constructor(value));
+                                values.push_back(ArrayOf::uint64Scalar(value));
                             } else {
                                 if (outType == AS_NONE) {
                                     outType = AS_DOUBLE;
@@ -364,11 +355,13 @@ fscanfInternal(FILE* filepointer, const std::string& format, double m, double n,
                                 bool bOK = fscanfUnsignedIntegerAsDouble(
                                     filepointer, fmt, value, errorMessage);
                                 if (!bOK) {
-                                    errorMessage = _("Matching failure in format.");
+                                    errorMessage = Nelson::resolveMessageTemplate(
+                                        "Nelson:stream_manager:matchingFailureFormat",
+                                        "Matching failure in format.");
                                     bContinue = false;
                                     break;
                                 }
-                                values.push_back(ArrayOf::doubleConstructor(value));
+                                values.push_back(ArrayOf::doubleScalar(value));
                             }
                         } break;
                         case 'e':
@@ -382,20 +375,21 @@ fscanfInternal(FILE* filepointer, const std::string& format, double m, double n,
                                 }
                             }
                             outTypes.push_back(outType);
-                            fmt = std::string(dp);
+                            // Read %e/%f/%g as double to keep full precision: a plain
+                            // spec such as "%f" gets the 'l' length modifier.
+                            std::string spec = std::string(dp);
+                            if (!as64bit && !spec.empty()) {
+                                spec.insert(spec.size() - 1, "l");
+                            }
+                            fmt = spec;
                             fmt += fmtPosition;
                             double value = 0;
-                            bool bOK = false;
-                            if (as64bit) {
-                                bOK = fscanfAsDouble(filepointer, fmt, value, errorMessage);
-                            } else {
-                                bOK = fscanfSingleAsDouble(filepointer, fmt, value, errorMessage);
-                            }
+                            bool bOK = fscanfAsDouble(filepointer, fmt, value, errorMessage);
                             if (!bOK) {
                                 bContinue = false;
                                 break;
                             }
-                            values.push_back(ArrayOf::doubleConstructor(value));
+                            values.push_back(ArrayOf::doubleScalar(value));
                         } break;
                         case 'c':
                         case 's': {
@@ -409,7 +403,8 @@ fscanfInternal(FILE* filepointer, const std::string& format, double m, double n,
                             outTypes.push_back(outType);
                             if (as64bit) {
                                 delete[] buff;
-                                errorMessage = _("Invalid format.");
+                                errorMessage = Nelson::resolveMessageTemplate(
+                                    "Nelson:stream_manager:invalidFormat", "Invalid format.");
                                 goto endLoopWscanf;
                             }
                             bool asChar = (*(np - 1) == 'c');
@@ -422,14 +417,18 @@ fscanfInternal(FILE* filepointer, const std::string& format, double m, double n,
                                 bContinue = false;
                                 break;
                             }
-                            values.push_back(ArrayOf::characterArrayConstructor(value));
+                            values.push_back(ArrayOf::characterArray(value));
                         } break;
                         default: {
                             if (buff) {
                                 delete[] buff;
                                 buff = nullptr;
                             }
-                            errorMessage = _("Unsupported sscanf format.");
+                            errorMessage
+                                = formatI18nMessage(Nelson::resolveMessageTemplate(
+                                                        "Nelson:stream_manager:unsupportedFormat",
+                                                        "Unsupported %s format."),
+                                    "sscanf");
                             goto endLoopWscanf;
                         } break;
                         }
@@ -443,6 +442,11 @@ fscanfInternal(FILE* filepointer, const std::string& format, double m, double n,
             delete[] buff;
             buff = nullptr;
         }
+        if (values.size() == valuesBefore && !literalConsumed) {
+            // a pass that consumed nothing (empty or unmatched format) would
+            // repeat forever: stop here.
+            bContinue = false;
+        }
     }
 
 endLoopWscanf:
@@ -450,7 +454,7 @@ endLoopWscanf:
     ArrayOf value;
     if (count == 0) {
         Dimensions empty(0, 0);
-        value = ArrayOf::emptyConstructor(empty);
+        value = ArrayOf::empty(empty);
         switch (outType) {
         case AS_STRING: {
             value.promoteType(NLS_CHAR);
@@ -475,10 +479,10 @@ endLoopWscanf:
     case AS_STRING: {
         std::wstring strs;
         for (auto& value : values) {
-            std::wstring str = value.getContentAsWideString();
+            std::wstring str = value.asWideString();
             strs.append(str);
         }
-        value = ArrayOf::characterArrayConstructor(strs);
+        value = ArrayOf::characterArray(strs);
     } break;
     case AS_DOUBLE: {
         value = convertToArrayOfSscanf<double>(values, NLS_DOUBLE, haveThirdArgument, m, n, false);
@@ -493,18 +497,18 @@ endLoopWscanf:
         std::vector<double> v;
         v.reserve(values.size());
         for (ArrayOf value : values) {
-            switch (value.getDataClass()) {
+            switch (value.dataClass()) {
             case NLS_UINT64:
             case NLS_INT64:
             case NLS_DOUBLE: {
-                v.push_back(value.getContentAsDoubleScalar());
+                v.push_back(value.asDoubleScalar());
             } break;
             case NLS_CHAR: {
                 value.promoteType(NLS_DOUBLE);
-                Dimensions dimsValue = value.getDimensions();
-                v.reserve(v.size() + dimsValue.getElementCount());
-                double* ptr = (double*)value.getDataPointer();
-                indexType elementCount = dimsValue.getElementCount();
+                Dimensions dimsValue = value.dimensions();
+                v.reserve(v.size() + dimsValue.elementCount());
+                double* ptr = (double*)value.dataPointer();
+                indexType elementCount = dimsValue.elementCount();
                 for (indexType k = 0; k < elementCount; k++) {
                     v.push_back(ptr[k]);
                 }
@@ -554,7 +558,7 @@ SscanF(const std::wstring& content, const std::wstring& format, double m, double
     FILE* fp = fopen(filenameTemp.c_str(), "rt");
 #endif
     if (!fp) {
-        Error(_W("sscanf internal error."));
+        Error(L"Nelson:sscanf:internalError", L"sscanf internal error.");
         return {};
     }
     std::string _errorMessage;
@@ -587,5 +591,5 @@ SscanF(const std::wstring& content, const std::wstring& format, double m, double
     return value;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

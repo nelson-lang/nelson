@@ -3,10 +3,11 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>ismethod</keyword>
-  <short_description
-  >Retourne vrai si c&apos;est une méthode d&apos;un objet handle.</short_description>
+  <short_description>Renvoie true si une methode publique appartient a un objet ou une classe.</short_description>
   <syntax>
     <syntax_item>res = ismethod(h, methodname)</syntax_item>
+    <syntax_item>res = ismethod(obj, methodname)</syntax_item>
+    <syntax_item>res = ismethod(className, methodname)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -14,20 +15,42 @@
       <param_description>un objet handle</param_description>
     </param_input_item>
     <param_input_item>
+      <param_name>obj</param_name>
+      <param_description>un objet classdef</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>className</param_name>
+      <param_description>un nom de classe sous forme de chaine</param_description>
+    </param_input_item>
+    <param_input_item>
       <param_name>methodname</param_name>
-      <param_description>une chaîne</param_description>
+      <param_description>une chaine</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>res</param_name>
-      <param_description>un booléen : vrai ou faux</param_description>
+      <param_description>un logique: true ou false</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <b>ismethod</b> renvoie vrai si l&apos;argument est un handle valide avec le nom de méthode, et faux sinon.</description>
+    <p>
+      <b>ismethod</b> renvoie un logique 1 si la methode est publique pour l&apos;objet ou la classe, et 0 sinon.</p>
+    <p>Pour les classes classdef, les methodes privees et protegees ne sont pas exposees comme methodes publiques.</p>
+  </description>
   <used_function />
   <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Tester l&apos;existence d&apos;une methode publique.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[d = [tempdir(), 'nelson_help_ismethod/'];
+mkdir(d);
+filewrite([d, '/NelsonHelpIsMethodPoint.m'], ["classdef NelsonHelpIsMethodPoint"; "  methods"; "    function r = value(obj)"; "      r = 1;"; "    end"; "  end"; "end"]);
+addpath(d);
+tf = ismethod('NelsonHelpIsMethodPoint', 'value')]]></example_item_data>
+    </example_item>
+  </examples>
   <see_also>
     <see_also_item>
       <link linkend="${handle}isprop">isprop</link>
@@ -35,11 +58,18 @@
     <see_also_item>
       <link linkend="${handle}methods">methods</link>
     </see_also_item>
+    <see_also_item>
+      <link linkend="${interpreter}classdef">classdef</link>
+    </see_also_item>
   </see_also>
   <history>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>support des noms de classe classdef ajoute</history_description>
     </history_item>
   </history>
   <authors>

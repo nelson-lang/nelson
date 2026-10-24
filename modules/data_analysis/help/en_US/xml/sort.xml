@@ -10,6 +10,7 @@
     <syntax_item>B = sort(A, dim)</syntax_item>
     <syntax_item>B = sort(..., direction)</syntax_item>
     <syntax_item>B = sort(..., name, value)</syntax_item>
+    <syntax_item>B = sort(A, dim, direction, name, value)</syntax_item>
     <syntax_item>[B, I] = sort(...)</syntax_item>
   </syntax>
   <param_input>
@@ -46,6 +47,8 @@
   <description>
     <p>
       <b>sort</b> implements quick sort algorithm.</p>
+    <p>With two outputs, elements with equivalent sort keys retain their original order. The indices returned for equivalent values are increasing within each group, in either sorting direction.</p>
+    <p>Name-value pairs can be used after the dimension and sorting direction.</p>
     <p>name-value pair arguments:</p>
     <p>
       <b>
@@ -67,6 +70,8 @@
       </b>, <b>
         &apos;abs&apos;
       </b>.</p>
+    <p>With 'MissingPlacement' set to 'last', nonmissing values are sorted in the requested direction and missing values follow them. This applies with one or two outputs. A missing string is distinct from an empty string.</p>
+    <p>Complex values with a NaN in either component are missing. They retain their input order with one or two outputs, including the non-NaN component, for every missing placement and sorting direction.</p>
   </description>
   <used_function>qsort (stl)</used_function>
   <bibliography

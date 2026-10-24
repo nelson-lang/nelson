@@ -11,18 +11,18 @@ if ~MPI_Initialized()
   MPI_Init();
 end
 comm = MPI_Comm_object()
-my_rank = MPI_Comm_rank (comm)
+my_rank = MPI_Comm_rank(comm)
 num_ranks = MPI_Comm_size(comm)
 
-TAG= 1;
+TAG = 1;
 if (my_rank != 0)
   rankvect = 0;
-  MPI_Send(rand(3,3) + my_rank, rankvect, TAG, comm);
+  MPI_Send(rand(3, 3) + my_rank, rankvect, TAG, comm);
 else
   disp('MPI master receive:')
   for source = 1:num_ranks - 1
     disp(['From slave ', int2str(source)])
-    message = MPI_Recv (source, TAG, comm);
+    message = MPI_Recv(source, TAG, comm);
     disp(message)
   end
 end
@@ -30,5 +30,4 @@ end
 if MPI_Initialized()
   MPI_Finalize();
 end
-exit
 %=============================================================================

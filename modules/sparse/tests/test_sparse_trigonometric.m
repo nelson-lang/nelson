@@ -7,73 +7,75 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+addpath([fileparts(nfilename('fullpathext')), '/private']);
+%=============================================================================
 A = sparse([]);
 R = acos(A);
-assert_isequal(size(R), [0 0]);
+asserts.isequal(size(R), [0 0]);
 %=============================================================================
 R = asin(A);
-assert_isequal(size(R), [0 0]);
+asserts.isequal(size(R), [0 0]);
 %=============================================================================
 R = atan(A);
-assert_isequal(size(R), [0 0]);
+asserts.isequal(size(R), [0 0]);
 %=============================================================================
 R = cos(A);
-assert_isequal(size(R), [0 0]);
+asserts.isequal(size(R), [0 0]);
 %=============================================================================
 R = cosh(A);
-assert_isequal(size(R), [0 0]);
+asserts.isequal(size(R), [0 0]);
 %=============================================================================
 R = sin(A);
-assert_isequal(size(R), [0 0]);
+asserts.isequal(size(R), [0 0]);
 %=============================================================================
 R = sinh(A);
-assert_isequal(size(R), [0 0]);
+asserts.isequal(size(R), [0 0]);
 %=============================================================================
 R = tan(A);
-assert_isequal(size(R), [0 0]);
+asserts.isequal(size(R), [0 0]);
 %=============================================================================
 R = tanh(A);
-assert_isequal(size(R), [0 0]);
+asserts.isequal(size(R), [0 0]);
 %=============================================================================
 A = sparse(eye(3, 2));
 REF = sparse(acos(eye(3, 2)));
 R = acos(A);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 A = sparse(eye(3, 2));
-REF = sparse([1;2], [1;2], [1.5708; 1.5708], 3, 2);
+REF = sparse([1; 2], [1; 2], [1.5708; 1.5708], 3, 2);
 R = asin(A);
 if ismac()
-  assert_isapprox(real(R), real(REF), 1e-4);
+  assert_sparse_isapprox(real(R), real(REF), 1e-4);
 else
-  assert_isapprox(R, REF, 1e-4);
+  assert_sparse_isapprox(R, REF, 1e-4);
 end
 %=============================================================================
-REF = sparse([1;2], [1;2], [0.7854; 0.7854], 3, 2);
+REF = sparse([1; 2], [1; 2], [0.7854; 0.7854], 3, 2);
 R = atan(A);
-assert_isapprox(R, REF, 1e-4);
+assert_sparse_isapprox(R, REF, 1e-4);
 %=============================================================================
 R = cos(A);
 REF = sparse(cos(eye(3, 2)));
-assert_isequal(R, REF);
+assert_sparse_isapprox(R, REF, 1e-15);
 %=============================================================================
 R = cosh(A);
 REF = sparse(cosh(eye(3, 2)));
-assert_isequal(R, REF);
+assert_sparse_isapprox(R, REF, 1e-15);
 %=============================================================================
 R = sin(A);
-REF = sparse([1;2], [1;2], [0.8415; 0.8415], 3, 2);
-assert_isapprox(R, REF, 1e-4);
+REF = sparse([1; 2], [1; 2], [0.8415; 0.8415], 3, 2);
+assert_sparse_isapprox(R, REF, 1e-4);
 %=============================================================================
 R = sinh(A);
-REF = sparse([1;2], [1;2], [1.1752; 1.1752], 3, 2);
-assert_isapprox(R, REF, 1e-4);
+REF = sparse([1; 2], [1; 2], [1.1752; 1.1752], 3, 2);
+assert_sparse_isapprox(R, REF, 1e-4);
 %=============================================================================
 R = tan(A);
-REF = sparse([1;2], [1;2], [1.5574; 1.5574], 3, 2);
-assert_isapprox(R, REF, 1e-4);
+REF = sparse([1; 2], [1; 2], [1.5574; 1.5574], 3, 2);
+assert_sparse_isapprox(R, REF, 1e-4);
 %=============================================================================
 R = tanh(A);
-REF = sparse([1;2], [1;2], [0.7616; 0.7616], 3, 2);
-assert_isapprox(R, REF, 1e-4);
+REF = sparse([1; 2], [1; 2], [0.7616; 0.7616], 3, 2);
+assert_sparse_isapprox(R, REF, 1e-4);
 %=============================================================================

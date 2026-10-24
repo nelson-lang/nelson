@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -7,85 +7,119 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <algorithm>
-#include <cctype>
-#include <string>
+#include <cstring>
 #include "StringTrim.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "nlsBuildConfig.h"
 #include "omp_for_loop.hpp"
-#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static const wchar_t* ws = L" \t\n\r\f\v";
+static ArrayOf
+trimCellElement(const ArrayOf& element);
 //=============================================================================
-inline std::wstring&
-rtrim(std::wstring& s)
+ArrayOf
+TrimCharacterArray(const ArrayOf& A, bool trimLeft, bool nulIsBlank)
 {
-    s.erase(s.find_last_not_of(ws) + 1);
-    return s;
-}
-//=============================================================================
-inline std::wstring&
-ltrim(std::wstring& s)
-{
-    s.erase(0, s.find_first_not_of(ws));
-    return s;
-}
-//=============================================================================
-inline std::wstring&
-Trim(std::wstring& s)
-{
-    return ltrim(rtrim(s));
+    if (!A.is2D()) {
+        Error(L"Nelson:string:trim:notTwoDimensional",
+            L"Only character arrays with up to two dimensions are accepted.");
+    }
+    Dimensions dims = A.dimensions();
+    indexType rows = dims.rows();
+    indexType cols = dims.columns();
+    const auto* data = static_cast<const charType*>(A.dataPointer());
+    auto blankColumn = [&](indexType c) {
+        for (indexType r = 0; r < rows; ++r) {
+            charType ch = data[r + c * rows];
+            if (!IsTextWhitespace(ch) && !(nulIsBlank && ch == 0)) {
+                return false;
+            }
+        }
+        return true;
+    };
+    indexType first = 0;
+    if (trimLeft) {
+        while (first < cols && blankColumn(first)) {
+            ++first;
+        }
+    }
+    indexType last = cols;
+    while (last > first && blankColumn(last - 1)) {
+        --last;
+    }
+    if (first == last) {
+        return ArrayOf::characterArray(L"");
+    }
+    if (first == 0 && last == cols) {
+        return A;
+    }
+    indexType width = last - first;
+    auto* out = static_cast<charType*>(
+        ArrayOf::allocateArrayOf(NLS_CHAR, rows * width, stringVector(), false));
+    memcpy(out, data + first * rows, static_cast<size_t>(rows * width) * sizeof(charType));
+    return ArrayOf(NLS_CHAR, Dimensions(rows, width), out);
 }
 //=============================================================================
 ArrayOf
 StringTrim(const ArrayOf& A, bool& needToOverload)
 {
     needToOverload = false;
-    ArrayOf res;
-    if (A.isRowVectorCharacterArray()) {
-        std::wstring str = A.getContentAsWideString();
-        return ArrayOf::characterArrayConstructor(Trim(str));
+    if (A.isCharacterArray()) {
+        return TrimCharacterArray(A, true, false);
     }
-    if (A.getDataClass() == NLS_CELL_ARRAY) {
+    if (A.isCell()) {
         if (A.isEmpty()) {
-            return ArrayOf(A);
+            return A;
         }
-        res = ArrayOf(A);
+        ArrayOf res(A);
         res.ensureSingleOwner();
-        auto* element = (ArrayOf*)(res.getDataPointer());
-        indexType elementCount = A.getElementCount();
+        auto* element = (ArrayOf*)res.dataPointer();
+        indexType elementCount = A.elementCount();
         for (indexType k = 0; k < elementCount; k++) {
-            if (!element[k].isRowVectorCharacterArray()) {
-                Error(ERROR_TYPE_CELL_OF_STRINGS_EXPECTED);
-            }
-            std::wstring str = element[k].getContentAsWideString();
-            element[k] = ArrayOf::characterArrayConstructor(Trim(str));
+            element[k] = trimCellElement(element[k]);
         }
         return res;
     }
-    if (A.getDataClass() == NLS_STRING_ARRAY) {
+    if (A.isStringArray()) {
         if (A.isEmpty()) {
-            return ArrayOf(A);
+            return A;
         }
-        res = ArrayOf(A);
+        ArrayOf res(A);
         res.ensureSingleOwner();
-        auto* element = (ArrayOf*)(res.getDataPointer());
-        ompIndexType elementCount = A.getElementCount();
+        auto* element = (ArrayOf*)res.dataPointer();
+        ompIndexType elementCount = A.elementCount();
         OMP_PARALLEL_FOR_LOOP(elementCount)
         for (ompIndexType k = 0; k < elementCount; k++) {
-            if (element[k].isRowVectorCharacterArray()) {
-                std::wstring str = element[k].getContentAsWideString();
-                element[k] = ArrayOf::characterArrayConstructor(Trim(str));
+            if (element[k].isCharacterArray()) {
+                element[k] = TrimCharacterArray(element[k], true, false);
             }
         }
         return res;
     }
     needToOverload = true;
-
-    return res;
+    return {};
+}
+//=============================================================================
+// A cell element is a character array (trimmed), a string scalar (trimmed),
+// or a cell (kept as is); any other type is rejected.
+static ArrayOf
+trimCellElement(const ArrayOf& element)
+{
+    if (element.isCharacterArray()) {
+        return TrimCharacterArray(element, true, false);
+    }
+    if (element.isCell()) {
+        return element;
+    }
+    if (element.isStringArray() && element.isScalar()) {
+        bool over = false;
+        return StringTrim(element, over);
+    }
+    Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1),
+        L"cell of strings");
+    return {};
 }
 //=============================================================================
 } // namespace Nelson

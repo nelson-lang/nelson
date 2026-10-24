@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>polyarea</keyword>
+  <short_description>Aire d'un polygone.</short_description>
+  <syntax>
+    <syntax_item>a = polyarea(x, y)</syntax_item>
+    <syntax_item>a = polyarea(x, y, dim)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>x, y</param_name>
+      <param_description
+      >les coordonnées des sommets du polygone, vecteurs ou matrices de même taille.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>dim</param_name>
+      <param_description
+      >un entier positif : la dimension le long de laquelle courent les sommets (par défaut : la première dimension non singleton).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>a</param_name>
+      <param_description>l&apos;aire du polygone.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>polyarea</b> renvoie l&apos;aire du polygone dont les sommets sont
+      donnés par <b>x</b> et <b>y</b>, calculée par la formule du lacet
+      (shoelace). Lorsque les entrées sont des matrices, l&apos;aire est calculée
+      pour chaque polygone le long de la dimension choisie.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[a = polyarea([0 1 1 0], [0 0 1 1])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${geometry}convhull">convhull</link></see_also_item>
+    <see_also_item><link linkend="${geometry}boundary">boundary</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item><history_version>2.0.0</history_version><history_description>Version initiale.</history_description></history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,6 +10,7 @@
 #include <bitset>
 #include <stdexcept>
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "BinToNum.hpp"
 #include "characters_encoding.hpp"
@@ -40,7 +41,8 @@ bin2logical(const std::string& s)
         std::bitset<1> bits(s);
         b = bits.to_ulong();
     } catch (std::exception&) {
-        Error(_W("Binary character vector may consist only of characters 0 and 1."));
+        Error(L"Nelson:elementary_functions:binaryCharacterVectorMayConsist",
+            L"Binary character vector may consist only of characters 0 and 1.");
     }
     return *reinterpret_cast<logical*>(&b);
 }
@@ -53,11 +55,12 @@ bin2single(const std::string& s)
         std::bitset<32> bits(s);
         b = bits.to_ulong();
     } catch (std::exception&) {
-        Error(_W("Binary character vector may consist only of characters 0 and 1."));
+        Error(L"Nelson:elementary_functions:binaryCharacterVectorMayConsist",
+            L"Binary character vector may consist only of characters 0 and 1.");
     }
     return *reinterpret_cast<single*>(&b);
 }
-//=========================================================================
+//=============================================================================
 static double
 bin2double(const std::string& s)
 {
@@ -66,44 +69,48 @@ bin2double(const std::string& s)
         std::bitset<64> bits(s);
         b = bits.to_ullong();
     } catch (std::exception&) {
-        Error(_W("Binary character vector may consist only of characters 0 and 1."));
+        Error(L"Nelson:elementary_functions:binaryCharacterVectorMayConsist",
+            L"Binary character vector may consist only of characters 0 and 1.");
     }
     return *reinterpret_cast<double*>(&b);
 }
-//=========================================================================
+//=============================================================================
 ArrayOf
 BinToNum(const ArrayOf& A, bool& needToOverload)
 {
     ArrayOf res;
     needToOverload = false;
-    Dimensions dims = A.getDimensions();
+    Dimensions dims = A.dimensions();
     if (dims.isEmpty(false)) {
-        res = ArrayOf::emptyConstructor();
+        res = ArrayOf::empty();
     } else {
         stringVector strs;
         indexType commonLength;
         if (A.isRowVector()) {
-            std::string s = A.getContentAsCString();
+            std::string s = A.asUtf8String();
             StringHelpers::trim(s);
             commonLength = s.size();
             if (!isValidLength(commonLength)) {
-                Error(_W("Invalid string length: 1, 32, 64 expected."));
+                Error(L"Nelson:elementary_functions:invalidStringLength132",
+                    L"Invalid string length: 1, 32, 64 expected.");
             }
             strs.push_back(s);
         } else {
             if (A.isNdArrayCharacterType()) {
-                Error(_W("2D char array expected."));
+                Error(L"Nelson:elementary_functions:e2DCharArrayExpected",
+                    L"2D char array expected.");
             }
             bool dummy;
             ArrayOf Transposed = Transpose(A, dummy);
-            std::wstring wstr = Transposed.getContentAsArrayOfCharacters();
+            std::wstring wstr = Transposed.asCharacterArrayWideString();
             StringHelpers::trim(wstr);
 
-            commonLength = dims.getColumns();
+            commonLength = dims.columns();
             if (!isValidLength(commonLength)) {
-                Error(_W("Invalid string length: 1, 32, 64 expected."));
+                Error(L"Nelson:elementary_functions:invalidStringLength132",
+                    L"Invalid string length: 1, 32, 64 expected.");
             }
-            indexType elementCount = dims.getElementCount();
+            indexType elementCount = dims.elementCount();
             for (indexType k = 0; k < elementCount; k = k + commonLength) {
                 std::string s = wstring_to_utf8(wstr.substr(k, k + commonLength));
                 strs.push_back(s);
@@ -111,7 +118,6 @@ BinToNum(const ArrayOf& A, bool& needToOverload)
         }
         switch (commonLength) {
         case 1: {
-            // as logical
             logical* values = (logical*)ArrayOf::allocateArrayOf(
                 NLS_LOGICAL, strs.size(), stringVector(), false);
             Dimensions dims(strs.size(), 1);
@@ -121,7 +127,6 @@ BinToNum(const ArrayOf& A, bool& needToOverload)
             }
         } break;
         case 32: {
-            // as single
             single* values
                 = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, strs.size(), stringVector(), false);
             Dimensions dims(strs.size(), 1);
@@ -131,7 +136,6 @@ BinToNum(const ArrayOf& A, bool& needToOverload)
             }
         } break;
         case 64: {
-            // as double
             double* values
                 = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, strs.size(), stringVector(), false);
             Dimensions dims(strs.size(), 1);

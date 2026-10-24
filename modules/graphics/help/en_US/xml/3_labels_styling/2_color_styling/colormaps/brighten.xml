@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>brighten</keyword>
+  <short_description>Brighten or darken a colormap.</short_description>
+  <syntax>
+    <syntax_item>brighten(beta)</syntax_item>
+    <syntax_item>brighten(ax, beta)</syntax_item>
+    <syntax_item>newmap = brighten(beta)</syntax_item>
+    <syntax_item>newmap = brighten(map, beta)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>beta</param_name>
+      <param_description>Scalar in the interval (-1, 1). Positive brightens, negative darkens.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>map</param_name>
+      <param_description>Colormap, an M-by-3 matrix of RGB values in [0, 1].</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description>Target axes or figure whose colormap is modified.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>newmap</param_name>
+      <param_description>Brightened colormap.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>brighten</b> increases (<b>beta</b> &gt; 0) or decreases
+    (<b>beta</b> &lt; 0) the brightness of a colormap. With no output argument it
+    replaces the colormap of the current figure (or of <b>ax</b>); with an output
+    it returns the modified colormap. As <b>beta</b> approaches 1 the colors
+    approach white, and as it approaches -1 they approach black.</p>
+  </description>
+  <used_function>colormap</used_function>
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+      ><![CDATA[f = figure();
+surf(peaks());
+colormap(jet());
+brighten(0.5);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}colormap">colormap</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

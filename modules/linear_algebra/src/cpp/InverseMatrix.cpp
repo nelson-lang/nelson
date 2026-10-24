@@ -11,16 +11,18 @@
 #define _SCL_SECURE_NO_WARNINGS
 #endif
 #include "nlsBuildConfig.h"
+#include "i18n.hpp"
 #include "omp_for_loop.hpp"
 #include "lapack_eigen_config.hpp"
 #undef EIGEN_USE_MKL_VML
 #undef EIGEN_USE_MKL
+#include "LapackPrototypes.hpp"
 #include <Eigen/Dense>
-#include <Eigen/src/misc/lapacke.h>
 #include "InverseMatrix.hpp"
 #include "ClassName.hpp"
 #include "ReciprocalConditionNumber.hpp"
 #include "NewWithException.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -29,23 +31,23 @@ InverseDouble(const ArrayOf& A, double rcond)
 {
     ArrayOf res = A;
     res.ensureSingleOwner();
-    double* ptrD = (double*)res.getDataPointer();
+    double* ptrD = (double*)res.dataPointer();
     Eigen::Map<Eigen::MatrixXd> matA(
-        (double*)A.getDataPointer(), (Eigen::Index)A.getRows(), (Eigen::Index)A.getColumns());
+        (double*)A.dataPointer(), (Eigen::Index)A.rows(), (Eigen::Index)A.columns());
     if (matA.isDiagonal()) {
         if (std::isnan(rcond)) {
             Eigen::Map<Eigen::MatrixXd> matR(
-                ptrD, (Eigen::Index)res.getRows(), (Eigen::Index)res.getColumns());
+                ptrD, (Eigen::Index)res.rows(), (Eigen::Index)res.columns());
             matR.setConstant(std::nan(""));
             return res;
         }
-        int N = (int)A.getColumns();
+        int N = (int)A.columns();
         OMP_PARALLEL_FOR_LOOP(N)
         for (ompIndexType k = 0; k < (ompIndexType)N; k++) {
             ptrD[k + (k * N)] = 1 / ptrD[k + (k * N)];
         }
     } else {
-        int N = (int)A.getColumns();
+        int N = (int)A.columns();
         int* IPIV = new_with_exception<int>(N);
         int LWORK = std::max(1, 4 * N);
         int INFO = 0;
@@ -59,7 +61,7 @@ InverseDouble(const ArrayOf& A, double rcond)
         } else {
             delete[] IPIV;
             Eigen::Map<Eigen::MatrixXd> matR(
-                ptrD, (Eigen::Index)res.getRows(), (Eigen::Index)res.getColumns());
+                ptrD, (Eigen::Index)res.rows(), (Eigen::Index)res.columns());
             if (rcond == 0) {
                 matR.setConstant(std::numeric_limits<double>::infinity());
             } else {
@@ -75,24 +77,23 @@ InverseDoubleComplex(ArrayOf A, double rcond)
 {
     ArrayOf res(A);
     res.ensureSingleOwner();
-    auto* Az = reinterpret_cast<doublecomplex*>((double*)A.getDataPointer());
-    auto* Rz = reinterpret_cast<doublecomplex*>((double*)res.getDataPointer());
-    Eigen::Map<Eigen::MatrixXcd> matA(Az, (Eigen::Index)A.getRows(), (Eigen::Index)A.getColumns());
-    Eigen::Map<Eigen::MatrixXcd> matR(
-        Rz, (Eigen::Index)res.getRows(), (Eigen::Index)res.getColumns());
+    auto* Az = reinterpret_cast<doublecomplex*>((double*)A.dataPointer());
+    auto* Rz = reinterpret_cast<doublecomplex*>((double*)res.dataPointer());
+    Eigen::Map<Eigen::MatrixXcd> matA(Az, (Eigen::Index)A.rows(), (Eigen::Index)A.columns());
+    Eigen::Map<Eigen::MatrixXcd> matR(Rz, (Eigen::Index)res.rows(), (Eigen::Index)res.columns());
     if (matA.isDiagonal()) {
         if (std::isnan(rcond)) {
             doublecomplex cst(std::nan(""), std::nan(""));
             matR.setConstant(cst);
             return res;
         }
-        int N = (int)A.getColumns();
+        int N = (int)A.columns();
         OMP_PARALLEL_FOR_LOOP(N)
         for (ompIndexType k = 0; k < (ompIndexType)N; k++) {
             Rz[k + (k * N)] = std::complex<double>(1, 0) / Rz[k + (k * N)];
         }
     } else {
-        int N = (int)A.getColumns();
+        int N = (int)A.columns();
         int* IPIV = new_with_exception<int>(N);
         int LWORK = std::max(1, 4 * N);
         int INFO = 0;
@@ -123,23 +124,23 @@ InverseSingle(const ArrayOf& A, single rcond)
 {
     ArrayOf res = A;
     res.ensureSingleOwner();
-    single* ptrD = (single*)res.getDataPointer();
+    single* ptrD = (single*)res.dataPointer();
     Eigen::Map<Eigen::MatrixXf> matA(
-        (single*)A.getDataPointer(), (Eigen::Index)A.getRows(), (Eigen::Index)A.getColumns());
+        (single*)A.dataPointer(), (Eigen::Index)A.rows(), (Eigen::Index)A.columns());
     if (matA.isDiagonal()) {
         if (std::isnan(rcond)) {
             Eigen::Map<Eigen::MatrixXf> matR(
-                ptrD, (Eigen::Index)res.getRows(), (Eigen::Index)res.getColumns());
+                ptrD, (Eigen::Index)res.rows(), (Eigen::Index)res.columns());
             matR.setConstant(std::nanf("NaN"));
             return res;
         }
-        int N = (int)A.getColumns();
+        int N = (int)A.columns();
         OMP_PARALLEL_FOR_LOOP(N)
         for (ompIndexType k = 0; k < (ompIndexType)N; k++) {
             ptrD[k + (k * N)] = 1 / ptrD[k + (k * N)];
         }
     } else {
-        int N = (int)A.getColumns();
+        int N = (int)A.columns();
         int* IPIV = new_with_exception<int>(N);
         int LWORK = std::max(1, 4 * N);
         int INFO = 0;
@@ -153,7 +154,7 @@ InverseSingle(const ArrayOf& A, single rcond)
         } else {
             delete[] IPIV;
             Eigen::Map<Eigen::MatrixXf> matR(
-                ptrD, (Eigen::Index)res.getRows(), (Eigen::Index)res.getColumns());
+                ptrD, (Eigen::Index)res.rows(), (Eigen::Index)res.columns());
             if (rcond == 0) {
                 matR.setConstant(std::numeric_limits<single>::infinity());
             } else {
@@ -169,24 +170,23 @@ InverseSingleComplex(ArrayOf A, single rcond)
 {
     ArrayOf res(A);
     res.ensureSingleOwner();
-    auto* Az = reinterpret_cast<singlecomplex*>((single*)A.getDataPointer());
-    auto* Rz = reinterpret_cast<singlecomplex*>((single*)res.getDataPointer());
-    Eigen::Map<Eigen::MatrixXcf> matA(Az, (Eigen::Index)A.getRows(), (Eigen::Index)A.getColumns());
-    Eigen::Map<Eigen::MatrixXcf> matR(
-        Rz, (Eigen::Index)res.getRows(), (Eigen::Index)res.getColumns());
+    auto* Az = reinterpret_cast<singlecomplex*>((single*)A.dataPointer());
+    auto* Rz = reinterpret_cast<singlecomplex*>((single*)res.dataPointer());
+    Eigen::Map<Eigen::MatrixXcf> matA(Az, (Eigen::Index)A.rows(), (Eigen::Index)A.columns());
+    Eigen::Map<Eigen::MatrixXcf> matR(Rz, (Eigen::Index)res.rows(), (Eigen::Index)res.columns());
     if (matA.isDiagonal()) {
         if (std::isnan(rcond)) {
             singlecomplex cst(std::nanf("NaN"), std::nanf("NaN"));
             matR.setConstant(cst);
             return res;
         }
-        int N = (int)A.getColumns();
+        int N = (int)A.columns();
         OMP_PARALLEL_FOR_LOOP(N)
         for (ompIndexType k = 0; k < (ompIndexType)N; k++) {
             Rz[k + (k * N)] = std::complex<single>(1, 0) / Rz[k + (k * N)];
         }
     } else {
-        int N = (int)A.getColumns();
+        int N = (int)A.columns();
         int* IPIV = new_with_exception<int>(N);
         int LWORK = std::max(1, 4 * N);
         int INFO = 0;
@@ -216,16 +216,15 @@ ArrayOf
 InverseMatrix(const ArrayOf& A, bool& needToOverload)
 {
     needToOverload = false;
-    bool isSupportedTypes
-        = (A.getDataClass() == NLS_DOUBLE || A.getDataClass() == NLS_SINGLE
-              || A.getDataClass() == NLS_DCOMPLEX || A.getDataClass() == NLS_SCOMPLEX)
+    bool isSupportedTypes = (A.dataClass() == NLS_DOUBLE || A.dataClass() == NLS_SINGLE
+                                || A.dataClass() == NLS_DCOMPLEX || A.dataClass() == NLS_SCOMPLEX)
         && !A.isSparse();
     if (!isSupportedTypes) {
         needToOverload = true;
         return {};
     }
     if (!A.isSquare()) {
-        Error(_("Square matrix expected."));
+        Error("Nelson:linear_algebra:squareMatrixExpected", "%s expected.", "Square matrix");
     }
     if (A.isEmpty()) {
         ArrayOf RES(A);
@@ -233,16 +232,16 @@ InverseMatrix(const ArrayOf& A, bool& needToOverload)
         return RES;
     }
     ArrayOf rCondArray = ReciprocalConditionNumber(A, true);
-    double rcond = rCondArray.getContentAsDoubleScalar();
+    double rcond = rCondArray.asDoubleScalar();
     ArrayOf R;
-    if (A.getDataClass() == NLS_DOUBLE || A.getDataClass() == NLS_DCOMPLEX) {
-        if (A.getDataClass() == NLS_DOUBLE) {
+    if (A.dataClass() == NLS_DOUBLE || A.dataClass() == NLS_DCOMPLEX) {
+        if (A.dataClass() == NLS_DOUBLE) {
             R = InverseDouble(A, rcond);
         } else {
             R = InverseDoubleComplex(A, rcond);
         }
     } else {
-        if (A.getDataClass() == NLS_SINGLE) {
+        if (A.dataClass() == NLS_SINGLE) {
             R = InverseSingle(A, static_cast<single>(rcond));
         } else {
             R = InverseSingleComplex(A, static_cast<single>(rcond));

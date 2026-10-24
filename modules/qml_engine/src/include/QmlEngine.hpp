@@ -28,9 +28,9 @@ public:
     createQQuickView(const std::wstring& filename);
 
     ArrayOf
-    evaluateString(const std::wstring& program, bool& withOuput);
+    evaluateString(const std::wstring& program, bool& withOutput);
     ArrayOf
-    evaluateFile(const std::wstring& filename, bool& withOuput);
+    evaluateFile(const std::wstring& filename, bool& withOutput);
     void
     collectGarbage();
     void

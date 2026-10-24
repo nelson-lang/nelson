@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>ind2rgb</keyword>
+  <short_description>Convert indexed image to RGB using a colormap.</short_description>
+  <syntax>
+    <syntax_item>RGB = ind2rgb(X, map)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description>Indexed image. Integer and logical arrays use zero-based indices; double and single arrays use one-based indices.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>map</param_name>
+      <param_description>Colormap with at least three columns.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>RGB</param_name>
+      <param_description>Double RGB image built from the first three columns of map.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Convert indexed image to RGB using the first three columns of a colormap. Integer and logical indexed images use zero-based indices. Double and single indexed images use one-based indices. Integer-valued indices outside the colormap range are clamped to the nearest valid row. Empty indexed images return an empty RGB array.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Convert indexed image to RGB</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[X=repmat(uint8(0:63),64,1);
+v=linspace(0,1,64)'; map=[v 1-v 0.5*ones(64,1)];
+RGB=ind2rgb(X,map);
+figure; image(RGB); title('Indexed to RGB');]]></example_item_data>
+      <example_item_img
+        src="../../../images/ind2rgb_1.png"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Clamp indices outside the colormap range</example_item_description>
+      <example_item_data
+        runnable="true"
+      ><![CDATA[map=[1 0 0; 0 1 0; 0 0 1];
+RGB=ind2rgb([0 1 2 5],map)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}ind2gray">ind2gray</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}rgb2gray">rgb2gray</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

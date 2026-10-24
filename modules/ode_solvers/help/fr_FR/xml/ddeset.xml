@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>ddeset</keyword>
+  <short_description>Cree ou met a jour des options DDE.</short_description>
+  <syntax>
+    <syntax_item>options = ddeset()</syntax_item>
+    <syntax_item>options = ddeset(name, value)</syntax_item>
+  </syntax>
+  <description>
+    <p>
+      <b>ddeset</b> cree une structure d'options pour les solveurs d'equations a retard. Elle accepte les options ODE communes ainsi que <b>InitialY</b> et <b>Jumps</b>.</p>
+    <table style="width:100%">
+      <tr>
+        <th>Option</th>
+        <th>Role</th>
+      </tr>
+      <tr>
+        <td><b>InitialY</b></td>
+        <td>Valeur d historique initiale utilisee quand un historique structure n est pas fourni.</td>
+      </tr>
+      <tr>
+        <td><b>Jumps</b></td>
+        <td>Instants de discontinuite connus.</td>
+      </tr>
+      <tr>
+        <td>Options EDO communes</td>
+        <td>Tolerances, pas, evenements et sorties partages avec <b>odeset</b>.</td>
+      </tr>
+    </table>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Exemple complet des fonctionnalites DDE et BVP ajoutees.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[rootPath = modulepath('ode_solvers', 'root');
+run([rootPath, '/examples/dde_bvp_added_features_example.m'])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ode_solvers}ddeget">ddeget</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}dde23">dde23</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -15,5 +15,6 @@
 namespace Nelson {
 NLSOS_FUNCTIONS_IMPEXP bool
 AddPathToEnvironmentVariable(const std::wstring& envVar, const std::wstring& pathToAdd);
-}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

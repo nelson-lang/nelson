@@ -7,15 +7,15 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('tand'), 1);
-assert_isequal(nargout('tand'), 1);
+asserts.isequal(nargin('tand'), 1);
+asserts.isequal(nargout('tand'), 1);
 %=============================================================================
-assert_isequal(tand(NaN), NaN);
-assert_isequal(tand(-NaN), NaN);
-assert_isequal(tand(Inf), NaN);
-assert_isequal(tand(-Inf), NaN);
+asserts.isequal(tand(NaN), NaN);
+asserts.isequal(tand(-NaN), NaN);
+asserts.isequal(tand(Inf), NaN);
+asserts.isequal(tand(-Inf), NaN);
 %=============================================================================
-assert_isequal(tand([90, 270]), [Inf Inf]);
-assert_isequal(tand([0, 180, 360]), [0 0  0]);
-assert_isapprox(tand(10:10:80), tan(pi*[10:10:80] *inv(180)), -10 * eps);
+asserts.isequal(tand([90, 270]), [Inf -Inf]);
+asserts.isequal(tand([0, 180, 360]), [0 0 0]);
+asserts.isapprox(tand(10:10:80), tan(pi * [10:10:80] * inv(180)), 10 * eps);
 %=============================================================================

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="306.5" height="216.5" viewBox="-153.25 -103.25 306.5 216.5">
+  <rect x="-153.25" y="-103.25" width="306.5" height="216.5" rx="41.135" fill="#EAF7EC" stroke="#A6DDB0" stroke-width="3.25"/>
+  <g transform="matrix(1 0 0 -1 0 0)">
+    <rect x="-100" y="-10" width="70" height="20" fill="#A6DDB0" stroke="#1E6B2E" stroke-width="3.25"/>
+    <rect x="-30" y="-60" width="20" height="120" fill="#FFFFFF" stroke="#1E6B2E" stroke-width="3.25"/>
+    <rect x="-30" y="-60" width="20" height="120" fill="none" stroke="#1E6B2E" stroke-width="3.25"/>
+    <rect x="10" y="-60" width="20" height="120" fill="#FFFFFF" stroke="#1E6B2E" stroke-width="3.25"/>
+    <rect x="10" y="-60" width="20" height="120" fill="none" stroke="#1E6B2E" stroke-width="3.25"/>
+    <rect x="30" y="-10" width="70" height="20" fill="#A6DDB0" stroke="#1E6B2E" stroke-width="3.25"/>
+    <polygon points="-30,40 -60,50 -60,30 -30,40" fill="#1E6B2E" stroke="#1E6B2E" stroke-width="3.25" stroke-linejoin="round"/>
+    <polygon points="30,40 60,50 60,30 30,40" fill="#1E6B2E" stroke="#1E6B2E" stroke-width="3.25" stroke-linejoin="round"/>
+    <polyline points="0,90 90,70 90,40 30,40" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="0,90 -90,70 -90,40 -30,40" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <g transform="translate(0,-90) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32" fill="#1E6B2E">Clutch</text></g>
+  </g>
+</svg>

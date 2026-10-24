@@ -14,5 +14,6 @@
 namespace Nelson::DoubleGateway {
 ArrayOfVector
 flintmaxBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>buildhelptypst</keyword>
+  <short_description
+  >Génère l&apos;aide des modules de Nelson en sources Typst.</short_description>
+  <syntax>
+    <syntax_item>buildhelptypst(dirdest)</syntax_item>
+    <syntax_item>buildhelptypst(dirdest, module_name)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>dirdest</param_name>
+      <param_description>une chaîne : répertoire de destination.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>module_name</param_name>
+      <param_description
+      >une chaîne : nom du module (le module doit être chargé).</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p>
+      <b>buildhelptypst</b> génère l&apos;aide en sources Typst, prêtes à être compilées en PDF.</p>
+    <p>Pour chaque langue disponible, les pages d&apos;un module sont écrites dans <code>dirdest/&lt;lang&gt;/&lt;module&gt;/</code> avec un document racine <code>main.typ</code> (voir <link linkend="${help_tools}xmldoctotypst">xmldoctotypst</link>). Le document racine <code>dirdest/&lt;lang&gt;/main.typ</code> applique le style de page <code>nelson-style</code> de <code>nelson_help.typ</code> et inclut, dans l&apos;ordre : les modules, puis une table des matières.</p>
+    <p>Avec un seul argument, tout le manuel est généré : la page d&apos;accueil, le guide de démarrage, les changelogs et les licences (pages markdown du module <code>main</code>, converties en Typst) encadrent les modules, comme dans le manuel markdown produit par <link linkend="${help_tools}buildhelpmd">buildhelpmd</link>.</p>
+    <p>Compiler un module avec <code>typst compile dirdest/fr/core/main.typ</code>, ou tout le manuel avec <code>typst compile dirdest/fr/main.typ</code>. Les fragments LaTeX des pages sont composés avec le paquet Typst <code>mitex</code>, téléchargé au premier usage par le compilateur typst.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[buildhelptypst(tempdir(), 'core');
+dir([tempdir(), 'fr/core'])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${help_tools}buildhelp">buildhelp</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${help_tools}buildhelpmd">buildhelpmd</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${help_tools}xmldoctotypst">xmldoctotypst</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

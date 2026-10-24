@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -15,7 +15,7 @@ namespace Nelson {
 matvar_t*
 SaveMatioInteger(const std::string& variableName, const ArrayOf& variableValue)
 {
-    Dimensions variableDims = variableValue.getDimensions();
+    Dimensions variableDims = variableValue.dimensions();
     indexType rank;
     size_t* dims = convertDimensionsForMatVar(variableDims, rank);
     if (dims == nullptr) {
@@ -23,11 +23,11 @@ SaveMatioInteger(const std::string& variableName, const ArrayOf& variableValue)
     }
     void* ptrValue = nullptr;
     if (!variableDims.isEmpty(false)) {
-        ptrValue = const_cast<void*>(variableValue.getDataPointer());
+        ptrValue = const_cast<void*>(variableValue.dataPointer());
     }
     matio_classes matClass;
     matio_types matType;
-    switch (variableValue.getDataClass()) {
+    switch (variableValue.dataClass()) {
     case NLS_UINT8: {
         matClass = MAT_C_UINT8;
         matType = MAT_T_UINT8;

@@ -16,5 +16,5 @@ namespace Nelson {
 bool
 RepositoryIsTag(const std::wstring& localPath, const std::wstring& tagName);
 //=============================================================================
-};
+} // namespace Nelson
 //=============================================================================

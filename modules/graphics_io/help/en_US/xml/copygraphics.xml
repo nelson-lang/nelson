@@ -16,6 +16,11 @@
   <description>
     <p>
       <b>copygraphics</b> copy figure to clipboard.</p>
+    <p>On the desktop, the rendered RGBA image is sent to the native clipboard by the optional
+    desktop adapter. In web mode, the same rendering is encoded as an RGBA PNG and sent through
+    <b>clipboard.image</b> to the browser. Browser clipboard access requires a secure context and
+    may require permission or a user gesture. When the automatic request is rejected, a visible
+    <b>Copy image</b> action is displayed so the operation can be retried.</p>
   </description>
   <used_function />
   <bibliography />
@@ -24,7 +29,7 @@
       <example_item_type>nelson</example_item_type>
       <example_item_description />
       <example_item_data
-        runnable="adv-cli"
+        runnable="gui"
       ><![CDATA[x = -2:0.25:2;
 y = x;
 [X,Y] = meshgrid(x);
@@ -36,7 +41,7 @@ copygraphics(gcf());
   </examples>
   <see_also>
     <see_also_item>
-      <link linkend="${graphics}gcf">gcf</link>
+      <link linkend="${graphics}2_graphics_objects/1_object_management/gcf">gcf</link>
     </see_also_item>
     <see_also_item>
       <link linkend="${graphics_io}saveas">saveas</link>
@@ -46,6 +51,10 @@ copygraphics(gcf());
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>browser image clipboard support added</history_description>
     </history_item>
   </history>
   <authors>

@@ -13,36 +13,31 @@
 #include "RepositorySwitchBranch.hpp"
 #include "characters_encoding.hpp"
 #include "RepositoryClone.hpp"
+#include "RepositoryCredentials.hpp"
 #include "RepositoryHelpers.hpp"
 #include "RepositoryCheckout.hpp"
 #include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static std::string _username;
-static std::string _password;
-//=============================================================================
-static int
-credentialsCallback(git_cred** cred, const char* url, const char* username_from_url,
-    unsigned int allowed_types, void* payload)
-{
-    return git_cred_userpass_plaintext_new(cred, _username.c_str(), _password.c_str());
-}
-//=============================================================================
 void
-RepositoryClone(const std::wstring& url, const std::wstring& user, const std::wstring& password,
+RepositoryClone(const std::wstring& url, const RepositoryCredentialsOptions& credentials,
     const std::wstring& branch, std::wstring& localPath, std::wstring& errorMessage)
 {
     std::string localPathUtf8 = wstring_to_utf8(localPath);
     std::string urlutf8 = wstring_to_utf8(url);
     std::string branchUtf8 = wstring_to_utf8(branch);
-    _username = wstring_to_utf8(user);
-    _password = wstring_to_utf8(password);
+    RepositoryCredentialsPayload credentialsPayload(credentials);
+    if (RepositoryUrlRequiresSSH(urlutf8) && !RepositorySupportsSSH()) {
+        errorMessage = RepositorySSHUnsupportedMessage();
+        return;
+    }
     git_libgit2_init();
     git_repository* repo = nullptr;
     git_clone_options clone_opts = GIT_CLONE_OPTIONS_INIT;
     git_checkout_options checkout_opts = GIT_CHECKOUT_OPTIONS_INIT;
-    clone_opts.fetch_opts.callbacks.credentials = credentialsCallback;
+    clone_opts.fetch_opts.callbacks.credentials = repositoryCredentialsCallback;
+    clone_opts.fetch_opts.callbacks.payload = &credentialsPayload;
     if (!branchUtf8.empty()) {
         clone_opts.checkout_branch = branchUtf8.c_str();
     }
@@ -50,15 +45,17 @@ RepositoryClone(const std::wstring& url, const std::wstring& user, const std::ws
     clone_opts.checkout_opts = checkout_opts;
     int errorCode = git_clone(&repo, urlutf8.c_str(), localPathUtf8.c_str(), &clone_opts);
     errorMessage = gitErrorCodeToMessage(errorCode);
-    git_repository_free(repo);
+    if (repo != nullptr) {
+        git_repository_free(repo);
+    }
     git_libgit2_shutdown();
 }
 //=============================================================================
 void
-RepositoryExport(const std::wstring& url, const std::wstring& user, const std::wstring& password,
+RepositoryExport(const std::wstring& url, const RepositoryCredentialsOptions& credentials,
     const std::wstring& branchOrTag, std::wstring& localPath, std::wstring& errorMessage)
 {
-    RepositoryClone(url, user, password, L"", localPath, errorMessage);
+    RepositoryClone(url, credentials, L"", localPath, errorMessage);
 
     if (errorMessage.empty()) {
         if (!branchOrTag.empty()) {
@@ -79,5 +76,5 @@ RepositoryExport(const std::wstring& url, const std::wstring& user, const std::w
     }
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

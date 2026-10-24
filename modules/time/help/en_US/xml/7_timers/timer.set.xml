@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>timer.set</keyword>
+  <keyword_alias>set timer</keyword_alias>
+  <short_description>Set timer property values.</short_description>
+  <syntax>
+    <syntax_item>set(t, &apos;PropertyName&apos;, PropertyValue, ...)</syntax_item>
+    <syntax_item>set(t, values)</syntax_item>
+    <syntax_item>t.PropertyName = PropertyValue</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>t</param_name>
+      <param_description>Timer object or timer object array.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>PropertyName</param_name>
+      <param_description>Name of a writable timer property.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>PropertyValue</param_name>
+      <param_description>New value for the property.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>values</param_name>
+      <param_description>Scalar structure whose fields are timer property names. Read-only fields are ignored.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b>set</b> changes writable timer properties. Writable properties include <b>BusyMode</b>, <b>ErrorFcn</b>, <b>ExecutionMode</b>, <b>Name</b>, <b>ObjectVisibility</b>, <b>Period</b>, <b>StartDelay</b>, <b>StartFcn</b>, <b>StopFcn</b>, <b>Tag</b>, <b>TasksToExecute</b>, <b>TimerFcn</b>, and <b>UserData</b>.</p>
+    <p>Do not change scheduling properties such as <b>BusyMode</b>, <b>ExecutionMode</b>, <b>Period</b>, or <b>StartDelay</b> while a timer is running.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Configure a timer with property name and value pairs.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[t = timer();
+set(t, 'Name', 'setExample', ...
+  'ExecutionMode', 'fixedSpacing', ...
+  'Period', 0.05, ...
+  'TasksToExecute', 2, ...
+  'TimerFcn', @(src, event) disp(get(src, 'Name')));
+start(t);
+wait(t);
+delete(t);]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Set multiple properties from a structure.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[t = timer('TimerFcn', @(src, event) disp('done'));
+values = struct();
+values.Tag = 'batch';
+values.StartDelay = 0.1;
+set(t, values);
+get(t, 'Tag')
+delete(t);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${time}timer">timer</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}timer.get">get</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -12,7 +12,8 @@
 #include <Eigen/Sparse>
 #include "HorzCatSparseLogical.hpp"
 #include "Error.hpp"
-#include "PredefinedErrorMessages.hpp"
+#include "ErrorID.hpp"
+#include "ConcatenateDimensions.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -21,10 +22,12 @@ HorzCatSparseLogical(ArrayOf A, ArrayOf B)
 {
     ArrayOf C;
     if (!A.isSparseLogicalType()) {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_LOGICAL_EXPECTED);
+        Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1),
+            L"sparse logical");
     }
     if (!B.isSparseLogicalType()) {
-        Error(ERROR_WRONG_ARGUMENT_2_TYPE_SPARSE_LOGICAL_EXPECTED);
+        Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (2),
+            L"sparse logical");
     }
     if (A.isEmpty(false)) {
         ArrayOf C(B);
@@ -34,24 +37,24 @@ HorzCatSparseLogical(ArrayOf A, ArrayOf B)
         ArrayOf C(A);
         return C;
     }
-    Dimensions dimsA = A.getDimensions();
-    Dimensions dimsB = B.getDimensions();
-    if (dimsA.getRows() != dimsB.getRows()) {
-        Error(ERROR_DIMENSIONS_NOT_CONSISTENT);
+    Dimensions dimsA = A.dimensions();
+    Dimensions dimsB = B.dimensions();
+    if (dimsA.rows() != dimsB.rows()) {
+        raiseConcatenationDimensionMismatch();
     }
     Eigen::SparseMatrix<logical, 0, signedIndexType>* spMatA
-        = (Eigen::SparseMatrix<logical, 0, signedIndexType>*)A.getSparseDataPointer();
+        = (Eigen::SparseMatrix<logical, 0, signedIndexType>*)A.sparseDataPointer();
     Eigen::SparseMatrix<logical, 0, signedIndexType>* spMatB
-        = (Eigen::SparseMatrix<logical, 0, signedIndexType>*)B.getSparseDataPointer();
+        = (Eigen::SparseMatrix<logical, 0, signedIndexType>*)B.sparseDataPointer();
     Eigen::SparseMatrix<logical, 0, signedIndexType>* spMatC;
-    indexType newColumnsSize = dimsA.getColumns() + dimsB.getColumns();
-    indexType newRowsSize = dimsA.getRows();
+    indexType newColumnsSize = dimsA.columns() + dimsB.columns();
+    indexType newRowsSize = dimsA.rows();
     Dimensions dimsC = Dimensions(newRowsSize, newColumnsSize);
     try {
         spMatC = new Eigen::SparseMatrix<logical, 0, signedIndexType>(newRowsSize, newColumnsSize);
     } catch (const std::bad_alloc&) {
         spMatC = nullptr;
-        Error(ERROR_MEMORY_ALLOCATION);
+        Error(L"Nelson:outOfMemory", L"Memory allocation error... You may have run out of memory!");
     }
     spMatC->middleCols(0, spMatA->cols()) = *spMatA;
     spMatC->middleCols(spMatA->cols(), spMatB->cols()) = *spMatB;

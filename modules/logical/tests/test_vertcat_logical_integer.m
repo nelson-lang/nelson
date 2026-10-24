@@ -8,76 +8,76 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 R = [int8(-3); false];
-REF = int8([-3;   0]);
-assert_isequal(R, REF);
+REF = int8([-3; 0]);
+asserts.isequal(R, REF);
 %=============================================================================
 R = [uint8(-3); false];
-REF = uint8([0;   0]);
-assert_isequal(R, REF);
+REF = uint8([0; 0]);
+asserts.isequal(R, REF);
 %=============================================================================
 R = [int16(-3); false];
-REF = int16([-3;   0]);
-assert_isequal(R, REF);
+REF = int16([-3; 0]);
+asserts.isequal(R, REF);
 %=============================================================================
 R = [uint16(-3); false];
-REF = uint16([0;   0]);
-assert_isequal(R, REF);
+REF = uint16([0; 0]);
+asserts.isequal(R, REF);
 %=============================================================================
 R = [int32(-3); false];
-REF = int32([-3;   0]);
-assert_isequal(R, REF);
+REF = int32([-3; 0]);
+asserts.isequal(R, REF);
 %=============================================================================
 R = [uint32(-3); false];
-REF = uint32([0;   0]);
-assert_isequal(R, REF);
+REF = uint32([0; 0]);
+asserts.isequal(R, REF);
 %=============================================================================
 R = [int64(-3); false];
-REF = int64([-3;   0]);
-assert_isequal(R, REF);
+REF = int64([-3; 0]);
+asserts.isequal(R, REF);
 %=============================================================================
 R = [uint64(-3); false];
-REF = uint64([0;   0]);
-assert_isequal(R, REF);
+REF = uint64([0; 0]);
+asserts.isequal(R, REF);
 %=============================================================================
 R = [false; int8(-3)];
-REF = int8([0 ;  -3]);
-assert_isequal(R, REF);
+REF = int8([0; -3]);
+asserts.isequal(R, REF);
 %=============================================================================
 R = [false; uint8(-3)];
-REF = uint8([0;   0]);
-assert_isequal(R, REF);
+REF = uint8([0; 0]);
+asserts.isequal(R, REF);
 %=============================================================================
 R = [false; int16(-3)];
-REF = int16([0;   -3]);
-assert_isequal(R, REF);
+REF = int16([0; -3]);
+asserts.isequal(R, REF);
 %=============================================================================
 R = [false; uint16(-3)];
-REF = uint16([0;   0]);
-assert_isequal(R, REF);
+REF = uint16([0; 0]);
+asserts.isequal(R, REF);
 %=============================================================================
 R = [false; int32(-3)];
-REF = int32([0;   -3]);
-assert_isequal(R, REF);
+REF = int32([0; -3]);
+asserts.isequal(R, REF);
 %=============================================================================
 R = [false; uint32(-3)];
-REF = uint32([0;   0]);
-assert_isequal(R, REF);
+REF = uint32([0; 0]);
+asserts.isequal(R, REF);
 %=============================================================================
 R = [false; int64(-3)];
-REF = int64([0;   -3]);
-assert_isequal(R, REF);
+REF = int64([0; -3]);
+asserts.isequal(R, REF);
 %=============================================================================
 R = [false; uint64(-3)];
-REF = uint64([0;   0]);
-assert_isequal(R, REF);
+REF = uint64([0; 0]);
+asserts.isequal(R, REF);
 %=============================================================================
 R = [false; int8(0)];
 REF = int8([0; 0]);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-A = logical(zeros(3,2,2));
+A = logical(zeros(3, 2, 2));
 B = int16(A);
 R = [A; B];
 REF = int16([B; B]);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================

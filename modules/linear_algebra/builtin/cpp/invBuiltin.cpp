@@ -22,10 +22,18 @@ Nelson::LinearAlgebraGateway::invBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargoutcheck(nLhs, 0, 1);
     bool needToOverload;
     ArrayOf param1 = argIn[0];
+    // a sparse matrix is inverted densely; the inverse stays sparse
+    bool wasSparse = param1.isSparse();
+    if (wasSparse) {
+        param1.makeDense();
+    }
     ArrayOf res = InverseMatrix(param1, needToOverload);
     if (needToOverload) {
         OverloadRequired("inv");
     } else {
+        if (wasSparse) {
+            res.makeSparse();
+        }
         retval << res;
     }
     return retval;

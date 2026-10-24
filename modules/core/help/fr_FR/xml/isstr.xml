@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>isstr</keyword>
+  <short_description>Détermine si l&apos;entrée est un tableau de caractères (obsolète).</short_description>
+  <syntax>
+    <syntax_item>tf = isstr(x)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>x</param_name>
+      <param_description>une valeur, de type quelconque.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>tf</param_name>
+      <param_description
+      >un booléen : <b>true</b> si <b>x</b> est un tableau de caractères, <b>false</b> sinon.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>isstr</b> est un alias obsolète de <b
+      >ischar</b>. Il renvoie <b>true</b> lorsque <b
+      >x</b> est un tableau de caractères et <b>false</b> sinon.</p>
+    <p>Un tableau de chaînes (créé avec des guillemets doubles) n&apos;est pas un tableau de caractères, donc <b
+      >isstr</b> renvoie <b>false</b> dans ce cas.</p>
+    <p><b>isstr</b> est conservé pour la compatibilité avec le code existant. Utilisez plutôt <b
+      >ischar</b> dans le nouveau code.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Un tableau de caractères :</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[tf = isstr('hello')]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Une valeur numérique n&apos;est pas un tableau de caractères :</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[tf = isstr(42)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Une chaîne n&apos;est pas un tableau de caractères :</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[tf = isstr("hello")]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${types}ischar">ischar</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${types}isstring">isstring</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

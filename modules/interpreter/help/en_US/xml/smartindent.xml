@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>smartindent</keyword>
+  <short_description>Format and indent a Nelson file</short_description>
+  <syntax>
+    <syntax_item>smartindent(filename)</syntax_item>
+    <syntax_item>smartindent(filename, indentsize)</syntax_item>
+    <syntax_item>smartindent(filename, indentsize, dobackup)</syntax_item>
+    <syntax_item>smartindent(filename, indentsize, dobackup, fullformat)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>a string: filename to format.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>indentsize</param_name>
+      <param_description>an integer value &gt; 0. default: 2</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>dobackup</param_name>
+      <param_description>a logical: false by default. If true, creates a .bak file.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>fullformat</param_name>
+      <param_description>a logical: true by default. If false, only leading indentation is changed.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b>smartindent</b> validates, formats, and indents Nelson code without executing it. By default it normalizes leading indentation, common operator spacing, separators, and classdef block indentation. Set <b>fullformat</b> to false to only update leading indentation.</p>
+    <p>Full formatting keeps reference dots attached to package names, object members, and structure fields, including dynamic fields such as <b>value.(name)</b>. Elementwise operators keep their operator spacing.</p>
+    <p>Class member block names such as <b>properties</b> and <b>methods</b> remain ordinary identifiers in executable statements. They introduce indentation blocks only in the class body.</p>
+    <p>Block-comment markers inside character arrays, strings, and line comments are preserved as text. A real unterminated block comment is rejected before the file is written.</p>
+    <p>Blocks opened and closed on the same line, such as <b>if ready, value = 1; end</b>, do not increase the indentation of following lines. An <b>end</b> used in array indexing is not a block terminator.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <see_also>
+    <see_also_item>
+      <link linkend="${text_editor}edit">edit</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>fullformat parameter added</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

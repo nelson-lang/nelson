@@ -12,6 +12,7 @@
 #include "nlsHelp_tools_exports.h"
 #include "XmlTarget.hpp"
 #include "XmlDocListOfFiles.hpp"
+#include "XmlTransform.hpp"
 #include <string>
 //=============================================================================
 namespace Nelson {
@@ -19,7 +20,8 @@ namespace Nelson {
 bool
 XmlDocTocSummary(const std::wstring& destinationDirectory, std::vector<XmlDocSection>& xmlDocFiles,
     const std::wstring& xsltTocFilename, const std::wstring& xsltSummaryFilename,
-    DOCUMENT_OUTPUT outputDocumentType, std::wstring& errorMessage);
+    DOCUMENT_OUTPUT outputDocumentType, std::wstring& errorMessage,
+    XmlLinkResolver* linkResolver = nullptr);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>fitlm</keyword>
+  <short_description>Ajuste un modele de regression lineaire.</short_description>
+  <syntax>
+    <syntax_item>mdl = fitlm(X, y)</syntax_item>
+    <syntax_item>mdl = fitlm(X, y, modelspec)</syntax_item>
+    <syntax_item>mdl = fitlm(X, y, ..., Name, Value)</syntax_item>
+    <syntax_item>yfit = predict(mdl, Xnew)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>fitlm</b> cree un objet <b>LinearModel</b> a partir de predicteurs numeriques <b>X</b> et d'une reponse <b>y</b>.</p>
+    <p>Les specifications de modele prises en charge incluent <b>constant</b>, <b>linear</b>, <b>interactions</b>, <b>quadratic</b>, <b>purequadratic</b> et les matrices numeriques de termes. Les arguments nom-valeur incluent <b>Intercept</b>, <b>PredictorNames</b> et <b>ResponseName</b>.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[X = [1 2; 2 1; 3 4; 4 3; 5 6; 6 5];
+y = 1 + 2 * X(:,1) - 3 * X(:,2);
+mdl = fitlm(X, y);
+yfit = predict(mdl, [7 8; 8 7])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}regress">regress</link></see_also_item>
+    <see_also_item><link linkend="${statistics}regstats">regstats</link></see_also_item>
+    <see_also_item><link linkend="${statistics}robustfit">robustfit</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

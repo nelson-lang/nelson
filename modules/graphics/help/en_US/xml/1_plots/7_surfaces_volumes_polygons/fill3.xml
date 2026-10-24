@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>fill3</keyword>
+  <short_description>Create filled 3-D patches.</short_description>
+  <syntax>
+    <syntax_item>fill3(X, Y, Z, C)</syntax_item>
+    <syntax_item>fill3(X1, Y1, Z1, C1, ..., Xn, Yn, Zn, Cn)</syntax_item>
+    <syntax_item>fill3(..., propertyName, propertyValue)</syntax_item>
+    <syntax_item>fill3(ax, ...)</syntax_item>
+    <syntax_item>go = fill3(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description>x-coordinates: vector or matrix.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Y</param_name>
+      <param_description>y-coordinates: vector or matrix.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Z</param_name>
+      <param_description>z-coordinates: vector or matrix.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>C</param_name>
+      <param_description>Color data or color specification.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>go</param_name>
+      <param_description>graphics object handles of patch type.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>fill3</b> creates filled polygons in 3-D coordinates. Each input group creates one or more patch objects and supports patch name-value properties.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="adv-cli"><![CDATA[x = [0 1 0];
+y = [0 0 1];
+z = [0 1 0];
+fill3(x, y, z, 'red');
+view(3)]]></example_item_data>
+      <example_item_img src="../../../../images/fill3_1.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}1_plots/7_surfaces_volumes_polygons/fill">fill</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}1_plots/7_surfaces_volumes_polygons/patch">patch</link>
+    </see_also_item>
+  </see_also>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

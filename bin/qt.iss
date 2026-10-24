@@ -23,14 +23,7 @@ Source: {#RootPath}bin\{#BinPath}\d3dcompiler_*.dll; DestDir: {app}\bin\{#BinPat
 Source: {#RootPath}bin\{#BinPath}\opengl32sw.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_GUI};
 #endif
 ;==============================================================================
-; Qt5-only non-Qt-prefixed libraries
-;==============================================================================
-#ifdef QT5_USED
-Source: {#RootPath}bin\{#BinPath}\libEGL.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_GUI};
-Source: {#RootPath}bin\{#BinPath}\libGLESv2.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_GUI};
-#endif
-;==============================================================================
-; All Qt DLLs (wildcard covers both Qt5 and Qt6 prefixed libraries)
+; All Qt DLLs (Qt6-prefixed libraries)
 ;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\Qt?*.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_GUI};
 ;==============================================================================

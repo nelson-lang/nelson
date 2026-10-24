@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>functionCallGenerator</keyword>
+<keyword_alias>block:functionCallGenerator</keyword_alias>
+  <short_description>Drives a function-call subsystem a fixed number of times per step.</short_description>
+  <syntax>
+    <syntax_item>Block type: functionCallGenerator</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>input ports</param_name>
+      <param_description>None.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>output ports</param_name>
+      <param_description>1 event output: wire it to the control port of a function-call subsystem.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Drives a function-call subsystem a fixed number of times per step.</p>
+    <p>On each major step the generator invokes every function-call subsystem wired to its event
+    output, running each one <code>NumberOfIterations</code> times (its ALGEBRAIC pass followed by
+    an immediate internal UPDATE). This is caller-driven execution: the callee runs on demand,
+    outside the normal topological schedule, rather than once per step like an ordinary block. A
+    function-call subsystem is a subsystem whose control port kind is <code>functionCall</code>.</p>
+    <p>Function-call subsystems require the default (discrete / fixed-step) engine; selecting an
+    explicit continuous solver is rejected in this version.</p>
+    <p>
+      <b>Parameters</b>
+    </p>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+          <th>Default value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <code>NumberOfIterations</code>
+          </td>
+          <td>1</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Block Characteristics</b>
+    </p>
+    <table border="1">
+      <tbody>
+        <tr>
+          <td>Block type</td>
+          <td>functionCallGenerator</td>
+        </tr>
+        <tr>
+          <td>Family</td>
+          <td>Utility blocks</td>
+        </tr>
+        <tr>
+          <td>Phases</td>
+          <td>ALGEBRAIC</td>
+        </tr>
+      </tbody>
+    </table>
+    <p><b>Extended Capabilities</b></p>
+    <p>Code generation: supported for C and Rust.</p>
+  </description>
+  <used_function/>
+  <bibliography/>
+  <see_also>
+    <see_also_item>
+      <link linkend="${nflow_blocks}utility/subsystem">subsystem</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${nflow_blocks}utility/merge">merge</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

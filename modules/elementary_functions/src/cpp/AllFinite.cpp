@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -7,6 +7,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <cmath>
 #include "nlsBuildConfig.h"
 #include "lapack_eigen_config.hpp"
 #include <Eigen/Dense>
@@ -19,49 +20,65 @@ template <class T>
 bool
 AllFiniteComplex(const ArrayOf& A)
 {
+    // Scan the interleaved real/imaginary components directly. Mapping the data
+    // into an Eigen expression and calling allFinite() reads whole SIMD packets,
+    // which overruns the end of the (unpadded) storage for sizes that are not a
+    // multiple of the packet width. Only stored values are scanned for sparse.
+    const T* ptr = nullptr;
+    size_t componentCount = 0;
     if (A.isSparse()) {
-        Eigen::SparseMatrix<std::complex<T>, 0, signedIndexType>* spMat
-            = (Eigen::SparseMatrix<std::complex<T>, 0, signedIndexType>*)(A.getSparseDataPointer());
-        std::complex<T>* ptrZ = spMat->valuePtr();
-        T* ptr = reinterpret_cast<T*>(ptrZ);
-        Eigen::Map<Eigen::Matrix<T, 1, Eigen::Dynamic>> matA(
-            ptr, (Eigen::Index)1, (Eigen::Index)A.getElementCount() * 2);
-        return matA.allFinite();
+        auto* spMat
+            = (Eigen::SparseMatrix<std::complex<T>, 0, signedIndexType>*)(A.sparseDataPointer());
+        ptr = reinterpret_cast<const T*>(spMat->valuePtr());
+        componentCount = (size_t)spMat->nonZeros() * 2;
+    } else {
+        ptr = reinterpret_cast<const T*>(A.dataPointer());
+        componentCount = (size_t)A.elementCount() * 2;
     }
-    auto* Az = reinterpret_cast<std::complex<T>*>((T*)A.getDataPointer());
-    Eigen::Map<Eigen::Matrix<std::complex<T>, 1, Eigen::Dynamic>> matA(
-        Az, (Eigen::Index)1, (Eigen::Index)A.getElementCount());
-    return matA.allFinite();
+    for (size_t k = 0; k < componentCount; ++k) {
+        if (!std::isfinite(ptr[k])) {
+            return false;
+        }
+    }
+    return true;
 }
 //=============================================================================
 template <class T>
 bool
 AllFiniteReal(const ArrayOf& A)
 {
+    // See AllFiniteComplex: a plain bounds-exact scan avoids the SIMD packet
+    // over-read that Eigen's allFinite() performs on an unpadded Map.
+    const T* ptr = nullptr;
+    size_t elementCount = 0;
     if (A.isSparse()) {
-        Eigen::SparseMatrix<T, 0, signedIndexType>* spMat
-            = (Eigen::SparseMatrix<T, 0, signedIndexType>*)(A.getSparseDataPointer());
-        T* ptr = spMat->valuePtr();
-        Eigen::Map<Eigen::Matrix<T, 1, Eigen::Dynamic>> matA(
-            ptr, (Eigen::Index)1, (Eigen::Index)A.getElementCount());
-        return matA.allFinite();
+        auto* spMat = (Eigen::SparseMatrix<T, 0, signedIndexType>*)(A.sparseDataPointer());
+        ptr = spMat->valuePtr();
+        elementCount = (size_t)spMat->nonZeros();
+    } else {
+        ptr = (const T*)A.dataPointer();
+        elementCount = (size_t)A.elementCount();
     }
-    Eigen::Map<Eigen::Matrix<T, 1, Eigen::Dynamic>> matA(
-        (T*)A.getDataPointer(), (Eigen::Index)1, (Eigen::Index)A.getElementCount());
-    return matA.allFinite();
+    for (size_t k = 0; k < elementCount; ++k) {
+        if (!std::isfinite(ptr[k])) {
+            return false;
+        }
+    }
+    return true;
 }
 //=============================================================================
 bool
 AllFinite(const ArrayOf& arrayIn, bool& needToOverload)
 {
     needToOverload = false;
-    switch (arrayIn.getDataClass()) {
+    switch (arrayIn.dataClass()) {
     case NLS_HANDLE:
     case NLS_GO_HANDLE:
     case NLS_CELL_ARRAY:
     case NLS_STRING_ARRAY:
     case NLS_STRUCT_ARRAY:
     case NLS_CLASS_ARRAY:
+    case NLS_CLASSDEF_ARRAY:
     case NLS_FUNCTION_HANDLE:
     default: {
         needToOverload = true;

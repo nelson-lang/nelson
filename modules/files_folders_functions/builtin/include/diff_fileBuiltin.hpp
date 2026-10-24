@@ -14,5 +14,6 @@
 namespace Nelson::FilesFoldersGateway {
 ArrayOfVector
 diff_fileBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

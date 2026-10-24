@@ -7,12 +7,12 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('mustBeNonempty'), -1);
-assert_isequal(nargout('mustBeNonempty'), 0);
+asserts.isequal(nargin('mustBeNonempty'), -1);
+asserts.isequal(nargout('mustBeNonempty'), 0);
 %=============================================================================
 mustBeNonempty(1);
-assert_checkerror('mustBeNonempty([])', _('Value must not be empty.'), 'Nelson:validators:mustBeNonempty');
+asserts.checkerror('mustBeNonempty([])', sprintf(_('%s must be nonempty.'), 'Value'), 'Nelson:validators:mustBeNonempty');
 %=============================================================================
-msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10),  _('Value must not be empty.')];
-assert_checkerror('mustBeNonempty([], 3)', msg, 'Nelson:validators:mustBeNonempty');
+msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10), sprintf(_('%s must be nonempty.'), 'Value')];
+asserts.checkerror('mustBeNonempty([], 3)', msg, 'Nelson:validators:mustBeNonempty');
 %=============================================================================

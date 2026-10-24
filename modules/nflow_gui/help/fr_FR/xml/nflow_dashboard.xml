@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nflow_dashboard</keyword>
+  <keyword_alias>block:dashboardScope</keyword_alias>
+  <keyword_alias>block:dashboardDisplay</keyword_alias>
+  <keyword_alias>block:dashboardEdit</keyword_alias>
+  <keyword_alias>block:dashboardGauge</keyword_alias>
+  <keyword_alias>block:dashboardHalfGauge</keyword_alias>
+  <keyword_alias>block:dashboardKnob</keyword_alias>
+  <keyword_alias>block:dashboardLamp</keyword_alias>
+  <keyword_alias>block:dashboardLinearGauge</keyword_alias>
+  <keyword_alias>block:dashboardMultiStateImage</keyword_alias>
+  <keyword_alias>block:dashboardPushButton</keyword_alias>
+  <keyword_alias>block:dashboardQuarterGauge</keyword_alias>
+  <keyword_alias>block:dashboardRadioButton</keyword_alias>
+  <keyword_alias>block:dashboardRockerSwitch</keyword_alias>
+  <keyword_alias>block:dashboardRotarySwitch</keyword_alias>
+  <keyword_alias>block:dashboardSlider</keyword_alias>
+  <keyword_alias>block:dashboardSliderSwitch</keyword_alias>
+  <keyword_alias>block:dashboardToggleSwitch</keyword_alias>
+  <keyword_alias>block:dashboardCallbackButton</keyword_alias>
+  <keyword_alias>block:dashboardCheckBox</keyword_alias>
+  <keyword_alias>block:dashboardComboBox</keyword_alias>
+  <short_description>Surveiller et régler les simulations NFlow avec des blocs Dashboard interactifs.</short_description>
+  <syntax>
+    <syntax_item>Bibliothèque Dashboard : affichages, contrôles, liaisons et actions de rappel</syntax_item>
+  </syntax>
+  <description>
+    <p>Les blocs Dashboard fournissent des contrôles et des affichages directement sur un diagramme NFlow. Ils n'ont pas de ports d'entrée ou de sortie ordinaires : chaque bloc lit ou modifie une cible choisie dans la section <b>Binding</b> de l'inspecteur.</p>
+    <p><b>Blocs disponibles</b></p>
+    <table>
+      <tr><th>Famille</th><th>Blocs</th><th>Rôle</th></tr>
+      <tr><td>Affichage de signaux</td><td>Dashboard Scope, Display</td><td>Tracer les échantillons horodatés ou afficher la dernière valeur typée.</td></tr>
+      <tr><td>Jauges</td><td>Gauge, Half Gauge, Quarter Gauge, Linear Gauge</td><td>Afficher une valeur scalaire avec des limites et des zones colorées facultatives.</td></tr>
+      <tr><td>Affichage d'états</td><td>Lamp, MultiStateImage</td><td>Associer les valeurs d'un signal à des couleurs ou à des images.</td></tr>
+      <tr><td>Contrôles continus</td><td>Edit, Knob, Slider</td><td>Régler un paramètre ou une variable scalaire par saisie ou par pointeur.</td></tr>
+      <tr><td>Contrôles à états</td><td>Push Button, Rotary Switch, Radio Button, Combo Box, Check Box, Rocker Switch, Slider Switch, Toggle Switch</td><td>Sélectionner l'un des états numériques configurés.</td></tr>
+      <tr><td>Action</td><td>Callback Button</td><td>Évaluer du code Nelson lors d'un clic ou d'un appui, sans liaison.</td></tr>
+    </table>
+    <p><img src="../images/nflow_dashboard_library.png" align="middle" /></p>
+    <p><b>Créer une liaison</b></p>
+    <p>Sélectionnez un bloc Dashboard, puis choisissez sa cible dans l'inspecteur. L'état sous le sélecteur indique <b>Liaison valide</b>, <b>Non connecté</b> ou une erreur précise. Les liaisons utilisent des identifiants de blocs stables : l'enregistrement, le rechargement, le renommage, la copie et les sous-systèmes imbriqués ne dépendent pas des libellés affichés.</p>
+    <table>
+      <tr><th>Cible</th><th>Blocs concernés</th><th>Configuration et application</th></tr>
+      <tr><td>Signal</td><td>Tous les blocs d'affichage</td><td>Choisissez une sortie de bloc, son port à base un et le traitement Sample ou Frame. La valeur est lue après chaque pas majeur.</td></tr>
+      <tr><td>Paramètre</td><td>Tous les contrôles sauf Callback Button</td><td>Choisissez un bloc, un paramètre numérique réglable et éventuellement un élément scalaire. Une modification validée est visible au pas majeur suivant.</td></tr>
+      <tr><td>Variable</td><td>Tous les contrôles sauf Callback Button</td><td>Choisissez l'espace Diagram, Base ou Global, une variable numérique et éventuellement un élément scalaire.</td></tr>
+    </table>
+    <p>Utilisez une notation d'élément à base un, par exemple <b>(2)</b> ou <b>(2,3)</b>. Un champ d'élément vide sélectionne la cible complète et n'est valide que si elle est scalaire. Les blocs, ports, variables ou éléments absents, les valeurs non numériques et les cibles non réglables sont rejetés avant la simulation.</p>
+    <p><img src="../images/nflow_dashboard_binding.png" align="middle" /></p>
+    <p><b>Manipuler les contrôles</b></p>
+    <p>Les contrôles restent utilisables lorsque la simulation est en cours, en pause ou arrêtée. Un geste commencé sur un contrôle lui reste attribué jusqu'au relâchement, même si la simulation se termine pendant le geste. Faites glisser le corps du bloc en dehors du contrôle pour déplacer le bloc. Slider et Knob acceptent le déplacement au pointeur, les flèches pour les petits incréments et Origine ou Fin pour atteindre leurs limites. Les contrôles natifs Edit et Combo Box perdent le focus lorsque l'arrière-plan du diagramme est sélectionné.</p>
+    <p><b>Apparence et comportement</b></p>
+    <table>
+      <tr><th>Blocs</th><th>Propriétés principales</th></tr>
+      <tr><td>Tous les blocs concernés</td><td><b>LabelPosition</b>, <b>ShowInitialText</b>, <b>Opacity</b> et <b>Binding</b>.</td></tr>
+      <tr><td>Dashboard Scope</td><td><b>TimeSpan</b>, <b>UpdateMode</b>, <b>YLimits</b>, <b>NormalizeYAxis</b>, <b>ScaleAtStop</b>, légende, grille, graduations, marqueurs, bordure et couleurs.</td></tr>
+      <tr><td>Jauges, Slider, Knob</td><td><b>Limits</b> ; les jauges proposent aussi <b>ScaleColors</b> et <b>ScaleDirection</b>. Slider et Knob proposent une échelle <b>ScaleType</b> Linear ou Log.</td></tr>
+      <tr><td>Display et Edit</td><td>Alignement et opacité. Display propose aussi <b>Format</b>, <b>FormatString</b>, la disposition, l'affichage de la grille et sa couleur.</td></tr>
+      <tr><td>Contrôles à états</td><td><b>States</b> ou <b>Values</b>, libellés, type énuméré facultatif, type de bouton, texte et propriétés d'icône selon le bloc.</td></tr>
+      <tr><td>Lamp et MultiStateImage</td><td>Couleurs par défaut et par état, ou images d'état avec <b>ScaleMode</b>.</td></tr>
+    </table>
+    <p>Les limites et les états sont validés par l'inspecteur. Une échelle logarithmique requiert des limites utilisables strictement positives. L'opacité est comprise entre 0 et 1. Dashboard Scope limite son tracé à l'intérieur du bloc et aux limites Y configurées.</p>
+    <p><b>Callback Button</b></p>
+    <p>Un clic court évalue <b>ClickFcn</b>. Un maintien de <b>PressDelay</b> millisecondes évalue <b>PressFcn</b> ; une valeur positive de <b>RepeatInterval</b> répète cette action pendant le maintien. Le délai d'appui par défaut est de 500 ms. Les erreurs de rappel sont affichées dans la Console sans arrêter la simulation.</p>
+    <p><b>Génération de code C et Rust</b></p>
+    <table>
+      <tr><th>Capacité</th><th>Comportement Dashboard</th></tr>
+      <tr><td>Instrumentation</td><td>Les blocs d'affichage sont validés puis retirés du code généré sans modifier les résultats numériques.</td></tr>
+      <tr><td>Réglable</td><td>Une cible scalaire compatible devient un champ typé de <b>ModelState</b> avec un setter stable. Une modification entre deux appels de pas s'applique au pas suivant.</td></tr>
+      <tr><td>Non pris en charge</td><td>Le code de Callback Button n'est jamais généré. Les cibles structurelles, composites ou non prises en charge sont rejetées avant l'écriture des fichiers.</td></tr>
+    </table>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Ouvrir un exemple exécutable avec affichage de signal et liaison Slider.</example_item_description>
+      <example_item_data><![CDATA[open_system([modulepath('nflow_blocks'), '/examples/Dashboard_Runtime_Demo.nflow']);]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Ouvrir la galerie contenant les 20 blocs Dashboard.</example_item_description>
+      <example_item_data><![CDATA[open_system([modulepath('nflow_blocks'), '/examples/Dashboard_Gallery_Demo.nflow']);]]></example_item_data>
+    </example_item>
+  </examples>
+  <used_function />
+  <bibliography />
+  <see_also>
+    <see_also_item><link linkend="${nflow_gui}nflow_workspace">nflow_workspace</link></see_also_item>
+    <see_also_item><link linkend="${nflow_gui}nflow_solvers">nflow_solvers</link></see_also_item>
+    <see_also_item><link linkend="${nflow_gui}open_system">open_system</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item><history_version>2.0.0</history_version><history_description>version initiale</history_description></history_item>
+  </history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

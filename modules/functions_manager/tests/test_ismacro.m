@@ -7,6 +7,6 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_istrue(ismacro('stdin'));
-assert_isfalse(ismacro('what'));
+asserts.istrue(ismacro('stdin'));
+asserts.isfalse(ismacro('what'));
 %=============================================================================

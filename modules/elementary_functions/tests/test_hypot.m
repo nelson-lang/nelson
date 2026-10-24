@@ -7,63 +7,85 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('hypot'), 2)
-assert_isequal(nargout('hypot'), 1)
+% <--WEIGHT 2-->
+asserts.isequal(nargin('hypot'), 2)
+asserts.isequal(nargout('hypot'), 1)
 %=============================================================================
 R = hypot(1, 2);
 REF = 2.2361;
-assert_isapprox(R, REF, 1e-4);
+asserts.isapprox(R, REF, 1e-4);
 %=============================================================================
 R = hypot(single(1), 2);
 REF = single(2.2361);
-assert_isapprox(R, REF, 1e-4);
+asserts.isapprox(R, REF, 1e-4);
 %=============================================================================
 R = hypot(1, single(2));
 REF = single(2.2361);
-assert_isapprox(R, REF, 1e-4);
+asserts.isapprox(R, REF, 1e-4);
 %=============================================================================
 R = hypot(NaN, Inf);
 REF = NaN;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = hypot(NaN, -Inf);
 REF = NaN;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = hypot(Inf, NaN);
 REF = NaN;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = hypot(-Inf, NaN);
 REF = NaN;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = hypot(NaN, NaN);
 REF = NaN;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 A = 1e308;
 R = hypot(A, A);
-assert_isfalse(isinf(R));
+asserts.isfalse(isinf(R));
 %=============================================================================
 A = [1:5];
 B = [6:10];
 R = hypot(A, B);
-REF = [ 6.0828    7.2801    8.5440    9.8489   11.1803];
-assert_isapprox(R, REF, 1e-4);
+REF = [6.0828 7.2801 8.5440 9.8489 11.1803];
+asserts.isapprox(R, REF, 1e-4);
 %=============================================================================
 R = hypot(3, 4);
 REF = 5;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = hypot(1e309, 1e309);
-assert_istrue(isinf(R));
+asserts.istrue(isinf(R));
 %=============================================================================
 R = hypot(ones(3, 0), 3);
 REF = ones(3, 0);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = hypot(3, ones(3, 0));
 REF = ones(3, 0);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
+%=============================================================================
+R = hypot([3 4 12], zeros(2, 3));
+REF = [3 4 12; 3 4 12];
+asserts.isequal(R, REF);
+%=============================================================================
+R = hypot([3; 4], zeros(2, 3));
+REF = [3 3 3; 4 4 4];
+asserts.isequal(R, REF);
+%=============================================================================
+asserts.checkerror('hypot(1:2, 1:3)', _('Arrays have incompatible sizes for this operation.'));
+%=============================================================================
+asserts.isequal(hypot(3, 4), 5);
+%=============================================================================
+% empty operands of the same shape combine into an empty result
+asserts.isequal(hypot([], []), []);
+%=============================================================================
+asserts.isequal(size(hypot(zeros(0, 3), zeros(0, 3))), [0 3]);
+%=============================================================================
+asserts.isequal(hypot([], 5), []);
+%=============================================================================
+asserts.checkerror('hypot(zeros(0, 3), zeros(2, 0))', _('Arrays have incompatible sizes for this operation.'));
 %=============================================================================

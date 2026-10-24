@@ -20,10 +20,7 @@ endif()
 if(NOT OUTPUT_ICNS)
   message(FATAL_ERROR "OUTPUT_ICNS is not set")
 endif()
-if(NOT
-  EXISTS
-  "${SOURCE_PNG}"
-)
+if(NOT EXISTS "${SOURCE_PNG}")
   message(FATAL_ERROR "Source PNG not found: ${SOURCE_PNG}")
 endif()
 # ==============================================================================
@@ -35,6 +32,11 @@ get_filename_component(_icns_dir
 )
 set(_iconset "${_icns_dir}/Nelson.iconset")
 file(MAKE_DIRECTORY "${_iconset}")
+set(_sips_color_args "")
+set(_srgb_profile "/System/Library/ColorSync/Profiles/sRGB Profile.icc")
+if(EXISTS "${_srgb_profile}")
+  list(APPEND _sips_color_args -m "${_srgb_profile}")
+endif()
 
 # Sizes required by Apple: 16, 32, 64, 128, 256, 512 (and @2x retina variants)
 # Stored as two parallel lists to avoid CMake semicolon-in-list issues.
@@ -81,15 +83,12 @@ foreach(_i RANGE 0 ${_last})
   )
   set(_out "${_iconset}/${_name}.png")
   execute_process(
-    COMMAND sips -z ${_px} ${_px} "${SOURCE_PNG}" --out "${_out}"
+    COMMAND sips ${_sips_color_args} -s format png -z ${_px} ${_px}
+      "${SOURCE_PNG}" --out "${_out}"
     RESULT_VARIABLE _rc
     OUTPUT_QUIET ERROR_QUIET
   )
-  if(NOT
-    _rc
-    EQUAL
-    0
-  )
+  if(NOT _rc EQUAL 0)
     message(WARNING "sips failed for ${_px}x${_px} (${_name}), rc=${_rc}")
   endif()
 endforeach()
@@ -103,12 +102,32 @@ execute_process(
   OUTPUT_VARIABLE _out
   ERROR_VARIABLE _err
 )
-if(NOT
-  _rc
-  EQUAL
-  0
-)
-  message(FATAL_ERROR "iconutil failed: ${_err}")
+if(NOT _rc EQUAL 0)
+  find_program(TIFF2ICNS tiff2icns)
+  if(NOT TIFF2ICNS)
+    message(FATAL_ERROR "iconutil failed: ${_err}")
+  endif()
+  set(_fallback_tiff "${_icns_dir}/Nelson-icon.tiff")
+  execute_process(
+    COMMAND sips ${_sips_color_args} -s format tiff -z 512 512 "${SOURCE_PNG}"
+      --out "${_fallback_tiff}"
+    RESULT_VARIABLE _tiff_rc
+    OUTPUT_QUIET
+    ERROR_VARIABLE _tiff_err
+  )
+  if(NOT _tiff_rc EQUAL 0)
+    message(FATAL_ERROR "sips TIFF fallback failed: ${_tiff_err}")
+  endif()
+  execute_process(
+    COMMAND "${TIFF2ICNS}" "${_fallback_tiff}" "${OUTPUT_ICNS}"
+    RESULT_VARIABLE _tiff2icns_rc
+    OUTPUT_VARIABLE _tiff2icns_out
+    ERROR_VARIABLE _tiff2icns_err
+  )
+  file(REMOVE "${_fallback_tiff}")
+  if(NOT _tiff2icns_rc EQUAL 0)
+    message(FATAL_ERROR "tiff2icns fallback failed: ${_tiff2icns_err}")
+  endif()
 endif()
 
 # Clean up

@@ -17,7 +17,7 @@ tests_dir = [nelsonroot(), '/modules/mex'];
 nonreg_tests = dir([tests_dir, 'test_*.m'])
 msg = sprintf(_('Check for incorrect argument data type or missing argument in call to function ''%s''.'), 'sort');
 
-assert_checkerror('sort(nonreg_tests)', msg);
+asserts.checkerror('sort(nonreg_tests)', msg);
 %=============================================================================
-assert_checkerror('sort(cell(1,1))', msg);
+asserts.checkerror('sort(cell(1,1))', msg);
 %=============================================================================

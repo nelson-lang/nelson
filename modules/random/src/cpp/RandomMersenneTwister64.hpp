@@ -12,9 +12,9 @@
 #include <vector>
 #include <random>
 #include <string>
-#include <cmath>
-#include <functional>
 #include "RandomInterface.hpp"
+#include "MersenneTwister64Engine.hpp"
+#include "ZigguratNormal.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -22,74 +22,38 @@ class RandomMersenneTwister64 : public RandomInterface
 {
 private:
     uint64 seed = 0;
-    bool hasSpare_ = false;
-    double spare_ = 0.0;
-    int minInt = 1;
-    int maxInt = 1000;
+    int64 minInt = 1;
+    int64 maxInt = 1000;
 
-    auto&
+    // generator and distribution belong to the instance: two engines never
+    // share a state
+    MersenneTwister64Engine mersenneTwister;
+    std::uniform_real_distribution<double> uniformDistribution { 0.0, 1.0 };
+
+    MersenneTwister64Engine&
     random_engine()
     {
-        thread_local static std::mt19937_64 mersenneTwister;
         return mersenneTwister;
     }
 
     double
     uniform01()
     {
-        thread_local static std::uniform_real_distribution<double> dist(0.0, 1.0);
-        return dist(random_engine());
+        return uniformDistribution(mersenneTwister);
     }
 
-    auto&
-    uniform_real_generator(bool doDelete = false)
-    {
-        thread_local static std::uniform_real_distribution<double>* dist = nullptr;
-        if (doDelete) {
-            delete dist;
-            dist = nullptr;
-            return dist;
-        }
-        if (dist == nullptr) {
-            dist = new std::uniform_real_distribution<double>(0.0, 1.0);
-        }
-        return dist;
-    }
-
+    // same ziggurat as 'twister': one 64-bit word stands for its two 32-bit
+    // words, and nothing is cached outside the engine state
     double
-    normal(double mean = 0.0, double stddev = 1.0)
+    normal()
     {
-        if (hasSpare_) {
-            hasSpare_ = false;
-            return mean + stddev * spare_;
-        }
-
-        double u, v, s;
-        do {
-            u = 2.0 * uniform01() - 1.0;
-            v = 2.0 * uniform01() - 1.0;
-            s = u * u + v * v;
-        } while (s >= 1.0 || s == 0.0);
-
-        double mul = std::sqrt(-2.0 * std::log(s) / s);
-        spare_ = v * mul;
-        hasSpare_ = true;
-        return mean + stddev * (u * mul);
-    }
-
-    auto&
-    normal_real_generator(bool doDelete = false)
-    {
-        thread_local static auto* gen = new std::function<double()>([this]() { return normal(); });
-        if (doDelete) {
-            delete gen;
-            gen = nullptr;
-            return gen;
-        }
-        if (!gen) {
-            gen = new std::function<double()>([this]() { return normal(); });
-        }
-        return gen;
+        return zigguratNormal(
+            [this](uint32_t& w0, uint32_t& w1) {
+                const uint64_t w = mersenneTwister();
+                w0 = static_cast<uint32_t>(w >> 32);
+                w1 = static_cast<uint32_t>(w);
+            },
+            [this]() { return uniform01(); });
     }
 
 public:
@@ -126,9 +90,9 @@ public:
     getStateSize() override;
 
     void
-    setMinMaxUniformIntDistribution(int _min, int _max) override;
+    setMinMaxUniformIntDistribution(int64 _min, int64 _max) override;
     void
-    getMinMaxUniformIntDistribution(int& _min, int& _max) override;
+    getMinMaxUniformIntDistribution(int64& _min, int64& _max) override;
 };
 //=============================================================================
 } // namespace Nelson

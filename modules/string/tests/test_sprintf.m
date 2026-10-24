@@ -7,161 +7,170 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('sprintf'), -1);
-assert_isequal(nargout('sprintf'), 2);
+% <--WEIGHT 8-->
+asserts.isequal(nargin('sprintf'), -1);
+asserts.isequal(nargout('sprintf'), 2);
 %=============================================================================
-R = sprintf('%s','hello');
+R = sprintf('%s', 'hello');
 REF = 'hello';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = sprintf('%s %s', 'hello', 'Nelson');
 REF = 'hello Nelson';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
+%=============================================================================
+R = sprintf(' %d %', 10);
+REF = ' 10 ';
+asserts.isequal(R, REF);
+%=============================================================================
+R = sprintf(' %d %%', 10);
+REF = ' 10 %';
+asserts.isequal(R, REF);
 %=============================================================================
 R = sprintf('%f', -53);
 REF = '-53.000000';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = sprintf('%f', 55.55);
 REF = '55.550000';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-R = sprintf('%f',0.00563);
+R = sprintf('%f', 0.00563);
 REF = '0.005630';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-R = sprintf('%f',0.0000000123456);
+R = sprintf('%f', 0.0000000123456);
 REF = '0.000000';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-R = sprintf('%f',22244234534545);
+R = sprintf('%f', 22244234534545);
 REF = '22244234534545.000000';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = sprintf('%g', -53);
 REF = '-53';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = sprintf('%g', 55.55);
 REF = '55.55';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-R = sprintf('%g',0.00563);
+R = sprintf('%g', 0.00563);
 REF = '0.00563';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-R = sprintf('%g',0.0000000123456);
+R = sprintf('%g', 0.0000000123456);
 REF = '1.23456e-08';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-R = sprintf('%g',22244234534545);
+R = sprintf('%g', 22244234534545);
 REF = '2.22442e+13';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = sprintf('%G', -53);
 REF = '-53';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = sprintf('%G', 55.55);
 REF = '55.55';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-R = sprintf('%G',0.00563);
+R = sprintf('%G', 0.00563);
 REF = '0.00563';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-R = sprintf('%G',0.0000000123456);
+R = sprintf('%G', 0.0000000123456);
 REF = '1.23456E-08';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-R = sprintf('%G',22244234534545);
+R = sprintf('%G', 22244234534545);
 REF = '2.22442E+13';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = sprintf('%e', -53);
 REF = '-5.300000e+01';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = sprintf('%e', 55.55);
 REF = '5.555000e+01';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-R = sprintf('%e',0.00563);
+R = sprintf('%e', 0.00563);
 REF = '5.630000e-03';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-R = sprintf('%e',0.0000000123456);
+R = sprintf('%e', 0.0000000123456);
 REF = '1.234560e-08';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-R = sprintf('%e',22244234534545);
+R = sprintf('%e', 22244234534545);
 REF = '2.224423e+13';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = sprintf('%o', -53);
 REF = '-5.300000e+01';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = sprintf('%o', 55.55);
-REF = '70';
-assert_isequal(R, REF);
+REF = '5.555000e+01';
+asserts.isequal(R, REF);
 %=============================================================================
-R = sprintf('%o',0.00563);
-REF = '0';
-assert_isequal(R, REF);
+R = sprintf('%o', 0.00563);
+REF = '5.630000e-03';
+asserts.isequal(R, REF);
 %=============================================================================
-R = sprintf('%o',0.0000000123456);
-REF = '0';
-assert_isequal(R, REF);
+R = sprintf('%o', 0.0000000123456);
+REF = '1.234560e-08';
+asserts.isequal(R, REF);
 %=============================================================================
-R = sprintf('%o',22244234534545);
+R = sprintf('%o', 22244234534545);
 REF = '503544354517221';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = sprintf('%015o', -123);
 REF = '-001.230000e+02';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = sprintf('%d', -53);
 REF = '-53';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = sprintf('%d', 55.55);
-REF = '56';
-assert_isequal(R, REF);
+REF = '5.555000e+01';
+asserts.isequal(R, REF);
 %=============================================================================
-R = sprintf('%d',0.00563);
-REF = '0';
-assert_isequal(R, REF);
+R = sprintf('%d', 0.00563);
+REF = '5.630000e-03';
+asserts.isequal(R, REF);
 %=============================================================================
-R = sprintf('%d',0.0000000123456);
-REF = '0';
-assert_isequal(R, REF);
+R = sprintf('%d', 0.0000000123456);
+REF = '1.234560e-08';
+asserts.isequal(R, REF);
 %=============================================================================
 V = 22244234534545;
 R = sprintf('%d', V);
 REF = '22244234534545';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = sprintf('%14f', -53);
 REF = '    -53.000000';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = sprintf('%14f', 55.55);
 REF = '     55.550000';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-R = sprintf('%14f',0.00563);
+R = sprintf('%14f', 0.00563);
 REF = '      0.005630';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = sprintf('%14f', 0.0000000123456);
 REF = '      0.000000';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = sprintf('%14f', 22244234534545);
 REF = '22244234534545.000000';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = sprintf('test %d\n', [1, 2, 3; 4, 5, 6; 7, 8, 9]);
 REF = 'test 1
@@ -174,33 +183,39 @@ test 3
 test 6
 test 9
 ';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-R = sprintf('%s', ['a','b','c';'d','e','f']);
+R = sprintf('%s', ['a', 'b', 'c'; 'd', 'e', 'f']);
 REF = 'adbecf';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = sprintf('%s', []);
 REF = char(zeros(1, 0));
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = sprintf('%d', []);
 REF = char(zeros(1, 0));
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-R = sprintf("%f",0.00563);
+R = sprintf("%f", 0.00563);
 REF = "0.005630";
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-R = sprintf("%s", ["a","b","c";"d","e","f"]);
+R = sprintf("%s", ["a", "b", "c"; "d", "e", "f"]);
 REF = "adbecf";
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-R = sprintf('%s','20 %.');
+R = sprintf('%s', '20 %.');
 REF = '20 %.';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-R = sprintf('%d%%.',50);
+R = sprintf('%d%%.', 50);
 REF = '50%.';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
+%=============================================================================
+% C escape sequences \" ' \? produce the literal quote/question mark
+asserts.isequal(double(sprintf('\"')), 34);
+asserts.isequal(double(sprintf('\''')), 39);
+asserts.isequal(double(sprintf('\?')), 63);
+asserts.isequal(sprintf('say \"hi\"'), 'say "hi"');
 %=============================================================================

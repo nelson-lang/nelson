@@ -8,144 +8,351 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function varargout = tf(varargin)
-  narginchk(0, 3);
-  nargoutchk(0, 1);
-  sys = [];
-  if (nargin == 0)
-    sys = tf_no_rhs();
+classdef tf
+  properties
+    IODelay = 0
+    InputDelay = 0
+    OutputDelay = 0
+    InputName = {}
+    InputUnit = {}
+    InputGroup = []
+    OutputName = {}
+    OutputUnit = {}
+    OutputGroup = []
+    Notes = []
+    UserData = []
+    SamplingGrid = []
   end
-  if (nargin == 1)
-    sys = tf_one_rhs(varargin{1});
+
+  properties (Dependent)
+    Numerator
+    Denominator
+    Variable
+    Name
+    Ts
+    TimeUnit
   end
-  if (nargin == 2)
-    m = varargin{1};
-    if (ischar(m) || isStringScalar(m))
-      Ts = varargin{2};
-      sys = tf_one_rhs_char(m);
-      sys.Ts = Ts;
-    else 
-      Ts = 0;
-      [numeratorerator, denominator, variableName] = adjustTransferFunctionParameters(m, varargin{2}, Ts);
-      sys = tf_constructor(numeratorerator, denominator, Ts, variableName);
-    end
+
+  properties (Hidden)
+    NumeratorValue = {}
+    DenominatorValue = {}
+    VariableValue = 's'
+    NameValue = ''
+    TsValue = 0
+    TimeUnitValue = 'seconds'
+    Internal = []
   end
-  if (nargin == 3)
-    Ts = varargin{3};
-    [numeratorerator, denominator, variableName] = adjustTransferFunctionParameters(varargin{1}, varargin{2}, Ts);
-    sys = tf_constructor(numeratorerator, denominator, Ts, variableName);
-  end
-  if (~isa(sys, 'tf'))
-    error(_('Wrong number of input arguments.'));
-  end
-  varargout{1} = sys;
-end
-%=============================================================================
-function sys = tf_no_rhs()
-  tf = {};
-  tf.Numerator = {};
-  tf.Denominator= {};
-  tf.Variable = 's';
-  tf.Ts = 0;
-  tf.TimeUnit = 'seconds';
-  tf.UserData = [];
-  tf.Internal = [];
-  tf.Internal.Version = 1;
-  sys = class(tf, 'tf');
-end
-%=============================================================================
-function sys = ss_to_tf(sysIn)
-  if isstatic(sysIn)
-    sys = tf(1, sysIn.D, sysIn.Ts);
-  else
-    [A, B, C, D, Ts] = ssdata(sysIn);
-    sys = tf();
-    for i = 1:size(B, 2)
-      for j = 1:size(C, 1)
-        % sminreal will be better here :(
-        [a, b, c, d] = minreal(A, B(:, i), C(j, :), D(j ,i));
-        [N, D] = ss2tf(a, b, c, d);
-        partialG = tf(N, D, Ts);
-        sys.Numerator(j, i) = partialG.Numerator;
-        sys.Denominator(j, i) = partialG.Denominator;
+
+  methods
+    function obj = tf(varargin)
+      nargoutchk(0, 1);
+      obj.Internal.Version = 1;
+      obj.Internal.Ts = 0;
+      obj.Internal.IsStatic = false;
+      if nargin == 0
+        return
       end
-      sys.Ts = sysIn.Ts;
+      [dataArgs, propertyArgs] = splitConstructorArguments(varargin);
+      obj = constructTransferFunction(obj, dataArgs);
+      obj = applyPropertyPairs(obj, propertyArgs);
+    end
+
+    function value = get.Numerator(obj)
+      value = obj.NumeratorValue;
+    end
+
+    function obj = set.Numerator(obj, value)
+      if ~iscell(value)
+        value = {value};
+      end
+      obj.NumeratorValue = value;
+    end
+
+    function value = get.Denominator(obj)
+      value = obj.DenominatorValue;
+    end
+
+    function obj = set.Denominator(obj, value)
+      if ~iscell(value)
+        value = {value};
+      end
+      obj.DenominatorValue = value;
+    end
+
+    function value = get.Variable(obj)
+      value = obj.VariableValue;
+    end
+
+    function obj = set.Variable(obj, value)
+      value = ltiValidateTextScalar('Variable', value);
+      supported = {'s', 'p', 'z', 'q', 'z^-1', 'q^-1'};
+      if ~any(strcmp(value, supported))
+        error('Nelson:control_system:invalidVariable', '%s expected.', "'s', 'p', 'z', 'q', 'z^-1', or 'q^-1'");
+      end
+      if obj.Ts == 0 && any(strcmp(value, {'z', 'q', 'z^-1', 'q^-1'})) && ~isstatic(obj)
+        error('Nelson:control_system:invalidVariable:discreteTimeVariableRequiresADiscrete', 'Discrete-time variable requires a discrete-time model.');
+      end
+      if (obj.Ts > 0 || obj.Ts == -1) && any(strcmp(value, {'s', 'p'}))
+        error('Nelson:control_system:invalidVariable:continuousTimeVariableRequiresAContinuous', 'Continuous-time variable requires a continuous-time model.');
+      end
+      obj.VariableValue = value;
+    end
+
+    function value = get.Ts(obj)
+      value = obj.TsValue;
+    end
+
+    function obj = set.Ts(obj, value)
+      value = ltiValidateSampleTime(value);
+      obj.TsValue = value;
+      obj.Internal.Ts = value;
+      obj.Internal.IsStatic = false;
+    end
+
+    function value = get.TimeUnit(obj)
+      value = obj.TimeUnitValue;
+    end
+
+    function obj = set.TimeUnit(obj, value)
+      value = ltiValidateTimeUnit(value);
+      obj.TimeUnitValue = value;
+    end
+
+    function value = get.Name(obj)
+      value = obj.NameValue;
+    end
+
+    function obj = set.Name(obj, value)
+      obj.NameValue = ltiValidateTextScalar('Name', value);
+    end
+
+    function st = struct(obj)
+      st = builtin('struct');
+      names = ltiPropertyNames('tf');
+      for k = 1:length(names)
+        name = names{k};
+        st.(name) = obj.(name);
+      end
+      st.Internal = obj.Internal;
     end
   end
 end
 %=============================================================================
-function sys = tf_one_rhs(m)
-  if islti(m)
-    if isa(m, 'tf')
-      sys = m;
-    elseif isa(m, 'ss')
-      sys = ss_to_tf(m);
-    else
-      error(_('Supported LTI model expected.'))
-    end
-    return,
-  elseif (ischar(m) || isStringScalar(m))
-    sys = tf_one_rhs_char(m);
+function [dataArgs, propertyArgs] = splitConstructorArguments(args)
+  propertyStart = length(args) + 1;
+  if isempty(args)
+    dataArgs = {};
+    propertyArgs = {};
     return
-  elseif ~isnumeric(m)
-    error('numeric value expected.');
   end
-  sys = tf_no_rhs();
-  sys.Denominator = num2cell(ones(size(m)));
-  sys.Numerator = num2cell(m);
-  sys.Ts = -2;
+  if isVariableName(args{1})
+    if length(args) >= 2 && isnumeric(args{2})
+      propertyStart = 3;
+    else
+      propertyStart = 2;
+    end
+  else
+    for k = 2:length(args)
+      if isTextScalar(args{k})
+        propertyStart = k;
+        break
+      end
+    end
+  end
+  dataArgs = args(1:propertyStart - 1);
+  propertyArgs = args(propertyStart:end);
 end
 %=============================================================================
-function sys = tf_one_rhs_char(m)
-  m = convertStringsToChars(m);
-  isInvalid = true;
-  if strcmp(m, 's')
-    sys = tf([1 0], [0 1]);
-    sys.Variable = 's';
-    isInvalid = false;
+function obj = constructTransferFunction(obj, args)
+  switch length(args)
+    case 0
+      return
+    case 1
+      obj = tfOneArgument(obj, args{1});
+    case 2
+      obj = tfTwoArguments(obj, args{1}, args{2});
+    case 3
+      obj = tfNumeratorDenominator(obj, args{1}, args{2}, args{3});
+    otherwise
+      error('Nelson:control_system:wrongNumberOfArguments', 'Wrong number of input arguments.');
   end
-  if strcmp(m, 'z')
-    sys = tf([1 0], [0 1]);
-    sys.Variable = 'z';
-    isInvalid = false;
+end
+%=============================================================================
+function obj = tfOneArgument(obj, value)
+  if islti(value)
+    if isa(value, 'tf')
+      obj = value;
+    elseif isa(value, 'ss')
+      obj = ssToTf(value);
+    elseif isa(value, 'zpk')
+      obj = zpk2tf(value);
+    else
+      error('Nelson:control_system:invalidType', '%s expected.', 'Supported LTI model')
+    end
+    return
   end
-  if strcmp(m, 'p')
-    sys = tf([1 0], [0 1]);
-    sys.Variable = 'p';
-    isInvalid = false;
+  if isVariableName(value)
+    obj = tfVariable(obj, value);
+    return
   end
-  if strcmp(m, 'q')
-    sys = tf([1 0], [0 1]);
-    sys.Variable = 'q';
-    isInvalid = false;
+  if ~isnumeric(value)
+    error('Nelson:control_system:invalidType', '%s expected.', 'numeric value');
   end
-  if isInvalid
-    error(_('Invalid syntax: ''s'', ''z'', ''p'', ''q'' expected.'));
+  obj = tfStaticGain(obj, value);
+end
+%=============================================================================
+function obj = tfTwoArguments(obj, first, second)
+  if isVariableName(first)
+    obj = tfVariable(obj, first, second);
+  else
+    obj = tfNumeratorDenominator(obj, first, second, 0);
+  end
+end
+%=============================================================================
+function obj = tfNumeratorDenominator(obj, numerator, denominator, Ts)
+  ltiValidateSampleTime(Ts);
+  [num, den, variableName, isStatic] = adjustTransferFunctionParameters(numerator, denominator, Ts);
+  obj = tfConstructor(obj, num, den, Ts, variableName, isStatic);
+end
+%=============================================================================
+function obj = tfStaticGain(obj, value)
+  obj.Denominator = num2cell(ones(size(value)));
+  obj.Numerator = num2cell(value);
+  obj.Variable = 's';
+  obj.Ts = 0;
+  obj.Internal.Ts = -2;
+  obj.Internal.IsStatic = true;
+end
+%=============================================================================
+function obj = tfVariable(obj, value, Ts)
+  value = ltiValidateTextScalar('Variable', value);
+  if nargin < 3
+    Ts = defaultSampleTimeForVariable(value);
+  end
+  ltiValidateSampleTime(Ts);
+  obj = tfConstructor(obj, [1 0], [1], Ts, value, false);
+end
+%=============================================================================
+function Ts = defaultSampleTimeForVariable(value)
+  if any(strcmp(value, {'z', 'q'}))
+    Ts = -1;
+  else
+    Ts = 0;
+  end
+end
+%=============================================================================
+function obj = ssToTf(sysIn)
+  if isstatic(sysIn)
+    obj = tf(sysIn.D);
+    obj = ltiCopyModelMetadata(obj, sysIn);
+    return
+  end
+  [A, B, C, D, Ts] = ssdata(sysIn);
+  obj = tf();
+  for i = 1:size(B, 2)
+    for j = 1:size(C, 1)
+      [a, b, c, d] = minreal(A, B(:, i), C(j, :), D(j, i));
+      [N, D] = ss2tf(a, b, c, d);
+      partialG = tf(N, D, Ts);
+      obj.Numerator(j, i) = partialG.Numerator;
+      obj.Denominator(j, i) = partialG.Denominator;
+    end
+  end
+  obj.Ts = sysIn.Ts;
+  obj = ltiCopyModelMetadata(obj, sysIn);
+end
+%=============================================================================
+function [numerator, denominator, variableName, isStaticGain] = adjustTransferFunctionParameters(numerator, denominator, Ts)
+  variableName = '';
+  isStaticGain = false;
+  if isempty(denominator)
+    if isempty(numerator)
+      numerator = {};
+      denominator = {};
+      isStaticGain = true;
+    elseif isnumeric(numerator) && ismatrix(numerator) && isreal(numerator)
+      numerator = num2cell(numerator);
+      denominator = num2cell(ones(size(numerator)));
+      isStaticGain = true;
+    end
+  end
+  if ~iscell(numerator)
+    numerator = {numerator};
+  end
+  if ~iscell(denominator)
+    denominator = {denominator};
+  end
+  checkAllZeros = @(x) all(x == 0.);
+  zeroNumerator = cellfun(checkAllZeros, numerator);
+  zeroDenominator = cellfun(checkAllZeros, denominator);
+  isAllZeroNumerator = all(zeroNumerator(:));
+  isAllZeroDenominator = all(zeroDenominator(:));
+  checkScalar = @(x) isempty(find(x ~= 0, 1)) || (find(x ~= 0, 1) == length(x));
+  scalarNumerator = cellfun(checkScalar, numerator);
+  scalarDenominator = cellfun(checkScalar, denominator);
+  isAllScalarNumerator = ~isAllZeroNumerator && all(scalarNumerator(:));
+  isAllScalarDenominator = ~isAllZeroDenominator && all(scalarDenominator(:));
+  if isAllScalarNumerator && isAllScalarDenominator
+    isStaticGain = true;
+  end
+  if isStaticGain || Ts == 0
+    variableName = 's';
+  else
+    variableName = 'z';
+  end
+end
+%=============================================================================
+function obj = tfConstructor(obj, numerator, denominator, Ts, variableName, isStaticGain)
+  ltiValidateSampleTime(Ts);
+  numerator = checkFractionPart(numerator);
+  denominator = checkFractionPart(denominator);
+  if length(numerator) == 1
+    for k = 2:length(denominator)
+      numerator{k} = numerator{1};
+    end
+  end
+  if length(denominator) == 1
+    for k = 2:length(numerator)
+      denominator{k} = denominator{1};
+    end
+  end
+  if length(numerator) ~= length(denominator)
+    error('Nelson:control_system:dimagree:numeratorDenominatorCompatibleSizes', 'Numerator and Denominator must have compatible sizes.');
+  end
+  for k = 1:length(numerator)
+    [N, D] = arrangeVectors(numerator{k}, denominator{k});
+    numerator{k} = N;
+    denominator{k} = D;
+  end
+  obj.Denominator = denominator;
+  obj.Numerator = numerator;
+  obj.Ts = Ts;
+  obj.Variable = variableName;
+  obj.Internal.IsStatic = isStaticGain;
+  if isStaticGain && Ts == 0
+    obj.Internal.Ts = -2;
   end
 end
 %=============================================================================
 function modifiedPart = checkFractionPart(part)
   if iscell(part)
-    if isvector(part)
-      part = part(:)';
-    else
-      error(_('Invalid syntax.'));
-    end
+    part = part;
   elseif isnumeric(part)
     if isvector(part) || isempty(part)
       part = part(:)';
       part = {part};
     else
-      error(_('Invalid syntax.'));
+      error('Nelson:control_system:invalidSyntax', 'Invalid syntax.');
     end
   else
-    error(_('Invalid syntax.'));
+    error('Nelson:control_system:invalidSyntax', 'Invalid syntax.');
   end
-  for j = 1:length(part)
+  for j = 1:numel(part)
+    part{j} = part{j}(:)';
     for i = 1:length(part{j})
-      if(or(part{j}(i) > 0, part{j}(i) < 0))
+      if part{j}(i) > 0 || part{j}(i) < 0
         part{j} = part{j}(1, i:length(part{j}));
-        break;
+        break
       end
     end
   end
@@ -158,80 +365,47 @@ function [v1, v2] = arrangeVectors(v1, v2)
   lenV1 = length(v1);
   lenV2 = length(v2);
   if lenV2 ~= lenV1
-    if (lenV2 > lenV1)
-      lenDiff = lenV2 - lenV1;
-      v1 = [zeros(1, lenDiff) , v1];
+    if lenV2 > lenV1
+      v1 = [zeros(1, lenV2 - lenV1), v1];
     end
-    if (lenV2 < lenV1)
-      lenDiff = lenV1 - lenV2;
-      v2 = [zeros(1, lenDiff) , v2];
+    if lenV2 < lenV1
+      v2 = [zeros(1, lenV1 - lenV2), v2];
     end
   end
 end
 %=============================================================================
-function [numerator, denominator, variableName] = adjustTransferFunctionParameters(numerator, denominator, Ts)
-  variableName = '';
-  isStaticGain = false;
-  if (isempty(denominator))
-    if (isempty(numerator))
-      numerator = {}; 
-      denominator = {};
-      isStaticGain = true;
-    elseif (isnumeric(numerator) && ismatrix(numerator) && isreal(numerator))
-      numerator = num2cell(numerator);
-      denominator = num2cell(ones(size(numerator)));
-      isStaticGain = true;
-    end
+function obj = applyPropertyPairs(obj, args)
+  if isempty(args)
+    return
   end
-  
-  if (~iscell (numerator))
-    numerator = {numerator};
+  if mod(length(args), 2) ~= 0
+    error('Nelson:control_system:nameValuePair', '%s expected.', 'Name-value arguments');
   end
-  if (~iscell (denominator))
-    denominator = {denominator};
+  for k = 1:2:length(args)
+    name = resolvePropertyName(args{k}, ltiPropertyNames('tf'));
+    obj.(name) = args{k + 1};
   end
-  checkisAllZerosFunction = @(x) all(x == 0.);
-  isAllZeroNumerator = all(cellfun(checkisAllZerosFunction, numerator));
-  isAllZeroDenominator = all(cellfun(checkisAllZerosFunction, denominator));
-  
-  checkisScalarFunction = @(x) (find (x ~= 0, 1) == length (x)) || (length (find (x ~= 0, 1)) == 0);
-  isAllScalarNumerator = ~isAllZeroNumerator && all(cellfun(checkisScalarFunction, numerator));
-  isAllScalarDenominator = ~isAllZeroDenominator && all(cellfun(checkisScalarFunction, denominator));
-  if (all (isAllScalarNumerator) && all(isAllScalarDenominator))
-    isStaticGain = true;
-  end 
-  if (isStaticGain || (Ts == 0))
-    variableName = 's';
-  else
-    variableName = 'z';
+end
+function tf = isVariableName(value)
+  tf = false;
+  if isTextScalar(value)
+    value = char(value);
+    tf = any(strcmp(value, {'s', 'p', 'z', 'q'}));
   end
 end
 %=============================================================================
-function sys = tf_constructor(numeratorerator, denominator, Ts, variableName)
-  numeratorerator = checkFractionPart(numeratorerator);
-  denominator = checkFractionPart(denominator);
-  if (length(numeratorerator) == 1)
-    for k = 2:length(denominator)
-      numeratorerator{k} = numeratorerator{1};
-    end
+function tf = isTextScalar(value)
+  tf = ischar(value) || isStringScalar(value);
+end
+function name = resolvePropertyName(value, supported)
+  value = ltiValidateTextScalar('Name', value);
+  matches = startsWith(upper(supported), upper(value));
+  if sum(matches) == 0
+    error('Nelson:control_system:unknownParameter', '"%s" is not a recognized parameter.', value);
   end
-  if (length(denominator) == 1)
-    for k = 2:length(numeratorerator)
-      denominator{k} = denominator{1};
-    end
+  if sum(matches) > 1
+    error('Nelson:control_system:ambiguousParameter', '"%s" matches multiple parameters.', value);
   end
-  if (length(numeratorerator) ~= length(denominator))
-    error(_('Numerator and Denominator must have compatible sizes.'));
-  end
-  for k = 1:length(numeratorerator)
-    [N, D] = arrangeVectors(numeratorerator{k}, denominator{k});
-    numeratorerator{k} = N;
-    denominator{k} = D;
-  end
-  sys = tf_no_rhs();
-  sys.Denominator = denominator;
-  sys.Numerator = numeratorerator;
-  sys.Variable = variableName;
-  sys.Ts = Ts;
+  name = supported{find(matches, 1)};
 end
 %=============================================================================

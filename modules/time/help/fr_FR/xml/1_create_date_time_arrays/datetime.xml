@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>datetime</keyword>
+  <short_description>Cree des tableaux datetime depuis des composants calendaires, du texte ou des representations numeriques.</short_description>
+  <syntax>
+    <syntax_item>t = datetime()</syntax_item>
+    <syntax_item>t = datetime(y, m, d)</syntax_item>
+    <syntax_item>t = datetime(y, m, d, h, mi, s)</syntax_item>
+    <syntax_item>t = datetime(text, &apos;InputFormat&apos;, fmt)</syntax_item>
+    <syntax_item>t = datetime(x, &apos;ConvertFrom&apos;, kind)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>inputs</param_name>
+      <param_description>Annee, mois, jour, composants horaires optionnels, texte, valeurs numeriques et options nom-valeur comme Format, TimeZone, InputFormat, ConvertFrom, Epoch et TicksPerSecond.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>output</param_name>
+      <param_description>Un tableau datetime contenant les dates serie, le format d affichage et la metadonnee de fuseau horaire.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Cree des tableaux datetime depuis des composants calendaires, du texte ou des representations numeriques.</p>
+    <p>Utilisez datetime pour construire les valeurs temporelles manipulees par les autres fonctions du module. Les matrices numeriques a trois ou six colonnes sont interpretees comme vecteurs date; les composants scalaires et tableaux sont etendus a une taille commune.</p>
+    <p><b>string</b> renvoie le texte formate de chaque element et <b>&lt;missing&gt;</b> pour <b>NaT</b> ; l&apos;affichage, <b>char</b> et <b>cellstr</b> conservent le texte NaT (<b>cellstr(d, fmt)</b> utilise le format <b>fmt</b>). <b>datetime(missing)</b>, et l&apos;affectation de <b>missing</b> dans un tableau datetime, donnent <b>NaT</b>.</p>
+    <p><b>datetime.empty(m, n, ...)</b> renvoie un tableau datetime vide ; agrandir un tableau par affectation remplit les nouveaux elements avec <b>NaT</b>. Une comparaison avec <b>missing</b> est fausse (<b>~=</b> est vraie), comme avec <b>NaT</b>.</p>
+    <p><b>TimeZone</b> nomme un fuseau horaire (par exemple <b>&apos;Europe/Paris&apos;</b>, <b>&apos;UTC&apos;</b>, un decalage fixe <b>&apos;+05:30&apos;</b>, un decalage duration, ou <b>&apos;local&apos;</b> pour le fuseau du systeme). Le modifier sur un datetime qui a un fuseau conserve les memes instants et deplace l&apos;heure affichee ; sur un datetime sans fuseau il conserve l&apos;heure affichee. Les entrees <b>posixtime</b> et <b>juliandate</b> sont des instants UTC. Des datetime de fuseaux differents se comparent, se soustraient et se concatenent par instant (dans le fuseau du premier operande) ; un datetime avec fuseau ne se combine jamais avec un datetime sans fuseau. Une heure sautee par un changement d&apos;heure est placee apres le saut, une heure ambigue est l&apos;heure d&apos;hiver, et les durees fixes comptent le temps ecoule.</p>
+    <p>Array-valued inputs keep their data shape when the operation supports arrays. Scalar operands are expanded where the implementation defines scalar expansion.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Utilisation de base.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[t = datetime(2024, 5, 17, 13, 14, 15)
+[y, m, d] = ymd(t)
+posixtime(datetime(1970, 1, 2))
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${time}datetime">datetime</link></see_also_item>
+    <see_also_item><link linkend="${time}duration">duration</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

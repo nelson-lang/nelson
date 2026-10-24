@@ -7,10 +7,10 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('dec2hex'), 2)
-assert_isequal(nargout('dec2hex'), 1)
+asserts.isequal(nargin('dec2hex'), 2)
+asserts.isequal(nargout('dec2hex'), 1)
 %=============================================================================
 R = dec2hex(12);
 REF = 'C';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================

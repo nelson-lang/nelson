@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nelson.lang.HandlePlaceholder</keyword>
+  <short_description>Classe handle de remplacement pour les cibles absentes.</short_description>
+  <syntax>
+    <syntax_item>obj = nelson.lang.HandlePlaceholder()</syntax_item>
+  </syntax>
+  <param_output>
+    <param_output_item>
+      <param_name>obj</param_name>
+      <param_description>un objet handle scalaire.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>nelson.lang.HandlePlaceholder</b> est une classe handle concrete utilisee quand une API doit retourner un handle mais qu&apos;aucune cible vivante n&apos;est disponible.</p>
+    <p>Un objet placeholder cree par le constructeur est un handle valide normal jusqu&apos;a sa suppression.</p>
+    <p>Une reference faible sans cible affectee retourne un handle invalide dont la classe est <b>nelson.lang.HandlePlaceholder</b>.</p>
+    <p>La classe ne definit pas de proprietes ni de methodes utilisateur au-dela des operations communes aux handles.</p>
+    <p>Utiliser cette classe comme classe handle neutre quand la classe de la cible originale est inconnue ou sans importance.</p>
+    <p>Un objet placeholder construit et un handle placeholder invalide sont deux valeurs differentes. L&apos;objet construit est valide jusqu&apos;a sa suppression; un handle placeholder invalide n&apos;est jamais valide.</p>
+    <p>Les handles placeholder peuvent etre verifies avec <b>isvalid</b>, compares par nom de classe avec <b>class</b>, et utilises partout ou un placeholder handle generique est approprie.</p>
+    <p>La classe est volontairement vide. Ce n&apos;est pas un conteneur de donnees utilisateur.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Creer et supprimer un handle placeholder.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[p = nelson.lang.HandlePlaceholder();
+class(p)
+isvalid(p)
+delete(p)
+isvalid(p)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Examiner le handle retourne par defaut par une reference faible vide.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[w = nelson.lang.WeakReference();
+h = w.Handle;
+class(h)
+isvalid(h)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Comparer un objet placeholder valide avec un handle placeholder invalide.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[p = nelson.lang.HandlePlaceholder();
+q = nelson.lang.invalidHandle('nelson.lang.HandlePlaceholder');
+class(p)
+class(q)
+isvalid(p)
+isvalid(q)]]></example_item_data>
+    </example_item>
+  </examples>
+  <used_function />
+  <bibliography />
+  <see_also>
+    <see_also_item>
+      <link linkend="${handle}nelson.lang.WeakReference">nelson.lang.WeakReference</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}nelson.lang.invalidHandle">nelson.lang.invalidHandle</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}isvalid">isvalid</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${types}class">class</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

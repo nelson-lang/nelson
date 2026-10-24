@@ -18,5 +18,5 @@ NLSGRAPHICS_IMPEXP void
 setLayoutOptions(GOAxis* ax, int64 axHandle, int tileNum, int spanRows, int spanCols,
     const std::wstring& edgeTile);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

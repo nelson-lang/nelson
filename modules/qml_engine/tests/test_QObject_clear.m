@@ -10,10 +10,12 @@
 % <--ADV-CLI MODE-->
 % <--WITH DISPLAY-->
 %=============================================================================
-addpath([nelsonroot(), '/modules/qml_engine/tests/']);
-h = errordlg();
-q = h;
-clear h;
-assert_isfalse(isvalid(q));
-assert_checkerror('acquirevar(''local'', ''h'')', _('variable not found.'));
+qml_file_ok = [modulepath('qml_engine', 'tests'), '/test_qml_loadfile_window_qt6.qml'];
+qobj = qml_loadfile(qml_file_ok);
+q = qobj;
+clear qobj;
+asserts.istrue(isvalid(q));
+asserts.checkerror('acquirevar(''local'', ''qobj'')', _('variable not found.'));
+delete(q);
+asserts.isfalse(isvalid(q));
 %=============================================================================

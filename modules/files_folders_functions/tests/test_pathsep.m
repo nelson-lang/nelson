@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 if ispc()
-  assert_isequal(pathsep(), ';');
+  asserts.isequal(pathsep(), ';');
 else
-  assert_isequal(pathsep(), ':');
+  asserts.isequal(pathsep(), ':');
 end

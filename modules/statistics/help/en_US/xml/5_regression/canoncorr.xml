@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>canoncorr</keyword>
+  <short_description>Canonical correlation analysis.</short_description>
+  <syntax>
+    <syntax_item>[A, B] = canoncorr(X, Y)</syntax_item>
+    <syntax_item>[A, B, r] = canoncorr(X, Y)</syntax_item>
+    <syntax_item>[A, B, r, U, V] = canoncorr(X, Y)</syntax_item>
+    <syntax_item>[A, B, r, U, V, stats] = canoncorr(X, Y)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>canoncorr</b> computes canonical coefficients for two real data matrices with matching observation rows.</p>
+    <p>The vector r contains the sample canonical correlations. U and V contain the centered canonical scores. The stats structure contains Wilks, df1, df2, F, pF, chisq, pChisq, dfe, and p fields.</p>
+    <p>If an input matrix is rank deficient, dependent coefficient rows are set to zero.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[X = [1 2 3; 2 1 5; 3 4 4; 4 3 8; 5 7 6; 6 5 9];
+Y = [3 4; 1 7; 5 5; 2 11; 9 6; 4 12];
+[A, B, r, U, V, stats] = canoncorr(X, Y)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${statistics}pca">pca</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}pcacov">pcacov</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

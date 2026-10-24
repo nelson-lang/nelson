@@ -1,0 +1,59 @@
+{
+  "version": "2.0.0",
+  "format": "nflow-2",
+  "metadata": { "author": "Allan CORNET", "created": "2026-08-07", "tool": "Nelson nflow" },
+  "license": "LGPL-3.0",
+  "name": "dashboard-runtime",
+  "blocks": [
+    {
+      "id": "source",
+      "type": "constant",
+      "x": 80,
+      "y": 160,
+      "rotation": 0,
+      "params": { "Value": 2 }
+    },
+    { "id": "gain", "type": "gain", "x": 280, "y": 160, "rotation": 0, "params": { "Gain": 1 } },
+    { "id": "legacy", "type": "display", "x": 500, "y": 160, "rotation": 0, "params": {} },
+    {
+      "id": "observer",
+      "type": "dashboardDisplay",
+      "x": 500,
+      "y": 300,
+      "rotation": 0,
+      "params": {
+        "Binding": {
+          "kind": "signal",
+          "blockPath": ["gain"],
+          "outputPortIndex": 1,
+          "frameProcessingMode": "sample"
+        }
+      }
+    },
+    {
+      "id": "control",
+      "type": "dashboardSlider",
+      "x": 240,
+      "y": 300,
+      "rotation": 0,
+      "params": {
+        "Binding": {
+          "kind": "parameter",
+          "blockPath": ["gain"],
+          "paramName": "Gain",
+          "element": ""
+        },
+        "Limits": [0, -1, 10],
+        "DashboardValue": 1
+      }
+    }
+  ],
+  "connections": [
+    { "from": "source", "to": "gain", "fromIndex": 0, "toIndex": 0 },
+    { "from": "gain", "to": "legacy", "fromIndex": 0, "toIndex": 0 }
+  ],
+  "variables": "",
+  "sampleTime": 0.05,
+  "runtime": 1.5,
+  "solver": "discrete"
+}

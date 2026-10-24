@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>bwtraceboundary</keyword>
+  <short_description>Trace boundary pixels of a binary object.</short_description>
+  <syntax>
+    <syntax_item>B = bwtraceboundary(BW, p)</syntax_item>
+    <syntax_item>B = bwtraceboundary(BW, p, fstep, conn)</syntax_item>
+    <syntax_item>B = bwtraceboundary(BW, p, fstep, conn, m)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>BW</param_name>
+      <param_description>Input binary image. Nonzero values are treated as true.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>p</param_name>
+      <param_description>Boundary start point [row column].</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>fstep</param_name>
+      <param_description>First search direction.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>conn</param_name>
+      <param_description>Connectivity, either 4 or 8.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>m</param_name>
+      <param_description>Maximum number of boundary points to return.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>B</param_name>
+      <param_description>Boundary coordinates as an N-by-2 [row column] matrix.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Trace boundary pixels of the binary object containing the start point p = [row column]. Supported connectivities are 4 and 8. The first search direction can be N, NE, E, SE, S, SW, W, or NW for 8-connectivity, and N, E, S, or W for 4-connectivity.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Trace a square boundary</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[BW=false(64,64); BW(16:48,16:48)=true;
+B=bwtraceboundary(BW, [16 16], 'E', 8);
+figure; imagesc(BW); hold on; plot(B(:,2), B(:,1), 'r.'); title('Traced boundary');]]></example_item_data>
+      <example_item_img
+        src="../../../images/bwtraceboundary_1.png"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}bwboundaries">bwboundaries</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}bwperim">bwperim</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

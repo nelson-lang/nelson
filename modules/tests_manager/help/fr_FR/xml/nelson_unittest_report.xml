@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nelson.unittest.report</keyword>
+  <short_description>Ecrire les rapports du runner de tests et de benches.</short_description>
+  <syntax>
+    <syntax_item>status = nelson.unittest.report(results, Name, Value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>results</param_name>
+      <param_description>TestRunResult retourne par nelson.unittest.run.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Name, Value</param_name>
+      <param_description>options de rapport : Format, OutputFile et Verbose. Format accepte console, json,
+        junit, tap et html.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>status</param_name>
+      <param_description>true si le rapport a ete ecrit correctement.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>nelson.unittest.report</b> ecrit des rapports console, JSON, JUnit XML, TAP13 ou HTML autonome.</p>
+    <p>Les rapports JUnit placent skipped, failure, error, stdout et stderr sous chaque testcase.</p>
+    <p>Les rapports HTML sont des fichiers uniques avec style et script integres, metriques de synthese,
+      configuration du runner, informations d&apos;environnement, filtres, details par cas, stdout, stderr,
+      diagnostics et donnees JSON embarquees.</p>
+    <p>Le rapport HTML contient une section des dix tests et benches les plus lents, un resume compact par
+      module, des separateurs visuels de modules, des colonnes triables et des filtres rapides pour les cas
+      echoues, ignores, bench et lents.</p>
+    <p>Les cas failed, timeout et error sont ouverts par defaut. Chaque detail de cas contient une commande de
+      reproduction quand le nom de fichier du test est disponible.</p>
+    <p>Les lignes de bench utilisent le statut bench et affichent directement la duree mesuree dans le badge.</p>
+    <p>Quand un rapport HTML est ecrit dans <b>report.html</b>, un sidecar JSON <b>report.json</b> est ecrit a
+      cote. Le fichier HTML reste autonome car il embarque aussi les donnees JSON.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data><![CDATA[
+nelson.unittest.report(results, 'Format', 'tap', 'OutputFile', [tempdir(), 'tests.tap']);
+nelson.unittest.report(results, 'Format', 'html', 'OutputFile', [tempdir(), 'tests.html']);
+% L'appel HTML ecrit aussi [tempdir(), 'tests.json'].
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${tests_manager}nelson.unittest.run">nelson.unittest.run</link></see_also_item>
+    <see_also_item><link linkend="${tests_manager}test_run">test_run</link></see_also_item>
+  </see_also>
+</xmldoc>

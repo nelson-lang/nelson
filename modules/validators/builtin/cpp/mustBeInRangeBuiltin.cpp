@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,6 +10,7 @@
 #include "mustBeInRangeBuiltin.hpp"
 #include "ValidatorsInternal.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
@@ -35,33 +36,36 @@ Nelson::ValidatorsGateway::mustBeInRangeBuiltin(int nLhs, const ArrayOfVector& a
     case 4: {
         ArrayOf param4 = argIn[3];
         if (param4.isCharacterArray()) {
-            boundflag1 = param4.getContentAsWideString();
+            boundflag1 = param4.asWideString();
         } else {
-            argPos = param4.getContentAsInteger32Scalar();
+            argPos = param4.asInt32Scalar();
             if (argPos < 1) {
-                Error(_W("The last argument must be a positive integer."));
+                Error(L"Nelson:validators:invalidPosition",
+                    L"The last argument must be a positive integer.");
             }
         }
     } break;
     case 5: {
-        boundflag1 = argIn[3].getContentAsWideString();
+        boundflag1 = argIn[3].asWideString();
         ArrayOf param5 = argIn[4];
         if (param5.isCharacterArray()) {
-            boundflag2 = param5.getContentAsWideString();
+            boundflag2 = param5.asWideString();
         } else {
-            argPos = param5.getContentAsInteger32Scalar();
+            argPos = param5.asInt32Scalar();
             if (argPos < 1) {
-                Error(_W("The last argument must be a positive integer."));
+                Error(L"Nelson:validators:invalidPosition",
+                    L"The last argument must be a positive integer.");
             }
         }
     } break;
     case 6: {
-        boundflag1 = argIn[3].getContentAsWideString();
-        boundflag2 = argIn[4].getContentAsWideString();
+        boundflag1 = argIn[3].asWideString();
+        boundflag2 = argIn[4].asWideString();
         ArrayOf param6 = argIn[5];
-        argPos = param6.getContentAsInteger32Scalar();
+        argPos = param6.asInt32Scalar();
         if (argPos < 1) {
-            Error(_W("The last argument must be a positive integer."));
+            Error(L"Nelson:validators:invalidPosition",
+                L"The last argument must be a positive integer.");
         }
     } break;
     }

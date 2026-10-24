@@ -19,153 +19,212 @@ ref = 'abc **** def *** ghi ** jkl *';
 assert_isequal(r, ref);
 %=============================================================================
 r = strrep('abc 4444 def 444 ghi 44 jkl 4', '44', '*');
-ref =  'abc *** def ** ghi * jkl 4';
+ref = 'abc *** def ** ghi * jkl 4';
 assert_isequal(r, ref);
 %=============================================================================
 r = strrep('bcbcbcd', 'bcbc', '123');
 ref = '123123d';
 assert_isequal(r, ref);
 %=============================================================================
-r = strrep('string1','r','a');
+r = strrep('string1', 'r', 'a');
 ref = 'staing1';
 assert_isequal(r, ref);
 %=============================================================================
-r = strrep('string1','tr','b');
+r = strrep('string1', 'tr', 'b');
 ref = 'sbing1';
 assert_isequal(r, ref);
 %=============================================================================
-r = strrep('string1','st','cd');
+r = strrep('string1', 'st', 'cd');
 ref = 'cdring1';
 assert_isequal(r, ref);
 %=============================================================================
-r = strrep('[4,5,6]','1','0');
+r = strrep('[4,5,6]', '1', '0');
 ref = '[4,5,6]';
 assert_isequal(r, ref);
 %=============================================================================
-r = strrep('[10,20,30;40,50,60]','20','100');
-ref =  '[10,100,30;40,50,60]';
+r = strrep('[10,20,30;40,50,60]', '20', '100');
+ref = '[10,100,30;40,50,60]';
 assert_isequal(r, ref);
 %=============================================================================
-r = strrep('','','');
+r = strrep('', '', '');
 ref = char([]);
 assert_isequal(r, ref);
 %=============================================================================
-r = strrep('ara','a','bb');
+r = strrep('ara', 'a', 'bb');
 ref = 'bbrbb';
 assert_isequal(r, ref);
 %=============================================================================
-r = strrep('aa','a','');
+r = strrep('aa', 'a', '');
 ref = char([]);
 assert_isequal(r, ref);
 %=============================================================================
-r = strrep('cc','','b');
+r = strrep('cc', '', 'b');
 ref = 'cc';
 assert_isequal(r, ref);
 %=============================================================================
-r = strrep({},'str','str');
+r = strrep({}, 'str', 'str');
 ref = {};
 assert_isequal(r, ref);
 %=============================================================================
-r = strrep('str',{},'str');
+r = strrep('str', {}, 'str');
 ref = {};
 assert_isequal(r, ref);
 %=============================================================================
-r = strrep('str','str', {});
+r = strrep('str', 'str', {});
 ref = {};
 assert_isequal(r, ref);
 %=============================================================================
-r = strrep('str','','str');
+r = strrep('str', '', 'str');
 ref = 'str';
 assert_isequal(r, ref);
 %=============================================================================
-r = strrep('str',{''},'str');
+r = strrep('str', {''}, 'str');
 ref = {'str'};
 assert_isequal(r, ref);
 %=============================================================================
-r = strrep('str','str',{});
+r = strrep('str', 'str', {});
 ref = {};
 assert_isequal(r, ref);
 %=============================================================================
-r = strrep({},{},{});
+r = strrep({}, {}, {});
 ref = {};
 assert_isequal(r, ref);
 %=============================================================================
-r = strrep('cccc','cc','b');
+r = strrep('cccc', 'cc', 'b');
 ref = 'bbb';
 assert_isequal(r, ref);
 %=============================================================================
-r = strrep('cccc','cc','bbb');
+r = strrep('cccc', 'cc', 'bbb');
 ref = 'bbbbbbbbb';
 assert_isequal(r, ref);
 %=============================================================================
-r = strrep({'r','a'},{'a','r'},{'rrr'});
-ref = {'r','a'};
+r = strrep({'r', 'a'}, {'a', 'r'}, {'rrr'});
+ref = {'r', 'a'};
 assert_isequal(r, ref);
 %=============================================================================
-r = strrep('cccc',{'cc'},'bb');
+r = strrep('cccc', {'cc'}, 'bb');
 ref = {'bbbbbb'};
 assert_isequal(r, ref);
 %=============================================================================
-r = strrep('cccc','cc',{'bb'});
+r = strrep('cccc', 'cc', {'bb'});
 ref = {'bbbbbb'};
 assert_isequal(r, ref);
 %=============================================================================
-r = strrep({'cccc'},'cc','bb');
+r = strrep({'cccc'}, 'cc', 'bb');
 ref = {'bbbbbb'};
 assert_isequal(r, ref);
 %=============================================================================
-r = strrep({'cccc'},'cc',{'bb'});
+r = strrep({'cccc'}, 'cc', {'bb'});
 ref = {'bbbbbb'};
 assert_isequal(r, ref);
 %=============================================================================
-r = strrep({'cccc'},{'cc'},'bb');
+r = strrep({'cccc'}, {'cc'}, 'bb');
 ref = {'bbbbbb'};
 assert_isequal(r, ref);
 %=============================================================================
-r = strrep('cccc',{'cc'},{'bb'});
+r = strrep('cccc', {'cc'}, {'bb'});
 ref = {'bbbbbb'};
 assert_isequal(r, ref);
 %=============================================================================
-r = strrep('cccc','cc',{'bb','cc'});
-ref = { 'bbbbbb'    'cccccc'};
+r = strrep('cccc', 'cc', {'bb', 'cc'});
+ref = {'bbbbbb' 'cccccc'};
 assert_isequal(r, ref);
 %=============================================================================
-r = strrep('cccc',{'a','cc'},'bb');
-ref = {  'cccc'    'bbbbbb'};
+r = strrep('cccc', {'a', 'cc'}, 'bb');
+ref = {'cccc' 'bbbbbb'};
 assert_isequal(r, ref);
 %=============================================================================
-r = strrep({'cccc','ccbbcca'},'cc','bb');
-ref = { 'bbbbbb'    'bbbbbba'};
+r = strrep({'cccc', 'ccbbcca'}, 'cc', 'bb');
+ref = {'bbbbbb' 'bbbbbba'};
 assert_isequal(r, ref);
 %=============================================================================
-r = strrep({'cccc','ccbbcca'},{'cc','bb'},'cc');
-ref = {  'cccccc'    'cccccca'};
+r = strrep({'cccc', 'ccbbcca'}, {'cc', 'bb'}, 'cc');
+ref = {'cccccc' 'cccccca'};
 assert_isequal(r, ref);
 %=============================================================================
-r = strrep({'cccc','ccbbcca'},{'cc','bb'},{'cc'});
-ref = { 'cccccc'    'cccccca'};
+r = strrep({'cccc', 'ccbbcca'}, {'cc', 'bb'}, {'cc'});
+ref = {'cccccc' 'cccccca'};
 assert_isequal(r, ref);
 %=============================================================================
-r = strrep('ccabbba',{'cc','bb'},{'cc','e'});
-ref = {  'ccabbba'    'ccaeea'};
+r = strrep('ccabbba', {'cc', 'bb'}, {'cc', 'e'});
+ref = {'ccabbba' 'ccaeea'};
 assert_isequal(r, ref);
 %=============================================================================
 str = {'the quick yellow canary';
-'and the lazy bunny'};
-r = strrep(str,'the','a');
+  'and the lazy bunny'};
+r = strrep(str, 'the', 'a');
 ref = {'a quick yellow canary';
-'and a lazy bunny'};
+  'and a lazy bunny'};
 assert_isequal(r, ref);
 %=============================================================================
 str = {'First Date: ___';
-'Last Date: ___'};
+  'Last Date: ___'};
 old = '___';
 new = {'1973-04-08';
-'1974-15-08'};
+  '1974-15-08'};
 r = strrep(str, old, new);
-ref = {   'First Date: 1973-04-08';
-'Last Date: 1974-15-08'};
+ref = {'First Date: 1973-04-08';
+  'Last Date: 1974-15-08'};
 assert_isequal(r, ref);
+%=============================================================================
+r = strrep('abc', 'a', 'xy');
+ref = 'xybc';
+assert_isequal(r, ref);
+%=============================================================================
+x = char(zeros(0, 0));
+r = strrep(x, 'a', 'bb');
+assert_istrue(ischar(r));
+assert_isequal(size(r), [0 0]);
+%=============================================================================
+x = char(zeros(0, 3));
+r = strrep(x, 'a', 'bb');
+assert_istrue(ischar(r));
+assert_isequal(size(r), [0 3]);
+%=============================================================================
+r = strrep('abc', char(zeros(0, 3)), 'xy');
+ref = 'abc';
+assert_isequal(r, ref);
+%=============================================================================
+r = strrep('abc', 'a', char(zeros(0, 3)));
+ref = 'bc';
+assert_isequal(r, ref);
+%=============================================================================
+r = strrep(char(zeros(1, 0)), 'a', 'bb');
+assert_istrue(ischar(r));
+assert_isequal(size(r), [1 0]);
+%=============================================================================
+r = strrep(char(zeros(0, 5)), '', 'bb');
+assert_istrue(ischar(r));
+assert_isequal(size(r), [0 5]);
+%=============================================================================
+% An empty result still fills one element of a cell or a string container.
+r = strrep({'abc'}, 'abc', '');
+assert_isequal(r, {''});
+%=============================================================================
+r = strrep({''}, 'a', 'bb');
+assert_isequal(r, {''});
+%=============================================================================
+r = strrep(string('abc'), 'abc', '');
+assert_isequal(r, string(''));
+%=============================================================================
+r = strrep({'abc', 'bcd'}, 'b', char(zeros(0, 3)));
+assert_isequal(r, {'ac', 'cd'});
+%=============================================================================
+cmd = 'x = char({''a'',''b''}); y = strrep(x, sprintf(''\r\n''), sprintf(''\n''));';
+ref = _('Char inputs must be row vectors.');
+assert_checkerror(cmd, ref);
+%=============================================================================
+cmd = 'x = char(zeros(2, 0)); y = strrep(x, ''a'', ''bb'');';
+ref = _('Char inputs must be row vectors.');
+assert_checkerror(cmd, ref);
+%=============================================================================
+cmd = 'r = strrep(''abc'', char({''a'',''b''}), ''xy'');';
+ref = _('Char inputs must be row vectors.');
+assert_checkerror(cmd, ref);
+%=============================================================================
+cmd = 'r = strrep(''abc'', ''a'', char({''xy'',''pq''}));';
+ref = _('Char inputs must be row vectors.');
+assert_checkerror(cmd, ref);
 %=============================================================================
 cmd = 'r = strrep(''str'',''str'',[]);';
 ref = _('Invalid input argument(s): cell or string expected.');
@@ -204,12 +263,12 @@ ref = "This not is not a string.";
 assert_isequal(r, ref);
 %=============================================================================
 str = ["First Date: ___";
-"Last Date: ___"];
+  "Last Date: ___"];
 old = '___';
 new = {'1973-04-08';
-'1974-15-08'};
+  '1974-15-08'};
 r = strrep(str, old, new);
 ref = ["First Date: 1973-04-08";
-"Last Date: 1974-15-08"];
+  "Last Date: 1974-15-08"];
 assert_isequal(r, ref);
 %=============================================================================

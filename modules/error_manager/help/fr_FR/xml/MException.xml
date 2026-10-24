@@ -3,21 +3,42 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>MException</keyword>
-  <short_description
-  >Informations sur l&apos;exception MException.</short_description>
+  <short_description>Informations sur l&apos;exception MException.</short_description>
   <syntax>
     <syntax_item>ME = MException(identifier, message)</syntax_item>
-    <syntax_item>ME = MException(&apos;last&apos;)</syntax_item>
-    <syntax_item>MException(&apos;reset&apos;)</syntax_item>
+    <syntax_item>ME = MException(identifier, format, A, ...)</syntax_item>
+    <syntax_item>ME = addCause(ME, causeException)</syntax_item>
+    <syntax_item>ME = ME.addCause(causeException)</syntax_item>
+    <syntax_item>ME = addCorrection(ME, correction)</syntax_item>
+    <syntax_item>report = getReport(ME)</syntax_item>
+    <syntax_item>report = ME.getReport(type)</syntax_item>
+    <syntax_item>exception = MException.last</syntax_item>
+    <syntax_item>MException.last(&apos;reset&apos;)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>identifier</param_name>
-      <param_description>une chaîne : identifiant d&apos;erreur.</param_description>
+      <param_description>une chaine : identifiant d&apos;erreur.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>message</param_name>
-      <param_description>une chaîne de caractères.</param_description>
+      <param_description>une chaine de caracteres.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>format</param_name>
+      <param_description>une chaine utilisee pour formater le message d&apos;erreur.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>causeException</param_name>
+      <param_description>un objet MException scalaire.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>correction</param_name>
+      <param_description>un objet nelson.lang.correction.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>type</param_name>
+      <param_description>&apos;basic&apos; ou &apos;extended&apos;.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -25,16 +46,20 @@
       <param_name>ME</param_name>
       <param_description>un objet MException.</param_description>
     </param_output_item>
+    <param_output_item>
+      <param_name>report</param_name>
+      <param_description>une chaine : rapport formate de l&apos;exception.</param_description>
+    </param_output_item>
   </param_output>
   <description>
-    <p
-    >Tout code Nelson qui détecte une erreur et lève une exception construit un objet MException.</p>
-    <p
-    >L&apos;identifiant inclut un ou plusieurs champs composants et un champ mnémonique (exemple : &apos;nelson:matrix:empty&apos;).</p>
-    <p>
-      <b>ME = MException(&apos;last&apos;)</b> renvoie la dernière exception.</p>
-    <p>
-      <b>MException(&apos;reset&apos;)</b> efface la dernière exception.</p>
+    <p>Tout code Nelson qui detecte une erreur et leve une exception construit un objet MException.</p>
+    <p>L&apos;identifiant inclut un ou plusieurs champs composants et un champ mnemonique (exemple : &apos;nelson:matrix:empty&apos;).</p>
+    <p><b>MException</b> est une classe integree. Elle possede les proprietes en lecture seule <b>identifier</b>, <b>message</b>, <b>cause</b>, <b>stack</b> et <b>Correction</b>.</p>
+    <p><b>ME = MException(identifier, format, A, ...)</b> formate le message avec les memes regles que <b>sprintf</b>.</p>
+    <p><b>addCause</b> renvoie un nouvel objet MException avec une cause supplementaire.</p>
+    <p><b>addCorrection</b> renvoie un nouvel objet MException avec un objet de correction. Les objets de correction Nelson sont dans le paquet <b>nelson.lang.correction</b>.</p>
+    <p><b>getReport</b> renvoie un rapport formate de l&apos;exception.</p>
+    <p><b>MException.last</b> renvoie la derniere exception non interceptee enregistree par l&apos;evaluateur. <b>MException.last(&apos;reset&apos;)</b> l&apos;efface.</p>
   </description>
   <used_function />
   <bibliography />
@@ -42,9 +67,24 @@
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description />
-      <example_item_data
-      ><![CDATA[ME = MException('nelson:identifier', 'your error message.')
+      <example_item_data><![CDATA[ME = MException('nelson:identifier', 'your error message.');
 throw(ME)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data><![CDATA[ME = MException('nelson:badIndex', 'Unable to index into array %s.', 'A');
+causeException = MException('nelson:badSubscript', 'Index must be positive.');
+ME = ME.addCause(causeException)
+getReport(ME, 'basic')]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data><![CDATA[ME = MException('nelson:missingArgument', 'Missing argument.');
+correction = nelson.lang.correction.AppendArgumentsCorrection('value');
+ME = addCorrection(ME, correction)
+ME.Correction]]></example_item_data>
     </example_item>
   </examples>
   <see_also>
@@ -62,6 +102,21 @@ throw(ME)]]></example_item_data>
     </see_also_item>
     <see_also_item>
       <link linkend="${error_manager}throwAsCaller">throwAsCaller</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${error_manager}addCause">addCause</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${error_manager}addCorrection">addCorrection</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${error_manager}getReport">getReport</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${error_manager}MException.last">MException.last</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${error_manager}lasterror">lasterror</link>
     </see_also_item>
   </see_also>
   <history>

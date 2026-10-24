@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -20,6 +20,7 @@
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
@@ -61,7 +62,7 @@ JuliaObjectHandle::~JuliaObjectHandle() { }
 void
 JuliaObjectHandle::display(Interface* io)
 {
-    jl_value_t* jlObject = (jl_value_t*)this->getPointer();
+    jl_value_t* jlObject = (jl_value_t*)this->pointer();
     std::wstring msg = L"  [Julia Object]:";
 
     bool fails = false;
@@ -79,16 +80,16 @@ JuliaObjectHandle::display(Interface* io)
 }
 //=============================================================================
 std::string
-JuliaObjectHandle::getClassName()
+JuliaObjectHandle::className()
 {
     return NLS_HANDLE_JULIA_CATEGORY_STR;
 }
 //=============================================================================
 wstringVector
-JuliaObjectHandle::getMethods()
+JuliaObjectHandle::methods()
 {
     wstringVector methods = getCastMethods();
-    jl_value_t* jlObject = (jl_value_t*)this->getPointer();
+    jl_value_t* jlObject = (jl_value_t*)this->pointer();
     if (!jlObject) {
         return methods;
     }
@@ -100,10 +101,10 @@ JuliaObjectHandle::getMethods()
 }
 //=============================================================================
 wstringVector
-JuliaObjectHandle::getProperties()
+JuliaObjectHandle::properties()
 {
     wstringVector propertiesList = { L"typeof" };
-    jl_value_t* jlObject = (jl_value_t*)this->getPointer();
+    jl_value_t* jlObject = (jl_value_t*)this->pointer();
     if (!jlObject) {
         return propertiesList;
     }
@@ -118,12 +119,12 @@ JuliaObjectHandle::getProperties()
 bool
 JuliaObjectHandle::get(const std::wstring& propertyName, ArrayOf& result)
 {
-    jl_value_t* jlObject = (jl_value_t*)this->getPointer();
+    jl_value_t* jlObject = (jl_value_t*)this->pointer();
     if (!jlObject) {
         return false;
     }
     if (propertyName == L"typeof") {
-        result = ArrayOf::characterArrayConstructor(jl_get_type_of_as_string(jlObject));
+        result = ArrayOf::characterArray(jl_get_type_of_as_string(jlObject));
         return true;
     }
     if (isProperty(propertyName)) {
@@ -140,7 +141,7 @@ JuliaObjectHandle::isProperty(const std::wstring& propertyName)
     if (propertyName == L"typeof") {
         return true;
     }
-    jl_value_t* jlObject = (jl_value_t*)this->getPointer();
+    jl_value_t* jlObject = (jl_value_t*)this->pointer();
     if (jlObject) {
         stringVector _names = jl_value_tgetPropertyNames(jlObject);
         auto it = std::find(_names.begin(), _names.end(), wstring_to_utf8(propertyName));
@@ -157,7 +158,7 @@ JuliaObjectHandle::isMethod(const std::wstring& methodName)
     if (isCastMethod(methodName)) {
         return true;
     }
-    jl_value_t* jlObject = (jl_value_t*)this->getPointer();
+    jl_value_t* jlObject = (jl_value_t*)this->pointer();
     if (jlObject) {
         stringVector _methods = jl_value_tgetMethodNames(jlObject);
         auto it = std::find(_methods.begin(), _methods.end(), wstring_to_utf8(methodName));
@@ -182,7 +183,7 @@ JuliaObjectHandle::getCastMethods()
     if (!methodCastNames.empty()) {
         return methodCastNames;
     }
-    jl_value_t* jlObject = (jl_value_t*)this->getPointer();
+    jl_value_t* jlObject = (jl_value_t*)this->pointer();
     if (!jlObject) {
         return methodCastNames;
     }
@@ -215,7 +216,7 @@ JuliaObjectHandle::getCastMethods()
 
     std::unordered_map<std::string, wstringVector> JL_TYPE_CONVERTERS = {
         { "Matrix{Any}", { L"cell" } },
-        { "Matrix{String}", { L"string" } },
+        { "Matrix{String}", { L"string", L"cell" } },
         { "Set{Any}", { L"cell" } },
         { "Tuple{Any}", { L"cell" } },
         { "SparseMatrixCSC{ComplexF64, Int64}", { L"numeric", L"double" } },
@@ -260,7 +261,7 @@ JuliaObjectHandle::invoke(Interface* io, const std::wstring& methodName,
     if (invokeCastMethod(methodName, results)) {
         return true;
     }
-    jl_value_t* jlObject = (jl_value_t*)this->getPointer();
+    jl_value_t* jlObject = (jl_value_t*)this->pointer();
     if (!jlObject) {
         return false;
     }
@@ -280,6 +281,11 @@ JuliaObjectHandle::invoke(Interface* io, const std::wstring& methodName,
     }
 
     if (func) {
+        // The boxed arguments and the result live in bare C locals with no GC root.
+        // JL_GC_PUSHARGS is unavailable (Julia is dlsym-loaded, jl_pgcstack is not
+        // exported), so disable the collector for the whole call; the guard restores it
+        // on every exit path.
+        NLSjlGcDisableGuard gcGuard;
         jl_value_t** args = (jl_value_t**)malloc(sizeof(jl_value_t*) * inputs.size());
         for (int i = 0; i < inputs.size(); i++) {
             args[i] = (jl_value_t*)ArrayOfTojl_value_t(inputs[i]);
@@ -287,13 +293,14 @@ JuliaObjectHandle::invoke(Interface* io, const std::wstring& methodName,
         jl_value_t* ret = NLSjl_call(func, args, inputs.size());
         free(args);
         if (!ret) {
-            jl_value_t* exception = NLSjl_exception_occurred();
-            if (exception) {
+            jl_value_t* NelsonException = NLSjl_exception_occurred();
+            if (NelsonException) {
                 jl_module_t* jl_base_module = (jl_module_t*)NLSjl_eval_string("Base");
                 jl_function_t* sprint_func = NLSjl_get_function(jl_base_module, "sprint");
                 jl_function_t* showerror_func = NLSjl_get_function(jl_base_module, "showerror");
 
-                jl_value_t* error_string = NLSjl_call2(sprint_func, showerror_func, exception);
+                jl_value_t* error_string
+                    = NLSjl_call2(sprint_func, showerror_func, NelsonException);
                 std::string error_msg = NLSjl_string_ptr(error_string);
 
                 jl_value_t* err = NLSjl_eval_string("get_stderr()");
@@ -303,8 +310,10 @@ JuliaObjectHandle::invoke(Interface* io, const std::wstring& methodName,
                         error_msg += "\n" + txt;
                     }
                 }
-                error_msg = _("Error in Julia: ") + "\n" + error_msg;
-                Error(error_msg);
+                error_msg = formatI18nMessage(
+                    resolveMessageTemplate("Nelson:julia_engine:errorJuliaS", "Error in Julia: %s"),
+                    "\n" + error_msg);
+                Error("Nelson:julia:invokeFailed", error_msg);
                 return {};
             }
         }
@@ -326,6 +335,13 @@ JuliaObjectHandle::invoke(Interface* io, const std::wstring& methodName,
 }
 //=============================================================================
 bool
+JuliaObjectHandle::toTableData(ArrayOf& columns, ArrayOf& variableNames, ArrayOf& rowNames)
+{
+    jl_value_t* jlObject = (jl_value_t*)this->pointer();
+    return JuliaDataFrameToTableData(jlObject, columns, variableNames, rowNames);
+}
+//=============================================================================
+bool
 JuliaObjectHandle::invokeCastMethod(const std::wstring& methodName, ArrayOfVector& results)
 {
     auto it = methodMap.find(methodName);
@@ -338,7 +354,7 @@ JuliaObjectHandle::invokeCastMethod(const std::wstring& methodName, ArrayOfVecto
 bool
 JuliaObjectHandle::invokeCastCellMethod(ArrayOfVector& results)
 {
-    jl_value_t* jlObject = (jl_value_t*)this->getPointer();
+    jl_value_t* jlObject = (jl_value_t*)this->pointer();
     if (!jlObject) {
         return false;
     }
@@ -350,7 +366,7 @@ JuliaObjectHandle::invokeCastCellMethod(ArrayOfVector& results)
 bool
 JuliaObjectHandle::invokeCastStringMethod(ArrayOfVector& results)
 {
-    jl_value_t* jlObject = (jl_value_t*)this->getPointer();
+    jl_value_t* jlObject = (jl_value_t*)this->pointer();
     if (!jlObject) {
         return false;
     }
@@ -362,7 +378,7 @@ JuliaObjectHandle::invokeCastStringMethod(ArrayOfVector& results)
 bool
 JuliaObjectHandle::invokeCastNumericMethod(ArrayOfVector& results)
 {
-    jl_value_t* jlObject = (jl_value_t*)this->getPointer();
+    jl_value_t* jlObject = (jl_value_t*)this->pointer();
     if (!jlObject) {
         return false;
     }
@@ -551,5 +567,5 @@ JuliaObjectHandle::invokeCastUInt64Method(ArrayOfVector& results)
     return false;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

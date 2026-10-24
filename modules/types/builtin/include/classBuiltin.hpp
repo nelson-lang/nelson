@@ -15,5 +15,6 @@
 namespace Nelson::TypeGateway {
 ArrayOfVector
 classBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

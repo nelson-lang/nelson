@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -20,8 +20,8 @@
 #include <cstdio>
 #include "FileWrite.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "characters_encoding.hpp"
-#include "PredefinedErrorMessages.hpp"
 #include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
@@ -60,7 +60,6 @@ FileWrite(File* fp, ArrayOf src, NelsonType destClass, size_t skip, bool bIsLitt
         return FWRITE_DATA_TYPE_NOT_SUPPORTED;
     }
 
-    // Work on a promoted copy, matching original behavior
     ArrayOf toWrite(src);
     toWrite.promoteType(destClass);
 
@@ -134,7 +133,7 @@ countUtf8CodePointsUpTo(const std::string& s, size_t bytes)
 bool
 isSupportedType(const ArrayOf& src)
 {
-    switch (src.getDataClass()) {
+    switch (src.dataClass()) {
     case NLS_LOGICAL:
     case NLS_UINT8:
     case NLS_INT8:
@@ -159,7 +158,7 @@ FWRITE_ERROR_TYPE
 writeToInterface(File* fp, ArrayOf& toWrite, NelsonType /*destClass*/, size_t skip,
     bool bIsLittleEndian, int& sizeWritten, int& sizeByteWritten)
 {
-    // Interface doesn't support skip or endian conversion for binary -- match original
+    // The interface supports neither skip nor endian conversion for binary data.
     if (skip != 0) {
         sizeWritten = -1;
         return FWRITE_ENDIAN_CONVERSION_NOT_SUPPORTED;
@@ -174,12 +173,10 @@ writeToInterface(File* fp, ArrayOf& toWrite, NelsonType /*destClass*/, size_t sk
         return FWRITE_FILE_DESTINATION_NOT_SUPPORTED;
     }
 
-    // Ensure char representation
     toWrite.promoteType(NLS_CHAR);
-    std::wstring wstr = toWrite.getContentAsWideString();
-    std::string str = toWrite.getContentAsCString();
+    std::wstring wstr = toWrite.asWideString();
+    std::string str = toWrite.asUtf8String();
 
-    // If destination endianness differs, byte-swap chars (rare for single-byte, kept for parity)
     if (bIsLittleEndian != isLittleEndianFormat()) {
         for (char& c : str) {
             c = bswap<char>(c);
@@ -192,12 +189,10 @@ writeToInterface(File* fp, ArrayOf& toWrite, NelsonType /*destClass*/, size_t sk
         io->errorMessage(str);
     }
 
-    // For interface, report number of bytes written (as before)
     sizeWritten = static_cast<int>(wstr.size());
     sizeByteWritten = static_cast<int>(str.size());
     return FWRITE_NO_ERROR;
 }
-
 //=============================================================================
 FWRITE_ERROR_TYPE
 writeToFile(File* fp, ArrayOf& toWrite, NelsonType destClass, size_t skip, bool bIsLittleEndian,
@@ -209,17 +204,14 @@ writeToFile(File* fp, ArrayOf& toWrite, NelsonType destClass, size_t skip, bool 
         return FWRITE_INVALID_FILE;
     }
 
-    // Write skip/padding bytes (zeros) before actual data
     if (skip > 0) {
         if (!writeSkipBytes(filepointer, skip)) {
             sizeWritten = -1;
-            // Error() already called inside writeSkipBytes on bad alloc
-            return FWRITE_NO_ERROR; // original code returned success after error handling; preserve
-                                    // behavior
+            // writeSkipBytes already raised the error; the result stays a success.
+            return FWRITE_NO_ERROR;
         }
     }
-    // If writing characters, follow encoding conversion path
-    if ((destClass == toWrite.getDataClass()) && destClass == NLS_CHAR) {
+    if ((destClass == toWrite.dataClass()) && destClass == NLS_CHAR) {
         return writeCharData(fp, toWrite, bIsLittleEndian, sizeWritten, sizeByteWritten);
     } else {
         return writeBinaryData(
@@ -230,15 +222,14 @@ writeToFile(File* fp, ArrayOf& toWrite, NelsonType destClass, size_t skip, bool 
 bool
 writeSkipBytes(FILE* filepointer, size_t skip)
 {
-    // Use vector to allocate a zeroed buffer (avoids raw new/delete)
     try {
         std::vector<char> buf(skip, 0);
         size_t wrote = std::fwrite(buf.data(), sizeof(char), skip, filepointer);
-        // Best-effort: we don't treat partial skip writes as a fatal error here
+        // A partial skip write is not fatal.
         (void)wrote;
         return true;
     } catch (const std::bad_alloc&) {
-        Error(ERROR_MEMORY_ALLOCATION);
+        Error(L"Nelson:outOfMemory", L"Memory allocation error... You may have run out of memory!");
         return false;
     }
 }
@@ -253,7 +244,7 @@ writeCharData(
         return FWRITE_INVALID_FILE;
     }
 
-    std::string str = toWrite.getContentAsCString();
+    std::string str = toWrite.asUtf8String();
 
     if (bIsLittleEndian != isLittleEndianFormat()) {
         for (char& c : str) {
@@ -272,15 +263,13 @@ writeCharData(
 
         sizeByteWritten = (int)std::fwrite(data.c_str(), sizeof(char), data.size(), filepointer);
 
-        // compute approx number of characters written based on proportion of bytes written
-        std::wstring wstr = toWrite.getContentAsWideString();
+        std::wstring wstr = toWrite.asWideString();
         sizeWritten = computeApproxCharCount(sizeByteWritten, data.size(), wstr.size());
 
     } else {
-        // UTF-8: write bytes directly, then compute characters from possibly partial write
         sizeByteWritten = (int)std::fwrite(str.c_str(), sizeof(char), str.size(), filepointer);
         if (sizeByteWritten == str.size()) {
-            std::wstring wstr = toWrite.getContentAsWideString();
+            std::wstring wstr = toWrite.asWideString();
             sizeWritten = static_cast<int>(wstr.size());
         } else {
             sizeWritten = static_cast<int>(countUtf8CodePointsUpTo(str, sizeByteWritten));
@@ -293,21 +282,19 @@ FWRITE_ERROR_TYPE
 writeBinaryData(FILE* filepointer, ArrayOf& toWrite, NelsonType destClass, bool bIsLittleEndian,
     int& sizeWritten, int& sizeByteWritten)
 {
-    void* dp = toWrite.getReadWriteDataPointer();
-    const size_t count = toWrite.getElementCount();
-    const size_t elsize = toWrite.getElementSize();
+    void* dp = toWrite.readWriteDataPointer();
+    const size_t count = toWrite.elementCount();
+    const size_t elsize = toWrite.elementSize();
 
     if (bIsLittleEndian != isLittleEndianFormat()) {
         BITSWAP(dp, count, destClass);
     }
 
-    // fwrite returns number of elements actually written
     size_t written = std::fwrite(dp, elsize, count, filepointer);
     sizeWritten = static_cast<int>(written);
     sizeByteWritten = sizeWritten;
     return FWRITE_NO_ERROR;
 }
-
 //=============================================================================
 int
 computeApproxCharCount(size_t writtenBytes, size_t totalBytes, size_t totalChars)
@@ -333,13 +320,13 @@ writeFile(const std::wstring& filename, const wstringVector& lines, const std::w
     std::ofstream of(wstring_to_utf8(filename), std::ios::trunc | std::ios::binary);
 #endif
     if (!of.is_open()) {
-        errorMessage = _W("Cannot open file.");
+        errorMessage = Nelson::resolveMessageTemplate(
+            L"Nelson:stream_manager:cannotOpenFile", L"Cannot open file.");
         return false;
     }
     for (size_t k = 0; k < lines.size(); ++k) {
         std::wstring line = lines[k];
 
-        // Normalize CRLF and LF to provided weol
         StringHelpers::replace_all(line, L"\r\n", L"\n");
         StringHelpers::replace_all(line, L"\n", weol);
 
@@ -350,12 +337,12 @@ writeFile(const std::wstring& filename, const wstringVector& lines, const std::w
             std::string asUtf8 = wstring_to_utf8(line);
             if (!utf8ToCharsetConverter(asUtf8, data, encoding)) {
                 of.flush();
-                errorMessage = _W("Encoding not supported.");
+                errorMessage = resolveMessageTemplate(
+                    L"Nelson:stream_manager:encodingSupported", L"Encoding not supported.");
                 return false;
             }
         }
         of << data;
-        // Add eol if needed (not at last line)
         if (!StringHelpers::ends_with(data, eol) && k != lines.size() - 1) {
             of << eol;
         }

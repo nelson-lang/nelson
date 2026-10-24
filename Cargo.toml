@@ -1,9 +1,9 @@
 [workspace]
-members = ["tools/nelson-fmt", "tools/nelson-update-version"]
+members = ["tools/cargo-typos", "tools/nelson-fmt", "tools/nelson-update-version"]
 resolver = "2"
 
 [workspace.package]
-version = "1.17.0"
+version = "2.0.0"
 
 [workspace.dependencies]
 speculoos = "0.13"
@@ -13,4 +13,5 @@ serde = { version = "1", features = ["derive"] }
 serde_json = { version = "1", features = ["preserve_order"] }
 walkdir = "2"
 anyhow = "1"
+typos-cli = "1.48.0"
 

@@ -10,12 +10,16 @@
 #pragma once
 //=============================================================================
 #include "Evaluator.hpp"
+#include "CodeAnalyzer.hpp"
 #include "QtEditPane.h"
 #include "QtTextEdit.h"
 #include "QtTextIndent.h"
 #include "QtDebugStackPanel.h"
 #include "QtBreakpointPanel.h"
 #include <QtCore/QFileSystemWatcher>
+#include <QtCore/QFutureWatcher>
+#include <QtCore/QPointer>
+#include <QtCore/QRegularExpression>
 #include <QtGui/QDragEnterEvent>
 #include <QtGui/QDropEvent>
 #include <QtPrintSupport/QPrinter>
@@ -23,18 +27,26 @@
 #include <QtWidgets/QTabWidget>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QDockWidget>
+#include <vector>
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 #define MAX_RECENT_FILES 5
 //=============================================================================
+class QCheckBox;
+class QComboBox;
+class QLineEdit;
+class QTableWidget;
+class QTimer;
+//=============================================================================
 class QtTextEditor : public QMainWindow
 {
     Q_OBJECT
-    QMenu *fileMenu, *editMenu, *debugMenu;
+    QMenu *fileMenu, *editMenu, *codeMenu, *debugMenu;
     QToolBar *editToolBar, *fileToolBar;
     QAction *newAction, *openAction, *saveAction, *saveAsAction, *saveAllAction, *quitAction;
     QAction *closeAction, *closeAllAction;
+    QAction* dockAction;
     QAction *cutAction, *copyAction, *pasteAction, *fontAction;
     QAction* recentFileActions[MAX_RECENT_FILES];
     QAction* separatorAction;
@@ -55,13 +67,12 @@ class QtTextEditor : public QMainWindow
     QAction* stopRunAction;
     QAction* evaluateSelectionAction;
 
-    // Debug actions
     QAction* dbStepAction;
     QAction* dbStepInAction;
     QAction* dbStepOutAction;
     QAction* dbContinueAction;
+    QAction* toggleBreakpointAction;
 
-    // Debug panels
     QDockWidget* debugStackDock;
     QtDebugStackPanel* debugStackPanel;
     QDockWidget* breakpointDock;
@@ -69,45 +80,104 @@ class QtTextEditor : public QMainWindow
 
     QAction* showDebugStackAction;
     QAction* showBreakpointsPanelAction;
+    QAction* showCodeIssuesPanelAction;
+    QAction* enableCodeAnalyzerAction;
 
     QAction* helpOnSelectionAction;
     QAction* smartIndentAction;
+    QAction* fixIssueAction;
+    QAction* fixAllTrivialIssuesAction;
+    QAction* suppressIssueOnLineAction;
+    QAction* suppressIssueAboveLineAction;
 
     QAction* printAction;
 
-    // Find feature members
     QAction* findAction;
     QAction* findNextAction;
     QAction* findPreviousAction;
+    QAction* replaceAction;
     QString lastSearch;
     bool lastSearchCaseSensitive;
 
-    // Debug state tracking
+    QWidget* findBar;
+    QWidget* replaceRow;
+    QLineEdit* findEdit;
+    QLineEdit* replaceEdit;
+    QCheckBox* findCaseCheck;
+    QCheckBox* findWholeWordCheck;
+    QCheckBox* findRegexCheck;
+    QLabel* findStatusLabel;
+
+    QMenu* eolMenu;
+    QAction* eolCrLfAction;
+    QAction* eolLfAction;
+    QAction* eolCrAction;
+    // line ending detected by the last loadFileAsUtf8() call
+    QString lastDetectedEol;
+    bool lastDetectedEolMixed = false;
+
     QTimer* debugStateTimer;
     bool lastDebugState = false;
     std::wstring lastDebugFilename;
     size_t lastDebugLine = 0;
     size_t lastBreakpointCount = 0;
-    QColor debugLineColor = QColor(255, 255, 0, 128); // Default semi-transparent yellow
+    QColor debugLineColor = QColor(255, 255, 0, 128);
+
+    QTimer* codeAnalyzerTimer;
+    QLabel* codeAnalyzerStatusLabel;
+    QDockWidget* codeIssuesDock;
+    QTableWidget* codeIssuesTable;
+    QComboBox* codeIssuesScopeCombo;
+    QLineEdit* codeIssuesSearchEdit;
+    QCheckBox* codeIssuesErrorsCheck;
+    QCheckBox* codeIssuesWarningsCheck;
+    QCheckBox* codeIssuesInfosCheck;
+    QFutureWatcher<std::vector<Nelson::CodeAnalyzerDiagnostic>>* codeAnalyzerWatcher;
+    QPointer<QtEditPane> codeAnalyzerTargetPane;
+    int codeAnalyzerGeneration = 0;
+    int codeAnalyzerRunningGeneration = 0;
+    bool codeAnalyzerPending = false;
+    bool codeAnalyzerEnabled = true;
 
 public:
     QtTextEditor(Evaluator* eval);
     ~QtTextEditor();
+
+    // desktop docking: the editor window can be hosted inside the Nelson
+    // desktop; undocked it stays a real top-level window.
+    bool
+    isDockedInDesktop() const;
+    void
+    setDockedInDesktop(bool docked);
+    void
+    restoreDockState();
+
     void
     loadOrCreateFile(const QString& filename);
     void
-    contextMenuEvent(QContextMenuEvent* event);
+    contextMenuEvent(QContextMenuEvent* event) override;
+
+    bool
+    eventFilter(QObject* watched, QEvent* event) override;
 
     void
     updateDebugLineHighlight();
 
     void
     createTabUntitledWithText(const QString& text);
+    bool
+    gotoLineNumber(int lineNumber);
 
 private:
     Evaluator* nlsEvaluator;
     std::wstring textEditorRootPath;
     wstringVector recentFilenames;
+    void
+    updateDockActionState();
+    // top-level position/size remembered while docked, so preferences never
+    // store dock-relative coordinates.
+    QPoint m_undockedPos;
+    QSize m_undockedSize;
     void
     createActions();
     void
@@ -118,6 +188,8 @@ private:
     createStatusBar();
     bool
     maybeSave();
+    bool
+    closeTabAt(int indexTab);
     bool
     saveFile(const QString& filename);
     void
@@ -139,6 +211,33 @@ private:
     setCurrentEncoding(const QString& encoding);
     QString
     currentEncoding();
+    void
+    setCurrentEol(const QString& eol);
+    QString
+    currentEol();
+    void
+    changeEol(const QString& eol);
+    void
+    updateEolActions();
+
+    void
+    createFindBar();
+    void
+    showFindBar(bool withReplace);
+    void
+    hideFindBar();
+    QRegularExpression
+    currentFindExpression(bool& isValid) const;
+    void
+    clearFindHighlights();
+    void
+    updateFindHighlights();
+    bool
+    findFromBar(bool backward);
+    void
+    replaceCurrentMatch();
+    void
+    replaceAllMatches();
     QString
     shownName();
     void
@@ -149,6 +248,11 @@ private:
     writeSettings();
     void
     updateFont();
+    // Re-reads the font, indent and code analyzer preferences from QSettings and
+    // applies them to the open tabs. Called by the preferences dialog through
+    // GuiPreferencesNotifier.
+    void
+    reloadPreferences();
 
     QColor
     getDebugLineColor();
@@ -156,9 +260,9 @@ private:
     setDebugLineColor(const QColor& color);
 
     void
-    dragEnterEvent(QDragEnterEvent* event);
+    dragEnterEvent(QDragEnterEvent* event) override;
     void
-    dropEvent(QDropEvent* event);
+    dropEvent(QDropEvent* event) override;
 
     QFileSystemWatcher fileWatcher;
     QStringList filesModifiedMessageDisplayedList;
@@ -166,13 +270,37 @@ private:
 
     int
     getCurrentLineNumber();
-    bool
-    gotoLineNumber(int lineNumber);
 
     void
     exportToPdf(const QString& filename);
 
-    // status label to show cursor position / encoding
+    void
+    createCodeIssuesPanel();
+    void
+    scheduleCodeAnalysis();
+    void
+    clearCodeAnalyzerDiagnostics();
+    void
+    analyzeCurrentTab();
+    void
+    analyzePane(QtEditPane* pane);
+    void
+    refreshCodeIssuesPanel();
+    void
+    updateCodeAnalyzerStatus();
+    void
+    gotoIssueLine(int line);
+    std::vector<Nelson::CodeAnalyzerDiagnostic>
+    diagnosticsForCurrentPane() const;
+    Nelson::CodeAnalyzerDiagnostic
+    currentLineDiagnostic() const;
+    QString
+    codeAnalyzerConfigForFile(const QString& filename) const;
+    void
+    applyTrivialFix(const Nelson::CodeAnalyzerDiagnostic& diagnostic);
+    void
+    suppressDiagnostic(const Nelson::CodeAnalyzerDiagnostic& diagnostic, bool previousLine);
+
     QLabel* statusLabel;
 
 private Q_SLOTS:
@@ -229,7 +357,6 @@ private Q_SLOTS:
     void
     helpOnSelection();
 
-    // Debug slots
     void
     dbStep();
     void
@@ -239,10 +366,24 @@ private Q_SLOTS:
     void
     dbContinue();
     void
+    toggleBreakpoint();
+    void
     checkDebugState();
 
     void
     smartIndent();
+    void
+    onCodeIssueActivated(int row, int column);
+    void
+    setCodeAnalyzerEnabled(bool enabled);
+    void
+    fixIssue();
+    void
+    fixAllTrivialIssues();
+    void
+    suppressIssueOnLine();
+    void
+    suppressIssueAboveLine();
 
     void
     printDocument();
@@ -262,7 +403,6 @@ private Q_SLOTS:
     saveFileWithEncoding(
         const QString& filename, const QString& data, const QString& sourceEncoding);
 
-    // Find feature slots
     void
     showFindDialog();
     void
@@ -270,12 +410,11 @@ private Q_SLOTS:
     void
     findPrevious();
 
-    // update status bar (cursor position / encoding)
     void
     updateCursorPosition();
 
 public:
     void
-    closeEvent(QCloseEvent* event);
+    closeEvent(QCloseEvent* event) override;
 };
 //=============================================================================

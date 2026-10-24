@@ -15,7 +15,6 @@
 namespace Nelson {
 //=============================================================================
 /**
- * Element-wise and of two arrays: C = and(A, B).
  * C = A & B
  */
 NLSOPERATORS_IMPEXP ArrayOf

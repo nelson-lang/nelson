@@ -51,12 +51,18 @@ Zipper::isOpen()
 }
 //=============================================================================
 bool
-Zipper::addEntry(const char* filename, uint32_t attributes)
+Zipper::addEntry(const char* filename, uint32_t attributes, bool reproducible)
 {
     if (isOpen()) {
         closeEntry();
         zip_fileinfo zi = { 0 };
-        getTime(zi.tmz_date);
+        if (reproducible) {
+            // The earliest ZIP timestamp is independent of clocks and time zones.
+            zi.tmz_date.tm_year = 1980;
+            zi.tmz_date.tm_mday = 1;
+        } else {
+            getTime(zi.tmz_date);
+        }
         zi.dosDate = 0;
         zi.external_fa = attributes;
         int err = zipOpenNewFileInZip4_64(m_zipFile, filename, &zi, nullptr, 0, nullptr, 0, nullptr,

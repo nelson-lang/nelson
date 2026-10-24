@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>rotatefactors</keyword>
+  <short_description>Rotation de charges factorielles.</short_description>
+  <syntax>
+    <syntax_item>B = rotatefactors(X)</syntax_item>
+    <syntax_item>B = rotatefactors(X, Name, Value)</syntax_item>
+    <syntax_item>[B, T] = rotatefactors(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>rotatefactors</b> applique une rotation aux colonnes de charges factorielles. Les methodes prises en charge incluent varimax, quartimax, equamax, parsimax, orthomax, promax, procrustes et pattern.</p>
+    <p>Les arguments nom-valeur incluent Method, Normalize, RelTol, MaxIt, Coeff, Power, Target et Type.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[X = [0.8 0.2; 0.7 -0.1; 0.1 0.9; 0.2 0.8];
+[B, T] = rotatefactors(X)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}factoran">factoran</link></see_also_item>
+    <see_also_item><link linkend="${statistics}pca">pca</link></see_also_item>
+    <see_also_item><link linkend="${statistics}pcacov">pcacov</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

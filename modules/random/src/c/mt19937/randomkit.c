@@ -147,7 +147,7 @@ rk_seed(unsigned long seed, rk_state* state)
     int pos;
     seed &= 0xffffffffUL;
 
-    /* Knuth's PRNG as used in the Mersenne Twister reference implementation */
+    /* Knuth's PRNG as used in the Mersenne Twister expected behavior */
     for (pos = 0; pos < RK_STATE_LEN; pos++) {
         state->key[pos] = seed;
         seed = (1812433253UL * (seed ^ (seed >> 30)) + pos + 1) & 0xffffffffUL;
@@ -215,7 +215,7 @@ rk_randomseed(rk_state* state)
 #define LOWER_MASK 0x7fffffffUL
 
 /*
- * Slightly optimised reference implementation of the Mersenne Twister
+ * Slightly optimised expected behavior of the Mersenne Twister
  * Note that regardless of the precision of long, only 32 bit random
  * integers are produced
  */

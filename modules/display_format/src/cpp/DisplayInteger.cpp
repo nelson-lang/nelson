@@ -55,7 +55,7 @@ getMinMax(T* val, indexType nbElements, T* min, T* max)
 //=============================================================================
 template <class T>
 T
-getMax(T* val, indexType nbElements)
+max(T* val, indexType nbElements)
 {
     T maxValue = val[0];
     T shared_max = maxValue;
@@ -131,7 +131,7 @@ getUnsignedIntegerNominalWidth(
     case NLS_NUMERIC_FORMAT_BANK:
     case NLS_NUMERIC_FORMAT_RATIONAL:
     default: {
-        T maxValue = getMax<T>(dp, nbElements);
+        T maxValue = max<T>(dp, nbElements);
         std::wstring maxStr = fmt::to_wstring(maxValue);
         nominalWidth = maxStr.length();
     } break;
@@ -186,12 +186,12 @@ void
 Display2dInteger(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
-    Dimensions dims = A.getDimensions();
-    const void* ap = A.getDataPointer();
-    indexType rows = dims.getRows();
-    indexType columns = dims.getColumns();
+    Dimensions dims = A.dimensions();
+    const void* ap = A.dataPointer();
+    indexType rows = dims.rows();
+    indexType columns = dims.columns();
     indexType nominalWidth = getIntegerNominalWidth(A, currentNumericFormat);
-    NelsonType classA = A.getDataClass();
+    NelsonType classA = A.dataClass();
     if (currentNumericFormat == NLS_NUMERIC_FORMAT_PLUS) {
         if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
             io->outputMessage("\n");
@@ -209,7 +209,7 @@ Display2dInteger(size_t evaluatorID, Interface* io, const ArrayOf& A, const std:
             (termWidth - 1) / (static_cast<single>(LENGTH_BLANKS_INTEGER_AT_BOL + nominalWidth))));
         indexType pageCount
             = static_cast<indexType>(ceil(columns / (static_cast<single>(colsPerPage))));
-        bool withColumsHeader = (rows * columns > 1) && pageCount > 1;
+        bool withColumnsHeader = (rows * columns > 1) && pageCount > 1;
         for (indexType k = 0;
             k < pageCount && !NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID);
             k++) {
@@ -222,7 +222,7 @@ Display2dInteger(size_t evaluatorID, Interface* io, const ArrayOf& A, const std:
                     io->outputMessage(L"\n");
                 }
             }
-            if (withColumsHeader) {
+            if (withColumnsHeader) {
                 std::wstring msg
                     = columnsHeader(k * colsPerPage + 1, k * colsPerPage + colsInThisPage);
                 if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
@@ -256,14 +256,14 @@ DisplayNdInteger(size_t evaluatorID, Interface* io, const ArrayOf& A, const std:
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
     sizeType termWidth = io->getTerminalWidth();
-    Dimensions dims = A.getDimensions();
-    Dimensions wdims(dims.getLength());
-    indexType rows(A.getRows());
-    indexType columns(A.getColumns());
+    Dimensions dims = A.dimensions();
+    Dimensions wdims(dims.length());
+    indexType rows(A.rows());
+    indexType columns(A.columns());
     indexType offset = 0;
-    NelsonType classA = A.getDataClass();
+    NelsonType classA = A.dataClass();
     indexType nominalWidth = getIntegerNominalWidth(A, currentNumericFormat);
-    const void* ap = A.getDataPointer();
+    const void* ap = A.dataPointer();
     while (wdims.inside(dims)) {
         if (offset != 0) {
             if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
@@ -275,7 +275,7 @@ DisplayNdInteger(size_t evaluatorID, Interface* io, const ArrayOf& A, const std:
         }
 
         io->outputMessage(name + L"(:,:");
-        for (indexType m = 2; m < dims.getLength(); m++) {
+        for (indexType m = 2; m < dims.length(); m++) {
             io->outputMessage(fmt::format(",{0:d}", static_cast<int>(wdims[m]) + 1));
         }
         io->outputMessage(L") =\n");
@@ -285,13 +285,13 @@ DisplayNdInteger(size_t evaluatorID, Interface* io, const ArrayOf& A, const std:
         indexType colsPerPage = static_cast<indexType>(floor(
             (termWidth - 1) / (static_cast<single>(LENGTH_BLANKS_INTEGER_AT_BOL + nominalWidth))));
         int pageCount = static_cast<int>(ceil(columns / (static_cast<single>(colsPerPage))));
-        bool withColumsHeader = (rows * columns > 1) && pageCount > 1;
+        bool withColumnsHeader = (rows * columns > 1) && pageCount > 1;
         for (int k = 0;
             k < pageCount && !NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID);
             k++) {
             indexType colsInThisPage = columns - colsPerPage * k;
             colsInThisPage = (colsInThisPage > colsPerPage) ? colsPerPage : colsInThisPage;
-            if (withColumsHeader) {
+            if (withColumnsHeader) {
                 std::wstring msg
                     = columnsHeader(k * colsPerPage + 1, k * colsPerPage + colsInThisPage);
                 if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
@@ -330,46 +330,46 @@ indexType
 getIntegerNominalWidth(const ArrayOf& A, NumericFormatDisplay currentNumericFormat)
 {
     indexType nominalWidth = DEFAULT_NOMINAL_WIDTH;
-    switch (A.getDataClass()) {
+    switch (A.dataClass()) {
     case NLS_UINT8: {
-        uint8* val = (uint8*)A.getDataPointer();
+        uint8* val = (uint8*)A.dataPointer();
         nominalWidth
-            = getUnsignedIntegerNominalWidth<uint8>(val, A.getElementCount(), currentNumericFormat);
+            = getUnsignedIntegerNominalWidth<uint8>(val, A.elementCount(), currentNumericFormat);
     } break;
     case NLS_INT8: {
-        int8* val = (int8*)A.getDataPointer();
+        int8* val = (int8*)A.dataPointer();
         nominalWidth
-            = getSignedIntegerNominalWidth<int8>(val, A.getElementCount(), currentNumericFormat);
+            = getSignedIntegerNominalWidth<int8>(val, A.elementCount(), currentNumericFormat);
     } break;
     case NLS_UINT16: {
-        uint16* val = (uint16*)A.getDataPointer();
-        nominalWidth = getUnsignedIntegerNominalWidth<uint16>(
-            val, A.getElementCount(), currentNumericFormat);
+        uint16* val = (uint16*)A.dataPointer();
+        nominalWidth
+            = getUnsignedIntegerNominalWidth<uint16>(val, A.elementCount(), currentNumericFormat);
     } break;
     case NLS_INT16: {
-        int16* val = (int16*)A.getDataPointer();
+        int16* val = (int16*)A.dataPointer();
         nominalWidth
-            = getSignedIntegerNominalWidth<int16>(val, A.getElementCount(), currentNumericFormat);
+            = getSignedIntegerNominalWidth<int16>(val, A.elementCount(), currentNumericFormat);
     } break;
     case NLS_UINT32: {
-        uint32* val = (uint32*)A.getDataPointer();
-        nominalWidth = getUnsignedIntegerNominalWidth<uint32>(
-            val, A.getElementCount(), currentNumericFormat);
+        uint32* val = (uint32*)A.dataPointer();
+        nominalWidth
+            = getUnsignedIntegerNominalWidth<uint32>(val, A.elementCount(), currentNumericFormat);
     } break;
     case NLS_INT32: {
-        int32* val = (int32*)A.getDataPointer();
+        int32* val = (int32*)A.dataPointer();
         nominalWidth
-            = getSignedIntegerNominalWidth<int32>(val, A.getElementCount(), currentNumericFormat);
+            = getSignedIntegerNominalWidth<int32>(val, A.elementCount(), currentNumericFormat);
     } break;
     case NLS_UINT64: {
-        uint64* val = (uint64*)A.getDataPointer();
-        nominalWidth = getUnsignedIntegerNominalWidth<uint64>(
-            val, A.getElementCount(), currentNumericFormat);
+        uint64* val = (uint64*)A.dataPointer();
+        nominalWidth
+            = getUnsignedIntegerNominalWidth<uint64>(val, A.elementCount(), currentNumericFormat);
     } break;
     case NLS_INT64: {
-        int64* val = (int64*)A.getDataPointer();
+        int64* val = (int64*)A.dataPointer();
         nominalWidth
-            = getSignedIntegerNominalWidth<int64>(val, A.getElementCount(), currentNumericFormat);
+            = getSignedIntegerNominalWidth<int64>(val, A.elementCount(), currentNumericFormat);
     } break;
     default: {
         nominalWidth = DEFAULT_NOMINAL_WIDTH;

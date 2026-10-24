@@ -14,6 +14,8 @@
 #include "NelsonGateway.hpp"
 #include "absBuiltin.hpp"
 #include "castBuiltin.hpp"
+#include "typecastBuiltin.hpp"
+#include "catBuiltin.hpp"
 #include "ceilBuiltin.hpp"
 #include "complexBuiltin.hpp"
 #include "conjBuiltin.hpp"
@@ -23,6 +25,7 @@
 #include "isapproxBuiltin.hpp"
 #include "isequalBuiltin.hpp"
 #include "isequalnBuiltin.hpp"
+#include "isequalwithequalnansBuiltin.hpp"
 #include "isequaltoBuiltin.hpp"
 #include "isfiniteBuiltin.hpp"
 #include "isinfBuiltin.hpp"
@@ -34,6 +37,10 @@
 #include "realBuiltin.hpp"
 #include "remBuiltin.hpp"
 #include "repmatBuiltin.hpp"
+#include "meshgridBuiltin.hpp"
+#include "ndgridBuiltin.hpp"
+#include "repelemBuiltin.hpp"
+#include "idivideBuiltin.hpp"
 #include "reshapeBuiltin.hpp"
 #include "roundBuiltin.hpp"
 #include "sizeBuiltin.hpp"
@@ -49,6 +56,7 @@
 #include "base2decBuiltin.hpp"
 #include "dec2baseBuiltin.hpp"
 #include "linspaceBuiltin.hpp"
+#include "rosserBuiltin.hpp"
 #include "log2Builtin.hpp"
 #include "fliplrBuiltin.hpp"
 #include "flipudBuiltin.hpp"
@@ -59,9 +67,16 @@
 #include "trilBuiltin.hpp"
 #include "signBuiltin.hpp"
 #include "hypotBuiltin.hpp"
+#include "histcBuiltin.hpp"
 #include "permuteBuiltin.hpp"
-#include "__rot90_matrix_2D__Builtin.hpp"
+#include "__flip__Builtin.hpp"
+#include "rot90Builtin.hpp"
+#include "ratBuiltin.hpp"
+#include "ratsBuiltin.hpp"
+#include "__rat__Builtin.hpp"
 #include "allfiniteBuiltin.hpp"
+#include "__is_elementwise_broadcastable__Builtin.hpp"
+#include "__filter__Builtin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -74,11 +89,19 @@ static const nlsGateway gateway[] = {
         CPP_BUILTIN_WITH_EVALUATOR },
     { "cast", (ptrBuiltin)Nelson::ElementaryFunctionsGateway::castBuiltin, 1, 3,
         CPP_BUILTIN_WITH_EVALUATOR },
+    { "typecast", (ptrBuiltin)Nelson::ElementaryFunctionsGateway::typecastBuiltin, 1, 2,
+        CPP_BUILTIN },
+    { "cat", (ptrBuiltin)Nelson::ElementaryFunctionsGateway::catBuiltin, 1, -1,
+        CPP_BUILTIN_WITH_EVALUATOR, NLS_OVERLOAD_AUTO_OFF },
     { "hypot", (ptrBuiltin)Nelson::ElementaryFunctionsGateway::hypotBuiltin, 1, 2,
         CPP_BUILTIN_WITH_EVALUATOR, NLS_OVERLOAD_AUTO_OFF },
+    { "histc", (ptrBuiltin)Nelson::ElementaryFunctionsGateway::histcBuiltin, 2, 3, CPP_BUILTIN },
     { "isequal", (ptrBuiltin)Nelson::ElementaryFunctionsGateway::isequalBuiltin, 1, -1,
         CPP_BUILTIN_WITH_EVALUATOR, NLS_OVERLOAD_AUTO_OFF },
     { "isequaln", (ptrBuiltin)Nelson::ElementaryFunctionsGateway::isequalnBuiltin, 1, -1,
+        CPP_BUILTIN_WITH_EVALUATOR, NLS_OVERLOAD_AUTO_OFF },
+    { "isequalwithequalnans",
+        (ptrBuiltin)Nelson::ElementaryFunctionsGateway::isequalwithequalnansBuiltin, 1, -1,
         CPP_BUILTIN_WITH_EVALUATOR, NLS_OVERLOAD_AUTO_OFF },
     { "isequalto", (ptrBuiltin)Nelson::ElementaryFunctionsGateway::isequaltoBuiltin, 1, -1,
         CPP_BUILTIN_WITH_EVALUATOR, NLS_OVERLOAD_AUTO_OFF },
@@ -93,7 +116,7 @@ static const nlsGateway gateway[] = {
     { "ceil", (ptrBuiltin)Nelson::ElementaryFunctionsGateway::ceilBuiltin, 1, 1 },
     { "floor", (ptrBuiltin)Nelson::ElementaryFunctionsGateway::floorBuiltin, 1, 1 },
     { "fix", (ptrBuiltin)Nelson::ElementaryFunctionsGateway::fixBuiltin, 1, 1 },
-    { "round", (ptrBuiltin)Nelson::ElementaryFunctionsGateway::roundBuiltin, 1, 1 },
+    { "round", (ptrBuiltin)Nelson::ElementaryFunctionsGateway::roundBuiltin, 1, 2 },
     { "isnan", (ptrBuiltin)Nelson::ElementaryFunctionsGateway::isnanBuiltin, 1, 1 },
     { "isinf", (ptrBuiltin)Nelson::ElementaryFunctionsGateway::isinfBuiltin, 1, 1 },
     { "isfinite", (ptrBuiltin)Nelson::ElementaryFunctionsGateway::isfiniteBuiltin, 1, 1 },
@@ -102,6 +125,10 @@ static const nlsGateway gateway[] = {
     { "mod", (ptrBuiltin)Nelson::ElementaryFunctionsGateway::modBuiltin, 1, 2 },
     { "abs", (ptrBuiltin)Nelson::ElementaryFunctionsGateway::absBuiltin, 1, 1 },
     { "repmat", (ptrBuiltin)Nelson::ElementaryFunctionsGateway::repmatBuiltin, 1, -1 },
+    { "meshgrid", (ptrBuiltin)Nelson::ElementaryFunctionsGateway::meshgridBuiltin, 3, 3 },
+    { "ndgrid", (ptrBuiltin)Nelson::ElementaryFunctionsGateway::ndgridBuiltin, -1, -1 },
+    { "repelem", (ptrBuiltin)Nelson::ElementaryFunctionsGateway::repelemBuiltin, 1, -1 },
+    { "idivide", (ptrBuiltin)Nelson::ElementaryFunctionsGateway::idivideBuiltin, 1, 3 },
     { "rem", (ptrBuiltin)Nelson::ElementaryFunctionsGateway::remBuiltin, 1, 2 },
     { "norm", (ptrBuiltin)Nelson::ElementaryFunctionsGateway::normBuiltin, 1, 1 },
     { "exp", (ptrBuiltin)Nelson::ElementaryFunctionsGateway::expBuiltin, 1, 1 },
@@ -119,6 +146,8 @@ static const nlsGateway gateway[] = {
     { "dec2bin", (ptrBuiltin)Nelson::ElementaryFunctionsGateway::dec2binBuiltin, 1, 2 },
     { "dec2hex", (ptrBuiltin)Nelson::ElementaryFunctionsGateway::dec2hexBuiltin, 1, 2 },
     { "linspace", (ptrBuiltin)Nelson::ElementaryFunctionsGateway::linspaceBuiltin, 1, 3 },
+    { "rosser", (ptrBuiltin)Nelson::ElementaryFunctionsGateway::rosserBuiltin, 1, -1,
+        CPP_BUILTIN_WITH_EVALUATOR },
     { "log2", (ptrBuiltin)Nelson::ElementaryFunctionsGateway::log2Builtin, 2, 1 },
     { "find", (ptrBuiltin)Nelson::ElementaryFunctionsGateway::findBuiltin, 3, 3 },
     { "isvector", (ptrBuiltin)Nelson::ElementaryFunctionsGateway::isvectorBuiltin, 1, 1 },
@@ -127,16 +156,19 @@ static const nlsGateway gateway[] = {
     { "tril", (ptrBuiltin)Nelson::ElementaryFunctionsGateway::trilBuiltin, 1, 2 },
     { "sign", (ptrBuiltin)Nelson::ElementaryFunctionsGateway::signBuiltin, 1, 1 },
     { "permute", (ptrBuiltin)Nelson::ElementaryFunctionsGateway::permuteBuiltin, 1, 2 },
-    { "__rot90_matrix_2D__",
-        (ptrBuiltin)Nelson::ElementaryFunctionsGateway::__rot90_matrix_2D__Builtin, 1, 2 },
+    { "rat", (ptrBuiltin)Nelson::ElementaryFunctionsGateway::ratBuiltin, 2, 2 },
+    { "rats", (ptrBuiltin)Nelson::ElementaryFunctionsGateway::ratsBuiltin, 1, 2 },
+    { "rot90", (ptrBuiltin)Nelson::ElementaryFunctionsGateway::rot90Builtin, -1, -1, CPP_BUILTIN },
+    { "__flip__", (ptrBuiltin)Nelson::ElementaryFunctionsGateway::__flip__Builtin, 1, 2 },
+    { "__rat__", (ptrBuiltin)Nelson::ElementaryFunctionsGateway::__rat__Builtin, 2, 3 },
+    { "__filter__", (ptrBuiltin)Nelson::ElementaryFunctionsGateway::__filter__Builtin, 2, 5 },
     { "allfinite", (ptrBuiltin)Nelson::ElementaryFunctionsGateway::allfiniteBuiltin, 1, 1 },
+    { "__is_elementwise_broadcastable__",
+        (ptrBuiltin)Nelson::ElementaryFunctionsGateway::__is_elementwise_broadcastable__Builtin, 1,
+        1 },
 };
 //=============================================================================
-NLSGATEWAYFUNC(gateway)
+NLS_GATEWAY_FUNC(gateway)
 //=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+NLS_GATEWAY_REMOVE(gateway)
 //=============================================================================

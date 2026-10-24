@@ -17,5 +17,5 @@ namespace Nelson {
 std::stringstream
 readLinesFromFile(const std::wstring& filename, const detectImportOptions& options);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

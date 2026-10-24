@@ -7,9 +7,9 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-directory = [tempdir() , 'rmdir_test'];
+directory = [tempdir(), 'rmdir_test'];
 mkdir(directory);
-assert_istrue(isdir(directory));
+asserts.istrue(isdir(directory));
 rmdir(directory)
-assert_isfalse(isdir(directory));
+asserts.isfalse(isdir(directory));
 %=============================================================================

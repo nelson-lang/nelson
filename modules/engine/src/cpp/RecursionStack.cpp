@@ -16,6 +16,7 @@
 #include "RecursionStack.hpp"
 #include "i18n.hpp"
 #include <iostream>
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 size_t
@@ -60,7 +61,8 @@ getRecursionStacksize()
     RtlImageNtHeaderProc RtlImageNtHeaderProcPointer
         = reinterpret_cast<RtlImageNtHeaderProc>(GetProcAddress(hModule, "RtlImageNtHeader"));
     if (RtlImageNtHeaderProcPointer == nullptr) {
-        std::cout << _("Error: could not find the function NtOpenFile in library ntdll.dll.\n");
+        std::cout << Nelson::resolveMessageTemplate("Nelson:engine:ntOpenFileNotFound",
+            "Error: could not find the function NtOpenFile in library ntdll.dll.\n");
         exit(1);
     }
     VirtualProtectEx(hProcess, (void*)IB, 0x1000, PAGE_READONLY, &old);
@@ -74,3 +76,4 @@ getRecursionStacksize()
 }
 //=============================================================================
 } // namespace Nelson
+//=============================================================================

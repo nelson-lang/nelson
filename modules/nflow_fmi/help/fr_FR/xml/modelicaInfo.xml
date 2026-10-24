@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>modelicaInfo</keyword>
+  <short_description>Indique l'OpenModelica utilisé par le pont Modelica de nflow.</short_description>
+  <syntax>
+    <syntax_item>info = modelicaInfo()</syntax_item>
+  </syntax>
+  <param_output>
+    <param_output_item>
+      <param_name>info</param_name>
+      <param_description>une structure scalaire décrivant l'installation d'OpenModelica, avec les champs listés ci-dessous.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>modelicaInfo</b> indique le compilateur <b>OpenModelica</b> (<b>omc</b>) que le pont Modelica de nflow utilisera. Un bloc <b>modelica</b> compile un modèle Modelica en FMU avec OpenModelica puis le simule via le chemin FMI de nflow&#160;; <b>modelicaInfo</b> indique si cela est possible et quel OpenModelica est sélectionné.</p>
+    <p>La structure <b>info</b> renvoyée a les champs suivants&#160;:</p>
+    <table style="width:100%">
+      <tr>
+        <th>Champ</th>
+        <th>Classe</th>
+        <th>Détails</th>
+      </tr>
+      <tr>
+        <td>available</td>
+        <td>logical</td>
+        <td><b>true</b> lorsqu'un exécutable <b>omc</b> a été trouvé et s'exécute.</td>
+      </tr>
+      <tr>
+        <td>capable</td>
+        <td>logical</td>
+        <td><b>true</b> lorsqu'OpenModelica est non seulement présent mais capable d'exporter une FMU (le runtime d'export FMI est installé). Un modèle ne se simule que si <b>capable</b> vaut <b>true</b>.</td>
+      </tr>
+      <tr>
+        <td>omc</td>
+        <td>char</td>
+        <td>le chemin résolu vers l'exécutable <b>omc</b>, ou une chaîne vide.</td>
+      </tr>
+      <tr>
+        <td>home</td>
+        <td>char</td>
+        <td>le répertoire d'installation d'OpenModelica, ou une chaîne vide.</td>
+      </tr>
+      <tr>
+        <td>version</td>
+        <td>char</td>
+        <td>la chaîne de version renvoyée par <b>omc</b>.</td>
+      </tr>
+      <tr>
+        <td>reason</td>
+        <td>char</td>
+        <td>un état lisible&#160;; en cas d'indisponibilité, il explique la cause et la solution.</td>
+      </tr>
+    </table>
+    <p>La présence n'est pas la capacité&#160;: un exécutable <b>omc</b> peut s'exécuter tout en étant incapable de construire une FMU si son installation ne comporte pas le runtime d'export FMI. Concrètement, la détection vérifie la présence du répertoire <b>share/omc/runtime/c/fmi</b> sous le répertoire d'installation d'OpenModelica&#160;; lorsqu'il est absent (installation incomplète, sans le runtime C / le support d'export FMI), <b>available</b> vaut <b>true</b> mais <b>capable</b> vaut <b>false</b>, et un bloc <b>modelica</b> bloque la simulation avec un message clair. Installez un OpenModelica complet, ou pointez nflow vers un tel OpenModelica avec <b>modelicaConfigure</b>.</p>
+    <p>L'emplacement d'OpenModelica est résolu dans l'ordre suivant&#160;: un chemin configuré avec <b>modelicaConfigure</b>, la variable d'environnement <b>NELSON_OPENMODELICA_HOME</b> (spécifique à Nelson), la variable d'environnement <b>OPENMODELICAHOME</b>, les répertoires d'installation standard, puis <b>PATH</b>.</p>
+  </description>
+
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Vérifier qu'un modèle Modelica peut être simulé.</example_item_description>
+      <example_item_data
+        ><![CDATA[info = modelicaInfo();
+if ~info.capable
+  disp(info.reason);
+end]]></example_item_data>
+    </example_item>
+  </examples>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${nflow_fmi}modelicaConfigure">modelicaConfigure</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${nflow_fmi}modelicaToFmu">modelicaToFmu</link>
+    </see_also_item>
+  </see_also>
+
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

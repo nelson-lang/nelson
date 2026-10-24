@@ -15,7 +15,7 @@ try
   end
   ver_number = version('-number');
   arch_name = computer('arch');
-  platform = 'unknow-platform';
+  platform = 'unknown-platform';
   if strcmp(arch_name, 'woa64') == true
     platform = 'win-arm64';
   end

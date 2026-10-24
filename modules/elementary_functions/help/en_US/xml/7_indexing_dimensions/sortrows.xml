@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>sortrows</keyword>
+  <short_description>Sort rows of an array.</short_description>
+  <syntax>
+    <syntax_item>B = sortrows(A)</syntax_item>
+    <syntax_item>B = sortrows(A, col)</syntax_item>
+    <syntax_item>[B, index] = sortrows(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>array whose rows are sorted.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>col</param_name>
+      <param_description>column index or vector of column indices. A negative index requests descending order for that key.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>B</param_name>
+      <param_description>array with rows sorted according to the selected keys.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>index</param_name>
+      <param_description>row indices such that B = A(index,:).</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Rows with equal selected keys retain their original order, including descending cell-string keys.</p>
+    <p>sortrows sorts rows of an array using one or more columns as keys.</p>
+    <p>Negative column indices request descending order for the corresponding key.</p>
+  </description>
+  <used_function>
+    <used_function_item>sort</used_function_item>
+  </used_function>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Sort rows by the first column ascending and the second column descending.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = [2 3; 1 4; 2 1];
+[B, index] = sortrows(A, [1 -2])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${data_analysis}sort">sort</link></see_also_item>
+    <see_also_item><link linkend="${data_analysis}issorted">issorted</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -4,7 +4,7 @@
 
 - diag builtin: Get diagonal elements of matrix or create diagonal matrix.
 
-- Continous Integration tools for external modules (see module skeleton example).
+- Continuous Integration tools for external modules (see module skeleton example).
 
 - modules installed with nmm are 'autoload' by default.
 
@@ -59,7 +59,7 @@
 
 - getLastReport builtin: returns last formatted error message.
 
-- extends repo to manage plain text authentification.
+- extends repo to manage plain text authentication.
 
 - repo('export', ...) exports an git repository without .git directory.
 
@@ -87,9 +87,9 @@
 
 - all core's modules are protected and cannot removed during an nelson's session.
 
-- increase max execution time for tests (2 minutes) and benchs (6 minutes).
+- increase max execution time for tests (2 minutes) and benches (6 minutes).
 
-- split benchs and tests execution for CI.
+- split benches and tests execution for CI.
 
 - repo builtin: clone, checkout branch or tag, ... from an GIT repository.
 
@@ -282,7 +282,7 @@
 
 - SLICOT Wrapper allows to load dynamically SLICOT library available on platform.
 
-- unix, dos, system builtin reworked (asynchronious, better pipes redirection, detached process). This function can be interrupted with CTRL-C key.
+- unix, dos, system builtin reworked (asynchronous, better pipes redirection, detached process). This function can be interrupted with CTRL-C key.
 
 - MSVC 2019 support added to build C/C++ code easily "on fly" on Windows.
 

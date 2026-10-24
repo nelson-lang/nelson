@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -13,9 +13,12 @@
 #include "UuidHelpers.hpp"
 #include "appendBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "ConvertStringsToChars.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "ArrayOfView.hpp"
+#include "MutableArrayOfView.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -37,22 +40,23 @@ Nelson::StringGateway::appendBuiltin(int nLhs, const ArrayOfVector& argIn)
             theInput = ConvertStringsToChars(theInput, true);
         } else if (inputElement.isCell()) {
             if (inputElement.isScalar()) {
-                ArrayOf* cells = (ArrayOf*)inputElement.getDataPointer();
+                ArrayOfView<ArrayOf> cells(inputElement, ArrayOfViewAssumeValidated {});
                 theInput = cells[0];
             }
         } else if (inputElement.isEmpty()) {
-            theInput = ArrayOf::characterArrayConstructor(L"");
+            theInput = ArrayOf::characterArray(L"");
         } else if (!theInput.isCharacterArray() && !theInput.isCell()) {
-            Error(_W("All inputs must be strings, character vectors, or cell arrays of character "
-                     "vectors."));
+            Error(L"Nelson:string:invalidInputType",
+                L"All inputs must be strings, character vectors, or cell arrays of character "
+                L"vectors.");
         }
     }
     if (!containsStringInput && !containsCellOrStringInput) {
         std::wstring strs;
         for (auto& theInput : theInputs) {
-            strs = strs.append(theInput.getContentAsArrayOfCharacters());
+            strs = strs.append(theInput.asCharacterArrayWideString());
         }
-        retval << ArrayOf::characterArrayConstructor(strs);
+        retval << ArrayOf::characterArray(strs);
     } else {
         std::wstring missing_str;
         UuidHelpers::generateUuid(missing_str);
@@ -62,36 +66,37 @@ Nelson::StringGateway::appendBuiltin(int nLhs, const ArrayOfVector& argIn)
         for (const auto& theInput : theInputs) {
             if (!haveDimsOutput) {
                 if (!theInput.isCharacterArray()) {
-                    dimsOutput = theInput.getDimensions();
+                    dimsOutput = theInput.dimensions();
                     haveDimsOutput = true;
                 }
             } else {
                 if (!theInput.isCharacterArray() && !theInput.isScalar()) {
-                    Dimensions dims = theInput.getDimensions();
+                    Dimensions dims = theInput.dimensions();
                     if (!dims.equals(dimsOutput)) {
-                        Error(_W(
-                            "All string and cell array inputs must be the same size or scalars."));
+                        Error(L"Nelson:string:allStringCellArrayInputs",
+                            L"All string and cell array inputs must be the same size or scalars.");
                     }
                 }
             }
         }
         if (!haveDimsOutput) {
             if (!theInputs[0].isCharacterArray()) {
-                dimsOutput = theInputs[0].getDimensions();
+                dimsOutput = theInputs[0].dimensions();
             } else {
                 dimsOutput = Dimensions(1, 1);
             }
         }
         NelsonType outputClass = containsStringInput ? NLS_STRING_ARRAY : NLS_CELL_ARRAY;
-        indexType nbElements = dimsOutput.getElementCount();
+        indexType nbElements = dimsOutput.elementCount();
         ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(outputClass, nbElements);
         ArrayOf res = ArrayOf(outputClass, dimsOutput, elements);
+        MutableArrayOfView<ArrayOf> resultElements(res, ArrayOfViewAssumeValidated {});
         std::vector<wstringVector> vectorOfStringVector;
         vectorOfStringVector.reserve(theInputs.size());
 
         for (const auto& v : theInputs) {
             if (v.isCharacterArray()) {
-                std::wstring str = v.getContentAsWideString();
+                std::wstring str = v.asWideString();
                 wstringVector vstr;
                 vstr.reserve(nbElements);
                 for (indexType i = 0; i < nbElements; ++i) {
@@ -99,35 +104,38 @@ Nelson::StringGateway::appendBuiltin(int nLhs, const ArrayOfVector& argIn)
                 }
                 vectorOfStringVector.push_back(vstr);
             } else if (v.isCell()) {
-                auto* cells = (ArrayOf*)v.getDataPointer();
-                indexType nbCells = v.getElementCount();
+                ArrayOfView<ArrayOf> cells(v, ArrayOfViewAssumeValidated {});
+                indexType nbCells = v.elementCount();
                 wstringVector vstr;
                 vstr.reserve(nbCells);
                 for (indexType q = 0; q < nbCells; ++q) {
                     ArrayOf c = cells[q];
                     if (c.isCharacterArray()) {
-                        std::wstring s = c.getContentAsWideString();
+                        std::wstring s = c.asWideString();
                         vstr.push_back(s);
                     } else {
                         if (c.isDoubleType(true)) {
-                            if (std::isnan(c.getContentAsDoubleScalar())) {
+                            if (std::isnan(c.asDoubleScalar())) {
                                 vstr.push_back(missing_str);
                             } else if (c.isEmpty()) {
                                 vstr.push_back(L"");
                             } else {
-                                Error(_W("Cell of strings expected."));
+                                Error(L"Nelson:string:charVectorCellStringsExpected",
+                                    L"character vector or cell of strings expected.");
                             }
                         } else if (c.isEmpty()) {
                             vstr.push_back(L"");
                         } else {
-                            Error(_W("Cell of strings expected."));
+                            Error(L"Nelson:string:charVectorCellStringsExpected",
+                                L"character vector or cell of strings expected.");
                         }
                     }
                 }
                 vectorOfStringVector.push_back(vstr);
             } else {
-                Error(_W("All inputs must be strings, character vectors, or cell arrays of "
-                         "character vectors."));
+                Error(L"Nelson:string:invalidInputType",
+                    L"All inputs must be strings, character vectors, or cell arrays of character "
+                    L"vectors.");
             }
         }
 
@@ -149,9 +157,9 @@ Nelson::StringGateway::appendBuiltin(int nLhs, const ArrayOfVector& argIn)
         }
         for (indexType k = 0; k < nbElements; ++k) {
             if (resultAsVector[k].compare(missing_str) == 0) {
-                elements[k] = ArrayOf::doubleConstructor(std::nan(""));
+                resultElements[k] = ArrayOf::doubleScalar(std::nan(""));
             } else {
-                elements[k] = ArrayOf::characterArrayConstructor(resultAsVector[k]);
+                resultElements[k] = ArrayOf::characterArray(resultAsVector[k]);
             }
         }
         retval << res;

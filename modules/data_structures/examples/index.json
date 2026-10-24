@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "file": "organize_records.m",
+      "title": "Organize heterogeneous records",
+      "description": "Store named sample arrays in a structure collection.",
+      "tags": [
+        "struct",
+        "data"
+      ],
+      "requirements": []
+    }
+  ]
+}

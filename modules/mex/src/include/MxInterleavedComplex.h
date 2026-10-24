@@ -66,7 +66,7 @@ extern "C"
 #define mxSetSingles mxSetSinglesInterleavedComplex
 #define mxSetComplexSingles mxSetComplexSinglesInterleavedComplex
 #define mxMakeArrayReal mxMakeArrayRealInterleavedComplex
-#define mxMakeArrayComplex mxMakeArrayComplexInterleavedComplexs
+#define mxMakeArrayComplex mxMakeArrayComplexInterleavedComplex
 #endif
     //=============================================================================
 

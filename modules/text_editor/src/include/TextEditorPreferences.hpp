@@ -20,13 +20,13 @@
 #define TEXT_EDITOR_DEFAULT_SIZE_X 640
 #define TEXT_EDITOR_DEFAULT_SIZE_Y 480
 #define TEXT_EDITOR_PREFERENCES_FILENAME "editor.conf"
-#define TEXT_EDITOR_DEFAULT_DEBUG_LINE_COLOR QColor(255, 255, 0, 128) // Semi-transparent yellow
+#define TEXT_EDITOR_DEFAULT_DEBUG_LINE_COLOR QColor(255, 255, 0, 128)
 //=============================================================================
 bool
 TextEditorSavePreferences(QFont currentFont, QPoint pos, QSize sz,
-    Nelson::wstringVector recentFiles, QColor debugLineColor);
+    Nelson::wstringVector recentFiles, QColor debugLineColor, bool codeAnalyzerEnabled);
 //=============================================================================
 bool
 TextEditorLoadPreferences(QFont& currentFont, QPoint& pos, QSize& sz,
-    Nelson::wstringVector& recentFiles, QColor& debugLineColor);
+    Nelson::wstringVector& recentFiles, QColor& debugLineColor, bool& codeAnalyzerEnabled);
 //=============================================================================

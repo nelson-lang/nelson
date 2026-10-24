@@ -11,10 +11,17 @@
 % <--AUDIO INPUT REQUIRED-->
 % <--SEQUENTIAL TEST REQUIRED-->
 %=============================================================================
-myVoice = audiorecorder();
-tic(); recordblocking(myVoice, 5); elapsedTime = toc();
-assert_istrue(elapsedTime <= 7);
-assert_istrue(elapsedTime >= 5);
+skip_testsuite(iswasm(), ...
+  'WebAssembly audio backend does not provide microphone recorder objects yet.');
+%=============================================================================
+devices = audiodevinfo('default');
+sampleRate = devices.input.DefaultSampleRate;
+myVoice = audiorecorder(sampleRate, 16, 1);
+duration = 1;
+tic(); recordblocking(myVoice, duration); elapsedTime = toc();
+skip_testsuite(elapsedTime < 1, 'Audio input unavailable');
+asserts.istrue(elapsedTime <= 30);
+asserts.istrue(myVoice.TotalSamples >= sampleRate * duration);
 %=============================================================================
 playblocking(myVoice);
 %=============================================================================

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -21,7 +21,7 @@ protected:
     ArrayOf _data;
 
 public:
-    GOArrayOfProperty() : _data(ArrayOf::emptyConstructor()) { }
+    GOArrayOfProperty() : _data(ArrayOf::empty()) { }
     ~GOArrayOfProperty() override = default;
     ArrayOf
     get() override;
@@ -35,5 +35,5 @@ public:
     toWideString() override;
 };
 //=============================================================================
-};
+} // namespace Nelson
 //=============================================================================

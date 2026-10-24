@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>rotate</keyword>
+  <short_description>Fait tourner des objets graphiques autour d'un axe.</short_description>
+  <syntax>
+    <syntax_item>rotate(h, direction, alpha)</syntax_item>
+    <syntax_item>rotate(h, direction, alpha, origin)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>h</param_name>
+      <param_description>un objet graphique ou un tableau d&apos;objets avec XData/YData(/ZData).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>direction</param_name>
+      <param_description
+      >l&apos;axe de rotation : un vecteur à trois éléments [x y z], ou [azimut élévation] à deux éléments en degrés.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>alpha</param_name>
+      <param_description>l&apos;angle de rotation en degrés.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>origin</param_name>
+      <param_description
+      >le centre de rotation (par défaut : le centre de la boîte des axes).</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b>rotate</b> fait tourner les objets graphiques <b>h</b> de <b>alpha</b>
+      degrés autour de l&apos;axe donné par <b>direction</b>, passant par
+      <b>origin</b>. Les données de l&apos;objet sont transformées sur place.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
+s = surf(peaks(20));
+rotate(s, [0 0 1], 45);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}2_graphics_objects/1_object_management/gca">gca</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item><history_version>2.0.0</history_version><history_description>Version initiale.</history_description></history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

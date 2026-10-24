@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>timetable</keyword>
+  <short_description>Creer une timetable a partir de variables et de temps de lignes.</short_description>
+  <syntax>
+    <syntax_item>TT = timetable(rowTimes, var1, ..., varN)</syntax_item>
+    <syntax_item>TT = timetable(var1, ..., varN, &apos;RowTimes&apos;, rowTimes)</syntax_item>
+    <syntax_item>TT = timetable(&apos;Size&apos;, sz, &apos;VariableTypes&apos;, types)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>rowTimes</param_name>
+      <param_description>Vecteur datetime ou duration utilise comme temps de lignes.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>var1, ..., varN</param_name>
+      <param_description>Variables avec une ligne par temps de ligne.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>TT</param_name>
+      <param_description>Objet timetable.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>timetable</b> cree une timetable, un objet tabulaire dont les lignes sont identifiees par des temps.</p>
+    <p>Les temps de lignes peuvent etre fournis comme premier argument ou avec l&apos;argument nom-valeur <b>&apos;RowTimes&apos;</b>.</p>
+    <p>Les noms de variables, noms de dimensions, description, donnees utilisateur et proprietes personnalisees sont stockes dans <b>TT.Properties</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[t = datetime(2024, 1, 1) + days(0:2)';
+TT = timetable(t, [10; 20; 30], 'VariableNames', {'A'});
+TT.Properties.RowTimes]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${table}table">table</link></see_also_item>
+    <see_also_item><link linkend="${table}array2timetable">array2timetable</link></see_also_item>
+    <see_also_item><link linkend="${table}table2timetable">table2timetable</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

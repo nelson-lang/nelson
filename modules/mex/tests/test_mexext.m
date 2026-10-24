@@ -7,24 +7,32 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('mexext'), 1);
-assert_isequal(nargout('mexext'), 1);
+% <--REUSE PROCESS-->
+asserts.isequal(nargin('mexext'), 1);
+asserts.isequal(nargout('mexext'), 1);
 %=============================================================================
 st = mexext('all');
-assert_istrue(isstruct(st));
+asserts.istrue(isstruct(st));
 names = fieldnames(st);
-assert_isequal(names, {'ext'; 'arch'});
-assert_isequal(size(st), [8, 1]);
+asserts.isequal(names, {'ext'; 'arch'});
+asserts.isequal(size(st), [8, 1]);
+idx = strcmp({st.arch}, 'maca64');
+asserts.isequal(sum(idx), 1);
+asserts.isequal(st(idx).ext, 'nexmaca64');
 %=============================================================================
-if strcmp(computer('arch') , 'win64')
-  assert_isequal(mexext(), 'nexw64') 
+if strcmp(computer('arch'), 'win64')
+  asserts.isequal(mexext(), 'nexw64')
 end
 %=============================================================================
-if strcmp(computer('arch') , 'win32')
-  assert_isequal(mexext(), 'nexw32') 
+if strcmp(computer('arch'), 'win32')
+  asserts.isequal(mexext(), 'nexw32')
 end
 %=============================================================================
-if strcmp(computer('arch') , 'woa64')
-  assert_isequal(mexext(), 'nexwoa64') 
+if strcmp(computer('arch'), 'woa64')
+  asserts.isequal(mexext(), 'nexwoa64')
+end
+%=============================================================================
+if strcmp(computer('arch'), 'maca64')
+  asserts.isequal(mexext(), 'nexmaca64')
 end
 %=============================================================================

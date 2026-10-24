@@ -17,5 +17,5 @@ namespace Nelson {
 NLSPYTHON_ENGINE_IMPEXP bool
 PyIsEqual(const ArrayOf& A, const ArrayOf& B);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

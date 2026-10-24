@@ -9,48 +9,46 @@
 %=============================================================================
 % <--ADV-CLI MODE-->
 %=============================================================================
+skip_testsuite(~findcmake(), 'C toolchain (cmake) not available')
 if ispc() && ~havecompiler()
   configuremsvc();
 end
 %=============================================================================
 if exist('mxGetClassName') == 0
-  test_dir = [tempdir(), 'mxGetClassName'];
-  if isdir(test_dir)
-    rmdir(test_dir,'s');
-  end
+  test_dir = tempname();
   mkdir(test_dir);
   status = copyfile('mxGetClassName.c', test_dir);
-  assert_istrue(status);
+  asserts.istrue(status);
   cd(test_dir);
   mex('mxGetClassName.c');
   addpath(pwd())
 end
 %=============================================================================
 R = mxGetClassName(pi);
-assert_isequal(R, 'double');
+asserts.isequal(R, 'double');
 %=============================================================================
 R = mxGetClassName(single(pi));
-assert_isequal(R, 'single');
+asserts.isequal(R, 'single');
 %=============================================================================
 R = mxGetClassName(true);
-assert_isequal(R, 'logical');
+asserts.isequal(R, 'logical');
 %=============================================================================
 R = mxGetClassName("string");
-assert_isequal(R, 'string');
+asserts.isequal(R, 'string');
 %=============================================================================
 R = mxGetClassName(int8(3));
-assert_isequal(R, 'int8');
+asserts.isequal(R, 'int8');
 %=============================================================================
 S.ce = 1;
 S.st = 'r';
 R = mxGetClassName(S);
-assert_isequal(R, 'struct');
+asserts.isequal(R, 'struct');
 %=============================================================================
 C = {'1', 4};
 R = mxGetClassName(C);
-assert_isequal(R, 'cell');
+asserts.isequal(R, 'cell');
 %=============================================================================
 f = figure(33);
 R = mxGetClassName(f);
-assert_isequal(R, 'graphics_object');
+asserts.isequal(R, 'nelson.ui.Figure');
 %=============================================================================

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>ode complex workflow tutorial</keyword>
+  <short_description>Solve object ODE problems with complex states.</short_description>
+  <description>
+    <p>Use <b>SeparateComplexParts</b> with the object workflow when an equation is written with complex states but the integration should advance separated real and imaginary parts internally.</p>
+    <table style="width:100%">
+  <tr><th>Mode</th><th>Setting</th><th>Behavior</th></tr>
+  <tr><td>Native complex</td><td><b>SeparateComplexParts</b> = <b>'off'</b></td><td>Use complex values directly when the selected solver supports them.</td></tr>
+  <tr><td>Separated real system</td><td><b>SeparateComplexParts</b> = <b>'on'</b></td><td>Integrate real and imaginary parts as a real system.</td></tr>
+  <tr><td>Returned shape</td><td>Original initial state shape.</td><td>Results are reshaped back to the user's state layout.</td></tr>
+</table>
+    <p>User functions receive complex values. The returned result object also stores complex <b>Solution</b> and <b>EventSolution</b> arrays.</p>
+    <p>The same workflow supports interpolation with <b>deval</b>, event objects, output functions, mass matrices, Jacobians, and fully implicit equations.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Solve a scalar complex problem.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[problem = ode('ODEFcn', @(t,y) y .* t + 2 * 1i, ...
+  'InitialValue', 1 + 1i, ...
+  'SeparateComplexParts', 'on');
+result = solve(problem, 0, 2);
+value = result.Solution(:, length(result.Time))]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Interpolate a complex result.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[problem = ode('ODEFcn', @(t,y) 1i * y, ...
+  'InitialValue', 1, ...
+  'SeparateComplexParts', 'on');
+result = solve(problem, 0, 1);
+yhalf = deval(result, 0.5)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Stop on a complex-state event.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[event = odeEvent('EventFcn', @(t,y) imag(y) - 0.5, ...
+  'Response', 'stop');
+problem = ode('ODEFcn', @(t,y) 1 + 1i, ...
+  'InitialValue', 0, ...
+  'SeparateComplexParts', 'on', ...
+  'EventDefinition', event);
+result = solve(problem, 0, 1);
+result.EventSolution]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ode_solvers}ode">ode</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}odeEvent">odeEvent</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}deval">deval</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

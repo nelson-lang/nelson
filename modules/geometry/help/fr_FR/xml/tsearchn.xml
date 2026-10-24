@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>tsearchn</keyword>
+  <short_description>Localisation de point dans une triangulation</short_description>
+  <syntax>
+    <syntax_item>idx = tsearchn(P, T, Q)</syntax_item>
+    <syntax_item>[idx, bary] = tsearchn(P, T, Q)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>tsearchn</b> trouve le simplexe contenant chaque point de requete.</p>
+    <p>Les points hors triangulation retournent <b>NaN</b>.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Trouver le triangle contenant un point et ses coordonnees barycentriques.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[P = [0 0; 1 0; 1 1; 0 1];
+T = delaunayn(P);
+[idx, bary] = tsearchn(P, T, [0.25 0.25])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${geometry}dsearchn">dsearchn</link></see_also_item>
+    <see_also_item><link linkend="${geometry}delaunayn">delaunayn</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item><history_version>2.0.0</history_version><history_description>Version initiale.</history_description></history_item>
+  </history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

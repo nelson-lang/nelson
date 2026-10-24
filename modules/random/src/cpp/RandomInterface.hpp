@@ -42,10 +42,10 @@ public:
         = 0;
 
     virtual void
-    setMinMaxUniformIntDistribution(int _min, int _max)
+    setMinMaxUniformIntDistribution(int64 _min, int64 _max)
         = 0;
     virtual void
-    getMinMaxUniformIntDistribution(int& _min, int& _max)
+    getMinMaxUniformIntDistribution(int64& _min, int64& _max)
         = 0;
 
     virtual size_t

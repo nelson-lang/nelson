@@ -15,5 +15,6 @@
 namespace Nelson::FunctionsGateway {
 ArrayOfVector
 macroargsBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

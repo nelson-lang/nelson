@@ -17,5 +17,5 @@ namespace Nelson {
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOfVector
 Find(const ArrayOfVector& argIn, int nLhs, bool& needToOverload);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -12,9 +12,10 @@
 #include <string>
 #include "nlsMatio_exports.h"
 #include "ArrayOf.hpp"
-#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+class Evaluator;
 //=============================================================================
 NLSMATIO_IMPEXP void
 SaveMatioFile(Evaluator* eval, const std::wstring& filename, const wstringVector& names,

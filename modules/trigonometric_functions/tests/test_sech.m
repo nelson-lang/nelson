@@ -7,11 +7,11 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('sech'), -1);
-assert_isequal(nargout('sech'), 1);
+asserts.isequal(nargin('sech'), -1);
+asserts.isequal(nargout('sech'), 1);
 %=============================================================================
-X = [0, pi, 2*pi, 3*pi];
+X = [0, pi, 2 * pi, 3 * pi];
 R = sech(X);
-REF = [1.0000    0.0863    0.0037    0.0002];
-assert_isapprox(R, REF, 1e-4);
+REF = [1.0000 0.0863 0.0037 0.0002];
+asserts.isapprox(R, REF, 1e-4);
 %=============================================================================

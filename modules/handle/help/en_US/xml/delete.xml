@@ -3,52 +3,102 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>en_US</language>
   <keyword>delete</keyword>
-  <short_description>delete handle objects.</short_description>
+  <short_description>Delete handle objects or files.</short_description>
   <syntax>
     <syntax_item>delete(h)</syntax_item>
+    <syntax_item>delete filename</syntax_item>
+    <syntax_item>delete(filename)</syntax_item>
+    <syntax_item>delete(filename1, ..., filenameN)</syntax_item>
+    <syntax_item>delete(filenames)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>h</param_name>
       <param_description>a handle object: scalar or matrix.</param_description>
     </param_input_item>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>a character vector or a string scalar: name of the file to remove. The wildcard * is supported.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>filenames</param_name>
+      <param_description>a string array or a cell array of character vectors: names of the files to remove. Each element can contain the wildcard *.</param_description>
+    </param_input_item>
   </param_input>
   <description>
     <p>
-      <b>delete(h)</b> removes from memory the handle objects referenced by h.</p>
-    <p>When deleted, any references to the objects in h become invalid.</p>
-    <p>To remove the handle variables, use the clear function.</p>
-    <p>See clear function about how to force delete with clear function.</p>
+      <b>delete(h)</b> invalidates the handle objects referenced by h and releases their native resources.</p>
+    <p>When deleted, all aliases to the same objects become invalid.</p>
+    <p>For classdef handle objects, <b>delete</b> calls the class destructor method when it exists and notifies <b>ObjectBeingDestroyed</b> before the object becomes invalid.</p>
+    <p>For handle arrays, each valid element is invalidated.</p>
+    <p>To remove only a variable, use the clear function. Other aliases remain valid until delete is called.</p>
+    <p>
+      <b>delete(filename)</b> permanently removes the file <b>filename</b> from disk. Folders are not removed (see <b>rmdir</b>).</p>
+    <p>
+      <b>delete(filenames)</b> removes several files given as a string array or a cell array of character vectors. Several filenames can also be given as separate arguments.</p>
+    <p>Each filename can contain the wildcard <b>*</b>. When no file matches a filename, a warning (identifier <b>Nelson:FileNotFound</b>) is displayed and the remaining files are still removed.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description />
-      <example_item_data
-        runnable="adv-cli"
-      ><![CDATA[f = figure();
-ax = gca();
-img = image();
-hold on
-P = plot(magic(5));
-children1 = ax.Children;
-delete(img);
-size(children1)
-children2 = ax.Children;
-size(children2)]]></example_item_data>
+      <example_item_description>Delete several files with a vector of filenames.</example_item_description>
+      <example_item_data><![CDATA[d = tempname();
+mkdir(d);
+filewrite(fullfile(d, 'a.txt'), 'a');
+filewrite(fullfile(d, 'b.txt'), 'b');
+filewrite(fullfile(d, 'c.dat'), 'c');
+delete({fullfile(d, 'a.txt'), fullfile(d, 'b.txt')});
+delete(string(fullfile(d, "*.dat")));
+dir(d)
+rmdir(d);]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Delete a classdef handle array.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[clear classes
+d = [tempdir(), 'nelson_help_delete/'];
+mkdir(d);
+filewrite([d, '/NelsonHelpDeleteCounter.m'], ["classdef NelsonHelpDeleteCounter < handle"; "  properties"; "    Count = 0"; "  end"; "end"]);
+addpath(d);
+a = NelsonHelpDeleteCounter();
+b = NelsonHelpDeleteCounter();
+h = [a, b];
+delete(h);
+isvalid(a)
+isvalid(b)]]></example_item_data>
     </example_item>
   </examples>
   <see_also>
     <see_also_item>
       <link linkend="${memory_manager}clear">clear</link>
     </see_also_item>
+    <see_also_item>
+      <link linkend="${interpreter}classdef">classdef</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}addlistener">addlistener</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${files_folders_functions}rmfile">rmfile</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${files_folders_functions}rmdir">rmdir</link>
+    </see_also_item>
   </see_also>
   <history>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>classdef handle destructor and handle array behavior documented</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>files can be removed with a string array or a cell array of filenames</history_description>
     </history_item>
   </history>
   <authors>

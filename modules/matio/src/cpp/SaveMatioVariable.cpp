@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -23,32 +23,41 @@
 #include "SaveMatioSparseDoubleComplex.hpp"
 #include "SaveMatioHandle.hpp"
 #include "SaveMatioFunctionHandle.hpp"
+#include "ClassdefSerialization.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 matvar_t*
-SaveMatioVariable(const std::string& variableName, const ArrayOf& variableValue, mat_ft matVersion)
+SaveMatioVariable(Evaluator* eval, const std::string& variableName, const ArrayOf& variableValue,
+    mat_ft matVersion)
 {
     matvar_t* matVariable = nullptr;
-    switch (variableValue.getDataClass()) {
+    ArrayOf savedObject;
+    if (classdefPrepareSaveObject(eval, variableValue, savedObject)) {
+        return SaveMatioStruct(eval, variableName, savedObject, matVersion);
+    }
+    if (classdefPreparePersistentObject(variableValue, savedObject)) {
+        return SaveMatioStruct(eval, variableName, savedObject, matVersion);
+    }
+    switch (variableValue.dataClass()) {
     case NLS_GO_HANDLE: {
     } break;
     case NLS_HANDLE: {
-        matVariable = SaveMatioHandle(variableName, variableValue, matVersion);
+        matVariable = SaveMatioHandle(eval, variableName, variableValue, matVersion);
     } break;
     case NLS_CELL_ARRAY: {
-        matVariable = SaveMatioCell(variableName, variableValue, matVersion);
+        matVariable = SaveMatioCell(eval, variableName, variableValue, matVersion);
     } break;
     case NLS_FUNCTION_HANDLE: {
-        matVariable = SaveMatioFunctionHandle(variableName, variableValue, matVersion);
+        matVariable = SaveMatioFunctionHandle(eval, variableName, variableValue, matVersion);
     } break;
     case NLS_CLASS_ARRAY:
+    case NLS_CLASSDEF_ARRAY:
     case NLS_STRUCT_ARRAY: {
-        matVariable = SaveMatioStruct(variableName, variableValue, matVersion);
+        matVariable = SaveMatioStruct(eval, variableName, variableValue, matVersion);
     } break;
     case NLS_STRING_ARRAY: {
-        // MATIO 1.5.13 does not know string array type
-        // Workaround: String array converted to Cell array
+        // matio 1.5.13 has no string array type: save it as a cell array.
         matVariable = SaveMatioStringArray(variableName, variableValue, matVersion);
     } break;
     case NLS_LOGICAL: {

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>logicalOperator</keyword>
+  <keyword_alias>block:logicalOperator</keyword_alias>
+  <short_description>AND/OR/NAND/NOR/XOR/XNOR/NOT logique configurable des entrees.</short_description>
+  <syntax>
+    <syntax_item>Type de bloc : logicalOperator</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>ports d entree</param_name>
+      <param_description>2 port(s) d entree declare(s).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>ports de sortie</param_name>
+      <param_description>1 port(s) de sortie declare(s).</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>AND/OR/NAND/NOR/XOR/XNOR/NOT logique configurable des entrees.</p>
+    <table border="1">
+      <tbody>
+        <tr><td>Module</td><td><code>nflow_blocks</code></td></tr>
+        <tr><td>Bibliotheque</td><td>Logique / Operations sur les bits</td></tr>
+        <tr><td>Type</td><td><code>logicalOperator</code></td></tr>
+        <tr><td>Libelle</td><td>Logical Operator</td></tr>
+      </tbody>
+    </table>
+    <p><img src="../../../../libraries/logic/exports/logicalOperator.svg" align="middle"/></p>
+    <p><b>Description</b></p>
+    <p>Un bloc logique unique et parametrable : <code>Operator</code> choisit AND, OR, NAND, NOR, XOR, XNOR ou NOT. Il reduit les N entrees element par element (une entree non nulle vaut vrai) ; NOT prend une seule entree et l'inverse. Complete les blocs fixes and / or / xor / not par un bloc configurable.</p>
+    <p><b>Ports</b></p>
+    <p><b>Entree(s)</b></p>
+    <table border="1">
+      <thead><tr><th>Port</th><th>Role</th><th>Cote</th><th>Position</th></tr></thead>
+      <tbody>
+        <tr><td>Port_1</td><td>Signal numerique lu par le bloc.</td><td>gauche</td><td>x=0, y=26</td></tr>
+        <tr><td>Port_2</td><td>Signal numerique lu par le bloc.</td><td>gauche</td><td>x=0, y=54</td></tr>
+      </tbody>
+    </table>
+    <p><b>Sortie(s)</b></p>
+    <table border="1">
+      <thead><tr><th>Port</th><th>Role</th><th>Cote</th><th>Position</th></tr></thead>
+      <tbody>
+        <tr><td>Port_1</td><td>Signal numerique produit par le bloc.</td><td>droite</td><td>x=80, y=40</td></tr>
+      </tbody>
+    </table>
+    <p><b>Parametres</b></p>
+    <table border="1">
+      <thead><tr><th>Parametre</th><th>Valeur par defaut</th></tr></thead>
+      <tbody>
+        <tr><td><code>Operator</code></td><td>AND</td></tr>
+      </tbody>
+    </table>
+    <p><b>Caracteristiques du bloc</b></p>
+    <table border="1">
+      <tbody>
+        <tr><td>Type de bloc</td><td>logicalOperator</td></tr>
+        <tr><td>Famille</td><td>Logique / Operations sur les bits</td></tr>
+        <tr><td>Taille rendue</td><td>80 x 80</td></tr>
+        <tr><td>Phases</td><td>ALGEBRAIC</td></tr>
+        <tr><td>Etat interne ou historique</td><td>non</td></tr>
+        <tr><td>Type de donnees du signal</td><td>valeurs numeriques double</td></tr>
+      </tbody>
+    </table>
+    <p><b>Algorithmes</b></p>
+    <ul>
+      <li>ALGEBRAIC : reduit les N entrees booleennes avec l'operateur choisi ; sortie booleenne (0/1).</li>
+    </ul>
+    <p><b>Capacites etendues</b></p>
+    <p><b>Sources d implementation</b></p>
+    <p>Generation de code : prise en charge pour C et Rust.</p>
+    <source_code label="Manifest" path="modules/nflow_blocks/libraries/logic/library.json" language="json"/>
+    <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/logic/logicalOperator.cpp" language="cpp"/>
+  </description>
+  <used_function/>
+  <bibliography/>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>NON-ET de deux constantes : NAND(1, 1) = 0.</example_item_description>
+      <example_item_data><![CDATA[d.blocks={ struct('id','a','type','constant','inputs',0,'outputs',1,'params',struct('Value',1)), struct('id','b','type','constant','inputs',0,'outputs',1,'params',struct('Value',1)), struct('id','g','type','logicalOperator','inputs',2,'outputs',1,'params',struct('Operator','NAND')), struct('id','w','type','toWorkspace','inputs',1,'outputs',0,'params',struct('VariableName','y','SaveFormat','Array')) };
+d.connections={ struct('from','a','to','g','fromIndex',0,'toIndex',0), struct('from','b','to','g','fromIndex',0,'toIndex',1), struct('from','g','to','w','fromIndex',0,'toIndex',0) };
+d.sampleTime=0.1; d.duration=0.2; d.solver='discrete'; d.variables=struct();
+r=jsondecode(__nflow_simulate__(jsonencode(d)));]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${nflow_blocks}logic/and">and</link></see_also_item>
+    <see_also_item><link linkend="${nflow_blocks}logic/or">or</link></see_also_item>
+    <see_also_item><link linkend="${nflow_blocks}logic/relationalOperator">relationalOperator</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

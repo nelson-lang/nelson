@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <chapter>Dashboard blocks</chapter>
+  <chapter_description>
+    <p>Interactive dashboard widgets that bind to signals and parameters to observe or drive a running model.</p>
+  </chapter_description>
+</xmldoc>

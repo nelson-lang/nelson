@@ -46,7 +46,6 @@ openIpcReceiverIsReadyMutex(int pid)
     ) {
         std::string name = getNamedMutex(pid);
 #ifdef _MSC_VER
-        // Create or open named mutex (unowned)
         HANDLE h = CreateMutexA(nullptr, FALSE, name.c_str());
         if (h != nullptr) {
             ipc_receiver_ready_mutex = h;
@@ -57,7 +56,6 @@ openIpcReceiverIsReadyMutex(int pid)
 #else
         // POSIX named semaphore: name must start with '/'
         std::string sname = std::string("/") + name;
-        // Remove any existing semaphore with that name then create
         sem_unlink(sname.c_str());
         sem_t* s = sem_open(sname.c_str(), O_CREAT | O_EXCL, 0600, 1);
         if (s == SEM_FAILED) {

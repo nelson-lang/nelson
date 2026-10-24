@@ -16,5 +16,6 @@ static const wchar_t* AUTO_MANUAL_DICT[3]
     = { GO_PROPERTY_VALUE_AUTO_STR, GO_PROPERTY_VALUE_MANUAL_STR, 0 };
 //=============================================================================
 GOAutoManualProperty::GOAutoManualProperty() : GORestrictedStringProperty(AUTO_MANUAL_DICT) { }
-}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

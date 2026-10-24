@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "file": "inputParser_example.m",
+      "title": "Parse function inputs",
+      "description": "Define required, optional and named arguments with validation.",
+      "tags": [
+        "validation",
+        "functions"
+      ],
+      "requirements": []
+    },
+    {
+      "file": "validateattributes_example.m",
+      "title": "Validate attributes",
+      "description": "Check value type, dimensions and numeric constraints.",
+      "tags": [
+        "validation",
+        "errors"
+      ],
+      "requirements": []
+    },
+    {
+      "file": "validatestring_example.m",
+      "title": "Validate text choices",
+      "description": "Resolve a text value against an accepted set.",
+      "tags": [
+        "validation",
+        "text"
+      ],
+      "requirements": []
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+%=============================================================================
+% Copyright (c) 2016-present Allan CORNET (Nelson)
+%=============================================================================
+% This file is part of Nelson.
+%=============================================================================
+% LICENCE_BLOCK_BEGIN
+% SPDX-License-Identifier: LGPL-3.0-or-later
+% LICENCE_BLOCK_END
+%=============================================================================
+function compactModel = compact(model)
+  narginchk(1, 1);
+  nargoutchk(0, 1);
+  if isa(model, 'RegressionEnsemble') || isa(model, 'ClassificationEnsemble') ...
+      || isa(model, 'ClassificationSVM') || isa(model, 'RegressionSVM')
+    compactModel = model;
+    return
+  end
+  error('Nelson:statistics:compactModelSupportedObject', 'Compact model is not supported for this object.');
+end
+%=============================================================================

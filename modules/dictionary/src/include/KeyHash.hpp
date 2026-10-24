@@ -18,5 +18,5 @@ namespace Nelson {
 NLSDICTIONARY_IMPEXP size_t
 KeyHash(Evaluator* eval, const ArrayOf& A);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

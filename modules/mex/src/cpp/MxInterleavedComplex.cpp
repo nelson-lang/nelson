@@ -10,6 +10,7 @@
 #include "matrix.h"
 #include "i18n.hpp"
 #include "MxHelpers.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 mxComplexDouble*
 mxGetComplexDoublesInterleavedComplex(const mxArray* pa)
@@ -20,7 +21,9 @@ mxGetComplexDoublesInterleavedComplex(const mxArray* pa)
         if (isExpectedType) {
             result = reinterpret_cast<mxComplexDouble*>(pa->realdata);
         } else {
-            mexErrMsgTxt(_("mxGetDoubles complex expected.").c_str());
+            mexErrMsgTxt(Nelson::resolveMessageTemplate(
+                "Nelson:mex:mxgetdoublesComplex", "mxGetDoubles complex expected.")
+                    .c_str());
         }
     }
     return result;
@@ -35,7 +38,9 @@ mxGetDoublesInterleavedComplex(const mxArray* pa)
         if (isExpectedType) {
             result = (mxDouble*)pa->realdata;
         } else {
-            mexErrMsgTxt(_("mxGetDoubles real expected.").c_str());
+            mexErrMsgTxt(Nelson::resolveMessageTemplate(
+                "Nelson:mex:mxgetdoublesReal", "mxGetDoubles real expected.")
+                    .c_str());
         }
     }
     return result;
@@ -84,7 +89,9 @@ mxGetComplexSinglesInterleavedComplex(const mxArray* pa)
         if (isExpectedType) {
             result = reinterpret_cast<mxComplexSingle*>(pa->realdata);
         } else {
-            mexErrMsgTxt(_("mxGetSingles complex expected.").c_str());
+            mexErrMsgTxt(Nelson::resolveMessageTemplate(
+                "Nelson:mex:mxgetsinglesComplex", "mxGetSingles complex expected.")
+                    .c_str());
         }
     }
     return result;
@@ -99,7 +106,9 @@ mxGetSinglesInterleavedComplex(const mxArray* pa)
         if (isExpectedType) {
             result = (mxSingle*)pa->realdata;
         } else {
-            mexErrMsgTxt(_("mxGetSingles real expected.").c_str());
+            mexErrMsgTxt(Nelson::resolveMessageTemplate(
+                "Nelson:mex:mxgetsinglesReal", "mxGetSingles real expected.")
+                    .c_str());
         }
     }
     return result;
@@ -211,7 +220,7 @@ sizeComplex(mxClassID classId)
     case mxDOUBLE_CLASS:
         return sizeof(mxComplexDouble);
     case mxSINGLE_CLASS:
-        return sizeof(mxComplexDouble);
+        return sizeof(mxComplexSingle);
     case mxINT8_CLASS:
         return sizeof(mxComplexInt8);
     case mxUINT8_CLASS:

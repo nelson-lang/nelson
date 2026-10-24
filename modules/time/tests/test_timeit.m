@@ -7,10 +7,11 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('timeit'), -2);
-assert_isequal(nargout('timeit'), 1);
+% <--WEIGHT 4-->
+asserts.isequal(nargin('timeit'), -2);
+asserts.isequal(nargout('timeit'), 1);
 %=============================================================================
-f = str2func('@()sleep(6)');
+f = str2func('@()sleep(0.2)');
 t = timeit(f);
-assert_isapprox(t, 6, 1e-1);
+asserts.isapprox(t, 0.2, 1e-1);
 %=============================================================================

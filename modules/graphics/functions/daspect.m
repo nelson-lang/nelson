@@ -10,24 +10,24 @@
 function varargout = daspect(varargin)
   narginchk(0, 2);
   nargoutchk(0, 1);
-  
+
   % Handle zero input: return current axes DataAspectRatio
   if nargin == 0
     currentAxes = gca();
     varargout{1} = currentAxes.DataAspectRatio;
     return
   end
-  
+
   % Parse first argument
   firstArg = varargin{1};
   firstArg = convertStringsToChars(firstArg);
-  
+
   % Parse second argument if present
   if nargin > 1
     secondArg = varargin{2};
     secondArg = convertStringsToChars(secondArg);
   end
-  
+
   % Determine axes and value to set/query
   if length(firstArg) == 1 && isgraphics(firstArg, 'axes')
     axesHandle = firstArg;
@@ -41,7 +41,7 @@ function varargout = daspect(varargin)
     axesHandle = gca();
     aspectValue = firstArg;
   end
-  
+
   % Handle string value: mode query/set
   if ischar(aspectValue)
     if strcmp(aspectValue, 'mode')
@@ -51,7 +51,7 @@ function varargout = daspect(varargin)
     end
     return
   end
-  
+
   % Otherwise, set DataAspectRatio
   axesHandle.DataAspectRatio = aspectValue;
 end

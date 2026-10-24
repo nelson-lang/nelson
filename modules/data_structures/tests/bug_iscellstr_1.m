@@ -7,8 +7,8 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-R1 = char([65;66;67]);
-R2 = char([65,66,67]);
+R1 = char([65; 66; 67]);
+R2 = char([65, 66, 67]);
 C = {R1, R2};
-assert_istrue(iscellstr(C));
+asserts.istrue(iscellstr(C));
 %=============================================================================

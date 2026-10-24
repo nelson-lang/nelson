@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -11,12 +11,12 @@
 #include "freadBuiltin.hpp"
 #include "Endian.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "FileRead.hpp"
 #include "FilesManager.hpp"
 #include "helpers.hpp"
 #include "NelsonConfiguration.hpp"
-#include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -42,7 +42,7 @@ freadBuiltinFiveRhs(int nLhs, const ArrayOfVector& argIn)
     ArrayOf param3 = argIn[2];
     ArrayOf param4 = argIn[3];
     ArrayOf param5 = argIn[4];
-    std::wstring arg = param5.getContentAsWideString();
+    std::wstring arg = param5.asWideString();
     if ((arg == L"n") || (arg == L"native")) {
         bIsLittleEndian = isLittleEndianFormat();
     } else if ((arg == L"b") || (arg == L"ieee-be")) {
@@ -50,22 +50,24 @@ freadBuiltinFiveRhs(int nLhs, const ArrayOfVector& argIn)
     } else if ((arg == L"l") || (arg == L"ieee-le")) {
         bIsLittleEndian = true;
     } else {
-        Error(_W("Wrong value for machine format."));
+        Error(L"Nelson:stream_manager:invalidMachineFormat", L"Wrong value for machine format.");
     }
-    skipSize = static_cast<size_t>(param4.getContentAsScalarIndex());
+    skipSize = static_cast<size_t>(param4.asScalarIndex());
     if (param3.isRowVectorCharacterArray()) {
-        std::wstring precisionStr = param3.getContentAsWideString();
+        std::wstring precisionStr = param3.asWideString();
         bool bOK = false;
         classDest = precisionFromString(precisionStr, bOK);
         if (!bOK) {
-            Error(_W("Wrong value for #3 argument: not supported precision."));
+            Error(L"Nelson:stream_manager:unsupportedPrecision",
+                L"Wrong value for #%d argument: not supported precision.", 3);
         }
     } else {
-        Error(ERROR_WRONG_ARGUMENT_3_TYPE_STRING_EXPECTED);
+        Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (3), L"string");
     }
     if (param1.isDoubleType()) {
         if (!param2.isNumeric()) {
-            Error(ERROR_WRONG_ARGUMENT_2_TYPE_NUMERIC_EXPECTED);
+            Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (2),
+                L"numeric value");
         }
         bool bSizeIs2D = param2.is2D() && !param2.isScalar();
         int64 isize = 0;
@@ -75,39 +77,39 @@ freadBuiltinFiveRhs(int nLhs, const ArrayOfVector& argIn)
             // [m, n]
             // [m, Inf]
             param2.promoteType(NLS_DOUBLE);
-            auto* dValues = static_cast<double*>(param2.getReadWriteDataPointer());
+            auto* dValues = static_cast<double*>(param2.readWriteDataPointer());
             double m = dValues[0];
             double n = dValues[1];
             if (std::isinf(m)) {
-                Error(ERROR_WRONG_ARGUMENT_2_INVALID_VECTOR_SIZE);
+                Error(L"Nelson:invalidValue", L"Wrong value for #%d argument.", (2));
             }
             im = static_cast<int64>(m);
             if (std::isinf(n)) {
                 if (n > 0) {
                     isize = -1;
                 } else {
-                    Error(ERROR_WRONG_ARGUMENT_2_INVALID_VECTOR_SIZE);
+                    Error(L"Nelson:invalidValue", L"Wrong value for #%d argument.", (2));
                 }
             } else {
                 in = static_cast<int64>(n);
                 isize = static_cast<int64>(m * n);
             }
         } else {
-            auto dsize = param2.getContentAsDoubleScalar();
+            auto dsize = param2.asDoubleScalar();
             if (std::isinf(dsize)) {
                 if (dsize > 0) {
                     isize = -1;
                 } else {
-                    Error(ERROR_WRONG_ARGUMENT_2_INVALID_VECTOR_SIZE);
+                    Error(L"Nelson:invalidValue", L"Wrong value for #%d argument.", (2));
                 }
             } else {
                 isize = static_cast<int64>(dsize);
             }
         }
         auto* fm = static_cast<FilesManager*>(NelsonConfiguration::getInstance()->getFileManager());
-        auto iValue = static_cast<int32>(param1.getContentAsDoubleScalar());
+        auto iValue = static_cast<int32>(param1.asDoubleScalar());
         if (fm == nullptr) {
-            Error(_W("Problem with file manager."));
+            Error(L"Nelson:stream_manager:fileManagerNotAvailable", L"Problem with file manager.");
         }
         if (fm->isOpened(iValue)) {
             File* f = fm->getFile(iValue);
@@ -133,25 +135,25 @@ freadBuiltinFiveRhs(int nLhs, const ArrayOfVector& argIn)
                         toRead.reshape(dim);
                         retval << toRead;
                     } else {
-                        void* ptr = ArrayOf::allocateArrayOf(toRead.getDataClass(),
+                        void* ptr = ArrayOf::allocateArrayOf(toRead.dataClass(),
                             static_cast<indexType>(im * in), stringVector(), false);
-                        memcpy(ptr, toRead.getReadWriteDataPointer(), toRead.getByteSize());
-                        retval << ArrayOf(toRead.getDataClass(), dim, ptr);
+                        memcpy(ptr, toRead.readWriteDataPointer(), toRead.byteSize());
+                        retval << ArrayOf(toRead.dataClass(), dim, ptr);
                     }
                 } else {
                     retval << toRead;
                 }
                 if (nLhs > 1) {
-                    retval << ArrayOf::doubleConstructor(sizeReallyRead);
+                    retval << ArrayOf::doubleScalar(sizeReallyRead);
                 }
             } else {
-                Error(_W("Problem to read data."));
+                Error(L"Nelson:fread:readError", L"Problem to read data.");
             }
         } else {
-            Error(_W("Invalid file identifier."));
+            Error(L"Nelson:stream_manager:invalidFileIdentifier", L"Invalid file identifier.");
         }
     } else {
-        Error(_W("Invalid file identifier."));
+        Error(L"Nelson:stream_manager:invalidFileIdentifier", L"Invalid file identifier.");
     }
     return retval;
 }
@@ -166,9 +168,9 @@ freadBuiltinFourRhs(int nLhs, const ArrayOfVector& argIn)
     ArrayOf param5;
     if (param4.isRowVectorCharacterArray()) {
         param5 = param4;
-        param4 = ArrayOf::doubleConstructor(0);
+        param4 = ArrayOf::doubleScalar(0);
     } else {
-        param5 = ArrayOf::characterArrayConstructor(L"n");
+        param5 = ArrayOf::characterArray(L"n");
     }
     ArrayOfVector modifiedArgIn;
     modifiedArgIn.push_back(param1);
@@ -190,11 +192,11 @@ freadBuiltinThreeRhs(int nLhs, const ArrayOfVector& argIn)
     if (param2.isRowVectorCharacterArray() && param3.isRowVectorCharacterArray()) {
         param5 = param3;
         param3 = param2;
-        param4 = ArrayOf::doubleConstructor(0);
-        param2 = ArrayOf::doubleConstructor(std::numeric_limits<double>::infinity());
+        param4 = ArrayOf::doubleScalar(0);
+        param2 = ArrayOf::doubleScalar(std::numeric_limits<double>::infinity());
     } else {
-        param4 = ArrayOf::doubleConstructor(0);
-        param5 = ArrayOf::characterArrayConstructor(L"n");
+        param4 = ArrayOf::doubleScalar(0);
+        param5 = ArrayOf::characterArray(L"n");
     }
     ArrayOfVector modifiedArgIn;
     modifiedArgIn.push_back(param1);
@@ -213,12 +215,12 @@ freadBuiltinTwoRhs(int nLhs, const ArrayOfVector& argIn)
     ArrayOf param3;
     if (param2.isRowVectorCharacterArray()) {
         param3 = param2;
-        param2 = ArrayOf::doubleConstructor(std::numeric_limits<double>::infinity());
+        param2 = ArrayOf::doubleScalar(std::numeric_limits<double>::infinity());
     } else {
-        param3 = ArrayOf::characterArrayConstructor(L"uint8");
+        param3 = ArrayOf::characterArray(L"uint8");
     }
-    ArrayOf param4 = ArrayOf::doubleConstructor(0);
-    ArrayOf param5 = ArrayOf::characterArrayConstructor(L"n");
+    ArrayOf param4 = ArrayOf::doubleScalar(0);
+    ArrayOf param5 = ArrayOf::characterArray(L"n");
     ArrayOfVector modifiedArgIn;
     modifiedArgIn.push_back(param1);
     modifiedArgIn.push_back(param2);
@@ -232,6 +234,7 @@ ArrayOfVector
 Nelson::StreamGateway::freadBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     nargoutcheck(nLhs, 0, 2);
+    nargincheck(argIn, 2, 5);
     switch (argIn.size()) {
     case 2:
         return freadBuiltinTwoRhs(nLhs, argIn);
@@ -242,7 +245,6 @@ Nelson::StreamGateway::freadBuiltin(int nLhs, const ArrayOfVector& argIn)
     case 5:
         return freadBuiltinFiveRhs(nLhs, argIn);
     default: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
     ArrayOfVector retval;

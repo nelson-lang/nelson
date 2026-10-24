@@ -30,21 +30,18 @@ CSVSeparatorDetector(const std::wstring& filename, std::wstring& errorMessage)
 
     std::string line;
     if (std::getline(file, line)) {
-        // Count occurrences of potential separators
         std::unordered_map<char, int> separatorCount;
 
         for (char sep : { '\t', ',', ';', ':', '|', ' ' }) {
             separatorCount[sep] = 0;
         }
 
-        // Increment counts for each potential separator
         for (char ch : line) {
             if (separatorCount.find(ch) != separatorCount.end()) {
                 separatorCount[ch]++;
             }
         }
 
-        // Find the separator with the most occurrences
         char likelySeparator = '\0';
         int maxCount = 0;
         for (const auto& entry : separatorCount) {
@@ -57,8 +54,8 @@ CSVSeparatorDetector(const std::wstring& filename, std::wstring& errorMessage)
         return likelySeparator;
     }
 
-    return '\0'; // Return null character if no valid separator found
+    return '\0';
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

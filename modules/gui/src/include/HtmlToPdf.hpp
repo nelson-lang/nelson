@@ -20,6 +20,6 @@ extern "C"
     NLSGUI_IMPEXP bool
     HtmlStreamToPdfFile(const std::wstring& htmlstream, const std::wstring& pdfdestfilename);
 }
-
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

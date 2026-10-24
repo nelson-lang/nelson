@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" translate="no">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="google" content="notranslate" />
+    <title>Nelson WebAssembly</title>
+    <style>
+      html,
+      body,
+      #root {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+      }
+      .wasm-loading {
+        display: grid;
+        width: 100%;
+        height: 100%;
+        place-items: center;
+        color: #e7e7e7;
+        background: #1e1e1e;
+        font: 14px system-ui, sans-serif;
+      }
+      .wasm-loading__card {
+        width: min(420px, calc(100vw - 48px));
+      }
+      .wasm-loading__title {
+        margin-bottom: 16px;
+        font-size: 20px;
+        font-weight: 600;
+      }
+      .wasm-loading progress {
+        width: 100%;
+        height: 12px;
+        accent-color: #2f80ed;
+      }
+      .wasm-loading__status {
+        min-height: 20px;
+        margin-top: 10px;
+        color: #bdbdbd;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root">
+      <main class="wasm-loading" aria-busy="true">
+        <div class="wasm-loading__card">
+          <div class="wasm-loading__title">Nelson WebAssembly</div>
+          <progress aria-label="Runtime download" max="100" value="5"></progress>
+          <div class="wasm-loading__status" aria-live="polite">Loading browser interface…</div>
+        </div>
+      </main>
+    </div>
+    <script type="module" src="/src/wasm/main.tsx"></script>
+  </body>
+</html>

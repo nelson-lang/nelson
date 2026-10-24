@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>gcbh</keyword>
+  <short_description>Return the handle of the current block.</short_description>
+  <syntax>
+    <syntax_item>h = gcbh()</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name />
+      <param_description />
+    </param_input_item>
+  </param_input>
+  <param_output><param_output_item><param_name>h</param_name><param_description>a numeric handle for the current block, or the empty matrix <b>[]</b> when no block is selected.</param_description></param_output_item></param_output>
+  <description>
+    <p><b>gcbh</b> returns a numeric handle for the current block, the block
+    selected in the editor (the same block <b>gcb</b> reports as a path).</p>
+    <p>The handle is a reference-style value that can be passed to
+    <b>get_param</b> and <b>set_param</b> in place of the block path. It stays
+    valid until the block is deleted or its model is closed.</p>
+    <p><b>gcbh</b> returns the empty matrix <b>[]</b> when no block is selected
+    or no editor is active, mirroring <b>gcb</b>, which returns the empty string
+    in that case.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data><![CDATA[new_system('demo');
+add_block('nflow/math/gain', 'demo/Gain');
+set_param('demo/Gain', 'Gain', '2');
+% In the editor, gcbh() returns the handle of the selected block.
+% The same handle is available by path with get_param(path, 'Handle'):
+h = get_param('demo/Gain', 'Handle')
+get_param(h, 'Gain')
+bdclose('demo');]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${nflow_engine}getNFlowBlockHandle">getNFlowBlockHandle</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}getfullname">getfullname</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}get_param">get_param</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}set_param">set_param</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}find_system">find_system</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>1.0.0</history_version><history_description>initial version</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

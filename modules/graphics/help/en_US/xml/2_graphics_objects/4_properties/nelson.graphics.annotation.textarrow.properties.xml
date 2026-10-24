@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>annotation textarrow properties</keyword>
+  <short_description>textarrow annotation graphics object properties.</short_description>
+  <description>
+    <p>This page documents the visible properties returned by <b>properties</b> for a <b>textarrow</b> annotation.</p>
+    <table>
+      <tr>
+        <th>Property</th>
+        <th>Action</th>
+        <th>Type and supported values</th>
+      </tr>
+      <tr>
+        <td><b>BeingDeleted</b></td>
+        <td>Nelson computes this value; graphics operations update it.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'off', 'on'.</td>
+      </tr>
+      <tr>
+        <td><b>BusyAction</b></td>
+        <td>controls whether an interrupting callback is queued or canceled.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'queue', 'cancel'.</td>
+      </tr>
+      <tr>
+        <td><b>ButtonDownFcn</b></td>
+        <td>runs when you click the object.</td>
+        <td>Type: callback value. Supported values: [], function handle, character vector, string scalar, or callback cell array.</td>
+      </tr>
+      <tr>
+        <td><b>Children</b></td>
+        <td>parenting operations update the vector.</td>
+        <td>Type: graphics object handle vector. Supported values: empty vector or child handles.</td>
+      </tr>
+      <tr>
+        <td><b>Color</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: color value. Supported values: 'red'/'r', 'green'/'g', 'blue'/'b', 'cyan'/'c', 'magenta'/'m', 'yellow'/'y', 'black'/'k', 'white'/'w', RGB triplet [r g b] with values in [0,1], or hexadecimal color '#RRGGBB'/'#RGB'.</td>
+      </tr>
+      <tr>
+        <td><b>ContextMenu</b></td>
+        <td>assigns the context menu displayed on right-click.</td>
+        <td>Type: graphics object handle scalar. Supported values: empty handle or a context menu object handle.</td>
+      </tr>
+      <tr>
+        <td><b>CreateFcn</b></td>
+        <td>runs when the object is created.</td>
+        <td>Type: callback value. Supported values: [], function handle, character vector, string scalar, or callback cell array.</td>
+      </tr>
+      <tr>
+        <td><b>DeleteFcn</b></td>
+        <td>runs when the object is deleted.</td>
+        <td>Type: callback value. Supported values: [], function handle, character vector, string scalar, or callback cell array.</td>
+      </tr>
+      <tr>
+        <td><b>FontAngle</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'normal', 'italic'.</td>
+      </tr>
+      <tr>
+        <td><b>FontName</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: text scalar or character row vector. Supported values: a system font name or 'FixedWidth'.</td>
+      </tr>
+      <tr>
+        <td><b>FontSize</b></td>
+        <td>recomputes geometry, limits, or layout.</td>
+        <td>Type: finite numeric scalar. Supported values: finite scalar value.</td>
+      </tr>
+      <tr>
+        <td><b>FontUnits</b></td>
+        <td>changes how FontSize is converted for rendered text.</td>
+        <td>Type: text keyword. Supported values: 'points', 'inches', 'centimeters', 'normalized', or 'pixels'.</td>
+      </tr>
+      <tr>
+        <td><b>FontWeight</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'normal', 'bold'.</td>
+      </tr>
+      <tr>
+        <td><b>HandleVisibility</b></td>
+        <td>controls whether the object handle is listed by handle searches.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'on', 'callback', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>HeadLength</b></td>
+        <td>changes annotation arrow head length.</td>
+        <td>Type: numeric scalar. Supported values: positive finite scalar in points.</td>
+      </tr>
+      <tr>
+        <td><b>HeadStyle</b></td>
+        <td>changes the annotation arrow head shape.</td>
+        <td>Type: text keyword. Supported values: 'plain', 'ellipse', 'vback1', 'vback2', 'vback3', 'cback1', 'cback2', 'cback3', 'fourstar', 'rectangle', 'diamond', 'rose', 'hypocycloid', 'astroid', 'deltoid', or 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>HeadWidth</b></td>
+        <td>changes annotation arrow head width.</td>
+        <td>Type: numeric scalar. Supported values: positive finite scalar in points.</td>
+      </tr>
+      <tr>
+        <td><b>HitTest</b></td>
+        <td>controls whether the object can capture mouse clicks.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>HorizontalAlignment</b></td>
+        <td>aligns annotation text horizontally.</td>
+        <td>Type: text keyword. Supported values: 'left', 'center', or 'right'.</td>
+      </tr>
+      <tr>
+        <td><b>Interpreter</b></td>
+        <td>changes how annotation text markup is interpreted.</td>
+        <td>Type: text keyword. Supported values: 'tex', 'latex', or 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>Interruptible</b></td>
+        <td>controls whether a running callback can be interrupted.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>LineStyle</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: text scalar or character row vector. Supported values: '-', '--', ':', '-.', 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>LineWidth</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: finite numeric scalar. Supported values: value greater than or equal to 0.</td>
+      </tr>
+      <tr>
+        <td><b>Parent</b></td>
+        <td>reparents the object and updates Children on the old and new parents.</td>
+        <td>Type: graphics object handle scalar. Supported values: a valid parent handle for the object class.</td>
+      </tr>
+      <tr>
+        <td><b>PickableParts</b></td>
+        <td>controls which parts of the object can capture mouse clicks.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'visible', 'all', 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>Position</b></td>
+        <td>updates annotation location and size; line-like annotations also update X and Y endpoints.</td>
+        <td>Type: four-element numeric vector. Supported values: [x y width height] for shape and textbox annotations, or [xstart ystart dx dy] for line-like annotations.</td>
+      </tr>
+      <tr>
+        <td><b>Selected</b></td>
+        <td>indicates whether the object is currently selected.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>SelectionHighlight</b></td>
+        <td>controls whether selection handles are drawn when the object is selected.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>String</b></td>
+        <td>updates displayed text content.</td>
+        <td>Type: text value. Supported values: character row vector, string scalar, string array, or cell array of character row vectors.</td>
+      </tr>
+      <tr>
+        <td><b>Tag</b></td>
+        <td>updates the stored object state.</td>
+        <td>Type: text scalar or character row vector. Supported values: empty text or an object identifier.</td>
+      </tr>
+      <tr>
+        <td><b>TextBackgroundColor</b></td>
+        <td>updates the text box background behind the text arrow label.</td>
+        <td>Type: color value. Supported values: 'none', named colors and short names, RGB triplet [r g b] with values in [0,1], or hexadecimal color '#RRGGBB'/'#RGB'.</td>
+      </tr>
+      <tr>
+        <td><b>TextColor</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: color value. Supported values: 'red'/'r', 'green'/'g', 'blue'/'b', 'cyan'/'c', 'magenta'/'m', 'yellow'/'y', 'black'/'k', 'white'/'w', RGB triplet [r g b] with values in [0,1], or hexadecimal color '#RRGGBB'/'#RGB'.</td>
+      </tr>
+      <tr>
+        <td><b>TextEdgeColor</b></td>
+        <td>updates the text box outline around the text arrow label.</td>
+        <td>Type: color value. Supported values: 'none', named colors and short names, RGB triplet [r g b] with values in [0,1], or hexadecimal color '#RRGGBB'/'#RGB'.</td>
+      </tr>
+      <tr>
+        <td><b>TextLineWidth</b></td>
+        <td>changes the text box outline width around the text arrow label.</td>
+        <td>Type: positive finite numeric scalar. Supported values: value greater than 0 in points.</td>
+      </tr>
+      <tr>
+        <td><b>TextMargin</b></td>
+        <td>changes the spacing between the text arrow label and its text box outline.</td>
+        <td>Type: nonnegative finite numeric scalar. Supported values: value greater than or equal to 0 in pixels.</td>
+      </tr>
+      <tr>
+        <td><b>TextRotation</b></td>
+        <td>rotates the text arrow label.</td>
+        <td>Type: finite numeric scalar. Supported values: rotation angle in degrees.</td>
+      </tr>
+      <tr>
+        <td><b>Type</b></td>
+        <td>Nelson computes this value; graphics operations update it.</td>
+        <td>Type: text scalar or character row vector. Supported values: read-only object type name, for example 'figure', 'axes', 'line', or 'scatter'.</td>
+      </tr>
+      <tr>
+        <td><b>Units</b></td>
+        <td>changes how annotation position values are interpreted and converts Position, X, and Y.</td>
+        <td>Type: text keyword. Supported values: 'normalized', 'inches', 'centimeters', 'characters', 'points', or 'pixels'.</td>
+      </tr>
+      <tr>
+        <td><b>UserData</b></td>
+        <td>updates the stored object state.</td>
+        <td>Type: Nelson array. Supported values: any Nelson value, including [], numeric arrays, text, cells, structures, or handles.</td>
+      </tr>
+      <tr>
+        <td><b>VerticalAlignment</b></td>
+        <td>aligns annotation text vertically.</td>
+        <td>Type: text keyword. Supported values: 'top', 'cap', 'middle', 'baseline', or 'bottom'.</td>
+      </tr>
+      <tr>
+        <td><b>Visible</b></td>
+        <td>updates rendered output on the next graphics refresh.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>X</b></td>
+        <td>updates annotation horizontal endpoints and recomputes the annotation position.</td>
+        <td>Type: two-element numeric vector. Supported values: finite normalized or unit-specific x coordinates [xstart xend] for line-like annotations.</td>
+      </tr>
+      <tr>
+        <td><b>Y</b></td>
+        <td>updates annotation vertical endpoints and recomputes the annotation position.</td>
+        <td>Type: two-element numeric vector. Supported values: finite normalized or unit-specific y coordinates [ystart yend] for line-like annotations.</td>
+      </tr>
+    </table>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Create the annotation and list its properties.</example_item_description>
+      <example_item_data><![CDATA[f = figure('Visible', 'off');
+h = annotation(f, 'textarrow');
+names = properties(h);
+close(f)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}3_labels_styling/4_labels_annotations/annotation">annotation</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}properties">properties</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}get">get</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}set">set</link>
+    </see_also_item>
+  </see_also>
+</xmldoc>

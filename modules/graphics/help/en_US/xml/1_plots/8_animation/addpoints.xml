@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>addpoints</keyword>
+  <short_description>Add points to animated line.</short_description>
+  <syntax>
+    <syntax_item>addpoints(an, x, y)</syntax_item>
+    <syntax_item>addpoints(an, x, y, z)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>an</param_name>
+      <param_description>animatedline graphics object.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>x, y, z</param_name>
+      <param_description>numeric coordinates with the same number of elements.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b>addpoints</b> appends coordinates to an animated line and refreshes the parent figure.</p>
+    <p>If <b>z</b> is omitted, zero z-coordinates are stored.</p>
+    <p>The <b>MaximumNumPoints</b> property limits stored coordinates and keeps the most recently added points.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="adv-cli"><![CDATA[an = animatedline('MaximumNumPoints', 50);
+x = linspace(0, 4*pi, 200);
+addpoints(an, x, sin(x));
+drawnow]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/8_animation/animatedline">animatedline</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/8_animation/clearpoints">clearpoints</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/8_animation/getpoints">getpoints</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

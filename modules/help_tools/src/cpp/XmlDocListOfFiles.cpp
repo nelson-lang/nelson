@@ -18,6 +18,7 @@
 #include <libxml/xpathInternals.h>
 #include <string>
 #include <vector>
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -116,29 +117,38 @@ processDirectory(const std::filesystem::path& rootDirectory, const std::filesyst
         return false;
     }
     if (chapterLanguage.empty()) {
-        errorMessage = _W("No language value in chapter.xml: ") + directory.generic_wstring();
+        errorMessage = formatI18nMessage(
+            Nelson::resolveMessageTemplate(
+                L"Nelson:help_tools:languageChapterXml", L"No language value in chapter.xml: %s"),
+            directory.generic_wstring());
         return false;
     }
     if (!language.empty()) {
         if (language != chapterLanguage) {
-            errorMessage
-                = _W("Wrong language value in chapter.xml: ") + directory.generic_wstring();
+            errorMessage = formatI18nMessage(
+                Nelson::resolveMessageTemplate(L"Nelson:help_tools:wrongLanguageChapterXml",
+                    L"Wrong language value in chapter.xml: %s"),
+                directory.generic_wstring());
             return false;
         }
     } else {
         language = chapterLanguage;
     }
     if (isRoot && moduleName.empty()) {
-        errorMessage
-            = _W("No module_name value in root chapter.xml: ") + directory.generic_wstring();
+        errorMessage = formatI18nMessage(
+            Nelson::resolveMessageTemplate(L"Nelson:help_tools:moduleNameRootChapter",
+                L"No module_name value in root chapter.xml: %s"),
+            directory.generic_wstring());
         return false;
     }
     if (!isRoot) {
         if (moduleName.empty()) {
             moduleName = inheritedModuleName;
         } else if (moduleName != inheritedModuleName) {
-            errorMessage
-                = _W("Wrong module_name value in chapter.xml: ") + directory.generic_wstring();
+            errorMessage = formatI18nMessage(
+                Nelson::resolveMessageTemplate(L"Nelson:help_tools:wrongModuleNameChapter",
+                    L"Wrong module_name value in chapter.xml: %s"),
+                directory.generic_wstring());
             return false;
         }
     }
@@ -199,8 +209,10 @@ appendChildSections(const std::filesystem::path& rootDirectory,
             children.push_back(std::move(child));
         } else {
             if (directoryHasXmlFiles(childDirectory)) {
-                errorMessage = _W("No chapter.xml file in directory containing XML files: ")
-                    + childDirectory.generic_wstring();
+                errorMessage = formatI18nMessage(
+                    Nelson::resolveMessageTemplate(L"Nelson:help_tools:chapterXmlFileDirectory",
+                        L"No chapter.xml file in directory containing XML files: %s"),
+                    childDirectory.generic_wstring());
                 return false;
             }
             if (!appendChildSections(rootDirectory, childDirectory, inheritedModuleName, children,
@@ -218,7 +230,10 @@ readChapter(const std::wstring& directory, std::string& moduleName, std::string&
 {
     std::wstring chapterXml = directory + L"/chapter.xml";
     if (!std::filesystem::is_regular_file(chapterXml)) {
-        errorMessage = _W("No chapter.xml file in directory: ") + directory;
+        errorMessage = formatI18nMessage(
+            Nelson::resolveMessageTemplate(L"Nelson:help_tools:chapterXmlFileMissing",
+                L"No chapter.xml file in directory: %s"),
+            directory);
         return false;
     }
 
@@ -230,18 +245,27 @@ readChapter(const std::wstring& directory, std::string& moduleName, std::string&
     file.open(chapterFileUtf8, std::ios::binary);
 #endif
     if (!file.is_open()) {
-        errorMessage = _W("Cannot read file: ") + chapterXml;
+        errorMessage
+            = formatI18nMessage(Nelson::resolveMessageTemplate(
+                                    L"Nelson:help_tools:cannotReadFile", L"Cannot read file: %s"),
+                chapterXml);
         return false;
     }
     std::string buffer((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
     if (buffer.empty()) {
-        errorMessage = _W("Cannot read file: ") + chapterXml;
+        errorMessage
+            = formatI18nMessage(Nelson::resolveMessageTemplate(
+                                    L"Nelson:help_tools:cannotReadFile", L"Cannot read file: %s"),
+                chapterXml);
         return false;
     }
     xmlDocPtr doc
         = xmlReadMemory(buffer.data(), (int)buffer.size(), chapterFileUtf8.c_str(), nullptr, 0);
     if (!doc) {
-        errorMessage = _W("Cannot parse XML file: ") + chapterXml;
+        errorMessage
+            = formatI18nMessage(resolveMessageTemplate(L"Nelson:help_tools:cannotParseXmlFile",
+                                    L"Cannot parse XML file: %s"),
+                chapterXml);
         return false;
     }
     xmlNodePtr root = xmlDocGetRootElement(doc);
@@ -295,19 +319,28 @@ readXmlDocFile(const std::wstring& xmlFilename, std::vector<std::string>& keywor
     file.open(xmlFilenameUtf8, std::ios::binary);
 #endif
     if (!file.is_open()) {
-        errorMessage = _W("Cannot read file: ") + xmlFilename;
+        errorMessage
+            = formatI18nMessage(Nelson::resolveMessageTemplate(
+                                    L"Nelson:help_tools:cannotReadFile", L"Cannot read file: %s"),
+                xmlFilename);
         return false;
     }
 
     std::string buffer((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
     if (buffer.empty()) {
-        errorMessage = _W("Cannot read file: ") + xmlFilename;
+        errorMessage
+            = formatI18nMessage(Nelson::resolveMessageTemplate(
+                                    L"Nelson:help_tools:cannotReadFile", L"Cannot read file: %s"),
+                xmlFilename);
         return false;
     }
     xmlDocPtr doc
         = xmlReadMemory(buffer.data(), (int)buffer.size(), xmlFilenameUtf8.c_str(), nullptr, 0);
     if (!doc) {
-        errorMessage = _W("Cannot parse XML file: ") + xmlFilename;
+        errorMessage
+            = formatI18nMessage(resolveMessageTemplate(L"Nelson:help_tools:cannotParseXmlFile",
+                                    L"Cannot parse XML file: %s"),
+                xmlFilename);
         return false;
     }
 
@@ -338,7 +371,10 @@ readXmlDocFile(const std::wstring& xmlFilename, std::vector<std::string>& keywor
     }
     xmlFreeDoc(doc);
     if (keywordAndAlias.empty() && shortDescription.empty()) {
-        errorMessage = _W("No keyword and short_description tags: ") + xmlFilename;
+        errorMessage = formatI18nMessage(
+            Nelson::resolveMessageTemplate(L"Nelson:help_tools:keywordShortDescriptionTags",
+                L"No keyword and short_description tags: %s"),
+            xmlFilename);
         return false;
     }
     return true;

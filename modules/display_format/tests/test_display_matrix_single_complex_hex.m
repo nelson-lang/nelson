@@ -20,5 +20,5 @@ A =
    3e99999a   3ecccccdi   3e4ccccd   3ecccccdi   3dcccccd   3ecccccdi
 
 ';
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================

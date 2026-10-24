@@ -7,6 +7,8 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
+%=============================================================================
 % <-- Issue URL -->
 % https://github.com/nelson-lang/nelson/issues/74
 % <-- Short Description -->
@@ -15,10 +17,10 @@
 A = [];
 A(end + 1) = 8;
 REF = 8;
-assert_isequal(A, REF);
+asserts.isequal(A, REF);
 %=============================================================================
 A = [];
 A(end + 9) = 3;
-REF = [0     0     0     0     0     0     0     0     3];
-assert_isequal(A, REF);
+REF = [0 0 0 0 0 0 0 0 3];
+asserts.isequal(A, REF);
 %=============================================================================

@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>violinplot properties</keyword>
+  <short_description>violinplot graphics object properties.</short_description>
+  <description>
+    <p>This page documents the visible properties returned by <b>properties</b> for a <b>violinplot</b> graphics object.</p>
+    <table>
+      <tr>
+        <th>Property</th>
+        <th>Action</th>
+        <th>Type and supported values</th>
+      </tr>
+      <tr>
+        <td><b>Annotation</b></td>
+        <td>updates the annotation metadata used by interactive tools and object inspection.</td>
+        <td>Type: graphics annotation object or empty handle value. Supported values: an annotation object associated with the graphics item, or an empty graphics handle when no annotation is attached.</td>
+      </tr>
+      <tr>
+        <td><b>BeingDeleted</b></td>
+        <td>Nelson computes this value; graphics operations update it.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'off', 'on'.</td>
+      </tr>
+      <tr>
+        <td><b>BusyAction</b></td>
+        <td>controls whether an interrupting callback is queued or canceled.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'queue', 'cancel'.</td>
+      </tr>
+      <tr>
+        <td><b>ButtonDownFcn</b></td>
+        <td>runs when the object receives a mouse-button event.</td>
+        <td>Type: callback value. Supported values: [], function handle, character vector, string scalar, or callback cell array.</td>
+      </tr>
+      <tr>
+        <td><b>Children</b></td>
+        <td>parenting operations update the vector.</td>
+        <td>Type: graphics object handle vector. Supported values: empty vector.</td>
+      </tr>
+      <tr>
+        <td><b>Clipping</b></td>
+        <td>updates clipping during the next graphics refresh.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>ColorGroupLayout</b></td>
+        <td>controls how color groups share the available group width.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'grouped', 'overlaid'.</td>
+      </tr>
+      <tr>
+        <td><b>ColorGroupWidth</b></td>
+        <td>sets the normalized width used for color groups.</td>
+        <td>Type: numeric scalar. Supported values: values in [0,1].</td>
+      </tr>
+      <tr>
+        <td><b>ColorGroupWidthMode</b></td>
+        <td>'auto' lets Nelson recompute the paired property; 'manual' preserves the assigned value.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>ContextMenu</b></td>
+        <td>attaches the menu used for context-click actions.</td>
+        <td>Type: graphics object handle scalar. Supported values: [] or a uicontextmenu handle.</td>
+      </tr>
+      <tr>
+        <td><b>CreateFcn</b></td>
+        <td>runs when the object is created.</td>
+        <td>Type: callback value. Supported values: [], function handle, character vector, string scalar, or callback cell array.</td>
+      </tr>
+      <tr>
+        <td><b>DataTipTemplate</b></td>
+        <td>updates the content used for interactive data tips.</td>
+        <td>Type: data tip template object or empty handle value. Supported values: a data tip template object owned by the graphics item, or an empty graphics handle when data tips are not configured.</td>
+      </tr>
+      <tr>
+        <td><b>DeleteFcn</b></td>
+        <td>runs when the object is deleted.</td>
+        <td>Type: callback value. Supported values: [], function handle, character vector, string scalar, or callback cell array.</td>
+      </tr>
+      <tr>
+        <td><b>DensityDirection</b></td>
+        <td>selects which side of the group position displays the density shape.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'both', 'positive', 'negative'.</td>
+      </tr>
+      <tr>
+        <td><b>DensityScale</b></td>
+        <td>selects the density normalization rule.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'area', 'count', 'width'.</td>
+      </tr>
+      <tr>
+        <td><b>DensityValues</b></td>
+        <td>density of each violin at <b>EvaluationPoints</b>, one column per violin. Setting it switches <b>DensityValuesMode</b> to 'manual'; the values are then drawn as given.</td>
+        <td>Type: real floating-point matrix. Supported values: same size as <b>EvaluationPoints</b>.</td>
+      </tr>
+      <tr>
+        <td><b>DensityValuesMode</b></td>
+        <td>'auto' computes <b>DensityValues</b> from the sample data; 'manual' preserves the assigned value.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>DensityWidth</b></td>
+        <td>sets the maximum violin width in data units.</td>
+        <td>Type: finite numeric scalar. Supported values: positive finite scalar value.</td>
+      </tr>
+      <tr>
+        <td><b>DensityWidthMode</b></td>
+        <td>'auto' lets Nelson recompute the paired property; 'manual' preserves the assigned value.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>DisplayName</b></td>
+        <td>updates the label used by legend entries and object identification.</td>
+        <td>Type: text value. Supported values: character row vector or string scalar.</td>
+      </tr>
+      <tr>
+        <td><b>EdgeColor</b></td>
+        <td>sets the outline and median marker color.</td>
+        <td>Type: color value or color mode keyword. Supported values: short color names, RGB triplet with values in [0,1], hexadecimal color, 'none', 'flat', or 'interp'.</td>
+      </tr>
+      <tr>
+        <td><b>EdgeColorMode</b></td>
+        <td>'auto' lets Nelson recompute the paired property; 'manual' preserves the assigned value.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>EvaluationPoints</b></td>
+        <td>values where the kernel density is evaluated, one column per violin. By default, 100 points from min(y) - 3h to max(y) + 3h (h: bandwidth). Setting it switches <b>EvaluationPointsMode</b> to 'manual'.</td>
+        <td>Type: real floating-point matrix. Supported values: finite values; a row vector is stored as a column.</td>
+      </tr>
+      <tr>
+        <td><b>EvaluationPointsMode</b></td>
+        <td>'auto' computes <b>EvaluationPoints</b> from the sample data; 'manual' preserves the assigned value.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>FaceAlpha</b></td>
+        <td>sets transparency of the filled violin body.</td>
+        <td>Type: numeric scalar. Supported values: values in [0,1].</td>
+      </tr>
+      <tr>
+        <td><b>FaceColor</b></td>
+        <td>sets the filled violin body color.</td>
+        <td>Type: color value or color mode keyword. Supported values: short color names, RGB triplet with values in [0,1], hexadecimal color, 'none', 'flat', or 'interp'.</td>
+      </tr>
+      <tr>
+        <td><b>FaceColorMode</b></td>
+        <td>'auto' lets Nelson recompute the paired property; 'manual' preserves the assigned value.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>HandleVisibility</b></td>
+        <td>controls whether handle-search functions can find the object.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'on', 'off', 'callback'.</td>
+      </tr>
+      <tr>
+        <td><b>HitTest</b></td>
+        <td>includes or excludes the object from mouse hit testing.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>Interruptible</b></td>
+        <td>controls whether a running callback can be interrupted.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>LineStyle</b></td>
+        <td>sets the outline and median marker line style.</td>
+        <td>Type: text scalar or character row vector. Supported values: '-', '--', ':', '-.', or 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>LineWidth</b></td>
+        <td>sets the outline and median marker line width.</td>
+        <td>Type: finite numeric scalar. Supported values: positive finite scalar value.</td>
+      </tr>
+      <tr>
+        <td><b>Orientation</b></td>
+        <td>chooses whether values are displayed vertically or horizontally.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'vertical', 'horizontal'.</td>
+      </tr>
+      <tr>
+        <td><b>Parent</b></td>
+        <td>sets the axes that owns the object.</td>
+        <td>Type: graphics object handle scalar. Supported values: axes or hggroup handle.</td>
+      </tr>
+      <tr>
+        <td><b>PickableParts</b></td>
+        <td>controls whether visible or all object parts can be picked.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'visible', 'all', 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>Selected</b></td>
+        <td>marks the object as selected or not selected.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>SelectionHighlight</b></td>
+        <td>controls display of selection handles.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>SeriesIndex</b></td>
+        <td>stores the color-order series index.</td>
+        <td>Type: positive numeric scalar. Supported values: positive finite scalar value.</td>
+      </tr>
+      <tr>
+        <td><b>SourceTable</b></td>
+        <td>stores the table used to create the chart.</td>
+        <td>Type: table or empty value. Supported values: [] or a table supplied to violinplot.</td>
+      </tr>
+      <tr>
+        <td><b>Tag</b></td>
+        <td>stores user-defined text for identifying the object.</td>
+        <td>Type: text value. Supported values: character row vector or string scalar.</td>
+      </tr>
+      <tr>
+        <td><b>Type</b></td>
+        <td>identifies the graphics object type.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'violinplot'.</td>
+      </tr>
+      <tr>
+        <td><b>UserData</b></td>
+        <td>stores user-defined data on the object.</td>
+        <td>Type: any Nelson value. Supported values: any value.</td>
+      </tr>
+      <tr>
+        <td><b>Visible</b></td>
+        <td>shows or hides the object.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>XData</b></td>
+        <td>sets group positions used to place violins.</td>
+        <td>Type: real numeric vector. Supported values: finite numeric values; nonfinite values are ignored for drawing.</td>
+      </tr>
+      <tr>
+        <td><b>XDataMode</b></td>
+        <td>'auto' lets Nelson recompute the paired property; 'manual' preserves the assigned value.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>XVariable</b></td>
+        <td>stores the table variable name used for x data.</td>
+        <td>Type: text value. Supported values: character row vector or string scalar.</td>
+      </tr>
+      <tr>
+        <td><b>YData</b></td>
+        <td>sets values used to compute the distribution.</td>
+        <td>Type: real numeric vector. Supported values: finite numeric values; nonfinite values are ignored for drawing.</td>
+      </tr>
+      <tr>
+        <td><b>YDataMode</b></td>
+        <td>'auto' lets Nelson recompute the paired property; 'manual' preserves the assigned value.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>YVariable</b></td>
+        <td>stores the table variable name used for y data.</td>
+        <td>Type: text value. Supported values: character row vector or string scalar.</td>
+      </tr>
+    </table>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Inspect violinplot properties.</example_item_description>
+      <example_item_data><![CDATA[h = violinplot([1 2 2 3]);
+props = properties(h)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/4_data_distribution_plots/violinplot">violinplot</link></see_also_item>
+    <see_also_item><link linkend="${handle}properties">properties</link></see_also_item>
+  </see_also>
+</xmldoc>

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -14,6 +14,8 @@
 #include "characters_encoding.hpp"
 #include "StringHelpers.hpp"
 #include "EvaluateCommand.hpp"
+#include "ClassdefParser.hpp"
+#include "CompleterHelper.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -21,7 +23,7 @@ wstringVector
 FieldCompleter(const std::wstring& prefix)
 {
     wstringVector res;
-    auto* eval = static_cast<Evaluator*>(NelsonConfiguration::getInstance()->getMainEvaluator());
+    auto* eval = getCompletionEvaluator();
     if (!eval) {
         return res;
     }
@@ -33,33 +35,32 @@ FieldCompleter(const std::wstring& prefix)
         return res;
     }
 
-    std::string variable = utf8prefix.substr(0, lastDotPos);
+    std::string variableExpression = utf8prefix.substr(0, lastDotPos);
     std::string postfix = utf8prefix.substr(lastDotPos + 1);
-    size_t lastCharacterIndex = variable.find_last_of(" ([{,;");
+    std::string variable = getLookupSymbolFromCompletionExpression(variableExpression);
 
-    if (lastCharacterIndex != std::string::npos) {
-        variable = variable.substr(lastCharacterIndex + 1);
-    }
-
-    Exception lastError = eval->getLastErrorException();
+    NelsonException lastError = eval->getLastErrorException();
 
     try {
-        ArrayOfVector variableArray
-            = EvaluateCommand(eval, 1, utf8_to_wstring(variable), std::wstring());
-        if (variableArray.size() != 1) {
+        if (variable == variableExpression && classdefLoadClass(variable)) {
+            return res;
+        }
+
+        ArrayOf variableValue;
+        if (!resolveCompletionExpressionValue(context, eval, variableExpression, variableValue)) {
             return res;
         }
 
         stringVector fielnames;
-        if (variableArray[0].isStruct()) {
-            fielnames = variableArray[0].getFieldNames();
+        if (variableValue.isStruct()) {
+            fielnames = variableValue.fieldNames();
         }
         for (const auto& fieldname : fielnames) {
-            if (StringHelpers::starts_with(fieldname, postfix)) {
+            if (StringHelpers::icontains(fieldname, postfix)) {
                 res.push_back(utf8_to_wstring(fieldname));
             }
         }
-    } catch (const Exception&) {
+    } catch (const NelsonException&) {
         eval->setLastErrorException(lastError);
     }
     return res;

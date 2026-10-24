@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,9 +9,9 @@
 //=============================================================================
 #include "removemoduleBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "RemoveModule.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -24,9 +24,9 @@ Nelson::ModulesManagerGateway::removemoduleBuiltin(
     nargoutcheck(nLhs, 0, 0);
     std::wstring moduleshortname;
     if (argIn[0].isRowVectorCharacterArray()) {
-        moduleshortname = argIn[0].getContentAsWideString();
+        moduleshortname = argIn[0].asWideString();
     } else {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+        Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1), L"string");
     }
     RemoveModule(eval, moduleshortname);
     return retval;

@@ -11,6 +11,7 @@
 #include "jsondecodeBuiltin.hpp"
 #include "jsonencodeBuiltin.hpp"
 #include "jsonprettyprintBuiltin.hpp"
+#include "__jsondecode_columns__Builtin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -20,13 +21,11 @@ static const nlsGateway gateway[] = {
     { "jsondecode", (ptrBuiltin)Nelson::JsonGateway::jsondecodeBuiltin, 1, 1 },
     { "jsonencode", (ptrBuiltin)Nelson::JsonGateway::jsonencodeBuiltin, 1, -1 },
     { "jsonprettyprint", (ptrBuiltin)Nelson::JsonGateway::jsonprettyprintBuiltin, 1, 1 },
+    { "__jsondecode_columns__", (ptrBuiltin)Nelson::JsonGateway::__jsondecode_columns__Builtin, 4,
+        3 },
 };
 //=============================================================================
-NLSGATEWAYFUNC(gateway)
+NLS_GATEWAY_FUNC(gateway)
 //=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+NLS_GATEWAY_REMOVE(gateway)
 //=============================================================================

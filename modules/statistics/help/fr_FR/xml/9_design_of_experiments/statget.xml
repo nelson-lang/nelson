@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>statget</keyword>
+  <short_description>Acceder aux valeurs de champs dans les structures d&apos;options statistiques.</short_description>
+  <syntax>
+    <syntax_item>val = statget(options, field)</syntax_item>
+    <syntax_item>val = statget(options, field, defaultData)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>options</param_name>
+      <param_description>structure scalaire d&apos;options.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>field</param_name>
+      <param_description>nom de champ ou debut unique d&apos;un nom de champ.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>defaultData</param_name>
+      <param_description>valeur retournee lorsque le champ trouve est vide.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>val</param_name>
+      <param_description>valeur du champ, valeur par defaut ou tableau vide lorsque le champ n&apos;est pas trouve de facon unique.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>statget</b> retourne une valeur depuis une structure d&apos;options. Les noms de champs sont compares sans tenir compte de la casse et peuvent etre abreges lorsque l&apos;abreviation est unique.</p>
+  </description>
+  <used_function>
+    <link linkend="${statistics}statset">statset</link>
+    <link linkend="${statistics}kmeans">kmeans</link>
+  </used_function>
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Lire une valeur dans une structure d&apos;options.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[opts = statset('kmeans');
+statget(opts, 'MaxI')]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Retourner une valeur par defaut lorsque le champ est vide.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[opts = statset();
+statget(opts, 'TolX', 1e-6)]]></example_item_data>
+    </example_item>
+  </examples>
+</xmldoc>

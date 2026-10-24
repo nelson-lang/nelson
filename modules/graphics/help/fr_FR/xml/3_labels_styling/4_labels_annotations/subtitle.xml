@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>subtitle</keyword>
+  <short_description>Ajouter un sous-titre.</short_description>
+  <syntax>
+    <syntax_item>subtitle(text)</syntax_item>
+    <syntax_item>subtitle(target, text)</syntax_item>
+    <syntax_item>subtitle(..., propertyName, propertyValue)</syntax_item>
+    <syntax_item>go = subtitle(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>text</param_name>
+      <param_description>Texte a afficher : vecteur de caracteres, chaine scalaire, tableau de chaines ou tableau de cellules de vecteurs de caracteres.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>target</param_name>
+      <param_description>Objet graphique axes ou tiled layout, ou tableau d'objets de la meme classe prise en charge.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName</param_name>
+      <param_description>Nom de propriete de l'objet sous-titre.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyValue</param_name>
+      <param_description>Valeur de propriete de l'objet sous-titre.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>go</param_name>
+      <param_description>Objet graphique de sous-titre, ou tableau d'objets graphiques de sous-titre.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>subtitle</b> ajoute un sous-titre aux axes courants ou a la cible specifiee.</p>
+    <p>Lorsque la cible possede deja un objet texte de sous-titre, <b>subtitle</b> met a jour et renvoie cet objet.</p>
+    <p>Pour les cibles axes, le texte du sous-titre utilise les unites data et suit l'alignement horizontal du titre des axes.</p>
+    <p>Pour les cibles tiled layout, l'objet renvoye expose les proprietes de texte de tiled layout.</p>
+    <p>Les tableaux de chaines et les tableaux de cellules de vecteurs de caracteres sont stockes comme plusieurs lignes de sous-titre.</p>
+    <p>Les paires nom de propriete et valeur sont appliquees a l'objet sous-titre.</p>
+    <p>La propriete <b>Visible</b> est heritee des axes parents lorsqu'un nouvel objet texte de sous-titre est cree.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Ajouter un sous-titre a un graphique.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = figure();
+plot([0 2], [1 5]);
+title('Droite');
+subtitle('Pente = 2, ordonnee a l''origine = 1');]]></example_item_data>
+      <example_item_img src="../../../images/subtitle.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Definir les proprietes du sous-titre.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = figure();
+plot([0 2], [1 5]);
+title('Droite');
+subtitle('Pente = 2, ordonnee a l''origine = 1', 'Color', 'red');]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}3_labels_styling/4_labels_annotations/title">title</link></see_also_item>
+    <see_also_item><link linkend="${graphics}3_labels_styling/4_labels_annotations/text">text</link></see_also_item>
+    <see_also_item><link linkend="${graphics}2_graphics_objects/2_layout_objects/tiledlayout">tiledlayout</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>Version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

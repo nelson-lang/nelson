@@ -16,12 +16,6 @@
     <Filter Include="Libraries Dependencies">
       <UniqueIdentifier>{cdda52de-f4c0-4461-94ba-d25b7b7d0b5a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\QGifImage">
-      <UniqueIdentifier>{a1323783-da0b-48a7-8666-6246263aa158}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\QtGifImage">
-      <UniqueIdentifier>{435dcde4-d517-48c6-af08-f4d4fde49186}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\CMakeLists.txt" />
@@ -35,21 +29,15 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\cpp\QtGifImage\qgifglobal.h">
-      <Filter>Header Files\QtGifImage</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cpp\QtGifImage\qgifimage.h">
-      <Filter>Header Files\QtGifImage</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cpp\QtGifImage\qgifimage_p.h">
-      <Filter>Header Files\QtGifImage</Filter>
-    </ClInclude>
+    <ClInclude Include="..\cpp\RasterAtomicFile.hpp"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\cpp\RasterCodecInternal.hpp"><Filter>Header Files</Filter></ClInclude>
     <ClInclude Include="..\include\nlsGraphics_io_exports.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\ExportGraphics.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\GraphicsClipboard.hpp"><Filter>Header Files</Filter></ClInclude>
     <ClInclude Include="..\include\ImageReader.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -59,12 +47,8 @@
     <ClInclude Include="..\include\ImageFormats.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\cpp\PcxFileHandler.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\cpp\TiffFileHandler.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <ClInclude Include="..\include\RasterCodec.hpp"><Filter>Header Files</Filter></ClInclude>
+    <ClInclude Include="..\include\RasterImage.hpp"><Filter>Header Files</Filter></ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\cpp\dllMain.cpp">
@@ -79,17 +63,20 @@
     <ClCompile Include="..\cpp\ImageWriter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\QtGifImage\qgifimage.cpp">
-      <Filter>Source Files\QGifImage</Filter>
-    </ClCompile>
     <ClCompile Include="..\cpp\ImageFormats.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\PcxFileHandler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\cpp\TiffFileHandler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClCompile Include="..\cpp\GraphicsClipboard.cpp"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\cpp\RasterAtomicFile.cpp"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\cpp\RasterCodecGif.cpp"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\cpp\RasterCodecJpeg.cpp"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\cpp\RasterCodecPcx.cpp"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\cpp\RasterCodecPng.cpp"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\cpp\RasterCodecPnm.cpp"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\cpp\RasterCodecRegistry.cpp"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\cpp\RasterCodecStb.cpp"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\cpp\RasterCodecTiff.cpp"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\cpp\RasterCodecWebp.cpp"><Filter>Source Files</Filter></ClCompile>
+    <ClCompile Include="..\cpp\RasterImage.cpp"><Filter>Source Files</Filter></ClCompile>
   </ItemGroup>
 </Project>

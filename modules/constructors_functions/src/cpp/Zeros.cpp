@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,7 +9,7 @@
 //=============================================================================
 #include "Zeros.hpp"
 #include "Error.hpp"
-#include "PredefinedErrorMessages.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 ArrayOf
@@ -24,13 +24,13 @@ Zeros(Dimensions& dims, NelsonType cl)
 {
     dims.simplify();
     if (dims.isEmpty(false)) {
-        ArrayOf res = ArrayOf::emptyConstructor(dims);
+        ArrayOf res = ArrayOf::empty(dims);
         res.promoteType(cl);
         return res;
     }
     switch (cl) {
     case NLS_LOGICAL: {
-        indexType nbElements = dims.getElementCount();
+        indexType nbElements = dims.elementCount();
         logical* mat = nullptr;
         if (nbElements != 0) {
             mat = static_cast<logical*>(
@@ -39,7 +39,7 @@ Zeros(Dimensions& dims, NelsonType cl)
         return ArrayOf(cl, dims, mat, false);
     } break;
     case NLS_INT8: {
-        indexType nbElements = dims.getElementCount();
+        indexType nbElements = dims.elementCount();
         int8* mat = nullptr;
         if (nbElements != 0) {
             mat = static_cast<int8*>(
@@ -48,7 +48,7 @@ Zeros(Dimensions& dims, NelsonType cl)
         return ArrayOf(cl, dims, mat, false);
     } break;
     case NLS_UINT8: {
-        indexType nbElements = dims.getElementCount();
+        indexType nbElements = dims.elementCount();
         uint8* mat = nullptr;
         if (nbElements != 0) {
             mat = static_cast<uint8*>(
@@ -57,7 +57,7 @@ Zeros(Dimensions& dims, NelsonType cl)
         return ArrayOf(cl, dims, mat, false);
     } break;
     case NLS_INT16: {
-        indexType nbElements = dims.getElementCount();
+        indexType nbElements = dims.elementCount();
         int16* mat = nullptr;
         if (nbElements != 0) {
             mat = static_cast<int16*>(
@@ -66,7 +66,7 @@ Zeros(Dimensions& dims, NelsonType cl)
         return ArrayOf(cl, dims, mat, false);
     } break;
     case NLS_UINT16: {
-        indexType nbElements = dims.getElementCount();
+        indexType nbElements = dims.elementCount();
         uint16* mat = nullptr;
         if (nbElements != 0) {
             mat = static_cast<uint16*>(
@@ -75,7 +75,7 @@ Zeros(Dimensions& dims, NelsonType cl)
         return ArrayOf(cl, dims, mat, false);
     } break;
     case NLS_INT32: {
-        indexType nbElements = dims.getElementCount();
+        indexType nbElements = dims.elementCount();
         int32* mat = nullptr;
         if (nbElements != 0) {
             mat = static_cast<int32*>(
@@ -84,7 +84,7 @@ Zeros(Dimensions& dims, NelsonType cl)
         return ArrayOf(cl, dims, mat, false);
     } break;
     case NLS_UINT32: {
-        indexType nbElements = dims.getElementCount();
+        indexType nbElements = dims.elementCount();
         uint32* mat = nullptr;
         if (nbElements != 0) {
             mat = static_cast<uint32*>(
@@ -93,7 +93,7 @@ Zeros(Dimensions& dims, NelsonType cl)
         return ArrayOf(cl, dims, mat, false);
     } break;
     case NLS_INT64: {
-        indexType nbElements = dims.getElementCount();
+        indexType nbElements = dims.elementCount();
         int64* mat = nullptr;
         if (nbElements != 0) {
             mat = static_cast<int64*>(
@@ -102,7 +102,7 @@ Zeros(Dimensions& dims, NelsonType cl)
         return ArrayOf(cl, dims, mat, false);
     } break;
     case NLS_UINT64: {
-        indexType nbElements = dims.getElementCount();
+        indexType nbElements = dims.elementCount();
         uint64* mat = nullptr;
         if (nbElements != 0) {
             mat = static_cast<uint64*>(
@@ -111,7 +111,7 @@ Zeros(Dimensions& dims, NelsonType cl)
         return ArrayOf(cl, dims, mat, false);
     } break;
     case NLS_SINGLE: {
-        indexType nbElements = dims.getElementCount();
+        indexType nbElements = dims.elementCount();
         single* mat = nullptr;
         if (nbElements != 0) {
             mat = static_cast<single*>(
@@ -120,7 +120,7 @@ Zeros(Dimensions& dims, NelsonType cl)
         return ArrayOf(cl, dims, mat, false);
     } break;
     case NLS_DOUBLE: {
-        indexType nbElements = dims.getElementCount();
+        indexType nbElements = dims.elementCount();
         double* mat = nullptr;
         if (nbElements != 0) {
             mat = static_cast<double*>(
@@ -129,7 +129,7 @@ Zeros(Dimensions& dims, NelsonType cl)
         return ArrayOf(cl, dims, mat, false);
     } break;
     case NLS_SCOMPLEX: {
-        indexType nbElements = dims.getElementCount();
+        indexType nbElements = dims.elementCount();
         single* mat = nullptr;
         if (nbElements != 0) {
             mat = static_cast<single*>(
@@ -138,7 +138,7 @@ Zeros(Dimensions& dims, NelsonType cl)
         return ArrayOf(cl, dims, mat, false);
     } break;
     case NLS_DCOMPLEX: {
-        indexType nbElements = dims.getElementCount();
+        indexType nbElements = dims.elementCount();
         double* mat = nullptr;
         if (nbElements != 0) {
             mat = static_cast<double*>(
@@ -147,7 +147,7 @@ Zeros(Dimensions& dims, NelsonType cl)
         return ArrayOf(cl, dims, mat, false);
     } break;
     default:
-        Error(ERROR_TYPE_NOT_SUPPORTED);
+        Error(L"Nelson:constructors_functions:typeNotSupported", L"Type not supported.");
     }
     return {};
 }

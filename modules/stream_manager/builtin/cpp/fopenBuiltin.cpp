@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -13,6 +13,7 @@
 //=============================================================================
 #include "fopenBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "Warning.hpp"
 #include "File.hpp"
@@ -42,27 +43,32 @@ Fopen(const std::wstring& filename, const std::wstring& mode, const std::wstring
         msg.clear();
     } break;
     case FOPEN_INVALID_NAME: {
-        msg = _W("Invalid name.");
+        msg = resolveMessageTemplate(L"Nelson:stream_manager:invalidName", L"Invalid name.");
     } break;
     case FOPEN_INVALID_MODE: {
-        msg = _W("Invalid file mode.");
+        msg = resolveMessageTemplate(
+            L"Nelson:stream_manager:invalidFileMode", L"Invalid file mode.");
     } break;
     case FOPEN_IMPOSSIBLE_TO_ADD_FILE: {
-        msg = _W("Impossible to add file.");
+        msg = Nelson::resolveMessageTemplate(
+            L"Nelson:stream_manager:impossibleAddFile", L"Impossible to add file.");
     } break;
     case FOPEN_INVALID_MACHINE_FORMAT: {
-        msg = _W("Invalid machine format.");
+        msg = resolveMessageTemplate(
+            L"Nelson:stream_manager:invalidMachineFormatArgument", L"Invalid machine format.");
     } break;
     case FOPEN_INVALID_ENCODING: {
-        msg = _W("Invalid encoding.");
+        msg = resolveMessageTemplate(
+            L"Nelson:stream_manager:invalidEncodingArgument", L"Invalid encoding.");
     } break;
     case FOPEN_CANNOT_OPEN:
     default: {
-        msg = _W("Impossible to open file.");
+        msg = Nelson::resolveMessageTemplate(
+            L"Nelson:stream_manager:cannotOpenFile", L"Cannot open file.");
     } break;
     }
-    retval << ArrayOf::doubleConstructor((double)filepos);
-    retval << ArrayOf::characterArrayConstructor(msg);
+    retval << ArrayOf::doubleScalar((double)filepos);
+    retval << ArrayOf::characterArray(msg);
     return retval;
 }
 //=============================================================================
@@ -82,7 +88,7 @@ FopenAll()
         ArrayOf res = ArrayOf(NLS_DOUBLE, dim, dIDs);
         retval << res;
     } else {
-        retval << ArrayOf::emptyConstructor();
+        retval << ArrayOf::empty();
     }
     return retval;
 }
@@ -100,48 +106,48 @@ Nelson::StreamGateway::fopenBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOf param1 = argIn[0];
     if (argIn.size() == 1) {
         if (param1.isDoubleType()) {
-            int32 iValue = (int32)param1.getContentAsDoubleScalar();
+            int32 iValue = (int32)param1.asDoubleScalar();
             FilesManager* fm
                 = (FilesManager*)(NelsonConfiguration::getInstance()->getFileManager());
             File* _file = fm->getFile(iValue);
             nargoutcheck(nLhs, 0, 4);
             if (_file) {
                 if (nLhs >= 0) {
-                    retval << ArrayOf::characterArrayConstructor(_file->getFileName());
+                    retval << ArrayOf::characterArray(_file->getFileName());
                 }
                 if (nLhs > 1) {
-                    retval << ArrayOf::characterArrayConstructor(_file->getFileMode());
+                    retval << ArrayOf::characterArray(_file->getFileMode());
                 }
                 if (nLhs > 2) {
-                    retval << ArrayOf::characterArrayConstructor(_file->getMachineFormat());
+                    retval << ArrayOf::characterArray(_file->getMachineFormat());
                 }
                 if (nLhs > 3) {
-                    retval << ArrayOf::characterArrayConstructor(_file->getEncoding());
+                    retval << ArrayOf::characterArray(_file->getEncoding());
                 }
             } else {
-                Error(_W("Invalid file identifier."));
+                Error(L"Nelson:stream_manager:invalidFileIdentifier", L"Invalid file identifier.");
             }
             return retval;
         }
     }
-    filename = param1.getContentAsWideString();
+    filename = param1.asWideString();
     if (filename == L"all") {
         return FopenAll();
     }
     if (argIn.size() > 1) {
         ArrayOf param2 = argIn[1];
-        mode = param2.getContentAsWideString();
+        mode = param2.asWideString();
     }
     if (argIn.size() > 2) {
         ArrayOf param3 = argIn[2];
-        machineFormat = param3.getContentAsWideString();
+        machineFormat = param3.asWideString();
         if (machineFormat != L"n" && machineFormat != L"native") {
-            Warning(_W("machine format option ignored."));
+            Warning(L"Nelson:fopen:machineFormatIgnored", L"machine format option ignored.");
         }
     }
     if (argIn.size() > 3) {
         ArrayOf param4 = argIn[3];
-        encoding = param4.getContentAsWideString();
+        encoding = param4.asWideString();
     }
     return Fopen(filename, mode, machineFormat, encoding);
 }

@@ -13,24 +13,28 @@ r1 = fileread(filesrc, 'char');
 r2 = fileread(filesrc, 'cell');
 r3 = fileread(filesrc, 'char', 'unix');
 r4 = fileread(filesrc, 'string');
-assert_isequal(class(r), 'char');
-assert_isequal(class(r1), 'char');
-assert_isequal(r, r1);
-assert_istrue(iscellstr(r2))
-assert_isequal(size(r2), [675 1]);
-assert_isequal(size(r1), [  1     34776]);
-assert_isequal(size(r1), size(r3));
-assert_isequal(size(r4), [675 1]);
-assert_istrue(isa(r4, 'string'));
+asserts.isequal(class(r), 'char');
+asserts.isequal(class(r1), 'char');
+asserts.isequal(r, r1);
+asserts.istrue(iscellstr(r2))
+asserts.isequal(size(r2), [675 1]);
+asserts.isequal(size(r1), [1 34776]);
+asserts.isequal(size(r1), size(r3));
+asserts.isequal(size(r4), [675 1]);
+asserts.istrue(isa(r4, 'string'));
 %=============================================================================
+test_file = [tempname(), '.txt'];
 str = 'живете зело, земля, и иже и како люди';
-filewrite([tempdir(), 'test_fileread.txt'], str, 'native', 'windows-1251');
-T1 = fileread([tempdir(), 'test_fileread.txt'], 'char', 'native', 'windows-1251');
-assert_isequal(T1, str)
+skip_testsuite(iswasm(), ...
+  'WebAssembly reduced characters_encoding backend does not provide Windows-1251 conversion.');
+filewrite(test_file, str, 'native', 'windows-1251');
+T1 = fileread(test_file, 'char', 'native', 'windows-1251');
+asserts.isequal(T1, str)
 %=============================================================================
-T1 = fileread([tempdir(), 'test_fileread.txt'], 'string', 'native', 'windows-1251');
-assert_isequal(T1, string(str));
+T1 = fileread(test_file, 'string', 'native', 'windows-1251');
+asserts.isequal(T1, string(str));
 %=============================================================================
-T2 = fileread([tempdir(), 'test_fileread.txt'], 'string', 'native', 'auto');
-assert_isequal(T2, string(str));
+T2 = fileread(test_file, 'string', 'native', 'auto');
+asserts.isequal(T2, string(str));
+rmfile(test_file);
 %=============================================================================

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,7 +10,7 @@
 #include <cstring>
 #include "LoadMatioCharacters.hpp"
 #include "characters_encoding.hpp"
-#include "Exception.hpp"
+#include "NelsonException.hpp"
 #include "matioHelpers.hpp"
 //=============================================================================
 namespace Nelson {
@@ -27,7 +27,7 @@ LoadMatioCharacters(matvar_t* matVariable, ArrayOf& VariableValue)
     }
     Dimensions dims = getMatVarDimensions(matVariable);
     if (dims.isEmpty(false)) {
-        VariableValue = ArrayOf::emptyConstructor(dims);
+        VariableValue = ArrayOf::empty(dims);
         VariableValue.promoteType(NLS_CHAR);
         bSuccess = true;
     } else {
@@ -62,8 +62,8 @@ LoadMatioCharacters(matvar_t* matVariable, ArrayOf& VariableValue)
         }
         try {
             ptr = ArrayOf::allocateArrayOf(
-                classAsInteger, dims.getElementCount(), stringVector(), false);
-        } catch (Exception&) {
+                classAsInteger, dims.elementCount(), stringVector(), false);
+        } catch (NelsonException&) {
             return false;
         }
         memcpy(ptr, matVariable->data, matVariable->nbytes);
@@ -76,7 +76,7 @@ LoadMatioCharacters(matvar_t* matVariable, ArrayOf& VariableValue)
 bool
 integerToCharType(ArrayOf& AasInteger, bool asUtf, ArrayOf& AasCharType)
 {
-    switch (AasInteger.getDataClass()) {
+    switch (AasInteger.dataClass()) {
     case NLS_UINT8:
     case NLS_UINT16:
     case NLS_UINT32: {

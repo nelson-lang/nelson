@@ -11,6 +11,7 @@
 #include "mex.h"
 #include "MxAsserts.h"
 #include "i18n.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 void
 mexPrintAssertion(const char* test, const char* fname, int linenum, const char* message)
@@ -18,21 +19,30 @@ mexPrintAssertion(const char* test, const char* fname, int linenum, const char* 
     if (test != nullptr && strlen(test) > 0) {
         if ((message != nullptr) && (message[0] != 0)) {
             mexErrMsgIdAndTxt("Nelson:MEX",
-                _("Assertion failed: %s, at line %d of file \"%s\".\n%s\n").c_str(), test, linenum,
-                fname, message);
+                Nelson::resolveMessageTemplate("Nelson:mex:assertionFailedAtLine2",
+                    "Assertion failed: %s, at line %d of file \"%s\".\n%s\n")
+                    .c_str(),
+                test, linenum, fname, message);
         } else {
             mexErrMsgIdAndTxt("Nelson:MEX",
-                _("Assertion failed: %s, at line %d of file \"%s\".\n").c_str(), test, linenum,
-                fname);
+                Nelson::resolveMessageTemplate("Nelson:mex:assertionFailedAtLine",
+                    "Assertion failed: %s, at line %d of file \"%s\".\n")
+                    .c_str(),
+                test, linenum, fname);
         }
     } else {
         if ((message != nullptr) && (message[0] != 0)) {
             mexErrMsgIdAndTxt("Nelson:MEX",
-                _("Assertion failed: at line %d of file \"%s\".\n%s\n").c_str(), linenum, fname,
-                message);
+                Nelson::resolveMessageTemplate("Nelson:mex:assertionFailedAtLine4",
+                    "Assertion failed: at line %d of file \"%s\".\n%s\n")
+                    .c_str(),
+                linenum, fname, message);
         } else {
             mexErrMsgIdAndTxt("Nelson:MEX",
-                _("Assertion failed: at line %d of file \"%s\".\n").c_str(), linenum, fname);
+                Nelson::resolveMessageTemplate("Nelson:mex:assertionFailedAtLine3",
+                    "Assertion failed: at line %d of file \"%s\".\n")
+                    .c_str(),
+                linenum, fname);
         }
     }
 }

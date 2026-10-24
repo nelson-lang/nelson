@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -15,6 +15,7 @@
 #include "nlsBuildConfig.h"
 #include "Convolution2D.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "Decomplexify.hpp"
 #include "complex_multiply.hpp"
@@ -39,7 +40,7 @@ isSupportedShape(const std::wstring& shape)
 static bool
 isSupportedInputTypes(const ArrayOf& A)
 {
-    switch (A.getDataClass()) {
+    switch (A.dataClass()) {
     case NLS_LOGICAL:
     case NLS_UINT8:
     case NLS_INT8:
@@ -68,8 +69,8 @@ computeCommonType(
 {
     intermediateClass = NLS_DOUBLE;
     outClass = NLS_DOUBLE;
-    NelsonType Ain(A.getDataClass());
-    NelsonType Bin(B.getDataClass());
+    NelsonType Ain(A.dataClass());
+    NelsonType Bin(B.dataClass());
     if (Ain == NLS_SINGLE && Bin == NLS_SINGLE) {
         intermediateClass = NLS_SINGLE;
         outClass = NLS_SINGLE;
@@ -160,38 +161,38 @@ Conv2dDispatch(const ArrayOf& X, const ArrayOf& Y, indexType Cm, indexType Cn, i
     ArrayOf res;
     Dimensions dimsRes(Cm, Cn);
 
-    switch (X.getDataClass()) {
+    switch (X.dataClass()) {
     case NLS_DOUBLE: {
-        double* ptr = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, dimsRes.getElementCount());
+        double* ptr = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, dimsRes.elementCount());
         res = ArrayOf(NLS_DOUBLE, dimsRes, ptr);
-        Conv2Real<double>(ptr, (const double*)X.getDataPointer(), (const double*)Y.getDataPointer(),
-            X.getRows(), X.getColumns(), Y.getRows(), Y.getColumns(), Cm, Cn, Cm_offset, Cn_offset);
+        Conv2Real<double>(ptr, (const double*)X.dataPointer(), (const double*)Y.dataPointer(),
+            X.rows(), X.columns(), Y.rows(), Y.columns(), Cm, Cn, Cm_offset, Cn_offset);
     } break;
     case NLS_SINGLE: {
-        single* ptr = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, dimsRes.getElementCount());
+        single* ptr = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, dimsRes.elementCount());
         res = ArrayOf(NLS_SINGLE, dimsRes, ptr);
-        Conv2Real<single>(ptr, (const single*)X.getDataPointer(), (const single*)Y.getDataPointer(),
-            X.getRows(), X.getColumns(), Y.getRows(), Y.getColumns(), Cm, Cn, Cm_offset, Cn_offset);
+        Conv2Real<single>(ptr, (const single*)X.dataPointer(), (const single*)Y.dataPointer(),
+            X.rows(), X.columns(), Y.rows(), Y.columns(), Cm, Cn, Cm_offset, Cn_offset);
     } break;
     case NLS_DCOMPLEX: {
-        void* ptr = ArrayOf::allocateArrayOf(NLS_DCOMPLEX, dimsRes.getElementCount());
+        void* ptr = ArrayOf::allocateArrayOf(NLS_DCOMPLEX, dimsRes.elementCount());
         res = ArrayOf(NLS_DCOMPLEX, dimsRes, ptr);
 
         auto* ptrz = reinterpret_cast<std::complex<double>*>((double*)ptr);
-        auto* ptrX = reinterpret_cast<std::complex<double>*>((double*)X.getDataPointer());
-        auto* ptrY = reinterpret_cast<std::complex<double>*>((double*)Y.getDataPointer());
-        Conv2Complex<double>(ptrz, ptrX, ptrY, X.getRows(), X.getColumns(), Y.getRows(),
-            Y.getColumns(), Cm, Cn, Cm_offset, Cn_offset);
+        auto* ptrX = reinterpret_cast<std::complex<double>*>((double*)X.dataPointer());
+        auto* ptrY = reinterpret_cast<std::complex<double>*>((double*)Y.dataPointer());
+        Conv2Complex<double>(ptrz, ptrX, ptrY, X.rows(), X.columns(), Y.rows(), Y.columns(), Cm, Cn,
+            Cm_offset, Cn_offset);
     } break;
     case NLS_SCOMPLEX: {
-        void* ptr = ArrayOf::allocateArrayOf(NLS_SCOMPLEX, dimsRes.getElementCount());
+        void* ptr = ArrayOf::allocateArrayOf(NLS_SCOMPLEX, dimsRes.elementCount());
         res = ArrayOf(NLS_SCOMPLEX, dimsRes, ptr);
 
         auto* ptrz = reinterpret_cast<std::complex<single>*>((single*)ptr);
-        auto* ptrX = reinterpret_cast<std::complex<single>*>((single*)X.getDataPointer());
-        auto* ptrY = reinterpret_cast<std::complex<single>*>((single*)Y.getDataPointer());
-        Conv2Complex<single>(ptrz, ptrX, ptrY, X.getRows(), X.getColumns(), Y.getRows(),
-            Y.getColumns(), Cm, Cn, Cm_offset, Cn_offset);
+        auto* ptrX = reinterpret_cast<std::complex<single>*>((single*)X.dataPointer());
+        auto* ptrY = reinterpret_cast<std::complex<single>*>((single*)Y.dataPointer());
+        Conv2Complex<single>(ptrz, ptrX, ptrY, X.rows(), X.columns(), Y.rows(), Y.columns(), Cm, Cn,
+            Cm_offset, Cn_offset);
     } break;
     default: {
     } break;
@@ -202,8 +203,8 @@ Conv2dDispatch(const ArrayOf& X, const ArrayOf& Y, indexType Cm, indexType Cn, i
 static ArrayOf
 Conv2dXYFull(const ArrayOf& A, const ArrayOf& B)
 {
-    indexType Cm = A.getRows() + B.getRows() - 1;
-    indexType Cn = A.getColumns() + B.getColumns() - 1;
+    indexType Cm = A.rows() + B.rows() - 1;
+    indexType Cn = A.columns() + B.columns() - 1;
     indexType Cm_offset = 0;
     indexType Cn_offset = 0;
     return Conv2dDispatch(A, B, Cm, Cn, Cm_offset, Cn_offset);
@@ -212,26 +213,26 @@ Conv2dXYFull(const ArrayOf& A, const ArrayOf& B)
 static ArrayOf
 Conv2dXYValid(const ArrayOf& A, const ArrayOf& B)
 {
-    indexType Cm = indexType(A.getRows() - B.getRows() + 1);
-    indexType Cn = indexType(A.getColumns() - B.getColumns() + 1);
+    indexType Cm = indexType(A.rows() - B.rows() + 1);
+    indexType Cn = indexType(A.columns() - B.columns() + 1);
     if ((Cm == 0) || (Cn == 0)) {
         Dimensions dims(Cm, Cn);
-        ArrayOf res = ArrayOf::emptyConstructor(dims);
-        res.promoteType(A.getDataClass());
+        ArrayOf res = ArrayOf::empty(dims);
+        res.promoteType(A.dataClass());
         return res;
     }
-    indexType Cm_offset = indexType(B.getRows() - 1);
-    indexType Cn_offset = indexType(B.getColumns() - 1);
+    indexType Cm_offset = indexType(B.rows() - 1);
+    indexType Cn_offset = indexType(B.columns() - 1);
     return Conv2dDispatch(A, B, Cm, Cn, Cm_offset, Cn_offset);
 }
 //=============================================================================
 static ArrayOf
 Conv2dXYSame(const ArrayOf& A, const ArrayOf& B)
 {
-    indexType Cm = A.getRows();
-    indexType Cn = A.getColumns();
-    indexType Cm_offset = (indexType)round(((double)(B.getRows() - 1) / 2));
-    indexType Cn_offset = (indexType)round(((double)(B.getColumns() - 1) / 2));
+    indexType Cm = A.rows();
+    indexType Cn = A.columns();
+    indexType Cm_offset = (indexType)round(((double)(B.rows() - 1) / 2));
+    indexType Cn_offset = (indexType)round(((double)(B.columns() - 1) / 2));
     return Conv2dDispatch(A, B, Cm, Cn, Cm_offset, Cn_offset);
 }
 //=============================================================================
@@ -241,22 +242,22 @@ Convolution2D(const ArrayOf& A, const ArrayOf& B, const std::wstring& shape, boo
     ArrayOf res;
     needToOverload = true;
     if (!isSupportedShape(shape)) {
-        Error(_W("shape parameter must be 'full', 'same', or 'valid'."),
-            L"Nelson:conv2:unknownShapeParameter");
+        Error(L"Nelson:conv2:unknownShapeParameter",
+            L"shape parameter must be 'full', 'same', or 'valid'.");
     }
     if (!isSupportedInputTypes(A)) {
-        Error(_W("Invalid data type: First argument must be numeric or logical."),
-            L"Nelson:conv2:inputType");
+        Error(L"Nelson:validators:mustBeNumericOrLogical", L"%s must be numeric or logical.",
+            L"First argument");
     }
     if (!isSupportedInputTypes(B)) {
-        Error(_W("Invalid data type: First argument must be numeric or logical."),
-            L"Nelson:conv2:inputType");
+        Error(L"Nelson:validators:mustBeNumericOrLogical", L"%s must be numeric or logical.",
+            L"First argument");
     }
     if (!A.is2D() || !B.is2D()) {
-        Error(_W("N-D arrays are not supported."), L"Nelson:conv2:ndArrayInput");
+        Error(L"Nelson:conv2:ndArrayInput", L"N-D arrays are not supported.");
     }
     if (A.isSparse() || B.isSparse()) {
-        Error(_W("Sparse matrices are not supported."), L"Nelson:conv2:SparseInput");
+        Error(L"Nelson:conv2:SparseInput", L"Sparse matrices are not supported.");
     }
 
     NelsonType intermediateClass;
@@ -265,13 +266,13 @@ Convolution2D(const ArrayOf& A, const ArrayOf& B, const std::wstring& shape, boo
 
     if (A.isEmpty() || B.isEmpty()) {
         needToOverload = false;
-        Dimensions dimsA = A.getDimensions();
-        Dimensions dimsB = B.getDimensions();
-        indexType rows = std::max(A.getRows(), B.getRows());
-        indexType cols = std::max(A.getColumns(), B.getColumns());
+        Dimensions dimsA = A.dimensions();
+        Dimensions dimsB = B.dimensions();
+        indexType rows = std::max(A.rows(), B.rows());
+        indexType cols = std::max(A.columns(), B.columns());
         Dimensions dimsC(rows, cols);
         void* ptr
-            = ArrayOf::allocateArrayOf(outputClass, dimsC.getElementCount(), stringVector(), true);
+            = ArrayOf::allocateArrayOf(outputClass, dimsC.elementCount(), stringVector(), true);
         res = ArrayOf(outputClass, dimsC, ptr);
         return decomplexify(res);
     }
@@ -300,33 +301,33 @@ Convolution2D(const ArrayOf& u, const ArrayOf& v, const ArrayOf& A, const std::w
     ArrayOf res;
     needToOverload = true;
     if (!isSupportedShape(shape)) {
-        Error(_W("shape parameter must be 'full', 'same', or 'valid'."),
-            L"Nelson:conv2:unknownShapeParameter");
+        Error(L"Nelson:conv2:unknownShapeParameter",
+            L"shape parameter must be 'full', 'same', or 'valid'.");
     }
     if (!isSupportedInputTypes(u)) {
-        Error(_W("Invalid data type: First argument must be numeric or logical."),
-            L"Nelson:conv2:inputType");
+        Error(L"Nelson:validators:mustBeNumericOrLogical", L"%s must be numeric or logical.",
+            L"First argument");
     }
     if (!isSupportedInputTypes(v)) {
-        Error(_W("Invalid data type: Second argument must be numeric or logical."),
-            L"Nelson:conv2:inputType");
+        Error(L"Nelson:validators:mustBeNumericOrLogical", L"%s must be numeric or logical.",
+            L"Second argument");
     }
     if (!isSupportedInputTypes(A)) {
-        Error(_W("Invalid data type: Third argument must be numeric or logical."),
-            L"Nelson:conv2:inputType");
+        Error(L"Nelson:validators:mustBeNumericOrLogical", L"%s must be numeric or logical.",
+            L"Third argument");
     }
     if (!u.is2D() || !v.is2D() || !A.is2D()) {
-        Error(_W("N-D arrays are not supported."), L"Nelson:conv2:ndArrayInput");
+        Error(L"Nelson:conv2:ndArrayInput", L"N-D arrays are not supported.");
     }
     if (u.isSparse() || v.isSparse() || A.isSparse()) {
-        Error(_W("Sparse matrices are not supported."), L"Nelson:conv2:SparseInput");
+        Error(L"Nelson:conv2:SparseInput", L"Sparse matrices are not supported.");
     }
 
-    Dimensions newDimsU(u.getElementCount(), 1);
+    Dimensions newDimsU(u.elementCount(), 1);
     ArrayOf U(u);
     U.reshape(newDimsU);
 
-    Dimensions newDimsV(1, v.getElementCount());
+    Dimensions newDimsV(1, v.elementCount());
     ArrayOf V(v);
     V.reshape(newDimsV);
 
@@ -337,5 +338,5 @@ Convolution2D(const ArrayOf& u, const ArrayOf& v, const ArrayOf& A, const std::w
     return res;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

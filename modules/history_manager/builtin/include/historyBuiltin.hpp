@@ -19,7 +19,7 @@ namespace HistoryManagerGateway {
     ArrayOfVector
     historyBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
     //=============================================================================
-};
+} // namespace HistoryManagerGateway
 //=============================================================================
 }; // namespace Nelson
 //=============================================================================

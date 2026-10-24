@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>ismembertol</keyword>
+  <short_description>Members of a set within a tolerance.</short_description>
+  <syntax>
+    <syntax_item>LIA = ismembertol(A, B)</syntax_item>
+    <syntax_item>LIA = ismembertol(A, B, tol)</syntax_item>
+    <syntax_item>[LIA, LOCB] = ismembertol(___)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>numeric array to test.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>B</param_name>
+      <param_description>numeric set to test against.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>tol</param_name>
+      <param_description>nonnegative scalar tolerance. The default is 1e-12 for double and 1e-6 for single inputs. The comparison uses tol scaled by the largest absolute value in A and B.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>LIA</param_name>
+      <param_description>logical array, true where an element of A is within tolerance of some element of B.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>LOCB</param_name>
+      <param_description>lowest index in B of a matching element, or 0 if none.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>ismembertol</b> returns a logical array the same size as A, containing true where the elements of A are within tolerance of the elements of B. Two values u and v are within tolerance if abs(u-v) &lt;= tol*max(abs([A(:);B(:)])).</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description></example_item_description>
+      <example_item_data runnable="cli"><![CDATA[[lia, locb] = ismembertol([1 2 3], [1.0000001 5 3], 1e-6)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${data_analysis}unique">unique</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${data_analysis}intersect">intersect</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

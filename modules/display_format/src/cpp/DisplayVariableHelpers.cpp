@@ -26,8 +26,68 @@
 #include "FormatHex.hpp"
 #include "FormatHelpers.hpp"
 #include "i18n.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+static std::function<bool(const ArrayOf&, std::wstring&)> objectCompactDisplayHook;
+static std::function<bool(const ArrayOf&, Dimensions&)> objectDimensionsHook;
+static std::function<bool(const ArrayOf&, wstringVector&)> objectElementTextsHook;
+//=============================================================================
+static std::wstring
+summarizeNestedCellElement(const ArrayOf& A, size_t beginningLineLength, size_t termWidth,
+    NumericFormatDisplay currentNumericFormat);
+//=============================================================================
+static bool
+isStructOrObject(const ArrayOf& A);
+//=============================================================================
+void
+setObjectCompactDisplayHook(std::function<bool(const ArrayOf&, std::wstring&)> hook)
+{
+    objectCompactDisplayHook = std::move(hook);
+}
+//=============================================================================
+bool
+callObjectCompactDisplayHook(const ArrayOf& A, std::wstring& representation)
+{
+    if (!objectCompactDisplayHook) {
+        return false;
+    }
+    return objectCompactDisplayHook(A, representation);
+}
+//=============================================================================
+void
+setObjectDimensionsHook(std::function<bool(const ArrayOf&, Dimensions&)> hook)
+{
+    objectDimensionsHook = std::move(hook);
+}
+//=============================================================================
+void
+setObjectElementTextsHook(std::function<bool(const ArrayOf&, wstringVector&)> hook)
+{
+    objectElementTextsHook = std::move(hook);
+}
+//=============================================================================
+bool
+callObjectElementTextsHook(const ArrayOf& A, wstringVector& texts)
+{
+    if (!objectElementTextsHook) {
+        return false;
+    }
+    return objectElementTextsHook(A, texts);
+}
+//=============================================================================
+Dimensions
+displayDimensions(const ArrayOf& A)
+{
+    if (objectDimensionsHook && A.isClassType()) {
+        Dimensions dims;
+        if (objectDimensionsHook(A, dims)) {
+            return dims;
+        }
+    }
+    return A.dimensions();
+}
 //=============================================================================
 template <class T>
 void
@@ -62,7 +122,7 @@ getMinMax(T* val, indexType nbElements, T* min, T* max)
 //=============================================================================
 template <class T>
 T
-getMax(T* val, indexType nbElements)
+max(T* val, indexType nbElements)
 {
     T maxValue = val[0];
     T shared_max = maxValue;
@@ -140,12 +200,12 @@ static std::wstring
 getClassAsWideString(const ArrayOf& A, bool isInAcell)
 {
     std::wstring typeAsText;
-    switch (A.getDataClass()) {
+    switch (A.dataClass()) {
     case NLS_GO_HANDLE:
         typeAsText = L"graphics_object";
         break;
     case NLS_HANDLE:
-        typeAsText = utf8_to_wstring(isInAcell ? A.getHandleClassName() : "handle");
+        typeAsText = utf8_to_wstring(isInAcell ? A.handleClassName() : "handle");
         break;
     case NLS_UINT8:
         typeAsText = L"uint8";
@@ -172,7 +232,7 @@ getClassAsWideString(const ArrayOf& A, bool isInAcell)
         typeAsText = L"int64";
         break;
     case NLS_SINGLE:
-        typeAsText = L"single";
+        typeAsText = (A.isSparse() && !isInAcell) ? L"sparse single" : L"single";
         break;
     case NLS_DOUBLE: {
         if (isInAcell) {
@@ -202,12 +262,12 @@ getClassAsWideString(const ArrayOf& A, bool isInAcell)
     case NLS_SCOMPLEX:
         if (isInAcell) {
             typeAsText = L"single";
+        } else if (A.isSparse()) {
+            typeAsText = L"sparse complex single";
+        } else if (A.isEmpty()) {
+            typeAsText = L"complex single";
         } else {
-            if (A.isEmpty()) {
-                typeAsText = L"complex single";
-            } else {
-                typeAsText = L"single";
-            }
+            typeAsText = L"single";
         }
         break;
     case NLS_DCOMPLEX: {
@@ -222,7 +282,7 @@ getClassAsWideString(const ArrayOf& A, bool isInAcell)
                 }
             } else {
                 if (A.isSparse()) {
-                    typeAsText = L"sparse double";
+                    typeAsText = L"sparse complex double";
                 } else {
                     typeAsText = L"double";
                 }
@@ -235,8 +295,9 @@ getClassAsWideString(const ArrayOf& A, bool isInAcell)
     case NLS_FUNCTION_HANDLE: {
         typeAsText = utf8_to_wstring(NLS_FUNCTION_HANDLE_STR);
     } break;
-    case NLS_CLASS_ARRAY: {
-        typeAsText = utf8_to_wstring(A.getClassType());
+    case NLS_CLASS_ARRAY:
+    case NLS_CLASSDEF_ARRAY: {
+        typeAsText = utf8_to_wstring(A.classType());
     } break;
     case NLS_STRUCT_ARRAY: {
         typeAsText = utf8_to_wstring(NLS_STRUCT_ARRAY_STR);
@@ -264,19 +325,19 @@ buildHeader(const ArrayOf& A)
             || A.isGraphicsObject())) {
         msg = L"  " + typeAsText + L"\n";
     } else {
-        std::wstring dimensions = A.getDimensions().toWideString();
+        std::wstring dimensions = A.dimensions().toWideString();
         std::wstring dimensionsForHuman = L"";
-        switch (A.getDataClass()) {
+        switch (A.dataClass()) {
         case NLS_GO_HANDLE: {
             typeAsText = L"[" + typeAsText + L"]";
         } break;
         case NLS_HANDLE: {
-            if (A.getDataPointer() != nullptr) {
-                typeAsText = typeAsText + L" [" + utf8_to_wstring(A.getHandleClassName()) + L"]";
+            if (A.dataPointer() != nullptr) {
+                typeAsText = typeAsText + L" [" + utf8_to_wstring(A.handleClassName()) + L"]";
             }
         } break;
         case NLS_FUNCTION_HANDLE: {
-            stringVector fieldnames = A.getFieldNames();
+            stringVector fieldnames = A.fieldNames();
             bool haveFields = !fieldnames.empty();
             bool isEmpty = A.isEmpty();
             bool isScalar = A.isScalar();
@@ -289,8 +350,8 @@ buildHeader(const ArrayOf& A)
             }
             dimensionsForHuman = isEmpty || !isScalar ? L"array" : L"";
             if (isEmpty) {
-                msg = fmt::format(L"  {} {} {} {} {}", dimensions, L"empty", typeAsText,
-                    dimensionsForHuman, withPart);
+                msg = fmt::format(
+                    L"  {} {} {} {}", dimensions, L"empty", typeAsText, dimensionsForHuman);
             } else if (isScalar) {
                 msg = fmt::format(L"  {} {}", typeAsText, withPart);
             } else {
@@ -300,8 +361,9 @@ buildHeader(const ArrayOf& A)
             msg.append(L"\n");
             return msg;
         } break;
-        case NLS_CLASS_ARRAY: {
-            stringVector fieldnames = A.getFieldNames();
+        case NLS_CLASS_ARRAY:
+        case NLS_CLASSDEF_ARRAY: {
+            stringVector fieldnames = A.fieldNames();
             bool haveFields = !fieldnames.empty();
             bool isEmpty = A.isEmpty();
             bool isScalar = A.isScalar();
@@ -326,7 +388,7 @@ buildHeader(const ArrayOf& A)
             return msg;
         } break;
         case NLS_STRUCT_ARRAY: {
-            stringVector fieldnames = A.getFieldNames();
+            stringVector fieldnames = A.fieldNames();
             bool haveFields = !fieldnames.empty();
             bool isEmpty = A.isEmpty();
             bool isScalar = A.isScalar();
@@ -359,7 +421,7 @@ buildHeader(const ArrayOf& A)
             dimensionsForHuman = _W("array");
         } break;
         default: {
-            if (A.getDimensions().getLength() > 2) {
+            if (A.dimensions().length() > 2) {
                 dimensionsForHuman = _W("array");
             } else if (A.isRowVector()) {
                 dimensionsForHuman = _W("row vector");
@@ -372,6 +434,11 @@ buildHeader(const ArrayOf& A)
         }
         if (!A.isEmpty()) {
             msg = fmt::format(L"  {} {} {}", dimensions, typeAsText, dimensionsForHuman);
+            if (A.isSparse() && A.nonzeros() > 0) {
+                indexType nonzeros = A.nonzeros();
+                msg.append(fmt::format(
+                    L" ({} {})", nonzeros, nonzeros == 1 ? _W("nonzero") : _W("nonzeros")));
+            }
         } else {
             std::wstring empty = _W("empty");
             msg = fmt::format(L"  {} {} {} {}", dimensions, empty, typeAsText, dimensionsForHuman);
@@ -379,6 +446,20 @@ buildHeader(const ArrayOf& A)
         msg.append(L"\n");
     }
     return msg;
+}
+//=============================================================================
+std::wstring
+displayHeaderEqualSign(const ArrayOf& A, bool isPage)
+{
+    switch (A.dataClass()) {
+    case NLS_CELL_ARRAY:
+        return isPage ? L" = " : L" =";
+    case NLS_STRING_ARRAY:
+    case NLS_MISSING_ARRAY:
+        return L" = ";
+    default:
+        return isStructOrObject(A) ? L" = " : L" =";
+    }
 }
 //=============================================================================
 void
@@ -389,17 +470,18 @@ DisplayVariableHeader(Interface* io, const ArrayOf& A, const std::wstring& name,
             && !name.empty()) {
             io->outputMessage(L"\n");
         }
-        bool isNdArrayAndNotEmpty = (A.getDimensions().getLength() > 2) && !A.isEmpty();
+        // an N-D struct array or object is summarized as a whole, other N-D arrays name each page
+        bool namesEachPage = (A.dimensions().length() > 2) && !A.isEmpty() && !isStructOrObject(A);
 
-        if (!name.empty() && !isNdArrayAndNotEmpty) {
-            io->outputMessage(name + L" =\n");
+        if (!name.empty() && !namesEachPage) {
+            io->outputMessage(name + displayHeaderEqualSign(A) + L"\n");
             if (NelsonConfiguration::getInstance()->getLineSpacingDisplay()
                 == NLS_LINE_SPACING_LOOSE) {
                 io->outputMessage(L"\n");
             }
         }
     }
-    switch (A.getDataClass()) {
+    switch (A.dataClass()) {
     case NLS_CHAR: {
         if (!asDisp) {
             bool withType = (A.isEmpty() || !A.isRowVector());
@@ -418,12 +500,14 @@ DisplayVariableHeader(Interface* io, const ArrayOf& A, const std::wstring& name,
                     std::wstring msg = buildHeader(A);
                     io->outputMessage(msg);
                 }
+            } else if (A.isSparse()) {
+                io->outputMessage(buildHeader(A));
             }
         }
     } break;
     case NLS_DCOMPLEX: {
         if (!asDisp) {
-            if (A.isEmpty()) {
+            if (A.isEmpty() || A.isSparse()) {
                 std::wstring msg = buildHeader(A);
                 io->outputMessage(msg);
             }
@@ -443,6 +527,7 @@ DisplayVariableHeader(Interface* io, const ArrayOf& A, const std::wstring& name,
     case NLS_HANDLE:
     case NLS_CELL_ARRAY:
     case NLS_CLASS_ARRAY:
+    case NLS_CLASSDEF_ARRAY:
     case NLS_FUNCTION_HANDLE:
     case NLS_STRUCT_ARRAY:
     case NLS_LOGICAL:
@@ -475,7 +560,7 @@ DisplayVariableFooter(Interface* io, bool asDisp)
 }
 //=============================================================================
 std::wstring
-summarizeStringArray(const ArrayOf& A, size_t beginingLineLength, size_t termWidth)
+summarizeStringArray(const ArrayOf& A, size_t beginningLineLength, size_t termWidth)
 {
     std::wstring str;
     if (A.isEmpty()) {
@@ -485,13 +570,13 @@ summarizeStringArray(const ArrayOf& A, size_t beginingLineLength, size_t termWid
             str = L"<missing>";
         }
     } else {
-        if (A.getDataClass() == NLS_DOUBLE) {
+        if (A.dataClass() == NLS_DOUBLE) {
             str = L"<missing>";
-        } else if (A.getDataClass() == NLS_CHAR) {
-            Dimensions dims = A.getDimensions();
+        } else if (A.dataClass() == NLS_CHAR) {
+            Dimensions dims = A.dimensions();
             if (dims.isRowVector()) {
-                if (dims.getColumns() < static_cast<indexType>(termWidth - 3)) {
-                    std::wstring str = A.getContentAsWideString();
+                if (dims.columns() < static_cast<indexType>(termWidth - 3)) {
+                    std::wstring str = A.asWideString();
                     str = L"\"" + str + L"\"";
                     return str;
                 }
@@ -502,18 +587,14 @@ summarizeStringArray(const ArrayOf& A, size_t beginingLineLength, size_t termWid
     return str;
 }
 //=============================================================================
-/**
- * Print this object when it is an element of a cell array.  This is
- * generally a shorthand summary of the description of the object.
- */
 std::wstring
-summarizeCellEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth,
+summarizeCellEntry(const ArrayOf& A, size_t beginningLineLength, size_t termWidth,
     NumericFormatDisplay currentNumericFormat, bool recursive)
 {
     std::wstring msg;
     if (A.isEmpty()) {
         if (A.isEmpty(true)) {
-            if (A.getDataClass() == NLS_CHAR) {
+            if (A.dataClass() == NLS_CHAR) {
                 msg = L"''";
             } else if (A.isCell()) {
                 msg = L"{}";
@@ -522,36 +603,42 @@ summarizeCellEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth
             }
             return msg;
         }
-        return lightDescription(A, L"{", L"}");
+        if (A.isCell()) {
+            return lightDescription(A, L"{", L"}");
+        }
+        return lightDescription(A, L"[", L"]");
     }
-    switch (A.getDataClass()) {
+    if (A.isSparse() && A.rows() == 1 && A.columns() < termWidth) {
+        // a sparse row reads like its full counterpart: [1 0 2]
+        ArrayOf dense(A);
+        dense.makeDense();
+        return summarizeCellEntry(
+            dense, beginningLineLength, termWidth, currentNumericFormat, recursive);
+    }
+    switch (A.dataClass()) {
     case NLS_MISSING_ARRAY: {
         msg = summarizeCellMissingEntry(
-            A, beginingLineLength, termWidth, currentNumericFormat, true);
+            A, beginningLineLength, termWidth, currentNumericFormat, true);
     } break;
     case NLS_CELL_ARRAY: {
         if (A.isScalar()) {
-            ArrayOf* elements = (ArrayOf*)A.getDataPointer();
+            ArrayOf* elements = (ArrayOf*)A.dataPointer();
             msg = L"{"
-                + summarizeCellEntry(
-                    elements[0], beginingLineLength + 1, termWidth, currentNumericFormat, true)
+                + summarizeNestedCellElement(
+                    elements[0], beginningLineLength + 1, termWidth, currentNumericFormat)
                 + L"}";
         } else if (A.isRowVector()) {
-            ArrayOf* elements = (ArrayOf*)A.getDataPointer();
-            indexType currentLength = beginingLineLength + 2;
+            ArrayOf* elements = (ArrayOf*)A.dataPointer();
+            indexType currentLength = beginningLineLength + 2;
             msg = L"{";
-            for (indexType k = 0; k < A.getElementCount(); ++k) {
+            for (indexType k = 0; k < A.elementCount(); ++k) {
                 if (currentLength + 3 > termWidth) {
                     msg = lightDescription(A, L"{", L"}");
                     break;
                 }
-                if (elements[k].isCell()) {
-                    msg.append(lightDescription(elements[k], L"{", L"}"));
-                } else {
-                    msg.append(summarizeCellEntry(
-                        elements[k], currentLength, termWidth, currentNumericFormat, true));
-                }
-                if (k < A.getElementCount() - 1) {
+                msg.append(summarizeNestedCellElement(
+                    elements[k], currentLength, termWidth, currentNumericFormat));
+                if (k < A.elementCount() - 1) {
                     msg.append(L"  ");
                 }
                 currentLength = msg.size() + 1;
@@ -563,12 +650,12 @@ summarizeCellEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth
     } break;
     case NLS_STRING_ARRAY: {
         msg = summarizeCellStringEntry(
-            A, beginingLineLength, termWidth, currentNumericFormat, true);
+            A, beginningLineLength, termWidth, currentNumericFormat, true);
     } break;
     case NLS_CHAR: {
         if (A.isRowVector()) {
-            if (A.getColumns() < termWidth - beginingLineLength - 3) {
-                msg = L"\'" + A.getContentAsWideString() + L"\'";
+            if (A.columns() < termWidth - beginningLineLength - 3) {
+                msg = L"\'" + A.asWideString() + L"\'";
             } else {
                 msg = lightDescription(A, L"[", L"]");
             }
@@ -577,7 +664,14 @@ summarizeCellEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth
         }
     } break;
     case NLS_CLASS_ARRAY:
-    case NLS_FUNCTION_HANDLE:
+    case NLS_CLASSDEF_ARRAY: {
+        msg = summarizeCellObjectEntry(A, beginningLineLength, termWidth, true);
+    } break;
+    case NLS_FUNCTION_HANDLE: {
+        if (!callObjectCompactDisplayHook(A, msg)) {
+            msg = lightDescription(A, L"[", L"]");
+        }
+    } break;
     case NLS_STRUCT_ARRAY:
     case NLS_GO_HANDLE:
     case NLS_HANDLE: {
@@ -585,55 +679,55 @@ summarizeCellEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth
     } break;
     case NLS_LOGICAL: {
         msg = summarizeCellLogicalEntry(
-            A, beginingLineLength, termWidth, currentNumericFormat, true);
+            A, beginningLineLength, termWidth, currentNumericFormat, true);
     } break;
     case NLS_INT8: {
-        msg = summarizeCellRealEntry<int8>(
-            A, beginingLineLength, termWidth, currentNumericFormat, true);
+        msg = summarizeCellIntegerEntry<int8>(
+            A, beginningLineLength, termWidth, currentNumericFormat, true);
     } break;
     case NLS_UINT8: {
-        msg = summarizeCellRealEntry<uint8>(
-            A, beginingLineLength, termWidth, currentNumericFormat, true);
+        msg = summarizeCellIntegerEntry<uint8>(
+            A, beginningLineLength, termWidth, currentNumericFormat, true);
     } break;
     case NLS_INT16: {
-        msg = summarizeCellRealEntry<int16>(
-            A, beginingLineLength, termWidth, currentNumericFormat, true);
+        msg = summarizeCellIntegerEntry<int16>(
+            A, beginningLineLength, termWidth, currentNumericFormat, true);
     } break;
     case NLS_UINT16: {
-        msg = summarizeCellRealEntry<uint16>(
-            A, beginingLineLength, termWidth, currentNumericFormat, true);
+        msg = summarizeCellIntegerEntry<uint16>(
+            A, beginningLineLength, termWidth, currentNumericFormat, true);
     } break;
     case NLS_INT32: {
-        msg = summarizeCellRealEntry<int32>(
-            A, beginingLineLength, termWidth, currentNumericFormat, true);
+        msg = summarizeCellIntegerEntry<int32>(
+            A, beginningLineLength, termWidth, currentNumericFormat, true);
     } break;
     case NLS_UINT32: {
-        msg = summarizeCellRealEntry<uint32>(
-            A, beginingLineLength, termWidth, currentNumericFormat, true);
+        msg = summarizeCellIntegerEntry<uint32>(
+            A, beginningLineLength, termWidth, currentNumericFormat, true);
     } break;
     case NLS_INT64: {
-        msg = summarizeCellRealEntry<int64>(
-            A, beginingLineLength, termWidth, currentNumericFormat, true);
+        msg = summarizeCellIntegerEntry<int64>(
+            A, beginningLineLength, termWidth, currentNumericFormat, true);
     } break;
     case NLS_UINT64: {
-        msg = summarizeCellRealEntry<uint64>(
-            A, beginingLineLength, termWidth, currentNumericFormat, true);
+        msg = summarizeCellIntegerEntry<uint64>(
+            A, beginningLineLength, termWidth, currentNumericFormat, true);
     } break;
     case NLS_DOUBLE: {
         msg = summarizeCellRealEntry<double>(
-            A, beginingLineLength, termWidth, currentNumericFormat, true);
+            A, beginningLineLength, termWidth, currentNumericFormat, true);
     } break;
     case NLS_DCOMPLEX: {
         msg = summarizeCellComplexEntry<double>(
-            A, beginingLineLength, termWidth, currentNumericFormat, true);
+            A, beginningLineLength, termWidth, currentNumericFormat, true);
     } break;
     case NLS_SINGLE: {
         msg = summarizeCellRealEntry<single>(
-            A, beginingLineLength, termWidth, currentNumericFormat, true);
+            A, beginningLineLength, termWidth, currentNumericFormat, true);
     } break;
     case NLS_SCOMPLEX: {
         msg = summarizeCellComplexEntry<single>(
-            A, beginingLineLength, termWidth, currentNumericFormat, true);
+            A, beginningLineLength, termWidth, currentNumericFormat, true);
     } break;
     default: {
     } break;
@@ -645,7 +739,7 @@ std::wstring
 lightDescription(const ArrayOf& A, const std::wstring& firstChar, const std::wstring& lastChar)
 {
     std::wstring format = L"{}{} {}{}";
-    return fmt::format(format, firstChar, A.getDimensions().toWideString(),
+    return fmt::format(format, firstChar, displayDimensions(A).toWideString(),
         getClassAsWideString(A, true), lastChar);
 }
 //=============================================================================
@@ -654,11 +748,54 @@ columnsHeader(indexType startCol, indexType endCol)
 {
     std::wstring msg;
     if (startCol == endCol) {
-        msg = fmt::format(_W("  Column {0}"), startCol);
+        msg = L"  "
+            + formatI18nMessage(
+                Nelson::resolveMessageTemplate(L"Nelson:display_format:column", L"Column %d"),
+                startCol);
     } else {
-        msg = fmt::format(_W("  Columns {0} through {1}"), startCol, endCol);
+        msg = L"  "
+            + formatI18nMessage(
+                Nelson::resolveMessageTemplate(
+                    L"Nelson:display_format:columnsThrough", L"Columns %d through %d"),
+                startCol, endCol);
     }
     return msg;
+}
+//=============================================================================
+/**
+ * Element of a cell displayed inside a struct field or an object property:
+ * a nested cell is summarized by its size, scalars keep their brackets.
+ * {[1 2]  [3]  []}, {"abc"}, {{1x2 cell}}
+ */
+static std::wstring
+summarizeNestedCellElement(const ArrayOf& A, size_t beginningLineLength, size_t termWidth,
+    NumericFormatDisplay currentNumericFormat)
+{
+    if (A.isCell() && !A.isEmpty()) {
+        return lightDescription(A, L"{", L"}");
+    }
+    std::wstring msg
+        = summarizeCellEntry(A, beginningLineLength, termWidth, currentNumericFormat, true);
+    bool bracketed = A.isNumeric() || A.isLogical() || A.isStringArray() || A.isFunctionHandle();
+    if (bracketed && A.isScalar() && !StringHelpers::starts_with(msg, L"[")) {
+        return L"[" + msg + L"]";
+    }
+    return msg;
+}
+//=============================================================================
+static bool
+isStructOrObject(const ArrayOf& A)
+{
+    switch (A.dataClass()) {
+    case NLS_STRUCT_ARRAY:
+    case NLS_CLASS_ARRAY:
+    case NLS_CLASSDEF_ARRAY:
+    case NLS_HANDLE:
+    case NLS_GO_HANDLE:
+        return true;
+    default:
+        return false;
+    }
 }
 //=============================================================================
 } // namespace Nelson

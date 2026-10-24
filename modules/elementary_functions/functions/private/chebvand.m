@@ -8,46 +8,46 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function C = chebvand(numRows, pointsSeq, className)
-  % Resolve points sequence, determine final numRows/numPoints
-  [pointsRow, numPoints, finalNumRows] = resolve_points_seq(numRows, pointsSeq, className);
-  
-  % Build Chebyshev-Vandermonde matrix
-  C = build_chebvand(finalNumRows, pointsRow, numPoints, className);
-end
-%=============================================================================
-function [pointsRow, numPoints, finalNumRows] = resolve_points_seq(numRows, pointsSeq, className)
   if isempty(pointsSeq)
-    pointsSeq = numRows;
-    square = 1;
+    pointSource = numRows;
+    useSquareOutput = true;
   else
-    square = 0;
+    pointSource = pointsSeq;
+    useSquareOutput = false;
   end
-  numPoints = length(pointsSeq);
-  
+
+  numPoints = length(pointSource);
   if numPoints == 1
-    numPoints = pointsSeq;
-    pointsSeq = linspace(cast(0, className), 1, numPoints);
+    numPoints = pointSource;
+    pointSource = linspace(cast(0, className), 1, numPoints);
   end
-  
-  if square == 1
+
+  if useSquareOutput
     finalNumRows = numPoints;
   else
     finalNumRows = numRows;
   end
-  
-  pointsRow = pointsSeq(:).';
+
+  pointsRow = reshape(pointSource, 1, []);
+  C = chebyshevRows(finalNumRows, pointsRow, className);
 end
 %=============================================================================
-function C = build_chebvand(finalNumRows, pointsRow, numPoints, className)
+function C = chebyshevRows(finalNumRows, pointsRow, className)
+  numPoints = length(pointsRow);
   C = ones(finalNumRows, numPoints, className);
-  
+
   if finalNumRows == 1
     return
   end
-  
-  C(2,:) = pointsRow;
+
+  previousRow = C(1, :);
+  currentRow = pointsRow;
+  C(2, :) = currentRow;
   for idx = 3:finalNumRows
-    C(idx,:) = 2 .* pointsRow .* C(idx-1,:) - C(idx-2,:);
+    nextRow = 2 .* pointsRow .* currentRow - previousRow;
+    C(idx, :) = nextRow;
+    previousRow = currentRow;
+    currentRow = nextRow;
   end
 end
 %=============================================================================

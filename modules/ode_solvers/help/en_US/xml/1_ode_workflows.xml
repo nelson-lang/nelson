@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>ode workflows</keyword>
+  <short_description>ODE examples and object workflow.</short_description>
+  <description>
+    <p>The function workflow returns arrays or a solution structure. The object workflow stores the problem in an <b>ode</b> instance and returns a result object from <b>solve</b>.</p>
+    <table style="width:100%">
+  <tr><th>Workflow</th><th>Main calls</th><th>When to use</th></tr>
+  <tr><td>Function</td><td><b>ode45</b>, <b>ode15s</b>, <b>ode15i</b></td><td>Compact scripts that return arrays or a solution structure.</td></tr>
+  <tr><td>Object</td><td><b>ode</b>, <b>solve</b>, <b>deval</b></td><td>Reusable problem definitions with solver options and result objects.</td></tr>
+  <tr><td>Post-processing</td><td><b>deval</b>, <b>odextend</b></td><td>Interpolate or continue a computed solution.</td></tr>
+</table>
+    <p>Use a solution structure with <b>deval</b> for interpolation and <b>odextend</b> to continue an integration. Use <b>Events</b> to locate zero crossings, <b>Mass</b> for mass matrix systems, and <b>Jacobian</b> to help stiff solvers.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Function workflow with interpolation.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[sol = ode45(@(t,y) -y, [0 1], 1);
+yhalf = deval(sol, 0.5)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Object workflow.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[problem = ode('ODEFcn', @(t,y) -y, 'InitialValue', 1);
+result = solve(problem, 0, 1);
+value = deval(result, 0.5)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Refined output and statistics.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[options = odeset('Refine', 4, 'Stats', 'on');
+[t, y] = ode45(@(t,y) y, [0 1], 1, options)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ode_solvers}ode">ode</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}deval">deval</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}odextend">odextend</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}odeset">odeset</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}ode complex workflow tutorial">ode complex workflow tutorial</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

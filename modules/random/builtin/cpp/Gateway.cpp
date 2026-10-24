@@ -13,16 +13,19 @@
 #include "randiBuiltin.hpp"
 #include "randnBuiltin.hpp"
 #include "rngBuiltin.hpp"
+#include "__rng_eval__Builtin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 const std::wstring gatewayName = L"random";
 //=============================================================================
 static const nlsGateway gateway[] = {
-    { "rand", (ptrBuiltin)Nelson::RandomGateway::randBuiltin, 1, -1, CPP_BUILTIN },
+    { "rand", (ptrBuiltin)Nelson::RandomGateway::randBuiltin, 1, -1, CPP_BUILTIN_WITH_EVALUATOR },
     { "randi", (ptrBuiltin)Nelson::RandomGateway::randiBuiltin, 1, -1, CPP_BUILTIN },
-    { "randn", (ptrBuiltin)Nelson::RandomGateway::randnBuiltin, 1, -1, CPP_BUILTIN },
+    { "randn", (ptrBuiltin)Nelson::RandomGateway::randnBuiltin, 1, -1, CPP_BUILTIN_WITH_EVALUATOR },
     { "rng", (ptrBuiltin)Nelson::RandomGateway::rngBuiltin, 2, 1, CPP_BUILTIN },
+    { "__rng_eval__", (ptrBuiltin)Nelson::RandomGateway::__rng_eval__Builtin, -1, -1,
+        CPP_BUILTIN_WITH_EVALUATOR },
 };
 //=============================================================================
 static bool
@@ -39,11 +42,7 @@ finishRandModule(Nelson::Evaluator* eval)
     return true;
 }
 //=============================================================================
-NLSGATEWAYFUNCEXTENDED(gateway, (void*)initializeRandModule)
+NLS_GATEWAY_FUNC_EXTENDED_LAZY(gateway, (void*)initializeRandModule)
 //=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVEEXTENDED(gateway, (void*)finishRandModule)
-//=============================================================================
-NLSGATEWAYNAME()
+NLS_GATEWAY_REMOVE_EXTENDED(gateway, (void*)finishRandModule)
 //=============================================================================

@@ -8,13 +8,13 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function varargout = properties(obj)
-  props = {'A'; 'B'; 'C'; 'D'; 'E'; 'Ts'; 'TimeUnit'; 'UserData'};
+  props = ltiPropertyNames(class(obj));
   if (nargout == 0)
     currentFormat = format();
     if strcmp(currentFormat.LineSpacing, 'loose')
       disp(' ');
     end
-    disp('Properties for class tf:');
+    disp('Properties for class ss:');
     if strcmp(currentFormat.LineSpacing, 'loose')
       disp(' ');
     end

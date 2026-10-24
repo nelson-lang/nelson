@@ -14,5 +14,5 @@ names = ["Monocycle" "Bicycle" "Tricycle"];
 d = dictionary(wheels, names)
 dict = pyrun("A = d", "A", 'd', d);
 R = dictionary(dict);
-assert_isequal(d, R);
+asserts.isequal(d, R);
 %=============================================================================

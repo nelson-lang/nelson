@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "file": "solve_linear_system.m",
+      "title": "Solve a linear system",
+      "description": "Solve a small symmetric system and verify its residual.",
+      "tags": [
+        "linear-system",
+        "beginner"
+      ],
+      "requirements": []
+    },
+    {
+      "file": "matrix_decompositions.m",
+      "title": "Compare matrix decompositions",
+      "description": "Validate LU, QR and eigenvalue factorizations numerically.",
+      "tags": [
+        "decomposition",
+        "matrix"
+      ],
+      "requirements": []
+    },
+    {
+      "file": "preconditioned_conjugate_gradient.m",
+      "title": {
+        "en_US": "Preconditioned conjugate gradient",
+        "fr_FR": "Gradient conjugué préconditionné"
+      },
+      "description": {
+        "en_US": "Compare an iterative sparse solve with and without incomplete Cholesky preconditioning.",
+        "fr_FR": "Comparer une résolution creuse itérative avec et sans préconditionnement de Cholesky incomplet."
+      },
+      "tags": [
+        "iterative-solver",
+        "sparse",
+        "preconditioning"
+      ],
+      "requirements": []
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -7,8 +7,10 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#include <cmath>
 #include "FindCommonConcatenateType.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "ClassToString.hpp"
 #include "ClassName.hpp"
@@ -19,6 +21,9 @@ static bool
 isObject(const ArrayOf& A);
 static NelsonType
 getConcatenateCommonType(NelsonType type1, NelsonType type2);
+template <class T>
+static bool
+imaginaryPartIsNonZero(const void* data, indexType count, bool isUnsigned);
 //=============================================================================
 bool
 FindCommonConcatenateType(const ArrayOfVector& argIn, NelsonType& commonType, bool& isSparse,
@@ -42,18 +47,14 @@ FindCommonConcatenateType(const ArrayOfVector& argIn, NelsonType& commonType, bo
     }
     if (argIn.size() == 1) {
         if (argIn[0].isClassType()) {
-            typeName = argIn[0].getClassType();
-            commonType = NLS_CLASS_ARRAY;
+            typeName = argIn[0].classType();
+            commonType = argIn[0].dataClass();
             isSparse = false;
             isComplex = false;
             return true;
         }
         if (argIn[0].isHandle()) {
-            if (argIn[0].isEmpty()) {
-                typeName = NLS_HANDLE_STR;
-            } else {
-                typeName = argIn[0].getHandleCategory();
-            }
+            typeName = argIn[0].handleCategory();
             commonType = NLS_HANDLE;
             isSparse = false;
             isComplex = false;
@@ -67,7 +68,7 @@ FindCommonConcatenateType(const ArrayOfVector& argIn, NelsonType& commonType, bo
             return true;
         }
 
-        commonType = argIn[0].getDataClass();
+        commonType = argIn[0].dataClass();
         if (commonType == NLS_DCOMPLEX) {
             commonType = NLS_DOUBLE;
             isComplex = true;
@@ -84,22 +85,18 @@ FindCommonConcatenateType(const ArrayOfVector& argIn, NelsonType& commonType, bo
         return true;
     }
     if (argIn.size() == 2) {
-        if (argIn[0].getDataClass() == argIn[1].getDataClass()) {
+        if (argIn[0].dataClass() == argIn[1].dataClass()) {
             if (argIn[0].isHandle()) {
-                if (argIn[0].isEmpty()) {
-                    typeName = NLS_HANDLE_STR;
-                } else {
-                    typeName = argIn[0].getHandleCategory();
-                }
+                typeName = argIn[0].handleCategory();
                 commonType = NLS_HANDLE;
                 return true;
             }
             if (argIn[0].isClassType()) {
-                typeName = argIn[0].getClassType();
-                commonType = NLS_CLASS_ARRAY;
+                typeName = argIn[0].classType();
+                commonType = argIn[0].dataClass();
                 return true;
             }
-            commonType = argIn[0].getDataClass();
+            commonType = argIn[0].dataClass();
             if (commonType == NLS_DCOMPLEX) {
                 commonType = NLS_DOUBLE;
                 isComplex = true;
@@ -118,9 +115,9 @@ FindCommonConcatenateType(const ArrayOfVector& argIn, NelsonType& commonType, bo
     }
     for (size_t i = 0; i < argIn.size(); i++) {
         if (i == 0) {
-            commonType = argIn[i].getDataClass();
+            commonType = argIn[i].dataClass();
         } else {
-            commonType = getConcatenateCommonType(commonType, argIn[i].getDataClass());
+            commonType = getConcatenateCommonType(commonType, argIn[i].dataClass());
         }
 
         if (charactersOnly && !argIn[i].isCharacterArray()) {
@@ -143,29 +140,20 @@ FindCommonConcatenateType(const ArrayOfVector& argIn, NelsonType& commonType, bo
             haveObject = true;
             break;
         }
+        // An object anywhere in the list decides the dispatch, even after a
+        // string or cell operand (["a" obj] calls the class concatenation).
         if (!haveString && argIn[i].isStringArray()) {
             haveString = true;
-            break;
         }
     }
     isComplex = !realOnly;
-    if (haveString) {
-        typeName = NLS_STRING_ARRAY_STR;
-        commonType = NLS_STRING_ARRAY;
-    } else if (haveCell) {
-        typeName = NLS_CELL_ARRAY_STR;
-        commonType = NLS_CELL_ARRAY;
-    } else if (haveObject) {
+    if (haveObject) {
         // currently, first object type will be used
         // superiorto function need to be added to manage full compatibility
         for (size_t k = 0; k < argIn.size(); k++) {
-            NelsonType currentType = argIn[k].getDataClass();
+            NelsonType currentType = argIn[k].dataClass();
             if (currentType == NLS_HANDLE) {
-                if (argIn[k].isEmpty()) {
-                    typeName = NLS_HANDLE_STR;
-                } else {
-                    typeName = argIn[k].getHandleCategory();
-                }
+                typeName = argIn[k].handleCategory();
                 commonType = NLS_HANDLE;
                 return true;
             }
@@ -176,10 +164,21 @@ FindCommonConcatenateType(const ArrayOfVector& argIn, NelsonType& commonType, bo
             }
             if (currentType == NLS_CLASS_ARRAY) {
                 commonType = NLS_CLASS_ARRAY;
-                typeName = argIn[k].getClassType();
+                typeName = argIn[k].classType();
+                return true;
+            }
+            if (currentType == NLS_CLASSDEF_ARRAY) {
+                commonType = NLS_CLASSDEF_ARRAY;
+                typeName = argIn[k].classType();
                 return true;
             }
         }
+    } else if (haveString) {
+        typeName = NLS_STRING_ARRAY_STR;
+        commonType = NLS_STRING_ARRAY;
+    } else if (haveCell && commonType != NLS_FUNCTION_HANDLE && commonType != NLS_STRUCT_ARRAY) {
+        typeName = NLS_CELL_ARRAY_STR;
+        commonType = NLS_CELL_ARRAY;
     }
     if (commonType == NLS_DCOMPLEX) {
         commonType = NLS_DOUBLE;
@@ -190,20 +189,114 @@ FindCommonConcatenateType(const ArrayOfVector& argIn, NelsonType& commonType, bo
         isComplex = true;
     }
     typeName = ClassToString(commonType);
-    if (haveSparse && (commonType == NLS_DOUBLE || commonType == NLS_LOGICAL)) {
+    if (haveSparse
+        && (commonType == NLS_DOUBLE || commonType == NLS_SINGLE || commonType == NLS_LOGICAL)) {
         typeName = NLS_SPARSE_STR + ClassToString(commonType);
     }
     if (isSparse) {
-        return (
-            commonType == NLS_DOUBLE || commonType == NLS_DCOMPLEX || commonType == NLS_LOGICAL);
+        return commonType == NLS_DOUBLE || commonType == NLS_DCOMPLEX || commonType == NLS_SINGLE
+            || commonType == NLS_SCOMPLEX || commonType == NLS_LOGICAL;
     }
     return (NLS_UNKNOWN != commonType);
+}
+//=============================================================================
+void
+prepareMissingConcatenation(ArrayOfVector& argIn, NelsonType commonType)
+{
+    switch (commonType) {
+    case NLS_DOUBLE:
+    case NLS_SINGLE:
+    case NLS_DCOMPLEX:
+    case NLS_SCOMPLEX: {
+        // A complex operand, even empty, makes the missing values complex:
+        // the empty operand is dropped by the kernel, the missing one is not.
+        bool haveMissing = false;
+        bool haveComplex = false;
+        for (const auto& value : argIn) {
+            haveMissing = haveMissing || value.isMissing();
+            haveComplex = haveComplex || value.isComplex();
+        }
+        if (!haveMissing) {
+            return;
+        }
+        const bool isSingle = (commonType == NLS_SINGLE || commonType == NLS_SCOMPLEX);
+        NelsonType missingType = isSingle ? NLS_SINGLE : NLS_DOUBLE;
+        if (haveComplex) {
+            missingType = isSingle ? NLS_SCOMPLEX : NLS_DCOMPLEX;
+        }
+        for (auto& value : argIn) {
+            if (value.isMissing()) {
+                value.promoteType(missingType);
+            }
+        }
+        return;
+    } break;
+    case NLS_MISSING_ARRAY:
+    case NLS_STRING_ARRAY:
+    case NLS_CLASS_ARRAY:
+    case NLS_CLASSDEF_ARRAY:
+    case NLS_HANDLE:
+    case NLS_GO_HANDLE:
+    case NLS_UNKNOWN: {
+        return;
+    } break;
+    default: {
+    } break;
+    }
+    for (const auto& value : argIn) {
+        if (value.isMissing()) {
+            RaiseError(formatI18nMessage(_("Conversion to %s from missing is not possible."),
+                           ClassToString(commonType)),
+                "Nelson:invalidConversion");
+        }
+    }
+}
+//=============================================================================
+void
+checkComplexIntegerConcatenation(const ArrayOfVector& argIn, NelsonType commonType)
+{
+    if (!IS_INTEGER_TYPE(commonType)) {
+        return;
+    }
+    const bool isUnsigned = IS_UNSIGNED_INTEGER_TYPE(commonType);
+    for (const auto& value : argIn) {
+        if (!value.isComplex() || value.isEmpty() || value.isSparse()) {
+            continue;
+        }
+        const indexType count = value.elementCount();
+        const bool hasImaginaryPart = (value.dataClass() == NLS_SCOMPLEX)
+            ? imaginaryPartIsNonZero<single>(value.dataPointer(), count, isUnsigned)
+            : imaginaryPartIsNonZero<double>(value.dataPointer(), count, isUnsigned);
+        if (hasImaginaryPart) {
+            Error("Nelson:concatenation:complexIntegerUnsupported",
+                "Complex integers are not supported: an integer cannot be concatenated with a "
+                "value that has a nonzero imaginary part.");
+        }
+    }
+}
+//=============================================================================
+template <class T>
+static bool
+imaginaryPartIsNonZero(const void* data, indexType count, bool isUnsigned)
+{
+    const T* values = static_cast<const T*>(data);
+    for (indexType k = 0; k < count; ++k) {
+        const T imaginary = values[2 * k + 1];
+        if (std::isnan(imaginary)) {
+            continue;
+        }
+        const T rounded = std::round(imaginary);
+        if (isUnsigned ? (rounded > 0) : (rounded != 0)) {
+            return true;
+        }
+    }
+    return false;
 }
 //=============================================================================
 static bool
 isObject(const ArrayOf& A)
 {
-    return A.getDataClass() >= NLS_CLASS_ARRAY;
+    return A.dataClass() >= NLS_CLASS_ARRAY;
 }
 //=============================================================================
 static NelsonType
@@ -220,8 +313,19 @@ getConcatenateCommonType(NelsonType type1, NelsonType type2)
         return NLS_HANDLE;
     } else if (type1 == NLS_GO_HANDLE || type2 == NLS_GO_HANDLE) {
         return NLS_GO_HANDLE;
+    } else if ((type1 == NLS_FUNCTION_HANDLE && type2 == NLS_CELL_ARRAY)
+        || (type1 == NLS_CELL_ARRAY && type2 == NLS_FUNCTION_HANDLE)) {
+        // [@f, {}]: the handle wins, a non-empty cell cannot be converted
+        return NLS_FUNCTION_HANDLE;
+    } else if (type1 == NLS_STRUCT_ARRAY && type2 == NLS_CELL_ARRAY) {
+        // [s, {}]: a struct before any cell wins, a non-empty cell cannot be converted
+        return NLS_STRUCT_ARRAY;
     } else if (type1 == NLS_CELL_ARRAY || type2 == NLS_CELL_ARRAY) {
         return NLS_CELL_ARRAY;
+    } else if (type1 == NLS_CLASSDEF_ARRAY || type2 == NLS_CLASSDEF_ARRAY) {
+        return NLS_CLASSDEF_ARRAY;
+    } else if (type1 == NLS_FUNCTION_HANDLE || type2 == NLS_FUNCTION_HANDLE) {
+        return NLS_FUNCTION_HANDLE;
     } else if (type1 == NLS_STRUCT_ARRAY || type2 == NLS_STRUCT_ARRAY) {
         return NLS_STRUCT_ARRAY;
     } else {
@@ -268,4 +372,5 @@ getConcatenateCommonType(NelsonType type1, NelsonType type2)
     return NLS_UNKNOWN;
 }
 //=============================================================================
-}
+} // namespace Nelson
+//=============================================================================

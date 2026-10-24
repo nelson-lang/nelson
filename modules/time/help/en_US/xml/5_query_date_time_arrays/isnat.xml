@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>isnat</keyword>
+  <short_description>Test datetime values for not-a-time elements.</short_description>
+  <syntax>
+    <syntax_item>tf = isnat(t)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>inputs</param_name>
+      <param_description>A datetime array.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>output</param_name>
+      <param_description>A logical array with true where datetime serial values are NaN.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Test datetime values for not-a-time elements.</p>
+    <p>isnat rejects non-datetime input. It is the datetime-specific missing-value test and preserves the shape of the datetime data.</p>
+    <p>Array-valued inputs keep their data shape when the operation supports arrays. Scalar operands are expanded where the implementation defines scalar expansion.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Basic usage.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[t = [datetime(2024,1,1), NaT]
+isnat(t)
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${time}datetime">datetime</link></see_also_item>
+    <see_also_item><link linkend="${time}duration">duration</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

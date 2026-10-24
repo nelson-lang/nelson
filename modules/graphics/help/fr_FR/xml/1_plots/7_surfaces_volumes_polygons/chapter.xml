@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>graphics</module_name>
+  <chapter>Surfaces, volumes et polygones</chapter>
+  <chapter_description>
+    <p>Fonctions pour les surfaces, maillages, volumes, zones remplies et graphiques polygonaux.</p>
+  </chapter_description>
+</xmldoc>

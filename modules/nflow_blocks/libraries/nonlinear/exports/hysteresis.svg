@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="306.5" height="256.5" viewBox="-153.25 -153.25 306.5 256.5">
+  <rect x="-153.25" y="-153.25" width="306.5" height="256.5" rx="48.735" fill="#FAECE7" stroke="#F5C4B3" stroke-width="3.25"/>
+  <g transform="matrix(1 0 0 -1 0 0)">
+    <rect x="-100" y="-100" width="200" height="200" fill="#F5C4B3" stroke="#712B13" stroke-width="3.25"/>
+    <g transform="translate(0,130) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32" fill="#712B13">Relay</text></g>
+    <polygon points="-80,90 -88,68 -72,68 -80,90" fill="#F5C4B3" stroke="#F5C4B3" stroke-width="3.25" stroke-linejoin="round"/>
+    <polyline points="-80,68 -80,-29" fill="none" stroke="#F5C4B3" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="92,-29 70,-21 70,-37 92,-29" fill="#F5C4B3" stroke="#F5C4B3" stroke-width="3.25" stroke-linejoin="round"/>
+    <polyline points="-79,-29 84,-29" fill="none" stroke="#F5C4B3" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-79,-29 41,-29" fill="none" stroke="#712B13" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-15,-21 1,-29 -15,-36" fill="none" stroke="#712B13" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="41,51 41,-29" fill="none" stroke="#712B13" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="33,3 41,22 50,3" fill="none" stroke="#712B13" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-49,51 81,51" fill="none" stroke="#712B13" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-4,59 -19,51 -4,43" fill="none" stroke="#712B13" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-59,29 -49,11 -39,29" fill="none" stroke="#712B13" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-49,51 -49,-29" fill="none" stroke="#712B13" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <g transform="translate(-50.5,-70.5) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="34.4" fill="#712B13">uLow</text></g>
+    <g transform="translate(46.5,-70.5) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="34.4" fill="#712B13">uHigh</text></g>
+    <rect x="-91" y="-92" width="83" height="43" fill="none" stroke="#F5C4B3" stroke-width="3.25"/>
+    <polyline points="-49,-29 -49,-49" fill="none" stroke="#F5C4B3" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="2" y="-92" width="89" height="43" fill="none" stroke="#F5C4B3" stroke-width="3.25"/>
+    <polyline points="41,-29 41,-49" fill="none" stroke="#F5C4B3" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

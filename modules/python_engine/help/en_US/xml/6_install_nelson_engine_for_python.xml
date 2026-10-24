@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>Install Nelson Engine API for Python</keyword>
+  <short_description>Install the Python package that provides nelson.engine.</short_description>
+  <syntax>
+    <syntax_item>python -m pip install path/to/nelson/modules/python_engine/resources/python</syntax_item>
+    <syntax_item>python -m pip install --no-build-isolation path/to/nelson/modules/python_engine/resources/python</syntax_item>
+    <syntax_item>python -m pip install -e path/to/nelson/modules/python_engine/resources/python</syntax_item>
+  </syntax>
+  <description>
+    <p>
+      The Nelson Engine API for Python is distributed as a Python package named
+      <b>nelson</b>. It provides <b>nelson.engine</b> and the Nelson-compatible
+      Python array classes.</p>
+    <p>
+      Install the package into the Python environment that will call Nelson. From
+      a Nelson source or build tree, the package directory is
+      <b>modules/python_engine/resources/python</b>.</p>
+    <p>
+      The Python package contains the Python API only. The native Nelson engine
+      library must still be available from a Nelson installation or build output.
+      If automatic discovery fails, set <b>NELSON_ROOT</b> to the Nelson root
+      directory, or set <b>NELSON_ENGINE_LIBRARY</b> to the full path of the
+      engine library.</p>
+    <p>
+      On Windows build trees, the engine library is commonly
+      <b>bin/x64/libnlsEngine.dll</b>. On Linux it is commonly
+      <b>libnlsEngine.so</b>, and on macOS it is commonly
+      <b>libnlsEngine.dylib</b>.</p>
+    <p>
+      Optional packages such as NumPy and pandas are not required to import the
+      engine package, but they enable higher fidelity conversion for arrays and
+      tables.</p>
+    <p>
+      If the Python environment has no network access during installation, first
+      ensure that <b>setuptools</b> and <b>wheel</b> are already installed, then
+      use <b>--no-build-isolation</b> so pip does not try to download build
+      dependencies into a temporary build environment.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>powershell</example_item_type>
+      <example_item_description>Install from a Windows Nelson build tree.</example_item_description>
+      <example_item_data><![CDATA[cd D:\Developpements\Github\nelson-lang\nelson
+python -m pip install .\modules\python_engine\resources\python]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>powershell</example_item_type>
+      <example_item_description>Install in editable mode for development.</example_item_description>
+      <example_item_data><![CDATA[cd D:\Developpements\Github\nelson-lang\nelson
+python -m pip install -e .\modules\python_engine\resources\python]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>powershell</example_item_type>
+      <example_item_description>Install without build isolation in an offline environment.</example_item_description>
+      <example_item_data><![CDATA[python -m pip install setuptools wheel
+cd D:\Developpements\Github\nelson-lang\nelson
+python -m pip install --no-build-isolation .\modules\python_engine\resources\python]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>powershell</example_item_type>
+      <example_item_description>Use the installed package from another folder.</example_item_description>
+      <example_item_data><![CDATA[$env:NELSON_ROOT = "D:\Developpements\Github\nelson-lang\nelson"
+python -c "import nelson.engine; eng = nelson.engine.start_nelson(); print(eng.sqrt(4.0)); eng.quit()"]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>powershell</example_item_type>
+      <example_item_description>Point directly to the engine library.</example_item_description>
+      <example_item_data><![CDATA[$env:NELSON_ENGINE_LIBRARY = "D:\Developpements\Github\nelson-lang\nelson\bin\x64\libnlsEngine.dll"
+python -c "import nelson.engine; eng = nelson.engine.start_nelson(); print(eng.sqrt(4.0)); eng.quit()"]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>bash</example_item_type>
+      <example_item_description>Install and use the package on Linux or macOS.</example_item_description>
+      <example_item_data><![CDATA[python -m pip install /path/to/nelson/modules/python_engine/resources/python
+export NELSON_ROOT=/path/to/nelson
+python -c "import nelson.engine; eng = nelson.engine.start_nelson(); print(eng.sqrt(4.0)); eng.quit()"]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>bash</example_item_type>
+      <example_item_description>Install optional conversion dependencies.</example_item_description>
+      <example_item_data><![CDATA[python -m pip install numpy pandas]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${python_engine}5_call_nelson_from_python">Call Nelson from Python</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${python_engine}pyenv">pyenv</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>Nelson Engine API for Python installation help added.</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "__surf__Builtin.hpp"
+#include "GOHelpers.hpp"
 #include "GOConstructorHelpers.hpp"
 #include "GOSurface.hpp"
 //=============================================================================
@@ -19,9 +20,9 @@ ArrayOfVector
 __surf__Builtin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    retval << ArrayOf::graphicsObjectConstructor(GOCommonConstructorHelper(new GOSurface, argIn));
+    retval << graphicsObjectHandle(GOCommonConstructorHelper(new GOSurface, argIn));
     return retval;
 }
 //=============================================================================
-}
+} // namespace Nelson::GraphicsGateway
 //=============================================================================

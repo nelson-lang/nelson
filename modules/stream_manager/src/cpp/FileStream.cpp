@@ -13,6 +13,7 @@
 //=============================================================================
 #include "FileStream.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
@@ -26,7 +27,7 @@ FileStream::FileStream(const std::wstring& filename, const std::wstring& accessm
     fp = fopen(wstring_to_utf8(filename).c_str(), wstring_to_utf8(accessmode).c_str());
 #endif
     if (fp == nullptr) {
-        Error(_W("Unable to open file: ") + filename);
+        Error(L"Nelson:stream_manager:cannotOpenNamedFile", L"Cannot open file: %s", filename);
     }
     autoclose = true;
 }
@@ -56,8 +57,7 @@ void
 FileStream::readBytes(void* data, int len)
 {
     if (fp && (fread(data, sizeof(char), len, fp) != static_cast<size_t>(len))) {
-        // Optional: Log or handle the incomplete read
-        // This avoids ignoring the result outright
+        // A short read is ignored on purpose.
     }
 }
 //=============================================================================

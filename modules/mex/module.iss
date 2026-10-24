@@ -23,16 +23,10 @@ Source: {#RootPath}modules\{#MODULE_NAME}\etc\finish.m; DestDir: {app}\modules\{
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\functions\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\;Components: {#COMPONENT_DYNAMIC_LINK} and {#COMPONENT_MEX};
 ;==============================================================================
+Source: {#RootPath}modules\{#MODULE_NAME}\examples\*; DestDir: {app}\modules\{#MODULE_NAME}\examples\; Flags: recursesubdirs;Components: {#COMPONENT_DYNAMIC_LINK} and {#COMPONENT_MEX};
+;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\help\*.nhz; DestDir: {app}\modules\{#MODULE_NAME}\help\; Flags: recursesubdirs;Components: {#COMPONENT_DYNAMIC_LINK} and {#COMPONENT_MEX} and {#COMPONENT_HELP_FILES};
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.m; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs;Components: {#COMPONENT_TESTS_MANAGER} and {#COMPONENT_DYNAMIC_LINK} and {#COMPONENT_MEX} and {#COMPONENT_UNIT_TESTS};
 Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.c; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs;Components: {#COMPONENT_TESTS_MANAGER} and {#COMPONENT_DYNAMIC_LINK} and {#COMPONENT_MEX} and {#COMPONENT_UNIT_TESTS};
-;==============================================================================
-Source: {#RootPath}modules\{#MODULE_NAME}\examples\*.m; DestDir: {app}\modules\{#MODULE_NAME}\examples\;Components: {#COMPONENT_DYNAMIC_LINK} and {#COMPONENT_MEX};
-Source: {#RootPath}modules\{#MODULE_NAME}\examples\*.c; DestDir: {app}\modules\{#MODULE_NAME}\examples\;Components: {#COMPONENT_DYNAMIC_LINK} and {#COMPONENT_MEX};
-;==============================================================================
-Source: {#RootPath}modules\{#MODULE_NAME}\examples\rust-mex-builder\README.md; DestDir: {app}\modules\{#MODULE_NAME}\examples\rust-mex-builder\;Components: {#COMPONENT_DYNAMIC_LINK} and {#COMPONENT_MEX};
-Source: {#RootPath}modules\{#MODULE_NAME}\examples\rust-mex-builder\helloworld\Cargo.toml; DestDir: {app}\modules\{#MODULE_NAME}\examples\rust-mex-builder\helloworld\;Components: {#COMPONENT_DYNAMIC_LINK} and {#COMPONENT_MEX};
-Source: {#RootPath}modules\{#MODULE_NAME}\examples\rust-mex-builder\helloworld\Build.template; DestDir: {app}\modules\{#MODULE_NAME}\examples\rust-mex-builder\helloworld\;Components: {#COMPONENT_DYNAMIC_LINK} and {#COMPONENT_MEX};
-Source: {#RootPath}modules\{#MODULE_NAME}\examples\rust-mex-builder\helloworld\src\lib.rs; DestDir: {app}\modules\{#MODULE_NAME}\examples\rust-mex-builder\helloworld\src\;Components: {#COMPONENT_DYNAMIC_LINK} and {#COMPONENT_MEX};
 ;==============================================================================

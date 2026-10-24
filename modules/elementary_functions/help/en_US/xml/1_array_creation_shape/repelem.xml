@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>repelem</keyword>
+  <short_description>Repeat copies of array elements.</short_description>
+  <syntax>
+    <syntax_item>B = repelem(V, n)</syntax_item>
+    <syntax_item>B = repelem(V, r)</syntax_item>
+    <syntax_item>B = repelem(A, r, c)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>V</param_name>
+      <param_description>vector.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>matrix.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>n</param_name>
+      <param_description>repetition count: scalar integer.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>r, c</param_name>
+      <param_description>repetition counts: scalar integer or vector.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>B</param_name>
+      <param_description>result: vector or matrix.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>repelem(V, n)</b> repeats each element of vector <b>V</b> <b>n</b> times.</p>
+    <p><b>repelem(V, r)</b> uses a vector <b>r</b> to repeat element <b>V(i)</b> exactly <b>r(i)</b> times.</p>
+    <p><b>repelem(A, r, c)</b> repeats matrix rows <b>r</b> times and columns <b>c</b> times.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[repelem([1 2 3], 2)
+repelem([1 2 3], [1 2 3])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="repmat">repmat</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

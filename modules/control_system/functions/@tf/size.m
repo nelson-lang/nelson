@@ -10,7 +10,7 @@
 function varargout = size(varargin)
   narginchk(1, 2);
   nargoutchk(0, 2);
-  [m, n] =  size(varargin{1}.Numerator);
+  [m, n] = size(varargin{1}.Numerator);
   if (nargout == 0 && nargin == 1)
     disp(sprintf(_('Transfer function with %d outputs and %d inputs.'), m, n));
   else
@@ -24,18 +24,18 @@ function varargout = size(varargin)
     else
       pos = varargin{2};
       if (pos < 1)
-        error(_('Second argument must be a positive integer.'));
+        error('Nelson:validators:mustBePositiveInteger', '%s must be a positive integer.', 'Second argument');
       end
       switch pos
-        case  1
+        case 1
           varargout{1} = m;
         case 2
           varargout{1} = n;
         otherwise
           varargout{1} = 1;
-        end
       end
     end
   end
-  %=============================================================================
-  
+end
+%=============================================================================
+

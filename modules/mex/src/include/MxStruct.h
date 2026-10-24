@@ -38,6 +38,10 @@ extern "C"
     mxGetFieldByNumber(const mxArray* pm, mwIndex index, int fieldnumber);
     //=============================================================================
     NLSMEX_IMPEXP
+    mxArray*
+    mxGetField(const mxArray* pm, mwIndex index, const char* fieldname);
+    //=============================================================================
+    NLSMEX_IMPEXP
     void
     mxSetField(mxArray* pm, mwIndex index, const char* fieldname, mxArray* pvalue);
     //=============================================================================

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>parallelplot</keyword>
+  <short_description>Display parallel coordinates plot.</short_description>
+  <syntax>
+    <syntax_item>parallelplot(X)</syntax_item>
+    <syntax_item>parallelplot(T)</syntax_item>
+    <syntax_item>parallelplot(T, &apos;CoordinateVariables&apos;, variables)</syntax_item>
+    <syntax_item>parallelplot(..., &apos;GroupData&apos;, group)</syntax_item>
+    <syntax_item>parallelplot(..., &apos;GroupVariable&apos;, groupVariable)</syntax_item>
+    <syntax_item>parallelplot(..., &apos;CoordinateTickLabels&apos;, labels)</syntax_item>
+    <syntax_item>h = parallelplot(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>parallelplot</b> displays rows of a numeric matrix or numeric table variables as parallel coordinate lines.</p>
+    <p>The returned object has type <b>parallelplot</b>. See <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.parallelplot.properties">parallelplot properties</link> for the complete property list.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Plot matrix rows as parallel coordinates.</example_item_description>
+      <example_item_data><![CDATA[X = [1 10 100; 2 20 50; 3 30 0; 4 15 70];
+parallelplot(X, 'CoordinateTickLabels', {'A', 'B', 'C'});]]></example_item_data>
+      <example_item_img src="../../../../images/parallelplot_1.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Plot selected table variables and group rows by a table variable.</example_item_description>
+      <example_item_data><![CDATA[T = table([1; 2; 3], [4; 5; 6], {'a'; 'a'; 'b'}, 'VariableNames', {'A', 'B', 'G'});
+parallelplot(T, 'CoordinateVariables', {'A', 'B'}, 'GroupVariable', 'G');]]></example_item_data>
+      <example_item_img src="../../../../images/parallelplot_2.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/4_data_distribution_plots/plotmatrix">plotmatrix</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/4_data_distribution_plots/stackedplot">stackedplot</link></see_also_item>
+    <see_also_item><link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.parallelplot.properties">parallelplot properties</link></see_also_item>
+    <see_also_item><link linkend="${table}table">table</link></see_also_item>
+  </see_also>
+</xmldoc>

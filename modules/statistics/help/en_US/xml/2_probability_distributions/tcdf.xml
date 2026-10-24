@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>tcdf</keyword>
+  <short_description>Student t cumulative distribution function</short_description>
+  <syntax>
+    <syntax_item>p = tcdf(x, v)</syntax_item>
+    <syntax_item>p = tcdf(x, v, &apos;upper&apos;)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>x</param_name>
+      <param_description>real numeric array: values where the distribution is evaluated.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>v</param_name>
+      <param_description>positive real numeric array or scalar: degrees of freedom.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>p</param_name>
+      <param_description>cumulative probabilities or upper-tail probabilities.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>tcdf</b> computes lower-tail Student t probabilities by default and upper-tail probabilities when <b>&apos;upper&apos;</b> is specified.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[x = [-3 -1 0 1 3];
+p = tcdf(x, 5);
+q = tcdf(x, 5, 'upper');]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${statistics}tpdf">tpdf</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}tinv">tinv</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>extractevents</keyword>
+  <short_description>Extract an event table from rows of a timetable.</short_description>
+  <syntax>
+    <syntax_item>ET = extractevents(TT, rows)</syntax_item>
+    <syntax_item>ET = extractevents(TT, labels)</syntax_item>
+    <syntax_item>ET = extractevents(..., Name, Value)</syntax_item>
+    <syntax_item>[ET, TT2] = extractevents(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>TT</param_name><param_description>Input timetable.</param_description></param_input_item>
+    <param_input_item><param_name>rows</param_name><param_description>Rows of <b>TT</b>: row numbers, logical mask, row times (datetime or duration), timerange or ':'.</param_description></param_input_item>
+    <param_input_item><param_name>labels</param_name><param_description>categorical vector with one element per row of <b>TT</b>: the defined elements are the labels of the events, the rows with &lt;undefined&gt; are not events.</param_description></param_input_item>
+    <param_input_item><param_name>Name, Value</param_name><param_description><b>EventLabels</b>, <b>EventLengths</b>, <b>EventEnds</b>: values (scalar or one per event); <b>EventLabelsVariable</b>, <b>EventLengthsVariable</b>, <b>EventEndsVariable</b>: variable of <b>TT</b> holding them; <b>EventDataVariables</b>: variables of <b>TT</b> copied to the event table; <b>PreserveEventVariables</b>: true to keep these variables in <b>TT2</b> (default false).</param_description></param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>ET</param_name><param_description>Event table: the row times of the selected rows and the event variables.</param_description></param_output_item>
+    <param_output_item><param_name>TT2</param_name><param_description>Copy of <b>TT</b> without the variables copied to <b>ET</b>, unless <b>PreserveEventVariables</b> is true.</param_description></param_output_item>
+  </param_output>
+  <description>
+    <p><b>extractevents</b> creates an event table from rows of a timetable. Only the variables named by the options are copied: the event lengths or ends variable first, then the event labels variable, then the data variables, then the variables made from the <b>EventLabels</b>, <b>EventLengths</b> and <b>EventEnds</b> values.</p>
+    <p>An event variable cannot also be listed in <b>EventDataVariables</b>. <b>PreserveEventVariables</b> requires at least one variable option and the second output.</p>
+    <p>To read the event table attached to a timetable, use <b>TT.Properties.Events</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_data runnable="cli"><![CDATA[TT = timetable(seconds([1; 2; 3; 4]), [10; 20; 30; 40], ["a"; "b"; "c"; "d"], 'VariableNames', {'A', 'L'});
+ET = extractevents(TT, [2 4], 'EventLabelsVariable', 'L')
+[ET, TT2] = extractevents(TT, timerange(seconds(2), seconds(4)), 'EventDataVariables', 'A')
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_data runnable="cli"><![CDATA[TT = timetable(seconds([1; 2; 3; 4]), [10; 20; 30; 40], 'VariableNames', {'A'});
+ET = extractevents(TT, categorical(["start"; ""; ""; "stop"]))
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${table}syncevents">syncevents</link></see_also_item>
+    <see_also_item><link linkend="${table}eventtable">eventtable</link></see_also_item>
+    <see_also_item><link linkend="${table}timetable">timetable</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item><history_version>2.0.0</history_version><history_description>initial version</history_description></history_item>
+  </history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

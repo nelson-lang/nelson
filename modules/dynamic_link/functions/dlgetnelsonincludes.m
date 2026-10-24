@@ -8,35 +8,38 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function c = dlgetnelsonincludes()
+  % Modules whose public headers form the Nelson C++ SDK used to build a
+  % builtin gateway (some, like commons and nelson_manager, are support
+  % libraries rather than loadable modules, so their path is derived from the
+  % modules root instead of modulepath()).
+  sdkModules = {'interpreter', 'types', 'error_manager', 'i18n', ...
+    'characters_encoding', 'stream_manager', 'overload', 'commons', ...
+    'nelson_manager', 'display_format', 'handle'};
   if isdir([modulepath('interpreter'), '/src/include'])
-    c = {[modulepath('interpreter'), '/src/include']; ...
-    [modulepath('types'), '/src/include']; ...
-    [modulepath('error_manager'), '/src/include']; ...
-    [modulepath('i18n'), '/src/include']; ...
-    [modulepath('stream_manager'), '/src/include']};
-    
+    modulesDir = fullpath([modulepath('interpreter'), '/..']);
+    c = {};
+    for k = 1:numel(sdkModules)
+      c = [c; [modulesDir, '/', sdkModules{k}, '/src/include']];
+    end
     if (ismodule('f2c'))
-      c = [c; [modulepath('f2c'), '/src/include']];
+      c = [c; [modulesDir, '/f2c/src/include']];
     end
     if (ismodule('validators'))
-      c = [c; [modulepath('validators'), '/src/include']];
+      c = [c; [modulesDir, '/validators/src/include']];
     end
   else
     if (isdir([modulepath('nelson', 'builtin'), '/../../include/Nelson/interpreter']))
       includeRootPath = fullpath([modulepath('nelson', 'builtin'), '/../../include/Nelson/']);
-      c = {[includeRootPath, '/interpreter']; ...
-      [includeRootPath, '/types']; ...
-      [includeRootPath, '/error_manager']; ...
-      [includeRootPath, '/i18n']; ...
-      [includeRootPath, '/stream_manager']};
-      
+      c = {};
+      for k = 1:numel(sdkModules)
+        c = [c; [includeRootPath, '/', sdkModules{k}]];
+      end
       if (ismodule('f2c'))
         c = [c; [includeRootPath, '/f2c']];
       end
       if (ismodule('validators'))
         c = [c; [includeRootPath, '/validators']];
       end
-      
     end
   end
 end

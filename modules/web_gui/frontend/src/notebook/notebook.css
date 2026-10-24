@@ -1,0 +1,806 @@
+/*
+ * Notebook panel. Consumes the desktop shell tokens (.nelson-shell: --bg,
+ * --fg, --accent, --border, --bg-alt, --fg-dim, --selection) so it matches the
+ * VS Code-style desktop in both light and dark.
+ */
+.nls-panel {
+  /* Fill the dock panel's content area in normal flow, so the group's tab bar
+     stays visible above it (absolute + inset:0 covered the whole group,
+     including the tabs). Matches how the text editor panel fills its area. */
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  font-size: 13px;
+}
+
+/* --- toolbar ---
+   Same visual language as the desktop toolbar (.desktop-toolbar): flat
+   icon+label actions, a single accent primary, thin separators. */
+.nls-toolbar {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  min-height: 38px;
+  padding: 0 6px;
+  box-sizing: border-box;
+  background: var(--bg-alt);
+  border-bottom: 1px solid var(--border);
+  container-type: inline-size;
+}
+.nls-toolbar__group {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.nls-spacer {
+  flex: 1;
+}
+.nls-sep {
+  width: 1px;
+  height: 22px;
+  margin: 0 4px;
+  background: var(--border);
+}
+.nls-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 30px;
+  padding: 0 8px;
+  font: inherit;
+  font-size: 13px;
+  line-height: 1;
+  white-space: nowrap;
+  color: var(--fg);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius, 4px);
+  cursor: pointer;
+}
+.nls-btn:hover:not(:disabled) {
+  background: rgba(128, 128, 128, 0.16);
+  border-color: var(--border);
+}
+.nls-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -1px;
+}
+.nls-btn:disabled {
+  opacity: 0.42;
+  cursor: default;
+}
+.nls-btn .desktop-icon {
+  flex: none;
+}
+.nls-btn-primary {
+  color: var(--accent-fg);
+  background: var(--accent);
+  border-color: transparent;
+  padding-right: 10px;
+}
+.nls-btn-primary:hover:not(:disabled) {
+  background: var(--accent-hover, var(--accent));
+  border-color: transparent;
+}
+.nls-btn.is-on {
+  background: var(--selection);
+  border-color: var(--accent);
+}
+.nls-caret {
+  flex: none;
+  margin-left: -2px;
+  opacity: 0.7;
+}
+/* Narrow panel (labels need ~900px): secondary actions keep icon and tooltip. */
+@container (max-width: 920px) {
+  .nls-toolbar .nls-btn:not(.nls-btn-primary) .nls-btn__label {
+    display: none;
+  }
+  .nls-toolbar .nls-caret {
+    margin-left: 0;
+  }
+}
+.nls-statebtn.is-on {
+  background: var(--accent);
+  color: var(--accent-fg);
+  border-color: transparent;
+}
+
+/* --- menus --- */
+.nls-menu {
+  position: relative;
+}
+.nls-menu > summary {
+  list-style: none;
+  cursor: pointer;
+}
+.nls-menu > summary::-webkit-details-marker {
+  display: none;
+}
+.nls-menu-pop {
+  position: absolute;
+  left: 0;
+  top: calc(100% + 2px);
+  z-index: 150;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius, 4px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+  padding: 4px;
+  min-width: 170px;
+  display: flex;
+  flex-direction: column;
+  max-height: 60vh;
+  overflow: auto;
+}
+.nls-menu-pop button {
+  text-align: left;
+  font: inherit;
+  font-size: 13px;
+  color: var(--fg);
+  background: transparent;
+  border: none;
+  border-radius: 3px;
+  padding: 0 8px;
+  min-height: 30px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  text-transform: capitalize;
+}
+.nls-menu-pop button:hover {
+  background: var(--accent);
+  color: var(--accent-fg, #fff);
+}
+.nls-menu-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--fg-dim);
+  padding: 7px 8px 2px;
+}
+
+/* --- body: outline + editor --- */
+.nls-body {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+  overflow: hidden;
+}
+.nls-outline {
+  width: 190px;
+  flex-shrink: 0;
+  overflow: auto;
+  padding: 10px 6px 30px 10px;
+  background: var(--bg-alt);
+  border-right: 1px solid var(--border);
+}
+.nls-outline-title {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-dim);
+  margin-bottom: 8px;
+  padding-left: 8px;
+}
+.nls-outline-empty {
+  font-size: 12px;
+  color: var(--fg-dim);
+  padding-left: 8px;
+}
+.nls-outline ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.nls-outline li button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  border-left: 2px solid transparent;
+  color: var(--fg);
+  font: inherit;
+  font-size: 12.5px;
+  padding: 4px 8px;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.nls-outline li button:hover {
+  background: var(--list-hover, var(--bg-elev));
+  border-left-color: var(--accent);
+}
+.nls-outline-l1 button {
+  font-weight: 600;
+}
+.nls-outline-l2 button {
+  padding-left: 18px;
+  color: var(--fg-dim);
+}
+.nls-outline-l3 button {
+  padding-left: 30px;
+  color: var(--fg-dim);
+}
+
+/* --- editor surface --- */
+.nls-scroll {
+  flex: 1;
+  overflow: auto;
+  background: var(--bg);
+}
+.nls-paper {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 20px 40px 100px;
+  --bn-font-family: 'Segoe UI', system-ui, sans-serif;
+}
+.nls-paper .bn-container,
+.nls-paper .bn-editor {
+  background: transparent;
+}
+.nls-paper .bn-editor {
+  padding-inline: 0;
+  font-size: 14px;
+  color: var(--fg);
+}
+.nls-paper h1 {
+  font-weight: 600;
+  font-size: 26px;
+  color: var(--fg);
+}
+.nls-paper h2 {
+  font-weight: 600;
+  font-size: 19px;
+  color: var(--fg);
+  padding-top: 5px;
+  border-top: 1px solid var(--border);
+}
+.nls-paper h3 {
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--fg);
+}
+
+/* --- code cell --- */
+.nls-codecell {
+  margin: 12px 0;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--bg-alt);
+}
+.nls-codecell[data-hide='true'] {
+  border-color: transparent;
+  background: transparent;
+}
+.nls-codecell[data-stale='true'] {
+  border-color: var(--warning, #c08a00);
+  box-shadow: inset 2px 0 0 var(--warning, #c08a00);
+}
+.nls-codecell[data-running='true'] {
+  border-color: var(--accent);
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+/* Output-on-right layout: code column on the left, output column on the right. */
+.nls-codecell[data-layout='right'] {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+.nls-codecell[data-layout='right'] .nls-codecell-editor {
+  flex: 1 1 55%;
+  min-width: 0;
+  border-right: 1px solid var(--border);
+}
+.nls-codecell[data-layout='right'] .nls-result {
+  flex: 1 1 45%;
+  min-width: 0;
+  max-height: 420px;
+  overflow: auto;
+  border-top: none;
+}
+.nls-codecell[data-layout='right'][data-hide='true'] .nls-result {
+  flex-basis: 100%;
+}
+.nls-codecell[data-running='true'] .nls-lang::after {
+  content: '●';
+  margin-left: 4px;
+  color: var(--accent);
+  animation: nls-run-pulse 1s ease-in-out infinite;
+}
+@keyframes nls-run-pulse {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+.nls-result {
+  position: relative;
+}
+.nls-clear-output {
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  z-index: 2;
+  font-size: 10px;
+  line-height: 1;
+  padding: 3px 6px;
+  border-radius: 3px;
+  border: 1px solid var(--border);
+  color: var(--fg-dim);
+  background: var(--bg);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.1s;
+}
+.nls-result:hover .nls-clear-output {
+  opacity: 1;
+}
+.nls-clear-output:hover {
+  color: var(--fg);
+  border-color: var(--accent);
+}
+.nls-running-jump {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.nls-error-jump {
+  color: var(--error, #d13438);
+  border-color: var(--error, #d13438);
+}
+.nls-error-jump:hover {
+  background: var(--error, #d13438);
+  color: #fff;
+}
+.nls-running-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 4px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: nls-run-pulse 1s ease-in-out infinite;
+  vertical-align: middle;
+}
+.nls-codecell-editor {
+  display: flex;
+  align-items: stretch;
+  position: relative;
+}
+.nls-stale-badge {
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  z-index: 2;
+  font-size: 10px;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  padding: 3px 6px;
+  border-radius: 3px;
+  border: 1px solid var(--warning, #c08a00);
+  color: var(--warning, #c08a00);
+  background: var(--bg);
+  cursor: pointer;
+}
+.nls-stale-badge:hover {
+  color: var(--accent-fg);
+  background: var(--warning, #c08a00);
+}
+.nls-gutter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 6px 0;
+  background: var(--bg-tab);
+  border-right: 1px solid var(--border);
+}
+.nls-run {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--accent);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+.nls-run:hover {
+  background: var(--accent);
+  color: var(--accent-fg);
+  border-color: transparent;
+}
+.nls-run-sub {
+  width: 20px;
+  height: 20px;
+  color: var(--fg-dim);
+}
+.nls-run-sub:hover {
+  color: var(--accent-fg);
+}
+.nls-lang {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-family: Consolas, monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-dim);
+}
+.nls-monaco {
+  flex: 1;
+  min-width: 0;
+  background: var(--bg);
+}
+.nls-result {
+  border-top: 1px solid var(--border);
+  background: var(--bg);
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.nls-codecell[data-hide='true'] .nls-result {
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+.nls-output {
+  margin: 0;
+  font-family: Consolas, 'Cascadia Mono', monospace;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--fg);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.nls-error {
+  color: #e06c75;
+}
+.nls-figure-wrap {
+  display: flex;
+  justify-content: flex-start;
+  padding: 6px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: #fff;
+}
+.nls-figure {
+  max-width: 100%;
+  height: auto;
+}
+/* Interactive inline figure: a sized, user-resizable box. The canvas keeps a
+   usable height when the figure toolbar wraps onto several rows in a narrow
+   panel: the box grows instead of squeezing the plot. */
+.nls-figure-wrap.nls-figure-live {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  background: var(--bg);
+  min-height: 340px;
+  resize: vertical;
+  overflow: hidden;
+}
+.nls-figure-wrap.nls-figure-live .figure-panel {
+  flex: 1 1 auto;
+  height: auto;
+  min-height: 0;
+}
+.nls-figure-wrap.nls-figure-live .figure-workspace-content {
+  min-height: 240px;
+}
+
+/* --- controls --- */
+.nls-slider,
+.nls-control {
+  margin: 10px 0;
+  padding: 9px 12px 9px 13px;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: 4px;
+  background: var(--bg-alt);
+  max-width: 420px;
+}
+.nls-control {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.nls-slider-head {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 7px;
+}
+.nls-control-label {
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--fg);
+}
+.nls-var-badge {
+  font-family: Consolas, monospace;
+  font-size: 11px;
+  color: var(--accent);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 1px 6px;
+}
+.nls-control .nls-var-badge {
+  margin-right: auto;
+}
+.nls-slider-value {
+  margin-left: auto;
+  font-family: Consolas, monospace;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--fg);
+}
+.nls-slider input[type='range'],
+.nls-range-track input[type='range'] {
+  width: 100%;
+  accent-color: var(--accent);
+}
+.nls-range-track {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.nls-slider-scale {
+  display: flex;
+  justify-content: space-between;
+  font-family: Consolas, monospace;
+  font-size: 10.5px;
+  color: var(--fg-dim);
+  margin-top: 3px;
+}
+.nls-control-check {
+  cursor: pointer;
+}
+.nls-control-check input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--accent);
+}
+.nls-number-input,
+.nls-text-input,
+.nls-select,
+.nls-date-input {
+  font: inherit;
+  font-size: 13px;
+  padding: 4px 7px;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  background: var(--bg);
+  color: var(--fg);
+  min-width: 90px;
+}
+.nls-color-input {
+  width: 38px;
+  height: 26px;
+  padding: 2px;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  background: var(--bg);
+  cursor: pointer;
+}
+.nls-color-value,
+.nls-file-name {
+  font-family: Consolas, monospace;
+  font-size: 12px;
+  color: var(--fg-dim);
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.nls-control-button {
+  background: transparent;
+  border: none;
+  border-left: none;
+  padding: 4px 0;
+  max-width: none;
+}
+
+.nls-from-var {
+  font-family: Consolas, monospace;
+  font-size: 11px;
+  color: var(--fg-dim);
+}
+.nls-cfg-input {
+  font: inherit;
+  font-size: 12px;
+  width: 90px;
+  padding: 2px 5px;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  background: var(--bg);
+  color: var(--fg);
+}
+.nls-task-template {
+  display: block;
+  width: calc(100% - 24px);
+  margin: 8px 12px 0;
+  font-family: Consolas, 'Cascadia Mono', monospace;
+  font-size: 12.5px;
+  padding: 6px 8px;
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  background: var(--bg);
+  color: var(--fg);
+}
+
+/* --- equation visual editor --- */
+.nls-equation-editing {
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  padding: 10px;
+  background: var(--bg-alt);
+}
+.nls-eq-preview {
+  text-align: center;
+  padding: 6px;
+  min-height: 28px;
+}
+.nls-eq-palette {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 6px 0;
+}
+.nls-eq-palette button {
+  min-width: 28px;
+  height: 26px;
+  font-size: 14px;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  background: var(--bg);
+  color: var(--fg);
+  cursor: pointer;
+}
+.nls-eq-palette button:hover {
+  border-color: var(--accent);
+  background: var(--list-hover, var(--bg-elev));
+}
+.nls-eq-actions {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+}
+.nls-equation-editing textarea.nls-equation-input {
+  width: 100%;
+  min-height: 48px;
+  resize: vertical;
+}
+
+/* --- live task --- */
+.nls-task {
+  margin: 12px 0;
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--bg-alt);
+}
+.nls-task-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 9px 12px;
+  background: var(--accent-weak, var(--bg-elev));
+}
+.nls-task-badge {
+  font-family: Consolas, monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--accent-fg);
+  background: var(--accent);
+  border-radius: 3px;
+  padding: 2px 6px;
+}
+.nls-task-of {
+  color: var(--fg-dim);
+  font-size: 12px;
+}
+.nls-task-code {
+  margin: 0;
+  padding: 8px 12px;
+  font-family: Consolas, 'Cascadia Mono', monospace;
+  font-size: 12.5px;
+  color: var(--fg);
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+  white-space: pre-wrap;
+}
+
+/* per-control config */
+.nls-cfg {
+  position: relative;
+  margin-left: 4px;
+}
+.nls-cfg > summary {
+  list-style: none;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  display: grid;
+  place-items: center;
+  border-radius: 3px;
+  color: var(--fg-dim);
+}
+.nls-cfg > summary::-webkit-details-marker {
+  display: none;
+}
+.nls-cfg > summary:hover {
+  background: var(--bg-elev);
+  color: var(--fg);
+}
+.nls-cfg-pop {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 4px);
+  z-index: 40;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+  padding: 7px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 180px;
+}
+.nls-cfg-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 12px;
+  color: var(--fg-dim);
+}
+.nls-cfg-row select {
+  font: inherit;
+  font-size: 12px;
+  padding: 2px 5px;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  background: var(--bg);
+  color: var(--fg);
+}
+
+/* equation */
+.nls-equation {
+  margin: 12px 0;
+}
+.nls-equation-render {
+  cursor: pointer;
+  padding: 4px 0;
+  color: var(--fg);
+}
+.nls-equation-input {
+  margin-top: 6px;
+  width: 100%;
+  max-width: 460px;
+  font-family: Consolas, monospace;
+  font-size: 13px;
+  padding: 6px 8px;
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  background: var(--bg);
+  color: var(--fg);
+}

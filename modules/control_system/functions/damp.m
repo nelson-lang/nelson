@@ -13,6 +13,6 @@ function varargout = damp(varargin)
   nargoutchk(0, 4);
   sys = varargin{1};
   if ~islti(sys)
-    error(_('LTI model expected.'));
+    error('Nelson:control_system:invalidType', '%s expected.', 'LTI model');
   end
 end

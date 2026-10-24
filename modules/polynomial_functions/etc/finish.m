@@ -7,5 +7,6 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+removegateway(modulepath('polynomial_functions', 'builtin'));
 rmpath(modulepath('polynomial_functions', 'functions'));
 %=============================================================================

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
@@ -9,7 +9,7 @@
   </syntax>
   <description>
     <p
-    >L&apos;explorateur du dossier courant dans Nelson facilite la gestion interactive des fichiers et dossiers. Utilisez-le pour naviguer, créer, accéder, déplacer et renommer les fichiers et dossiers du répertoire courant.</p>
+    >L&apos;explorateur du dossier courant prend en charge la gestion interactive des fichiers et dossiers dans Nelson. Utilisez-le pour naviguer, créer, ouvrir, déplacer et renommer les fichiers et dossiers du répertoire courant.</p>
     <p>
       <img src="../images/filebrowser.png" align="middle" />
     </p>

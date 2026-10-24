@@ -10,6 +10,7 @@
 #include <unordered_map>
 #include "StringToClass.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "StringHelpers.hpp"
 //=============================================================================
@@ -60,7 +61,7 @@ StringToClass(const std::string& classname)
     bool haveError;
     NelsonType destClass = StringToClass(classname, haveError);
     if (haveError) {
-        Error(_W("input must be a valid class name."));
+        Error(L"Nelson:types:notAValidClassName", L"input must be a valid class name.");
     }
     return destClass;
 }

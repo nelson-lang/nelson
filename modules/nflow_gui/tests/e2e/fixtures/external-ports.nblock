@@ -1,0 +1,30 @@
+{
+  "version": "1.0.0",
+  "format": "nblock-2",
+  "name": "e2e-subsystem",
+  "blocks": [
+    {
+      "id": "in1",
+      "type": "labelSource",
+      "x": 100,
+      "y": 120,
+      "rotation": 0,
+      "params": {
+        "isExternalPort": true,
+        "name": "in1"
+      }
+    },
+    {
+      "id": "out1",
+      "type": "labelSink",
+      "x": 300,
+      "y": 120,
+      "rotation": 0,
+      "params": {
+        "isExternalPort": true,
+        "name": "out1"
+      }
+    }
+  ],
+  "connections": []
+}

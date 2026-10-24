@@ -7,9 +7,14 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-% read data from National Agricultural Statistics Service
-url = 'https://quickstats.nass.usda.gov/api/api_GET/?key=1C757E50-5169-30CC-BEFD-40A5C3E2A43D&format=JSON&or_desc=CROPS&domain_desc=TOTAL&agg_level_desc=COUNTY&state_name=ALABAMA&county_name=AUTAUGA&year=2012';
-options = weboptions('UserAgent', 'http://www.whoishostingthis.com/tools/user-agent/');
-s = webread(url, options);
-s.data
+% Read a small structured response from a public API.
+url = 'https://api.github.com/repos/nelson-lang/nelson';
+options = weboptions('UserAgent', 'Nelson examples gallery', 'Timeout', 15);
+try
+  repository = webread(url, options);
+catch exception
+  error(['This example requires network access to the public API: ', exception.message]);
+end
+disp(['Repository: ', repository.full_name]);
+disp(['Default branch: ', repository.default_branch]);
 %=============================================================================

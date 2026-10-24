@@ -21,5 +21,5 @@ PyKeyMatch(const ArrayOf& A, const ArrayOf& B);
 NLSPYTHON_ENGINE_IMPEXP bool
 PyKeyMatch(PyObject* p1, PyObject* p2);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

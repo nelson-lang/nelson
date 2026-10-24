@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>ncdisp</keyword>
+  <short_description>Affiche le contenu d'une source de donnees netCDF.</short_description>
+  <syntax>
+    <syntax_item>ncdisp(filename)</syntax_item>
+    <syntax_item>ncdisp(filename, location)</syntax_item>
+    <syntax_item>ncdisp(filename, location, mode)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>Chemin du fichier netCDF a creer, ouvrir ou modifier.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>location</param_name>
+      <param_description>Chemin de groupe, de variable ou d'attribut dans la source netCDF.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>mode</param_name>
+      <param_description>Mode numerique construit avec les constantes netCDF lorsque necessaire.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>none</param_name>
+      <param_description>Cette fonction ne retourne pas de valeur.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>ncdisp affiche une vue lisible du contenu d'une source netCDF.</p>
+    <p>Utilisez cette fonction pour explorer rapidement groupes, dimensions, variables et attributs.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Exemple copiable pour ncdisp.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[filename = [tempdir(), 'help_ncdisp.nc'];
+nccreate(filename, 'temperature', 'Dimensions', {'x', 3});
+ncwrite(filename, 'temperature', [1 2 3]);
+ncdisp(filename)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${netcdf}ncinfo">ncinfo</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -10,6 +10,7 @@
 #include <Windows.h>
 //=============================================================================
 #pragma comment(lib, "libnlsblaslapack.lib")
+#pragma comment(lib, "libarpack.lib")
 //=============================================================================
 int WINAPI
 DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)

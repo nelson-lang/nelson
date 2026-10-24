@@ -3,7 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>mpiexec</keyword>
-  <short_description>Run an MPI script.</short_description>
+  <short_description>Exécute un script MPI.</short_description>
   <syntax>
     <syntax_item>mpiexec(script)</syntax_item>
     <syntax_item>mpiexec(script, nb_process)</syntax_item>
@@ -13,24 +13,24 @@
   <param_input>
     <param_input_item>
       <param_name>script</param_name>
-      <param_description>an filename with .m extension.</param_description>
+      <param_description>un nom de fichier avec l&apos;extension .m.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>nb_process</param_name>
       <param_description
-      >an integer value: number of process.</param_description>
+      >un entier : nombre de processus.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>r</param_name>
       <param_description
-      >an integer value: maximum of the exit status values of all of the processes created by mpiexec.</param_description>
+      >un entier : maximum des codes de sortie de tous les processus créés par mpiexec.</param_description>
     </param_output_item>
   </param_output>
   <description>
-    <p>Run an MPI script in nelson.</p>
-    <p>MPI process are launched in CLI mode (no gui, no plot).</p>
+    <p>Exécute un script MPI dans Nelson.</p>
+    <p>Les processus MPI sont lancés en mode CLI (sans interface graphique, sans tracé).</p>
   </description>
   <used_function />
   <bibliography />

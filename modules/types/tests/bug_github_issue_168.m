@@ -11,7 +11,7 @@
 % <-- Issue URL -->
 % https://github.com/nelson-lang/nelson/issues/168
 % <-- Short Description -->
-% integer display was not interruptable.
+% integer display was not interruptible.
 %=============================================================================
 int32(eye(1000))
 % and try to do CTRL-C

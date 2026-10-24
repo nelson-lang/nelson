@@ -11,17 +11,17 @@ function [status, message, generatedfilename] = dlgeneratemake(varargin)
   % dlgeneratemake('f:/demo', 'toto', {'f:/demo/toto.cpp'}, {'f:/demo/'}, {'NLSDYNAMIC_LINK_EXPORTS'}, {'msvcrt.lib'},'Debug')
   % dlgeneratemake(destinationdir, libname, c_cpp_files, includes, defines, external_libraries, build_configuration, c_flags, cxx_flags)
   % dlgeneratemake('f:/demo', 'toto', {'f:/demo/toto.cpp'}, {'f:/demo/'}, {'NLSDYNAMIC_LINK_EXPORTS'})
-  
+
   generatedfilename = [];
   status = false;
   message = '';
   if nargin < 4
-    error(_('At least 4 input arguments expected.'));
+    error('Nelson:dlgeneratemake:least4InputArgumentsExpected2', 'At least 4 input arguments expected.');
   end
   if nargin > 10
-    error(_('Wrong number of output arguments.'));
+    error('Nelson:dlgeneratemake:wrongNumberOutputArguments2', 'Wrong number of output arguments.');
   end
-  
+
   maketype = 'dynamic_library';
   indexstart = 1;
   if strcmp(varargin{1}, 'executable') == true
@@ -32,7 +32,7 @@ function [status, message, generatedfilename] = dlgeneratemake(varargin)
     maketype = 'dynamic_library';
     indexstart = 2;
   end
-  
+
   destinationdir = varargin{indexstart};
   libname = varargin{indexstart + 1};
   c_cpp_files = varargin{indexstart + 2};
@@ -73,68 +73,101 @@ function [status, message, generatedfilename] = dlgeneratemake(varargin)
   if isempty(cxx_flags)
     cxx_flags = '';
   end
-  
+
   r = checkDestinationDir(destinationdir);
   if ~r
     status = r;
     message = _('A valid destination directory expected.');
+    if nargout == 0
+      error('Nelson:dlgeneratemake:failed', '%s', message);
+    end
     return
   end
   r = checkLibraryName(libname);
   if ~r
     status = r;
-    message = _('A valid destination library name expected.');
+    message = 'A valid destination library name expected.';
+    if nargout == 0
+      error('Nelson:dlgeneratemake:failed', '%s', message);
+    end
     return
   end
   [r, c_cpp_files] = checkAndPrepareCppFiles(c_cpp_files);
   if ~r
     status = r;
-    message = _('A valid list of c/cpp files expected.');
+    message = 'A valid list of c/cpp files expected.';
+    if nargout == 0
+      error('Nelson:dlgeneratemake:failed', '%s', message);
+    end
     return
   end
   [r, includes] = checkAndPrepareIncludesDirectories(includes);
   if ~r
     status = r;
-    message = _('A valid list of includes directories expected.');
+    message = 'A valid list of includes directories expected.';
+    if nargout == 0
+      error('Nelson:dlgeneratemake:failed', '%s', message);
+    end
     return
   end
   [r, defines] = checkAndPrepareDefines(defines);
   if ~r
     status = r;
-    message = _('A valid list of define expected.');
+    message = 'A valid list of define expected.';
+    if nargout == 0
+      error('Nelson:dlgeneratemake:failed', '%s', message);
+    end
     return
   end
   [r, external_libraries] = checkAndPrepareExternalLibraries(external_libraries);
   if ~r
     status = r;
-    message = _('A valid list of external libraries expected.');
+    message = 'A valid list of external libraries expected.';
+    if nargout == 0
+      error('Nelson:dlgeneratemake:failed', '%s', message);
+    end
     return
   end
   [r, build_configuration] = checkAndPrepareBuildConfiguration(build_configuration);
   if ~r
     status = r;
-    message = _('A valid build configuration value expected.');
+    message = 'A valid build configuration value expected.';
+    if nargout == 0
+      error('Nelson:dlgeneratemake:failed', '%s', message);
+    end
     return
   end
   [r, c_flags] = checkAndPrepareCflags(c_flags);
   if ~r
     status = r;
-    message = _('A valid c_flags configuration value expected.');
+    message = 'A valid c_flags configuration value expected.';
+    if nargout == 0
+      error('Nelson:dlgeneratemake:failed', '%s', message);
+    end
     return
   end
   [r, cxx_flags] = checkAndPrepareCflags(cxx_flags);
   if ~r
     status = r;
-    message = _('A valid cxx_flags configuration value expected.');
+    message = 'A valid cxx_flags configuration value expected.';
+    if nargout == 0
+      error('Nelson:dlgeneratemake:failed', '%s', message);
+    end
     return
   end
-  if strcmp(maketype, 'executable') == true
+  wasm32 = strcmp(dltarget(), 'wasm32');
+  if wasm32 && strcmp(maketype, 'executable')
+    error('Nelson:dlgeneratemake:wasm32Executable', _('wasm32 target only builds dynamic libraries (side modules).'));
+  end
+  if wasm32
+    templatefilename = [modulepath('dynamic_link'), '/resources/template_cmake_wasm.txt'];
+  elseif strcmp(maketype, 'executable') == true
     templatefilename = [modulepath('dynamic_link'), '/resources/template_executable_cmake.txt'];
   else
     templatefilename = [modulepath('dynamic_link'), '/resources/template_cmake.txt'];
   end
   if ~isfile(templatefilename)
-    error(_('template file is missing.'));
+    error('Nelson:dlgeneratemake:templateMissing', 'template file is missing.');
   end
   template_cmake = fileread(templatefilename);
   template_cmake = replace(template_cmake, '__OUTPUT_DIRECTORY__', destinationdir);
@@ -145,6 +178,9 @@ function [status, message, generatedfilename] = dlgeneratemake(varargin)
   template_cmake = replace(template_cmake, '__INCLUDES__', includes);
   template_cmake = replace(template_cmake, '__EXTERNAL_LIBRARIES__', external_libraries);
   template_cmake = replace(template_cmake, '__CMAKE_BUILD_TYPE__', build_configuration);
+  if wasm32
+    template_cmake = replace(template_cmake, '__WASM_SIDE_MODULE_CONFIG__', wasmSideModuleConfig());
+  end
   if strcmp(maketype, 'executable') == true
     template_cmake = replace(template_cmake, '__EXECUTABLE_NAME__', libname);
   else
@@ -349,5 +385,20 @@ end
 %=============================================================================
 function pathOut = uniformizePath(pathIn)
   pathOut = replace(pathIn, '\', '/');
+end
+%=============================================================================
+%=============================================================================
+function configFile = wasmSideModuleConfig()
+  % Flags shared with the WebAssembly engine, written by its CMake configure
+  % step under <build dir>/generated/wasm-runtime/side-module.cmake.
+  buildDir = getenv('NELSON_WASM_BUILD_DIR');
+  if isempty(buildDir)
+    buildDir = [nelsonroot(), '/temp/build-wasm'];
+  end
+  buildDir = regexprep(strrep(buildDir, '\', '/'), '/+$', '');
+  configFile = [buildDir, '/generated/wasm-runtime/side-module.cmake'];
+  if ~isfile(configFile)
+    error('Nelson:dlgeneratemake:wasmConfigMissing', _('WebAssembly engine configuration not found: %s (configure the wasm preset or set NELSON_WASM_BUILD_DIR).'), configFile);
+  end
 end
 %=============================================================================

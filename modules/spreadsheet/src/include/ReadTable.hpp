@@ -14,8 +14,18 @@
 #include "DetectImportOptions.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
 NLSSPREADSHEET_IMPEXP ArrayOf
 ReadTable(
     const std::wstring& filename, const detectImportOptions& options, std::string& errorMessage);
-};
+//=============================================================================
+// Reads a delimited text file restricted to a rectangular Range (e.g. "A1:B5",
+// "A2", "A:B", "2:4", or a canonical corner:corner string). 'readVariableNames'
+// is tri-state: -1 auto-detect from the first row of the range, 0 forced off,
+// 1 forced on. On an unparsable range, sets errorMessage and returns an empty value.
+NLSSPREADSHEET_IMPEXP ArrayOf
+ReadTableRange(const std::wstring& filename, const detectImportOptions& options,
+    const std::wstring& rangeSpec, int readVariableNames, std::string& errorMessage);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

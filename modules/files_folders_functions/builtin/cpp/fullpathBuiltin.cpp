@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -22,21 +22,21 @@ Nelson::FilesFoldersGateway::fullpathBuiltin(int nLhs, const ArrayOfVector& argI
     nargoutcheck(nLhs, 0, 1);
     ArrayOf param1 = argIn[0];
     if (param1.isCellArrayOfCharacterVectors() || param1.isStringArray()) {
-        Dimensions dims = param1.getDimensions();
-        wstringVector paths = param1.getContentAsWideStringVector();
+        Dimensions dims = param1.dimensions();
+        wstringVector paths = param1.asWideStringVector();
         wstringVector normalizedPaths;
-        normalizedPaths.reserve(dims.getElementCount());
+        normalizedPaths.reserve(dims.elementCount());
         for (const std::wstring& s : paths) {
             normalizedPaths.push_back(FileSystemWrapper::Path::normalize(s));
         }
         if (param1.isStringArray()) {
-            retval << ArrayOf::stringArrayConstructor(normalizedPaths, dims);
+            retval << ArrayOf::stringArray(normalizedPaths, dims);
         } else {
-            retval << ArrayOf::toCellArrayOfCharacterColumnVectors(normalizedPaths);
+            retval << ArrayOf::cellArrayFromArrayOfCharacterColumnVectors(normalizedPaths);
         }
     } else {
-        std::wstring path = argIn[0].getContentAsWideString();
-        retval << ArrayOf::characterArrayConstructor(FileSystemWrapper::Path::normalize(path));
+        std::wstring path = argIn[0].asWideString();
+        retval << ArrayOf::characterArray(FileSystemWrapper::Path::normalize(path));
     }
     return retval;
 }

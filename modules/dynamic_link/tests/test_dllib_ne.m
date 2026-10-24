@@ -11,6 +11,6 @@ path_1 = modulepath('dynamic_link', 'builtin');
 path_2 = modulepath('core', 'builtin');
 lib1 = dlopen(path_1);
 lib2 = dlopen(path_2);
-assert_istrue(lib1 ~= lib2);
-assert_isequal([lib1, lib2] ~= lib1, [false, true]);
+asserts.istrue(lib1 ~= lib2);
+asserts.isequal([lib1, lib2] ~= lib1, [false, true]);
 %=============================================================================

@@ -61,7 +61,7 @@ bool
 mxIsLogicalScalarTrue(const mxArray* array_ptr)
 {
     if (mxIsLogicalScalar(array_ptr)) {
-        mxLogical logicalValue = array_ptr->realdata;
+        mxLogical logicalValue = ((mxLogical*)array_ptr->realdata)[0];
         return logicalValue == true;
     }
     return false;

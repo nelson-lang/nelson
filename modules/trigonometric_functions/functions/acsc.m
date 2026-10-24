@@ -10,6 +10,6 @@
 function x = acsc(varargin)
   narginchk(1, 1);
   nargoutchk(0, 1);
-  x = asin (1 ./ varargin{1});
+  x = asin(1 ./ varargin{1});
 end
 %=============================================================================

@@ -10,30 +10,30 @@
 % <--PYTHON ENVIRONMENT REQUIRED-->
 %=============================================================================
 p = pyenv();
-assert_isequal(p.Status, "NotLoaded");
+asserts.isequal(p.Status, "NotLoaded");
 R = strtrim(evalc('pyrun(["greeting = ''hello''", "print(greeting)"])'));
-assert_isequal(R, 'hello');
-assert_isequal(p.Status, "Loaded");
+asserts.isequal(R, 'hello');
+asserts.isequal(p.Status, "Loaded");
 %=============================================================================
 code = ["import math";
-"x = 4.2";
-"n = 3";
-"power = x ** n"];
+  "x = 4.2";
+  "n = 3";
+  "power = x ** n"];
 power = pyrun(code, 'power');
-assert_isequal(power, 4.2^3);
+asserts.isequal(power, 4.2 ^ 3);
 %=============================================================================
 C = pyrun('A', 'A', 'A', 1);
-assert_isequal(C, 1);
+asserts.isequal(C, 1);
 %=============================================================================
-assert_checkerror('C = pyrun(''A = 1'', ''A'', 1, ''A'')', _('Field names must be string scalars or character vectors.'));
+asserts.checkerror('C = pyrun(''A = 1'', ''A'', 1, ''A'')', _('Field names must be string scalars or character vectors.'));
 %=============================================================================
 PYCODE = pyrun('x = compile(''print(55)'', ''test'', ''eval'')', 'x');
-assert_isequal(class(PYCODE), 'py.code');
+asserts.isequal(class(PYCODE), 'py.code');
 R = strtrim(evalc('pyrun(PYCODE)'));
-assert_isequal(R, '55');
+asserts.isequal(R, '55');
 %=============================================================================
 PYCODE = pyrun('X = compile(''Y = 3'', ''test'', ''exec'')', 'X');
-assert_isequal(class(PYCODE), 'py.code');
+asserts.isequal(class(PYCODE), 'py.code');
 R = pyrun(PYCODE, 'Y');
-assert_isequal(R.char(), '3');
+asserts.isequal(R.char(), '3');
 %=============================================================================

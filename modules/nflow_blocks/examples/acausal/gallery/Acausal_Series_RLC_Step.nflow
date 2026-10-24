@@ -1,0 +1,31 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": { "author": "Allan CORNET", "created": "2026-09-28", "tool": "Nelson nflow" },
+  "license": "LGPL-3.0",
+  "comments": "Series RLC step response (R = L = C = 1): a constant voltage source drives a resistor, inductor and capacitor in series to ground. The capacitor voltage is the classic underdamped second-order step response (alpha = 1/2, omega_d = sqrt(3)/2). The Scope plots the capacitor voltage; ToWorkspace exports it.",
+  "name": "Series RLC Step",
+  "blocks": [
+    { "id": "V1", "type": "ConstantVoltage", "params": { "V": 1 }, "x": 60, "y": 280, "rotation": 90 },
+    { "id": "R1", "type": "Resistor", "params": { "R": 1 }, "x": 200, "y": 200, "rotation": 0 },
+    { "id": "L1", "type": "Inductor", "params": { "L": 1, "i0": 0 }, "x": 360, "y": 200, "rotation": 0 },
+    { "id": "C1", "type": "Capacitor", "params": { "C": 1, "v0": 0 }, "x": 520, "y": 280, "rotation": 90 },
+    { "id": "VS", "type": "VoltageSensor", "params": {}, "x": 660, "y": 280, "rotation": 90 },
+    { "id": "G", "type": "Ground", "params": {}, "x": 60, "y": 420, "rotation": 90 },
+    { "id": "tw", "type": "toWorkspace", "params": { "VariableName": "vc", "SaveFormat": "Array", "Decimation": 1, "MaxDataPoints": "inf" }, "inputs": 1, "outputs": 0, "x": 820, "y": 130, "rotation": 0 },
+    { "id": "sc", "type": "scope", "params": { "TMin": "", "TMax": "", "YMin": "", "YMax": "", "width": 320, "height": 220, "ShowTickLabels": true }, "x": 820, "y": 300, "rotation": 0 }
+  ],
+  "connections": [
+    { "from": "VS", "to": "tw", "fromIndex": 0, "toIndex": 0 },
+    { "from": "VS", "to": "sc", "fromIndex": 0, "toIndex": 0 }
+  ],
+  "solver": "dae",
+  "runtime": 10,
+  "sampleTime": 0.005,
+  "physicalWires": [
+    { "pins": ["V1.p", "R1.p"] },
+    { "pins": ["R1.n", "L1.p"] },
+    { "pins": ["L1.n", "C1.p", "VS.p"] },
+    { "pins": ["G.p", "V1.n", "C1.n", "VS.n"] }
+  ]
+}

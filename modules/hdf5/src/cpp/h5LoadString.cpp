@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -14,10 +14,10 @@
 namespace Nelson {
 //=============================================================================
 bool
-h5LoadStringArray(hid_t fid, const std::string& location, const std::string& variableName,
-    bool isEmpty, const Dimensions& dims, ArrayOf& VariableValue)
+h5LoadStringArray(Evaluator* eval, hid_t fid, const std::string& location,
+    const std::string& variableName, bool isEmpty, const Dimensions& dims, ArrayOf& VariableValue)
 {
-    indexType nbElements = dims.getElementCount();
+    indexType nbElements = dims.elementCount();
     ArrayOf* elements = nullptr;
     try {
         elements = new ArrayOf[nbElements];
@@ -34,7 +34,7 @@ h5LoadStringArray(hid_t fid, const std::string& location, const std::string& var
     for (indexType k = 0; k < nbElements; k++) {
         std::string elementName = std::to_string(k);
         ArrayOf value;
-        if (h5LoadVariable(fid, h5path, elementName, value)) {
+        if (h5LoadVariable(eval, fid, h5path, elementName, value)) {
             elements[k] = value;
         } else {
             return false;

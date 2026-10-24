@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>stream2</keyword>
+  <short_description>Calculer les sommets de lignes de courant 2-D depuis un champ vectoriel.</short_description>
+  <syntax>
+    <syntax_item>vertices = stream2(U, V, startx, starty)</syntax_item>
+    <syntax_item>vertices = stream2(X, Y, U, V, startx, starty)</syntax_item>
+    <syntax_item>vertices = stream2(..., options)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>stream2</b> suit un champ vectoriel 2-D depuis chaque point de depart et rend les sommets par lesquels il est passe. Rien n'est trace : passer le resultat a <b>streamline</b> pour le voir.</p>
+    <p>Le resultat est un tableau de cellules avec une entree par point de depart, chacune un tableau N-by-2 de coordonnees <b>[x, y]</b> dont la premiere ligne est le point de depart lui-meme. Un point de depart hors du champ donne une entree vide ; un point de depart que le champ ne deplace pas garde son unique sommet.</p>
+    <p>Sans <b>X</b> ni <b>Y</b> le champ est indexe a partir de 1, comme le donnerait <b>meshgrid(1:size(U, 2), 1:size(U, 1))</b>.</p>
+    <p>L'entree optionnelle <b>options</b> vaut <b>[stepsize]</b> ou <b>[stepsize, maxvert]</b>. <b>stepsize</b> se compte en cellules de grille et vaut 0.1 par defaut. <b>maxvert</b> est le nombre maximal de sommets a produire, point de depart compris, et vaut 500 par defaut.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Tracer deux lignes de courant d'un champ tournant.</example_item_description>
+      <example_item_data><![CDATA[[x, y] = meshgrid(-2:0.25:2, -2:0.25:2);
+vertices = stream2(x, y, -y, x, [1 1.5], [0 0]);
+streamline(vertices);]]></example_item_data>
+      <example_item_img src="../../../../images/stream2_1.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/5_vector_fields/stream3">stream3</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/5_vector_fields/streamline">streamline</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/5_vector_fields/quiver">quiver</link></see_also_item>
+  </see_also>
+</xmldoc>

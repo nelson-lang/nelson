@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,12 +10,12 @@
 #include "whichBuiltin.hpp"
 #include "BuiltInFunctionDefManager.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "Which.hpp"
 #include "characters_encoding.hpp"
 #include "NelsonPrint.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -28,7 +28,7 @@ Nelson::FunctionsGateway::whichBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (argIn.size() == 1) {
         if (argIn[0].isRowVectorCharacterArray()
             || (argIn[0].isStringArray() && argIn[0].isScalar())) {
-            std::string functionname = argIn[0].getContentAsCString();
+            std::string functionname = argIn[0].asUtf8String();
             if (nLhs == 0) {
                 FunctionDefPtr fptr = nullptr;
                 bool found = BuiltInFunctionDefManager::getInstance()->find(functionname, fptr);
@@ -37,33 +37,36 @@ Nelson::FunctionsGateway::whichBuiltin(int nLhs, const ArrayOfVector& argIn)
                     NelsonPrint(_W("built-in") + L" (" + path + L")");
                 } else {
                     if (path.empty()) {
-                        NelsonPrint(
-                            L"'" + utf8_to_wstring(functionname) + L"' " + _W("not found."));
+                        NelsonPrint(L"'" + utf8_to_wstring(functionname) + L"' "
+                            + Nelson::resolveMessageTemplate(
+                                L"Nelson:functions_manager:notFound", L"not found."));
                     } else {
                         NelsonPrint(path);
                     }
                 }
             } else {
-                retval << ArrayOf::characterArrayConstructor(Which(functionname));
+                retval << ArrayOf::characterArray(Which(functionname));
             }
         } else {
-            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1),
+                L"string");
         }
     } else {
-        // case argIn.size() == 2
         std::string functionname;
         if (argIn[0].isRowVectorCharacterArray()
             || (argIn[0].isStringArray() && argIn[0].isScalar())) {
-            functionname = argIn[0].getContentAsCString();
+            functionname = argIn[0].asUtf8String();
         } else {
-            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1),
+                L"string");
         }
         std::wstring wparam2;
         if (argIn[1].isRowVectorCharacterArray()
             || (argIn[1].isStringArray() && argIn[1].isScalar())) {
-            wparam2 = argIn[1].getContentAsWideString();
+            wparam2 = argIn[1].asWideString();
         } else {
-            Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
+            Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (2),
+                L"string");
         }
         if (wparam2 == L"-all") {
             wstringVector res = WhichAll(functionname);
@@ -76,7 +79,7 @@ Nelson::FunctionsGateway::whichBuiltin(int nLhs, const ArrayOfVector& argIn)
                     }
                 }
             } else {
-                retval << ArrayOf::toCellArrayOfCharacterColumnVectors(res);
+                retval << ArrayOf::cellArrayFromArrayOfCharacterColumnVectors(res);
             }
         } else if (wparam2 == L"-module") {
             wstringVector res = WhichModule(functionname);
@@ -85,10 +88,11 @@ Nelson::FunctionsGateway::whichBuiltin(int nLhs, const ArrayOfVector& argIn)
                     NelsonPrint(re + L"\n");
                 }
             } else {
-                retval << ArrayOf::toCellArrayOfCharacterColumnVectors(res);
+                retval << ArrayOf::cellArrayFromArrayOfCharacterColumnVectors(res);
             }
         } else {
-            Error(_W("#2 Argument must be \'-all\' or  \'-module\'."));
+            Error(
+                L"Nelson:which:invalidOption", L"#%d argument must be \'-all\' or \'-module\'.", 2);
         }
     }
     return retval;

@@ -10,6 +10,6 @@
     <p
     >It provides mechanisms to query available languages, determine the current and default language, and change the interface language dynamically.</p>
     <p
-    >This module ensures that Nelson can be adapted to different linguistic and regional preferences, supporting a multilingual user experience.</p>
+    >This module adapts Nelson to linguistic and regional settings and supports multilingual interfaces.</p>
   </chapter_description>
 </xmldoc>

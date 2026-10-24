@@ -31,6 +31,7 @@ RepositoryIsSHA1(const std::wstring& localPath, const std::wstring& sha1Str)
     }
     errorCode = git_revparse_single(&treeish, repo, wstring_to_utf8(sha1Str).c_str());
     if (errorCode != 0) {
+        git_repository_free(repo);
         git_libgit2_shutdown();
         return found;
     }
@@ -40,5 +41,5 @@ RepositoryIsSHA1(const std::wstring& localPath, const std::wstring& sha1Str)
     return true;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

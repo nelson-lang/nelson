@@ -7,7 +7,11 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function st = nmm_list()
+function st = nmm_list(varargin)
+  [args, jsonOutput] = nmm_json_option(varargin);
+  if ~isempty(args)
+    nmm_error('WrongNumberOfInputArguments', 'Wrong number of input arguments.');
+  end
   p = usermodulesdir();
   modules_json_path = [p, 'modules.json'];
   if isfile(modules_json_path)
@@ -18,5 +22,6 @@ function st = nmm_list()
   else
     st = struct([]);
   end
+  st = nmm_json_output(st, jsonOutput);
 end
 %=============================================================================

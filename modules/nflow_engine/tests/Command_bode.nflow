@@ -1,0 +1,57 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Allan CORNET",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "comments": "Open-loop step response of the 4th-order plant (s^4+21.02 s^3+382.37 s^2+4406.18 s+22801)/(s^4+33.06 s^3+490.63 s^2+4117.77 s+22952.25). Equal numerator/denominator order gives a direct feedthrough of 1 at t=0, settling to the DC gain 22801/22952.25 = 0.9934.",
+  "name": "Command bode",
+  "blocks": [
+    {
+      "id": "r1",
+      "type": "step",
+      "x": 40,
+      "y": 180,
+      "rotation": 0,
+      "params": {
+        "Time": 0
+      }
+    },
+    {
+      "id": "p1",
+      "type": "tf",
+      "x": 220,
+      "y": 180,
+      "rotation": 0,
+      "params": {
+        "Numerator": [1, 21.02, 382.37, 4406.18, 22801],
+        "Denominator": [1, 33.06, 490.63, 4117.77, 22952.25]
+      }
+    },
+    {
+      "id": "tw",
+      "type": "toWorkspace",
+      "x": 460,
+      "y": 180,
+      "rotation": 0,
+      "params": {
+        "VariableName": "command_bode_out",
+        "MaxDataPoints": "inf",
+        "Decimation": 1,
+        "SaveFormat": "Array",
+        "SampleTime": "-1"
+      }
+    }
+  ],
+  "connections": [
+    { "from": "r1", "to": "p1", "fromIndex": 0, "toIndex": 0 },
+    { "from": "p1", "to": "tw", "fromIndex": 0, "toIndex": 0 }
+  ],
+  "variables": "",
+  "runtime": 3,
+  "sampleTime": 0.01,
+  "solver": "ode45",
+  "autoRoute": true
+}

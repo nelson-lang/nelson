@@ -16,5 +16,6 @@
 namespace Nelson {
 NLSTEXT_COMPLETION_IMPEXP wstringVector
 PropertyCompleter(const std::wstring& prefix);
-};
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

@@ -8,9 +8,9 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 R = vertcat(single(zeros(0, 0)), single(2));
-assert_isequal(R, single(2));
+asserts.isequal(R, single(2));
 R = vertcat(single(zeros(1, 0)), single(2));
-assert_isequal(R, single(2));
+asserts.isequal(R, single(2));
 R = vertcat(single(zeros(0, 1)), single(2));
-assert_isequal(R, single(2));
+asserts.isequal(R, single(2));
 %=============================================================================

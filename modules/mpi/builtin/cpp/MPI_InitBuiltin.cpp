@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "MPI_InitBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "MPI_helpers.hpp"
 #include <mpi.h>
@@ -23,9 +24,9 @@ Nelson::MpiGateway::MPI_InitBuiltin(Evaluator* eval, int nLhs, const ArrayOfVect
     nargincheck(argIn, 0, 0);
     nargoutcheck(nLhs, 0, 1);
     if (eval->haveEventsLoop()) {
-        Error(_W("Wrong engine mode."));
+        Error(L"Nelson:MPI:wrongEngineMode", L"Wrong engine mode.");
     }
-    retval << ArrayOf::logicalConstructor(initializeMPI());
+    retval << ArrayOf::logicalScalar(initializeMPI());
     return retval;
 }
 //=============================================================================

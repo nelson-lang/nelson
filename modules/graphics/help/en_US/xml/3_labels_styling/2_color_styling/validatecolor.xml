@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>validatecolor</keyword>
+  <short_description>Validate color values.</short_description>
+  <syntax>
+    <syntax_item>RGB = validatecolor(colors)</syntax_item>
+    <syntax_item>RGB = validatecolor(colors, sz)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>colors</param_name>
+      <param_description
+      >1-by-3 vector, m-by-3 matrix, character vector, 1-D cell array of character vectors or 1-D string array.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>sz</param_name>
+      <param_description>
+        &apos;one&apos; (default) or &apos;multiple&apos;
+      </param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>RGB</param_name>
+      <param_description
+      >RGB values: RGB triplet or matrix of RGB triplets.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>The <b>validatecolor</b> function is a color validation function that checks whether a given color is valid according to Nelson standards.</p>
+    <p
+    >It takes a color argument as input and returns an error if the color is not valid.</p>
+    <p>Hexadecimal color codes use six ('#FF8800') or three ('#F80') hexadecimal digits.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[RGB = validatecolor('red')
+RGB = validatecolor('#8000FF')
+RGB = validatecolor({'#8000FF','#00FF00','#FF9900'}, 'multiple')
+RGB = validatecolor({'red','green','blue'},'multiple')
+image(reshape(RGB, [1, size(RGB, 1), 3]));
+axis off
+]]></example_item_data>
+      <example_item_img src="../../../../images/validatecolor_1.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>3-digit hexadecimal color codes ('#F80') accepted, exact k/255 values for hexadecimal codes, error for non 1-D cell or string arrays.</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

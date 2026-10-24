@@ -11,6 +11,7 @@
 #include "FileSystemWrapper.hpp"
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -24,7 +25,8 @@ RemoveFile(const std::wstring& filename, std::wstring& message)
     if (permissionDenied) {
         FileSystemWrapper::Path p = (filename);
         if (!FileSystemWrapper::Path::updateFilePermissionsToWrite(p)) {
-            message = _W("Permission denied");
+            message = Nelson::resolveMessageTemplate(
+                L"Nelson:files_folders_functions:permissionDenied", L"Permission denied.");
             return false;
         }
         std::string errorMessage;
@@ -32,6 +34,7 @@ RemoveFile(const std::wstring& filename, std::wstring& message)
             message = utf8_to_wstring(errorMessage);
             return false;
         }
+        return true;
     }
     if (bIsFile) {
         std::string errorMessage;
@@ -40,10 +43,11 @@ RemoveFile(const std::wstring& filename, std::wstring& message)
             message = utf8_to_wstring(errorMessage);
             return false;
         }
-    } else {
-        res = false;
-        message = _W("an existing file expected.");
+        return true;
     }
+    res = false;
+    message = Nelson::resolveMessageTemplate(
+        L"Nelson:files_folders_functions:existingFile", L"an existing file expected.");
     return res;
 }
 //=============================================================================

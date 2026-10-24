@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>sprank</keyword>
+  <short_description>Structural rank of a matrix.</short_description>
+  <syntax>
+    <syntax_item>r = sprank(S)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>S</param_name>
+      <param_description>a sparse or full floating-point or logical matrix.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>r</param_name>
+      <param_description>structural rank.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>sprank</b> returns the structural rank of a matrix, computed from its nonzero pattern.</p>
+    <p>The value is the size of a maximum matching between matrix rows and columns.</p>
+    <p>Double, single, logical, complex double, and complex single matrices are supported, both full and sparse. For sparse input, stored zero values are ignored when the structural pattern is built.</p>
+    <p>Structural rank can be larger than numeric rank because it depends only on the locations of nonzero values, not on numerical linear dependence.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[S = sparse([1 1; 1 1]);
+r = sprank(S)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[S = sparse([1 2 1 2], [1 1 2 2], single([0 -0 complex(0, 0) complex(0, 2)]), 2, 2, 4);
+r = sprank(S)
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${sparse}sparse">sparse</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${sparse}nnz">nnz</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -17,6 +17,7 @@
 #include "RepositorySwitchBranch.hpp"
 #include "characters_encoding.hpp"
 #include "RepositoryCreateBranch.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -65,12 +66,13 @@ RepositoryCreateAndCheckoutBranch(
     errorCode = git_checkout_tree(repo, treeish, &checkout_opts);
     if (errorCode != 0) {
         errorMessage = gitErrorCodeToMessage(errorCode);
+        git_object_free(treeish);
         git_repository_free(repo);
         git_libgit2_shutdown();
         return;
     }
     const git_oid* commit_oid = git_object_id(treeish);
-    git_commit* commit;
+    git_commit* commit = nullptr;
     errorCode = git_commit_lookup(&commit, repo, commit_oid);
     if (errorCode != 0) {
         errorMessage = gitErrorCodeToMessage(errorCode);
@@ -79,15 +81,18 @@ RepositoryCreateAndCheckoutBranch(
         git_libgit2_shutdown();
         return;
     }
-    git_reference* branch;
+    git_reference* branch = nullptr;
     errorCode = git_branch_create(&branch, repo, branchNameUtf8.c_str(), commit, 0);
     if (errorCode != 0) {
         errorMessage = gitErrorCodeToMessage(errorCode);
+        git_commit_free(commit);
         git_object_free(treeish);
         git_repository_free(repo);
         git_libgit2_shutdown();
         return;
     }
+    git_reference_free(branch);
+    git_commit_free(commit);
     git_object_free(treeish);
     git_repository_free(repo);
     git_libgit2_shutdown();
@@ -141,6 +146,7 @@ RepositoryCheckoutDetached(
     errorCode = git_checkout_tree(repo, treeish, &checkout_opts);
     if (errorCode != 0) {
         errorMessage = gitErrorCodeToMessage(errorCode);
+        git_object_free(treeish);
         git_repository_free(repo);
         git_libgit2_shutdown();
         return;
@@ -163,7 +169,8 @@ RepositoryCheckout(
         } else if (RepositoryIsRemoteBranch(localPath, branchOrTag)) {
             RepositoryCreateAndCheckoutBranch(localPath, branchOrTag, errorMessage);
         } else {
-            errorMessage = _W("remote branch does not exist.");
+            errorMessage = resolveMessageTemplate(
+                L"Nelson:webtools:remoteBranchDoesExist", L"remote branch does not exist.");
             return;
         }
     } else {
@@ -175,11 +182,12 @@ RepositoryCheckout(
             if (isSHA1) {
                 RepositoryCheckoutDetached(localPath, branchOrTag, errorMessage);
             } else {
-                errorMessage = _W("Valid tag or branch name expected.");
+                errorMessage = resolveMessageTemplate(
+                    L"Nelson:webtools:validTagBranchName", L"Valid tag or branch name expected.");
             }
         }
     }
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

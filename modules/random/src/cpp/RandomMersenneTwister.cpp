@@ -8,13 +8,20 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <cstring>
+#include <cmath>
 #include <randomkit.h>
 #include <distributions.h>
 #include "RandomMersenneTwister.hpp"
+#include "ZigguratNormal.hpp"
 //=============================================================================
 #define MAGIC_SEED 5489
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+// Standard normal deviate: the ziggurat consumes the Mersenne-Twister stream in a
+// fixed order and amount, so the 'twister' stream is reproduced bit-for-bit.
+static double
+rk_randn_ziggurat(rk_state* state);
 //=============================================================================
 RandomMersenneTwister::RandomMersenneTwister() : pImpl(new Impl())
 {
@@ -50,7 +57,7 @@ void
 RandomMersenneTwister::getValuesAsDouble(
     double* ar, indexType nbElements, indexType lastDim, RNG_DISTRIBUTION_TYPE _type)
 {
-    int local_min, local_max;
+    int64 local_min, local_max;
     rk_state local_state;
 
     {
@@ -69,10 +76,11 @@ RandomMersenneTwister::getValuesAsDouble(
                 break;
             case RNG_DISTRIBUTION_UNIFORM_INT:
                 ar[k * lastDim + l] = static_cast<double>(local_min
-                    + static_cast<int>(rk_double(&local_state) * (local_max - local_min + 1)));
+                    + static_cast<int64>(
+                        rk_double(&local_state) * static_cast<double>(local_max - local_min + 1)));
                 break;
             case RNG_DISTRIBUTION_NORMAL:
-                ar[k * lastDim + l] = rk_normal(&local_state, 0.0, 1.0);
+                ar[k * lastDim + l] = rk_randn_ziggurat(&local_state);
                 break;
             default:
                 break;
@@ -90,7 +98,7 @@ void
 RandomMersenneTwister::getValuesAsSingle(
     single* ar, indexType nbElements, indexType lastDim, RNG_DISTRIBUTION_TYPE _type)
 {
-    int local_min, local_max;
+    int64 local_min, local_max;
     rk_state local_state;
 
     {
@@ -109,10 +117,11 @@ RandomMersenneTwister::getValuesAsSingle(
                 break;
             case RNG_DISTRIBUTION_UNIFORM_INT:
                 ar[k * lastDim + l] = static_cast<single>(local_min
-                    + static_cast<int>(rk_double(&local_state) * (local_max - local_min + 1)));
+                    + static_cast<int64>(
+                        rk_double(&local_state) * static_cast<double>(local_max - local_min + 1)));
                 break;
             case RNG_DISTRIBUTION_NORMAL:
-                ar[k * lastDim + l] = static_cast<single>(rk_normal(&local_state, 0.0, 1.0));
+                ar[k * lastDim + l] = static_cast<single>(rk_randn_ziggurat(&local_state));
                 break;
             default:
                 break;
@@ -153,7 +162,7 @@ RandomMersenneTwister::getStateSize()
 }
 //=============================================================================
 void
-RandomMersenneTwister::setMinMaxUniformIntDistribution(int _min, int _max)
+RandomMersenneTwister::setMinMaxUniformIntDistribution(int64 _min, int64 _max)
 {
     std::lock_guard<std::mutex> lock(mtx);
     pImpl->int_min = _min;
@@ -161,11 +170,22 @@ RandomMersenneTwister::setMinMaxUniformIntDistribution(int _min, int _max)
 }
 //=============================================================================
 void
-RandomMersenneTwister::getMinMaxUniformIntDistribution(int& _min, int& _max)
+RandomMersenneTwister::getMinMaxUniformIntDistribution(int64& _min, int64& _max)
 {
     std::lock_guard<std::mutex> lock(mtx);
     _min = pImpl->int_min;
     _max = pImpl->int_max;
+}
+//=============================================================================
+static double
+rk_randn_ziggurat(rk_state* state)
+{
+    return zigguratNormal(
+        [state](uint32_t& w0, uint32_t& w1) {
+            w0 = static_cast<uint32_t>(rk_random(state));
+            w1 = static_cast<uint32_t>(rk_random(state));
+        },
+        [state]() { return rk_double(state); });
 }
 //=============================================================================
 } // namespace Nelson

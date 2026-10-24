@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,8 +10,9 @@
 #include "h5ReadEnum.hpp"
 #include "h5ReadHelpers.hpp"
 #include "NewWithException.hpp"
-#include "Exception.hpp"
+#include "NelsonException.hpp"
 #include "i18n.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -26,15 +27,15 @@ h5ReadEnum(hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, std:
     }
     hsize_t sizeType = H5Tget_size(type_id);
     int rank;
-    Dimensions dims = getDimensions(dspace_id, rank);
+    Dimensions dims = dimensions(dspace_id, rank);
     if ((rank == 0) && (storageSize == 0)) {
         dims = Dimensions(0, 0);
     }
     ArrayOf* elements;
     try {
-        elements = new_with_exception<ArrayOf>(dims.getElementCount(), false);
-    } catch (Exception& e) {
-        error = e.getMessage();
+        elements = new_with_exception<ArrayOf>(dims.elementCount(), false);
+    } catch (NelsonException& e) {
+        error = e.message();
         return {};
     }
     NelsonType outputClass;
@@ -77,11 +78,10 @@ h5ReadEnum(hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, std:
     }
     void* buffer = nullptr;
     try {
-        buffer
-            = ArrayOf::allocateArrayOf(outputClass, dims.getElementCount(), stringVector(), true);
-    } catch (Exception& e) {
+        buffer = ArrayOf::allocateArrayOf(outputClass, dims.elementCount(), stringVector(), true);
+    } catch (NelsonException& e) {
         delete[] elements;
-        error = e.getMessage();
+        error = e.message();
         return {};
     }
     herr_t status = H5I_INVALID_HID;
@@ -93,15 +93,17 @@ h5ReadEnum(hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, std:
     if (status < 0) {
         delete[] elements;
         if (asAttribute) {
-            error = _W("Cannot read attribute.");
+            error = resolveMessageTemplate(
+                L"Nelson:hdf5:cannotReadAttribute", L"Cannot read attribute.");
         } else {
-            error = _W("Cannot read data set.");
+            error = resolveMessageTemplate(
+                L"Nelson:hdf5:cannotReadDataSet", L"Cannot read data set.");
         }
         return {};
     }
     indexType pos = 0;
 #define LENGTH_NAME_MAX 1024
-    char name[LENGTH_NAME_MAX];
+    char name[LENGTH_NAME_MAX] = { 0 };
 
     uint8* ptrAsUINT8 = nullptr;
     int8* ptrAsINT8 = nullptr;
@@ -138,12 +140,12 @@ h5ReadEnum(hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, std:
     } break;
     default: {
         delete[] elements;
-        error = _W("Type not managed.");
+        error = _W("Type not supported.");
         return {};
     } break;
     }
     indexType k = 0;
-    indexType elementCount = dims.getElementCount();
+    indexType elementCount = dims.elementCount();
     for (indexType i = 0; i < elementCount; i++) {
         switch (outputClass) {
         case NLS_UINT8: {
@@ -189,7 +191,43 @@ h5ReadEnum(hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, std:
         default: {
         } break;
         }
-        elements[i] = ArrayOf::characterArrayConstructor(name);
+        if (status < 0) {
+            // The value is not in the enum definition. The name buffer is not valid,
+            // so use the numeric value as text.
+            std::string placeholder;
+            switch (outputClass) {
+            case NLS_UINT8:
+                placeholder = ptrAsUINT8 ? std::to_string(ptrAsUINT8[i]) : "<unknown>";
+                break;
+            case NLS_UINT16:
+                placeholder = ptrAsUINT16 ? std::to_string(ptrAsUINT16[i]) : "<unknown>";
+                break;
+            case NLS_UINT32:
+                placeholder = ptrAsUINT32 ? std::to_string(ptrAsUINT32[i]) : "<unknown>";
+                break;
+            case NLS_UINT64:
+                placeholder = ptrAsUINT64 ? std::to_string(ptrAsUINT64[i]) : "<unknown>";
+                break;
+            case NLS_INT8:
+                placeholder = ptrAsINT8 ? std::to_string(ptrAsINT8[i]) : "<unknown>";
+                break;
+            case NLS_INT16:
+                placeholder = ptrAsINT16 ? std::to_string(ptrAsINT16[i]) : "<unknown>";
+                break;
+            case NLS_INT32:
+                placeholder = ptrAsINT32 ? std::to_string(ptrAsINT32[i]) : "<unknown>";
+                break;
+            case NLS_INT64:
+                placeholder = ptrAsINT64 ? std::to_string(ptrAsINT64[i]) : "<unknown>";
+                break;
+            default:
+                placeholder = "<unknown>";
+                break;
+            }
+            elements[i] = ArrayOf::characterArray(placeholder);
+        } else {
+            elements[i] = ArrayOf::characterArray(name);
+        }
     }
     if (ptrAsUINT8) {
         delete[] ptrAsUINT8;

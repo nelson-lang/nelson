@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>dsearchn</keyword>
+  <short_description>Recherche du point le plus proche</short_description>
+  <syntax>
+    <syntax_item>idx = dsearchn(P, Q)</syntax_item>
+    <syntax_item>[idx, dist] = dsearchn(P, Q)</syntax_item>
+    <syntax_item>idx = dsearchn(P, T, Q)</syntax_item>
+    <syntax_item>idx = dsearchn(P, T, Q, outind)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>dsearchn</b> retourne le point le plus proche dans <b>P</b> pour chaque point de requete.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Point le plus proche et distance.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[P = [0 0; 1 0; 1 1; 0 1];
+[idx, dist] = dsearchn(P, [0.2 0.1])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${geometry}tsearchn">tsearchn</link></see_also_item>
+    <see_also_item><link linkend="${geometry}triangulation">triangulation</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item><history_version>2.0.0</history_version><history_description>Version initiale.</history_description></history_item>
+  </history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

@@ -8,17 +8,17 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 d = dictionary();
-assert_isfalse(isConfigured(d));
-assert_isfalse(d.isConfigured);
-assert_isequal(length(d), 1);
-assert_isequal(numel(d), 1);
-assert_isequal(ndims(d), 2);
-assert_isequal(size(d), [1 1]);
-assert_isequal(numEntries(d), 0);
-assert_isequal(d.numEntries, 0);
-assert_istrue(ismissing(types(d)));
-assert_istrue(ismissing(d.types));
+asserts.isfalse(isConfigured(d));
+asserts.isfalse(d.isConfigured);
+asserts.isequal(length(d), 1);
+asserts.isequal(numel(d), 1);
+asserts.isequal(ndims(d), 2);
+asserts.isequal(size(d), [1 1]);
+asserts.isequal(numEntries(d), 0);
+asserts.isequal(d.numEntries, 0);
+asserts.istrue(ismissing(types(d)));
+asserts.istrue(ismissing(d.types));
 [key_type, val_type] = types(d);
-assert_istrue(ismissing(key_type));
-assert_istrue(ismissing(val_type));
+asserts.istrue(ismissing(key_type));
+asserts.istrue(ismissing(val_type));
 %=============================================================================

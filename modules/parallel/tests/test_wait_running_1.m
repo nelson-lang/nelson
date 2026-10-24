@@ -13,6 +13,6 @@ fptr = str2func('cos');
 f = parfeval(backgroundPool, fptr, 0, 55);
 pause(2);
 R = wait(f, 'running');
-assert_isequal(f.State, 'finished');
-assert_istrue(R);
+asserts.isequal(f.State, 'finished');
+asserts.istrue(R);
 %=============================================================================

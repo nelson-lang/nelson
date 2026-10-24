@@ -6,7 +6,7 @@
   <short_description
   >La représentation des opérateurs Python dans Nelson.</short_description>
   <description>
-    <p>Nelson facilite l&apos;utilisation des opérateurs surchargés suivants :</p>
+    <p>Nelson prend en charge les opérateurs surchargés suivants :</p>
     <table>
       <tr>
         <th>Symbole opérateur Python</th>

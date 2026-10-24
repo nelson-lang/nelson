@@ -9,9 +9,9 @@
 %=============================================================================
 function rgbplot(map)
   if (size(map, 2) ~= 3)
-    error(_('Must be a 3-column colormap matrix.'));
+    error('Nelson:rgbplot:invalidColormap', 'Must be a 3-column colormap matrix.');
   end
   m = 1:size(map, 1);
-  plot(m, map(:, 1), 'r-', m, map(:, 2), 'g-', m, map(:,3), 'b-');
+  plot(m, map(:, 1), 'r-', m, map(:, 2), 'g-', m, map(:, 3), 'b-');
 end
 %=============================================================================

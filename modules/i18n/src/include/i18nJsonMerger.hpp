@@ -18,5 +18,5 @@ NLSI18N_IMPEXP bool
 i18nJsonMerger(const std::wstring& jsonSource, const std::wstring& jsonDestination,
     std::wstring& errorMessage);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

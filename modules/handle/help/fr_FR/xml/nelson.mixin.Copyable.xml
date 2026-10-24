@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nelson.mixin.Copyable</keyword>
+  <short_description>Ajouter une méthode copy à une classe handle.</short_description>
+  <syntax>
+    <syntax_item>classdef MaClasse &lt; nelson.mixin.Copyable</syntax_item>
+    <syntax_item>b = copy(a)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>a</param_name><param_description>un objet handle d'une classe dérivant de nelson.mixin.Copyable.</param_description></param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>b</param_name><param_description>une copie superficielle indépendante de a.</param_description></param_output_item>
+  </param_output>
+  <description>
+    <p>Dérivez une classe handle de <b>nelson.mixin.Copyable</b> pour lui donner une méthode
+    <b>copy</b> qui renvoie une copie superficielle indépendante d'un objet.</p>
+    <p><b>copy(a)</b> crée un nouvel objet et copie chaque valeur de propriété de <b>a</b>. Les
+    propriétés déclarées <b>NonCopyable</b> ne sont pas copiées et gardent leur valeur par défaut
+    dans la copie. La copie est superficielle : les propriétés à valeur handle sont partagées entre
+    l'original et la copie.</p>
+    <p><b>nelson.mixin.Copyable</b> est elle-même une classe handle.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Une classe handle copiable.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[classdef Node < nelson.mixin.Copyable
+  properties
+    Value = 0
+  end
+end
+a = Node();
+a.Value = 42;
+b = copy(a);
+b.Value = 7;
+a.Value   % toujours 42]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${handle}handle">handle</link></see_also_item>
+    <see_also_item><link linkend="${interpreter}classdef">classdef</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>2.0.0</history_version><history_description>version initiale</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

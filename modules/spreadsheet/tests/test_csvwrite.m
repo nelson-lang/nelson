@@ -16,19 +16,19 @@ else
 end
 tab = char(9);
 %=============================================================================
-filename = [tempdir(), 'csvwrite_test.csv'];
+filename = [tempname(), '.csv'];
 %=============================================================================
 A = [Inf, -Inf, NaN, 3];
 csvwrite(filename, A);
 M = csvread(filename);
-assert_isequal(A, M);
+asserts.isequal(A, M);
 %=============================================================================
 TXT = fileread(filename, 'char', 'native');
 REF = ['Inf,-Inf,NaN,3', eol];
-assert_isequal(TXT, REF);
+asserts.isequal(TXT, REF);
 %=============================================================================
 A = eye(3, 4) + i;
 csvwrite(filename, A);
 M = csvread(filename);
-assert_isequal(A, M);
+asserts.isequal(A, M);
 %=============================================================================

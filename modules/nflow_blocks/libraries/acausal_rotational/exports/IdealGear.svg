@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="313.5" height="271.5" viewBox="-156.25 -148.25 313.5 271.5">
+  <rect x="-156.25" y="-148.25" width="313.5" height="271.5" rx="51.585" fill="#EAF7EC" stroke="#A6DDB0" stroke-width="3.25"/>
+  <g transform="matrix(1 0 0 -1 0 0)">
+    <g transform="translate(-35 60) rotate(0)">
+    <rect x="-15" y="-40" width="30" height="80" fill="#FFFFFF" stroke="#1E6B2E" stroke-width="3.25"/>
+    </g>
+    <g transform="translate(-35 0) rotate(0)">
+    <rect x="-15" y="-21" width="30" height="42" fill="#FFFFFF" stroke="#1E6B2E" stroke-width="3.25"/>
+    </g>
+    <polyline points="-80,20 -60,20" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-80,-20 -60,-20" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-70,-20 -70,-86" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="0,40 0,-86" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-10,40 10,40" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-10,80 10,80" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="60,-20 80,-20" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="60,20 80,20" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="70,-20 70,-86" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="70,-86 -70,-86" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <g transform="translate(-75 0) rotate(0)">
+    <rect x="-25" y="-10" width="50" height="20" fill="#A6DDB0" stroke="#1E6B2E" stroke-width="3.25"/>
+    </g>
+    <g transform="translate(75 0) rotate(0)">
+    <rect x="-25" y="-10" width="50" height="20" fill="#A6DDB0" stroke="#1E6B2E" stroke-width="3.25"/>
+    </g>
+    <g transform="translate(-35 -19) rotate(0)">
+    <rect x="-15" y="-2" width="30" height="4" fill="#A6DDB0" stroke="#1E6B2E" stroke-width="3.25"/>
+    </g>
+    <g transform="translate(-35 -8) rotate(0)">
+    <rect x="-15" y="-3" width="30" height="6" fill="#A6DDB0" stroke="#1E6B2E" stroke-width="3.25"/>
+    </g>
+    <g transform="translate(-35 19) rotate(0)">
+    <rect x="-15" y="-2" width="30" height="4" fill="#A6DDB0" stroke="#1E6B2E" stroke-width="3.25"/>
+    </g>
+    <g transform="translate(-35 8) rotate(0)">
+    <rect x="-15" y="-3" width="30" height="6" fill="#FFFFFF" stroke="#1E6B2E" stroke-width="3.25"/>
+    </g>
+    <g transform="translate(0 60) rotate(0)">
+    <rect x="-20" y="-10" width="40" height="20" fill="#A6DDB0" stroke="#1E6B2E" stroke-width="3.25"/>
+    </g>
+    <g transform="translate(-35 98) rotate(0)">
+    <rect x="-15" y="-2" width="30" height="4" fill="#A6DDB0" stroke="#1E6B2E" stroke-width="3.25"/>
+    </g>
+    <g transform="translate(-35 87) rotate(0)">
+    <rect x="-15" y="-3" width="30" height="6" fill="#A6DDB0" stroke="#1E6B2E" stroke-width="3.25"/>
+    </g>
+    <g transform="translate(-35 50) rotate(0)">
+    <rect x="-15" y="-4" width="30" height="8" fill="#A6DDB0" stroke="#1E6B2E" stroke-width="3.25"/>
+    </g>
+    <g transform="translate(-35 22) rotate(0)">
+    <rect x="-15" y="-2" width="30" height="4" fill="#1E6B2E" stroke="#1E6B2E" stroke-width="3.25"/>
+    </g>
+    <g transform="translate(-35 33) rotate(0)">
+    <rect x="-15" y="-3" width="30" height="6" fill="#A6DDB0" stroke="#1E6B2E" stroke-width="3.25"/>
+    </g>
+    <g transform="translate(-35 70) rotate(0)">
+    <rect x="-15" y="-4" width="30" height="8" fill="#FFFFFF" stroke="#1E6B2E" stroke-width="3.25"/>
+    </g>
+    <g transform="translate(35 60) rotate(0)">
+    <rect x="-15" y="-21" width="30" height="42" fill="#FFFFFF" stroke="#1E6B2E" stroke-width="3.25"/>
+    </g>
+    <g transform="translate(35 41) rotate(0)">
+    <rect x="-15" y="-2" width="30" height="4" fill="#A6DDB0" stroke="#1E6B2E" stroke-width="3.25"/>
+    </g>
+    <g transform="translate(35 52) rotate(0)">
+    <rect x="-15" y="-3" width="30" height="6" fill="#A6DDB0" stroke="#1E6B2E" stroke-width="3.25"/>
+    </g>
+    <g transform="translate(35 79) rotate(0)">
+    <rect x="-15" y="-2" width="30" height="4" fill="#A6DDB0" stroke="#1E6B2E" stroke-width="3.25"/>
+    </g>
+    <g transform="translate(35 68) rotate(0)">
+    <rect x="-15" y="-3" width="30" height="6" fill="#FFFFFF" stroke="#1E6B2E" stroke-width="3.25"/>
+    </g>
+    <g transform="translate(35 0) rotate(0)">
+    <rect x="-15" y="-40" width="30" height="80" fill="#FFFFFF" stroke="#1E6B2E" stroke-width="3.25"/>
+    </g>
+    <g transform="translate(35 38) rotate(0)">
+    <rect x="-15" y="-2" width="30" height="4" fill="#A6DDB0" stroke="#1E6B2E" stroke-width="3.25"/>
+    </g>
+    <g transform="translate(35 27) rotate(0)">
+    <rect x="-15" y="-3" width="30" height="6" fill="#A6DDB0" stroke="#1E6B2E" stroke-width="3.25"/>
+    </g>
+    <g transform="translate(35 -10) rotate(0)">
+    <rect x="-15" y="-4" width="30" height="8" fill="#A6DDB0" stroke="#1E6B2E" stroke-width="3.25"/>
+    </g>
+    <g transform="translate(35 -38) rotate(0)">
+    <rect x="-15" y="-2" width="30" height="4" fill="#1E6B2E" stroke="#1E6B2E" stroke-width="3.25"/>
+    </g>
+    <g transform="translate(35 -27) rotate(0)">
+    <rect x="-15" y="-3" width="30" height="6" fill="#A6DDB0" stroke="#1E6B2E" stroke-width="3.25"/>
+    </g>
+    <g transform="translate(35 10) rotate(0)">
+    <rect x="-15" y="-4" width="30" height="8" fill="#FFFFFF" stroke="#1E6B2E" stroke-width="3.25"/>
+    </g>
+    <g transform="translate(-35 40) rotate(0)">
+    <rect x="-15" y="-61" width="30" height="121" fill="none" stroke="#1E6B2E" stroke-width="3.25"/>
+    </g>
+    <g transform="translate(35 21) rotate(0)">
+    <rect x="-15" y="-61" width="30" height="121" fill="none" stroke="#1E6B2E" stroke-width="3.25"/>
+    </g>
+    <polyline points="-50,-120 -30,-100" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-30,-120 -10,-100" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-10,-120 10,-100" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="10,-120 30,-100" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-30,-100 30,-100" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <g transform="translate(-3,125) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32" fill="#1E6B2E">IdealGear</text></g>
+    <g transform="translate(4,-64) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="24" fill="#1E6B2E">ratio</text></g>
+  </g>
+</svg>

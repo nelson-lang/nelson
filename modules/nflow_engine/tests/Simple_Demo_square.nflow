@@ -1,0 +1,19 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": { "author": "Allan CORNET", "tool": "Nelson nflow" },
+  "license": "LGPL-3.0",
+  "comments": "A +/-1 square wave, period 6 s (half-period 3 s), starting high.",
+  "name": "Simple Demo Square",
+  "blocks": [
+    { "id": "src", "type": "signalGenerator", "x": 40, "y": 160, "rotation": 0,
+      "params": { "Waveform": "square", "Amplitude": 1, "Frequency": 0.16666666666666666 } },
+    { "id": "tw", "type": "toWorkspace", "x": 280, "y": 160, "rotation": 0,
+      "params": { "VariableName": "square_out", "MaxDataPoints": "inf", "Decimation": 1, "SaveFormat": "Array", "SampleTime": "-1" } }
+  ],
+  "connections": [ { "from": "src", "to": "tw", "fromIndex": 0, "toIndex": 0 } ],
+  "variables": "",
+  "runtime": 30,
+  "sampleTime": 0.1,
+  "autoRoute": true
+}

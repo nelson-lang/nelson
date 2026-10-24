@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>writetimetable</keyword>
+  <short_description>Écrit une timetable dans un fichier.</short_description>
+  <syntax>
+    <syntax_item>writetimetable(TT)</syntax_item>
+    <syntax_item>writetimetable(TT, filename)</syntax_item>
+    <syntax_item>writetimetable(..., Name, Value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>TT</param_name>
+      <param_description>une timetable.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>une chaîne indiquant le fichier destination.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Name, Value</param_name>
+      <param_description>paramètres d'écriture optionnels tels que Delimiter, WriteVariableNames, WriteMode, QuoteStrings et FileType.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b>writetimetable</b> écrit une timetable dans un fichier texte délimité.</p>
+    <p>Les temps de ligne sont écrits comme première colonne. Les variables de données sont écrites ensuite et conservent leurs noms.</p>
+    <p>Les options de fichier texte prises en charge correspondent à la surface pratique de <b>writetable</b>, dont <b>Delimiter</b>, <b>WriteVariableNames</b>, <b>WriteMode</b> et <b>QuoteStrings</b>.</p>
+    <p>Les temps de ligne datetime et duration sont convertis en texte stable avant l'écriture. Le fichier texte délimité obtenu peut être relu avec <b>readtimetable</b>.</p>
+    <p><b>Fichiers JSON</b> (extension <b>.json</b> ou <b>&apos;FileType&apos;, &apos;json&apos;</b>) : la timetable est écrite comme un tableau JSON avec un objet par ligne. Les temps de ligne sont la première valeur de chaque objet, avec pour clé le premier nom de dimension. <b>PrettyPrint</b> et <b>PreserveInfAndNaN</b> se comportent comme dans <b>writetable</b>.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Écrire une timetable et la relire.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[
+Time = datetime(2026, 1, 1) + hours(0:2)';
+Temperature = [20.1; 21.3; 22.0];
+Pressure = [1012; 1011; 1013];
+TT1 = timetable(Time, Temperature, Pressure, ...
+  'VariableNames', {'Temperature', 'Pressure'});
+filename = [tempdir(), 'writetimetable_roundtrip.csv'];
+writetimetable(TT1, filename);
+TT2 = readtimetable(filename)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Utiliser un séparateur point-virgule.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[
+Time = datetime(2026, 1, 1) + days(0:2)';
+Temperature = [20.1; 21.3; 22.0];
+TT = timetable(Time, Temperature);
+filename = [tempdir(), 'writetimetable_semicolon.csv'];
+writetimetable(TT, filename, 'Delimiter', ';');
+fileread(filename)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Écrire des temps de ligne duration.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[
+Time = seconds([0; 5; 10]);
+Signal = [3.2; 4.1; 3.8];
+TT = timetable(Time, Signal);
+filename = [tempdir(), 'writetimetable_duration.csv'];
+writetimetable(TT, filename);
+fileread(filename)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Ajouter des lignes à un fichier texte existant.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[
+Time1 = datetime(2026, 1, 1) + hours(0:1)';
+Value1 = [10; 11];
+TT1 = timetable(Time1, Value1, 'VariableNames', {'Value'});
+Time2 = datetime(2026, 1, 1) + hours(2:3)';
+Value2 = [12; 13];
+TT2 = timetable(Time2, Value2, 'VariableNames', {'Value'});
+filename = [tempdir(), 'writetimetable_append.csv'];
+writetimetable(TT1, filename);
+writetimetable(TT2, filename, 'WriteMode', 'append', 'WriteVariableNames', false);
+readtimetable(filename)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Écrire une timetable dans un fichier JSON :</example_item_description>
+      <example_item_data runnable="cli">TT = timetable(datetime(2024, 1, 1) + days(0:2)&apos;, [12.5; 13; 11.75], &apos;VariableNames&apos;, {&apos;Temperature&apos;}); f = [tempdir, &apos;timetable_json.json&apos;]; writetimetable(TT, f, &apos;PrettyPrint&apos;, false); fileread(f) TT2 = readtimetable(f)</example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${spreadsheet}readtimetable">readtimetable</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${spreadsheet}writetable">writetable</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${table}timetable">timetable</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>Fichiers JSON : FileType json, PrettyPrint et PreserveInfAndNaN.</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

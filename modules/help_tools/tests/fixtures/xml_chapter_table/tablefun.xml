@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <language>en_US</language>
+  <keyword>tablefun</keyword>
+  <short_description>Function page for the chapter table test.</short_description>
+  <syntax>
+    <syntax_item>tablefun(X)</syntax_item>
+  </syntax>
+  <description>
+    <p>Only exists so the chapter has one visible function.</p>
+  </description>
+</xmldoc>

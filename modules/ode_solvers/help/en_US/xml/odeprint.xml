@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>odeprint</keyword>
+  <short_description>Command-window ODE output function.</short_description>
+  <syntax>
+    <syntax_item>status = odeprint(t, y, flag)</syntax_item>
+  </syntax>
+  <description>
+    <p>
+      <b>odeprint</b> is an output callback for ODE solvers. It prints accepted output points and returns <b>0</b> to continue integration.</p>
+    <table style="width:100%">
+  <tr><th>Flag</th><th>When called</th><th>Return value</th></tr>
+  <tr><td><b>'init'</b></td><td>Before integration output starts.</td><td><b>0</b> or <b>false</b> to continue.</td></tr>
+  <tr><td><b>''</b></td><td>At accepted output points.</td><td><b>0</b> or <b>false</b> to continue; <b>1</b> or <b>true</b> stops integration.</td></tr>
+  <tr><td><b>'done'</b></td><td>After integration finishes.</td><td>Return value is ignored.</td></tr>
+</table>
+  </description>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ode_solvers}odeset">odeset</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}odeplot">odeplot</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

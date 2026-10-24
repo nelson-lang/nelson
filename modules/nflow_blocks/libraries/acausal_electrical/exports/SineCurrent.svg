@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="306.5" height="206.5" viewBox="-153.25 -103.25 306.5 206.5">
+  <rect x="-153.25" y="-103.25" width="306.5" height="206.5" rx="39.235" fill="#E8F0FE" stroke="#9DB8F0" stroke-width="3.25"/>
+  <g transform="matrix(1 0 0 -1 0 0)">
+    <ellipse cx="0" cy="0" rx="50" ry="50" fill="#FFFFFF" stroke="#1A3E8C" stroke-width="3.25"/>
+    <polyline points="-90,0 -50,0" fill="none" stroke="#1A3E8C" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="50,0 90,0" fill="none" stroke="#1A3E8C" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="0,-50 0,50" fill="none" stroke="#1A3E8C" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <g transform="translate(0,80) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32" fill="#1A3E8C">SineCurrent</text></g>
+    <polygon points="90,0 60,10 60,-10 90,0" fill="#1A3E8C" stroke="#1A3E8C" stroke-width="3.25" stroke-linejoin="round"/>
+    <polyline points="-70,0 -60.2,29.9 -53.8,46.5 -48.2,58.1 -43.3,65.2 -38.3,69.2 -33.4,69.8 -28.5,67 -23.6,61 -18.6,52 -13,38.6 -5.98,18.6 8.79,-26.9 15.1,-44 20.8,-56.2 25.7,-64 30.6,-68.6 35.5,-70 40.5,-67.9 45.4,-62.5 50.3,-54.1 55.9,-41.3 63,-21.7 70,0" fill="none" stroke="#9DB8F0" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

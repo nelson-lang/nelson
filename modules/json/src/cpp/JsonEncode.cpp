@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -21,6 +21,7 @@
 #include "JsonEncode.hpp"
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -45,9 +46,10 @@ isSupportedType(const ArrayOf& ValueToEncode)
     if (ValueToEncode.isSparse()) {
         return false;
     }
-    switch (ValueToEncode.getDataClass()) {
+    switch (ValueToEncode.dataClass()) {
     case NLS_FUNCTION_HANDLE:
     case NLS_CLASS_ARRAY:
+    case NLS_CLASSDEF_ARRAY:
     case NLS_GO_HANDLE:
     case NLS_HANDLE:
         return false;
@@ -104,7 +106,9 @@ encode_character(std::wstring& jsonString, wchar_t ch)
         json_append_string(jsonString, L"\\t");
         break;
     default: {
-        if ((ch > 13) && (ch < 32)) {
+        // Escape every remaining control character (< 0x20) that has no short
+        // escape (\b \f \n \r \t handled above) using the \uXXXX form.
+        if (ch < 32) {
             jsonString += fmt::format(L"\\u{:04x}", static_cast<unsigned int>(ch));
         } else {
             std::wstring wstr;
@@ -176,9 +180,9 @@ encode_array(std::wstring& jsonString, const ArrayOf& ValueToEncode, bool close)
             json_append_char(jsonString, L'[');
         }
     } else {
-        indexType nbElements = ValueToEncode.getElementCount();
+        indexType nbElements = ValueToEncode.elementCount();
         if (nbElements > 1) {
-            if (ValueToEncode.getDataClass() != NLS_CHAR) {
+            if (ValueToEncode.dataClass() != NLS_CHAR) {
                 if (close) {
                     json_append_char(jsonString, L']');
                 } else {
@@ -202,27 +206,31 @@ static void
 jsonEncodeInteger(
     std::wstring& jsonString, const ArrayOf& ValueToEncode, const std::wstring& format)
 {
-    auto* ptr = (T*)ValueToEncode.getDataPointer();
-    // Pre-allocate string capacity to reduce reallocations
-    // Estimate ~20 chars per integer
-    ompIndexType elementCount = ValueToEncode.getElementCount();
+    auto* ptr = (T*)ValueToEncode.dataPointer();
+    // ~20 chars per integer
+    ompIndexType elementCount = ValueToEncode.elementCount();
     jsonString.reserve(jsonString.size() + elementCount * 20);
     if (ValueToEncode.isRowVector() || ValueToEncode.isColumnVector()) {
         for (ompIndexType i = 0; i < elementCount; i++) {
-            std::vector<wchar_t> buffer(21);
+            // 64-bit values need up to 20 digits, plus sign and trailing ',' and NUL.
+            std::vector<wchar_t> buffer(32);
             int len = std::swprintf(buffer.data(), buffer.size(), format.c_str(), ptr[i]);
-            jsonString.append(buffer.data(), len);
+            if (len > 0) {
+                jsonString.append(buffer.data(), len);
+            }
         }
     } else if (ValueToEncode.is2D()) {
-        indexType rows = ValueToEncode.getRows();
-        indexType cols = ValueToEncode.getColumns();
+        indexType rows = ValueToEncode.rows();
+        indexType cols = ValueToEncode.columns();
         for (int i = 0; i < rows; ++i) {
             json_append_char(jsonString, L'[');
             for (int j = 0; j < cols; ++j) {
-                std::vector<wchar_t> buffer(21);
+                std::vector<wchar_t> buffer(32);
                 int len = std::swprintf(
                     buffer.data(), buffer.size(), format.c_str(), ptr[j * rows + i]);
-                jsonString.append(buffer.data(), len);
+                if (len > 0) {
+                    jsonString.append(buffer.data(), len);
+                }
             }
             if (StringHelpers::ends_with(jsonString, L",")) {
                 jsonString.pop_back();
@@ -230,16 +238,18 @@ jsonEncodeInteger(
             jsonString.append(L"],");
         }
     } else {
-        Dimensions dims = ValueToEncode.getDimensions();
-        indexType lastdimlen = dims.getDimensionLength(dims.getLength() - 1);
-        indexType ymax = dims.getElementCount() / lastdimlen;
+        Dimensions dims = ValueToEncode.dimensions();
+        indexType lastdimlen = dims.dimensionLength(dims.length() - 1);
+        indexType ymax = dims.elementCount() / lastdimlen;
         for (int i = 0; i < ymax; ++i) {
             json_append_char(jsonString, L'[');
             for (int j = 0; j < lastdimlen; ++j) {
-                std::vector<wchar_t> buffer(21);
+                std::vector<wchar_t> buffer(32);
                 int len = std::swprintf(
                     buffer.data(), buffer.size(), format.c_str(), ptr[j * ymax + i]);
-                jsonString.append(buffer.data(), len);
+                if (len > 0) {
+                    jsonString.append(buffer.data(), len);
+                }
             }
             if (StringHelpers::ends_with(jsonString, L",")) {
                 jsonString.pop_back();
@@ -252,10 +262,9 @@ jsonEncodeInteger(
 static void
 jsonEncodeDouble(std::wstring& jsonString, const ArrayOf& ValueToEncode, bool convertNanInf)
 {
-    auto* ptr = (double*)ValueToEncode.getDataPointer();
-    // Pre-allocate string capacity to reduce reallocations
-    // Estimate ~20 chars per double (conservative for scientific notation)
-    ompIndexType elementCount = ValueToEncode.getElementCount();
+    auto* ptr = (double*)ValueToEncode.dataPointer();
+    // ~20 chars per double (scientific notation)
+    ompIndexType elementCount = ValueToEncode.elementCount();
     jsonString.reserve(jsonString.size() + elementCount * 20);
 
     if (ValueToEncode.isRowVector() || ValueToEncode.isColumnVector()) {
@@ -263,8 +272,8 @@ jsonEncodeDouble(std::wstring& jsonString, const ArrayOf& ValueToEncode, bool co
             encode_double(jsonString, ptr[i], convertNanInf);
         }
     } else if (ValueToEncode.is2D()) {
-        indexType rows = ValueToEncode.getRows();
-        indexType cols = ValueToEncode.getColumns();
+        indexType rows = ValueToEncode.rows();
+        indexType cols = ValueToEncode.columns();
         for (int i = 0; i < rows; ++i) {
             json_append_char(jsonString, L'[');
             for (int j = 0; j < cols; ++j) {
@@ -276,9 +285,9 @@ jsonEncodeDouble(std::wstring& jsonString, const ArrayOf& ValueToEncode, bool co
             json_append_string(jsonString, L"],");
         }
     } else {
-        Dimensions dims = ValueToEncode.getDimensions();
-        indexType lastdimlen = dims.getDimensionLength(dims.getLength() - 1);
-        indexType ymax = dims.getElementCount() / lastdimlen;
+        Dimensions dims = ValueToEncode.dimensions();
+        indexType lastdimlen = dims.dimensionLength(dims.length() - 1);
+        indexType ymax = dims.elementCount() / lastdimlen;
         for (int i = 0; i < ymax; ++i) {
             json_append_char(jsonString, L'[');
             for (int j = 0; j < lastdimlen; ++j) {
@@ -295,10 +304,9 @@ jsonEncodeDouble(std::wstring& jsonString, const ArrayOf& ValueToEncode, bool co
 static void
 jsonEncodeSingle(std::wstring& jsonString, const ArrayOf& ValueToEncode, bool convertNanInf)
 {
-    auto* ptr = (single*)ValueToEncode.getDataPointer();
-    // Pre-allocate string capacity to reduce reallocations
-    // Estimate ~20 chars per double (conservative for scientific notation)
-    ompIndexType elementCount = ValueToEncode.getElementCount();
+    auto* ptr = (single*)ValueToEncode.dataPointer();
+    // ~20 chars per double (scientific notation)
+    ompIndexType elementCount = ValueToEncode.elementCount();
     jsonString.reserve(jsonString.size() + elementCount * 20);
 
     if (ValueToEncode.isRowVector() || ValueToEncode.isColumnVector()) {
@@ -306,8 +314,8 @@ jsonEncodeSingle(std::wstring& jsonString, const ArrayOf& ValueToEncode, bool co
             encode_single(jsonString, ptr[i], convertNanInf);
         }
     } else if (ValueToEncode.is2D()) {
-        indexType rows = ValueToEncode.getRows();
-        indexType cols = ValueToEncode.getColumns();
+        indexType rows = ValueToEncode.rows();
+        indexType cols = ValueToEncode.columns();
         for (int i = 0; i < rows; ++i) {
             json_append_char(jsonString, '[');
             for (int j = 0; j < cols; ++j) {
@@ -319,9 +327,9 @@ jsonEncodeSingle(std::wstring& jsonString, const ArrayOf& ValueToEncode, bool co
             json_append_string(jsonString, L"],");
         }
     } else {
-        Dimensions dims = ValueToEncode.getDimensions();
-        indexType lastdimlen = dims.getDimensionLength(dims.getLength() - 1);
-        indexType ymax = dims.getElementCount() / lastdimlen;
+        Dimensions dims = ValueToEncode.dimensions();
+        indexType lastdimlen = dims.dimensionLength(dims.length() - 1);
+        indexType ymax = dims.elementCount() / lastdimlen;
         for (int i = 0; i < ymax; ++i) {
             json_append_char(jsonString, L'[');
             for (int j = 0; j < lastdimlen; ++j) {
@@ -338,7 +346,7 @@ jsonEncodeSingle(std::wstring& jsonString, const ArrayOf& ValueToEncode, bool co
 static void
 jsonEncodeCharacters(std::wstring& jsonString, const ArrayOf& ValueToEncode)
 {
-    std::wstring strw = ValueToEncode.getContentAsArrayOfCharacters();
+    std::wstring strw = ValueToEncode.asCharacterArrayWideString();
     if (ValueToEncode.isRowVector() || ValueToEncode.isColumnVector()) {
         jsonString.reserve(jsonString.size() + strw.size() + 2);
         json_append_char(jsonString, L'"');
@@ -347,8 +355,8 @@ jsonEncodeCharacters(std::wstring& jsonString, const ArrayOf& ValueToEncode)
         }
         json_append_char(jsonString, L'"');
     } else if (ValueToEncode.is2D()) {
-        indexType rows = ValueToEncode.getRows();
-        indexType cols = ValueToEncode.getColumns();
+        indexType rows = ValueToEncode.rows();
+        indexType cols = ValueToEncode.columns();
         jsonString.reserve(jsonString.size() + strw.size() + 2);
         for (int i = 0; i < rows; ++i) {
             json_append_char(jsonString, L'"');
@@ -361,9 +369,9 @@ jsonEncodeCharacters(std::wstring& jsonString, const ArrayOf& ValueToEncode)
             json_append_string(jsonString, L"\",");
         }
     } else {
-        Dimensions dims = ValueToEncode.getDimensions();
-        indexType lastdimlen = dims.getDimensionLength(dims.getLength() - 1);
-        indexType ymax = dims.getElementCount() / lastdimlen;
+        Dimensions dims = ValueToEncode.dimensions();
+        indexType lastdimlen = dims.dimensionLength(dims.length() - 1);
+        indexType ymax = dims.elementCount() / lastdimlen;
         for (int i = 0; i < ymax; ++i) {
             json_append_char(jsonString, L'\"');
             for (int j = 0; j < lastdimlen; ++j) {
@@ -381,9 +389,8 @@ jsonEncodeCharacters(std::wstring& jsonString, const ArrayOf& ValueToEncode)
 static void
 jsonEncodeMissing(std::wstring& jsonString, const ArrayOf& ValueToEncode)
 {
-    // Pre-allocate string capacity to reduce reallocations
-    // Estimate ~20 chars per missing
-    ompIndexType elementCount = ValueToEncode.getElementCount();
+    // ~20 chars per missing
+    ompIndexType elementCount = ValueToEncode.elementCount();
     jsonString.reserve(jsonString.size() + elementCount * 7);
 
     if (ValueToEncode.isRowVector() || ValueToEncode.isColumnVector()) {
@@ -391,8 +398,8 @@ jsonEncodeMissing(std::wstring& jsonString, const ArrayOf& ValueToEncode)
             json_append_string(jsonString, L"null,");
         }
     } else if (ValueToEncode.is2D()) {
-        indexType rows = ValueToEncode.getRows();
-        indexType cols = ValueToEncode.getColumns();
+        indexType rows = ValueToEncode.rows();
+        indexType cols = ValueToEncode.columns();
         for (indexType i = 0; i < rows; ++i) {
             json_append_char(jsonString, '[');
             for (indexType j = 0; j < cols; ++j) {
@@ -404,9 +411,9 @@ jsonEncodeMissing(std::wstring& jsonString, const ArrayOf& ValueToEncode)
             json_append_string(jsonString, L"],");
         }
     } else {
-        Dimensions dims = ValueToEncode.getDimensions();
-        indexType lastdimlen = dims.getDimensionLength(dims.getLength() - 1);
-        indexType ymax = dims.getElementCount() / lastdimlen;
+        Dimensions dims = ValueToEncode.dimensions();
+        indexType lastdimlen = dims.dimensionLength(dims.length() - 1);
+        indexType ymax = dims.elementCount() / lastdimlen;
         for (indexType i = 0; i < ymax; ++i) {
             json_append_char(jsonString, '[');
             for (indexType j = 0; j < lastdimlen; ++j) {
@@ -423,10 +430,9 @@ jsonEncodeMissing(std::wstring& jsonString, const ArrayOf& ValueToEncode)
 static void
 jsonEncodeLogical(std::wstring& jsonString, const ArrayOf& ValueToEncode)
 {
-    auto* ptr = (logical*)ValueToEncode.getDataPointer();
-    // Pre-allocate string capacity to reduce reallocations
-    // Estimate ~20 chars per logical
-    ompIndexType elementCount = ValueToEncode.getElementCount();
+    auto* ptr = (logical*)ValueToEncode.dataPointer();
+    // ~20 chars per logical
+    ompIndexType elementCount = ValueToEncode.elementCount();
     jsonString.reserve(jsonString.size() + elementCount * 8);
     if (ValueToEncode.isRowVector() || ValueToEncode.isColumnVector()) {
         for (ompIndexType i = 0; i < elementCount; i++) {
@@ -437,8 +443,8 @@ jsonEncodeLogical(std::wstring& jsonString, const ArrayOf& ValueToEncode)
             }
         }
     } else if (ValueToEncode.is2D()) {
-        indexType rows = ValueToEncode.getRows();
-        indexType cols = ValueToEncode.getColumns();
+        indexType rows = ValueToEncode.rows();
+        indexType cols = ValueToEncode.columns();
         for (indexType i = 0; i < rows; ++i) {
             json_append_char(jsonString, '[');
             for (indexType j = 0; j < cols; ++j) {
@@ -454,9 +460,9 @@ jsonEncodeLogical(std::wstring& jsonString, const ArrayOf& ValueToEncode)
             json_append_string(jsonString, L"],");
         }
     } else {
-        Dimensions dims = ValueToEncode.getDimensions();
-        indexType lastdimlen = dims.getDimensionLength(dims.getLength() - 1);
-        indexType ymax = dims.getElementCount() / lastdimlen;
+        Dimensions dims = ValueToEncode.dimensions();
+        indexType lastdimlen = dims.dimensionLength(dims.length() - 1);
+        indexType ymax = dims.elementCount() / lastdimlen;
         for (indexType i = 0; i < ymax; ++i) {
             json_append_char(jsonString, '[');
             for (indexType j = 0; j < lastdimlen; ++j) {
@@ -479,23 +485,25 @@ jsonEncodeInternal(
     std::wstring& jsonString, ArrayOf ValueToEncode, bool convertNanInf, std::wstring& errorMessage)
 {
     if (!isSupportedType(ValueToEncode)) {
-        errorMessage = _W("Unsupported type to convert as JSON.");
+        errorMessage = Nelson::resolveMessageTemplate(
+            L"Nelson:json:unsupportedTypeConvertAs", L"Unsupported type to convert as JSON.");
         return {};
     }
     if (ValueToEncode.isEmpty()) {
-        if (ValueToEncode.getDataClass() == NLS_CHAR) {
+        if (ValueToEncode.dataClass() == NLS_CHAR) {
             json_append_string(jsonString, L"\"\"");
         } else {
             json_append_string(jsonString, L"[]");
         }
     } else {
         encode_array(jsonString, ValueToEncode, false);
-        switch (ValueToEncode.getDataClass()) {
+        switch (ValueToEncode.dataClass()) {
         case NLS_DCOMPLEX:
         case NLS_SCOMPLEX:
         case NLS_GO_HANDLE:
         case NLS_HANDLE: {
-            errorMessage = _W("Unsupported type to convert as JSON.");
+            errorMessage = Nelson::resolveMessageTemplate(
+                L"Nelson:json:unsupportedTypeConvertAs", L"Unsupported type to convert as JSON.");
             return {};
         } break;
         case NLS_MISSING_ARRAY: {
@@ -503,23 +511,32 @@ jsonEncodeInternal(
         } break;
         case NLS_STRING_ARRAY:
         case NLS_CELL_ARRAY: {
-            auto* elements = (ArrayOf*)ValueToEncode.getDataPointer();
-            indexType elementCount = ValueToEncode.getElementCount();
+            auto* elements = (ArrayOf*)ValueToEncode.dataPointer();
+            indexType elementCount = ValueToEncode.elementCount();
             for (indexType i = 0; i < elementCount; i++) {
                 jsonEncodeInternal(jsonString, elements[i], convertNanInf, errorMessage);
                 json_append_char(jsonString, L',');
             }
         } break;
         case NLS_STRUCT_ARRAY: {
-            stringVector fieldnames = ValueToEncode.getFieldNames();
-            indexType elementCount = ValueToEncode.getElementCount();
-            for (int i = 0; i < elementCount; i++) {
+            stringVector fieldnames = ValueToEncode.fieldNames();
+            indexType elementCount = ValueToEncode.elementCount();
+            // Fetch each field's full value list once. fieldAsList is
+            // O(elementCount), so calling it inside the element loop made
+            // struct-array encoding O(elementCount^2).
+            std::vector<ArrayOfVector> fieldValues;
+            fieldValues.reserve(fieldnames.size());
+            for (const auto& fieldname : fieldnames) {
+                fieldValues.push_back(ValueToEncode.fieldAsList(fieldname));
+            }
+            for (indexType i = 0; i < elementCount; i++) {
                 json_append_char(jsonString, L'{');
-                for (const auto& fieldname : fieldnames) {
-                    ArrayOfVector values = ValueToEncode.getFieldAsList(fieldname);
-                    if (!values.empty()) {
-                        json_append_string(jsonString, L"\"" + utf8_to_wstring(fieldname) + L"\":");
-                        jsonEncodeInternal(jsonString, values[i], convertNanInf, errorMessage);
+                for (size_t f = 0; f < fieldnames.size(); f++) {
+                    if (!fieldValues[f].empty()) {
+                        json_append_string(
+                            jsonString, L"\"" + utf8_to_wstring(fieldnames[f]) + L"\":");
+                        jsonEncodeInternal(
+                            jsonString, fieldValues[f][i], convertNanInf, errorMessage);
                         json_append_char(jsonString, L',');
                     }
                 }
@@ -555,7 +572,7 @@ jsonEncodeInternal(
             jsonEncodeInteger<uint64>(jsonString, ValueToEncode, L"%llu,");
         } break;
         case NLS_INT64: {
-            jsonEncodeInteger<uint64>(jsonString, ValueToEncode, L"%lli,");
+            jsonEncodeInteger<int64>(jsonString, ValueToEncode, L"%lli,");
         } break;
         case NLS_SINGLE: {
             jsonEncodeSingle(jsonString, ValueToEncode, convertNanInf);
@@ -567,7 +584,8 @@ jsonEncodeInternal(
             jsonEncodeCharacters(jsonString, ValueToEncode);
         } break;
         default: {
-            errorMessage = _W("Unsupported type to convert as JSON.");
+            errorMessage = Nelson::resolveMessageTemplate(
+                L"Nelson:json:unsupportedTypeConvertAs", L"Unsupported type to convert as JSON.");
             return {};
         } break;
         }
@@ -576,7 +594,11 @@ jsonEncodeInternal(
         }
         encode_array(jsonString, ValueToEncode, true);
     }
-    return ArrayOf::characterArrayConstructor(jsonString);
+    // Do not materialize the accumulated string here: this runs on every
+    // recursive call, and copying the whole growing buffer each time made
+    // encoding a cell/string/struct array O(n^2). The top-level jsonEncode
+    // builds the character array once from jsonString.
+    return {};
 }
 //=============================================================================
 ArrayOf
@@ -584,7 +606,11 @@ jsonEncode(const ArrayOf& ValueToEncode, bool convertNanInf, std::wstring& error
 {
     std::wstring jsonString;
     jsonString.reserve(4096);
-    return jsonEncodeInternal(jsonString, ValueToEncode, convertNanInf, errorMessage);
+    jsonEncodeInternal(jsonString, ValueToEncode, convertNanInf, errorMessage);
+    if (!errorMessage.empty()) {
+        return {};
+    }
+    return ArrayOf::characterArray(jsonString);
 }
 //=============================================================================
 } // namespace Nelson

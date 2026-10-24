@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "file": "parse_measurements.m",
+      "title": {
+        "en_US": "Parse measurement records",
+        "fr_FR": "Analyser des relevés de mesure"
+      },
+      "description": {
+        "en_US": "Split structured text records and convert their numeric fields.",
+        "fr_FR": "Découper des relevés textuels structurés et convertir leurs champs numériques."
+      },
+      "tags": [
+        "text",
+        "parsing",
+        "strings"
+      ],
+      "requirements": []
+    }
+  ]
+}

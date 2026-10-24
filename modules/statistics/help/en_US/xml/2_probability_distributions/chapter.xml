@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>statistics</module_name>
+  <chapter>Probability Distributions</chapter>
+  <chapter_description>
+    <p>Distribution functions for density, cumulative probability, inverse probability, fitting, likelihood, random sampling, and summary statistics.</p>
+  </chapter_description>
+</xmldoc>

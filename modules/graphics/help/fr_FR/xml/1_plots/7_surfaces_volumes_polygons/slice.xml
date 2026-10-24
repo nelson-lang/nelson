@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>slice</keyword>
+  <short_description>Afficher des coupes orthogonales dans des donnees volumiques.</short_description>
+  <syntax>
+    <syntax_item>slice(V, xs, ys, zs)</syntax_item>
+    <syntax_item>slice(V, XI, YI, ZI)</syntax_item>
+    <syntax_item>slice(X, Y, Z, V, xs, ys, zs)</syntax_item>
+    <syntax_item>slice(X, Y, Z, V, XI, YI, ZI)</syntax_item>
+    <syntax_item>slice(..., method)</syntax_item>
+    <syntax_item>slice(parent, ...)</syntax_item>
+    <syntax_item>h = slice(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>V</param_name>
+      <param_description>Donnees volumiques numeriques 3-D.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>X, Y, Z</param_name>
+      <param_description>Coordonnees ou vecteurs de grille du volume.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>xs, ys, zs</param_name>
+      <param_description>Positions de coupe selon les axes x, y et z. Utiliser [] pour ignorer un axe.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>XI, YI, ZI</param_name>
+      <param_description>Tableaux definissant une surface de coupe dans le volume.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>method</param_name>
+      <param_description>Methode d'interpolation : 'linear', 'nearest' ou 'cubic'. La valeur par defaut est 'linear'.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>h</param_name>
+      <param_description>Handles des surfaces creees pour les coupes.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>slice</b> echantillonne des donnees volumiques sur les plans demandes ou sur une surface demandee et affiche chaque resultat comme une surface coloree.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Afficher deux coupes dans un volume.</example_item_description>
+      <example_item_data><![CDATA[[x, y, z] = meshgrid(-2:2, -2:2, -2:2);
+v = x.^2 + y.^2 + z.^2;
+slice(x, y, z, v, 0, [], 0);]]></example_item_data>
+      <example_item_img src="../../../../images/slice_1.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/7_surfaces_volumes_polygons/surface">surface</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/7_surfaces_volumes_polygons/contourslice">contourslice</link></see_also_item>
+  </see_also>
+</xmldoc>

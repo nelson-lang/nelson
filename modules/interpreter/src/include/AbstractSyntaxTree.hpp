@@ -45,8 +45,8 @@ enum NODE_TYPE
 //=============================================================================
 enum OP_TYPE
 {
-    OP_BLOCK, // block
-    OP_CASEBLOCK, // caseblock
+    OP_BLOCK,
+    OP_CASEBLOCK,
     OP_RHS,
     OP_CSTAT,
     OP_ELSEIFBLOCK,
@@ -93,7 +93,10 @@ enum OP_TYPE
     OP_KEYWORD,
     OP_DOTDYN,
     OP_FUNCTION_HANDLE_ANONYMOUS,
-    OP_FUNCTION_HANDLE_NAMED
+    OP_FUNCTION_HANDLE_NAMED,
+    OP_POSTFIX,
+    OP_SUPERCLASS_CALL, // obj@Super(args) / method@Super(args)
+    OP_ARGUMENTS // arguments ... end validation block (opaque source captured by the lexer)
 
 };
 //=============================================================================
@@ -101,10 +104,7 @@ class AbstractSyntaxTree;
 using AbstractSyntaxTreePtr = AbstractSyntaxTree*;
 using AbstractSyntaxTreePtrVector = std::vector<AbstractSyntaxTreePtr>;
 //=============================================================================
-/** The abstract syntax tree class
- * This class represents an abstract syntax tree class (AST).  The AST node has
- * both a "down" and "right" child.
- */
+/** AST node with a "down" (first child) and a "right" (next peer) pointer. */
 class NLSINTERPRETER_IMPEXP AbstractSyntaxTree
 {
 public:
@@ -147,99 +147,44 @@ public:
     static AbstractSyntaxTreePtrVector
     getReferences();
     //=============================================================================
-    /** Context string
-     * Returns the context string for this node.
-     */
     int
     getContext();
-    /** Test for a match
-     * Returns true if textual content of this node matches the supplied argument
-     * (and is not NULL).
-     */
     bool
     match(OP_TYPE test);
-    /** Add the given tree as a child to the current node
-     * Adds the argument tree as a child to the current node.  If the current node
-     * has no "children" (i.e., down = nullptr) then the supplied tree is placed as
-     * a child.  If there are children, then the node is added as a peer to the last
-     * such child.
+    /** Add arg as a child. With no child yet (down == nullptr) it becomes the
+     * first child, otherwise it is added as a peer of the last child.
      */
     void
     addChild(AbstractSyntaxTreePtr arg);
-    /** Add the given tree as a peer to the current node
-     * Adds the argument tree as a peer to the current node.  If the current node
-     * has no "peers" (i.e., right = nullptr) then the supplied tree is placed as a
-     * peer. If there are peers, then the node is added as a peer to the last such
-     * peer.
+    /** Add arg as a peer. With no peer yet (right == nullptr) it becomes the
+     * first peer, otherwise it is added after the last peer.
      */
     void
     addPeer(AbstractSyntaxTreePtr arg);
-    /** Count children
-     * Returns the number of children to the current tree.  This is only the number of
-     * children that are immediately below the current node (i.e., children of children
-     * are not counted).
-     */
+    /** Number of direct children (children of children are not counted). */
     int
     childCount();
-    /** Count peers
-     * Returns the number of peers to the current tree.  This is only the number of
-     * peers that are adjacent to the current node (i.e., children of peers are
-     * not counted).
-     */
+    /** Number of peers on the right (children of peers are not counted). */
     int
     peerCount();
-    /** Convert this into a string list.
-     * Builds a list of strings from the current node and its children.
-     */
     stringVector
     toStringList();
 
     std::string
     toString(bool firstLevel);
 
-    /** Test for an empty tree
-     * Returns true if the current node is unallocated or is not a reserved node
-     * with an empty text string.
-     */
     bool
     isEmpty();
 
-    /** Destructor
-     */
     ~AbstractSyntaxTree();
 
 private:
-    /** Default constructor
-     * Creates an empty AST node.  All pointers are initialized to NULL,
-     * the type is set to non_terminal.
-     */
     AbstractSyntaxTree();
-    /** Text constructor
-     * Creates a node of the specified type with the text field set to a copy
-     * of the name argument.
-     */
     AbstractSyntaxTree(NODE_TYPE ntype, const std::string& name, int context);
-    /** Token constructor
-     * Creates a node of the specified type with the tokenNumber field set to
-     * the token argument.  This constructor is useful for nodes that are represented
-     * by a single, numeric token (as opposed to a string).
-     */
     AbstractSyntaxTree(NODE_TYPE ntype, int token, int context);
-    /** Nonterminal constructor with two arguments
-     * Creates a non-terminal node with the text set to a copy of the name argument
-     * with the given left and right AST nodes.
-     */
     AbstractSyntaxTree(OP_TYPE op, AbstractSyntaxTreePtr lt, AbstractSyntaxTreePtr rt, int context);
-    /** Nonterminal constructor with three arguments
-     * Creates a non-terminal node with the text set to a copy of the name argument
-     * with the given three AST nodes.
-     */
     AbstractSyntaxTree(OP_TYPE op, AbstractSyntaxTreePtr lt, AbstractSyntaxTreePtr md,
         AbstractSyntaxTreePtr rt, int context);
-    /** Nonterminal constructor with a single argument
-     * Creates a non-terminal node with the text set to a copy of the name argument
-     * with the given AST node.
-     */
     AbstractSyntaxTree(OP_TYPE op, AbstractSyntaxTreePtr arg, int context);
 
     static AbstractSyntaxTreePtrVector pAstVector;

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -19,7 +19,7 @@ Nelson::EngineGateway::isquietmodeBuiltin(Evaluator* eval, int nLhs, const Array
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 0, 0);
-    retval << ArrayOf::logicalConstructor(eval->isQuietMode());
+    retval << ArrayOf::logicalScalar(eval->isQuietMode());
     return retval;
 }
 //=============================================================================

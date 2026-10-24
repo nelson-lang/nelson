@@ -44,7 +44,7 @@
     </p>
     <p />
     <p
-    >Use environment variables to force julia environment at each startup (usefull for snapcraft or docker distribution):</p>
+    >Use environment variables to force julia environment at each startup (useful for snapcraft or docker distribution):</p>
     <p />
     <p>
       <b>__NELSON_JULIA_VERSION__</b>: example &quot;1.11&quot;

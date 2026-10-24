@@ -18,7 +18,7 @@ A =
   0×0 empty sparse double matrix
 
 ';
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================
 R = evalc('A = sparse(ones(0,4))');
 REF = '
@@ -27,74 +27,88 @@ A =
   0×4 empty sparse double matrix
 
 ';
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================
 R = evalc('A = sparse(10000,5000)');
 REF = '
 A =
 
-    All zero sparse: 10000×5000
+  10000×5000 sparse double matrix
+
+   All zero
 
 ';
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================
 R = evalc('A = sparse(eps)');
 REF = '
 A =
 
-    (1,1)   +
+  sparse double
+
+   (1,1)   +
 
 ';
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================
 R = evalc('A = sparse(NaN)');
 REF = '
 A =
 
-    (1,1)   +
+  sparse double
+
+   (1,1)   +
 
 ';
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================
 R = evalc('A = sparse(Inf)');
 REF = '
 A =
 
-    (1,1)   +
+  sparse double
+
+   (1,1)   +
 
 ';
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================
 R = evalc('A = sparse(-Inf)');
 REF = '
 A =
 
-    (1,1)   -
+  sparse double
+
+   (1,1)   -
 
 ';
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================
 R = evalc('A = sparse([1e-3 -1.1e-3 1.2e-3])');
 REF = '
 A =
 
-    (1,1)   +
-    (1,2)   -
-    (1,3)   +
+  1×3 sparse double row vector (3 nonzeros)
+
+   (1,1)   +
+   (1,2)   -
+   (1,3)   +
 
 ';
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================
 R = evalc('A = sparse([10 -10 13])');
 REF = '
 A =
 
-    (1,1)   +
-    (1,2)   -
-    (1,3)   +
+  1×3 sparse double row vector (3 nonzeros)
+
+   (1,1)   +
+   (1,2)   -
+   (1,3)   +
 
 ';
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================
 A = zeros(4000, 4000);
 A(3, 3) = 1e-3;
@@ -103,9 +117,11 @@ R = evalc('R = sparse(A)');
 REF = '
 R =
 
-       (3,3)      +
-    (1000,1000)   +
+  4000×4000 sparse double matrix (2 nonzeros)
+
+   (3,3)   +
+(1000,1000)+
 
 ';
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================

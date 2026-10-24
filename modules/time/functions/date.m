@@ -8,10 +8,12 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function t = date()
-  c = clock();
-  months = ['Jan'; 'Feb'; 'Mar'; 'Apr'; 'May'; 'Jun'; 'Jul'; 'Aug'; 'Sep'; 'Oct'; 'Nov'; 'Dec'];
-  d = sprintf('%.0f', c(3) + 100);
-  t = sprintf('%s-%s-%s', d(2:3), months(c(2), :), sprintf('%.0f',c(1)));
+  currentClock = clock();
+  monthNames = {'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', ...
+                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'};
+  dayText = sprintf('%02.0f', currentClock(3));
+  yearText = sprintf('%.0f', currentClock(1));
+  t = [dayText '-' monthNames{currentClock(2)} '-' yearText];
 end
 %=============================================================================
 

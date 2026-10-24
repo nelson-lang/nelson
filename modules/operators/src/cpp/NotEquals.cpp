@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -115,7 +115,7 @@ stringArrayComparatorNotEquals(
         auto* ptrB = static_cast<ArrayOf*>(vptrB);
         if (ptrA[idxA].isCharacterArray() && ptrB[idxB].isCharacterArray()) {
             return static_cast<Nelson::logical>(
-                ptrA[idxA].getContentAsWideString() != ptrB[idxB].getContentAsWideString());
+                ptrA[idxA].asWideString() != ptrB[idxB].asWideString());
         }
     }
     return 1;
@@ -125,12 +125,16 @@ ArrayOf
 NotEquals(const ArrayOf& A, const ArrayOf& B, bool& needToOverload)
 {
     needToOverload = false;
-    void* ptrA = const_cast<void*>(A.getDataPointer());
-    void* ptrB = const_cast<void*>(B.getDataPointer());
-    if (ptrA == ptrB) {
-        Dimensions dimsA = A.getDimensions();
+    if (A.isSparse() || B.isSparse()) {
+        return relationOperator(A, B, L"~=", &realComparatorNotEquals, &complexComparatorNotEquals,
+            &stringArrayComparatorNotEquals, needToOverload);
+    }
+    void* ptrA = const_cast<void*>(A.dataPointer());
+    void* ptrB = const_cast<void*>(B.dataPointer());
+    if (ptrA == ptrB && ptrA != nullptr) {
+        Dimensions dimsA = A.dimensions();
         logical* res = static_cast<logical*>(
-            ArrayOf::allocateArrayOf(NLS_LOGICAL, dimsA.getElementCount(), stringVector(), true));
+            ArrayOf::allocateArrayOf(NLS_LOGICAL, dimsA.elementCount(), stringVector(), true));
         return ArrayOf(NLS_LOGICAL, dimsA, res);
     }
     return relationOperator(A, B, L"~=", &realComparatorNotEquals, &complexComparatorNotEquals,

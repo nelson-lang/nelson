@@ -11,7 +11,7 @@
     <param_input_item>
       <param_name>M</param_name>
       <param_description
-      >a matrix: double or logical, sparse or not.</param_description>
+      >numeric, logical, or character array, sparse or full.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -23,6 +23,10 @@
   <description>
     <p>
       <b>nzmax</b> returns the amount of storage allocated for nonzero elements.</p>
+    <p>
+      For full arrays, <b>nzmax</b> returns <b>numel(M)</b>. For sparse matrices, it returns the reserved sparse storage capacity, which can be larger than <b>nnz(M)</b>.</p>
+    <p>
+      Sparse double, single, logical, complex double, and complex single matrices are supported. Stored zero values may contribute to the reserved capacity even though <b>nnz</b> ignores them.</p>
   </description>
   <used_function />
   <bibliography />
@@ -40,16 +44,28 @@ size(sp)
 nnz(sp)
 nzmax(sp)]]></example_item_data>
     </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[S = sparse([1 2 1 2], [1 1 2 2], single([0 -0 complex(0, 0) complex(0, 2)]), 2, 2, 4);
+[nnz(S), nzmax(S)]]]></example_item_data>
+    </example_item>
   </examples>
   <see_also>
     <see_also_item>
       <link linkend="${sparse}sparse">sparse</link>
     </see_also_item>
     <see_also_item>
-      <link linkend="${sparse}nzmax">nnz</link>
+      <link linkend="${sparse}nnz">nnz</link>
     </see_also_item>
   </see_also>
   <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>documented sparse single and reserved storage behavior</history_description>
+    </history_item>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>

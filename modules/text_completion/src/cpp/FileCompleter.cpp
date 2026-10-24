@@ -126,13 +126,13 @@ FileCompleter(const std::wstring& prefix)
                     if (!std::regex_match(p->path().filename().wstring(), rmask)) {
                         continue;
                     }
-                    std::wstring complet = completionEntryFromPath(p->path());
-                    if (!complet.empty()) {
-                        if (!prefixHasPath && StringHelpers::starts_with(complet, prefix)
-                            && StringHelpers::iends_with(complet, DOT_M)) {
-                            complet = complet.substr(0, complet.size() - 2);
+                    std::wstring complete = completionEntryFromPath(p->path());
+                    if (!complete.empty()) {
+                        if (!prefixHasPath && StringHelpers::starts_with(complete, prefix)
+                            && StringHelpers::iends_with(complete, DOT_M)) {
+                            complete = complete.substr(0, complete.size() - 2);
                         }
-                        res.push_back(complet);
+                        res.push_back(complete);
                     }
                 }
             } catch (const std::filesystem::filesystem_error&) {
@@ -203,13 +203,13 @@ FileCompleter(const std::wstring& prefix)
                     if (!std::regex_match(p->path().filename().string(), rmask)) {
                         continue;
                     }
-                    StringType complet = completionEntryFromPath(p->path());
-                    if (!complet.empty()) {
-                        if (!prefixHasPath && StringHelpers::starts_with(complet, prefixString)
-                            && StringHelpers::iends_with(complet, DOT_M)) {
-                            complet = complet.substr(0, complet.size() - 2);
+                    StringType complete = completionEntryFromPath(p->path());
+                    if (!complete.empty()) {
+                        if (!prefixHasPath && StringHelpers::starts_with(complete, prefixString)
+                            && StringHelpers::iends_with(complete, DOT_M)) {
+                            complete = complete.substr(0, complete.size() - 2);
                         }
-                        res.push_back(utf8_to_wstring(complet));
+                        res.push_back(utf8_to_wstring(complete));
                     }
                 }
             } catch (const std::filesystem::filesystem_error&) {

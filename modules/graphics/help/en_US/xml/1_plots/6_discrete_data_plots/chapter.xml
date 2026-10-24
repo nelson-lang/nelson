@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>graphics</module_name>
+  <chapter>Discrete Data Plots</chapter>
+  <chapter_description>
+    <p>Functions for bar charts, stem plots, pie charts, and other discrete data displays.</p>
+  </chapter_description>
+</xmldoc>

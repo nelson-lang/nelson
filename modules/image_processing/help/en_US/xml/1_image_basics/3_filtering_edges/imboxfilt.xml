@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>imboxfilt</keyword>
+  <short_description>Apply box filtering to an image.</short_description>
+  <syntax>
+    <syntax_item>B = imboxfilt(A)</syntax_item>
+    <syntax_item>B = imboxfilt(A, filterSize)</syntax_item>
+    <syntax_item>B = imboxfilt(__, 'Padding', pad)</syntax_item>
+    <syntax_item>B = imboxfilt(__, 'NormalizationFactor', factor)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>2-D numeric/logical image or RGB image.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>filterSize</param_name>
+      <param_description>Positive integer scalar or two-element vector. The default value is [3 3].</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'Padding'</param_name>
+      <param_description>Padding method or finite scalar fill value passed to imfilter. The default value is replicate.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'NormalizationFactor'</param_name>
+      <param_description>Finite numeric scalar multiplied by the box kernel. The default value computes a local mean.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>B</param_name>
+      <param_description>Box-filtered image.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Apply box filtering to an image. FilterSize must contain positive integers. By default the filter computes a local mean with replicate padding. Set NormalizationFactor to 1 to compute local sums.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Apply box filtering</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[I=peaks(64);
+J=imboxfilt(I,[5 5]);
+figure; subplot(1,2,1); imagesc(I); title('Input');
+subplot(1,2,2); imagesc(J); title('Box filtered');]]></example_item_data>
+      <example_item_img
+        src="../../../images/imboxfilt_1.png"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Compute local sums with zero padding</example_item_description>
+      <example_item_data><![CDATA[A = [1 2; 3 4];
+S = imboxfilt(A, [2 2], 'Padding', 0, 'NormalizationFactor', 1)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}imgaussfilt">imgaussfilt</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}imfilter">imfilter</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

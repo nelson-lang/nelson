@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>image_processing</module_name>
+  <chapter>Analyse et segmentation d'images</chapter>
+  <chapter_description>
+    <p>Fonctions pour morphologie, composants connexes, suivi de frontieres, mesures de regions, reconstruction et segmentation.</p>
+  </chapter_description>
+</xmldoc>

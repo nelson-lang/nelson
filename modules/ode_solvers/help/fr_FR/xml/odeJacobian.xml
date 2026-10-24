@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>odeJacobian</keyword>
+  <short_description>Description de jacobien pour solveurs EDO.</short_description>
+  <syntax>
+    <syntax_item>J = odeJacobian(value)</syntax_item>
+    <syntax_item>J = odeJacobian(value, nom, valeur)</syntax_item>
+    <syntax_item>J = odeJacobian(nom, valeur)</syntax_item>
+  </syntax>
+  <description>
+    <p>
+      <b>odeJacobian</b> stocke une fonction, une matrice ou un motif de differences finies pour le flux objet EDO.</p>
+    <table style="width:100%">
+      <tr>
+        <th>Objet</th>
+        <th>Role</th>
+        <th>Utilise par</th>
+      </tr>
+      <tr>
+        <td><b>odeJacobian</b></td>
+        <td>Stocke une definition reutilisable pour le workflow objet <b>ode</b>.</td>
+        <td>La propriete correspondante de <b>ode</b> et <b>solve</b>.</td>
+      </tr>
+      <tr>
+        <td>Validation</td>
+        <td>Verifie les noms et formes supportes au moment de la construction.</td>
+        <td>Les tests et erreurs restent explicites avant integration.</td>
+      </tr>
+    </table>
+    <p>Les proprietes publiques sont <b>Jacobian</b> et <b>SparsityPattern</b>. L'alias compatible <b>Pattern</b> est accepte par le constructeur. L'indication compatible <b>Constant</b> est aussi acceptee et transmise aux options du solveur.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_data runnable="cli"><![CDATA[J = odeJacobian(-1)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Motif de jacobien pour le flux objet.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[J = odeJacobian('SparsityPattern', [1 0; 0 1]);
+problem = ode('ODEFcn', @(t,y) [-10*y(1); -20*y(2)], 'InitialValue', [1; 2], 'Jacobian', J);
+result = solve(problem, 0, 0.2)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Indication de jacobien constant.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[J = odeJacobian(-25, 'Constant', 'on');
+problem = ode('ODEFcn', @(t,y) -25*y, 'InitialValue', 1, 'Jacobian', J);
+result = solve(problem, 0, 0.2)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ode_solvers}ode">ode</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}odeset">odeset</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

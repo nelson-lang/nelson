@@ -9,10 +9,10 @@
 %=============================================================================
 function c = sinc(varargin)
   narginchk(1, 1);
-  m = varargin{1};
-  i = find(m == 0);                                                              
-  m(i) = 1;
-  c = sin(pi * m) ./ (pi * m);                                                     
-  c(i) = 1;
+  x = varargin{1};
+  zeroMask = x == 0;
+  scaledX = pi .* x;
+  c = sin(scaledX) ./ scaledX;
+  c(zeroMask) = 1;
 end
 %=============================================================================

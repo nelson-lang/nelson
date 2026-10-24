@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -20,7 +20,7 @@ Nelson::CoreGateway::namelengthmaxBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOfVector retval;
     nargincheck(argIn, 0, 0);
     nargoutcheck(nLhs, 0, 1);
-    retval << ArrayOf::doubleConstructor(IDENTIFIER_LENGTH_MAX);
+    retval << ArrayOf::doubleScalar(IDENTIFIER_LENGTH_MAX);
     return retval;
 }
 //=============================================================================

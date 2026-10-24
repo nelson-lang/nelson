@@ -1,0 +1,87 @@
+{
+  "source": "https://github.com/modelica/Reference-FMUs/tree/v0.0.40",
+  "version": "0.0.40",
+  "fmiWasmRevision": "7ee00c5e002c0a4a0bc79a0fd9baf1d32dbf11b4",
+  "platform": "wasm32-wasip2",
+  "files": [
+    {
+      "file": "../BouncingBall.fmu",
+      "sha256": "9fa41eb35a7727d6159fc445f07d880f15d17030a7c52d2dcd2d1eceb9aa4453",
+      "sources": {
+        "sources/buildDescription.xml": "97813352cba2f7a4977496f4e4f99768884e856a124a7040beaa1118df79a52e",
+        "sources/config.h": "bf70c272fd1b2bb3c282d4e4b7c6b6f74946dd3937fcb2db2e96dd0db5e81697",
+        "sources/cosimulation.c": "5882a32ae06cfb5445039d5e3f4d7dceb318ce45e58dcd965ef5f60f59a3aca2",
+        "sources/cosimulation.h": "7228a98bf63f6e344221d6b914d8af3822c83e58b91633170bbe2c582d054e42",
+        "sources/fmi3Functions.c": "7e74ff5ed2e416524457beb0f5e5f35001b1c2edbbe81279dc44f147482379fc",
+        "sources/model.c": "0009784ec47467c48c6891cc5983919c47bfe5356ef736b1ae7abdc659486a47",
+        "sources/model.h": "2459459a895393e3bdd60a1b8fdb7d78a5e857829cc75bab8a65b9f114c3fc15"
+      }
+    },
+    {
+      "file": "../Dahlquist.fmu",
+      "sha256": "99f3be6052f4ed197ebc6feb6ee3782a66265613e621d6631f2097db27564b68",
+      "sources": {
+        "sources/buildDescription.xml": "69dc4d5e9005b471d17424eb50d608800d1b5beffb9f97210467d5d2d3cf354c",
+        "sources/config.h": "bdbba28e656c8fb81836c34385cc0f9abc7ebcf7c835d150cae64e6aee729252",
+        "sources/cosimulation.c": "5882a32ae06cfb5445039d5e3f4d7dceb318ce45e58dcd965ef5f60f59a3aca2",
+        "sources/cosimulation.h": "7228a98bf63f6e344221d6b914d8af3822c83e58b91633170bbe2c582d054e42",
+        "sources/fmi3Functions.c": "7e74ff5ed2e416524457beb0f5e5f35001b1c2edbbe81279dc44f147482379fc",
+        "sources/model.c": "7cd13555d27e7f2fbb63503fc45ec24039be1e418bac2a8387ca5227478fd2ee",
+        "sources/model.h": "2459459a895393e3bdd60a1b8fdb7d78a5e857829cc75bab8a65b9f114c3fc15"
+      }
+    },
+    {
+      "file": "../Feedthrough.fmu",
+      "sha256": "90ad64c50c2ed64d7d605d9e4433a6b7e15b100a7dc2d4b3dd280e08b26d3232",
+      "sources": {
+        "sources/buildDescription.xml": "2c804644f31e2e40983fda6be671794ff0a37f3203a214f2a70e708e8d9aee99",
+        "sources/config.h": "3d46ff081e3ab80425a20681b36a86ba3c8f21e87c06c179d03d3e198e000f7a",
+        "sources/cosimulation.c": "5882a32ae06cfb5445039d5e3f4d7dceb318ce45e58dcd965ef5f60f59a3aca2",
+        "sources/cosimulation.h": "7228a98bf63f6e344221d6b914d8af3822c83e58b91633170bbe2c582d054e42",
+        "sources/fmi3Functions.c": "7e74ff5ed2e416524457beb0f5e5f35001b1c2edbbe81279dc44f147482379fc",
+        "sources/model.c": "bcfcbe8d76278ccd697ee9bc2da8ed602f5d322f08f7b6ee08a894f2ca8cb566",
+        "sources/model.h": "2459459a895393e3bdd60a1b8fdb7d78a5e857829cc75bab8a65b9f114c3fc15"
+      }
+    },
+    {
+      "file": "../StateSpace.fmu",
+      "sha256": "0bf09687ad40f69098da064f80941613758421832c882cbe0468562f7b78d91b",
+      "sources": {
+        "sources/buildDescription.xml": "26f5b1fd52d40217cc4c0a927aa90400a59c1e379b360b520454923b704ed85d",
+        "sources/config.h": "a14bbfd62eb3cc3ca374a15e1ee3967b02020082bee2da9c87598939194d610f",
+        "sources/cosimulation.c": "5882a32ae06cfb5445039d5e3f4d7dceb318ce45e58dcd965ef5f60f59a3aca2",
+        "sources/cosimulation.h": "7228a98bf63f6e344221d6b914d8af3822c83e58b91633170bbe2c582d054e42",
+        "sources/fmi3Functions.c": "7e74ff5ed2e416524457beb0f5e5f35001b1c2edbbe81279dc44f147482379fc",
+        "sources/model.c": "d2bbc49620811a2729ca72198e1c3439ab51172ac858dd0b4056a411ba6e8f84",
+        "sources/model.h": "2459459a895393e3bdd60a1b8fdb7d78a5e857829cc75bab8a65b9f114c3fc15"
+      }
+    },
+    {
+      "file": "../VanDerPol.fmu",
+      "sha256": "f434855426c3e06c5176e7f9868c888d19a956cbdd096beea8c8a183d9da259a",
+      "sources": {
+        "sources/buildDescription.xml": "9ad92de2f64bb8054c8984ebd84cefcaa14f864a5440c01d4892f2307a2aae4e",
+        "sources/config.h": "fe6ae9ed72193243d2fdced3a0da32f6189d453015a40dddbeeb0a39efddbb24",
+        "sources/cosimulation.c": "5882a32ae06cfb5445039d5e3f4d7dceb318ce45e58dcd965ef5f60f59a3aca2",
+        "sources/cosimulation.h": "7228a98bf63f6e344221d6b914d8af3822c83e58b91633170bbe2c582d054e42",
+        "sources/fmi3Functions.c": "7e74ff5ed2e416524457beb0f5e5f35001b1c2edbbe81279dc44f147482379fc",
+        "sources/model.c": "b8f163c5e8bdc93a456556a84207433f87b13e121f854814f271cd0792fce253",
+        "sources/model.h": "2459459a895393e3bdd60a1b8fdb7d78a5e857829cc75bab8a65b9f114c3fc15"
+      }
+    }
+  ],
+  "witSources": {
+    "fmi3-callbacks.wit": "8920484cf23c2880dccba276cbc27fbda2651e7415ed28502718689c97a91f07",
+    "fmi3-co-simulation.wit": "03ef54504701f5fe5df27f78e55dba0e85a79ef612099f82f7af6f254d6147ce",
+    "fmi3-common.wit": "095d98b3af3e3b6f6f8f5b8d0bb36d3827a9bff8d283df88875caa2d71585be1",
+    "fmi3-model-exchange.wit": "ce3d75096c4aa140882295f8abbd91394b8edf3541df01448b9d218f083e6246",
+    "fmi3-scheduled-execution.wit": "e9b47d2bdf4e90e2b69fd40ea2f71108d0636e2fb775a28b03c4e3679eeb46fa",
+    "fmi3-types.wit": "535c8b0c934bc2f6db9e3d20652269354a6e6ec72c900c5f9e7454be4a2778b2",
+    "world.wit": "aca960ca2401bcb2b116b2762071da3ce89392c302235f46b091e984f0658fd4"
+  },
+  "toolchain": {
+    "clang": "clang version 22.1.0-wasi-sdk (https://github.com/llvm/llvm-project 4434dabb69916856b824f68a64b029c67175e532)",
+    "witBindgen": "wit-bindgen-cli 0.57.1 (2e00369a6 2026-04-17)",
+    "wasmTools": "wasm-tools 1.251.0 (a1a178a02 2026-05-28)"
+  }
+}

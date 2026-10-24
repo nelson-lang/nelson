@@ -125,7 +125,7 @@ FilesManager::addFile(File* userfile)
 bool
 FilesManager::removeFile(int no)
 {
-    if (no > 2) // stdout, stdin, sterr cannot be removed
+    if (no > 2) // stdout, stdin, stderr cannot be removed
     {
         if (static_cast<size_t>(no) < getNumberOfFiles()) {
             if (userFiles[no]) {

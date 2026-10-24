@@ -7,35 +7,37 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+%#ok<NLS0026>
 function t = toeplitz(varargin)
-  narginchk(1, 2)
-  nargoutchk(0, 1)
-  
-  c = varargin{1};
+  narginchk(1, 2);
+  nargoutchk(0, 1);
+
+  columnSeed = varargin{1};
   if (nargin == 1)
-    if ~isvector(c)
-      error(_('Input argument must be a vector.'));
+    if ~isvector(columnSeed)
+      error('Nelson:validators:mustBeVector', '%s must be a vector.', 'Input argument');
     end
-    c(1) = conj(c(1));
-    r = c;
-    c = conj(c);
+    columnSeed(1) = conj(columnSeed(1));
+    rowSeed = columnSeed;
+    columnSeed = conj(columnSeed);
   else
-    r = varargin{2};
+    rowSeed = varargin{2};
   end
-  if ~(isnumeric(c) || isnumeric(r))
-    error(_('Input arguments must be numeric.'));
+  if ~(isnumeric(columnSeed) || isnumeric(rowSeed))
+    error('Nelson:validators:mustBeNumeric', '%s must be numeric.', 'Input arguments');
   end
-  if ~isempty(c) && ~isempty(r) && ~isequaln(r(1),c(1))
-    warning(_('Column wins diagonal conflict.'));
+  if ~isempty(columnSeed) && ~isempty(rowSeed) && ~isequaln(rowSeed(1), columnSeed(1))
+    warning('Nelson:toeplitz:columnWinsDiagonalConflict', 'Column wins diagonal conflict.');
   end
-  c = c(:);
-  m = length(c);    
-  r = r(:);
-  p = length(r);
-  x = [r(p:-1:2, 1) ; c];
-  idx = (0 : m-1)' + (p:-1:1);
-  t = x(idx);
-  if ~isempty(t) && isrow(idx)
+  columnValues = columnSeed(:);
+  rowValues = rowSeed(:);
+  rowCount = length(columnValues);
+  columnCount = length(rowValues);
+  lookupValues = [rowValues(columnCount:-1:2); columnValues];
+  rowIndex = (1:rowCount).';
+  columnIndex = 1:columnCount;
+  t = lookupValues(columnCount + rowIndex - columnIndex);
+  if ~isempty(t) && isrow(rowIndex - columnIndex)
     t = t.';
   end
 end

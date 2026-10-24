@@ -8,17 +8,17 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 names = ["Jack", "John", "Jess"];
-ages = [50, 35, 68]; 
+ages = [50, 35, 68];
 gym = dictionary(names, ages);
 %=============================================================================
 [keyType, valueType] = types(gym);
-assert_isequal(keyType, "string");
-assert_isequal(valueType, "double");
+asserts.isequal(keyType, "string");
+asserts.isequal(valueType, "double");
 %=============================================================================
 names = {'Jack', 'John', 'Jess'};
-sz = {'S', 'XL', 'XXL'}; 
+sz = {'S', 'XL', 'XXL'};
 gym = dictionary(names, sz);
 [keyType, valueType] = types(gym);
-assert_isequal(keyType, "cell");
-assert_isequal(valueType, "cell");
+asserts.isequal(keyType, "cell");
+asserts.isequal(valueType, "cell");
 %=============================================================================

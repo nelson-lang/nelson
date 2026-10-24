@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -16,67 +16,24 @@
 #include <vector>
 #include <functional>
 #include "ImageResize.hpp"
+#include "ImageProcessingCore.hpp"
 #include "omp_for_loop.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-// Helper template function to assign output pixel values based on type
 template <typename T>
 inline void
 assignOutput(T* outputData, size_t index, double value)
 {
-    // Assigns the computed value to the output array, clamping or rounding as needed for each type
-    if constexpr (std::is_same<T, uint8_t>::value) {
-        // For uint8, clamp to [0, 255]
-        int rounded_value = static_cast<int>(std::round(value));
-        outputData[index] = static_cast<uint8_t>(std::clamp(rounded_value, 0, 255));
-    } else if constexpr (std::is_same<T, uint16_t>::value) {
-        // For uint16, clamp to [0, 65535]
-        int rounded_value = static_cast<int>(std::round(value));
-        outputData[index] = static_cast<uint16_t>(std::clamp(rounded_value, 0, 65535));
-    } else if constexpr (std::is_same<T, uint32_t>::value) {
-        // For uint32, clamp to [0, UINT32_MAX]
-        double rounded_value = std::round(value);
-        if (rounded_value < 0) {
-            outputData[index] = 0;
-        } else if (rounded_value > UINT32_MAX) {
-            outputData[index] = UINT32_MAX;
-        } else {
-            outputData[index] = static_cast<uint32_t>(rounded_value);
-        }
-    } else if constexpr (std::is_same<T, uint64_t>::value) {
-        // For uint64, clamp to [0, UINT64_MAX]
-        double rounded_value = std::round(value);
-        if (rounded_value < 0) {
-            outputData[index] = 0;
-        } else if (rounded_value > static_cast<double>(UINT64_MAX)) {
-            outputData[index] = UINT64_MAX;
-        } else {
-            outputData[index] = static_cast<uint64_t>(rounded_value);
-        }
-    } else if constexpr (std::is_integral<T>::value) {
-        // For other integer types (signed), clamp to type limits
-        double rounded_value = std::round(value);
-        if (rounded_value < std::numeric_limits<T>::min()) {
-            outputData[index] = std::numeric_limits<T>::min();
-        } else if (rounded_value > std::numeric_limits<T>::max()) {
-            outputData[index] = std::numeric_limits<T>::max();
-        } else {
-            outputData[index] = static_cast<T>(rounded_value);
-        }
-    } else {
-        // For floating point types, direct assignment
-        outputData[index] = static_cast<T>(value);
-    }
+    assignClampedPixel(outputData, index, value);
 }
 //=============================================================================
-// Lanczos kernel function
 inline double
 lanczosKernel(double x, int a)
 {
-    // Lanczos resampling kernel, used for high-quality interpolation
     if (x == 0.0) {
         return 1.0;
     }
@@ -88,11 +45,9 @@ lanczosKernel(double x, int a)
     return a * std::sin(pix) * std::sin(pix / a) / (pix * pix);
 }
 //=============================================================================
-// Cubic interpolation kernel (Catmull-Rom)
 inline double
 cubicKernel(double x)
 {
-    // Catmull-Rom cubic interpolation kernel
     x = std::abs(x);
     if (x <= 1.0) {
         return 1.5 * x * x * x - 2.5 * x * x + 1.0;
@@ -102,53 +57,42 @@ cubicKernel(double x)
     return 0.0;
 }
 //=============================================================================
-// Box filter kernel
 inline double
 boxKernel(double x)
 {
-    // Box filter kernel, used for simple averaging
     return (std::abs(x) <= 0.5) ? 1.0 : 0.0;
 }
 //=============================================================================
-// Bilinear kernel
 inline double
 bilinearKernel(double x)
 {
-    // Bilinear interpolation kernel
     x = std::abs(x);
     return (x <= 1.0) ? (1.0 - x) : 0.0;
 }
 //=============================================================================
-// Structure to hold pixel contribution information
 struct ResizeContribution
 {
-    // Represents a single pixel's contribution and its weight for resizing
     int pixel;
     double weight;
 };
 //=============================================================================
 struct ResizeContributions
 {
-    // Holds all pixel contributions for a single output pixel and the total weight
     std::vector<ResizeContribution> contributions;
     double totalWeight;
 };
 //=============================================================================
-// Pre-compute contributions for a single dimension
 std::vector<ResizeContributions>
 computeContributions(size_t srcSize, size_t dstSize, ResizeInterpolationMethod method,
     bool useAntialiasing, double scale)
 {
-    // Pre-computes the weights and source pixel indices for each output pixel
     std::vector<ResizeContributions> contributions(dstSize);
 
-    // Determine kernel radius and function
     int kernelRadius = 1;
     std::function<double(double)> kernelFunc;
 
     switch (method) {
     case ResizeInterpolationMethod::Bilinear:
-        // Use bilinear kernel for interpolation
         kernelRadius = 1;
         kernelFunc = bilinearKernel;
         break;
@@ -173,7 +117,6 @@ computeContributions(size_t srcSize, size_t dstSize, ResizeInterpolationMethod m
         kernelFunc = bilinearKernel;
     }
 
-    // Adjust kernel radius for antialiasing
     if (useAntialiasing && scale > 1.0) {
         kernelRadius = static_cast<int>(std::ceil(kernelRadius * scale));
     }
@@ -203,7 +146,6 @@ computeContributions(size_t srcSize, size_t dstSize, ResizeInterpolationMethod m
             }
         }
 
-        // Normalize weights
         if (contributions[dst].totalWeight > 0.0) {
             for (auto& contrib : contributions[dst].contributions) {
                 contrib.weight /= contributions[dst].totalWeight;
@@ -214,20 +156,17 @@ computeContributions(size_t srcSize, size_t dstSize, ResizeInterpolationMethod m
     return contributions;
 }
 //=============================================================================
-// Optimized nearest neighbor resize
 template <typename T>
 void
 resizeNearestNeighbor(const T* inputData, T* outputData, size_t width, size_t height,
     size_t channels, size_t new_width, size_t new_height)
 {
-    // Performs fast nearest neighbor resizing for images
     size_t planeSizeIn = width * height;
     size_t planeSizeOut = new_width * new_height;
 
     double scale_x = static_cast<double>(width) / static_cast<double>(new_width);
     double scale_y = static_cast<double>(height) / static_cast<double>(new_height);
 
-    // Pre-compute mapping arrays for better cache performance
     std::vector<size_t> x_map(new_width);
     std::vector<size_t> y_map(new_height);
 
@@ -245,7 +184,6 @@ resizeNearestNeighbor(const T* inputData, T* outputData, size_t width, size_t he
         y_map[y] = std::clamp(nearest_y, 0, static_cast<int>(height) - 1);
     }
 
-    // Process each channel separately for better memory access pattern
     for (size_t c = 0; c < channels; ++c) {
         const T* srcPlane = inputData + c * planeSizeIn;
         T* dstPlane = outputData + c * planeSizeOut;
@@ -267,8 +205,6 @@ void
 resizeImage(const T* inputData, T* outputData, size_t width, size_t height, size_t channels,
     size_t new_width, size_t new_height, ResizeInterpolationMethod method, bool useAntialiasing)
 {
-    // Main function for optimized image resizing using two-pass interpolation
-    // Handle nearest neighbor separately for maximum performance
     if (method == ResizeInterpolationMethod::Nearest) {
         resizeNearestNeighbor(
             inputData, outputData, width, height, channels, new_width, new_height);
@@ -283,17 +219,13 @@ resizeImage(const T* inputData, T* outputData, size_t width, size_t height, size
 
     bool needsAntialiasing = useAntialiasing && (scale_x > 1.0 || scale_y > 1.0);
 
-    // Pre-compute contributions for both dimensions
     auto x_contributions
         = computeContributions(width, new_width, method, needsAntialiasing, scale_x);
     auto y_contributions
         = computeContributions(height, new_height, method, needsAntialiasing, scale_y);
 
-    // Use two-pass approach for better cache performance
-    // Allocate temporary buffer for horizontal pass result
     std::vector<double> tempBuffer(new_width * height * channels);
 
-    // Horizontal pass - process rows
     OMP_PARALLEL_FOR_LOOP(height * channels, 4)
     for (size_t idx = 0; idx < height * channels; ++idx) {
         size_t y = idx % height;
@@ -315,7 +247,6 @@ resizeImage(const T* inputData, T* outputData, size_t width, size_t height, size
         }
     }
 
-    // Vertical pass - process columns
     OMP_PARALLEL_FOR_LOOP(new_width * channels, 4)
     for (size_t idx = 0; idx < new_width * channels; ++idx) {
         size_t x = idx % new_width;
@@ -340,19 +271,17 @@ resizeImage(const T* inputData, T* outputData, size_t width, size_t height, size
 ArrayOf
 ImageResize(const ArrayOf& image, double scale, const ResizeOptions& options)
 {
-    // Resize image by a scale factor
     if (scale <= 0.0) {
-        Error(_W("Scale factor must be positive."));
+        Error(L"Nelson:validators:mustBePositive", L"%s must be positive.", L"Scale factor");
     }
 
-    Dimensions dims = image.getDimensions();
-    size_t height = dims.getRows();
-    size_t width = dims.getColumns();
+    Dimensions dims = image.dimensions();
+    size_t height = dims.rows();
+    size_t width = dims.columns();
 
     size_t new_height = static_cast<size_t>(std::round(height * scale));
     size_t new_width = static_cast<size_t>(std::round(width * scale));
 
-    // Ensure minimum size of 1x1
     new_height = std::max(new_height, static_cast<size_t>(1));
     new_width = std::max(new_width, static_cast<size_t>(1));
 
@@ -362,22 +291,19 @@ ImageResize(const ArrayOf& image, double scale, const ResizeOptions& options)
 ArrayOf
 ImageResize(const ArrayOf& image, size_t numrows, size_t numcols, const ResizeOptions& options)
 {
-    // Resize image to specific dimensions
-    Dimensions dims = image.getDimensions();
-    size_t height = dims.getRows();
-    size_t width = dims.getColumns();
-    size_t channels = (dims.getLength() > 2) ? dims.getDimensionLength(2) : 1;
+    Dimensions dims = image.dimensions();
+    size_t height = dims.rows();
+    size_t width = dims.columns();
+    size_t channels = (dims.length() > 2) ? dims.dimensionLength(2) : 1;
 
     if (numrows == 0 || numcols == 0) {
-        Error(_W("Output dimensions must be positive."));
+        Error(L"Nelson:validators:mustBePositive", L"%s must be positive.", L"Output dimensions");
     }
 
-    // If input and output dimensions are the same, return copy
     if (height == numrows && width == numcols) {
         return image;
     }
 
-    // Create output array with the appropriate type
     ArrayOf outputImage;
     Dimensions outputDims;
 
@@ -389,11 +315,10 @@ ImageResize(const ArrayOf& image, size_t numrows, size_t numcols, const ResizeOp
         outputDims = Dimensions(dimsAsVector);
     }
 
-    NelsonType dataClass = image.getDataClass();
+    NelsonType dataClass = image.dataClass();
     outputImage = ArrayOf(
-        dataClass, outputDims, ArrayOf::allocateArrayOf(dataClass, outputDims.getElementCount()));
+        dataClass, outputDims, ArrayOf::allocateArrayOf(dataClass, outputDims.elementCount()));
 
-    // Determine antialiasing setting
     bool useAntialiasing = false;
     if (options.antialiasing == ResizeAntialiasing::On) {
         useAntialiasing = true;
@@ -403,64 +328,54 @@ ImageResize(const ArrayOf& image, size_t numrows, size_t numcols, const ResizeOp
         useAntialiasing = (scale_x > 1.0 || scale_y > 1.0);
     }
 
-    // Process based on data type
     switch (dataClass) {
     case NLS_DOUBLE: {
-        resizeImage<double>((const double*)image.getDataPointer(),
-            (double*)outputImage.getDataPointer(), width, height, channels, numcols, numrows,
-            options.method, useAntialiasing);
-    } break;
-    case NLS_SINGLE: {
-        resizeImage<single>((const single*)image.getDataPointer(),
-            (single*)outputImage.getDataPointer(), width, height, channels, numcols, numrows,
-            options.method, useAntialiasing);
-    } break;
-    case NLS_INT8: {
-        resizeImage<int8>((const int8*)image.getDataPointer(), (int8*)outputImage.getDataPointer(),
+        resizeImage<double>((const double*)image.dataPointer(), (double*)outputImage.dataPointer(),
             width, height, channels, numcols, numrows, options.method, useAntialiasing);
     } break;
+    case NLS_SINGLE: {
+        resizeImage<single>((const single*)image.dataPointer(), (single*)outputImage.dataPointer(),
+            width, height, channels, numcols, numrows, options.method, useAntialiasing);
+    } break;
+    case NLS_INT8: {
+        resizeImage<int8>((const int8*)image.dataPointer(), (int8*)outputImage.dataPointer(), width,
+            height, channels, numcols, numrows, options.method, useAntialiasing);
+    } break;
     case NLS_INT16: {
-        resizeImage<int16>((const int16*)image.getDataPointer(),
-            (int16*)outputImage.getDataPointer(), width, height, channels, numcols, numrows,
-            options.method, useAntialiasing);
+        resizeImage<int16>((const int16*)image.dataPointer(), (int16*)outputImage.dataPointer(),
+            width, height, channels, numcols, numrows, options.method, useAntialiasing);
     } break;
     case NLS_INT32: {
-        resizeImage<int32>((const int32*)image.getDataPointer(),
-            (int32*)outputImage.getDataPointer(), width, height, channels, numcols, numrows,
-            options.method, useAntialiasing);
+        resizeImage<int32>((const int32*)image.dataPointer(), (int32*)outputImage.dataPointer(),
+            width, height, channels, numcols, numrows, options.method, useAntialiasing);
     } break;
     case NLS_INT64: {
-        resizeImage<int64>((const int64*)image.getDataPointer(),
-            (int64*)outputImage.getDataPointer(), width, height, channels, numcols, numrows,
-            options.method, useAntialiasing);
+        resizeImage<int64>((const int64*)image.dataPointer(), (int64*)outputImage.dataPointer(),
+            width, height, channels, numcols, numrows, options.method, useAntialiasing);
     } break;
     case NLS_UINT8: {
-        resizeImage<uint8>((const uint8*)image.getDataPointer(),
-            (uint8*)outputImage.getDataPointer(), width, height, channels, numcols, numrows,
-            options.method, useAntialiasing);
+        resizeImage<uint8>((const uint8*)image.dataPointer(), (uint8*)outputImage.dataPointer(),
+            width, height, channels, numcols, numrows, options.method, useAntialiasing);
     } break;
     case NLS_UINT16: {
-        resizeImage<uint16>((const uint16*)image.getDataPointer(),
-            (uint16*)outputImage.getDataPointer(), width, height, channels, numcols, numrows,
-            options.method, useAntialiasing);
+        resizeImage<uint16>((const uint16*)image.dataPointer(), (uint16*)outputImage.dataPointer(),
+            width, height, channels, numcols, numrows, options.method, useAntialiasing);
     } break;
     case NLS_UINT32: {
-        resizeImage<uint32>((const uint32*)image.getDataPointer(),
-            (uint32*)outputImage.getDataPointer(), width, height, channels, numcols, numrows,
-            options.method, useAntialiasing);
+        resizeImage<uint32>((const uint32*)image.dataPointer(), (uint32*)outputImage.dataPointer(),
+            width, height, channels, numcols, numrows, options.method, useAntialiasing);
     } break;
     case NLS_UINT64: {
-        resizeImage<uint64>((const uint64*)image.getDataPointer(),
-            (uint64*)outputImage.getDataPointer(), width, height, channels, numcols, numrows,
-            options.method, useAntialiasing);
+        resizeImage<uint64>((const uint64*)image.dataPointer(), (uint64*)outputImage.dataPointer(),
+            width, height, channels, numcols, numrows, options.method, useAntialiasing);
     } break;
     case NLS_LOGICAL: {
-        resizeImage<logical>((const logical*)image.getDataPointer(),
-            (logical*)outputImage.getDataPointer(), width, height, channels, numcols, numrows,
+        resizeImage<logical>((const logical*)image.dataPointer(),
+            (logical*)outputImage.dataPointer(), width, height, channels, numcols, numrows,
             options.method, useAntialiasing);
     } break;
     default: {
-        Error(_W("Type not managed."));
+        Error(L"Nelson:image_processing:typeNotSupported", L"Type not supported.");
     } break;
     }
 
@@ -470,15 +385,13 @@ ImageResize(const ArrayOf& image, size_t numrows, size_t numcols, const ResizeOp
 std::pair<ArrayOf, ArrayOf>
 ImageResizeIndexed(const ArrayOf& X, const ArrayOf& map, double scale, const ResizeOptions& options)
 {
-    // Resize indexed image and its colormap by a scale factor
-    Dimensions dims = X.getDimensions();
-    size_t height = dims.getRows();
-    size_t width = dims.getColumns();
+    Dimensions dims = X.dimensions();
+    size_t height = dims.rows();
+    size_t width = dims.columns();
 
     size_t new_height = static_cast<size_t>(std::round(height * scale));
     size_t new_width = static_cast<size_t>(std::round(width * scale));
 
-    // Ensure minimum size of 1x1
     new_height = std::max(new_height, static_cast<size_t>(1));
     new_width = std::max(new_width, static_cast<size_t>(1));
 
@@ -489,43 +402,39 @@ std::pair<ArrayOf, ArrayOf>
 ImageResizeIndexed(const ArrayOf& X, const ArrayOf& map, size_t numrows, size_t numcols,
     const ResizeOptions& options)
 {
-    // Resize indexed image and its colormap to specific dimensions
-    // Validate indexed image
     if (!X.isNumeric()) {
-        Error(_W("Indexed image must be numeric."));
+        Error(L"Nelson:imresize:invalidIndexedImage", L"Indexed image must be numeric.");
     }
 
-    // Validate colormap
-    Dimensions mapDims = map.getDimensions();
-    if (mapDims.getColumns() != 3 || !map.isNumeric()) {
-        Error(_W("Colormap must be an Nx3 numeric array."));
+    Dimensions mapDims = map.dimensions();
+    if (mapDims.columns() != 3 || !map.isNumeric()) {
+        Error(L"Nelson:imresize:invalidColormap", L"Colormap must be an Nx3 numeric array.");
     }
 
-    // For indexed images, we typically use nearest neighbor to preserve indices
+    // Nearest neighbor keeps the pixel values valid colormap indices.
     ResizeOptions indexedOptions = options;
-    indexedOptions.method
-        = ResizeInterpolationMethod::Nearest; // Force nearest neighbor for indexed images
+    indexedOptions.method = ResizeInterpolationMethod::Nearest;
 
-    // Resize the indexed image
     ArrayOf resizedX = ImageResize(X, numrows, numcols, indexedOptions);
 
-    // Handle colormap based on colormapMode
     ArrayOf newMap;
     if (options.colormapMode == L"optimized") {
-        // If colormapMode is optimized, only keep used colors in the colormap
-        NelsonType dataClass = resizedX.getDataClass();
-        void* dataPtr = (void*)resizedX.getDataPointer();
-        size_t numElements = resizedX.getElementCount();
+        NelsonType dataClass = resizedX.dataClass();
+        void* dataPtr = (void*)resizedX.dataPointer();
+        size_t numElements = resizedX.elementCount();
 
-        std::vector<bool> usedIndices(mapDims.getRows(), false);
+        // std::vector<char> rather than vector<bool>: bit-packed writes are non-atomic
+        // read-modify-write on shared words and lose updates under the parallel loops
+        // below.
+        std::vector<char> usedIndices(mapDims.rows(), 0);
 
         switch (dataClass) {
         case NLS_UINT8: {
             uint8_t* data = static_cast<uint8_t*>(dataPtr);
             OMP_PARALLEL_FOR_LOOP(numElements, 4)
             for (size_t i = 0; i < numElements; i++) {
-                if (data[i] < mapDims.getRows()) {
-                    usedIndices[data[i]] = true;
+                if (data[i] < mapDims.rows()) {
+                    usedIndices[data[i]] = 1;
                 }
             }
         } break;
@@ -533,8 +442,8 @@ ImageResizeIndexed(const ArrayOf& X, const ArrayOf& map, size_t numrows, size_t 
             uint16_t* data = static_cast<uint16_t*>(dataPtr);
             OMP_PARALLEL_FOR_LOOP(numElements, 4)
             for (size_t i = 0; i < numElements; i++) {
-                if (data[i] < mapDims.getRows()) {
-                    usedIndices[data[i]] = true;
+                if (data[i] < mapDims.rows()) {
+                    usedIndices[data[i]] = 1;
                 }
             }
         } break;
@@ -542,8 +451,8 @@ ImageResizeIndexed(const ArrayOf& X, const ArrayOf& map, size_t numrows, size_t 
             uint32_t* data = static_cast<uint32_t*>(dataPtr);
             OMP_PARALLEL_FOR_LOOP(numElements, 4)
             for (size_t i = 0; i < numElements; i++) {
-                if (data[i] < mapDims.getRows()) {
-                    usedIndices[data[i]] = true;
+                if (data[i] < mapDims.rows()) {
+                    usedIndices[data[i]] = 1;
                 }
             }
         } break;
@@ -551,8 +460,8 @@ ImageResizeIndexed(const ArrayOf& X, const ArrayOf& map, size_t numrows, size_t 
             int8_t* data = static_cast<int8_t*>(dataPtr);
             OMP_PARALLEL_FOR_LOOP(numElements, 4)
             for (size_t i = 0; i < numElements; i++) {
-                if (data[i] >= 0 && static_cast<size_t>(data[i]) < mapDims.getRows()) {
-                    usedIndices[data[i]] = true;
+                if (data[i] >= 0 && static_cast<size_t>(data[i]) < mapDims.rows()) {
+                    usedIndices[data[i]] = 1;
                 }
             }
         } break;
@@ -560,8 +469,8 @@ ImageResizeIndexed(const ArrayOf& X, const ArrayOf& map, size_t numrows, size_t 
             int16_t* data = static_cast<int16_t*>(dataPtr);
             OMP_PARALLEL_FOR_LOOP(numElements, 4)
             for (size_t i = 0; i < numElements; i++) {
-                if (data[i] >= 0 && static_cast<size_t>(data[i]) < mapDims.getRows()) {
-                    usedIndices[data[i]] = true;
+                if (data[i] >= 0 && static_cast<size_t>(data[i]) < mapDims.rows()) {
+                    usedIndices[data[i]] = 1;
                 }
             }
         } break;
@@ -569,32 +478,101 @@ ImageResizeIndexed(const ArrayOf& X, const ArrayOf& map, size_t numrows, size_t 
             int32_t* data = static_cast<int32_t*>(dataPtr);
             OMP_PARALLEL_FOR_LOOP(numElements, 4)
             for (size_t i = 0; i < numElements; i++) {
-                if (data[i] >= 0 && static_cast<size_t>(data[i]) < mapDims.getRows()) {
-                    usedIndices[data[i]] = true;
+                if (data[i] >= 0 && static_cast<size_t>(data[i]) < mapDims.rows()) {
+                    usedIndices[data[i]] = 1;
                 }
             }
         } break;
         default:
-            Error(_W("Unsupported data type for indexed image. Must be uint8, uint16, uint32, "
-                     "int8, int16, or int32."));
+            Error(L"Nelson:imresize:unsupportedIndexedType",
+                L"Unsupported data type for indexed image. Must be uint8, uint16, uint32, int8, "
+                L"int16, or int32.");
             break;
         }
 
-        size_t newSize = std::count(usedIndices.begin(), usedIndices.end(), true);
+        size_t newSize = std::count(usedIndices.begin(), usedIndices.end(), (char)1);
         Dimensions newMapDims(static_cast<indexType>(newSize), 3);
-        double* srcMap = (double*)(map.getDataPointer());
+        double* srcMap = (double*)(map.dataPointer());
         double* dstMap
-            = (double*)ArrayOf::allocateArrayOf(map.getDataClass(), newMapDims.getElementCount());
-        newMap = ArrayOf(map.getDataClass(), newMapDims, dstMap);
+            = (double*)ArrayOf::allocateArrayOf(map.dataClass(), newMapDims.elementCount());
+        newMap = ArrayOf(map.dataClass(), newMapDims, dstMap);
 
+        // Old-index -> new-index map built while compacting the colormap.
+        std::vector<size_t> indexRemap(mapDims.rows(), 0);
         size_t newIdx = 0;
-        for (size_t i = 0; i < mapDims.getRows(); i++) {
+        for (size_t i = 0; i < mapDims.rows(); i++) {
             if (usedIndices[i]) {
+                indexRemap[i] = newIdx;
                 dstMap[newIdx] = srcMap[i];
-                dstMap[newIdx + newSize] = srcMap[i + mapDims.getRows()];
-                dstMap[newIdx + 2 * newSize] = srcMap[i + 2 * mapDims.getRows()];
+                dstMap[newIdx + newSize] = srcMap[i + mapDims.rows()];
+                dstMap[newIdx + 2 * newSize] = srcMap[i + 2 * mapDims.rows()];
                 newIdx++;
             }
+        }
+
+        // Rewrite the pixel indices through the remap. Out-of-range indices are left
+        // untouched, as in the pruning pass. New indices are never larger than old ones,
+        // so they fit the original element type. resizedX may share its buffer with the
+        // input X (copy-on-write, e.g. identity resize): take a private copy first.
+        resizedX.ensureSingleOwner();
+        dataPtr = (void*)resizedX.dataPointer();
+        switch (dataClass) {
+        case NLS_UINT8: {
+            uint8_t* data = static_cast<uint8_t*>(dataPtr);
+            OMP_PARALLEL_FOR_LOOP(numElements, 4)
+            for (size_t i = 0; i < numElements; i++) {
+                if (data[i] < mapDims.rows()) {
+                    data[i] = static_cast<uint8_t>(indexRemap[data[i]]);
+                }
+            }
+        } break;
+        case NLS_UINT16: {
+            uint16_t* data = static_cast<uint16_t*>(dataPtr);
+            OMP_PARALLEL_FOR_LOOP(numElements, 4)
+            for (size_t i = 0; i < numElements; i++) {
+                if (data[i] < mapDims.rows()) {
+                    data[i] = static_cast<uint16_t>(indexRemap[data[i]]);
+                }
+            }
+        } break;
+        case NLS_UINT32: {
+            uint32_t* data = static_cast<uint32_t*>(dataPtr);
+            OMP_PARALLEL_FOR_LOOP(numElements, 4)
+            for (size_t i = 0; i < numElements; i++) {
+                if (data[i] < mapDims.rows()) {
+                    data[i] = static_cast<uint32_t>(indexRemap[data[i]]);
+                }
+            }
+        } break;
+        case NLS_INT8: {
+            int8_t* data = static_cast<int8_t*>(dataPtr);
+            OMP_PARALLEL_FOR_LOOP(numElements, 4)
+            for (size_t i = 0; i < numElements; i++) {
+                if (data[i] >= 0 && static_cast<size_t>(data[i]) < mapDims.rows()) {
+                    data[i] = static_cast<int8_t>(indexRemap[data[i]]);
+                }
+            }
+        } break;
+        case NLS_INT16: {
+            int16_t* data = static_cast<int16_t*>(dataPtr);
+            OMP_PARALLEL_FOR_LOOP(numElements, 4)
+            for (size_t i = 0; i < numElements; i++) {
+                if (data[i] >= 0 && static_cast<size_t>(data[i]) < mapDims.rows()) {
+                    data[i] = static_cast<int16_t>(indexRemap[data[i]]);
+                }
+            }
+        } break;
+        case NLS_INT32: {
+            int32_t* data = static_cast<int32_t*>(dataPtr);
+            OMP_PARALLEL_FOR_LOOP(numElements, 4)
+            for (size_t i = 0; i < numElements; i++) {
+                if (data[i] >= 0 && static_cast<size_t>(data[i]) < mapDims.rows()) {
+                    data[i] = static_cast<int32_t>(indexRemap[data[i]]);
+                }
+            }
+        } break;
+        default:
+            break;
         }
 
     } else {
@@ -602,10 +580,9 @@ ImageResizeIndexed(const ArrayOf& X, const ArrayOf& map, size_t numrows, size_t 
     }
 
     if (options.dither) {
-        // If dithering is enabled, apply error diffusion dithering to the resized indexed image
-        NelsonType dataClass = resizedX.getDataClass();
+        NelsonType dataClass = resizedX.dataClass();
         if (dataClass == NLS_UINT8) {
-            uint8_t* data = (uint8_t*)(resizedX.getDataPointer());
+            uint8_t* data = (uint8_t*)(resizedX.dataPointer());
             OMP_PARALLEL_FOR_LOOP(numrows, 4)
             for (size_t y = 0; y < numrows; y++) {
                 std::vector<double> localErrorBuffer(numcols + 2, 0.0);
@@ -631,5 +608,5 @@ ImageResizeIndexed(const ArrayOf& X, const ArrayOf& map, size_t numrows, size_t 
     return std::make_pair(resizedX, newMap);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

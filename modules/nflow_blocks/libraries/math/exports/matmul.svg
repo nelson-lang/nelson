@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72" width="72" height="72">
+  <rect x="6" y="6" width="60" height="60" rx="10" fill="#EEEDFE" stroke="#AFA9EC" stroke-width="1.5"/>
+  <text x="24" y="30" text-anchor="middle" dominant-baseline="middle" font-family="Georgia,serif" font-size="15" font-style="italic" fill="#3C3489">A</text>
+  <text x="36" y="37" text-anchor="middle" dominant-baseline="middle" font-family="Georgia,serif" font-size="16" fill="#3C3489">&#215;</text>
+  <text x="48" y="44" text-anchor="middle" dominant-baseline="middle" font-family="Georgia,serif" font-size="15" font-style="italic" fill="#3C3489">B</text>
+  <polygon points="-1,24 -1,32 5,28" fill="#3C3489" opacity="0.7"/>
+  <polygon points="-1,40 -1,48 5,44" fill="#3C3489" opacity="0.7"/>
+  <polygon points="67,32 67,40 73,36" fill="#3C3489" opacity="0.7"/>
+</svg>

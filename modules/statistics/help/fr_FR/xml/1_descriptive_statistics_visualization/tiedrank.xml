@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>tiedrank</keyword>
+  <short_description>Rangs avec moyenne pour les ex aequo.</short_description>
+  <syntax>
+    <syntax_item>R = tiedrank(X)</syntax_item>
+    <syntax_item>[R, tieadj] = tiedrank(X)</syntax_item>
+    <syntax_item>[R, tieadj] = tiedrank(X, kendall)</syntax_item>
+    <syntax_item>[R, tieadj] = tiedrank(X, kendall, bidirectional)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>tiedrank</b> calcule les rangs selon la premiere dimension et attribue le rang moyen aux valeurs ex aequo. Les valeurs <b>NaN</b> sont ignorees et gardent un rang <b>NaN</b>.</p>
+    <p>Lorsque <b>kendall</b> est vrai, <b>tieadj</b> contient les trois termes d'ajustement des ex aequo pour la correlation de rang de Kendall. Lorsque <b>bidirectional</b> est vrai, les rangs sont attribues depuis les deux extremites des donnees triees.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[X = [-2 1 3 1 4];
+[R, tieadj] = tiedrank(X)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}ranksum">ranksum</link></see_also_item>
+    <see_also_item><link linkend="${statistics}signrank">signrank</link></see_also_item>
+    <see_also_item><link linkend="${statistics}friedman">friedman</link></see_also_item>
+    <see_also_item><link linkend="${statistics}kruskalwallis">kruskalwallis</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

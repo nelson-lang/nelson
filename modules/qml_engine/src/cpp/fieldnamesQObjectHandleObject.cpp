@@ -9,6 +9,7 @@
 //=============================================================================
 #include "fieldnamesQObjectHandleObject.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "HandleManager.hpp"
 #include "QStringConverter.hpp"
@@ -22,9 +23,9 @@ namespace Nelson {
 void
 fieldnamesQObjectHandleObject(const ArrayOf& A, bool fullList, wstringVector& fieldnames)
 {
-    HandleGenericObject* hlObj = A.getContentAsHandleScalar();
-    if (hlObj->getCategory() != NLS_HANDLE_QOBJECT_CATEGORY_STR) {
-        Error(_W("QObject handle expected."));
+    HandleGenericObject* hlObj = A.asHandleScalar();
+    if (hlObj->category() != NLS_HANDLE_QOBJECT_CATEGORY_STR) {
+        Error(L"Nelson:QObject:notHandle", L"QObject handle expected.");
     }
     QObjectHandleObject* qmlhandleobj = static_cast<QObjectHandleObject*>(hlObj);
     fieldnamesQObjectHandleObject(qmlhandleobj, fullList, fieldnames);
@@ -34,10 +35,10 @@ void
 fieldnamesQObjectHandleObject(
     QObjectHandleObject* qmlHandle, bool fullList, wstringVector& fieldnames)
 {
-    void* ptr = qmlHandle->getPointer();
+    void* ptr = qmlHandle->pointer();
     fieldnames.clear();
     if (ptr == nullptr) {
-        Error(_W("QObject valid handle expected."));
+        Error(L"Nelson:QObject:invalidHandle", L"QObject valid handle expected.");
     }
     QObject* qobj = (QObject*)ptr;
     const QMetaObject* meta = qobj->metaObject();
@@ -65,8 +66,8 @@ fieldnamesQObjectHandleObject(
     }
     if (std::find(allFields.begin(), allFields.end(), QOBJECT_PROPERTY_CHILDREN_STR)
         == allFields.end()) {
-        QObjectList childs = qobj->children();
-        int s = childs.size();
+        QObjectList children = qobj->children();
+        int s = children.size();
         if (s > 0) {
             allFields.push_back(std::string(QOBJECT_PROPERTY_CHILDREN_STR));
         }
@@ -102,5 +103,6 @@ fieldnamesQObjectHandleObject(
         }
     }
 }
-}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

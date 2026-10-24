@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,6 +10,7 @@
 #include "castBuiltin.hpp"
 #include "Cast.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -22,13 +23,13 @@ Nelson::ElementaryFunctionsGateway::castBuiltin(
     nargoutcheck(nLhs, 0, 1);
 
     if (argIn.size() == 3) {
-        std::wstring like = argIn[1].getContentAsWideString();
+        std::wstring like = argIn[1].asWideString();
         if (like != L"like") {
-            Error(ERROR_WRONG_ARGUMENT_2_VALUE);
+            Error(L"Nelson:invalidValue", L"Wrong value for #%d argument.", (2));
         }
         retval << Cast(eval, argIn[0], argIn[2]);
     } else {
-        retval << Cast(eval, argIn[0], argIn[1].getContentAsCString());
+        retval << Cast(eval, argIn[0], argIn[1].asUtf8String());
     }
     return retval;
 }

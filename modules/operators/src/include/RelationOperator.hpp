@@ -22,5 +22,6 @@ relationOperator(const ArrayOf& A, const ArrayOf& B, const std::wstring& operato
     logical (*stringRelationOperator)(
         NelsonType commonClass, void* vptrA, void* vptrB, indexType idxA, indexType idxB),
     bool& needToOverload);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

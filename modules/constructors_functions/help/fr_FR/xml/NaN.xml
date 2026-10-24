@@ -9,20 +9,30 @@
     <syntax_item>nan</syntax_item>
     <syntax_item>NaN(n)</syntax_item>
     <syntax_item>NaN(n, m)</syntax_item>
+    <syntax_item>NaN(n, classname)</syntax_item>
+    <syntax_item>NaN(n, m, classname)</syntax_item>
+    <syntax_item>NaN(classname)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>n</param_name>
-      <param_description>une variable : matrice n-par-n</param_description>
+      <param_description>un entier scalaire : nombre de lignes (et de colonnes si m est omis).</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>m</param_name>
-      <param_description>une variable : matrice n-par-m</param_description>
+      <param_description>un entier scalaire : nombre de colonnes.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>classname</param_name>
+      <param_description>une chaîne : 'double' (par défaut) ou 'single'.</param_description>
     </param_input_item>
   </param_input>
   <description>
     <p>
       <b>NaN</b> retourne le symbole IEEE NaN (Not a Number).</p>
+    <p><b>NaN(n)</b> retourne une matrice n-par-n remplie de <b>NaN</b> ; <b>NaN(n, m)</b>
+      retourne une matrice n-par-m. L'argument optionnel <b>classname</b> doit valoir
+      <b>'double'</b> (par défaut) ou <b>'single'</b>.</p>
     <p>
       <b>NaN</b> est le résultat d&apos;opérations qui ne produisent pas un résultat numérique bien défini.</p>
     <p>Attention, vous ne devez jamais comparer <b>NaN</b> avec <b>NaN</b>, dans ce cas, veuillez utiliser <b>isnan</b>.</p>

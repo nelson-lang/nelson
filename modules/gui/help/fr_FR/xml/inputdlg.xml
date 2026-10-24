@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>inputdlg</keyword>
+  <short_description>Ouvre une boite de dialogue de saisie.</short_description>
+  <syntax>
+    <syntax_item>answer = inputdlg(prompt)</syntax_item>
+    <syntax_item>answer = inputdlg(prompt, title)</syntax_item>
+    <syntax_item>answer = inputdlg(prompt, title, dims)</syntax_item>
+    <syntax_item>answer = inputdlg(prompt, title, dims, defaultAnswer)</syntax_item>
+    <syntax_item>answer = inputdlg(prompt, title, dims, defaultAnswer, options)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>prompt</param_name>
+      <param_description>Prompt text. Use a character vector, string, or cell array of character vectors for several prompts.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>answer</param_name>
+      <param_description>Cell array of character vectors. Returns an empty 0-by-0 cell array when the dialog is canceled.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>inputdlg displays one input prompt after another and returns the entered text.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Apercu d une boite de saisie.</example_item_description>
+      <example_item_data><![CDATA[f = dialog('Name', 'Input', 'WindowStyle', 'normal', 'Position', [100 100 360 190]);
+uicontrol(f, 'Style', 'text', 'String', 'Name:', 'Position', [30 124 90 22]);
+uicontrol(f, 'Style', 'edit', 'String', 'guest', 'Position', [130 126 190 24]);
+uicontrol(f, 'Style', 'text', 'String', 'Iterations:', 'Position', [30 82 90 22]);
+uicontrol(f, 'Style', 'edit', 'String', '10', 'Position', [130 84 190 24]);
+uicontrol(f, 'Style', 'pushbutton', 'String', 'OK', 'Position', [170 30 70 24]);
+uicontrol(f, 'Style', 'pushbutton', 'String', 'Cancel', 'Position', [250 30 70 24]);]]></example_item_data>
+      <example_item_img
+        src="../images/inputdlg_example.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Ask for several values with defaults.</example_item_description>
+      <example_item_data><![CDATA[prompt = {'First name:', 'Last name:'};
+defaults = {'Ada', 'Lovelace'};
+answer = inputdlg(prompt, 'User', [1 35], defaults);
+if ~isempty(answer), disp(answer{1}); end]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${gui}listdlg">listdlg</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${gui}questdlg">questdlg</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version aide API dialogue mise a jour.</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>extractBefore</keyword>
+  <short_description>Extrait le texte avant une limite.</short_description>
+  <syntax>
+    <syntax_item>R = extractBefore(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>extractBefore</b> Extrait le texte avant une limite.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[extractBefore("abc.def", ".")]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${string}extractAfter">extractAfter</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${string}extractBetween">extractBetween</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${string}extract">extract</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

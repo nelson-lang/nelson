@@ -26,5 +26,6 @@ NLSMEMORY_MANAGER_IMPEXP bool
 ClearPersistentVariable(Evaluator* eval, const std::wstring& variable);
 NLSMEMORY_MANAGER_IMPEXP bool
 ClearPersistentVariable(Evaluator* eval, const std::string& variable);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

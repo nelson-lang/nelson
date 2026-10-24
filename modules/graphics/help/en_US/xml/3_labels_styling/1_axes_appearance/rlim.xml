@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>rlim</keyword>
+  <short_description>Set or get radial limits for polar axes.</short_description>
+  <syntax>
+    <syntax_item>lims = rlim()</syntax_item>
+    <syntax_item>rlim([rmin, rmax])</syntax_item>
+    <syntax_item>rlim(&apos;auto&apos;)</syntax_item>
+    <syntax_item>rlim(&apos;manual&apos;)</syntax_item>
+    <syntax_item>m = rlim(&apos;mode&apos;)</syntax_item>
+    <syntax_item>rlim(ax, ...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>[rmin, rmax]</param_name>
+      <param_description>Two-element vector. The second value must be greater than the first value.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>&apos;auto&apos;</param_name>
+      <param_description>Enable automatic radial limit selection from plotted polar data.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>&apos;manual&apos;</param_name>
+      <param_description>Keep the current radial limits until they are changed explicitly.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>&apos;mode&apos;</param_name>
+      <param_description>Return the current radial limits mode.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description>Target polar axes.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>lims</param_name>
+      <param_description>Two-element vector: [rmin, rmax].</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>m</param_name>
+      <param_description>&apos;auto&apos; or &apos;manual&apos;.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>rlim</b> gets or sets the radial limits of the current polar axes.</p>
+    <p>Setting numeric limits switches radial limit mode to <b>manual</b>. Setting mode to <b>auto</b> recomputes limits when the polar axes is refreshed.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Set radial limits.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[
+theta = linspace(0, 2*pi, 100);
+polarplot(theta, 2 + sin(theta));
+rlim([0 3]);
+currentLimits = rlim()
+currentMode = rlim('mode')
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/2_polar_plots/polarplot">polarplot</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/2_polar_plots/polaraxes">polaraxes</link></see_also_item>
+    <see_also_item><link linkend="${graphics}3_labels_styling/1_axes_appearance/rticks">rticks</link></see_also_item>
+    <see_also_item><link linkend="${graphics}3_labels_styling/1_axes_appearance/thetalim">thetalim</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

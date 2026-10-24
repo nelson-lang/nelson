@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>shiftArithmetic</keyword>
+  <keyword_alias>block:shiftArithmetic</keyword_alias>
+  <short_description>Decalage arithmetique de bits a gauche/droite de ShiftNumber (64 bits signes).</short_description>
+  <syntax>
+    <syntax_item>Type de bloc : shiftArithmetic</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>ports d entree</param_name>
+      <param_description>1 port(s) d entree declare(s).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>ports de sortie</param_name>
+      <param_description>1 port(s) de sortie declare(s).</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Decalage arithmetique de bits a gauche/droite de ShiftNumber (64 bits signes).</p>
+    <table border="1">
+      <tbody>
+        <tr><td>Module</td><td><code>nflow_blocks</code></td></tr>
+        <tr><td>Bibliotheque</td><td>Logique / Operations sur les bits</td></tr>
+        <tr><td>Type</td><td><code>shiftArithmetic</code></td></tr>
+        <tr><td>Libelle</td><td>Shift Arithmetic</td></tr>
+      </tbody>
+    </table>
+    <p><img src="../../../../libraries/logic/exports/shiftArithmetic.svg" align="middle"/></p>
+    <p><b>Description</b></p>
+    <p>Decalage arithmetique de bits de l'entree entiere. <code>ShiftDirection</code> = "Left" multiplie par 2^ShiftNumber ; "Right" effectue un decalage arithmetique a droite preservant le signe (division par 2^ShiftNumber, arrondi vers moins l'infini). Les valeurs sont traitees comme entiers signes 64 bits ; le decalage a gauche passe par de l'arithmetique non signee pour rester bien defini. Element par element.</p>
+    <p><b>Ports</b></p>
+    <p><b>Entree(s)</b></p>
+    <table border="1">
+      <thead><tr><th>Port</th><th>Role</th><th>Cote</th><th>Position</th></tr></thead>
+      <tbody>
+        <tr><td>Port_1</td><td>Signal numerique lu par le bloc.</td><td>gauche</td><td>x=0, y=40</td></tr>
+      </tbody>
+    </table>
+    <p><b>Sortie(s)</b></p>
+    <table border="1">
+      <thead><tr><th>Port</th><th>Role</th><th>Cote</th><th>Position</th></tr></thead>
+      <tbody>
+        <tr><td>Port_1</td><td>Signal numerique produit par le bloc.</td><td>droite</td><td>x=90, y=40</td></tr>
+      </tbody>
+    </table>
+    <p><b>Parametres</b></p>
+    <table border="1">
+      <thead><tr><th>Parametre</th><th>Valeur par defaut</th></tr></thead>
+      <tbody>
+        <tr><td><code>ShiftDirection</code></td><td>Left</td></tr>
+        <tr><td><code>ShiftNumber</code></td><td>1</td></tr>
+      </tbody>
+    </table>
+    <p><b>Caracteristiques du bloc</b></p>
+    <table border="1">
+      <tbody>
+        <tr><td>Type de bloc</td><td>shiftArithmetic</td></tr>
+        <tr><td>Famille</td><td>Logique / Operations sur les bits</td></tr>
+        <tr><td>Taille rendue</td><td>90 x 80</td></tr>
+        <tr><td>Phases</td><td>ALGEBRAIC</td></tr>
+        <tr><td>Etat interne ou historique</td><td>non</td></tr>
+        <tr><td>Type de donnees du signal</td><td>valeurs numeriques double</td></tr>
+      </tbody>
+    </table>
+    <p><b>Algorithmes</b></p>
+    <ul>
+      <li>ALGEBRAIC : Left -&gt; out = x &lt;&lt; ShiftNumber ; Right -&gt; out = x &gt;&gt; ShiftNumber (arithmetique).</li>
+    </ul>
+    <p><b>Equation ou regle</b></p>
+    <latex>y = u \cdot 2^{\pm \text{ShiftNumber}}</latex>
+    <p><b>Capacites etendues</b></p>
+    <p><b>Sources d implementation</b></p>
+    <p>Generation de code : prise en charge pour C et Rust.</p>
+    <source_code label="Manifest" path="modules/nflow_blocks/libraries/logic/library.json" language="json"/>
+    <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/logic/shiftArithmetic.cpp" language="cpp"/>
+  </description>
+  <used_function/>
+  <bibliography/>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Decaler 5 de 3 bits a gauche donne 40.</example_item_description>
+      <example_item_data><![CDATA[d.blocks={ struct('id','c','type','constant','inputs',0,'outputs',1,'params',struct('Value',5)), struct('id','s','type','shiftArithmetic','inputs',1,'outputs',1,'params',struct('ShiftDirection','Left','ShiftNumber',3)), struct('id','w','type','toWorkspace','inputs',1,'outputs',0,'params',struct('VariableName','y','SaveFormat','Array')) };
+d.connections={ struct('from','c','to','s','fromIndex',0,'toIndex',0), struct('from','s','to','w','fromIndex',0,'toIndex',0) };
+d.sampleTime=0.1; d.duration=0.2; d.solver='discrete'; d.variables=struct();
+r=jsondecode(__nflow_simulate__(jsonencode(d)));]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${nflow_blocks}logic/bitwiseOperator">bitwiseOperator</link></see_also_item>
+    <see_also_item><link linkend="${nflow_blocks}logic/extractBits">extractBits</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

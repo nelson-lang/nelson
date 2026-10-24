@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -21,7 +21,7 @@ Nelson::MpiGateway::MPI_InitializedBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargoutcheck(nLhs, 0, 1);
     int flag = 0;
     MPI_Initialized(&flag);
-    retval << ArrayOf::logicalConstructor(flag);
+    retval << ArrayOf::logicalScalar(flag);
     return retval;
 }
 //=============================================================================

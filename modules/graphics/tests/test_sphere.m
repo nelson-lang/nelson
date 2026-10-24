@@ -23,15 +23,24 @@ axis equal
 title('50-by-50 faces')
 subplot(1, 3, 3);
 ax3 = gca();
-sphere(ax3,100)
+sphere(ax3, 100)
 axis equal
 title('100-by-100 faces')
+drawnow();
+assert_sphere_zticks(ax1.ZTick);
+assert_sphere_zticks(ax2.ZTick);
+assert_sphere_zticks(ax3.ZTick);
 %=============================================================================
 [X, Y, Z] = sphere(2);
-X_REF = [0     0     0; -1     1    -1; 0     0     0];
-Y_REF = [0     0     0;  0     0     0; 0     0     0];
-Z_REF = [-1    -1    -1; 0     0     0;  1     1     1];
-assert_isapprox(X, X_REF, 1e-4);
-assert_isapprox(Y, Y_REF, 1e-4);
-assert_isapprox(Z, Z_REF, 1e-4);
+X_REF = [0 0 0; -1 1 -1; 0 0 0];
+Y_REF = [0 0 0; 0 0 0; 0 0 0];
+Z_REF = [-1 -1 -1; 0 0 0; 1 1 1];
+asserts.isapprox(X, X_REF, 1e-4);
+asserts.isapprox(Y, Y_REF, 1e-4);
+asserts.isapprox(Z, Z_REF, 1e-4);
+%=============================================================================
+function assert_sphere_zticks(zt)
+  asserts.istrue(zt(1) == -1 && zt(end) == 1);
+  asserts.istrue(all(ismember(zt, [-1 -0.5 0 0.5 1])));
+end
 %=============================================================================

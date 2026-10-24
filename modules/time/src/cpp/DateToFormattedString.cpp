@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -14,6 +14,7 @@
 #include "DateVector.hpp"
 #include "StringHelpers.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
@@ -98,12 +99,14 @@ checkDateFormatIsValid(const wstringVector& keys, const std::wstring& format)
 
     for (const auto& key : keys) {
         if (mapCount[key] > 1) {
-            Error(_W("Invalid date format (duplicated field): ") + key);
+            Error(L"Nelson:datestr:duplicatedField", L"Invalid date format (duplicated field): %s",
+                key);
         }
     }
 
     if (mapCount[L"AM"] == 1 && mapCount[L"PM"] == 1) {
-        Error(_W("Invalid date format (duplicated field): ") + L"AM/PM");
+        Error(L"Nelson:datestr:duplicatedField", L"Invalid date format (duplicated field): %s",
+            std::wstring(L"AM/PM"));
     }
 }
 //=============================================================================
@@ -111,72 +114,43 @@ static std::wstring
 formatDateTime(
     const std::wstring& format, const std::tm& dateTime, int milliseconds, bool isLocalized)
 {
-    // format keys: order is important
+    // Validation keys: order is important for the duplicated-field diagnostics.
     wstringVector keys = { L"AM", L"PM", L"yyyy", L"YYYY", L"yy", L"YY", L"QQ", L"mmmm", L"mmm",
         L"mm", L"m", L"dddd", L"ddd", L"dd", L"d", L"HH", L"MM", L"SS", L"FFF" };
 
     checkDateFormatIsValid(keys, format);
 
-    std::wstring result = format;
-    bool ignoreD = false;
-    bool ignoreY = false;
-    bool ignoreM = false;
-    bool isAM = false;
-    bool isPM = false;
-    bool replaceAmByPM = false;
-    bool replacePmByAm = false;
+    // Longest-match token order for a single left-to-right scan. The output is
+    // never re-scanned, so substituted names (the 'd' in "Tuesday") cannot
+    // corrupt tokens that appear later in the format.
+    static const wstringVector tokens = { L"yyyy", L"YYYY", L"dddd", L"mmmm", L"FFF", L"mmm",
+        L"ddd", L"yy", L"YY", L"QQ", L"AM", L"PM", L"HH", L"MM", L"SS", L"mm", L"dd", L"m", L"d" };
 
-    for (const auto& key : keys) {
-        size_t pos = result.find(key);
-        while (pos != std::wstring::npos) {
+    // The presence of a meridiem token (AM/PM) switches HH to a 12-hour clock.
+    bool use12Hour
+        = (format.find(L"AM") != std::wstring::npos) || (format.find(L"PM") != std::wstring::npos);
+
+    const std::wstring monthNames[] = { L"January", L"February", L"March", L"April", L"May",
+        L"June", L"July", L"August", L"September", L"October", L"November", L"December" };
+    const std::wstring dayNames[]
+        = { L"Saturday", L"Sunday", L"Monday", L"Tuesday", L"Wednesday", L"Thursday", L"Friday" };
+
+    std::wstring result;
+    size_t i = 0;
+    while (i < format.size()) {
+        bool matched = false;
+        for (const auto& key : tokens) {
+            if (format.compare(i, key.length(), key) != 0) {
+                continue;
+            }
+            matched = true;
             std::wstringstream replacement;
-            if ((key == L"yyyy" || key == L"YYYY") && !ignoreY) {
-                ignoreY = true;
+            if (key == L"yyyy" || key == L"YYYY") {
                 replacement << std::setw(4) << dateTime.tm_year + 1900;
-            } else if ((key == L"yy" || key == L"YY") && !ignoreY) {
-                ignoreY = true;
+            } else if (key == L"yy" || key == L"YY") {
                 replacement << std::setw(2) << std::setfill(L'0')
                             << (dateTime.tm_year + 1900) % 100;
-            } else if (key == L"mm") {
-                replacement << std::setw(2) << std::setfill(L'0') << dateTime.tm_mon + 1;
-            } else if (key == L"dd" && !ignoreD) {
-                ignoreD = true;
-                replacement << std::setw(2) << std::setfill(L'0') << dateTime.tm_mday;
-            } else if (key == L"HH") {
-                int hour = dateTime.tm_hour;
-                if (isPM && dateTime.tm_hour < 12) {
-                    replacement << std::setw(2) << std::setfill(L' ') << hour;
-                    replacePmByAm = true;
-                } else if (isAM && dateTime.tm_hour > 12) {
-                    hour -= 12;
-                    replacement << std::setw(2) << std::setfill(L' ') << hour;
-                    replaceAmByPM = true;
-                } else if (isAM || isPM) {
-                    if (hour == 0) {
-                        hour = 12;
-                    } else if (hour > 12) {
-                        hour -= 12;
-                    }
-                    if (hour > 9) {
-                        replacement << std::setw(2) << std::setfill(L'0') << hour;
-                    } else {
-                        replacement << std::setw(2) << std::setfill(L' ') << hour;
-                    }
-                } else {
-                    replacement << std::setw(2) << std::setfill(L'0') << hour;
-                }
-            } else if (key == L"MM") {
-                replacement << std::setw(2) << std::setfill(L'0') << dateTime.tm_min;
-            } else if (key == L"SS") {
-                replacement << std::setw(2) << std::setfill(L'0') << dateTime.tm_sec;
-            } else if (key == L"QQ") {
-                int quarter = (dateTime.tm_mon / 3) + 1;
-                replacement << L"Q" << quarter;
-            } else if ((key == L"mmmm" || key == L"mmm" || key == L"m") && !ignoreM) {
-                ignoreM = true;
-                std::wstring monthNames[]
-                    = { L"January", L"February", L"March", L"April", L"May", L"June", L"July",
-                          L"August", L"September", L"October", L"November", L"December" };
+            } else if (key == L"mmmm" || key == L"mmm" || key == L"m") {
                 std::wstring month
                     = isLocalized ? _W(monthNames[dateTime.tm_mon]) : monthNames[dateTime.tm_mon];
                 if (key == L"m") {
@@ -186,10 +160,9 @@ formatDateTime(
                 } else {
                     replacement << month;
                 }
-            } else if ((key == L"dddd" || key == L"ddd" || key == L"d") && !ignoreD) {
-                ignoreD = true;
-                std::wstring dayNames[] = { L"Saturday", L"Sunday", L"Monday", L"Tuesday",
-                    L"Wednesday", L"Thursday", L"Friday" };
+            } else if (key == L"mm") {
+                replacement << std::setw(2) << std::setfill(L'0') << dateTime.tm_mon + 1;
+            } else if (key == L"dddd" || key == L"ddd" || key == L"d") {
                 std::wstring day
                     = isLocalized ? _W(dayNames[dateTime.tm_wday]) : dayNames[dateTime.tm_wday];
                 if (key == L"d") {
@@ -199,38 +172,39 @@ formatDateTime(
                 } else {
                     replacement << day;
                 }
+            } else if (key == L"dd") {
+                replacement << std::setw(2) << std::setfill(L'0') << dateTime.tm_mday;
+            } else if (key == L"HH") {
+                if (use12Hour) {
+                    int hour = dateTime.tm_hour % 12;
+                    if (hour == 0) {
+                        hour = 12;
+                    }
+                    // Single-digit 12-hour values are space-padded (" 1", not "01").
+                    replacement << std::setw(2) << std::setfill(L' ') << hour;
+                } else {
+                    replacement << std::setw(2) << std::setfill(L'0') << dateTime.tm_hour;
+                }
+            } else if (key == L"MM") {
+                replacement << std::setw(2) << std::setfill(L'0') << dateTime.tm_min;
+            } else if (key == L"SS") {
+                replacement << std::setw(2) << std::setfill(L'0') << dateTime.tm_sec;
+            } else if (key == L"QQ") {
+                int quarter = (dateTime.tm_mon / 3) + 1;
+                replacement << L"Q" << quarter;
             } else if (key == L"FFF") {
                 replacement << std::setw(3) << std::setfill(L'0') << milliseconds;
             } else if (key == L"AM" || key == L"PM") {
-                if (key == L"AM") {
-                    isAM = true;
-                    isPM = false;
-                } else {
-                    isPM = true;
-                    isAM = false;
-                }
-            } else {
-                replacement << L"";
+                // The AM/PM literal is a placeholder replaced by the actual meridiem.
+                replacement << (dateTime.tm_hour < 12 ? L"AM" : L"PM");
             }
-            if (replacement.str().empty()) {
-                pos = std::wstring::npos;
-            } else {
-                result.replace(pos, key.length(), replacement.str());
-                pos = result.find(key);
-            }
+            result += replacement.str();
+            i += key.length();
+            break;
         }
-    }
-    if (replaceAmByPM || replacePmByAm) {
-        if (replaceAmByPM) {
-            size_t pos = result.find(L"AM");
-            if (pos != std::wstring::npos) {
-                result.replace(pos, 2, L"PM");
-            }
-        } else {
-            size_t pos = result.find(L"PM");
-            if (pos != std::wstring::npos) {
-                result.replace(pos, 2, L"AM");
-            }
+        if (!matched) {
+            result += format[i];
+            ++i;
         }
     }
 
@@ -302,8 +276,8 @@ dateToUserFormatString(std::vector<double> epochValues, const Dimensions& dimens
 
     bool hasDateVector = false;
 
-    indexType rows = dimensionsIn.getRows();
-    indexType columns = dimensionsIn.getColumns();
+    indexType rows = dimensionsIn.rows();
+    indexType columns = dimensionsIn.columns();
 
     if ((columns % 6) == 0) {
         hasDateVector = true;
@@ -355,5 +329,5 @@ dateToUserFormatString(std::vector<double> epochValues, const Dimensions& dimens
     return results;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

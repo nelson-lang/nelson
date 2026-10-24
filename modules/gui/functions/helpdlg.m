@@ -7,24 +7,18 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function h = helpdlg(varargin)
-  narginchk(0, 3);
+function varargout = helpdlg(message, title)
+  narginchk(0, 2);
   nargoutchk(0, 1);
   if nargin < 1
-    helpstring = _('This is the default help string.');
-  else
-    helpstring = varargin{1};
+    message = _('This is the default help.');
   end
   if nargin < 2
-    dlgname = _('Help Dialog');
-  else
-    dlgname = varargin{2};
+    title = _('Help Dialog');
   end
-  if nargin < 3
-    mode = 'non-modal';
-  else
-    mode = varargin{3};
+  h = msgbox(message, title, 'help', 'non-modal');
+  if nargout > 0
+    varargout{1} = h;
   end
-  h = msgbox(helpstring, dlgname, 'help', mode);
 end
 %=============================================================================

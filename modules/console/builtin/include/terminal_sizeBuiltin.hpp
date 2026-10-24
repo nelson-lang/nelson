@@ -17,7 +17,8 @@ namespace Nelson {
 namespace ConsoleGateway {
     ArrayOfVector
     terminal_sizeBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
-};
+    //=============================================================================
+} // namespace ConsoleGateway
 //=============================================================================
 }; // namespace Nelson
 //=============================================================================

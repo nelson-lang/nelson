@@ -51,5 +51,5 @@ RepositoryTagList(const std::wstring& localPath, std::wstring& errorMessage)
     return tags;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

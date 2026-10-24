@@ -19,5 +19,6 @@ NLSAUDIO_IMPEXP bool
 terminateAudio();
 NLSAUDIO_IMPEXP ArrayOf
 audioDevInfo();
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

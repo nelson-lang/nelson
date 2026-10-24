@@ -7,8 +7,11 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-dlgenerateunloader(tempdir, 'test_c');
-assert_istrue(isfile([tempdir(), 'unloader.m']));
-txt = fileread([tempdir(), 'unloader.m']);
-assert_istrue(contains(txt, 'dlclose(lib)'));
+d = tempname();
+mkdir(d);
+c = onCleanup(@() rmdir(d, 's')); %#ok<NASGU>
+dlgenerateunloader(d, 'test_c');
+asserts.istrue(isfile(fullfile(d, 'unloader.m')));
+txt = fileread(fullfile(d, 'unloader.m'));
+asserts.istrue(contains(txt, 'dlclose(lib)'));
 %=============================================================================

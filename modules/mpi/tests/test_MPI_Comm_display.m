@@ -9,6 +9,8 @@
 %=============================================================================
 % <--MPI MODE-->
 %=============================================================================
+mpiRequireRuntimeForTest();
+%=============================================================================
 if ~MPI_Initialized()
   MPI_Init();
 end
@@ -17,24 +19,24 @@ comm = MPI_Comm_object();
 %=============================================================================
 R = evalc('display(comm)');
 REF =  '
-comm =
+comm = 
 
   1×1 handle [MPI_Comm] 
 
     Description:    MPI_COMM_WORLD
 
 ';
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================
 R = evalc('disp(comm)');
 REF = '  1×1 handle [MPI_Comm] 
 
     Description:    MPI_COMM_WORLD
 ' ;
-assert_isequal(R, REF)
+asserts.isequal(R, REF)
 %=============================================================================
 delete(comm);
-assert_isequal(length(MPI_Comm_used()), 0);
+asserts.isequal(length(MPI_Comm_used()), 0);
 if MPI_Initialized()
   MPI_Finalize();
 end

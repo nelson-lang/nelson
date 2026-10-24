@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -12,7 +12,10 @@
 #include "IsFinite.hpp"
 #include "ClassName.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
+#include "SparseType.hpp"
 #include "i18n.hpp"
+#include <Eigen/Sparse>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -39,40 +42,83 @@ boolean_isfinite_cplx(indexType N, logical* C, const T* A)
 ArrayOf
 IsFinite(const ArrayOf& A)
 {
-    ArrayOf C;
-    switch (A.getDataClass()) {
-    case NLS_DOUBLE: {
-        C = ArrayOf(NLS_LOGICAL, A.getDimensions(), nullptr);
+    if (A.isSparse()) {
         void* Cp = Nelson::ArrayOf::allocateArrayOf(
-            NLS_LOGICAL, A.getElementCount(), stringVector(), false);
-        boolean_isfinite<double>(
-            A.getElementCount(), (logical*)Cp, (const double*)A.getDataPointer());
+            NLS_LOGICAL, A.elementCount(), stringVector(), false);
+        auto* out = static_cast<logical*>(Cp);
+        OMP_PARALLEL_FOR_LOOP(A.elementCount())
+        for (ompIndexType i = 0; i < (ompIndexType)A.elementCount(); i++) {
+            out[i] = static_cast<logical>(1);
+        }
+        switch (A.dataClass()) {
+        case NLS_DOUBLE: {
+            const auto* spmatSRC
+                = static_cast<const Eigen::SparseMatrix<double, 0, signedIndexType>*>(
+                    A.sparseDataPointer());
+            for (indexType k = 0; k < (indexType)spmatSRC->outerSize(); ++k) {
+                for (Eigen::SparseMatrix<double, 0, signedIndexType>::InnerIterator it(
+                         *spmatSRC, k);
+                    it; ++it) {
+                    out[it.row() + it.col() * A.rows()]
+                        = static_cast<logical>(std::isfinite(it.value()));
+                }
+            }
+        } break;
+        case NLS_DCOMPLEX: {
+            const auto* spmatSRC
+                = static_cast<const Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>*>(
+                    A.sparseDataPointer());
+            for (indexType k = 0; k < (indexType)spmatSRC->outerSize(); ++k) {
+                for (Eigen::SparseMatrix<doublecomplex, 0, signedIndexType>::InnerIterator it(
+                         *spmatSRC, k);
+                    it; ++it) {
+                    out[it.row() + it.col() * A.rows()] = static_cast<logical>(
+                        std::isfinite(it.value().real()) && std::isfinite(it.value().imag()));
+                }
+            }
+        } break;
+        case NLS_LOGICAL: {
+        } break;
+        default: {
+            Error("Nelson:UndefinedFunction:undefinedFunctionValueInputArgumentsType",
+                "Undefined function '%s' for input arguments of type '%s'.", "isfinite",
+                ClassName(A));
+        } break;
+        }
+        return ArrayOf(NLS_LOGICAL, A.dimensions(), Cp);
+    }
+    ArrayOf C;
+    switch (A.dataClass()) {
+    case NLS_DOUBLE: {
+        C = ArrayOf(NLS_LOGICAL, A.dimensions(), nullptr);
+        void* Cp = Nelson::ArrayOf::allocateArrayOf(
+            NLS_LOGICAL, A.elementCount(), stringVector(), false);
+        boolean_isfinite<double>(A.elementCount(), (logical*)Cp, (const double*)A.dataPointer());
         C.setDataPointer(Cp);
     } break;
     case NLS_SINGLE: {
-        C = ArrayOf(NLS_LOGICAL, A.getDimensions(), nullptr);
+        C = ArrayOf(NLS_LOGICAL, A.dimensions(), nullptr);
         void* Cp = Nelson::ArrayOf::allocateArrayOf(
-            NLS_LOGICAL, A.getElementCount(), stringVector(), false);
-        boolean_isfinite<single>(
-            A.getElementCount(), (logical*)Cp, (const single*)A.getDataPointer());
+            NLS_LOGICAL, A.elementCount(), stringVector(), false);
+        boolean_isfinite<single>(A.elementCount(), (logical*)Cp, (const single*)A.dataPointer());
         C.setDataPointer(Cp);
     } break;
     case NLS_SCOMPLEX: {
-        C = ArrayOf(NLS_LOGICAL, A.getDimensions(), nullptr);
+        C = ArrayOf(NLS_LOGICAL, A.dimensions(), nullptr);
         void* Cp = Nelson::ArrayOf::allocateArrayOf(
-            NLS_LOGICAL, A.getElementCount(), stringVector(), false);
-        auto* pValueA = (single*)A.getDataPointer();
+            NLS_LOGICAL, A.elementCount(), stringVector(), false);
+        auto* pValueA = (single*)A.dataPointer();
         auto* cplx = reinterpret_cast<singlecomplex*>(pValueA);
-        boolean_isfinite_cplx<singlecomplex>(A.getElementCount(), (logical*)Cp, cplx);
+        boolean_isfinite_cplx<singlecomplex>(A.elementCount(), (logical*)Cp, cplx);
         C.setDataPointer(Cp);
     } break;
     case NLS_DCOMPLEX: {
-        C = ArrayOf(NLS_LOGICAL, A.getDimensions(), nullptr);
+        C = ArrayOf(NLS_LOGICAL, A.dimensions(), nullptr);
         void* Cp = Nelson::ArrayOf::allocateArrayOf(
-            NLS_LOGICAL, A.getElementCount(), stringVector(), false);
-        auto* pValueA = (double*)A.getDataPointer();
+            NLS_LOGICAL, A.elementCount(), stringVector(), false);
+        auto* pValueA = (double*)A.dataPointer();
         auto* cplx = reinterpret_cast<doublecomplex*>(pValueA);
-        boolean_isfinite_cplx<doublecomplex>(A.getElementCount(), (logical*)Cp, cplx);
+        boolean_isfinite_cplx<doublecomplex>(A.elementCount(), (logical*)Cp, cplx);
         C.setDataPointer(Cp);
     } break;
     case NLS_CHAR:
@@ -85,11 +131,11 @@ IsFinite(const ArrayOf& A)
     case NLS_UINT32:
     case NLS_INT64:
     case NLS_UINT64: {
-        C = ArrayOf(NLS_LOGICAL, A.getDimensions(), nullptr);
+        C = ArrayOf(NLS_LOGICAL, A.dimensions(), nullptr);
         void* Cp = Nelson::ArrayOf::allocateArrayOf(
-            NLS_LOGICAL, A.getElementCount(), stringVector(), false);
+            NLS_LOGICAL, A.elementCount(), stringVector(), false);
         auto* CpLogical = static_cast<logical*>(Cp);
-        ompIndexType N = (ompIndexType)A.getElementCount();
+        ompIndexType N = (ompIndexType)A.elementCount();
         OMP_PARALLEL_FOR_LOOP(N)
         for (ompIndexType i = 0; i < N; i++) {
             CpLogical[i] = static_cast<logical>(1);
@@ -97,8 +143,8 @@ IsFinite(const ArrayOf& A)
         C.setDataPointer(Cp);
     } break;
     default: {
-        Error(_("Undefined function 'isfinite' for input arguments of type") + " '" + ClassName(A)
-            + "'.");
+        Error("Nelson:UndefinedFunction:undefinedFunctionValueInputArgumentsType",
+            "Undefined function '%s' for input arguments of type '%s'.", "isfinite", ClassName(A));
     } break;
     }
     return C;

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -41,7 +41,7 @@ MethodCompleter(const std::wstring& prefix)
         variable = variable.substr(lastCharacterIndex + 1);
     }
 
-    Exception lastError = eval->getLastErrorException();
+    NelsonException lastError = eval->getLastErrorException();
 
     try {
         ArrayOfVector variableArray
@@ -57,16 +57,16 @@ MethodCompleter(const std::wstring& prefix)
             stringVector methodNames;
 
             if (methodsArray.size() == 1) {
-                methodNames = methodsArray[0].getContentAsCStringVector();
+                methodNames = methodsArray[0].asUtf8StringVector();
             }
 
             std::string className;
             if (variableArray[0].isClassType()) {
-                className = variableArray[0].getClassType();
+                className = variableArray[0].classType();
             }
 
             if (variableArray[0].isHandle()) {
-                className = variableArray[0].getHandleCategory();
+                className = variableArray[0].handleCategory();
             }
             for (const auto& name : methodNames) {
 
@@ -77,7 +77,7 @@ MethodCompleter(const std::wstring& prefix)
                 }
             }
         }
-    } catch (const Exception&) {
+    } catch (const NelsonException&) {
         eval->setLastErrorException(lastError);
     }
 

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>xtickangle</keyword>
+  <short_description>Rotate x-axis tick labels.</short_description>
+  <syntax>
+    <syntax_item>xtickangle(angle)</syntax_item>
+    <syntax_item>angle = xtickangle()</syntax_item>
+    <syntax_item>xtickangle(ax, ...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>angle</param_name>
+      <param_description>Rotation angle in degrees, specified as a scalar numeric value.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description>Target axes. Default is the current axes.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>angle</param_name>
+      <param_description>Current rotation angle in degrees.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>xtickangle</b> rotates the x-axis tick labels of the current axes by the given angle.</p>
+    <p>A positive angle rotates the labels counterclockwise; a negative angle rotates them clockwise.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Rotate x-axis tick labels by 45 degrees.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[
+bar([10 20 30 41]);
+xticklabels({'January','February','March','April'});
+xtickangle(45);
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}3_labels_styling/1_axes_appearance/xticks">xticks</link></see_also_item>
+    <see_also_item><link linkend="${graphics}3_labels_styling/1_axes_appearance/xticklabels">xticklabels</link></see_also_item>
+    <see_also_item><link linkend="${graphics}3_labels_styling/1_axes_appearance/ytickangle">ytickangle</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

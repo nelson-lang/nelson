@@ -28,12 +28,45 @@ if(IS_DIRECTORY "${APP_BUNDLE_DIR}")
     DESTINATION "${_contents_dir}")
   # Icon → Contents/Resources/
   set(_nelson_icns "@CMAKE_BINARY_DIR@/Nelson.icns")
+  set(_nelson_source_png "@_nelson_source_png@")
   if(NOT EXISTS "${_nelson_icns}")
-    message(FATAL_ERROR
-      "CPack fixup: required icon not found: ${_nelson_icns}")
+    execute_process(
+      COMMAND "@CMAKE_COMMAND@" -DSOURCE_PNG=${_nelson_source_png}
+        -DOUTPUT_ICNS=${_nelson_icns} -P
+        "@CMAKE_SOURCE_DIR@/CMake/macOS/generate_icns.cmake"
+      RESULT_VARIABLE _icon_rc
+    )
+    if(NOT _icon_rc EQUAL 0)
+      message(FATAL_ERROR
+        "CPack fixup: failed to generate icon: ${_nelson_icns}")
+    endif()
   endif()
   file(COPY "${_nelson_icns}"
     DESTINATION "${_contents_dir}/Resources")
+
+  # DMG volume icon: Finder uses .VolumeIcon.icns at the volume root plus the
+  # custom icon attribute on that root folder.
+  file(COPY "${_nelson_icns}"
+    DESTINATION "${CPACK_TEMPORARY_INSTALL_DIRECTORY}")
+  file(RENAME
+    "${CPACK_TEMPORARY_INSTALL_DIRECTORY}/Nelson.icns"
+    "${CPACK_TEMPORARY_INSTALL_DIRECTORY}/.VolumeIcon.icns")
+  find_program(SETFILE_EXECUTABLE SetFile)
+  if(SETFILE_EXECUTABLE)
+    execute_process(
+      COMMAND "${SETFILE_EXECUTABLE}" -a C
+        "${CPACK_TEMPORARY_INSTALL_DIRECTORY}"
+      RESULT_VARIABLE _setfile_rc
+      ERROR_VARIABLE _setfile_err
+    )
+    if(NOT _setfile_rc EQUAL 0)
+      message(WARNING
+        "CPack fixup: failed to set DMG custom volume icon: ${_setfile_err}")
+    endif()
+  else()
+    message(WARNING
+      "CPack fixup: SetFile not found; DMG volume icon attribute not set")
+  endif()
 
   message(STATUS "CPack fixup: running bundle fixup on ${APP_BUNDLE_DIR}")
   include("@CMAKE_SOURCE_DIR@/CMake/macOS/fixup_bundle.cmake")

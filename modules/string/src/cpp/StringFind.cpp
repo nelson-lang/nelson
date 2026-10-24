@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -33,7 +33,7 @@ StringFind(const std::wstring& A, const std::wstring& B)
         }
     }
     if (vectorRes.empty()) {
-        res = ArrayOf::emptyConstructor();
+        res = ArrayOf::empty();
     } else {
         size_t Clen = vectorRes.size();
         double* Cp = static_cast<double*>(

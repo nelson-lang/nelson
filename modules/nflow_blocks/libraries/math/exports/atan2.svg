@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="306.5" height="256.5" viewBox="-153.25 -153.25 306.5 256.5">
+  <rect x="-153.25" y="-153.25" width="306.5" height="256.5" rx="48.735" fill="#EEEDFE" stroke="#AFA9EC" stroke-width="3.25"/>
+  <g transform="matrix(1 0 0 -1 0 0)">
+    <rect x="-100" y="-100" width="200" height="200" fill="#FFFFFF" stroke="#3C3489" stroke-width="3.25"/>
+    <g transform="translate(0,130) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32" fill="#3C3489">Atan2</text></g>
+    <polygon points="0,90 -8,68 8,68 0,90" fill="#AFA9EC" stroke="#AFA9EC" stroke-width="3.25" stroke-linejoin="round"/>
+    <polyline points="0,-80 0,68" fill="none" stroke="#AFA9EC" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-90,0 68,0" fill="none" stroke="#AFA9EC" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="90,0 68,8 68,-8 90,0" fill="#AFA9EC" stroke="#AFA9EC" stroke-width="3.25" stroke-linejoin="round"/>
+    <path d="M-80 -34.9 Q-46.1 -31.4 -37.75 -29.25 Q-29.4 -27.1 -23.85 -24.3 Q-18.3 -21.5 -14.3 -18 Q-10.3 -14.5 -6.165 -8.835 Q-2.03 -3.17 2.97 4.215 Q7.97 11.6 11.735 15.5 Q15.5 19.4 19.9 22.2 Q24.3 25 31.65 27.5 Q39 30 50.55 31.75 Q62.1 33.5 80 34.9" fill="none" stroke="#3C3489" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M-80 45.1 Q-45.9 48.7 -37.5 50.8 Q-29.1 52.9 -23.6 55.75 Q-18.1 58.6 -14.15 62.2 Q-10.2 65.8 -6.01 71.5 Q-1.82 77.2 0 80" fill="none" stroke="#3C3489" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M0 -80 Q8.93 -67.2 13.015 -63.25 Q17.1 -59.3 22.2 -56.45 Q27.3 -53.6 34.7 -51.5 Q42.1 -49.4 56 -47.6 Q69.9 -45.8 80 -45.1" fill="none" stroke="#3C3489" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <g transform="translate(-54,-70) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="38.4" fill="#3C3489">atan2</text></g>
+  </g>
+</svg>

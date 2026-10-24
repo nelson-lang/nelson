@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>fplot3</keyword>
+  <short_description>Plot a 3-D parametric curve from function handles.</short_description>
+  <syntax>
+    <syntax_item>fplot3(xfun, yfun, zfun)</syntax_item>
+    <syntax_item>fplot3(xfun, yfun, zfun, tinterval)</syntax_item>
+    <syntax_item>fplot3(..., LineSpec)</syntax_item>
+    <syntax_item>fplot3(parent, ...)</syntax_item>
+    <syntax_item>h = fplot3(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>xfun, yfun, zfun</param_name>
+      <param_description>Function handles evaluated on the parameter interval.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>tinterval</param_name>
+      <param_description>Two-element increasing finite vector. The default is [-5 5].</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>LineSpec</param_name>
+      <param_description>Line style, marker, and color specification.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Name-Value pairs</param_name>
+      <param_description>Line properties and parameterizedfunctionline properties, including MeshDensity.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>h</param_name>
+      <param_description>Parameterized function line graphics object.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>fplot3</b> samples three function handles over a parameter interval and displays the resulting 3-D curve.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Plot a helix.</example_item_description>
+      <example_item_data><![CDATA[fplot3(@(t) cos(t), @(t) sin(t), @(t) t, [0 6*pi]);]]></example_item_data>
+      <example_item_img src="../../../../images/fplot3_1.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Customize line style.</example_item_description>
+      <example_item_data><![CDATA[fplot3(@(t) t, @(t) t.^2, @(t) t.^3, [-2 2], 'r--', 'LineWidth', 2);]]></example_item_data>
+      <example_item_img src="../../../../images/fplot3_2.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/1_line_plots/fplot">fplot</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/1_line_plots/plot3">plot3</link></see_also_item>
+    <see_also_item><link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.parameterizedfunctionline.properties">parameterizedfunctionline properties</link></see_also_item>
+  </see_also>
+</xmldoc>

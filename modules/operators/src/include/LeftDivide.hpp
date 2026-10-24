@@ -13,11 +13,6 @@
 #include "nlsOperators_exports.h"
 //=============================================================================
 namespace Nelson {
-
-/**
- * Matrix-matrix divide
- * LEFTDIVIDE /  Operator
- */
 NLSOPERATORS_IMPEXP ArrayOf
 LeftDivide(ArrayOf A, ArrayOf B, bool& needToOverload);
 //=============================================================================

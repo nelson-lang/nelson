@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nelson.lang.WeakReference</keyword>
+  <short_description>Weak reference to a handle object.</short_description>
+  <syntax>
+    <syntax_item>w = nelson.lang.WeakReference()</syntax_item>
+    <syntax_item>w = nelson.lang.WeakReference(handleObject)</syntax_item>
+    <syntax_item>h = w.Handle</syntax_item>
+    <syntax_item>w.Handle = handleObject</syntax_item>
+    <syntax_item>h = w.ValidHandle</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>handleObject</param_name>
+      <param_description>a scalar handle object.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>w</param_name>
+      <param_description>a scalar weak-reference handle.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>h</param_name>
+      <param_description>the current target handle, or an invalid typed handle when the target is not live.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>nelson.lang.WeakReference</b> stores a weak reference to one scalar handle object.</p>
+    <p>The weak reference does not keep the target object alive. If all strong references to the target are cleared, <b>w.Handle</b> returns an invalid handle with the target class name.</p>
+    <p>If the target has been deleted, <b>w.Handle</b> also returns an invalid handle with the target class name.</p>
+    <p>The <b>Handle</b> dependent property can be read and assigned. Assigning it replaces the weak target.</p>
+    <p>The <b>ValidHandle</b> dependent property returns the live target. If the target is missing, expired, or deleted, reading <b>ValidHandle</b> raises an error.</p>
+    <p>A weak reference created with no input returns an invalid <b>nelson.lang.HandlePlaceholder</b> handle through <b>Handle</b>.</p>
+    <p>Reading <b>Handle</b> from a live weak reference returns a normal strong handle value. Keeping that returned value in a variable keeps the target alive until that variable is cleared or overwritten.</p>
+    <p>Assigning an invalid handle is allowed. The weak reference then remembers the handle class and returns an invalid handle of that class.</p>
+    <p>The assigned target must be a scalar handle. Numeric values, strings, structs, cells, and handle arrays with more than one element are rejected.</p>
+    <p>Use <b>isvalid(w.Handle)</b> when a missing target is an ordinary condition. Use <b>w.ValidHandle</b> when a missing target is an error condition.</p>
+    <p><b>nelson.lang.WeakReference</b> is itself a handle object. Deleting or clearing the weak-reference object does not delete the target object.</p>
+    <p>The weak-reference object stores only the target handle identity and fallback class name. It does not copy target properties or target data.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Create an empty weak reference.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[w = nelson.lang.WeakReference();
+h = w.Handle;
+class(h)
+isvalid(h)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Observe that the weak reference does not keep the target alive.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[d = [tempdir(), 'nelson_help_weak_reference/'];
+mkdir(d);
+filewrite([d, '/NelsonHelpWeakTarget.m'], ["classdef NelsonHelpWeakTarget < handle"; "  properties"; "    Value = 10"; "  end"; "end"]);
+addpath(d);
+target = NelsonHelpWeakTarget();
+w = nelson.lang.WeakReference(target);
+isvalid(w.Handle)
+class(w.Handle)
+clear target;
+h = w.Handle;
+isvalid(h)
+class(h)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Keep the target alive with a strong handle returned from Handle.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[d = [tempdir(), 'nelson_help_weak_reference_strong/'];
+mkdir(d);
+filewrite([d, '/NelsonHelpWeakStrongTarget.m'], ["classdef NelsonHelpWeakStrongTarget < handle"; "  properties"; "    Value = 20"; "  end"; "end"]);
+addpath(d);
+target = NelsonHelpWeakStrongTarget();
+w = nelson.lang.WeakReference(target);
+strongTarget = w.Handle;
+clear target;
+isvalid(w.Handle)
+strongTarget.Value
+clear strongTarget;
+isvalid(w.Handle)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Use ValidHandle when an invalid target must be treated as an error.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[d = [tempdir(), 'nelson_help_weak_reference_valid/'];
+mkdir(d);
+filewrite([d, '/NelsonHelpWeakValidTarget.m'], ["classdef NelsonHelpWeakValidTarget < handle"; "end"]);
+addpath(d);
+target = NelsonHelpWeakValidTarget();
+w = nelson.lang.WeakReference(target);
+liveTarget = w.ValidHandle;
+clear target liveTarget;
+try
+  w.ValidHandle;
+catch exception
+  disp(exception.message)
+end]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Replace the weak target.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[d = [tempdir(), 'nelson_help_weak_reference_replace/'];
+mkdir(d);
+filewrite([d, '/NelsonHelpWeakReplaceTarget.m'], ["classdef NelsonHelpWeakReplaceTarget < handle"; "  properties"; "    Name = ''first''"; "  end"; "end"]);
+addpath(d);
+a = NelsonHelpWeakReplaceTarget();
+b = NelsonHelpWeakReplaceTarget();
+b.Name = 'second';
+w = nelson.lang.WeakReference(a);
+w.Handle.Name
+w.Handle = b;
+w.ValidHandle.Name
+delete(b);
+isvalid(w.Handle)]]></example_item_data>
+    </example_item>
+  </examples>
+  <used_function />
+  <bibliography />
+  <see_also>
+    <see_also_item>
+      <link linkend="${handle}nelson.lang.HandlePlaceholder">nelson.lang.HandlePlaceholder</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}nelson.lang.invalidHandle">nelson.lang.invalidHandle</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}isvalid">isvalid</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}delete">delete</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${types}isa">isa</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

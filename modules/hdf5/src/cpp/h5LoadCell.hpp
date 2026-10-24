@@ -17,9 +17,11 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-bool
-h5LoadCell(hid_t fid, const std::string& location, const std::string& variableName, bool isEmpty,
-    const Dimensions& dims, ArrayOf& VariableValue);
+class Evaluator;
 //=============================================================================
-};
+bool
+h5LoadCell(Evaluator* eval, hid_t fid, const std::string& location, const std::string& variableName,
+    bool isEmpty, const Dimensions& dims, ArrayOf& VariableValue);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

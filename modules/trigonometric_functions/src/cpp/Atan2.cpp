@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "nlsBuildConfig.h"
+#include "ErrorID.hpp"
 #include "omp_for_loop.hpp"
 #include "lapack_eigen_config.hpp"
 #if defined(_NLS_WITH_VML)
@@ -27,10 +28,10 @@ namespace Nelson {
 static ArrayOf
 matrix_matrix_atan2_double(const ArrayOf& a, const ArrayOf& b)
 {
-    Dimensions dimsC = a.getDimensions();
-    indexType Clen = dimsC.getElementCount();
-    double* ptrA = (double*)a.getDataPointer();
-    double* ptrB = (double*)b.getDataPointer();
+    Dimensions dimsC = a.dimensions();
+    indexType Clen = dimsC.elementCount();
+    double* ptrA = (double*)a.dataPointer();
+    double* ptrB = (double*)b.dataPointer();
     double* ptrC = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, Clen);
 #if defined(_NLS_WITH_VML)
     vdAtan2((MKL_INT)Clen, ptrA, ptrB, ptrC);
@@ -46,10 +47,10 @@ matrix_matrix_atan2_double(const ArrayOf& a, const ArrayOf& b)
 static ArrayOf
 matrix_matrix_atan2_single(const ArrayOf& a, const ArrayOf& b)
 {
-    Dimensions dimsC = a.getDimensions();
-    indexType Clen = dimsC.getElementCount();
-    single* ptrA = (single*)a.getDataPointer();
-    single* ptrB = (single*)b.getDataPointer();
+    Dimensions dimsC = a.dimensions();
+    indexType Clen = dimsC.elementCount();
+    single* ptrA = (single*)a.dataPointer();
+    single* ptrB = (single*)b.dataPointer();
     single* ptrC = (single*)ArrayOf::allocateArrayOf(NLS_SINGLE, Clen);
 #if defined(_NLS_WITH_VML)
     vsAtan2((MKL_INT)Clen, ptrA, ptrB, ptrC);
@@ -66,11 +67,11 @@ template <class T>
 static ArrayOf
 scalar_matrix_atan2(NelsonType classDestination, const ArrayOf& a, const ArrayOf& b)
 {
-    Dimensions dimsC = b.getDimensions();
-    indexType Clen = dimsC.getElementCount();
+    Dimensions dimsC = b.dimensions();
+    indexType Clen = dimsC.elementCount();
     void* Cp = new_with_exception<T>(Clen, false);
-    T* ptrA = (T*)a.getDataPointer();
-    T* ptrB = (T*)b.getDataPointer();
+    T* ptrA = (T*)a.dataPointer();
+    T* ptrB = (T*)b.dataPointer();
     T* ptrC = (T*)Cp;
     OMP_PARALLEL_FOR_LOOP(Clen)
     for (ompIndexType k = 0; k < (ompIndexType)Clen; k++) {
@@ -83,11 +84,11 @@ template <class T>
 static ArrayOf
 matrix_scalar_atan2(NelsonType classDestination, const ArrayOf& a, const ArrayOf& b)
 {
-    Dimensions dimsC = a.getDimensions();
-    indexType Clen = dimsC.getElementCount();
+    Dimensions dimsC = a.dimensions();
+    indexType Clen = dimsC.elementCount();
     void* Cp = new_with_exception<T>(Clen, false);
-    T* ptrA = (T*)a.getDataPointer();
-    T* ptrB = (T*)b.getDataPointer();
+    T* ptrA = (T*)a.dataPointer();
+    T* ptrB = (T*)b.dataPointer();
     T* ptrC = (T*)Cp;
     OMP_PARALLEL_FOR_LOOP(Clen)
     for (ompIndexType k = 0; k < (ompIndexType)Clen; k++) {
@@ -125,16 +126,16 @@ template <class T>
 static ArrayOf
 vector_matrix_atan2(NelsonType classDestination, const ArrayOf& a, const ArrayOf& b)
 {
-    const T* ptrA = (const T*)a.getDataPointer();
-    const T* ptrB = (const T*)b.getDataPointer();
+    const T* ptrA = (const T*)a.dataPointer();
+    const T* ptrB = (const T*)b.dataPointer();
     indexType q = 0;
-    Dimensions dimsC = b.getDimensions();
-    indexType Clen = dimsC.getElementCount();
+    Dimensions dimsC = b.dimensions();
+    indexType Clen = dimsC.elementCount();
     void* Cp = new_with_exception<T>(Clen, false);
     T* C = (T*)Cp;
-    for (indexType i = 0; i < dimsC.getRows(); i++) {
-        for (indexType j = 0; j < dimsC.getColumns(); j++) {
-            indexType m = i + j * a.getRows();
+    for (indexType i = 0; i < dimsC.rows(); i++) {
+        for (indexType j = 0; j < dimsC.columns(); j++) {
+            indexType m = i + j * a.rows();
             C[m] = atan2(ptrB[m], ptrA[q]);
         }
         q++;
@@ -146,15 +147,15 @@ template <class T>
 static ArrayOf
 vector_column_atan2(NelsonType classDestination, const ArrayOf& a, const ArrayOf& b)
 {
-    const T* ptrA = (const T*)a.getDataPointer();
-    const T* ptrB = (const T*)b.getDataPointer();
-    Dimensions dimsC = b.getDimensions();
-    indexType Clen = dimsC.getElementCount();
+    const T* ptrA = (const T*)a.dataPointer();
+    const T* ptrB = (const T*)b.dataPointer();
+    Dimensions dimsC = b.dimensions();
+    indexType Clen = dimsC.elementCount();
     void* Cp = new_with_exception<T>(Clen, false);
     T* C = (T*)Cp;
-    for (indexType i = 0; i < dimsC.getRows(); i++) {
-        for (indexType j = 0; j < dimsC.getColumns(); j++) {
-            indexType m = i + j * b.getRows();
+    for (indexType i = 0; i < dimsC.rows(); i++) {
+        for (indexType j = 0; j < dimsC.columns(); j++) {
+            indexType m = i + j * b.rows();
             C[m] = atan2(ptrB[m], ptrA[j]);
         }
     }
@@ -165,8 +166,8 @@ static ArrayOf
 Atan2(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
 {
     void* Cp = nullptr;
-    Dimensions dimsA = A.getDimensions();
-    Dimensions dimsB = B.getDimensions();
+    Dimensions dimsA = A.dimensions();
+    Dimensions dimsB = B.dimensions();
     Dimensions dimsC;
     if (A.isEmpty() || B.isEmpty()) {
         if (A.isScalar() || B.isScalar()) {
@@ -176,7 +177,10 @@ Atan2(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
             return ArrayOf(A);
         }
         if (!(SameSizeCheck(dimsA, dimsB))) {
-            Error(_W("Size mismatch on arguments to arithmetic operator") + L" " + L"atan2");
+            RaiseError(resolveMessageTemplate(L"Nelson:graphics:sizeMismatchArgumentsArithmetic",
+                           L"Size mismatch on arguments to arithmetic operator")
+                    + L" " + L"atan2",
+                L"Nelson:dimagree");
         }
         return ArrayOf(B);
     }
@@ -201,36 +205,35 @@ Atan2(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
     }
     if (A.isVector() || B.isVector()) {
         if (A.isRowVector() && B.isColumnVector()) {
-            dimsC = Dimensions(
-                std::min(dimsA.getMax(), dimsB.getMax()), std::max(dimsA.getMax(), dimsB.getMax()));
-            indexType Clen = dimsC.getElementCount();
+            dimsC = Dimensions(std::min(dimsA.maximum(), dimsB.maximum()),
+                std::max(dimsA.maximum(), dimsB.maximum()));
+            indexType Clen = dimsC.elementCount();
             Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
             if (classDestination == NLS_DOUBLE) {
-                vector_row_column_atan2<double>((double*)Cp, (const double*)A.getDataPointer(),
-                    dimsA.getElementCount(), (const double*)B.getDataPointer(),
-                    dimsB.getElementCount());
+                vector_row_column_atan2<double>((double*)Cp, (const double*)A.dataPointer(),
+                    dimsA.elementCount(), (const double*)B.dataPointer(), dimsB.elementCount());
             } else {
-                vector_row_column_atan2<single>((single*)Cp, (const single*)A.getDataPointer(),
-                    dimsA.getElementCount(), (const single*)B.getDataPointer(),
-                    dimsB.getElementCount());
+                vector_row_column_atan2<single>((single*)Cp, (const single*)A.dataPointer(),
+                    dimsA.elementCount(), (const single*)B.dataPointer(), dimsB.elementCount());
             }
         } else if (A.isColumnVector() && B.isRowVector()) {
-            dimsC = Dimensions(
-                std::min(dimsA.getMax(), dimsB.getMax()), std::max(dimsA.getMax(), dimsB.getMax()));
-            indexType Clen = dimsC.getElementCount();
+            dimsC = Dimensions(std::min(dimsA.maximum(), dimsB.maximum()),
+                std::max(dimsA.maximum(), dimsB.maximum()));
+            indexType Clen = dimsC.elementCount();
             Cp = ArrayOf::allocateArrayOf(classDestination, Clen);
             if (classDestination == NLS_DOUBLE) {
-                vector_column_row_atan2<double>((double*)Cp, (const double*)A.getDataPointer(),
-                    dimsA.getElementCount(), (const double*)B.getDataPointer(),
-                    dimsB.getElementCount());
+                vector_column_row_atan2<double>((double*)Cp, (const double*)A.dataPointer(),
+                    dimsA.elementCount(), (const double*)B.dataPointer(), dimsB.elementCount());
             } else {
-                vector_column_row_atan2<single>((single*)Cp, (const single*)A.getDataPointer(),
-                    dimsA.getElementCount(), (const single*)B.getDataPointer(),
-                    dimsB.getElementCount());
+                vector_column_row_atan2<single>((single*)Cp, (const single*)A.dataPointer(),
+                    dimsA.elementCount(), (const single*)B.dataPointer(), dimsB.elementCount());
             }
         } else if ((A.isRowVector() && B.isRowVector())
             || (A.isColumnVector() && B.isColumnVector())) {
-            Error(_W("Size mismatch on arguments to arithmetic operator") + L" " + L"atan2");
+            RaiseError(resolveMessageTemplate(L"Nelson:graphics:sizeMismatchArgumentsArithmetic",
+                           L"Size mismatch on arguments to arithmetic operator")
+                    + L" " + L"atan2",
+                L"Nelson:dimagree");
         } else {
             if (dimsA[0] == dimsB[0]) {
                 if (A.isVector()) {
@@ -256,10 +259,16 @@ Atan2(NelsonType classDestination, const ArrayOf& A, const ArrayOf& B)
                 }
                 return vector_column_atan2<single>(classDestination, B, A);
             }
-            Error(_W("Size mismatch on arguments to arithmetic operator") + L" " + L"atan2");
+            RaiseError(resolveMessageTemplate(L"Nelson:graphics:sizeMismatchArgumentsArithmetic",
+                           L"Size mismatch on arguments to arithmetic operator")
+                    + L" " + L"atan2",
+                L"Nelson:dimagree");
         }
     } else {
-        Error(_W("Size mismatch on arguments to arithmetic operator") + L" " + L"atan2");
+        RaiseError(resolveMessageTemplate(L"Nelson:graphics:sizeMismatchArgumentsArithmetic",
+                       L"Size mismatch on arguments to arithmetic operator")
+                + L" " + L"atan2",
+            L"Nelson:dimagree");
     }
     return ArrayOf(classDestination, dimsC, Cp, false);
 }
@@ -273,11 +282,11 @@ Atan2(ArrayOf A, ArrayOf B, bool& needToOverload)
         needToOverload = true;
         return res;
     }
-    if ((A.getDataClass() == NLS_DOUBLE || A.getDataClass() == NLS_SINGLE)
-        && (B.getDataClass() == NLS_DOUBLE || B.getDataClass() == NLS_SINGLE)) {
+    if ((A.dataClass() == NLS_DOUBLE || A.dataClass() == NLS_SINGLE)
+        && (B.dataClass() == NLS_DOUBLE || B.dataClass() == NLS_SINGLE)) {
         NelsonType destinationClass;
-        if (A.getDataClass() == B.getDataClass()) {
-            destinationClass = A.getDataClass();
+        if (A.dataClass() == B.dataClass()) {
+            destinationClass = A.dataClass();
         } else {
             destinationClass = NLS_SINGLE;
         }

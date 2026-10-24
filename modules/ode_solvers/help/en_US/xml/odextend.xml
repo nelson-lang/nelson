@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>odextend</keyword>
+  <short_description>Extend an ODE solution.</short_description>
+  <syntax>
+    <syntax_item>solout = odextend(sol, odefun, tfinal)</syntax_item>
+    <syntax_item>solout = odextend(sol, odefun, tfinal, options)</syntax_item>
+  </syntax>
+  <description>
+    <p>
+      <b>odextend</b> continues a solution from its last computed point to a new final time.</p>
+    <table style="width:100%">
+  <tr><th>Item</th><th>Details</th></tr>
+  <tr><td>Input solution</td><td>Existing <b>sol</b> structure returned by an ODE solver.</td></tr>
+  <tr><td>Continuation</td><td>Extends the solution to a new final time using the same problem definition.</td></tr>
+  <tr><td>Options</td><td>Optional solver options can update tolerances, events, output callbacks, and step limits.</td></tr>
+  <tr><td>Result</td><td>A new <b>sol</b> structure compatible with <b>deval</b>.</td></tr>
+</table>
+    <p>When <b>odefun</b> is empty, the function stored in the input solution is reused. If the requested final time is already covered by the solution interval, the input solution is returned. Extending in the opposite direction is an error. Event fields are preserved and extended when event data exists. Solutions without event data do not gain empty <b>xe</b>, <b>ye</b>, or <b>ie</b> fields.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_data runnable="cli"><![CDATA[sol = ode45(@(t,y) -y, [0 0.5], 1);
+sol = odextend(sol, [], 1)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ode_solvers}deval">deval</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}odeset">odeset</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -14,6 +14,6 @@
 clear('R');
 REF = {1, 'nelson'; 2, single(3)};
 ipc(getpid, 'put', REF, 'R')
-q = 0;while(~isvar('R') && q < 10), sleep(1), q = q + 1; end
-assert_isequal(R, REF);
+q = 0; while (~isvar('R') && q < 1000), sleep(0.01), q = q + 1; end
+asserts.isequal(R, REF);
 %=============================================================================

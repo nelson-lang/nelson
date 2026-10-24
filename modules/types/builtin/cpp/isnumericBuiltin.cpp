@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -18,7 +18,7 @@ Nelson::TypeGateway::isnumericBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 1, 1);
-    retval << ArrayOf::logicalConstructor(argIn[0].isNumeric());
+    retval << ArrayOf::logicalScalar(argIn[0].isNumeric());
     return retval;
 }
 //=============================================================================

@@ -18,5 +18,5 @@ static const wchar_t* LIGHTING_MODE_DICT[5] = { GO_PROPERTY_VALUE_NONE_STR,
 GOLightingModeProperty::GOLightingModeProperty()
     : GORestrictedStringProperty(LIGHTING_MODE_DICT) { }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

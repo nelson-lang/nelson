@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="306.5" height="206.5" viewBox="-153.25 -103.25 306.5 206.5">
+  <rect x="-153.25" y="-103.25" width="306.5" height="206.5" rx="39.235" fill="#FEF6E1" stroke="#E7C98A" stroke-width="3.25"/>
+  <g transform="matrix(1 0 0 -1 0 0)">
+    <rect x="-70" y="-60" width="140" height="80" fill="#FFFFFF" stroke="#8C5A08" stroke-width="3.25"/>
+    <polygon points="-40,-40 -50,-16 -30,-16 -40,-40" fill="#8C5A08" stroke="none" stroke-linejoin="round"/>
+    <polyline points="-40,0 -40,-16" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-70,0 -40,0" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-50,-40 -50,-60" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-30,-40 -30,-60" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-10,-40 -10,-60" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="10,-40 10,-60" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="30,-40 30,-60" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="50,-40 50,-60" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-51,34 29,34" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="59,34 29,44 29,24 59,34" fill="#8C5A08" stroke="#8C5A08" stroke-width="3.25" stroke-linejoin="round"/>
+    <polyline points="-70,0 -100,0" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="70,0 100,0" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <g transform="translate(0,80) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32" fill="#8C5A08">RelPositionSensor</text></g>
+    <polyline points="0,-99 0,-60" fill="none" stroke="#8C5A08" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <g transform="translate(21,-10) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="48" fill="#8C5A08">m</text></g>
+  </g>
+</svg>

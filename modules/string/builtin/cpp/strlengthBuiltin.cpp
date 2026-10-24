@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "strlengthBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "StringLength.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
@@ -21,7 +22,7 @@ Nelson::StringGateway::strlengthBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 1, 1);
     ArrayOf param = argIn[0];
-    switch (param.getDataClass()) {
+    switch (param.dataClass()) {
     case NLS_CHAR:
     case NLS_STRING_ARRAY: {
         retval << StringLength(argIn[0]);
@@ -31,7 +32,8 @@ Nelson::StringGateway::strlengthBuiltin(int nLhs, const ArrayOfVector& argIn)
         if (param.isCellArrayOfCharacterVectors()) {
             retval << StringLength(argIn[0]);
         } else {
-            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_CELL_EXPECTED);
+            Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1),
+                L"string or cell");
         }
     } break;
     }

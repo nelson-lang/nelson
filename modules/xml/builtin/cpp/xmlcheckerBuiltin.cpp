@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "xmlcheckerBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "Warning.hpp"
 #include "i18n.hpp"
 #include "FileSystemWrapper.hpp"
@@ -26,24 +27,26 @@ Nelson::XmlGateway::xmlcheckerBuiltin(int nLhs, const ArrayOfVector& argIn)
 
     std::wstring dtdFilename = L"";
 
-    dtdFilename = argIn[1].getContentAsWideString();
+    dtdFilename = argIn[1].asWideString();
     FileSystemWrapper::Path dtdpath(dtdFilename);
     bool permissionDenied;
     bool IsFileIn = FileSystemWrapper::Path::is_regular_file(dtdpath, permissionDenied);
     if (permissionDenied) {
-        Error(_W("Permission denied."));
+        Error(L"Nelson:xmlchecker:permissionDenied", L"Permission denied.");
     }
     if (!IsFileIn) {
-        Error(_W("Wrong value for argument #2: An existing .dtd file expected."));
+        Error(L"Nelson:xmlchecker:invalidDtdFile",
+            L"Wrong value for argument #2: An existing .dtd file expected.");
     }
-    std::wstring xmlFilename = argIn[0].getContentAsWideString();
+    std::wstring xmlFilename = argIn[0].asWideString();
     FileSystemWrapper::Path pathIn(xmlFilename);
     IsFileIn = FileSystemWrapper::Path::is_regular_file(pathIn, permissionDenied);
     if (permissionDenied) {
-        Error(_W("Permission denied."));
+        Error(L"Nelson:xmlchecker:permissionDenied", L"Permission denied.");
     }
     if (!IsFileIn) {
-        Error(_W("Wrong value for argument #1: An existing .xml documentation file expected."));
+        Error(L"Nelson:xmlchecker:invalidXmlFile",
+            L"Wrong value for argument #1: An existing .xml documentation file expected.");
     }
     wstringVector errorMessage;
     wstringVector warningMessage;
@@ -59,7 +62,7 @@ Nelson::XmlGateway::xmlcheckerBuiltin(int nLhs, const ArrayOfVector& argIn)
                         message += L"\n";
                     }
                 }
-                Error(message);
+                Error(L"Nelson:xmlchecker:invalidDocument", message);
             }
             if (!warningMessage.empty()) {
                 std::wstring message;
@@ -69,24 +72,23 @@ Nelson::XmlGateway::xmlcheckerBuiltin(int nLhs, const ArrayOfVector& argIn)
                         message += L"\n";
                     }
                 }
-                Warning(message);
+                RaiseWarning(L"Nelson:xmlchecker:warning", message);
             }
         }
     } break;
     case 1: {
-        retval << ArrayOf::logicalConstructor(res);
+        retval << ArrayOf::logicalScalar(res);
     } break;
     case 2: {
-        retval << ArrayOf::logicalConstructor(res);
-        retval << ArrayOf::toCellArrayOfCharacterColumnVectors(errorMessage);
+        retval << ArrayOf::logicalScalar(res);
+        retval << ArrayOf::cellArrayFromArrayOfCharacterColumnVectors(errorMessage);
     } break;
     case 3: {
-        retval << ArrayOf::logicalConstructor(res);
-        retval << ArrayOf::toCellArrayOfCharacterColumnVectors(errorMessage);
-        retval << ArrayOf::toCellArrayOfCharacterColumnVectors(warningMessage);
+        retval << ArrayOf::logicalScalar(res);
+        retval << ArrayOf::cellArrayFromArrayOfCharacterColumnVectors(errorMessage);
+        retval << ArrayOf::cellArrayFromArrayOfCharacterColumnVectors(warningMessage);
     } break;
     default:
-        // Never reached
         break;
     }
     return retval;

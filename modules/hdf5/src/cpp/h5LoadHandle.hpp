@@ -21,5 +21,5 @@ bool
 h5LoadHandle(hid_t fid, const std::string& location, const std::string& variableName,
     ArrayOf& VariableValue);
 //=============================================================================
-};
+} // namespace Nelson
 //=============================================================================

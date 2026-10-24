@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -98,19 +98,19 @@ bool
 ComputeScaleFactor(const ArrayOf& A, bool allInteger, FormatDisplayInformation& formatInfo)
 {
     bool computed = false;
-    switch (A.getDataClass()) {
+    switch (A.dataClass()) {
     case NLS_DCOMPLEX: {
         std::complex<double>* ptrZ = nullptr;
         indexType nbElements;
         if (A.isSparse()) {
             Eigen::SparseMatrix<std::complex<double>, 0, signedIndexType>* spMat
                 = (Eigen::SparseMatrix<std::complex<double>, 0, signedIndexType>*)
-                      A.getSparseDataPointer();
+                      A.sparseDataPointer();
             ptrZ = spMat->valuePtr();
             nbElements = (indexType)spMat->nonZeros();
         } else {
-            ptrZ = reinterpret_cast<std::complex<double>*>((double*)A.getDataPointer());
-            nbElements = (indexType)A.getElementCount();
+            ptrZ = reinterpret_cast<std::complex<double>*>((double*)A.dataPointer());
+            nbElements = (indexType)A.elementCount();
         }
         return ComputeScaleFactorComplex<double>(
             ptrZ, nbElements, A.isSparse(), NLS_DOUBLE, formatInfo);
@@ -121,12 +121,12 @@ ComputeScaleFactor(const ArrayOf& A, bool allInteger, FormatDisplayInformation& 
         if (A.isSparse()) {
             Eigen::SparseMatrix<std::complex<single>, 0, signedIndexType>* spMat
                 = (Eigen::SparseMatrix<std::complex<single>, 0, signedIndexType>*)
-                      A.getSparseDataPointer();
+                      A.sparseDataPointer();
             ptrZ = spMat->valuePtr();
             nbElements = (indexType)spMat->nonZeros();
         } else {
-            ptrZ = reinterpret_cast<std::complex<single>*>((single*)A.getDataPointer());
-            nbElements = (indexType)A.getElementCount();
+            ptrZ = reinterpret_cast<std::complex<single>*>((single*)A.dataPointer());
+            nbElements = (indexType)A.elementCount();
         }
         return ComputeScaleFactorComplex<single>(
             ptrZ, nbElements, A.isSparse(), NLS_SINGLE, formatInfo);
@@ -136,12 +136,12 @@ ComputeScaleFactor(const ArrayOf& A, bool allInteger, FormatDisplayInformation& 
         double* ptr = nullptr;
         if (A.isSparse()) {
             Eigen::SparseMatrix<double, 0, signedIndexType>* spMat
-                = (Eigen::SparseMatrix<double, 0, signedIndexType>*)A.getSparseDataPointer();
+                = (Eigen::SparseMatrix<double, 0, signedIndexType>*)A.sparseDataPointer();
             ptr = spMat->valuePtr();
             nbElements = (indexType)spMat->nonZeros();
         } else {
-            ptr = reinterpret_cast<double*>((double*)A.getDataPointer());
-            nbElements = (indexType)A.getElementCount();
+            ptr = reinterpret_cast<double*>((double*)A.dataPointer());
+            nbElements = (indexType)A.elementCount();
         }
         return ComputeScaleFactorReal<double>(
             ptr, nbElements, A.isSparse(), NLS_DOUBLE, allInteger, formatInfo);
@@ -151,12 +151,12 @@ ComputeScaleFactor(const ArrayOf& A, bool allInteger, FormatDisplayInformation& 
         single* ptr = nullptr;
         if (A.isSparse()) {
             Eigen::SparseMatrix<single, 0, signedIndexType>* spMat
-                = (Eigen::SparseMatrix<single, 0, signedIndexType>*)A.getSparseDataPointer();
+                = (Eigen::SparseMatrix<single, 0, signedIndexType>*)A.sparseDataPointer();
             ptr = spMat->valuePtr();
             nbElements = (indexType)spMat->nonZeros();
         } else {
-            ptr = reinterpret_cast<single*>((single*)A.getDataPointer());
-            nbElements = (indexType)A.getElementCount();
+            ptr = reinterpret_cast<single*>((single*)A.dataPointer());
+            nbElements = (indexType)A.elementCount();
         }
         return ComputeScaleFactorReal<single>(
             ptr, nbElements, A.isSparse(), NLS_SINGLE, allInteger, formatInfo);
@@ -168,5 +168,5 @@ ComputeScaleFactor(const ArrayOf& A, bool allInteger, FormatDisplayInformation& 
     return computed;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

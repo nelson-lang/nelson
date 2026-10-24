@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -20,6 +20,7 @@
 #include "PythonTypesWrapper.hpp"
 #include "PythonEngine.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -66,7 +67,7 @@ bool
 castRealMethod(PyObject* pyObject, NelsonType nelsonType, ArrayOfVector& results)
 {
     if (!pyObject) {
-        Error(_W("Invalid Python object."));
+        Error(L"Nelson:Python:invalidObject", L"Invalid Python object.");
     }
 
     PythonType pyType = getPythonType(pyObject);
@@ -130,7 +131,7 @@ bool
 castRealMethodFloatType(PyObject* pyObject, NelsonType nelsonType, ArrayOfVector& results)
 {
     double result = NLSPyFloat_AsDouble(pyObject);
-    ArrayOf res = ArrayOf::doubleConstructor(result);
+    ArrayOf res = ArrayOf::doubleScalar(result);
     res.promoteType(nelsonType);
     results << res;
     return true;
@@ -141,7 +142,7 @@ bool
 castRealMethodBoolType(PyObject* pyObject, NelsonType nelsonType, ArrayOfVector& results)
 {
     logical value = (logical)NLSPyObject_IsTrue(pyObject);
-    ArrayOf res = ArrayOf::logicalConstructor(value);
+    ArrayOf res = ArrayOf::logicalScalar(value);
     res.promoteType(nelsonType);
     results << res;
     return true;
@@ -152,7 +153,7 @@ bool
 castRealMethodComplexType(PyObject* pyObject, NelsonType nelsonType, ArrayOfVector& results)
 {
     Py_complex pyCplx = NLSPyComplex_AsCComplex(pyObject);
-    ArrayOf res = ArrayOf::dcomplexConstructor(pyCplx.real, pyCplx.imag);
+    ArrayOf res = ArrayOf::dsingleComplexScalar(pyCplx.real, pyCplx.imag);
     if (nelsonType == NLS_DOUBLE) {
         res.promoteType(NLS_DCOMPLEX);
     } else {
@@ -167,7 +168,7 @@ bool
 castRealMethodLongType(PyObject* pyObject, NelsonType nelsonType, ArrayOfVector& results)
 {
     double value = NLSPyLong_AsDouble(pyObject);
-    ArrayOf res = ArrayOf::doubleConstructor(value);
+    ArrayOf res = ArrayOf::doubleScalar(value);
     res.promoteType(nelsonType);
     results << res;
     return true;
@@ -245,29 +246,29 @@ castRealMethodListOrTupleType(
                 ArrayOf r = rr[0];
                 if (r.isNumeric()) {
                     if (r.isComplex()) {
-                        std::complex<double> c = r.getContentAsDoubleComplexScalar();
+                        std::complex<double> c = r.asDoubleComplexScalar();
                         elements[k] = (T)c.real();
                         elements[k + 1] = (T)c.imag();
                         allReal = false;
                     } else {
-                        elements[k] = (T)r.getContentAsDoubleScalar();
+                        elements[k] = (T)r.asDoubleScalar();
                         elements[k + 1] = 0;
                     }
                     k = k + 2;
                 } else {
-                    Error(_W("All Python elements must be convertible as scalar to the "
-                             "requested "
-                             "type."));
+                    Error(L"Nelson:Python:conversionFailed",
+                        L"All Python elements must be convertible as scalar to the requested "
+                        L"type.");
                     return false;
                 }
             } else {
-                Error(_W("All Python elements must be convertible as scalar to the requested "
-                         "type."));
+                Error(L"Nelson:Python:conversionFailed",
+                    L"All Python elements must be convertible as scalar to the requested type.");
                 return false;
             }
         } else {
-            Error(_W("All Python elements must be convertible as scalar to the requested "
-                     "type."));
+            Error(L"Nelson:Python:conversionFailed",
+                L"All Python elements must be convertible as scalar to the requested type.");
             return false;
         }
     }
@@ -303,14 +304,14 @@ castRealMethodArrayArrayType(PyObject* pyObject, NelsonType nelsonType, ArrayOfV
 bool
 PythonObjectHandle::invokeCastDoubleMethod(ArrayOfVector& results)
 {
-    PyObject* pyObject = (PyObject*)this->getPointer();
+    PyObject* pyObject = (PyObject*)this->pointer();
     return castRealMethod<double>(pyObject, NLS_DOUBLE, results);
 }
 //=============================================================================
 bool
 PythonObjectHandle::invokeCastSingleMethod(ArrayOfVector& results)
 {
-    PyObject* pyObject = (PyObject*)this->getPointer();
+    PyObject* pyObject = (PyObject*)this->pointer();
     return castRealMethod<single>(pyObject, NLS_SINGLE, results);
 }
 //=============================================================================
@@ -319,7 +320,7 @@ bool
 castIntegerMethod(PyObject* pyObject, NelsonType nelsonType, ArrayOfVector& results)
 {
     if (!pyObject) {
-        Error(_W("Invalid Python object."));
+        Error(L"Nelson:Python:invalidObject", L"Invalid Python object.");
     }
     PythonType pyType = getPythonType(pyObject);
     switch (pyType) {
@@ -333,28 +334,28 @@ castIntegerMethod(PyObject* pyObject, NelsonType nelsonType, ArrayOfVector& resu
     } break;
     case PY_FLOAT_TYPE: {
         double result = NLSPyFloat_AsDouble(pyObject);
-        ArrayOf res = ArrayOf::doubleConstructor(result);
+        ArrayOf res = ArrayOf::doubleScalar(result);
         res.promoteType(nelsonType);
         results << res;
         return true;
     } break;
     case PY_BOOL_TYPE: {
         logical value = (logical)NLSPyObject_IsTrue(pyObject);
-        ArrayOf res = ArrayOf::logicalConstructor(value);
+        ArrayOf res = ArrayOf::logicalScalar(value);
         res.promoteType(nelsonType);
         results << res;
         return true;
     } break;
     case PY_COMPLEX_TYPE: {
         Py_complex pyCplx = NLSPyComplex_AsCComplex(pyObject);
-        ArrayOf res = ArrayOf::dcomplexConstructor(pyCplx.real, pyCplx.imag);
+        ArrayOf res = ArrayOf::dsingleComplexScalar(pyCplx.real, pyCplx.imag);
         res.promoteType(nelsonType);
         results << res;
         return true;
     } break;
     case PY_LONG_TYPE: {
         double value = NLSPyLong_AsDouble(pyObject);
-        ArrayOf res = ArrayOf::doubleConstructor(value);
+        ArrayOf res = ArrayOf::doubleScalar(value);
         res.promoteType(nelsonType);
         results << res;
         return true;
@@ -404,18 +405,17 @@ castIntegerMethod(PyObject* pyObject, NelsonType nelsonType, ArrayOfVector& resu
             if (item != NULL) {
                 ArrayOfVector rr;
                 if (castIntegerMethod<T>(item, nelsonType, rr)) {
-                    T* ptr = (T*)rr[0].getDataPointer();
+                    T* ptr = (T*)rr[0].dataPointer();
                     values[i] = ptr[0];
                 } else {
-                    Error(_W("All Python elements must be convertible as scalar to the "
-                             "requested "
-                             "type."));
+                    Error(L"Nelson:Python:conversionFailed",
+                        L"All Python elements must be convertible as scalar to the requested "
+                        L"type.");
                     return false;
                 }
             } else {
-                Error(_W("All Python elements must be convertible as scalar to the "
-                         "requested "
-                         "type."));
+                Error(L"Nelson:Python:conversionFailed",
+                    L"All Python elements must be convertible as scalar to the requested type.");
                 return false;
             }
         }
@@ -441,72 +441,72 @@ castIntegerMethod(PyObject* pyObject, NelsonType nelsonType, ArrayOfVector& resu
 bool
 PythonObjectHandle::invokeCastLogicalMethod(ArrayOfVector& results)
 {
-    PyObject* pyObject = (PyObject*)this->getPointer();
+    PyObject* pyObject = (PyObject*)this->pointer();
     return castIntegerMethod<logical>(pyObject, NLS_LOGICAL, results);
 }
 //=============================================================================
 bool
 PythonObjectHandle::invokeCastInt8Method(ArrayOfVector& results)
 {
-    PyObject* pyObject = (PyObject*)this->getPointer();
+    PyObject* pyObject = (PyObject*)this->pointer();
     return castIntegerMethod<int8>(pyObject, NLS_INT8, results);
 }
 //=============================================================================
 bool
 PythonObjectHandle::invokeCastInt16Method(ArrayOfVector& results)
 {
-    PyObject* pyObject = (PyObject*)this->getPointer();
+    PyObject* pyObject = (PyObject*)this->pointer();
     return castIntegerMethod<int16>(pyObject, NLS_INT16, results);
 }
 //=============================================================================
 bool
 PythonObjectHandle::invokeCastInt32Method(ArrayOfVector& results)
 {
-    PyObject* pyObject = (PyObject*)this->getPointer();
+    PyObject* pyObject = (PyObject*)this->pointer();
     return castIntegerMethod<int32>(pyObject, NLS_INT32, results);
 }
 //=============================================================================
 bool
 PythonObjectHandle::invokeCastInt64Method(ArrayOfVector& results)
 {
-    PyObject* pyObject = (PyObject*)this->getPointer();
+    PyObject* pyObject = (PyObject*)this->pointer();
     return castIntegerMethod<int64>(pyObject, NLS_INT64, results);
 }
 //=============================================================================
 bool
 PythonObjectHandle::invokeCastUInt8Method(ArrayOfVector& results)
 {
-    PyObject* pyObject = (PyObject*)this->getPointer();
+    PyObject* pyObject = (PyObject*)this->pointer();
     return castIntegerMethod<uint8>(pyObject, NLS_UINT8, results);
 }
 //=============================================================================
 bool
 PythonObjectHandle::invokeCastUInt16Method(ArrayOfVector& results)
 {
-    PyObject* pyObject = (PyObject*)this->getPointer();
+    PyObject* pyObject = (PyObject*)this->pointer();
     return castIntegerMethod<uint16>(pyObject, NLS_UINT16, results);
 }
 //=============================================================================
 bool
 PythonObjectHandle::invokeCastUInt32Method(ArrayOfVector& results)
 {
-    PyObject* pyObject = (PyObject*)this->getPointer();
+    PyObject* pyObject = (PyObject*)this->pointer();
     return castIntegerMethod<uint32>(pyObject, NLS_UINT32, results);
 }
 //=============================================================================
 bool
 PythonObjectHandle::invokeCastUInt64Method(ArrayOfVector& results)
 {
-    PyObject* pyObject = (PyObject*)this->getPointer();
+    PyObject* pyObject = (PyObject*)this->pointer();
     return castIntegerMethod<uint64>(pyObject, NLS_UINT64, results);
 }
 //=============================================================================
 bool
 PythonObjectHandle::invokeCastCellMethod(ArrayOfVector& results)
 {
-    PyObject* pyObject = (PyObject*)this->getPointer();
+    PyObject* pyObject = (PyObject*)this->pointer();
     if (!pyObject) {
-        Error(_W("Invalid Python object."));
+        Error(L"Nelson:Python:invalidObject", L"Invalid Python object.");
     }
 
     switch (getPythonType(pyObject)) {
@@ -522,7 +522,7 @@ PythonObjectHandle::invokeCastCellMethod(ArrayOfVector& results)
                 bool needDecreaseReference;
                 elements[i] = PyObjectToArrayOf(item, needDecreaseReference);
             } else {
-                Error(_W("Cannot convert to ") + L"cell");
+                Error(L"Nelson:Python:conversionToCellFailed", L"Cannot convert to cell");
             }
         }
         results << res;
@@ -540,7 +540,7 @@ PythonObjectHandle::invokeCastCellMethod(ArrayOfVector& results)
                 bool needDecreaseReference;
                 elements[i] = PyObjectToArrayOf(item, needDecreaseReference);
             } else {
-                Error(_W("Cannot convert to ") + L"cell");
+                Error(L"Nelson:Python:conversionToCellFailed", L"Cannot convert to cell");
             }
         }
         results << res;
@@ -559,7 +559,7 @@ PythonObjectHandle::invokeCastCellMethod(ArrayOfVector& results)
     case PY_NUMPY_TYPE:
     case PY_NOT_MANAGED:
     default: {
-        Error(_W("Cannot convert to ") + L"cell");
+        Error(L"Nelson:Python:conversionToCellFailed", L"Cannot convert to cell");
     } break;
     }
     return false;
@@ -568,9 +568,9 @@ PythonObjectHandle::invokeCastCellMethod(ArrayOfVector& results)
 bool
 PythonObjectHandle::invokeCastStructMethod(ArrayOfVector& results)
 {
-    PyObject* pyObject = (PyObject*)this->getPointer();
+    PyObject* pyObject = (PyObject*)this->pointer();
     if (!pyObject) {
-        Error(_W("Invalid Python object."));
+        Error(L"Nelson:Python:invalidObject", L"Invalid Python object.");
     }
 
     switch (getPythonType(pyObject)) {
@@ -589,7 +589,7 @@ PythonObjectHandle::invokeCastStructMethod(ArrayOfVector& results)
             values.push_back(PyObjectToArrayOf(value, needToDecreaseReference));
         }
         NLSPy_DECREF(keys);
-        results << ArrayOf::structScalarConstructor(names, values);
+        results << ArrayOf::structScalar(names, values);
         return true;
     } break;
     case PY_NONE_TYPE:
@@ -606,7 +606,7 @@ PythonObjectHandle::invokeCastStructMethod(ArrayOfVector& results)
     case PY_NUMPY_TYPE:
     case PY_NOT_MANAGED:
     default: {
-        Error(_W("Cannot convert to ") + L"struct");
+        Error(L"Nelson:Python:conversionToStructFailed", L"Cannot convert to struct");
     } break;
     }
     return false;
@@ -615,9 +615,9 @@ PythonObjectHandle::invokeCastStructMethod(ArrayOfVector& results)
 bool
 PythonObjectHandle::invokeCastNumericMethod(ArrayOfVector& results)
 {
-    PyObject* pyObject = (PyObject*)this->getPointer();
+    PyObject* pyObject = (PyObject*)this->pointer();
     if (!pyObject) {
-        Error(_W("Invalid Python object."));
+        Error(L"Nelson:Python:invalidObject", L"Invalid Python object.");
     }
     switch (getPythonType(pyObject)) {
     case PY_MEMORY_VIEW_TYPE: {
@@ -649,6 +649,8 @@ PythonObjectHandle::invokeCastNumericMethod(ArrayOfVector& results)
             return true;
         }
     } break;
+    default:
+        break;
     }
     return false;
 }
@@ -656,14 +658,14 @@ PythonObjectHandle::invokeCastNumericMethod(ArrayOfVector& results)
 bool
 PythonObjectHandle::invokeCastCharMethod(ArrayOfVector& results)
 {
-    PyObject* pyObject = (PyObject*)this->getPointer();
+    PyObject* pyObject = (PyObject*)this->pointer();
     if (!pyObject) {
-        Error(_W("Invalid Python object."));
+        Error(L"Nelson:Python:invalidObject", L"Invalid Python object.");
     }
     switch (getPythonType(pyObject)) {
     case PY_STR_TYPE: {
         std::string str = std::string(NLSPyUnicode_AsUTF8(pyObject));
-        results << ArrayOf::characterArrayConstructor(str);
+        results << ArrayOf::characterArray(str);
         return true;
     } break;
     case PY_NONE_TYPE:
@@ -681,7 +683,7 @@ PythonObjectHandle::invokeCastCharMethod(ArrayOfVector& results)
     case PY_NUMPY_TYPE:
     case PY_NOT_MANAGED:
     default: {
-        results << ArrayOf::characterArrayConstructor(PyObjectToStringRepresentation(pyObject));
+        results << ArrayOf::characterArray(PyObjectToStringRepresentation(pyObject));
         return true;
     } break;
     }
@@ -702,13 +704,13 @@ handleListOrTupleToString(
         if (item != NULL) {
             if (getPythonType(item) == PY_STR_TYPE) {
                 std::string str = std::string(NLSPyUnicode_AsUTF8(item));
-                elements[i] = ArrayOf::characterArrayConstructor(str);
+                elements[i] = ArrayOf::characterArray(str);
             } else {
-                elements[i]
-                    = ArrayOf::characterArrayConstructor(PyObjectToStringRepresentation(item));
+                elements[i] = ArrayOf::characterArray(PyObjectToStringRepresentation(item));
             }
         } else {
-            Error(_W("All Python elements must be convertible as scalar to the requested type."));
+            Error(L"Nelson:Python:conversionFailed",
+                L"All Python elements must be convertible as scalar to the requested type.");
             return false;
         }
     }
@@ -720,16 +722,16 @@ handleListOrTupleToString(
 bool
 PythonObjectHandle::invokeCastStringMethod(ArrayOfVector& results)
 {
-    PyObject* pyObject = (PyObject*)this->getPointer();
+    PyObject* pyObject = (PyObject*)this->pointer();
     if (!pyObject) {
-        Error(_W("Invalid Python object."));
+        Error(L"Nelson:Python:invalidObject", L"Invalid Python object.");
         return false;
     }
 
     switch (getPythonType(pyObject)) {
     case PY_STR_TYPE: {
         std::string str = std::string(NLSPyUnicode_AsUTF8(pyObject));
-        results << ArrayOf::stringArrayConstructor(str);
+        results << ArrayOf::stringArray(str);
         return true;
     } break;
     case PY_LIST_TYPE: {
@@ -742,9 +744,11 @@ PythonObjectHandle::invokeCastStringMethod(ArrayOfVector& results)
         auto getItemFunc = [](PyObject* obj, Py_ssize_t i) { return NLSPyTuple_GetItem(obj, i); };
         return handleListOrTupleToString(pyObject, getSizeFunc, getItemFunc, results);
     } break;
+    default:
+        break;
     }
     return false;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

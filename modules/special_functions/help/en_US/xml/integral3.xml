@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>integral3</keyword>
+  <short_description>Numerically evaluate a triple integral.</short_description>
+  <syntax>
+    <syntax_item>q = integral3(fun, xmin, xmax, ymin, ymax, zmin, zmax)</syntax_item>
+    <syntax_item>q = integral3(fun, xmin, xmax, ymin, ymax, zmin, zmax, name, value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>fun</param_name><param_description>Integrand: function handle of x, y, and z.</param_description></param_input_item>
+    <param_input_item><param_name>xmin, xmax</param_name><param_description>Limits of integration in x.</param_description></param_input_item>
+    <param_input_item><param_name>ymin, ymax</param_name><param_description>Limits in y: scalars or function handles of x.</param_description></param_input_item>
+    <param_input_item><param_name>zmin, zmax</param_name><param_description>Limits in z: scalars or function handles of x and y.</param_description></param_input_item>
+    <param_input_item><param_name>name, value</param_name><param_description>Options: &apos;RelativeTolerance&apos; (default 1e-6), &apos;AbsoluteTolerance&apos; (default 1e-10), &apos;Method&apos;, &apos;Vectorized&apos;, and &apos;Waypoints&apos;. The former names &apos;RelTol&apos; and &apos;AbsTol&apos; are still accepted.</param_description></param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>q</param_name><param_description>Computed triple integral.</param_description></param_output_item>
+  </param_output>
+  <description>
+    <p><b>integral3</b> evaluates a triple integral over a rectangular or function-bounded region.</p>
+    <p>Finite vectorized calls use a tiled Gauss-Kronrod rule. Infinite limits and <b>Method</b> set to <b>'iterated'</b> use nested adaptive quadrature.</p>
+    <p><b>Waypoints</b> specifies points of interest of the integration region, such as local extrema or discontinuities, that the integrator uses in its initial mesh: a three-column array <b>[x y z]</b> of points, or a cell array <b>{x y z}</b> of grid vectors. The x, y and z intervals are split at the corresponding coordinates of the waypoints. Waypoints must be real and finite. Do not use waypoints to specify singularities; split the region instead.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item><example_item_type>nelson</example_item_type><example_item_description /><example_item_data><![CDATA[q = integral3(@(x, y, z) y .* sin(x) + z .* cos(x), 0, pi, 0, 1, -1, 1)]]></example_item_data></example_item>
+    <example_item><example_item_type>nelson</example_item_type><example_item_description>Waypoints on the kinks of the integrand (exact value 0.29 * 0.26 * 0.34)</example_item_description><example_item_data><![CDATA[fun = @(x, y, z) abs(x - 0.3) .* abs(y - 0.6) .* abs(z - 0.2);
+q = integral3(fun, 0, 1, 0, 1, 0, 1, 'Waypoints', [0.3, 0.6, 0.2])]]></example_item_data></example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${special_functions}integral">integral</link></see_also_item>
+    <see_also_item><link linkend="${special_functions}integral2">integral2</link></see_also_item>
+    <see_also_item><link linkend="${special_functions}quadgk">quadgk</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>2.0.0</history_version><history_description>initial version</history_description></history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>'AbsoluteTolerance' and 'RelativeTolerance' names added ('AbsTol' and 'RelTol' still accepted).</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>'Waypoints' option added: points of interest in the integration region.</history_description>
+    </history_item>
+  </history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

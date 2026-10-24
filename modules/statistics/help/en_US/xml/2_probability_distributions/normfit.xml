@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>normfit</keyword>
+  <short_description>Normal mean and standard deviation estimates</short_description>
+  <syntax>
+    <syntax_item>[muhat, sigmahat] = normfit(x)</syntax_item>
+    <syntax_item>[muhat, sigmahat, muci, sigmaci] = normfit(x, alpha)</syntax_item>
+    <syntax_item>[muhat, sigmahat, muci, sigmaci] = normfit(x, alpha, censoring, freq)</syntax_item>
+    <syntax_item>[muhat, sigmahat, muci, sigmaci] = normfit(x, alpha, censoring, freq, options)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>x</param_name><param_description>finite real nonempty vector or matrix: sample data.</param_description></param_input_item>
+    <param_input_item><param_name>alpha</param_name><param_description>scalar in the range [0, 1]: significance level. Default is 0.05.</param_description></param_input_item>
+    <param_input_item><param_name>censoring</param_name><param_description>array containing 0 or 1 values: right-censoring flags.</param_description></param_input_item>
+    <param_input_item><param_name>freq</param_name><param_description>array of nonnegative finite values: observation frequencies.</param_description></param_input_item>
+    <param_input_item><param_name>options</param_name><param_description>structure created by statset. MaxIter and TolX control censored-data optimization.</param_description></param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>muhat</param_name><param_description>array: mean estimates.</param_description></param_output_item>
+    <param_output_item><param_name>sigmahat</param_name><param_description>array: standard deviation estimates.</param_description></param_output_item>
+    <param_output_item><param_name>muci</param_name><param_description>array: confidence intervals for mean estimates.</param_description></param_output_item>
+    <param_output_item><param_name>sigmaci</param_name><param_description>array: confidence intervals for standard deviation estimates.</param_description></param_output_item>
+  </param_output>
+  <description><p><b>normfit</b> estimates normal distribution mean and standard deviation parameters.</p></description>
+  <examples><example_item><example_item_type>nelson</example_item_type><example_item_description /><example_item_data runnable="cli"><![CDATA[x = [-2 -1 0 1 3 5];
+[muhat, sigmahat] = normfit(x);]]></example_item_data></example_item></examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}normlike">normlike</link></see_also_item>
+    <see_also_item><link linkend="${statistics}normpdf">normpdf</link></see_also_item>
+    <see_also_item><link linkend="${statistics}normcdf">normcdf</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>2.0.0</history_version><history_description>initial version</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

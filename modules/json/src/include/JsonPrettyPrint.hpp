@@ -15,5 +15,9 @@
 namespace Nelson {
 NLSJSON_IMPEXP ArrayOf
 jsonPrettyPrint(const std::wstring& stringToPrettify);
-};
+//=============================================================================
+NLSJSON_IMPEXP std::wstring
+jsonPrettyPrintForEncode(const std::wstring& compactJson);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

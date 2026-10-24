@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,6 +10,7 @@
 #include "dlcallBuiltin.hpp"
 #include "DynamicLinkSymbolObject.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
@@ -24,10 +25,10 @@ Nelson::DynamicLinkGateway::dlcallBuiltin(Evaluator* eval, int nLhs, const Array
     ArrayOfVector retval;
     nargincheck(argIn, 1);
     ArrayOf param1 = argIn[0];
-    if (param1.getHandleCategory() != NLS_HANDLE_DLSYM_CATEGORY_STR) {
-        Error(_W("dlsym handle expected."));
+    if (param1.handleCategory() != NLS_HANDLE_DLSYM_CATEGORY_STR) {
+        Error(L"Nelson:dynamic_link:dlsymHandle", L"dlsym handle expected.");
     }
-    auto* dlsymObj = (DynamicLinkSymbolObject*)param1.getContentAsHandleScalar();
+    auto* dlsymObj = (DynamicLinkSymbolObject*)param1.asHandleScalar();
     ArrayOfVector params;
     for (size_t l = 1; l < argIn.size(); l++) {
         params.push_back(argIn[l]);

@@ -18,7 +18,7 @@ function resetPlot(h, event)
   p = h.UserData{1};
 
   % Generate the original X data for the plot
-  x = linspace(0, 2*pi, 100);
+  x = linspace(0, 2 * pi, 100);
 
   % Generate the original Y data as a sine wave
   y = sin(x);

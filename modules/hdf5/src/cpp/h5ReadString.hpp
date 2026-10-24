@@ -21,5 +21,5 @@ namespace Nelson {
 ArrayOf
 h5ReadString(hid_t attr_id, hid_t type, hid_t aspace, bool asAttribute, std::wstring& error);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

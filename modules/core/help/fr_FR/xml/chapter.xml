@@ -15,5 +15,7 @@
     >Il offre également des utilitaires de base pour l&apos;identification des fichiers, les sommes de contrôle et les capacités du terminal.</p>
     <p
     >Ensemble, ces fonctionnalités forment la base sur laquelle tous les autres modules et fonctionnalités au niveau utilisateur dans Nelson sont construits.</p>
+    <p
+    >Il fournit aussi l'espace de noms <b>crypto</b> : hachages, HMAC, Ed25519 et X25519, Argon2, chiffrement authentifié et aléa sécurisé.</p>
   </chapter_description>
 </xmldoc>

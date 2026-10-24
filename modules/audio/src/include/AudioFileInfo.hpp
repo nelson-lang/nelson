@@ -15,5 +15,6 @@
 namespace Nelson {
 NLSAUDIO_IMPEXP ArrayOf
 AudioFileInfo(const std::wstring& filename, std::wstring& errorMessage);
-}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

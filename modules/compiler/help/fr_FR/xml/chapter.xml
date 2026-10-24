@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>compiler</module_name>
+  <chapter>Construction d'applications autonomes</chapter>
+  <chapter_description>
+    <p>Le module optionnel compiler analyse les dependances et construit des applications natives a partir de fichiers .m.</p>
+    <p>Utiliser ncc pour charger le module a la demande. compiler.build fournit les constructions autonomes avec ou sans console, des options partagees et des resultats en lecture seule avec tables de dependances runtime. Les interfaces nelson.compiler conservent le mode de runtime adjacent. Les tutoriels couvrent plusieurs fonctions, les donnees embarquees et les deux interfaces de construction.</p>
+  </chapter_description>
+</xmldoc>

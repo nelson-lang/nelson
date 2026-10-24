@@ -19,5 +19,5 @@ relationalOperator(Evaluator* eval, const std::string& operatorName, const std::
     bool compareAlsoImagPart, const ArrayOfVector& args,
     ArrayOf (*relationalOperator)(const ArrayOf& A, const ArrayOf& B, bool& needToOverload));
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

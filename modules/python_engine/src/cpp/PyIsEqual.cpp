@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -21,22 +21,22 @@ numPyIsEqual(PyObject* pyObjectA, PyObject* pyObjectB, bool negate, bool& result
 bool
 PyIsEqual(const ArrayOf& A, const ArrayOf& B)
 {
-    if (A.getDataClass() != B.getDataClass()) {
+    if (A.dataClass() != B.dataClass()) {
         return false;
     }
-    if (A.getHandleCategory() != B.getHandleCategory()) {
+    if (A.handleCategory() != B.handleCategory()) {
         return false;
     }
-    if (A.getHandleCategory() != NLS_HANDLE_PYOBJECT_CATEGORY_STR) {
+    if (A.handleCategory() != NLS_HANDLE_PYOBJECT_CATEGORY_STR) {
         return false;
     }
     if (!A.isScalar() && !B.isScalar()) {
         return false;
     }
-    PythonObjectHandle* pyObjectA = (PythonObjectHandle*)A.getContentAsHandleScalar();
-    PythonObjectHandle* pyObjectB = (PythonObjectHandle*)B.getContentAsHandleScalar();
-    PyObject* p1 = (PyObject*)pyObjectA->getPointer();
-    PyObject* p2 = (PyObject*)pyObjectB->getPointer();
+    PythonObjectHandle* pyObjectA = (PythonObjectHandle*)A.asHandleScalar();
+    PythonObjectHandle* pyObjectB = (PythonObjectHandle*)B.asHandleScalar();
+    PyObject* p1 = (PyObject*)pyObjectA->pointer();
+    PyObject* p2 = (PyObject*)pyObjectB->pointer();
 
     bool res = false;
     if (numPyIsEqual(p1, p2, false, res)) {
@@ -80,6 +80,5 @@ numPyIsEqual(PyObject* pyObjectA, PyObject* pyObjectB, bool negate, bool& result
     return false;
 }
 //=============================================================================
-
 } // namespace Nelson
 //=============================================================================

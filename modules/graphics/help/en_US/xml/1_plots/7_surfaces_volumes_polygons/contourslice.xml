@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>contourslice</keyword>
+  <short_description>Display contour lines on slices through volume data.</short_description>
+  <syntax>
+    <syntax_item>contourslice(V, xs, ys, zs)</syntax_item>
+    <syntax_item>contourslice(V, XI, YI, ZI)</syntax_item>
+    <syntax_item>contourslice(X, Y, Z, V, xs, ys, zs)</syntax_item>
+    <syntax_item>contourslice(X, Y, Z, V, XI, YI, ZI)</syntax_item>
+    <syntax_item>contourslice(..., levels)</syntax_item>
+    <syntax_item>contourslice(..., method)</syntax_item>
+    <syntax_item>contourslice(parent, ...)</syntax_item>
+    <syntax_item>h = contourslice(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>contourslice</b> computes contour lines on selected volume slices and returns a column vector of patch objects.</p>
+    <p>The <b>levels</b> input can be a scalar number of contour levels or a vector of contour values. A slice value equal to <b>NaN</b> selects all slices along that direction.</p>
+    <p>When <b>XI</b>, <b>YI</b>, and <b>ZI</b> are matrices, contours are drawn along the surface defined by those matrices.</p>
+    <p>The optional <b>method</b> input can be <b>'nearest'</b>, <b>'linear'</b>, or <b>'cubic'</b>. The default method for axis-aligned slices is <b>'nearest'</b>; the default for surface slices is <b>'linear'</b>.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Display contours in several slice planes.</example_item_description>
+      <example_item_data><![CDATA[[X, Y, Z] = meshgrid(-2:.2:2);
+V = X .* exp(-X.^2 - Y.^2 - Z.^2);
+xslice = [-1.2, 0.8, 2];
+yslice = [];
+zslice = [];
+contourslice(X, Y, Z, V, xslice, yslice, zslice);
+view(3);
+grid on;]]></example_item_data>
+      <example_item_img src="../../../../images/contourslice_1.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Specify contour levels and add a colorbar.</example_item_description>
+      <example_item_data><![CDATA[[X, Y, Z] = meshgrid(-2:.2:2);
+V = X .* exp(-X.^2 - Y.^2 - Z.^2);
+xslice = [-1.2, 0.8, 2];
+levels = -0.2:0.01:0.4;
+contourslice(X, Y, Z, V, xslice, [], [], levels);
+colorbar;
+view(3);
+grid on;]]></example_item_data>
+      <example_item_img src="../../../../images/contourslice_2.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Display contours on a surface slice.</example_item_description>
+      <example_item_data><![CDATA[[X, Y, Z] = meshgrid(-5:0.2:5);
+V = X .* exp(-X.^2 - Y.^2 - Z.^2);
+[xsurf, ysurf] = meshgrid(-2:0.2:2);
+zsurf = xsurf.^2 - ysurf.^2;
+contourslice(X, Y, Z, V, xsurf, ysurf, zsurf, 20);
+view(3);
+grid on;]]></example_item_data>
+      <example_item_img src="../../../../images/contourslice_3.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/7_surfaces_volumes_polygons/slice">slice</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/3_contour_plots/contour">contour</link></see_also_item>
+  </see_also>
+</xmldoc>

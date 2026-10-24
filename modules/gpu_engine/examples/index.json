@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "file": "gpu_cellular_automaton.m",
+      "title": {
+        "en_US": "GPU cellular automaton",
+        "fr_FR": "Automate cellulaire sur GPU"
+      },
+      "description": {
+        "en_US": "Animate a cellular automaton whose state evolves on a gpuArray when a device is available.",
+        "fr_FR": "Animer un automate cellulaire dont l'etat evolue sur un gpuArray lorsqu'un peripherique est disponible."
+      },
+      "tags": [
+        "gpu",
+        "gpuArray",
+        "animation",
+        "simulation"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    }
+  ]
+}

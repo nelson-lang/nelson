@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -20,7 +20,7 @@ Nelson::ElementaryFunctionsGateway::isvectorBuiltin(int nLhs, const ArrayOfVecto
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
     ArrayOfVector retval(1);
-    retval << ArrayOf::logicalConstructor(argIn[0].isVector());
+    retval << ArrayOf::logicalScalar(argIn[0].isVector());
     return retval;
 }
 //=============================================================================

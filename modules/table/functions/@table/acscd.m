@@ -7,11 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function A = acscd(X)
-  try
-    A = feval('@table/unaryFunctionTableHelper', X, @acscd);
-  catch Exception
-    throwAsCaller(Exception);
-  end
+function R = acscd(A)
+  R = table.applyUnary(A, @acscd, 'acscd');
 end
 %=============================================================================

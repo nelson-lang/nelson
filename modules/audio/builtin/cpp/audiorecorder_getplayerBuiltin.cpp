@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,6 +10,7 @@
 #include "audiorecorder_getplayerBuiltin.hpp"
 #include "AudiorecorderObject.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
@@ -25,16 +26,16 @@ Nelson::AudioGateway::audiorecorder_getplayerBuiltin(int nLhs, const ArrayOfVect
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
     ArrayOf handleArray = argIn[0];
-    if (handleArray.getHandleCategory() != NLS_HANDLE_AUDIORECORDER_CATEGORY_STR) {
-        Error(_W("audiorecorder handle expected."));
+    if (handleArray.handleCategory() != NLS_HANDLE_AUDIORECORDER_CATEGORY_STR) {
+        Error(L"Nelson:audiorecorder:invalidHandle", L"audiorecorder handle expected.");
     }
-    auto* objRec = (AudiorecorderObject*)handleArray.getContentAsHandleScalar();
+    auto* objRec = (AudiorecorderObject*)handleArray.asHandleScalar();
     if (!objRec) {
-        Error(_W("Invalid audiorecorder handle."));
+        Error(L"Nelson:audiorecorder:invalidHandle", L"audiorecorder handle expected.");
     }
     retval << objRec->getPlayer();
     return retval;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

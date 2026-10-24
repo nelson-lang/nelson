@@ -14,7 +14,7 @@ function buildhelp(varargin)
   %
   narginchk(0, 1);
   if ~isempty(getenv('CONDA_PREFIX')) && ismac()
-    warning(_('Building help files is not allowed in a conda environment. libxslt causes issues on macOS.'));
+    warning('Nelson:help_tools:condaNotSupported', 'Building help files is not allowed in a conda environment. libxslt causes issues on macOS.');
     return;
   end
   TMP = tempname();
@@ -23,7 +23,7 @@ function buildhelp(varargin)
     modules_help_list_with_main = [modules_help_list; "main"];
 
     for lang = getavailablelanguages()'
-      msg = sprintf(_('Building help files for language: %s\n'), lang{1});
+      msg = [sprintf(_('Building help files for language: %s'), lang{1}), sprintf('\n')];
       fprintf(msg);
       tmplang = [TMP, '/',lang{1}];
       mkdir(tmplang);
@@ -52,9 +52,14 @@ function repackage_main_help(destination_dir, lang)
   copyfile([destination_dir, '/' ,'toc.html'], [destination_dir_main, '/', 'toc.html'])
   copyfile([destination_dir, '/' ,'help_summary.xml'], [destination_dir_main, '/', 'help_summary.xml'])
 
-  help_archive_name = [nelsonappid(), '.modules.main.help', '.', lang, '.nhz'];
-  destination_archive =  [nelsonroot(), '/modules/main/help/', help_archive_name];
+  output = getenv('NELSON_HELP_ARCHIVE_OUTPUT');
+  if isempty(output)
+    output = [nelsonroot(), '/modules/main/help'];
+  elseif ~isdir(output)
+    mkdir(output);
+  end
+  destination_archive = [output, '/', nelsonappid(), '.modules.main.help.', lang, '.nhz'];
 
-  zip(destination_archive, destination_dir_main);
+  zip(destination_archive, destination_dir_main, [destination_dir, '/']);
 end
 %=============================================================================

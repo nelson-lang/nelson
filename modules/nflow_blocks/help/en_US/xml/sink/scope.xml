@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>scope</keyword>
+  <keyword_alias>block:scope</keyword_alias>
+  <short_description>Stores time-series samples for display.</short_description>
+  <syntax>
+    <syntax_item>Block type: scope</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>input ports</param_name>
+      <param_description>3 input port(s) declared.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p>Stores time-series samples for display.</p>
+    <table border="1">
+      <tbody>
+        <tr>
+          <td>Module</td>
+          <td>
+            <code>nflow_blocks</code>
+          </td>
+        </tr>
+        <tr>
+          <td>Library</td>
+          <td>Sink blocks</td>
+        </tr>
+        <tr>
+          <td>Type</td>
+          <td>
+            <code>scope</code>
+          </td>
+        </tr>
+        <tr>
+          <td>Label</td>
+          <td>Scope</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <img src="../../../../libraries/sink/exports/scope.svg" align="middle"/>
+    </p>
+    <p>
+      <b>Description</b>
+    </p>
+    <p>Multi-channel oscilloscope-style visualizer for time-series signals. Shows series over time with optional axis limits.</p>
+    <p>
+      <b>Ports</b>
+    </p>
+    <p>
+      <b>Input(s)</b>
+    </p>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Port</th>
+          <th>Role</th>
+          <th>Side</th>
+          <th>Position</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Port_1</td>
+          <td>Numeric signal read by the block.</td>
+          <td>left</td>
+          <td>x=0, y=40</td>
+        </tr>
+        <tr>
+          <td>Port_2</td>
+          <td>Numeric signal read by the block.</td>
+          <td>left</td>
+          <td>x=0, y=80</td>
+        </tr>
+        <tr>
+          <td>Port_3</td>
+          <td>Numeric signal read by the block.</td>
+          <td>left</td>
+          <td>x=0, y=120</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Output(s)</b>
+    </p>
+    <p>This block declares no output ports.</p>
+    <p>
+      <b>Parameters</b>
+    </p>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+          <th>Default value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <code>tMin</code>
+          </td>
+          <td/>
+        </tr>
+        <tr>
+          <td>
+            <code>tMax</code>
+          </td>
+          <td/>
+        </tr>
+        <tr>
+          <td>
+            <code>yMin</code>
+          </td>
+          <td/>
+        </tr>
+        <tr>
+          <td>
+            <code>yMax</code>
+          </td>
+          <td/>
+        </tr>
+        <tr>
+          <td>
+            <code>width</code>
+          </td>
+          <td>220</td>
+        </tr>
+        <tr>
+          <td>
+            <code>height</code>
+          </td>
+          <td>160</td>
+        </tr>
+        <tr>
+          <td>
+            <code>showTickLabels</code>
+          </td>
+          <td>false</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Inspector Keys</b>
+    </p>
+    <p>These serialized keys are exposed by the block inspector.</p>
+    <ul>
+      <li>
+        <code>tMin</code>
+      </li>
+      <li>
+        <code>tMax</code>
+      </li>
+      <li>
+        <code>yMin</code>
+      </li>
+      <li>
+        <code>yMax</code>
+      </li>
+      <li>
+        <code>width</code>
+      </li>
+      <li>
+        <code>height</code>
+      </li>
+      <li>
+        <code>showTickLabels</code>
+      </li>
+    </ul>
+    <p>
+      <b>Block Characteristics</b>
+    </p>
+    <table border="1">
+      <tbody>
+        <tr>
+          <td>Block type</td>
+          <td>scope</td>
+        </tr>
+        <tr>
+          <td>Family</td>
+          <td>Sink blocks</td>
+        </tr>
+        <tr>
+          <td>Rendered size</td>
+          <td>220 x 160</td>
+        </tr>
+        <tr>
+          <td>Phases</td>
+          <td>INIT, AFTER_STEP</td>
+        </tr>
+        <tr>
+          <td>Direct feedthrough</td>
+          <td>see Algorithms</td>
+        </tr>
+        <tr>
+          <td>Internal state or history</td>
+          <td>yes</td>
+        </tr>
+        <tr>
+          <td>Signal data type</td>
+          <td>double numeric values</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Algorithms</b>
+    </p>
+    <ul>
+      <li>INIT clears stored series.</li>
+      <li>AFTER_STEP appends one value per declared input; missing inputs append NaN.</li>
+      <li>The block has no outputs.</li>
+    </ul>
+    <p>
+      <b>Extended Capabilities</b>
+    </p>
+    <p>This page describes the native runtime behavior observed in the module C++ sources. Declared phases indicate when the simulation engine calls the block.</p>
+    <p>Code generation: supported for C and Rust.</p>
+    <p>
+      <b>Implementation Sources</b>
+    </p>
+    <source_code label="Manifest" path="modules/nflow_blocks/libraries/sink/library.json" language="json"/>
+    <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/sink/scope.cpp" language="cpp"/>
+  </description>
+  <used_function/>
+  <bibliography/>
+  <see_also>
+    <see_also_item>
+      <link linkend="${nflow_blocks}sink/xyScope">xyScope</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${nflow_blocks}sink/xyzScope">xyzScope</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${nflow_blocks}sink/display">display</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${nflow_blocks}sink/fileSink">fileSink</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

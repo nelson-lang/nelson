@@ -64,6 +64,9 @@ v = lookup(d,[3,5], 'FallbackValue', "Orange")]]></example_item_data>
     <see_also_item>
       <link linkend="${dictionary}insert">insert</link>
     </see_also_item>
+    <see_also_item>
+      <link linkend="${dictionary}readdictionary">readdictionary</link>
+    </see_also_item>
   </see_also>
   <history>
     <history_item>

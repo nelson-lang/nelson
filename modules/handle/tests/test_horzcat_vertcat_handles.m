@@ -7,20 +7,19 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-% <--WINDOWS ONLY-->
-%=============================================================================
-x = actxserver('Microsoft.XMLDOM');
-p = actxserver('Sapi.SpVoice');
+addpath([modulepath('interpreter', 'tests'), '/classdef']);
+x = ClassdefCounter(0);
+p = ClassdefCounter(0);
 %=============================================================================
 R1 = [x, x];
-assert_isequal(size(R1), [1 2])
+asserts.isequal(size(R1), [1 2])
 %=============================================================================
 R2 = [x; x];
-assert_isequal(size(R2), [2 1])
+asserts.isequal(size(R2), [2 1])
 %=============================================================================
 R1 = [x, p];
-assert_isequal(size(R1), [1 2])
+asserts.isequal(size(R1), [1 2])
 %=============================================================================
 R2 = [x; p];
-assert_isequal(size(R2), [2 1])
+asserts.isequal(size(R2), [2 1])
 %=============================================================================

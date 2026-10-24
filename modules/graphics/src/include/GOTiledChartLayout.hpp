@@ -21,7 +21,6 @@ namespace Nelson {
 class NLSGRAPHICS_IMPEXP GOTiledChartLayout : public GraphicsObject
 {
 public:
-    // Tile-span descriptor for each child object.
     struct TileSpanInfo
     {
         int tile; // upper-left tile (1-based, row-major by default)
@@ -35,6 +34,12 @@ public:
     std::wstring
     getType() override;
 
+    std::string
+    getClassName() override
+    {
+        return GO_CLASS_NAME_TILED_LAYOUT_STR;
+    }
+
     void
     registerProperties() override;
 
@@ -44,22 +49,15 @@ public:
     void
     paintMe(RenderInterface& gc) override;
 
-    //--- Grid helpers ---------------------------------------------------------
-    // Translate 1-based tile index → (row, col), respecting TileIndexing.
     std::pair<int, int>
     tileIndexToRowCol(int tileIndex);
 
-    // Translate (row, col) → 1-based tile index.
     int
     rowColToTileIndex(int row, int col);
 
-    // Return the next empty tile index for a spanRows×spanCols block.
     int
     findNextEmptyTile(int spanRows = 1, int spanCols = 1);
 
-    //--- Position update ------------------------------------------------------
-    // Recompute OuterPosition for every child axes from the current grid
-    // settings and each child's TileSpanInfo.
     void
     updateChildPositions();
 
@@ -72,7 +70,6 @@ public:
     void
     setGridSizeFromUser(int rows, int cols);
 
-    // Internal grid/arrangement setters used by tiledlayout/nexttile.
     void
     setGridSizeInternal(int rows, int cols, bool fireCallback = true);
 
@@ -85,12 +82,10 @@ public:
     bool
     hasTileChildren() const;
 
-    //--- Tile occupancy management --------------------------------------------
-    // Register a child at the given tile/span (replaces any previous entry).
+    // Replaces any previous entry for the child.
     void
     registerChildTile(go_handle childHandle, int tile, int spanRows, int spanCols);
 
-    // Remove a child from the occupancy maps.
     void
     unregisterChild(go_handle childHandle);
 
@@ -113,7 +108,6 @@ public:
     void
     ensureDynamicGridCanPlace(int spanRows, int spanCols);
 
-    //--- Next-tile cursor -----------------------------------------------------
     int
     getNextTileIndex() const
     {
@@ -127,7 +121,6 @@ public:
     void
     advanceNextTileIndex();
 
-    //--- Edge tiles -----------------------------------------------------------
     void
     registerEdgeTile(const std::wstring& edge, go_handle childHandle);
 
@@ -138,33 +131,16 @@ public:
     isEdgeTileHandle(go_handle h) const;
 
 private:
-    // Occupancy map: tileIndex (1-based, row-major) → child handle
+    // Occupancy map: tileIndex (1-based, row-major) --> child handle
     // (-1 = empty).  The vector is resized to GridSize(0)*GridSize(1).
     std::vector<go_handle> m_tileOccupancy;
 
-    // Per-child span info.
     std::unordered_map<go_handle, TileSpanInfo> m_tileSpan;
 
-    // Cursor for sequential nexttile calls.
     int m_nextTileIndex = 1;
 
-    // Edge tiles: "north"/"south"/"east"/"west" → handle.
+    // Edge tiles: "north"/"south"/"east"/"west" --> handle.
     std::unordered_map<std::wstring, go_handle> m_edgeTiles;
-
-    // --- spacing constants (normalised units) --------------------------------
-    static constexpr double SPACING_LOOSE = 0.035;
-    static constexpr double SPACING_COMPACT = 0.004;
-    static constexpr double SPACING_TIGHT = 0.00;
-
-    static constexpr double PADDING_LOOSE = 0.05;
-    static constexpr double PADDING_COMPACT = 0.006;
-    static constexpr double PADDING_TIGHT = 0.00;
-
-    double
-    getSpacingFraction();
-
-    double
-    getPaddingFraction();
 
     void
     rebuildOccupancy();

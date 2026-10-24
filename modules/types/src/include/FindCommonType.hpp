@@ -15,6 +15,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+// typeName receives the user-facing class name.
 NLSTYPES_IMPEXP
 bool
 FindCommonType(const ArrayOfVector& argIn, NelsonType& commonType, bool& isSparse, bool& isComplex,
@@ -25,5 +26,5 @@ bool
 FindCommonTypeRelationalOperators(const ArrayOfVector& args, NelsonType& commonType, bool& isSparse,
     bool& isComplex, std::string& typeName);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

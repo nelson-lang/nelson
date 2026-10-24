@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -11,6 +11,7 @@
 #include <vector>
 #include "Whos.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "Who.hpp"
 #include "ClassName.hpp"
@@ -28,9 +29,9 @@ getNestingEmptyStruct()
     fieldnames.push_back("function");
     fieldnames.push_back("level");
     ArrayOfVector values;
-    values.push_back(ArrayOf::characterArrayConstructor(""));
-    values.push_back(ArrayOf::doubleConstructor(0));
-    return ArrayOf::structConstructor(fieldnames, values);
+    values.push_back(ArrayOf::characterArray(""));
+    values.push_back(ArrayOf::doubleScalar(0));
+    return ArrayOf::structArray(fieldnames, values);
 }
 //=============================================================================
 static ArrayOf
@@ -38,32 +39,30 @@ Whos(Evaluator* eval, const std::wstring& filename, const stringVector& names, b
 {
     bool isNh5 = false;
     bool isMat = false;
-    // try detect if it is a .nh5
     FunctionDef* funcDef = nullptr;
     if (!PathFunctionIndexerManager::getInstance()->find("isnh5file", funcDef)) {
         BuiltInFunctionDefManager::getInstance()->find("isnh5file", funcDef);
     }
     if (funcDef != nullptr) {
         ArrayOfVector inputArguments;
-        inputArguments.push_back(ArrayOf::characterArrayConstructor(filename));
+        inputArguments.push_back(ArrayOf::characterArray(filename));
         ArrayOfVector res = funcDef->evaluateFunction(eval, inputArguments, 1);
         if (res.size() == 1) {
-            isNh5 = res[0].getContentAsLogicalScalar();
+            isNh5 = res[0].asLogicalScalar();
         }
     }
 
     if (!isNh5) {
-        // try detect if it is a .mat
         funcDef = nullptr;
         if (!PathFunctionIndexerManager::getInstance()->find("ismatfile", funcDef)) {
             BuiltInFunctionDefManager::getInstance()->find("ismatfile", funcDef);
         }
         if (funcDef != nullptr) {
             ArrayOfVector inputArguments;
-            inputArguments.push_back(ArrayOf::characterArrayConstructor(filename));
+            inputArguments.push_back(ArrayOf::characterArray(filename));
             ArrayOfVector res = funcDef->evaluateFunction(eval, inputArguments, 1);
             if (res.size() == 1) {
-                isMat = res[0].getContentAsLogicalScalar();
+                isMat = res[0].asLogicalScalar();
             }
         }
     }
@@ -79,13 +78,13 @@ Whos(Evaluator* eval, const std::wstring& filename, const stringVector& names, b
     funcDef = nullptr;
     if (!PathFunctionIndexerManager::getInstance()->find(whosFileFunctionName, funcDef)) {
         if (!BuiltInFunctionDefManager::getInstance()->find(whosFileFunctionName, funcDef)) {
-            Error(_W("whos file function expected."));
+            Error(L"Nelson:whos:functionExpected", L"whos file function expected.");
         }
     }
     ArrayOfVector inputArguments;
-    inputArguments.push_back(ArrayOf::characterArrayConstructor(filename));
+    inputArguments.push_back(ArrayOf::characterArray(filename));
     for (const std::string& name : names) {
-        inputArguments.push_back(ArrayOf::characterArrayConstructor(name));
+        inputArguments.push_back(ArrayOf::characterArray(name));
     }
     ArrayOfVector res = funcDef->evaluateFunction(eval, inputArguments, asStruct ? 1 : 0);
     if (res.size()) {
@@ -101,14 +100,16 @@ Whos(Evaluator* eval, const std::wstring& filename, bool onlyGlobal, const strin
     ArrayOf res;
     if (!filename.empty()) {
         if (!FileSystemWrapper::Path::is_regular_file(filename)) {
-            Error(_W("Filename does not exist."));
+            Error(L"Nelson:whos:fileDoesNotExist", L"Filename does not exist.");
         }
         res = Whos(eval, filename, names, asStruct);
     } else {
         stringVector variablesNameInMemory;
         if (onlyGlobal) {
+            // enumerate the global scope (without the mangled "_<fun>_<var>"
+            // persistent entries), not the current scope
             Context* context = eval->getContext();
-            variablesNameInMemory = Who(eval, context->getCurrentScope(), true);
+            variablesNameInMemory = Who(eval, context->getGlobalScope(), false);
         } else {
             variablesNameInMemory = Who(eval, true);
         }
@@ -179,7 +180,7 @@ Whos(Evaluator* eval, const std::wstring& filename, bool onlyGlobal, const strin
             if (value.isSparse()) {
                 sizeAsByte = std::nan("");
             } else {
-                sizeAsByte = (double)value.getByteSize();
+                sizeAsByte = (double)value.byteSize();
             }
             _bytes.push_back(sizeAsByte);
             nbSpaceBytes = std::max(nbSpaceBytes, std::to_string((int)sizeAsByte).size());
@@ -187,7 +188,7 @@ Whos(Evaluator* eval, const std::wstring& filename, bool onlyGlobal, const strin
             _class.push_back(className);
             nbSpaceClass = std::max(nbSpaceClass, className.size());
 
-            Dimensions dims = value.getDimensions();
+            Dimensions dims = value.dimensions();
             _size.push_back(dims);
             nbSpaceSize = std::max(nbSpaceSize, dims.toString().size());
 
@@ -211,10 +212,10 @@ Whos(Evaluator* eval, const std::wstring& filename, bool onlyGlobal, const strin
             dims[0] = _names.size();
             dims[1] = 1;
             if (_names.empty()) {
-                res = ArrayOf::emptyStructConstructor(fieldnames, dims);
+                res = ArrayOf::emptyStruct(fieldnames, dims);
             } else {
                 auto* elements = static_cast<ArrayOf*>(ArrayOf::allocateArrayOf(
-                    NLS_STRUCT_ARRAY, dims.getElementCount(), fieldnames, false));
+                    NLS_STRUCT_ARRAY, dims.elementCount(), fieldnames, false));
                 ArrayOf st = ArrayOf(NLS_STRUCT_ARRAY, dims, elements, false, fieldnames);
                 ArrayOfVector nameArray;
                 ArrayOfVector sizeArray;
@@ -237,20 +238,20 @@ Whos(Evaluator* eval, const std::wstring& filename, bool onlyGlobal, const strin
                 persistentArray.reserve(dims[0]);
 
                 for (indexType i = 0; i < _names.size(); ++i) {
-                    nameArray.push_back(ArrayOf::characterArrayConstructor(_names[i]));
-                    ArrayOf s = ArrayOf::doubleRowVectorConstructor(_size[i].getLength());
-                    double* ptrDouble = (double*)s.getDataPointer();
-                    for (indexType k = 0; k < _size[i].getLength(); ++k) {
+                    nameArray.push_back(ArrayOf::characterArray(_names[i]));
+                    ArrayOf s = ArrayOf::doubleRowVector(_size[i].length());
+                    double* ptrDouble = (double*)s.dataPointer();
+                    for (indexType k = 0; k < _size[i].length(); ++k) {
                         ptrDouble[k] = (double)_size[i][k];
                     }
                     sizeArray.push_back(s);
-                    bytesArray.push_back(ArrayOf::doubleConstructor(_bytes[i]));
-                    classArray.push_back(ArrayOf::characterArrayConstructor(_class[i]));
-                    globalArray.push_back(ArrayOf::logicalConstructor(_global[i]));
-                    sparseArray.push_back(ArrayOf::logicalConstructor(_sparse[i]));
-                    complexArray.push_back(ArrayOf::logicalConstructor(_complex[i]));
+                    bytesArray.push_back(ArrayOf::doubleScalar(_bytes[i]));
+                    classArray.push_back(ArrayOf::characterArray(_class[i]));
+                    globalArray.push_back(ArrayOf::logicalScalar(_global[i]));
+                    sparseArray.push_back(ArrayOf::logicalScalar(_sparse[i]));
+                    complexArray.push_back(ArrayOf::logicalScalar(_complex[i]));
                     nestingArray.push_back(getNestingEmptyStruct());
-                    persistentArray.push_back(ArrayOf::logicalConstructor(_persistent[i]));
+                    persistentArray.push_back(ArrayOf::logicalScalar(_persistent[i]));
                 }
 
                 st.setFieldAsList("name", nameArray);

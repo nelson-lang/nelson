@@ -23,17 +23,17 @@ x = linspace(1, 10, nPoints);
 fixedColor = [0 0 0]; % black
 % Plot each marker type
 for m = 1:numel(markers)
-    y = m * ones(size(x)); % Constant Y for each marker type
-    sizes = linspace(sizesMin, sizesMax, nPoints); % Increasing sizes
-    % Scatter points
-    scatter(x, y, sizes, ...
-        'Marker', markers{m}, ...
-        'MarkerEdgeColor', fixedColor, ...
-        'MarkerFaceColor', 'none', ...
-        'LineWidth', 1.5);
+  y = m * ones(size(x)); % Constant Y for each marker type
+  sizes = linspace(sizesMin, sizesMax, nPoints); % Increasing sizes
+  % Scatter points
+  scatter(x, y, sizes, ...
+      'Marker', markers{m}, ...
+      'MarkerEdgeColor', fixedColor, ...
+      'MarkerFaceColor', 'none', ...
+      'LineWidth', 1.5);
 end
 title('Scatter Only - One Line per Marker Type with Increasing Size');
 xlabel('X Axis');
 ylabel('Marker Type Line');
-ylim([0 numel(markers)+1]);
+ylim([0 numel(markers) + 1]);
 hold off;

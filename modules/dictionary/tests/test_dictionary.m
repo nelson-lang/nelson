@@ -8,18 +8,18 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 names = ["Jack", "John", "Jess"];
-ages = [50, 35, 68]; 
+ages = [50, 35, 68];
 gym = dictionary(names, ages);
-assert_isequal(class(gym), 'dictionary');
+asserts.isequal(class(gym), 'dictionary');
 %=============================================================================
 gym2 = dictionary(gym);
-assert_isequal(class(gym2), 'dictionary');
+asserts.isequal(class(gym2), 'dictionary');
 %=============================================================================
 d = dictionary('a', 1);
-assert_istrue(isConfigured(d));
-assert_isequal(numEntries(d), 1);
-assert_isequal(types(d), "string");
+asserts.istrue(isConfigured(d));
+asserts.isequal(numEntries(d), 1);
+asserts.isequal(types(d), "string");
 [key_type, val_type] = types(d);
-assert_isequal(key_type, "string");
-assert_isequal(val_type, "double");
+asserts.isequal(key_type, "string");
+asserts.isequal(val_type, "double");
 %=============================================================================

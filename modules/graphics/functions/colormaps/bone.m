@@ -20,7 +20,7 @@ function map = bone(varargin)
   else
     m = varargin{1};
   end
-  
+
   map = (7 * gray(m) + fliplr(hot(m))) / 8;
 end
 %=============================================================================

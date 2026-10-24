@@ -9,7 +9,7 @@
 Before building **Nelson** on Windows, make sure the following tools are installed:
 
 - 🛠 **[Git for Windows](https://git-scm.com/downloads/win)**
-- 🎯 **[Visual Studio 2022 (C++)](https://learn.microsoft.com/en-us/visualstudio/install/install-visual-studio?view=vs-2022)**
+- 🎯 **[Visual Studio 2026 (C++)](https://learn.microsoft.com/en-us/visualstudio/install/install-visual-studio?view=visualstudio)**
 - ⚙️ **[Just Command Runner](https://just.systems/)**
   Install via [winget](https://learn.microsoft.com/en-us/windows/package-manager/winget/):
 
@@ -42,13 +42,13 @@ cd nelson
 - ✅ **64-bit Architecture** _(Recommended)_:
 
   ```bash
-  just -f justfile.win install_dependencies::win64
+  just install_dependencies::win64
   ```
 
-- ⚠️ **32-bit Architecture** _(Deprecated, not officially maintained)_:
+- ✅ **ARM64-bit Architecture**:
 
   ```bash
-  just -f justfile.win install_dependencies::win32
+  just install_dependencies::arm64
   ```
 
 ---
@@ -63,12 +63,12 @@ cd nelson
    - For 64-bit:
 
      ```bash
-     just -f justfile.win build::win64
+     just build::win64
      ```
 
-   - For 32-bit:
+   - For ARM64-bit:
      ```bash
-     just -f justfile.win build::win32
+     just build::arm64
      ```
 
 ### Using `just` + CMake (All Targets)
@@ -77,27 +77,54 @@ Use the CMake recipes exposed by `justfile.win`:
 
 ```bash
 # Configure x64 CMake build (disable MPI when wrappers are unavailable)
-just -f justfile.win cmake_config::win64 -- -DWITHOUT_MPI_MODULE=ON
+just cmake_config::win64 -- -DWITHOUT_MPI_MODULE=ON
 
 # Build all targets
-just -f justfile.win cmake_build::win64
+just cmake_build::win64
 ```
 
 For other architectures:
 
 ```bash
-just -f justfile.win cmake_config::win32
-just -f justfile.win cmake_build::win32
-
-just -f justfile.win cmake_config::arm64
-just -f justfile.win cmake_build::arm64
+just cmake_config::arm64
+just cmake_build::arm64
 ```
 
 **Note:** MPI is automatically disabled by default on Windows ARM64 builds. Use `-DNELSON_ALLOW_MPI_ON_WINDOWS_ARM64=ON` to allow enabling MPI manually.
 
 ### Visual Studio IDE
 
-You can also launch the Visual Studio 2022 IDE with the appropriate environment variables by running either `win64-environment.bat` or `win32-environment.bat`.
+You can launch the Visual Studio 2026 IDE with the appropriate environment variables:
+
+```bash
+win64-environment.bat          # Open nelson.sln (all projects)
+win64-environment.bat core     # Open nelson-core.slnf (95 projects)
+win64-environment.bat minimal  # Open nelson-minimal.slnf (29 projects)
+win64-environment.bat nflow    # Open nelson-nflow.slnf (111 projects)
+win64-environment.bat env-only # Set environment variables only
+win64-environment.bat help     # Show all options
+```
+
+Replace `win64` with `ARM64` for ARM64 builds.
+
+### Solution Filters (`.slnf`)
+
+The full `nelson.sln` contains 195+ projects. For faster IDE loading and targeted rebuilds, three solution filters are provided:
+
+| Filter | Projects | Use case |
+|--------|----------|----------|
+| `nelson-minimal.slnf` | 29 (15%) | Interpreter, type system, operators |
+| `nelson-core.slnf` | 95 (49%) | Full CLI build and basic tests |
+| `nelson-nflow.slnf` | 111 (57%) | NFlow simulation framework |
+
+**Workflow:**
+
+1. Run a **full build first** (`just build::win64` or `msbuild nelson.sln`). This produces all DLLs in `bin/x64/`.
+2. Open a `.slnf` filter in Visual Studio for daily work. The IDE loads only the listed projects and rebuilds only what you change.
+3. At runtime, Nelson still loads all modules via `modules.m`. The DLLs for modules outside the filter remain in `bin/x64/` from the full build.
+4. After a `git pull` that changes files outside your filter, run a full build again to update those DLLs.
+
+The filters do not change `modules.m` or `nlsBuildConfig.h`. They are purely a Visual Studio IDE convenience for working on a subset of the codebase.
 
 ---
 
@@ -106,14 +133,12 @@ You can also launch the Visual Studio 2022 IDE with the appropriate environment 
 - 64-bit:
 
   ```bash
-  just -f justfile.win start::win64
+  just start::win64
   ```
 
-- 32-bit:
+- ARM64-bit:
   ```bash
-  just -f justfile.win start::win32
+  just start::arm64
   ```
-
----
 
 🔙 [← Back to: Building](BUILDING.md)

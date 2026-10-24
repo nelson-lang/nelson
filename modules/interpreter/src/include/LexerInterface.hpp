@@ -16,18 +16,10 @@
 #include "LexerContext.hpp"
 //=============================================================================
 namespace Nelson {
-/**
- * Set the string buffer to be processed by the lexer.
- */
 NLSINTERPRETER_IMPEXP void
 setLexBuffer(LexerContext& lexerContext, const std::wstring& buffer);
 NLSINTERPRETER_IMPEXP void
 setLexBuffer(LexerContext& lexerContext, const std::string& buffer);
-
-/**
- * Set the FILE pointer for the file to be processed
- * by the lexer.
- */
 NLSINTERPRETER_IMPEXP void
 setLexFile(LexerContext& lexerContext, FILE* fp);
 /**
@@ -35,11 +27,17 @@ setLexFile(LexerContext& lexerContext, FILE* fp);
  */
 NLSINTERPRETER_IMPEXP bool
 lexCheckForMoreInput(LexerContext& lexerContext, int pcount);
-/**
- * Retrieve the contents of the continuationCount.
- */
 NLSINTERPRETER_IMPEXP int
 getContinuationCount(LexerContext& lexerContext);
+/**
+ * Install a process-wide resolver the lexer uses to decide command vs
+ * expression syntax when the head of a statement is a variable ("x /y" is
+ * division, "disp /y" is a command). It is consulted for parse contexts that do
+ * not carry their own LexerContext::isVariableHook (e.g. the local contexts used
+ * to parse script and function bodies). Passing nullptr disables it.
+ */
+NLSINTERPRETER_IMPEXP void
+setLexerVariableResolver(bool (*resolver)(const std::string&));
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

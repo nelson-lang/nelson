@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>xmlread</keyword>
+  <short_description>Lire un fichier XML comme objet document</short_description>
+  <syntax>
+    <syntax_item>doc = xmlread(filename)</syntax_item>
+    <syntax_item>[doc, parser] = xmlread(filename)</syntax_item>
+    <syntax_item>doc = xmlread(filename, name, value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>une chaîne : chemin vers le fichier XML.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>name, value</param_name>
+      <param_description>paires optionnelles : &apos;AllowDoctype&apos; ou &apos;XMLEngine&apos;.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>doc</param_name>
+      <param_description>un objet xmlDocument Nelson.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>parser</param_name>
+      <param_description>un emplacement vide conservé pour la compatibilité du parseur.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>xmlread analyse un fichier XML et retourne un objet xmlDocument Nelson utilisable avec xmlwrite ou xslt.</p>
+    <p>L&apos;objet fournit aussi une petite couche d&apos;accès de style DOM : getDocumentElement, getElementsByTagName, getTagName, getNodeName, getTextContent, getAttribute, hasAttribute, getLength et item.</p>
+    <p>L&apos;objet retourné n&apos;est pas une implémentation DOM externe complète. La deuxième sortie optionnelle est actuellement un emplacement de parseur vide.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Lire un document XML et accéder à son contenu avec des méthodes de style DOM.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[xml_filename = [tempdir(), 'xmlread_books.xml'];
+xml_text = ['<catalog>', ...
+            '<book id="b1"><title>Numerical Methods</title><year>2026</year></book>', ...
+            '<book id="b2"><title>Signal Processing</title><year>2025</year></book>', ...
+            '</catalog>'];
+filewrite(xml_filename, xml_text);
+doc = xmlread(xml_filename);
+root = doc.getDocumentElement();
+root_name = root.getTagName()
+books = doc.getElementsByTagName('book');
+count = books.getLength()
+first_book = books.item(0);
+book_id = first_book.getAttribute('id')
+book_text = first_book.getTextContent()
+xmlwrite(doc)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${xml}xmlwrite">xmlwrite</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${xml}readstruct">readstruct</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

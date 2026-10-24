@@ -11,14 +11,14 @@ function varargout = bdschur(varargin)
   % Block-diagonal Schur factorization
   % [T, B] = bdschur(A)
   % [T, B] = bdschur(A, CONDMAX)
-  
+
   narginchk(1, 2);
   nargoutchk(0, 2);
-  
+
   A = varargin{1};
   mustBeReal(A, 1);
   mustBeFinite(A, 1);
-  
+
   if nargin > 1
     CONDMAX = varargout{2};
   else
@@ -26,7 +26,7 @@ function varargout = bdschur(varargin)
   end
   mustBeReal(CONDMAX, 2);
   mustBeScalarOrEmpty(CONDMAX, 2);
-  
+
   if isempty(A)
     T = A;
     B = A;
@@ -36,23 +36,23 @@ function varargout = bdschur(varargin)
     end
     return;
   end
-  
+
   [rA, cA] = size(A);
   if (rA ~= cA)
-    error(_('Wrong size for input argument #1: square matrix expected.'));
+    error('Nelson:control_system:wrongSize', 'Wrong size for argument #%d: %s expected.', 1, 'square matrix');
   end
-  
-  JOBX =  'U';
+
+  JOBX = 'U';
   SORT = 'S';
   PMAX = CONDMAX;
   [U, ~] = schur(A);
   TOL = 0; % default lapack tolerance
   [A_OUT, X_OUT, NBLCKS, BLSIZE, WR, WI, INFO] = slicot_mb03rd(JOBX, SORT, CONDMAX, A, U, TOL);
-  
-  if (INFO(1) ~= 0) 
-    error(sprintf( _('slicot_mb03rd returned info = %d'), INFO(1)));
+
+  if (INFO(1) ~= 0)
+    error('Nelson:control_system:slicotMb03rdError', 'slicot_mb03rd returned info = %d', INFO(1));
   end
-  
+
   T = X_OUT;
   B = A_OUT;
   varargout{1} = T;

@@ -10,9 +10,12 @@
 % <--AUDIO INPUT REQUIRED-->
 % <--SEQUENTIAL TEST REQUIRED-->
 %=============================================================================
+skip_testsuite(iswasm(), ...
+  'WebAssembly audio backend does not provide microphone recorder objects yet.');
+%=============================================================================
 r = audiorecorder();
 recordblocking(r, 5);
-assert_istrue(isvalid(r));
+asserts.istrue(isvalid(r));
 delete(r)
-assert_isfalse(isvalid(r));
+asserts.isfalse(isvalid(r));
 %=============================================================================

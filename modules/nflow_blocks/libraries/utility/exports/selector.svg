@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="306.5" height="260.5" viewBox="-153.25 -153.25 306.5 260.5">
+  <rect x="-153.25" y="-153.25" width="306.5" height="260.5" rx="49.495" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="3.25"/>
+  <g transform="matrix(1 0 0 -1 0 0)">
+    <rect x="-100" y="-100" width="200" height="200" fill="#FFFFFF" stroke="#444441" stroke-width="3.25"/>
+    <g transform="translate(0,130) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32" fill="#444441">Selector</text></g>
+    <rect x="-80" y="-50" width="40" height="100" fill="#FFFFFF" stroke="#444441" stroke-width="3.25"/>
+    <polygon points="-84.41,1.91 -84.41,-2.09 -80.41,-0.09 -84.41,1.91" fill="#444441" stroke="#444441" stroke-width="3.25" stroke-linejoin="round"/>
+    <polyline points="-62,2 -50.14,12.91 -39.14,12.91" fill="none" stroke="#444441" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-63,4 -49,40 -39,40" fill="none" stroke="#444441" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-102,0 -65.04,-0.02" fill="none" stroke="#444441" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <ellipse cx="-65.04" cy="-0.16" rx="5" ry="4.75" fill="#444441" stroke="#444441" stroke-width="3.25"/>
+    <polyline points="-63,-5 -50,-40 -39,-40" fill="none" stroke="#444441" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-62,-2 -50.07,-12.91 -39.07,-12.91" fill="none" stroke="#444441" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="-38.88,-11 -38.88,-15 -34.88,-13 -38.88,-11" fill="#FFFFFF" stroke="#444441" stroke-width="3.25" stroke-linejoin="round"/>
+    <polygon points="-39,42 -39,38 -35,40 -39,42" fill="#FFFFFF" stroke="#444441" stroke-width="3.25" stroke-linejoin="round"/>
+    <polygon points="-38.87,-38.03 -38.87,-42.03 -34.87,-40.03 -38.87,-38.03" fill="#FFFFFF" stroke="#444441" stroke-width="3.25" stroke-linejoin="round"/>
+    <polygon points="-39,14.88 -39,10.88 -35,12.88 -39,14.88" fill="#FFFFFF" stroke="#444441" stroke-width="3.25" stroke-linejoin="round"/>
+    <rect x="-30" y="-50" width="60" height="100" fill="#B4B2A9" stroke="#444441" stroke-width="3.25"/>
+    <polyline points="100,0 0,0" fill="none" stroke="#444441" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="0,2 0,-104" fill="none" stroke="#444441" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-35,40 -20,40" fill="none" stroke="#444441" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-35,13 -20,13" fill="none" stroke="#444441" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-35,-13 -20,-13" fill="none" stroke="#444441" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-35,-40 -20,-40" fill="none" stroke="#444441" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="0,0 -20,13 -20,13 0,0 0,0" fill="none" stroke="#444441" stroke-width="3.25" stroke-linejoin="round"/>
+    <ellipse cx="0" cy="0" rx="6" ry="6" fill="#B4B2A9" stroke="#444441" stroke-width="3.25"/>
+  </g>
+</svg>

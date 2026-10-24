@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>convert</keyword>
+  <keyword_alias>block:convert</keyword_alias>
+  <short_description>Converts a signal to a selected data type.</short_description>
+  <syntax><syntax_item>Block type: convert</syntax_item></syntax>
+  <description>
+    <p>The <b>Convert</b> block casts every input element to <b>OutDataType</b> while preserving signal dimensions.</p>
+    <p><b>Rounding</b> controls conversion of non-integer values. <b>SaturateOnOverflow</b> selects saturation instead of wraparound when the target range is exceeded.</p>
+    <p><img src="../../../../libraries/utility/exports/convert.svg" align="middle"/></p>
+    <p><b>Extended Capabilities</b></p>
+    <p>Code generation: supported for C and Rust.</p>
+    <p><b>Implementation Sources</b></p>
+    <source_code label="Manifest" path="modules/nflow_blocks/libraries/utility/library.json" language="json"/>
+    <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/routing/convert.cpp" language="cpp"/>
+  </description>
+</xmldoc>

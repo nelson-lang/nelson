@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>fitcknn</keyword>
+  <short_description>Ajuste un classifieur par k plus proches voisins.</short_description>
+  <syntax>
+    <syntax_item>mdl = fitcknn(X, Y)</syntax_item>
+    <syntax_item>mdl = fitcknn(X, Y, Name, Value)</syntax_item>
+    <syntax_item>label = predict(mdl, Xnew)</syntax_item>
+    <syntax_item>[label, score, cost] = predict(mdl, Xnew)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>fitcknn</b> cree un objet <b>ClassificationKNN</b> a partir des predicteurs numeriques <b>X</b> et des etiquettes de classe <b>Y</b>.</p>
+    <p>Les arguments nom-valeur incluent <b>NumNeighbors</b>, <b>Distance</b>, <b>DistanceWeight</b>, <b>Standardize</b>, <b>P</b>, <b>Scale</b> et <b>ClassNames</b>. La prediction utilise la recherche native des plus proches voisins et retourne des scores de classe normalises.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[X = [0 0; 0 1; 1 0; 5 5; 5 6; 6 5];
+Y = [1; 1; 1; 2; 2; 2];
+mdl = fitcknn(X, Y, 'NumNeighbors', 3);
+[label, score] = predict(mdl, [0.2 0.1; 5.2 5.1])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}knnsearch">knnsearch</link></see_also_item>
+    <see_also_item><link linkend="${statistics}fitgmdist">fitgmdist</link></see_also_item>
+    <see_also_item><link linkend="${statistics}grp2idx">grp2idx</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

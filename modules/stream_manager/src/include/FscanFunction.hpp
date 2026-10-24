@@ -20,5 +20,5 @@ NLSSTREAM_MANAGER_IMPEXP ArrayOf
 FscanF(FILE* filepointer, const std::string& format, const std::string& encoding, double m,
     double n, bool haveThirdArgument, indexType& count, bool asSscanf);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

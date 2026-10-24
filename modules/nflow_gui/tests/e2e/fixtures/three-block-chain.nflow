@@ -1,0 +1,71 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "e2e-tests",
+    "created": "2026-04-26",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "comments": "Three-block chain (sine\u2192gain\u2192scope) used by create-subsystem E2E tests",
+  "name": "three-block-chain",
+  "blocks": [
+    {
+      "id": "b1",
+      "type": "sine",
+      "x": 100,
+      "y": 200,
+      "rotation": 0,
+      "params": {
+        "Amplitude": 1,
+        "Frequency": 1,
+        "Phase": 0
+      }
+    },
+    {
+      "id": "b2",
+      "type": "gain",
+      "x": 300,
+      "y": 200,
+      "rotation": 0,
+      "params": {
+        "Gain": 2
+      }
+    },
+    {
+      "id": "b3",
+      "type": "scope",
+      "x": 500,
+      "y": 200,
+      "rotation": 0,
+      "params": {
+        "TMin": "",
+        "TMax": "",
+        "YMin": "",
+        "YMax": "",
+        "width": 220,
+        "height": 160,
+        "ShowTickLabels": false
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "b1",
+      "to": "b2",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "b2",
+      "to": "b3",
+      "fromIndex": 0,
+      "toIndex": 0
+    }
+  ],
+  "variables": "",
+  "runtime": "10",
+  "sampleTime": 0.01,
+  "autoRoute": true,
+  "locked": false
+}

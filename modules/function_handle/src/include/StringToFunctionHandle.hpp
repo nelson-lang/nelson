@@ -17,5 +17,6 @@
 namespace Nelson {
 NLSFUNCTION_HANDLE_IMPEXP function_handle
 StringToFunctionHandle(Evaluator* eval, const std::string& functionName);
-}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

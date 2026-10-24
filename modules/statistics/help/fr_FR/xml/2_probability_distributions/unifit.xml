@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>unifit</keyword>
+  <short_description>Estimations des parametres uniformes continus</short_description>
+  <syntax>
+    <syntax_item>[aHat, bHat] = unifit(x)</syntax_item>
+    <syntax_item>[aHat, bHat, aCI, bCI] = unifit(x)</syntax_item>
+    <syntax_item>[aHat, bHat, aCI, bCI] = unifit(x, alpha)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>x</param_name>
+      <param_description>vecteur ou matrice reel : donnees echantillon.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>alpha</param_name>
+      <param_description>scalaire dans [0, 1] : niveau de signification. La valeur par defaut est 0.05.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>aHat</param_name>
+      <param_description>vecteur ligne : estimations des bornes inferieures.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>bHat</param_name>
+      <param_description>vecteur ligne : estimations des bornes superieures.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>aCI</param_name>
+      <param_description>tableau 2 par n : intervalles de confiance pour les bornes inferieures.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>bCI</param_name>
+      <param_description>tableau 2 par n : intervalles de confiance pour les bornes superieures.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>unifit</b> renvoie les estimations du maximum de vraisemblance pour les parametres de bornes uniformes continues.</p>
+    <p>Les vecteurs sont traites comme un seul echantillon. Les matrices sont traitees colonne par colonne.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[x = [2 5 3 4];
+[aHat, bHat, aCI, bCI] = unifit(x);
+[aHat2, bHat2] = unifit([1 2; 3 4; 4 9]);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${statistics}uniflike">uniflike</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}unifpdf">unifpdf</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}unifcdf">unifcdf</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}unifinv">unifinv</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}unifstat">unifstat</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}unifrnd">unifrnd</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

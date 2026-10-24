@@ -8,8 +8,8 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 if ispc()
-    assert_isequal(cmdsep(), "&&");
+  asserts.isequal(cmdsep(), "&&");
 else
-    assert_isequal(cmdsep(), ";");
+  asserts.isequal(cmdsep(), ";");
 end
 %=============================================================================

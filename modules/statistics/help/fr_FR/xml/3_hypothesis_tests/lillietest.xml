@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>lillietest</keyword>
+  <short_description>Test d&apos;adequation de Lilliefors.</short_description>
+  <syntax>
+    <syntax_item>h = lillietest(x)</syntax_item>
+    <syntax_item>h = lillietest(x, Name, Value)</syntax_item>
+    <syntax_item>[h, p] = lillietest(...)</syntax_item>
+    <syntax_item>[h, p, kstat, critval] = lillietest(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>lillietest</b> effectue un test d&apos;adequation bilateral de Lilliefors avec parametres estimes a partir de l&apos;echantillon. Les observations <b>NaN</b> sont omises.</p>
+    <p>Les arguments nom-valeur incluent <b>Alpha</b>, <b>Distribution</b> et <b>MCTol</b>. Les distributions prises en charge sont normal, exponential et extreme value. <b>MCTol</b> est accepte pour la compatibilite de syntaxe; cette implementation utilise une approximation deterministe.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[x = [-1 -0.5 0 0.5 1];
+[h, p, kstat, critval] = lillietest(x)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}jbtest">jbtest</link></see_also_item>
+    <see_also_item><link linkend="${statistics}kstest">kstest</link></see_also_item>
+    <see_also_item><link linkend="${statistics}chi2gof">chi2gof</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -15,7 +15,7 @@ REF = {'Row', 'Age', 'Height', 'Weight', 'BloodPressure_1', 'BloodPressure_2';
 'Williams', [ 38], [    64], [   131], [            125], [             83];
 'Jones', [ 40], [    67], [   133], [            117], [             75]
 'Brown', [ 49], [    64], [   119], [            122], [             80]};
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 csv_filename = [modulepath('spreadsheet'), '/tests/readcell_2.csv'];
 R = readcell(csv_filename);
@@ -26,7 +26,7 @@ REF = {'Row'     , 'Age'      , 'Height'   , 'Weight'   , 'BloodPressure_1', 'Bl
 'Williams', [       38], [       64], [      131], [            125], [             83];
 'Jones'   , [       40], [       67], [      133], [            117], [             75];
 'Brown'   , [       49], [       64], [      119], [            122], [             80]};
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 csv_filename = [modulepath('spreadsheet'), '/tests/readcell_3.csv'];
 R = readcell(csv_filename);
@@ -35,7 +35,7 @@ REF = {'Smith' , [       38], [       71], [      176], [            124], [    
 'Williams', [       38], [       64], [      131], [            125], [             83];
 'Jones'   , [       40], [       67], [      133], [            117], [             75];
 'Brown'   , [       49], [       64], [      119], [            122], [             80]};
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 csv_filename = [modulepath('spreadsheet'), '/tests/readcell_1.csv'];
 options = detectImportOptions(csv_filename);
@@ -45,7 +45,7 @@ REF = {'Smith' , [       38], [       71], [      176], [            124], [    
 'Williams', [       38], [       64], [      131], [            125], [             83];
 'Jones'   , [       40], [       67], [      133], [            117], [             75];
 'Brown'   , [       49], [       64], [      119], [            122], [             80]};
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 csv_filename = [modulepath('spreadsheet'), '/tests/readcell_2.csv'];
 options = detectImportOptions(csv_filename);
@@ -55,7 +55,7 @@ REF = {'Smith' , [       38], [       71], [      176], [            124], [    
 'Williams', [       38], [       64], [      131], [            125], [             83];
 'Jones'   , [       40], [       67], [      133], [            117], [             75];
 'Brown'   , [       49], [       64], [      119], [            122], [             80]};
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 csv_filename = [modulepath('spreadsheet'), '/tests/readcell_3.csv'];
 options = detectImportOptions(csv_filename);
@@ -65,5 +65,5 @@ REF = {'Smith' , [       38], [       71], [      176], [            124], [    
 'Williams', [       38], [       64], [      131], [            125], [             83];
 'Jones'   , [       40], [       67], [      133], [            117], [             75];
 'Brown'   , [       49], [       64], [      119], [            122], [             80]};
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================

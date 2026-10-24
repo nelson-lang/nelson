@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -22,7 +22,7 @@ Nelson::TimeGateway::sleepBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector
     nargoutcheck(nLhs, 0, 0);
     ArrayOf Parameter1 = argIn[0];
     if (Parameter1.isDoubleType()) {
-        double dValue = Parameter1.getContentAsDoubleScalar();
+        double dValue = Parameter1.asDoubleScalar();
         Sleep(eval, dValue);
     } else {
         OverloadRequired("sleep");

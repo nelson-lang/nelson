@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>enumeratedConstant</keyword>
+  <keyword_alias>block:enumeratedConstant</keyword_alias>
+  <short_description>Sort une valeur d enumeration fixe (EnumClass la documente, Value est le nombre).</short_description>
+  <syntax>
+    <syntax_item>Type de bloc : enumeratedConstant</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>ports d entree</param_name>
+      <param_description>Aucun port d entree (ce bloc n en a aucun).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>ports de sortie</param_name>
+      <param_description>1 port(s) de sortie declare(s).</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Sort une valeur d enumeration fixe (EnumClass la documente, Value est le nombre).</p>
+    <table border="1">
+      <tbody>
+        <tr><td>Module</td><td><code>nflow_blocks</code></td></tr>
+        <tr><td>Bibliotheque</td><td>Source</td></tr>
+        <tr><td>Type</td><td><code>enumeratedConstant</code></td></tr>
+        <tr><td>Libelle</td><td>Enumerated Constant</td></tr>
+      </tbody>
+    </table>
+    <p><img src="../../../../libraries/source/exports/enumeratedConstant.svg" align="middle"/></p>
+    <p><b>Description</b></p>
+    <p>Sort une valeur d'enumeration fixe. <code>EnumClass</code> nomme l'enumeration (documentation seulement) et <code>Value</code> est la valeur numerique sous-jacente du membre choisi. Se comporte comme une constante porteuse d'un sens enumere ; sortie scalaire.</p>
+    <p><b>Ports</b></p>
+    <p>Ce bloc n'a aucun port d'entree.</p>
+    <p><b>Sortie(s)</b></p>
+    <table border="1">
+      <thead><tr><th>Port</th><th>Role</th><th>Cote</th><th>Position</th></tr></thead>
+      <tbody>
+        <tr><td>Port_1</td><td>Signal numerique produit par le bloc.</td><td>droite</td><td>x=90, y=25</td></tr>
+      </tbody>
+    </table>
+    <p><b>Parametres</b></p>
+    <table border="1">
+      <thead><tr><th>Parametre</th><th>Valeur par defaut</th></tr></thead>
+      <tbody>
+        <tr><td><code>EnumClass</code></td><td></td></tr>
+        <tr><td><code>Value</code></td><td>0</td></tr>
+      </tbody>
+    </table>
+    <p><b>Caracteristiques du bloc</b></p>
+    <table border="1">
+      <tbody>
+        <tr><td>Type de bloc</td><td>enumeratedConstant</td></tr>
+        <tr><td>Famille</td><td>Source</td></tr>
+        <tr><td>Taille rendue</td><td>90 x 50</td></tr>
+        <tr><td>Phases</td><td>OUTPUT</td></tr>
+        <tr><td>Etat interne ou historique</td><td>non</td></tr>
+        <tr><td>Type de donnees du signal</td><td>valeurs numeriques double</td></tr>
+      </tbody>
+    </table>
+    <p><b>Algorithmes</b></p>
+    <ul>
+      <li>OUTPUT : out = Value (constante, a chaque pas).</li>
+    </ul>
+    <p><b>Capacites etendues</b></p>
+    <p><b>Sources d implementation</b></p>
+    <p>Generation de code : prise en charge pour C et Rust.</p>
+    <source_code label="Manifest" path="modules/nflow_blocks/libraries/source/library.json" language="json"/>
+    <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/source/enumeratedConstant.cpp" language="cpp"/>
+  </description>
+  <used_function/>
+  <bibliography/>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>EnumClass 'Color', Value 7 sort 7 a chaque pas.</example_item_description>
+      <example_item_data><![CDATA[d.blocks={ struct('id','e','type','enumeratedConstant','inputs',0,'outputs',1,'params',struct('EnumClass','Color','Value',7)), struct('id','w','type','toWorkspace','inputs',1,'outputs',0,'params',struct('VariableName','y','SaveFormat','Array')) };
+d.connections={ struct('from','e','to','w','fromIndex',0,'toIndex',0) };
+d.sampleTime=0.1; d.duration=0.2; d.solver='discrete'; d.variables=struct();
+r=jsondecode(__nflow_simulate__(jsonencode(d)));]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${nflow_blocks}source/constant">constant</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

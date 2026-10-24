@@ -11,6 +11,7 @@
 #include "OnCleanupObjectHandle.hpp"
 #include "HandleManager.hpp"
 #include "i18n.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -25,7 +26,11 @@ DeleteOnCleanupHandleObject(Evaluator* eval, const ArrayOf& A)
     };
 
     return DeleteHandleObjects<OnCleanupObjectHandle>(A, NLS_HANDLE_ONCLEANUP_CATEGORY_STR,
-        _W("onCleanup handle expected."), _W("onCleanup valid handle expected."), deleter);
+        Nelson::resolveMessageTemplate(
+            L"Nelson:onCleanup:invalidType", L"onCleanup handle expected."),
+        resolveMessageTemplate(
+            L"Nelson:interpreter:oncleanupValidHandle", L"onCleanup valid handle expected."),
+        deleter);
 }
 //=============================================================================
 } // namespace Nelson

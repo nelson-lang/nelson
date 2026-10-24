@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>camtarget</keyword>
+  <short_description>Set or query the camera target.</short_description>
+  <syntax>
+    <syntax_item>camtarget</syntax_item>
+    <syntax_item>t = camtarget</syntax_item>
+    <syntax_item>camtarget([x y z])</syntax_item>
+    <syntax_item>camtarget('auto')</syntax_item>
+    <syntax_item>camtarget('manual')</syntax_item>
+    <syntax_item>mode = camtarget('mode')</syntax_item>
+    <syntax_item>camtarget(ax, ...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description>a scalar graphics object value: an axes.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>[x y z]</param_name>
+      <param_description>the camera target point, specified as a three-element vector.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>t</param_name>
+      <param_description>the current camera target, a three-element vector.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>camtarget</b> sets or queries the <b>CameraTarget</b> property of an axes.</p>
+    <p>Specifying a target switches <b>CameraTargetMode</b> to <b>manual</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
+surf(peaks(40), 'EdgeColor', 'none');
+camtarget([20 20 0]);
+t = camtarget()]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}3_labels_styling/3_interactions_camera_lighting/campos">campos</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}3_labels_styling/3_interactions_camera_lighting/camup">camup</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}3_labels_styling/3_interactions_camera_lighting/camlookat">camlookat</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

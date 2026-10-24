@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>deval</keyword>
+  <short_description>Evaluate an ODE solution.</short_description>
+  <syntax>
+    <syntax_item>y = deval(sol, t)</syntax_item>
+    <syntax_item>[y, yp] = deval(sol, t)</syntax_item>
+  </syntax>
+  <description>
+    <p>
+      <b>deval</b> interpolates a solution structure or a result object returned by an ODE solver.</p>
+    <table style="width:100%">
+  <tr><th>Item</th><th>Details</th></tr>
+  <tr><td>Input solution</td><td>Structure or result object returned by ODE, DDE, or BVP solvers.</td></tr>
+  <tr><td>Evaluation points</td><td><b>t</b> or <b>x</b> values inside the computed interval.</td></tr>
+  <tr><td>Outputs</td><td><b>y</b> values and optional <b>yp</b> derivative values, one column per evaluation point.</td></tr>
+  <tr><td>Use case</td><td>Dense output, plotting, post-processing, and solution comparison.</td></tr>
+</table>
+    <p>The result has one row per state variable and one column per evaluation point. This shape is used for both row and column vectors of evaluation times. Evaluation points must lie inside the solution interval. The optional second output returns the derivative at the same points.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_data runnable="cli"><![CDATA[sol = ode45(@(t,y) -y, [0 1], 1);
+[y, yp] = deval(sol, [0; 0.5; 1])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ode_solvers}odextend">odextend</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

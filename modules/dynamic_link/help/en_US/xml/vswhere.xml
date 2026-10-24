@@ -17,7 +17,7 @@
   </param_output>
   <description>
     <p>
-      <b>vswhere</b> allows to find easily Visual studio.</p>
+      <b>vswhere</b> locates Visual Studio installations.</p>
     <p>
       <b>vswhere</b> is currently only implemented on Windows platform.</p>
   </description>

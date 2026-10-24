@@ -22,6 +22,14 @@
       ><![CDATA[qml_demos()]]></example_item_data>
     </example_item>
   </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${qml_engine}qml_loadfile">qml_loadfile</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${qml_engine}qml_createqquickview">qml_createqquickview</link>
+    </see_also_item>
+  </see_also>
   <history>
     <history_item>
       <history_version>1.0.0</history_version>

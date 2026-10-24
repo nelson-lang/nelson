@@ -10,6 +10,7 @@
 #include "matrix.h"
 #include "MxHelpers.hpp"
 #include "i18n.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 double
 mxGetScalar(const mxArray* pm)
@@ -77,7 +78,9 @@ NLSMEX_IMPEXP
 mxDouble*
 mxGetPrInterleavedComplex(const mxArray* pm)
 {
-    mexErrMsgTxt(_("mxGetPr not allowed with interleaved complex.").c_str());
+    mexErrMsgTxt(Nelson::resolveMessageTemplate("Nelson:mex:mxgetprAllowedInterleavedComplex",
+        "mxGetPr not allowed with interleaved complex.")
+            .c_str());
     return nullptr;
 }
 //=============================================================================

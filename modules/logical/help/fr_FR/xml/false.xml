@@ -8,6 +8,7 @@
     <syntax_item>false</syntax_item>
     <syntax_item>l = false(n)</syntax_item>
     <syntax_item>l = false(sz)</syntax_item>
+    <syntax_item>l = false(size(A))</syntax_item>
     <syntax_item>l = false(n, m, ..., k)</syntax_item>
     <syntax_item>l = false(n, m, &apos;like&apos;, sp)</syntax_item>
   </syntax>
@@ -18,7 +19,11 @@
     </param_input_item>
     <param_input_item>
       <param_name>sz</param_name>
-      <param_description>un vecteur de taille.</param_description>
+      <param_description>un vecteur ligne de dimensions, comme le résultat de <b>size</b>.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>un tableau dont la taille est utilisée pour créer la sortie.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>n, m, ..., k</param_name>
@@ -39,7 +44,7 @@
   </param_output>
   <description>
     <p>
-      <b>false</b> construit une matrice de valeurs false.</p>
+      <b>false</b> construit un tableau de valeurs logiques false.</p>
   </description>
   <used_function />
   <bibliography />
@@ -52,6 +57,8 @@
       ><![CDATA[false
 false(4)
 false(4, 1, 4)
+A = zeros(2, 3);
+F = false(size(A))
 L = logical(sparse(1, 2))
 L2 = false(3,'like', L);]]></example_item_data>
     </example_item>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>ilu</keyword>
+  <short_description>Incomplete LU factorization.</short_description>
+  <syntax>
+    <syntax_item>LU = ilu(A)</syntax_item>
+    <syntax_item>LU = ilu(A, opts)</syntax_item>
+    <syntax_item>[L, U] = ilu(A)</syntax_item>
+    <syntax_item>[L, U] = ilu(A, opts)</syntax_item>
+    <syntax_item>[L, U, P] = ilu(A, opts)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>a sparse real or complex floating-point square matrix.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>opts</param_name>
+      <param_description>a scalar structure with optional fields type, droptol, fillfactor, udiag, and thresh.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>LU</param_name>
+      <param_description>single sparse factor containing the strict lower part of <b>L</b> and the upper part of <b>U</b>.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>L</param_name>
+      <param_description>sparse lower triangular incomplete LU factor.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>U</param_name>
+      <param_description>sparse upper triangular incomplete LU factor.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>P</param_name>
+      <param_description>sparse row permutation matrix. When returned, <b>P * A</b> is approximated by <b>L * U</b>.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>ilu</b> computes sparse incomplete LU factors suitable for use as preconditioners.</p>
+    <p><b>opts.type</b> can be &apos;nofill&apos; or &apos;ilutp&apos;. The default is &apos;nofill&apos;, which preserves the input sparsity pattern and performs no threshold dropping.</p>
+    <p>In &apos;ilutp&apos; mode, <b>opts.droptol</b> drops small entries, <b>opts.fillfactor</b> limits retained row fill, <b>opts.udiag</b> allows zero pivots, and <b>opts.thresh</b> is a pivot threshold between 0 and 1. The default values are <b>droptol = 1e-4</b>, <b>fillfactor = 10</b>, <b>udiag = false</b>, and <b>thresh = 1</b>.</p>
+    <p>The &apos;ilutp&apos; mode uses sparse row pivoting. With three outputs, <b>P</b> contains the row permutation and <b>P * A</b> is approximated by <b>L * U</b>. With one output, the packed sparse factor stores the strict lower part of <b>L</b> and the upper part of <b>U</b>.</p>
+    <p>Text option values such as <b>opts.type</b> can be character row vectors or string scalars.</p>
+    <p>Double, single, complex double, and complex single sparse matrices are supported. <b>L</b> and <b>U</b> keep the input numeric class; <b>P</b> is a sparse permutation matrix.</p>
+    <p>The factors can be used directly as preconditioners for Krylov solvers such as <b>gmres</b>, <b>bicgstab</b>, <b>bicg</b>, <b>cgs</b>, and <b>qmr</b>.</p>
+  </description>
+  <used_function>Nelson sparse routines</used_function>
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[A = sparse([4 1 0; 2 3 1; 0 1 2]);
+LU = ilu(A)
+full(LU)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[A = sparse([4 1 0; 2 3 1; 0 1 2]);
+[L, U] = ilu(A)
+full(L * U)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[A = sparse([4 1 0; 2 3 1; 0 1 2]);
+b = [1; 2; 3];
+[L, U] = ilu(A);
+x = bicgstab(A, b, 1e-12, 20, L, U)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>ILUTP with row pivoting.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = sparse(single([0 1 + 2i; 3 - 1i 4]));
+opts.type = 'ilutp';
+opts.droptol = 0;
+[L, U, P] = ilu(A, opts);
+full(P * A - L * U)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Control pivoting and retained fill in the thresholded mode.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = sparse([0.2 1; 1 1]);
+opts.type = 'ilutp';
+opts.droptol = 0;
+opts.fillfactor = 10;
+opts.thresh = 0.25;
+[L, U, P] = ilu(A, opts);
+full(P * A - L * U)
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${linear_algebra}bicgstab">bicgstab</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${linear_algebra}lu">lu</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>added single and complex single nofill, ilutp, pivoting, string scalar options, and preconditioner coverage</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

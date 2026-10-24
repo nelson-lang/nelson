@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="306.5" height="306.5" viewBox="-153.25 -153.25 306.5 306.5">
+  <rect x="-153.25" y="-153.25" width="306.5" height="306.5" rx="58.235" fill="#FAECE7" stroke="#F5C4B3" stroke-width="3.25"/>
+  <g transform="matrix(1 0 0 -1 0 0)">
+    <rect x="-100" y="-100" width="200" height="200" fill="#FFFFFF" stroke="#712B13" stroke-width="3.25"/>
+    <g transform="translate(0,130) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32" fill="#712B13">Dead Zone</text></g>
+    <polyline points="0,-90 0,68" fill="none" stroke="#F5C4B3" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="0,90 -8,68 8,68 0,90" fill="#F5C4B3" stroke="#F5C4B3" stroke-width="3.25" stroke-linejoin="round"/>
+    <polyline points="-90,0 68,0" fill="none" stroke="#F5C4B3" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="90,0 68,-8 68,8 90,0" fill="#F5C4B3" stroke="#F5C4B3" stroke-width="3.25" stroke-linejoin="round"/>
+    <polyline points="-80,-60 -20,0 20,0 80,60" fill="none" stroke="#712B13" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <g transform="translate(0,-130) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32" fill="#712B13">uMax</text></g>
+  </g>
+</svg>

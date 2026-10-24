@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>aioptions</keyword>
+  <short_description>Create options for AI provider requests.</short_description>
+  <syntax>
+    <syntax_item>options = aioptions()</syntax_item>
+    <syntax_item>options = aioptions(name, value, ...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>aioptions</b> creates a scalar struct used by <b>aiask</b>.</p>
+    <p>The default provider is <b>ollama</b>, the default model is <b>llama3</b>, and the default endpoint is <b>http://127.0.0.1:11434/api/generate</b>.</p>
+    <p>Supported options are <b>Provider</b>, <b>Model</b>, <b>Endpoint</b>, <b>TokenEnvVar</b>, <b>Timeout</b>, <b>SystemPrompt</b>, <b>Think</b>, <b>NumPredict</b>, and <b>Temperature</b>.</p>
+    <p>For Ollama, <b>Think</b>, <b>NumPredict</b>, and <b>Temperature</b> are sent in the request payload. Use them to keep local model responses bounded.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Create Ollama options for a local model.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[
+opts = aioptions('Provider', 'ollama', ...
+                 'Model', 'llama3.2', ...
+                 'Endpoint', 'http://127.0.0.1:11434/api/generate', ...
+                 'Timeout', 180, ...
+                 'Think', false, ...
+                 'NumPredict', 200, ...
+                 'Temperature', 0);
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ai}aiask">aiask</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ai}aimodels">aimodels</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+</xmldoc>

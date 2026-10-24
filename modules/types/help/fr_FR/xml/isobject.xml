@@ -3,8 +3,7 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>isobject</keyword>
-  <short_description
-  >Renvoie vrai si la variable var est un objet.</short_description>
+  <short_description>Renvoie true si une variable est un objet.</short_description>
   <syntax>
     <syntax_item>res = isobject(var)</syntax_item>
   </syntax>
@@ -17,28 +16,31 @@
   <param_output>
     <param_output_item>
       <param_name>res</param_name>
-      <param_description>un logique : vrai ou faux</param_description>
+      <param_description>un logique : true ou false</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p>
-      <b>isobject</b> renvoie 1 logique (vrai) si l&apos;argument est un objet et 0 logique (faux) sinon.</p>
+      <b>isobject</b> renvoie un logique 1 si <b>var</b> est un objet Nelson, et 0 sinon.</p>
+    <p>Les objets valeur classdef et les objets handle classdef sont indiques comme objets.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description />
-      <example_item_data
-        runnable="cli"
-      ><![CDATA[A = 3;
-res = isobject(A)
-
-addpath([modulepath('overload', 'root'), '/examples/complex']);
-A = complexObj(1, 2);
-res = isobject(A)
-]]></example_item_data>
+      <example_item_description>Tester des objets classdef valeur et handle.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[clear classes
+d = [tempdir(), 'nelson_help_isobject/'];
+mkdir(d);
+filewrite([d, '/NelsonHelpIsObjectPoint.m'], ["classdef NelsonHelpIsObjectPoint"; "  properties"; "    X = 0"; "  end"; "end"]);
+filewrite([d, '/NelsonHelpIsObjectCounter.m'], ["classdef NelsonHelpIsObjectCounter < handle"; "  properties"; "    Count = 0"; "  end"; "end"]);
+addpath(d);
+p = NelsonHelpIsObjectPoint();
+h = NelsonHelpIsObjectCounter();
+isPointObject = isobject(p)
+isHandleObject = isobject(h)
+delete(h)]]></example_item_data>
     </example_item>
   </examples>
   <see_also>
@@ -48,11 +50,18 @@ res = isobject(A)
     <see_also_item>
       <link linkend="${types}ishandle">ishandle</link>
     </see_also_item>
+    <see_also_item>
+      <link linkend="${interpreter}classdef">classdef</link>
+    </see_also_item>
   </see_also>
   <history>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>support des objets classdef valeur et handle documente</history_description>
     </history_item>
   </history>
   <authors>

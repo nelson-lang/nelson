@@ -1,0 +1,114 @@
+[
+  {
+    "id": "and_scope",
+    "type": "scope",
+    "tEnd": 10,
+    "series": [
+      {
+        "n": 1001,
+        "last": 1,
+        "min": 1,
+        "max": 1,
+        "mean": 1
+      },
+      {
+        "n": 1001,
+        "last": null,
+        "min": 0,
+        "max": 0,
+        "mean": 0
+      },
+      {
+        "n": 1001,
+        "last": null,
+        "min": 0,
+        "max": 0,
+        "mean": 0
+      }
+    ]
+  },
+  {
+    "id": "not_scope",
+    "type": "scope",
+    "tEnd": 10,
+    "series": [
+      {
+        "n": 1001,
+        "last": 0,
+        "min": 0,
+        "max": 0,
+        "mean": 0
+      },
+      {
+        "n": 1001,
+        "last": null,
+        "min": 0,
+        "max": 0,
+        "mean": 0
+      },
+      {
+        "n": 1001,
+        "last": null,
+        "min": 0,
+        "max": 0,
+        "mean": 0
+      }
+    ]
+  },
+  {
+    "id": "or_scope",
+    "type": "scope",
+    "tEnd": 10,
+    "series": [
+      {
+        "n": 1001,
+        "last": 1,
+        "min": 1,
+        "max": 1,
+        "mean": 1
+      },
+      {
+        "n": 1001,
+        "last": null,
+        "min": 0,
+        "max": 0,
+        "mean": 0
+      },
+      {
+        "n": 1001,
+        "last": null,
+        "min": 0,
+        "max": 0,
+        "mean": 0
+      }
+    ]
+  },
+  {
+    "id": "xor_scope",
+    "type": "scope",
+    "tEnd": 10,
+    "series": [
+      {
+        "n": 1001,
+        "last": 0,
+        "min": 0,
+        "max": 0,
+        "mean": 0
+      },
+      {
+        "n": 1001,
+        "last": null,
+        "min": 0,
+        "max": 0,
+        "mean": 0
+      },
+      {
+        "n": 1001,
+        "last": null,
+        "min": 0,
+        "max": 0,
+        "mean": 0
+      }
+    ]
+  }
+]

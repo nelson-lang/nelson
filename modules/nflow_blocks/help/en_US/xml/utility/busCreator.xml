@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>busCreator</keyword>
+<keyword_alias>block:busCreator</keyword_alias>
+  <short_description>Groups heterogeneous signals (or nested buses) into one bus.</short_description>
+  <syntax>
+    <syntax_item>Block type: busCreator</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>input ports</param_name>
+      <param_description>2 input port(s) declared.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>output ports</param_name>
+      <param_description>1 output port(s) declared.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Groups heterogeneous signals (or nested buses) into one bus.</p>
+    <table border="1">
+      <tbody>
+        <tr>
+          <td>Module</td>
+          <td>
+            <code>nflow_blocks</code>
+          </td>
+        </tr>
+        <tr>
+          <td>Library</td>
+          <td>Utility blocks</td>
+        </tr>
+        <tr>
+          <td>Type</td>
+          <td>
+            <code>busCreator</code>
+          </td>
+        </tr>
+        <tr>
+          <td>Label</td>
+          <td>Bus Creator</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Description</b>
+    </p>
+    <p>Packs its input signals into one bus signal. Member names come from the <code>MemberNames</code> parameter (default <code>signalN</code>); an input that is itself a bus becomes a nested member.</p>
+    <p>A named <code>BusType</code> (declared in the model-level <code>busTypes</code> array) validates the member layout; <code>NonVirtual</code> marks the bus for struct emission at the generated-code interface. Members keep their full descriptor: numeric type (including exact int64/uint64), complexity and N-D shape.</p>
+    <p>Bus members are extracted by path with the <code>busSelector</code> block; a bus wired to any other block is a compile-time error.</p>
+    <p>This page describes the native runtime behavior observed in the module C++ sources. Declared phases indicate when the simulation engine calls the block.</p>
+    <p>Code generation: supported for C and Rust.</p>
+    <p>
+      <b>Implementation Sources</b>
+    </p>
+    <source_code label="Manifest" path="modules/nflow_blocks/libraries/utility/library.json" language="json"/>
+    <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/routing/busCreator.cpp" language="cpp"/>
+  </description>
+  <used_function/>
+  <bibliography/>
+  <see_also>
+    <see_also_item>
+      <link linkend="${nflow_blocks}utility/busSelector">busSelector</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${nflow_blocks}utility/mux">mux</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${nflow_blocks}utility/subsystem">subsystem</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

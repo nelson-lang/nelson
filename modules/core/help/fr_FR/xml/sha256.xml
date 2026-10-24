@@ -9,6 +9,7 @@
     <syntax_item>hexa_hash = sha256(filename)</syntax_item>
     <syntax_item>hexa_hash = sha256(str, &apos;-file&apos;)</syntax_item>
     <syntax_item>hexa_hash = sha256(str, &apos;-string&apos;)</syntax_item>
+    <syntax_item>hexa_hash = crypto.sha256(...)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -38,6 +39,8 @@
   </param_output>
   <description>
     <p>Calcule la valeur de hachage SHA-256 d&apos;une chaîne ou d&apos;un fichier.</p>
+    <p>
+      <b>crypto.sha256</b> est un alias de <b>sha256</b>, dans l'espace de noms <b>crypto</b> partagé avec <b>crypto.ed25519.verify</b> et <b>crypto.ed25519.sign</b>.</p>
   </description>
   <used_function />
   <bibliography />

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>xmldocrenderimages</keyword>
+  <short_description>Génère les images d&apos;exemple des fichiers d&apos;aide de Nelson.</short_description>
+  <syntax>
+    <syntax_item>xmldocrenderimages()</syntax_item>
+    <syntax_item>xmldocrenderimages(module_name)</syntax_item>
+    <syntax_item>xmldocrenderimages(module_name, language)</syntax_item>
+    <syntax_item>xmldocrenderimages(module_name, language, force)</syntax_item>
+    <syntax_item>xmldocrenderimages(module_name, [], force)</syntax_item>
+    <syntax_item>xmldocrenderimages([], [], force)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>module_name</param_name>
+      <param_description
+      >une chaîne : nom du module (le module doit être chargé). Une valeur numérique vide [] sélectionne tous les modules qui ont des fichiers d&apos;aide.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>language</param_name>
+      <param_description
+      >une chaîne : langue des fichiers d&apos;aide, par exemple &apos;en_US&apos; ou &apos;fr_FR&apos;. Une valeur vide [] sélectionne toutes les langues disponibles.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>force</param_name>
+      <param_description
+      >un logique : à vrai, chaque image est générée à nouveau, même si elle est déjà à jour. Par défaut : faux.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p>
+      <b>xmldocrenderimages</b> exécute les exemples des fichiers d&apos;aide qui déclarent une image avec <code>example_item_img</code> et <code>generate=&quot;true&quot;</code>, puis enregistre la figure obtenue à côté du fichier XML.</p>
+    <p
+    >Une image est générée quand elle est absente, vide ou plus ancienne que son fichier XML. Utilisez <code>force</code> pour la générer à nouveau dans tous les cas.</p>
+    <p
+    >Chaque exemple s&apos;exécute dans un processus <code>nelson-adv-cli</code> séparé avec un délai maximal de 120 secondes, plusieurs en parallèle. Un exemple en échec est relancé jusqu&apos;à cinq fois avant qu&apos;une erreur soit levée.</p>
+    <p
+    >Sans argument, les images de tous les modules sont générées pour toutes les langues disponibles. La fonction change la langue de la session pendant son travail et la rétablit à la fin.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Génère les images absentes ou périmées d&apos;un module dans la langue courante.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[xmldocrenderimages('graphics');]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Génère toutes les images de tous les modules dans toutes les langues, même celles déjà à jour.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[xmldocrenderimages([], [], true);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${help_tools}buildhelp">buildhelp</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${help_tools}xmldocchecker">xmldocchecker</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

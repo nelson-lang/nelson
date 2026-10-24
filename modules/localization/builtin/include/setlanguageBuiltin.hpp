@@ -14,5 +14,6 @@
 namespace Nelson::LocalizationGateway {
 ArrayOfVector
 setlanguageBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

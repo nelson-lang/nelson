@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>jsonImportOptions</keyword>
+  <short_description>Create options for importing JSON data.</short_description>
+  <syntax>
+    <syntax_item>opts = jsonImportOptions()</syntax_item>
+    <syntax_item>opts = jsonImportOptions(&apos;NumVariables&apos;, numVars)</syntax_item>
+    <syntax_item>opts = jsonImportOptions(..., Name, Value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>numVars</param_name>
+      <param_description>number of variables (default: 1).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Name, Value</param_name>
+      <param_description>property names and values of the object, and <b>&apos;ParsingMode&apos;</b> (<b>&apos;lenient&apos;</b> or <b>&apos;strict&apos;</b>) which sets <b>AllowComments</b>, <b>AllowInfAndNaN</b> and <b>AllowTrailingCommas</b>.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>opts</param_name>
+      <param_description>nelson.io.json.JSONImportOptions object.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>jsonImportOptions</b> creates an import options object for JSON files, to use with <b>readtable</b> and <b>readtimetable</b>. <b>detectImportOptions</b> returns the same object, filled from a JSON file.</p>
+    <p>Properties:</p>
+    <ul>
+      <li><b>VariableNames</b>: names of the variables (default: Var1, Var2, ...).</li>
+      <li><b>VariableNamingRule</b>: <b>&apos;preserve&apos;</b> (default) or <b>&apos;modify&apos;</b>.</li>
+      <li><b>VariableTypes</b>: types of the variables: <b>&apos;double&apos;</b>, <b>&apos;single&apos;</b>, integer types, <b>&apos;logical&apos;</b>, <b>&apos;string&apos;</b>, <b>&apos;char&apos;</b>, <b>&apos;categorical&apos;</b>, <b>&apos;datetime&apos;</b>, <b>&apos;duration&apos;</b> or <b>&apos;cell&apos;</b> (default: <b>&apos;char&apos;</b>).</li>
+      <li><b>SelectedVariableNames</b>: subset of the variables to import.</li>
+      <li><b>VariableSelectors</b>: RFC 6901 JSON Pointers of the variables, relative to a row object. <b>&quot;Keys&quot;</b> reads the object keys. When empty, all leaf values are read.</li>
+      <li><b>RowNamesSelector</b>: JSON Pointer of the row names.</li>
+      <li><b>TableSelector</b>: JSON Pointer of the table (<b>&quot;&quot;</b>, the default, is the whole file).</li>
+      <li><b>VariableDescriptionsSelector</b>, <b>VariableUnitsSelector</b>: JSON Pointers of the variable descriptions and units.</li>
+      <li><b>ImportErrorRule</b>, <b>MissingRule</b>: <b>&apos;fill&apos;</b> (default), <b>&apos;error&apos;</b>, <b>&apos;omitrow&apos;</b> or <b>&apos;omitvar&apos;</b>.</li>
+      <li><b>RepeatedNodeRule</b>: <b>&apos;addcol&apos;</b> (default), <b>&apos;ignore&apos;</b> or <b>&apos;error&apos;</b>.</li>
+      <li><b>AllowComments</b>, <b>AllowInfAndNaN</b>, <b>AllowTrailingCommas</b>: accept comments, Inf and NaN values, trailing commas (default: <code>true</code>).</li>
+    </ul>
+    <p>The object uses the Nelson class <b>nelson.io.json.JSONImportOptions</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Select a nested value of each row:</example_item_description>
+      <example_item_data
+        runnable="cli"
+      >f = [tempdir, &apos;students.json&apos;]; fid = fopen(f, &apos;w&apos;); fprintf(fid, &apos;%s&apos;, &apos;[{&quot;Name&quot;: {&quot;FirstName&quot;: &quot;Priya&quot;}}, {&quot;Name&quot;: {&quot;FirstName&quot;: &quot;Conor&quot;}}]&apos;); fclose(fid); opts = jsonImportOptions(&apos;VariableSelectors&apos;, &quot;/Name/FirstName&quot;, &apos;TableSelector&apos;, &quot;&quot;) T = readtable(f, opts)</example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${spreadsheet}detectImportOptions">detectImportOptions</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${spreadsheet}readtable">readtable</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${spreadsheet}readtimetable">readtimetable</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${json}jsondecode">jsondecode</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

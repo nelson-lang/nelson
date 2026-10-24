@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>ecdf</keyword>
+  <short_description>Fonction de repartition empirique.</short_description>
+  <syntax>
+    <syntax_item>[f, x] = ecdf(y)</syntax_item>
+    <syntax_item>[f, x] = ecdf(y, Name, Value)</syntax_item>
+    <syntax_item>[f, x, flo, fup] = ecdf(...)</syntax_item>
+    <syntax_item>ecdf(...)</syntax_item>
+    <syntax_item>ecdf(ax, ...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>ecdf</b> calcule les valeurs empiriques de distribution a partir d&apos;un echantillon.</p>
+    <p>Les arguments nom-valeur incluent Function, Censoring, Frequency, Alpha et Bounds. Les types de fonction pris en charge sont cdf, survivor et cumhazard. Bounds peut valoir on ou off pour le trace.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[y = [3 1 2 2];
+[f, x] = ecdf(y)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${statistics}kstest">kstest</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}ksdensity">ksdensity</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>disp</keyword>
+  <short_description>Affiche un dictionnaire.</short_description>
+  <syntax>
+    <syntax_item>disp(d)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>d</param_name>
+      <param_description>scalaire : objet dictionnaire.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p>
+      <b>disp(d)</b> affiche un resume du dictionnaire <b>d</b>, avec les types des cles et des valeurs, le nombre d&apos;entrees et les paires cle-valeur visibles.</p>
+    <p>
+      Les dictionnaires non configures et les dictionnaires configures sans entree sont affiches avec des messages de resume dedies.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[d = dictionary(["one", "two"], [1, 2]);
+disp(d)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${dictionary}dictionary">dictionary</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${display_format}disp">disp</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>affichage classdef de dictionary</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

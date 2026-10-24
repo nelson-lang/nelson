@@ -25,7 +25,7 @@ function [x, v, xq, method, extrapMode, extrapValue, returnPP] = interp_parse1(v
 
   if returnPP
     if numel(args) < 3
-      error(_('Wrong number of input arguments.'));
+      error('Nelson:notEnoughInputs', 'Not enough input arguments.');
     end
     x = args{1};
     v = args{2};
@@ -68,7 +68,10 @@ function [x, v, xq, method, extrapMode, extrapValue, returnPP] = interp_parse1(v
       v = args{2};
       xq = args{3};
     otherwise
-      error(_('Wrong number of input arguments.'));
+      if numel(args) < 2
+        error('Nelson:notEnoughInputs', 'Not enough input arguments.');
+      end
+      error('Nelson:tooManyInputs', 'Too many input arguments.');
   end
 end
 %=============================================================================

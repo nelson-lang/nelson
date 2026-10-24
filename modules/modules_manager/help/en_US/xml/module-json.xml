@@ -6,7 +6,7 @@
   <short_description>module.json description</short_description>
   <description>
     <p
-    >A module.json file is required for each nelson&apos;s external module, it allows to manager easily with <b>nmm</b> function.</p>
+    >A module.json file is required for each Nelson external module and is used by the <b>nmm</b> function to manage the module.</p>
     <p />
     <p>
       <b>module</b>: unique identifier module short name (alphanumeric characters), example: &quot;module_skeleton_basic&quot;
@@ -32,12 +32,18 @@
     <p>
       &quot;maci64&quot;: macos 64 bits build</p>
     <p>
+      &quot;maca64&quot;: macos Apple silicon build</p>
+    <p>
       &quot;maci32&quot;: macos 32 bits build</p>
     <p>
       &quot;glnxa64&quot;: linux 64 bits build</p>
     <p>
-      &quot;glnxa32&quot;: linux 64 bits build</p>
+      &quot;glnxa32&quot;: linux 32 bits build</p>
+    <p>
+      &quot;wasm32&quot;: WebAssembly browser build (Emscripten side module)</p>
     <p>example: <b>[&quot;win64&quot;, &quot;glnxa64&quot;]</b>, module will be available only on windows and linux 64 bits platforms.</p>
+    <p
+    >The current architecture must match one listed platform exactly, unless <b>all</b> is listed.</p>
     <p>
       <b>nelson</b>: nelson&apos;s supported versions, example: &quot;
       &lt;2.0.0&quot; (default)</p>
@@ -60,13 +66,19 @@
       <b>homepage</b>: homepage of the module, example &quot;https://github.com/nelson-lang/module_skeleton_basic&quot;
     </p>
     <p>
+      <b>issues</b>: optional issue-tracker URL of the module, example &quot;https://github.com/nelson-lang/module_skeleton_basic/issues&quot;
+    </p>
+    <p>
+      <b>documentation</b>: optional documentation URL of the module, example &quot;https://nelson-lang.github.io/nelson-website/&quot;
+    </p>
+    <p>
       <b>description</b>: full description of the module, markdown format supported, example: &quot;nelson&apos;s module skeleton (macros only)&quot;
     </p>
     <p>
       <b>copyright</b> copyright description, example: &quot;Copyright © 2019-present Allan CORNET&quot;
     </p>
     <p>
-      <b>license</b>: License under which the toolbox will be published, example: &quot;BSD&quot; or &quot;LGPLv2&quot;, ...</p>
+      <b>license</b>: SPDX license expression under which the toolbox will be published, example: &quot;BSD-3-Clause&quot;, &quot;MIT&quot; or &quot;LGPL-3.0-or-later OR GPL-3.0-or-later&quot;.</p>
     <p>
       <b>keywords</b>: keywords describing your module.</p>
     <p>Example:</p>
@@ -82,6 +94,34 @@
       &quot;module_b&quot;: &quot;https://module_b.git#v1.0.0&quot;
     </p>
     <p>}</p>
+    <p
+    >During package creation, installed dependency versions are resolved into <b>module-lock.json</b>. The lock file also records its format version, package type (<b>source</b> or <b>binary</b>), source metadata, Nelson version, architecture, ABI tag and checksums for key installed files. A packaged <b>.nmz</b> archive can be installed only when these locked dependencies are already installed. Binary packages also require the locked Nelson architecture and ABI tag to match the running Nelson build.</p>
+    <p
+    >When installing a source module, dependency values can be local paths, <b>.nmz</b> archives, HTTP Git repositories, exact versions or semver constraints. Source dependencies are installed recursively before the module is built. If the source tree already contains <b>module-lock.json</b>, its exact dependency versions are used for a reproducible install. Source installs build and run tests in a temporary staging directory before the module is committed to the final install location. A failed source install keeps any previous installed version of the same module intact.</p>
+    <p
+    >A <b>.nmz</b> archive can be accompanied by a <b>.sha256</b> checksum file. <b>nmm</b> verifies this checksum when it is present, and otherwise verifies the file checksums embedded in <b>module-lock.json</b> after extraction.</p>
+    <p />
+    <p>
+      <b>nmm(&apos;validate&apos;, module_path)</b> checks that these required fields are present and well formed before installation or packaging.</p>
+    <p>
+      <b>nmm(&apos;validate&apos;, module_path, &apos;-strict&apos;)</b> adds publish-oriented checks for <b>repository</b>, <b>homepage</b>, non-empty <b>keywords</b>, at least one test file and at least one XML help file.</p>
+    <p>
+      In strict mode, <b>repository</b> and <b>homepage</b> must be HTTP or HTTPS URLs. The optional <b>issues</b> and <b>documentation</b> fields are validated only when present and must then be HTTP or HTTPS URLs. <b>nmm(&apos;validate&apos;, module_path, &apos;-json&apos;)</b> returns a machine-readable validation report.</p>
+    <p>
+      Validation also checks the package layout: a source module must include <b>builder.m</b> or <b>loader.m</b>, <b>etc/startup.m</b>, <b>etc/finish.m</b>, <b>help</b>, and <b>tests</b>. Packaging requires at least one test file and runs the package tests before writing an archive.</p>
+    <p>
+      <b>nmm(&apos;pack&apos;, module_path, destination_dir)</b> uses this descriptor to build a source module and create a reproducible package archive with a lock file and checksum.</p>
+    <p>
+      <b>nmm(&apos;lock&apos;, module_path)</b> writes or refreshes <b>module-lock.json</b> for a source module without installing or packaging it.</p>
+    <p>
+      <b>nmm(&apos;publish&apos;, package_filename)</b> reads the package lock file and <b>module.json</b>, then writes a local registry entry containing package metadata, the package source path and SHA-256 checksum. It also writes a <b>registry.json.sha256</b> sidecar. When <b>NELSON_NMM_REGISTRY_SIGNING_KEY</b> is set, it writes and verifies a keyed <b>registry.json.sig</b> sidecar too. Registry archive installs verify the package checksum and local registry files require the checksum sidecar.</p>
+    <p />
+    <p>
+      A registry index is a JSON document with a <b>packages</b> array. Each package entry contains package metadata such as name, version, package type, platforms, Nelson compatibility, dependencies, checksum and optional package signature metadata. An installable entry also contains <b>source</b>, <b>url</b> or <b>archive</b>. Dependencies declared by an installable entry are resolved recursively before the package source is installed. <b>nmm(&apos;search&apos;)</b>, <b>nmm(&apos;info&apos;)</b> and <b>nmm(&apos;versions&apos;)</b> read this index.</p>
+    <p
+    >Registry versions are also used by <b>nmm(&apos;outdated&apos;)</b> and <b>nmm(&apos;update&apos;)</b>. Checked <b>.nmz</b> archives are cached locally and can be reused by offline installs.</p>
+    <p>
+      Several versions of the same module can be installed side by side. <b>modules.json</b> stores the active version in the top-level <b>path</b> and <b>version</b> fields, stores all installed versions in <b>versions</b>, and stores an explicit default in <b>pinned_version</b> when <b>nmm(&apos;pin&apos;)</b> is used.</p>
   </description>
   <used_function />
   <bibliography />
@@ -112,6 +152,10 @@ edit([modules_installed.module_skeleton_basic.path, 'module.json']);
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>lockfile, registry and strict validation metadata</history_description>
     </history_item>
   </history>
   <authors>

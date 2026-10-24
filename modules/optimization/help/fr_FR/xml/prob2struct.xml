@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>prob2struct</keyword>
+  <short_description>Convertir un probl&#232;me d&apos;optimisation en structure de solveur.</short_description>
+  <syntax>
+    <syntax_item>problem = prob2struct(prob)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>prob</param_name>
+      <param_description>objet probl&#232;me d&apos;optimisation.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>problem</param_name>
+      <param_description>structure contenant les champs solver, objective, x0 et les champs de solveur direct quand le probl&#232;me peut &#234;tre abaiss&#233;.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>prob2struct</b> transforme les mod&#232;les problem-based pris en charge vers la forme structure des solveurs directs.</p>
+    <p>Pour les objectifs lin&#233;aires et les contraintes lin&#233;aires, la structure retourn&#233;e contient <b>f</b>, <b>A</b>, <b>b</b>, <b>Aeq</b>, <b>beq</b>, <b>lb</b>, <b>ub</b> et <b>intcon</b>. Les variables sont ordonn&#233;es par nom afin de produire des matrices de coefficients d&#233;terministes.</p>
+    <p>Pour les objectifs quadratiques continus avec contraintes lin&#233;aires, <b>prob2struct</b> retourne <b>solver = 'quadprog'</b> avec <b>H</b>, <b>f</b>, les contraintes lin&#233;aires et les bornes. Les constantes de l&apos;objectif sont stock&#233;es et restaur&#233;es par <b>solve</b>.</p>
+  </description>
+  <used_function>
+    <used_function_item>optimproblem</used_function_item>
+    <used_function_item>solve</used_function_item>
+    <used_function_item>quadprog</used_function_item>
+  </used_function>
+  <bibliography>J. Nocedal and S. J. Wright, Numerical Optimization, Springer, 2006.</bibliography>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[x = optimvar('x');
+prob = optimproblem('Objective', (x + 1)^2);
+s = prob2struct(prob)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[x = optimvar('x', 2, 1, 'LowerBound', 0);
+prob = optimproblem;
+prob.Objective = [3 4] * x;
+prob.Constraints.balance = [1 2] * x == 5;
+s = prob2struct(prob);
+s.Aeq
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[y = optimvar('y', 2, 1);
+prob = optimproblem('Objective', (y(1) - 1)^2 + (y(2) + 3)^2);
+s = prob2struct(prob);
+s.solver
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${optimization}optimproblem">optimproblem</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${optimization}solve">solve</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${optimization}quadprog">quadprog</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

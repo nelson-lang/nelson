@@ -24,5 +24,13 @@ namespace Nelson {
 NLSSTRING_IMPEXP double
 stringToDouble(const std::wstring& str, bool& wasConverted);
 //=============================================================================
+// Blanks accepted before a number: NUL, the ASCII controls 9-13 and 28-31 and
+// the space. After a number the Unicode space separators are accepted too.
+inline bool
+IsNumberLeadingBlank(wchar_t c)
+{
+    return c == 0 || (c >= 9 && c <= 13) || (c >= 28 && c <= 32);
+}
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

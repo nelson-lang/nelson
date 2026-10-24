@@ -7,39 +7,41 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('websave'), -1);
-assert_isequal(nargout('websave'), 1);
+asserts.isequal(nargin('websave'), -1);
+asserts.isequal(nargout('websave'), 1);
 %=============================================================================
-url = 'https://apod.nasa.gov/apod/image/2310/MoValleyEclipse.jpg';
-filename = fullfile(tempdir(), 'MoValleyEclipse_2.jpg'); % use fullfile for portability
-options = weboptions('Timeout', 120);
-% Robust download: retry a few times, check file exists and has non-zero size.
+url = 'https://jsonplaceholder.typicode.com/posts/1';
+filename = fullfile(tempdir(), 'test_websave_1.json');
+options = weboptions('Timeout', 30);
 max_attempts = 3;
 destination_filename = '';
 for attempt = 1:max_attempts
+  if isfile(filename)
+    try delete(filename); catch; end
+  end
   try
     destination_filename = websave(filename, url, options);
-    % Verify file exists and is not empty
     if isfile(destination_filename) && dir(destination_filename).bytes > 0
       break;
     end
-    % if file missing or empty, clear and retry
     destination_filename = '';
   catch ex
-    % Known transient/network errors: skip the testsuite (preserve behavior)
     R = strcmp(ex.message, _('Forbidden (403)')) || ...
-        strcmp(ex.message, _('Timeout was reached')) || ... 
+        strcmp(ex.message, _('Timeout was reached')) || ...
         strcmp(ex.message, _('Couldn''t resolve host name')) || ...
         strcmp(ex.message, _('Service unavailable (503)'));
     if R
       skip_testsuite(R, ex.message);
     end
-    % otherwise allow retry
   end
-  pause(1 * attempt); % brief backoff
+  pause(0.5 * attempt);
 end
 if isempty(destination_filename)
-  skip_testsuite(true, 'Download failed after retries or file is empty');
+  skip_testsuite(true, 'websave failed after retries or returned empty file');
 end
-assert_istrue(isfile(destination_filename))
+asserts.istrue(isfile(destination_filename));
+R = jsondecode(fileread(destination_filename));
+asserts.isequal(R.id, 1);
+asserts.isequal(R.userId, 1);
+asserts.isequal(R.title, 'sunt aut facere repellat provident occaecati excepturi optio reprehenderit');
 %=============================================================================

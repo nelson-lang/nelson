@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "evalinBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "EvaluateCommand.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -22,7 +23,7 @@ Nelson::CoreGateway::evalinBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
     SCOPE_LEVEL scope = SCOPE_LEVEL::LOCAL_SCOPE;
     std::wstring command;
     if (argIn[0].isRowVectorCharacterArray() || argIn[0].isScalarStringArray()) {
-        std::wstring scopeName = argIn[0].getContentAsWideString();
+        std::wstring scopeName = argIn[0].asWideString();
         if (scopeName == L"caller" || scopeName == L"base" || scopeName == L"local") {
             if (scopeName == L"caller") {
                 scope = SCOPE_LEVEL::CALLER_SCOPE;
@@ -34,15 +35,18 @@ Nelson::CoreGateway::evalinBuiltin(Evaluator* eval, int nLhs, const ArrayOfVecto
                 scope = SCOPE_LEVEL::LOCAL_SCOPE;
             }
         } else {
-            Error(_W("Argument #1 : 'base', 'local' or 'caller' expected."));
+            Error(L"Nelson:core:invalidOption", L"%s expected.",
+                L"Argument #1 : 'base', 'local' or 'caller'");
         }
     } else {
-        Error(_W("#1 string expected."));
+        Error(L"Nelson:types:wrongArgumentTypeExpected",
+            L"Wrong type for argument #%d: %s expected.", 1, L"string");
     }
     if (argIn[1].isRowVectorCharacterArray() || argIn[1].isScalarStringArray()) {
-        command = argIn[1].getContentAsWideString();
+        command = argIn[1].asWideString();
     } else {
-        Error(_W("#2 string expected."));
+        Error(L"Nelson:types:wrongArgumentTypeExpected",
+            L"Wrong type for argument #%d: %s expected.", 2, L"string");
     }
     return EvaluateInCommand(eval, nLhs, scope, command);
 }

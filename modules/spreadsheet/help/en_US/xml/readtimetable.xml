@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>readtimetable</keyword>
+  <short_description>Create timetable from file.</short_description>
+  <syntax>
+    <syntax_item>TT = readtimetable(filename)</syntax_item>
+    <syntax_item>TT = readtimetable(filename, opts)</syntax_item>
+    <syntax_item>TT = readtimetable(..., Name, Value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>a string: filename source.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>opts</param_name>
+      <param_description>nelson.io.text.DelimitedTextImportOptions object.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Name, Value</param_name>
+      <param_description>optional pairs such as RowTimes, StartTime, TimeStep, SampleRate, InputFormat, and text import options shared with readtable.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>TT</param_name>
+      <param_description>a timetable.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>readtimetable</b> imports column-oriented delimited text data and returns a timetable.</p>
+    <p>Row times can be selected with <b>RowTimes</b> and a variable name, supplied with <b>RowTimes</b> and a time vector, generated from <b>StartTime</b> and <b>SampleRate</b>, or generated from <b>StartTime</b> and <b>TimeStep</b>.</p>
+    <p>If no row-time option is specified, the first datetime-compatible or duration-compatible variable is used as row times.</p>
+    <p>When a file column is used as row times, that column is removed from timetable data variables. When row times are supplied or generated, all file variables remain data variables.</p>
+    <p>Delimited text files are supported. Unsupported external formats raise an error.</p>
+    <p><b>JSON files</b> (<b>.json</b> extension or <b>&apos;FileType&apos;, &apos;json&apos;</b>) are read as with <b>readtable</b>, with the same JSON name-value arguments or a <b>nelson.io.json.JSONImportOptions</b> object. The first datetime or duration variable gives the row times, unless a row-time option is specified.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Read a file and automatically detect the first time column.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[
+Time = {'2024-01-01'; '2024-01-02'; '2024-01-03'};
+Temperature = [12.5; 13.0; 11.75];
+Pressure = [1012; 1014; 1011];
+T = table(Time, Temperature, Pressure);
+filename = [tempdir(), 'readtimetable_auto.csv'];
+writetable(T, filename);
+TT = readtimetable(filename)
+TT.Properties.RowTimes
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Select the row-time column by name.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[
+Date = {'2024-01-01'; '2024-01-02'; '2024-01-03'};
+Temperature = [12.5; 13.0; 11.75];
+Pressure = [1012; 1014; 1011];
+T = table(Date, Temperature, Pressure);
+filename = [tempdir(), 'readtimetable_timevariable.csv'];
+writetable(T, filename);
+TT = readtimetable(filename, 'RowTimes', 'Date')
+TT.Properties.VariableNames
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Supply row times explicitly.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[
+Temperature = [12.5; 13.0; 11.75];
+Pressure = [1012; 1014; 1011];
+T = table(Temperature, Pressure);
+filename = [tempdir(), 'readtimetable_rowtimes.csv'];
+writetable(T, filename);
+rowTimes = seconds([10; 20; 30]);
+TT = readtimetable(filename, 'RowTimes', rowTimes)
+TT.Properties.RowTimes
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Generate regular row times with StartTime and SampleRate.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[
+Temperature = [12.5; 13.0; 11.75; 12.25];
+T = table(Temperature);
+filename = [tempdir(), 'readtimetable_samplerate.csv'];
+writetable(T, filename);
+TT = readtimetable(filename, 'StartTime', seconds(0), 'SampleRate', 0.5)
+TT.Properties.RowTimes
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Read a JSON file as a timetable:</example_item_description>
+      <example_item_data runnable="cli">TT = timetable(datetime(2024, 1, 1) + days(0:2)&apos;, [12.5; 13; 11.75], &apos;VariableNames&apos;, {&apos;Temperature&apos;}); f = [tempdir, &apos;timetable_json.json&apos;]; writetimetable(TT, f, &apos;PrettyPrint&apos;, false); fileread(f) TT2 = readtimetable(f)</example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${spreadsheet}readtable">readtable</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${spreadsheet}writetimetable">writetimetable</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${table}timetable">timetable</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${spreadsheet}jsonImportOptions">jsonImportOptions</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>JSON files: read JSON data as a timetable.</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

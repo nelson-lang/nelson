@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>parquetwrite</keyword>
+  <short_description>Ecrire une table dans un fichier Parquet.</short_description>
+  <syntax>
+    <syntax_item>parquetwrite(filename, T)</syntax_item>
+    <syntax_item>parquetwrite(filename, T, Name, Value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>une chaine : fichier Parquet de destination.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>T</param_name>
+      <param_description>une table ou une timetable.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Name, Value</param_name>
+      <param_description>arguments optionnels specifies sous forme de paires nom-valeur.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b>parquetwrite(filename, T)</b> ecrit la table ou timetable <b>T</b> dans un fichier Parquet local.</p>
+    <p>Les types de variables pris en charge incluent les valeurs logiques, les types entiers, les nombres flottants simple et double precision, le texte, les valeurs datetime, les durees, les tables imbriquees et les colonnes de cellules homogenes de vecteurs primitifs.</p>
+    <p>Les variables non prises en charge, comme les tableaux complexes, les tableaux sparse, les objets de classe non pris en charge et certaines formes imbriquees de cellules, generent une erreur.</p>
+    <p>Les paires nom-valeur prises en charge sont <b>VariableCompression</b>, <b>VariableEncoding</b>, <b>VariableNames</b>, <b>RowGroupHeights</b> et <b>Version</b>.</p>
+    <p><b>VariableCompression</b> accepte des valeurs comme <b>&apos;snappy&apos;</b>, <b>&apos;gzip&apos;</b>, <b>&apos;brotli&apos;</b>, <b>&apos;zstd&apos;</b>, <b>&apos;lz4&apos;</b> et <b>&apos;uncompressed&apos;</b>. <b>VariableEncoding</b> accepte <b>&apos;auto&apos;</b>, <b>&apos;plain&apos;</b> ou <b>&apos;dictionary&apos;</b>. <b>Version</b> accepte <b>&apos;1.0&apos;</b>, <b>&apos;2.4&apos;</b> ou <b>&apos;2.6&apos;</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[filename = [tempdir(), 'doc_parquetwrite.parquet'];
+T = table(int32([1; 2; 3]), single([1.5; 2.5; 3.5]), logical([true; false; true]), ...
+  ["A"; "B"; "C"], 'VariableNames', {'Id', 'Value', 'Flag', 'Name'});
+parquetwrite(filename, T);
+R = parquetread(filename)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[filename = [tempdir(), 'doc_parquetwrite_rowgroups.parquet'];
+T = table((1:6)', [10; 20; 30; 40; 50; 60], 'VariableNames', {'Id', 'Value'});
+parquetwrite(filename, T, 'RowGroupHeights', 2, 'VariableCompression', 'gzip');
+info = parquetinfo(filename);
+info.NumRowGroups]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[filename = [tempdir(), 'doc_parquetwrite_nested.parquet'];
+Nested = table(int16([10; 20; 30]), [1.5; 2.5; 3.5], 'VariableNames', {'Code', 'Value'});
+T = table((1:3)', Nested, 'VariableNames', {'Id', 'Nested'});
+parquetwrite(filename, T);
+R = parquetread(filename);
+R.Nested]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${parquet}parquetread">parquetread</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${parquet}parquetinfo">parquetinfo</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${table}table">table</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

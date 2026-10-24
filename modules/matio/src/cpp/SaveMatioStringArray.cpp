@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -18,7 +18,7 @@ matvar_t*
 SaveMatioStringArray(
     const std::string& variableName, const ArrayOf& variableValue, mat_ft matVersion)
 {
-    Dimensions variableDims = variableValue.getDimensions();
+    Dimensions variableDims = variableValue.dimensions();
     indexType rank;
     size_t* dims = convertDimensionsForMatVar(variableDims, rank);
     if (dims == nullptr) {
@@ -26,22 +26,22 @@ SaveMatioStringArray(
     }
     void* ptrValue = nullptr;
     if (!variableDims.isEmpty(false)) {
-        ptrValue = const_cast<void*>(variableValue.getDataPointer());
+        ptrValue = const_cast<void*>(variableValue.dataPointer());
     }
 
-    indexType nbElements = variableDims.getElementCount();
+    indexType nbElements = variableDims.elementCount();
     matvar_t** cellElements = nullptr;
     try {
         cellElements = (matvar_t**)new matvar_t*[nbElements];
     } catch (const std::bad_alloc&) {
         return nullptr;
     }
-    auto* elements = (ArrayOf*)variableValue.getDataPointer();
+    auto* elements = (ArrayOf*)variableValue.dataPointer();
     for (indexType i = 0; i < nbElements; ++i) {
-        if (elements[i].getDataClass() == NLS_CHAR) {
+        if (elements[i].dataClass() == NLS_CHAR) {
             cellElements[i] = SaveMatioCharacterArray(variableName, elements[i], matVersion);
         } else {
-            ArrayOf NanAsArrayOf = ArrayOf::doubleConstructor(std::nan(""));
+            ArrayOf NanAsArrayOf = ArrayOf::doubleScalar(std::nan(""));
             cellElements[i] = SaveMatioDouble(variableName, NanAsArrayOf);
         }
         if (cellElements[i] == nullptr) {

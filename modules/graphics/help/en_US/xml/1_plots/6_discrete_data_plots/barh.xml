@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>barh</keyword>
+  <short_description>Horizontal bar graph.</short_description>
+  <syntax>
+    <syntax_item>barh(Y)</syntax_item>
+    <syntax_item>barh(X, Y)</syntax_item>
+    <syntax_item>barh(..., width)</syntax_item>
+    <syntax_item>barh(..., color)</syntax_item>
+    <syntax_item>barh(..., 'grouped')</syntax_item>
+    <syntax_item>barh(..., 'stacked')</syntax_item>
+    <syntax_item>barh(tbl, yvar)</syntax_item>
+    <syntax_item>barh(tbl, xvar, yvar)</syntax_item>
+    <syntax_item>barh(..., propertyName, propertyValue)</syntax_item>
+    <syntax_item>barh(ax, ...)</syntax_item>
+    <syntax_item>b = barh(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description>bar positions: scalar, vector, categorical array, string array, or cell array of labels.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Y</param_name>
+      <param_description>bar values: vector or matrix.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>width</param_name>
+      <param_description>bar width, scalar, 0.8 by default.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>color</param_name>
+      <param_description>color name or short color name.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>tbl</param_name>
+      <param_description>table or timetable containing the plotted variables.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>xvar</param_name>
+      <param_description>table variable used for bar positions or labels.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>yvar</param_name>
+      <param_description>one or more numeric table variables used for bar values.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName</param_name>
+      <param_description>bar object property name.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyValue</param_name>
+      <param_description>bar object property value.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description>target axes object.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>b</param_name>
+      <param_description>bar graphics object or vector of bar graphics objects.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>barh</b> creates a horizontal bar graph. Matrix input creates grouped bars by default. Use <b>'stacked'</b> to stack columns in each group.</p>
+    <p>For table input, select one variable for labels or positions and one or more numeric variables for values.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Horizontal bar graph from a vector.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = figure();
+y = [3 5 2 7 4];
+barh(y);
+]]></example_item_data>
+      <example_item_img src="../../../../images/barh_1.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Grouped horizontal bars.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = figure();
+y = [1 2; 3 4; 5 6];
+barh(y, 'grouped');
+]]></example_item_data>
+      <example_item_img src="../../../../images/barh_2.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Stacked horizontal bars with positive and negative values.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = figure();
+y = [3 -2 5; -4 1 -3];
+barh(y, 'stacked');
+]]></example_item_data>
+      <example_item_img src="../../../../images/barh_3.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}1_plots/6_discrete_data_plots/bar">bar</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}1_plots/6_discrete_data_plots/bar3h">bar3h</link>
+    </see_also_item>
+  </see_also>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

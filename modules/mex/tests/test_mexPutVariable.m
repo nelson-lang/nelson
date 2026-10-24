@@ -7,18 +7,17 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
+skip_testsuite(~findcmake(), 'C toolchain (cmake) not available')
 if ispc() && ~havecompiler()
   configuremsvc();
 end
 %=============================================================================
 if exist('mexPutVariable') == 0
-  test_dir = [tempdir(), 'mexPutVariable'];
-  if isdir(test_dir)
-    rmdir(test_dir,'s');
-  end
+  test_dir = tempname();
   mkdir(test_dir);
   status = copyfile('mexPutVariable.c', test_dir);
-  assert_istrue(status);
+  asserts.istrue(status);
   cd(test_dir);
   mex('mexPutVariable.c');
   addpath(pwd())
@@ -26,9 +25,9 @@ end
 %=============================================================================
 mexPutVariable('base', 'AA', 33);
 R = acquirevar('base', 'AA');
-assert_isequal(R, 33);
+asserts.isequal(R, 33);
 %=============================================================================
 mexPutVariable('global', 'BB', 44);
 R = acquirevar('global', 'BB');
-assert_isequal(R, 44);
+asserts.isequal(R, 44);
 %=============================================================================

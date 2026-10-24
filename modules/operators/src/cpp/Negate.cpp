@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -11,6 +11,7 @@
 #include "omp_for_loop.hpp"
 #include "Negate.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -30,33 +31,32 @@ Negate(ArrayOf A)
     ArrayOf C;
     NelsonType Aclass;
     if (A.isReferenceType()) {
-        Error(L"Cannot negate non-numeric types.");
+        Error(L"Nelson:operators:invalidType", L"Cannot negate non-numeric types.");
     }
-    Aclass = A.getDataClass();
+    Aclass = A.dataClass();
     if (A.isRowVectorCharacterArray()) {
         Aclass = NLS_DOUBLE;
     } else if (Aclass < NLS_INT32) {
         Aclass = NLS_INT32;
     }
     A.promoteType(Aclass);
-    C = ArrayOf(Aclass, A.getDimensions(), nullptr);
-    void* Cp = Nelson::ArrayOf::allocateArrayOf(Aclass, A.getElementCount(), stringVector(), false);
+    C = ArrayOf(Aclass, A.dimensions(), nullptr);
+    void* Cp = Nelson::ArrayOf::allocateArrayOf(Aclass, A.elementCount(), stringVector(), false);
     switch (Aclass) {
     case NLS_INT32:
-        negate<int32>(A.getElementCount(), static_cast<int32*>(Cp), (int32*)A.getDataPointer());
+        negate<int32>(A.elementCount(), static_cast<int32*>(Cp), (int32*)A.dataPointer());
         break;
     case NLS_SINGLE:
-        negate<float>(A.getElementCount(), static_cast<float*>(Cp), (float*)A.getDataPointer());
+        negate<float>(A.elementCount(), static_cast<float*>(Cp), (float*)A.dataPointer());
         break;
     case NLS_DOUBLE:
-        negate<double>(A.getElementCount(), static_cast<double*>(Cp), (double*)A.getDataPointer());
+        negate<double>(A.elementCount(), static_cast<double*>(Cp), (double*)A.dataPointer());
         break;
     case NLS_SCOMPLEX:
-        negate<float>(2 * A.getElementCount(), static_cast<float*>(Cp), (float*)A.getDataPointer());
+        negate<float>(2 * A.elementCount(), static_cast<float*>(Cp), (float*)A.dataPointer());
         break;
     case NLS_DCOMPLEX:
-        negate<double>(
-            2 * A.getElementCount(), static_cast<double*>(Cp), (double*)A.getDataPointer());
+        negate<double>(2 * A.elementCount(), static_cast<double*>(Cp), (double*)A.dataPointer());
         break;
     default: {
     } break;

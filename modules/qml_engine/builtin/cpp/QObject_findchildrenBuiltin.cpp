@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -21,11 +21,11 @@ Nelson::QmlEngineGateway::QObject_findchildrenBuiltin(int nLhs, const ArrayOfVec
     ArrayOfVector retval;
     ArrayOf param1 = argIn[0];
     ArrayOf param2 = argIn[1];
-    std::wstring fieldname = param2.getContentAsWideString();
+    std::wstring fieldname = param2.asWideString();
     bool bRecursively = false;
     if (argIn.size() == 3) {
         ArrayOf param3 = argIn[2];
-        logical l = param3.getContentAsLogicalScalar();
+        logical l = param3.asLogicalScalar();
         bRecursively = (l == 1);
     }
     retval.push_back(findchildrenQObject(param1, fieldname, bRecursively));

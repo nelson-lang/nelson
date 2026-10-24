@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "MPI_Comm_rankBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "MPI_CommHandleObject.hpp"
 #include <mpi.h>
@@ -25,7 +26,7 @@ Nelson::MpiGateway::MPI_Comm_rankBuiltin(int nLhs, const ArrayOfVector& argIn)
     int flagInit = 0;
     MPI_Initialized(&flagInit);
     if (!flagInit) {
-        Error(_W("MPI must be initialized."));
+        Error(L"Nelson:MPI:notInitialized", L"MPI must be initialized.");
     }
     MPI_Comm comm = MPI_COMM_WORLD;
     if (argIn.size() == 1) {
@@ -33,7 +34,7 @@ Nelson::MpiGateway::MPI_Comm_rankBuiltin(int nLhs, const ArrayOfVector& argIn)
     }
     int comm_rank = 0;
     MPI_Comm_rank(comm, &comm_rank);
-    retval << ArrayOf::doubleConstructor(comm_rank);
+    retval << ArrayOf::doubleScalar(comm_rank);
     return retval;
 }
 //=============================================================================

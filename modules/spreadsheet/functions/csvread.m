@@ -12,10 +12,10 @@ function varargout = csvread(varargin)
   nargoutchk(0, 1);
   filename = varargin{1};
   mustBeTextScalar(filename, 1);
-  
+
   filename = convertStringsToChars(filename);
-  if ~isfile(filename) 
-    error(_('File not found.'));
+  if ~isfile(filename)
+    error('Nelson:FileNotFound', 'File ''%s'' not found.', filename);
   end
   if (nargin < 2)
     R = 0;
@@ -29,13 +29,13 @@ function varargout = csvread(varargin)
   end
   separator = ',';
   if (nargin < 4)
-    M = dlmread(filename, separator, R, C); 
+    M = dlmread(filename, separator, R, C);
   else
     RNG = varargin{4};
     mustBeVector(RNG, 4);
-    assert(numel(RNG) == 4, _('RNG must be a 4 elements vector.'));
-    assert(RNG(1) == R, _('RNG(1) must be equal to R.'));
-    assert(RNG(2) == C, _('RNG(2) must be equal to C.'));
+    assert(numel(RNG) == 4, 'RNG must be a 4 elements vector.');
+    assert(RNG(1) == R, 'RNG(1) must be equal to R.');
+    assert(RNG(2) == C, 'RNG(2) must be equal to C.');
     M = dlmread(filename, separator, RNG);
   end
   varargout{1} = M;

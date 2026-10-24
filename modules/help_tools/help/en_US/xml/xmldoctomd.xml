@@ -8,6 +8,8 @@
   <syntax>
     <syntax_item
     >status = xmldoctomd(source_dirs, destination_dir, main_title, overwrite)</syntax_item>
+    <syntax_item
+    >status = xmldoctomd(source_dirs, destination_dir, main_title, overwrite, index_dirs)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -28,6 +30,11 @@
       <param_description
       >a logical: force overwrite if file destination already exists</param_description>
     </param_input_item>
+    <param_input_item>
+      <param_name>index_dirs</param_name>
+      <param_description
+      >a cell of string (optional): XML help roots of the other modules whose pages may be linked, used to resolve &lt;link linkend=&quot;${module}name&quot;&gt;.</param_description>
+    </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
@@ -38,6 +45,7 @@
   <description>
     <p>
       <b>xmldoctomd</b> converts xml Nelson help files to markdown format.</p>
+    <p>Links declared with the link element in chapter_description are retained in the generated chapter summary. A linkend such as guide or nested/guide is relative to the module root; ${module}guide and {module}guide select a module explicitly. Targets are XML page paths without the extension, keywords or aliases: every link is resolved from the keyword index of source_dirs and index_dirs and points to the real page, even in a chapter sub-directory or when the file name differs from the keyword. Unresolved links are reported as warnings.</p>
   </description>
   <used_function />
   <bibliography />
@@ -56,6 +64,11 @@
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description
+      >index_dirs input argument: links resolved from the keyword index.</history_description>
     </history_item>
   </history>
   <authors>

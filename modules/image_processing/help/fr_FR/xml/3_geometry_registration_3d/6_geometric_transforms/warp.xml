@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>warp</keyword>
+  <short_description>Affiche une image plaquée en texture sur une surface.</short_description>
+  <syntax>
+    <syntax_item>warp(X, Y, Z, A)</syntax_item>
+    <syntax_item>warp(Z, A)</syntax_item>
+    <syntax_item>warp(Z, A, map)</syntax_item>
+    <syntax_item>warp(X, Y, Z, A, map)</syntax_item>
+    <syntax_item>h = warp(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X, Y, Z</param_name>
+      <param_description>Coordonnées de la surface. X et Y peuvent être des vecteurs ou des matrices ; Z est une matrice. Lorsqu'ils sont omis (formes warp(Z, A)), X et Y sont construits à partir de la taille de Z.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>Image plaquée sur la surface : image indexée (M-par-N) ou image couleur vraie (M-par-N-par-3). Sa taille est indépendante de la grille de la surface.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>map</param_name>
+      <param_description>Table de couleurs (P-par-3) utilisée lorsque A est une image indexée. Elle est appliquée aux axes courants.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>h</param_name>
+      <param_description>Handle de l'objet surface créé.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Affiche l'image <b>A</b> plaquée en texture sur la surface définie par <b>X</b>, <b>Y</b> et <b>Z</b>.</p>
+    <p>L'image est plaquée par fragment : elle reste nette quelle que soit la finesse de la grille de la surface ; sa résolution est indépendante du nombre de points de la surface.</p>
+    <p>La surface créée a <b>FaceColor</b> à <b>texturemap</b>, <b>EdgeColor</b> à <b>none</b> et <b>CDataMapping</b> à <b>direct</b>. Les axes sont affichés avec une direction Y inversée et une vue 3-D par défaut.</p>
+    <p>Cela équivaut à créer une surface et à fixer sa propriété <b>FaceColor</b> à <b>texturemap</b> avec l'image comme <b>CData</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Plaquer un dégradé de couleurs sur un dôme</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[n = 64;
+[tx, ty] = meshgrid(linspace(0, 1, n), linspace(0, 1, n));
+A = zeros(n, n, 3);
+A(:, :, 1) = tx;
+A(:, :, 2) = ty;
+A(:, :, 3) = 1 - tx;
+[X, Y] = meshgrid(linspace(-1, 1, 30), linspace(-1, 1, 30));
+Z = 1 - (X .^ 2 + Y .^ 2);
+figure;
+warp(X, Y, Z, A);]]></example_item_data>
+      <example_item_img
+        src="../../../images/warp_1.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}surface">surface</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}surf">surf</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}3_geometry_registration_3d/6_geometric_transforms/imwarp">imwarp</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -9,6 +9,7 @@
     <syntax_item>hexa_hash = crc32(filename)</syntax_item>
     <syntax_item>hexa_hash = crc32(str, &apos;-file&apos;)</syntax_item>
     <syntax_item>hexa_hash = crc32(str, &apos;-string&apos;)</syntax_item>
+    <syntax_item>hexa_hash = crypto.crc32(...)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -39,6 +40,8 @@
   <description>
     <p>
       <b>crc32</b> get crc32 checksum.</p>
+    <p>
+      <b>crypto.crc32</b> is an alias of <b>crc32</b>, in the <b>crypto</b> namespace shared with <b>crypto.ed25519.verify</b> and <b>crypto.ed25519.sign</b>.</p>
   </description>
   <used_function />
   <bibliography />

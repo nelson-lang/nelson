@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -18,7 +18,7 @@ h5LoadSingle(hid_t fid, const std::string& location, const std::string& variable
 {
     bool bSuccess = false;
     if (isEmpty) {
-        VariableValue = ArrayOf::emptyConstructor(dims);
+        VariableValue = ArrayOf::empty(dims);
         if (isComplex) {
             VariableValue.promoteType(NLS_SCOMPLEX);
         } else {
@@ -53,7 +53,7 @@ h5LoadSingle(hid_t fid, const std::string& location, const std::string& variable
             H5Tinsert(compoundId, "imag", HOFFSET(complex_type, i), H5T_NATIVE_FLOAT);
             singlecomplex* pData = nullptr;
             try {
-                pData = new singlecomplex[dims.getElementCount()];
+                pData = new singlecomplex[dims.elementCount()];
             } catch (const std::bad_alloc&) {
                 H5Dclose(dset_id);
                 return false;
@@ -86,7 +86,7 @@ h5LoadSingle(hid_t fid, const std::string& location, const std::string& variable
             if (!error.empty()) {
                 return false;
             }
-            if (!VariableValue.getDimensions().equals(dims)) {
+            if (!VariableValue.dimensions().equals(dims)) {
                 return false;
             }
             VariableValue.promoteType(NLS_SINGLE);

@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "file": "run_unit_test.m",
+      "title": "Run a unit test",
+      "description": "Create a temporary assertion-based test and execute it with the test manager.",
+      "tags": [
+        "testing",
+        "automation"
+      ],
+      "requirements": []
+    }
+  ]
+}

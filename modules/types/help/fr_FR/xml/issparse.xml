@@ -23,6 +23,10 @@
   <description>
     <p>
       <b>issparse</b> renvoie 1 logique (vrai) si l&apos;argument est un tableau creux et 0 logique (faux) sinon.</p>
+    <p>
+      Le test porte sur le stockage sparse, pas sur la classe des valeurs. Les tableaux sparse double, single, logiques, double complexes et single complexes retournent tous vrai.</p>
+    <p>
+      Les tableaux pleins retournent faux meme lorsqu'ils contiennent principalement des valeurs nulles.</p>
   </description>
   <used_function />
   <bibliography />
@@ -43,6 +47,14 @@ res = issparse(A)]]></example_item_data>
       ><![CDATA[B = sparse(1);
 res = issparse(B)]]></example_item_data>
     </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[S = sparse(single([1 + 2i 0; 0 0]));
+res = issparse(S)]]></example_item_data>
+    </example_item>
   </examples>
   <see_also>
     <see_also_item>
@@ -50,6 +62,10 @@ res = issparse(B)]]></example_item_data>
     </see_also_item>
   </see_also>
   <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>comportement sparse single et single complexe documente</history_description>
+    </history_item>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>version initiale</history_description>

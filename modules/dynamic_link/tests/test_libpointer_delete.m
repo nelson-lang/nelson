@@ -7,14 +7,14 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('@dlsym/delete'), 1);
-assert_isequal(nargout('@dlsym/delete'), 0);
+asserts.isequal(nargin('@dlsym/delete'), 1);
+asserts.isequal(nargout('@dlsym/delete'), 0);
 %=============================================================================
 path_ref = [modulepath('nelson', 'builtin'), '/libnlsDynamic_link', getdynlibext()];
 lib = dlopen(path_ref);
 f = dlsym(lib, 'dynlibTestMultiplyDoubleArrayWithReturn', 'int32', {'doublePtr', 'int32'});
-assert_istrue(isvalid(f));
+asserts.istrue(isvalid(f));
 delete(f);
-assert_isfalse(isvalid(f));
-assert_isequal(size(dlsym_used()), [0 0]);
+asserts.isfalse(isvalid(f));
+asserts.isequal(size(dlsym_used()), [0 0]);
 %=============================================================================

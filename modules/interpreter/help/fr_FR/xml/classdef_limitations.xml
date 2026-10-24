@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <short_description>Limitations connues de classdef.</short_description>
+  <description>
+    <p>
+      Nelson prend en charge de nombreuses fonctionnalites <b>classdef</b> : classes valeur et handle, heritage simple ou multiple, proprietes declarees, proprietes abstraites, proprietes dependantes, constantes, observables, transitoires et non copiables, valeurs par defaut, validation de dimensions, de types et de fonctions, methodes d&apos;instance, statiques, abstraites, scellees et cachees, methodes sur une ligne, accesseurs <b>get.PropertyName</b> et <b>set.PropertyName</b>, paquets, fichiers de methodes separes, continuation <b>...</b>, evenements et listeners, attributs <b>ListenAccess</b>, <b>NotifyAccess</b> et <b>Hidden</b>, enumerations avec arguments de constructeur, types de base numeriques pour les enumerations, tableaux d&apos;objets, <b>ClassName.empty(...)</b>, hooks d&apos;indexation simples, hooks de persistance, proprietes handle dynamiques et requetes de metadonnees.</p>
+    <p>
+      Les pages d&apos;aide principales documentent les comportements pris en charge : <b>classdef</b> decrit la syntaxe et les attributs, <b>classdef_tutorial</b> donne les exemples de base, <b>metaclass</b> decrit les structures de metadonnees, <b>events</b> decrit la visibilite des evenements, et <b>dynamicprops</b> decrit les proprietes dynamiques d&apos;instance.</p>
+    <p>
+      Cette page liste les limites documentees pour Nelson. C&apos;est une page d&apos;etat, pas une specification complete du systeme objet.</p>
+    <p>
+      <b>Limitations connues</b> :</p>
+    <table>
+      <tr>
+        <th>Domaine</th>
+        <th>Etat</th>
+        <th>Notes</th>
+      </tr>
+      <tr>
+        <td>Modele d&apos;objets de metadonnees</td>
+        <td>Structures Nelson</td>
+        <td><b>metaclass</b> et <b>?NomDeClasse</b> renvoient des objets <b>meta.class</b> dont <b>PropertyList</b>, <b>MethodList</b>, <b>EventList</b> et <b>EnumerationMemberList</b> sont des tableaux types <b>meta.property</b>, <b>meta.method</b>, <b>meta.event</b> et <b>meta.EnumerationMember</b>. Les proprietes de structures <b>ClassDetails</b>, <b>PropertyDetails</b>, <b>MethodDetails</b>, <b>EventDetails</b> et <b>EnumerationDetails</b> restent disponibles pour compatibilite. <b>meta.DynamicProperty</b> est disponible pour les descripteurs de proprietes dynamiques d&apos;instance. Les constructeurs statiques comme <b>meta.class.fromName</b> ne sont pas fournis.</td>
+      </tr>
+      <tr>
+        <td>Noms de methodes d&apos;indexation personnalisee</td>
+        <td>Partiel</td>
+        <td>Les hooks traditionnels comme <b>subsref</b>, <b>subsasgn</b> et <b>end</b> utilisent le mecanisme commun de surcharge. Les formes <b>dotReference</b>, <b>dotAssign</b>, <b>parenReference</b>, <b>parenAssign</b>, <b>braceReference</b> et <b>braceAssign</b> sont prises en charge pour une indexation simple des classes valeur et handle. La personnalisation complete par objets d&apos;operation n&apos;est pas documentee comme prise en charge.</td>
+      </tr>
+      <tr>
+        <td>Formes de methodes</td>
+        <td>Declarees ou separees</td>
+        <td>Les methodes dans le fichier de classe, les prototypes de methodes separees et les fichiers de methodes dans <b>@ClassName</b> sont pris en charge. Les methodes simples ecrites sur une seule ligne avec leur corps et leur <b>end</b> final sont prises en charge. Les methodes abstraites doivent rester des declarations sans corps.</td>
+      </tr>
+      <tr>
+        <td>Attributs de classe</td>
+        <td>Documentes</td>
+        <td><b>Abstract</b>, <b>ConstructOnLoad</b>, <b>Hidden</b>, <b>InferiorClasses</b> et <b>Sealed</b> sont analyses et exposes dans les metadonnees. Les contraintes associees comme l&apos;interdiction de combiner <b>Sealed</b> et <b>Abstract</b> sont verifiees.</td>
+      </tr>
+      <tr>
+        <td>Attributs de proprietes</td>
+        <td>Documentes</td>
+        <td><b>Access</b>, <b>GetAccess</b>, <b>SetAccess</b>, <b>Abstract</b>, <b>AbortSet</b>, <b>Constant</b>, <b>Dependent</b>, <b>GetObservable</b>, <b>SetObservable</b>, <b>Hidden</b>, <b>Transient</b>, <b>NonCopyable</b>, <b>WeakHandle</b> et les expressions de validation sont pris en charge. Une propriete abstraite ne doit pas definir de valeur initiale. <b>WeakHandle</b> est limite aux classes handle, et les objets lies par un cycle de references fortes ne sont pas detruits.</td>
+      </tr>
+      <tr>
+        <td>Attributs de methodes</td>
+        <td>Documentes</td>
+        <td><b>Access</b>, <b>Abstract</b>, <b>Hidden</b>, <b>Sealed</b> et <b>Static</b> sont pris en charge. Les methodes abstraites privees ne sont pas instanciables dans une classe concrete; les methodes scellees ne peuvent pas etre remplacees.</td>
+      </tr>
+      <tr>
+        <td>Attributs d&apos;evenements</td>
+        <td>Documentes</td>
+        <td>Les evenements ne peuvent etre declares que par des sous-classes handle. <b>ListenAccess</b>, <b>NotifyAccess</b> et <b>Hidden</b> sont pris en charge. <b>events</b> et <b>metaclass(...).EventList</b> exposent les evenements publics visibles; <b>EventDetails</b> conserve les evenements declares, y compris les evenements non publics ou caches.</td>
+      </tr>
+      <tr>
+        <td>Acces par listes de classes</td>
+        <td>Pris en charge</td>
+        <td>Les attributs d&apos;acces acceptent <b>public</b>, <b>private</b>, <b>protected</b>, un nom de classe comme <b>?FriendClass</b> ou une liste comme <b>{?FriendA, ?FriendB}</b>. Les controles d&apos;acces s&apos;appliquent aux proprietes, methodes et evenements.</td>
+      </tr>
+      <tr>
+        <td>Tableaux d&apos;objets</td>
+        <td>Pris en charge</td>
+        <td>Les tableaux de classes valeur et handle conservent les metadonnees de classe. L&apos;expansion indexee initialise les elements manquants avec le constructeur par defaut ou des handles par defaut distincts. <b>ClassName.empty(...)</b> cree des tableaux vides types.</td>
+      </tr>
+      <tr>
+        <td>Persistance</td>
+        <td>Pris en charge</td>
+        <td>La sauvegarde et le chargement conservent les objets classdef, y compris dans les cellules et structures. <b>saveObjectImpl</b> et <b>loadObjectImpl</b> statique sont appliques aux objets scalaires et element par element pour les tableaux non vides. Les proprietes <b>Transient</b> sont rechargees avec leurs valeurs par defaut lorsque c&apos;est possible.</td>
+      </tr>
+      <tr>
+        <td>Heritage depuis les types de donnees integres</td>
+        <td>Numerique, logical, char</td>
+        <td>Les classes valeur peuvent heriter de <b>double</b>, <b>single</b>, des types entiers, <b>logical</b> et <b>char</b>. Les donnees de base sont initialisees avec <b>obj = obj@double(...)</b>; l&apos;arithmetique, l&apos;indexation, la concatenation et les operations de forme renvoient la sous-classe, les conversions renvoient le type de base et les predicats de type suivent le type de base. Le sous-classement des conteneurs (<b>cell</b>, <b>struct</b>) n&apos;est pas pris en charge.</td>
+      </tr>
+      <tr>
+        <td>Proprietes dynamiques</td>
+        <td>Classes handle uniquement</td>
+        <td>Les proprietes dynamiques d&apos;instance exigent une classe handle qui herite de <b>dynamicprops</b>. Les descripteurs dynamiques prennent en charge les indicateurs d&apos;acces, les callbacks, les accesseurs dependants, la validation, les indicateurs de stockage courants et les valeurs stockees persistantes. Les proprietes declarees dans la classe ne peuvent pas etre supprimees avec <b>rmprop</b>.</td>
+      </tr>
+      <tr>
+        <td>Proprietes dynamiques de table</td>
+        <td>API distincte</td>
+        <td>Les fonctions <b>addprop</b> et <b>rmprop</b> existent aussi pour les tables avec une signature differente. Ce mecanisme ajoute des proprietes personnalisees aux metadonnees de table et ne renvoie pas de descripteur <b>meta.DynamicProperty</b>.</td>
+      </tr>
+      <tr>
+        <td>Completion, debogueur et profileur</td>
+        <td>Integration Nelson</td>
+        <td>Les objets classdef sont pris en charge par les outils Nelson existants. Les interfaces de metadonnees exposees restent les structures documentees par <b>metaclass</b>.</td>
+      </tr>
+      <tr>
+        <td>Suivi d&apos;etat</td>
+        <td>Base sur les tests</td>
+        <td>Avant d&apos;ajouter ou de retirer une limitation, verifier le comportement courant avec les tests classdef de Nelson et les pages d&apos;aide liees.</td>
+      </tr>
+    </table>
+  </description>
+  <used_function />
+  <bibliography />
+  <see_also>
+    <see_also_item>
+      <link linkend="${interpreter}classdef">classdef</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${interpreter}classdef_tutorial">tutoriel classdef</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}metaclass">metaclass</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}properties">properties</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}events">events</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}dynamicprops">dynamicprops</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

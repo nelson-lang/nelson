@@ -21,11 +21,7 @@ static const nlsGateway gateway[] = {
     { "profsave", (ptrBuiltin)Nelson::ProfilerGateway::profsaveBuiltin, 0, 2 },
 };
 //=============================================================================
-NLSGATEWAYFUNC(gateway)
+NLS_GATEWAY_FUNC(gateway)
 //=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+NLS_GATEWAY_REMOVE(gateway)
 //=============================================================================

@@ -12,8 +12,8 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-static const wchar_t* TEXT_INTERPRETER_DICT[5]
-    = { GO_PROPERTY_VALUE_TEX_STR, GO_PROPERTY_VALUE_NONE_STR, 0 };
+static const wchar_t* TEXT_INTERPRETER_DICT[4]
+    = { GO_PROPERTY_VALUE_TEX_STR, L"latex", GO_PROPERTY_VALUE_NONE_STR, 0 };
 //=============================================================================
 GOTextInterpreterProperty::GOTextInterpreterProperty()
     : GORestrictedStringProperty(TEXT_INTERPRETER_DICT)
@@ -27,8 +27,11 @@ GOTextInterpreterProperty::getAsEnum()
     if (value == GO_PROPERTY_VALUE_TEX_STR) {
         return TEXT_INTERPRETER_FORMAT::TEX_MARKUP;
     }
+    if (value == L"latex") {
+        return TEXT_INTERPRETER_FORMAT::LATEX_MARKUP;
+    }
     return TEXT_INTERPRETER_FORMAT::NONE;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

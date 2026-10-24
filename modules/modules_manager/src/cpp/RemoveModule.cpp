@@ -9,6 +9,7 @@
 //=============================================================================
 #include "RemoveModule.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "Warning.hpp"
 #include "i18n.hpp"
 #include "EvaluateScriptFile.hpp"
@@ -24,13 +25,14 @@ RemoveModule(Evaluator* eval, const std::wstring& moduleshortname)
     if (IsExistingModuleName(moduleshortname)) {
         bool isProtected = IsProtectedModuleName(moduleshortname);
         if (isProtected && NelsonConfiguration::getInstance()->isModulesProtected()) {
-            Warning(L"Nelson:module:protected",
-                _W("Cannot remove module (protected): ") + moduleshortname);
+            Warning(L"Nelson:module:protected", L"Cannot remove module (protected): %s",
+                moduleshortname);
             return false;
         }
         std::wstring rootpathmodule = GetModulePath(moduleshortname);
         if (rootpathmodule.empty()) {
-            Error(moduleshortname + _W(": This module is registered but it has no path."));
+            Error(L"Nelson:removemodule:noPath",
+                L"%s: This module is registered but it has no path.", moduleshortname);
         }
         if (FileSystemWrapper::Path::is_directory(rootpathmodule)) {
             FileSystemWrapper::Path pathfinish(rootpathmodule);
@@ -38,11 +40,11 @@ RemoveModule(Evaluator* eval, const std::wstring& moduleshortname)
             if (FileSystemWrapper::Path::is_regular_file(pathfinish)) {
                 EvaluateScriptFile(eval, pathfinish.generic_wstring());
             } else {
-                Error(_W("finish.m does not exist."));
+                Error(L"Nelson:removemodule:finishNotFound", L"finish.m does not exist.");
             }
             return UnregisterModule(moduleshortname);
         }
-        Error(_W("An existing module root path expected."));
+        Error(L"Nelson:removemodule:invalidRootPath", L"An existing module root path expected.");
     }
     return false;
 }

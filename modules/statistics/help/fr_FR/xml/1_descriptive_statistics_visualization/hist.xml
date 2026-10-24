@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>hist</keyword>
+  <short_description>Comptage des classes d'un histogramme.</short_description>
+  <syntax>
+    <syntax_item>hist(Y)</syntax_item>
+    <syntax_item>hist(Y, nbins)</syntax_item>
+    <syntax_item>hist(Y, centers)</syntax_item>
+    <syntax_item>n = hist(...)</syntax_item>
+    <syntax_item>[n, c] = hist(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>Y</param_name>
+      <param_description>un vecteur num&#233;rique.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>nbins</param_name>
+      <param_description>un scalaire : nombre de classes r&#233;guli&#232;res (10 par d&#233;faut).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>centers</param_name>
+      <param_description>un vecteur de centres de classes.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>n</param_name>
+      <param_description>le nombre d'&#233;l&#233;ments dans chaque classe.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>c</param_name>
+      <param_description>les centres des classes.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>hist</b> r&#233;partit les &#233;l&#233;ments de <b>Y</b> dans des classes et renvoie
+    les effectifs.</p>
+    <p>Deux modules fournissent un <b>hist</b> : celui-ci et celui du module
+    <b>graphics</b>. Tous deux comptent les classes de la m&#234;me fa&#231;on, si bien
+    qu'un m&#234;me appel renvoie les m&#234;mes effectifs de part et d'autre. Celui de
+    <b>graphics</b> prend le dessus d&#232;s que ce module est charg&#233; : c'est lui qui
+    trace, et le seul qui accepte des axes d&#233;sign&#233;s. Celui-ci r&#233;pond l&#224; o&#249;
+    <b>graphics</b> n'est pas charg&#233;, comme dans <b>nelson-cli</b>, et il ne fait
+    que compter : lui demander de tracer signale que le module <b>graphics</b>
+    est n&#233;cessaire.</p>
+    <p>Cette fonction est ancienne ; <b>histogram</b> et <b>histcounts</b> sont
+    pr&#233;f&#233;rables pour du code neuf.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[[n, c] = hist([2 4 4 4 5 5 7 9], 3)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}hist">hist (graphics)</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${elementary_functions}histc">histc</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}tabulate">tabulate</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.14.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

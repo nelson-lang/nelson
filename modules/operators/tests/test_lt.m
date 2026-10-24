@@ -7,41 +7,47 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('lt'), 2)
-assert_isequal(nargout('lt'), 1)
+asserts.isequal(nargin('lt'), 2)
+asserts.isequal(nargout('lt'), 1)
 %=============================================================================
 % Nelson compares only real part for complex
 A = 2 + i;
-B = -3-2;
+B = -3 - 2;
 R = A < B;
-assert_isfalse(R);
+asserts.isfalse(R);
 %=============================================================================
 R = "Nel" < "Son";
-assert_istrue(R);
+asserts.istrue(R);
 %=============================================================================
 R = 2 < 3;
-assert_istrue(R);
+asserts.istrue(R);
+%=============================================================================
+X = [1 2 3 4];
+asserts.isequal(X < 3, logical([1 1 0 0]));
+asserts.isequal(3 < X, logical([0 0 0 1]));
+asserts.isequal(X == 3, logical([0 0 1 0]));
+asserts.isequal(X ~= 3, logical([1 1 0 1]));
 %=============================================================================
 R = 2 > 3;
-assert_isfalse(R);
+asserts.isfalse(R);
 %=============================================================================
-A = ["apple", "orange","tomato"];
+A = ["apple", "orange", "tomato"];
 B = 'orange';
 R = (A <= B);
 REF = logical([1 1 0]);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 A = [1 2; 3 4];
 B = [1; 3];
 R = A > B;
 REF = logical([0, 1;
-0, 1]);
-assert_isequal(R, REF);
+  0, 1]);
+asserts.isequal(R, REF);
 %=============================================================================
 B = [1 2; 3 4];
 A = [1; 3];
 R = A > B;
 REF = logical([0, 0;
-0, 0]);
-assert_isequal(R, REF);
+  0, 0]);
+asserts.isequal(R, REF);
 %=============================================================================

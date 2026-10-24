@@ -19,66 +19,25 @@
 #endif
 #include "SystemCommand.hpp"
 #include "characters_encoding.hpp"
-#include "DynamicLibrary.hpp"
 #include "NelsonConfiguration.hpp"
-#include "FileSystemWrapper.hpp"
 #include "StringHelpers.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
-#include "PredefinedErrorMessages.hpp"
 #include "SystemCommandTask.hpp"
 #include "nlsBuildConfig.h"
 #include <ctime>
 #include <thread>
 #include <chrono>
 #include <algorithm>
+#include <atomic>
+#include <condition_variable>
 #include <cstdio>
 #include <memory>
 #include <mutex>
-//===================================================================================
+//=============================================================================
 namespace Nelson {
-//===================================================================================
-namespace {
-    library_handle nlsGuiHandleDynamicLibrary = nullptr;
-    std::once_flag guiLibraryInitFlag;
-
-    template <typename FuncPtr>
-    FuncPtr
-    getFunctionPointer(const char* functionName)
-    {
-        return reinterpret_cast<FuncPtr>(get_function(nlsGuiHandleDynamicLibrary, functionName));
-    }
-}
-//===================================================================================
-static void
-initGuiDynamicLibrary()
-{
-    std::call_once(guiLibraryInitFlag, []() {
-        const std::wstring fullpathGuiSharedLibrary
-            = L"libnlsGui" + get_dynamic_library_extensionW();
-        const std::wstring nelsonLibrariesDirectory
-            = NelsonConfiguration::getInstance()->getNelsonLibraryDirectory();
-        const std::wstring libraryPath = nelsonLibrariesDirectory + L"/" + fullpathGuiSharedLibrary;
-
-        nlsGuiHandleDynamicLibrary = load_dynamic_libraryW(libraryPath);
-    });
-}
-//===================================================================================
-static void
-ProcessEventsDynamicFunction(bool bWait = false)
-{
-    using PROC_ProcessEvents = void (*)(bool);
-    static PROC_ProcessEvents ProcessEventsPtr = nullptr;
-
-    initGuiDynamicLibrary();
-    if (ProcessEventsPtr == nullptr) {
-        ProcessEventsPtr = getFunctionPointer<PROC_ProcessEvents>("NelSonProcessEvents");
-    }
-    if (ProcessEventsPtr != nullptr) {
-        ProcessEventsPtr(bWait);
-    }
-}
-//===================================================================================
+//=============================================================================
 std::tuple<int, std::wstring, uint64>
 SystemCommand(const std::wstring& command, uint64 timeout, bool withEventsLoop, size_t evaluatorID)
 {
@@ -87,19 +46,32 @@ SystemCommand(const std::wstring& command, uint64 timeout, bool withEventsLoop, 
 
     auto results = ParallelSystemCommand(commands, timeouts, withEventsLoop, evaluatorID);
     if (results.size() != 1) {
-        Error(_W("system does not return result."));
+        Error(L"Nelson:system:noResult", L"system does not return result.");
     }
     return results[0];
 }
-//===================================================================================
+//=============================================================================
 std::vector<std::tuple<int, std::wstring, uint64>>
 ParallelSystemCommand(const wstringVector& commands, const std::vector<uint64>& timeouts,
     bool withEventsLoop, size_t evaluatorID)
 {
+#ifdef __EMSCRIPTEN__
+    Error(L"Nelson:system:unsupportedPlatform",
+        L"Native process execution is not available in WebAssembly.");
+    return {};
+#else
+    (void)withEventsLoop;
     const size_t nbCommands = commands.size();
     std::vector<std::tuple<int, std::wstring, uint64>> results(nbCommands);
     std::vector<std::unique_ptr<SystemCommandTask>> taskList;
     taskList.reserve(nbCommands);
+
+    if (nbCommands == 1) {
+        SystemCommandTask task;
+        task.evaluateCommand(commands[0], timeouts[0]);
+        results[0] = task.getResult();
+        return results;
+    }
 
 #if defined(__APPLE__) or (defined(_WIN32) && not defined(_WIN64))
 
@@ -118,14 +90,21 @@ ParallelSystemCommand(const wstringVector& commands, const std::vector<uint64>& 
 #else
     std::vector<std::thread> threadList;
     threadList.reserve(nbCommands);
+    std::mutex waitMutex;
+    std::condition_variable waitCondition;
+    std::atomic<size_t> finishedTasks { 0 };
     for (size_t k = 0; k < nbCommands; k++) {
         try {
             taskList.emplace_back(std::make_unique<SystemCommandTask>());
-            threadList.emplace_back([&taskList, &commands, &timeouts, k]() {
-                taskList[k]->evaluateCommand(commands[k], timeouts[k]);
-            });
+            threadList.emplace_back(
+                [&taskList, &commands, &timeouts, &waitCondition, &finishedTasks, k]() {
+                    taskList[k]->evaluateCommand(commands[k], timeouts[k]);
+                    finishedTasks.fetch_add(1, std::memory_order_release);
+                    waitCondition.notify_all();
+                });
         } catch (const std::bad_alloc&) {
-            Error(ERROR_MEMORY_ALLOCATION);
+            Error(L"Nelson:outOfMemory",
+                L"Memory allocation error... You may have run out of memory!");
         }
     }
 
@@ -142,10 +121,13 @@ ParallelSystemCommand(const wstringVector& commands, const std::vector<uint64>& 
             }
             break;
         }
-        if (withEventsLoop) {
-            ProcessEventsDynamicFunction();
+        {
+            std::unique_lock<std::mutex> lock(waitMutex);
+            waitCondition.wait_for(
+                lock, std::chrono::milliseconds(10), [&finishedTasks, nbCommands]() {
+                    return finishedTasks.load(std::memory_order_acquire) == nbCommands;
+                });
         }
-        std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
         allTasksFinished = std::all_of(threadList.begin(), threadList.end(),
             [](const auto& thread) { return thread.joinable(); });
@@ -170,7 +152,8 @@ ParallelSystemCommand(const wstringVector& commands, const std::vector<uint64>& 
         }
     }
     return results;
+#endif
 }
-//===================================================================================
+//=============================================================================
 } // namespace Nelson
-//===================================================================================
+//=============================================================================

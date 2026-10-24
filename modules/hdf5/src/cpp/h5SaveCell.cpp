@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -15,7 +15,7 @@
 namespace Nelson {
 //=============================================================================
 bool
-h5SaveCell(hid_t fid, const std::string& location, const std::string& variableName,
+h5SaveCell(Evaluator* eval, hid_t fid, const std::string& location, const std::string& variableName,
     const ArrayOf& VariableValue, bool useCompression)
 {
     bool bSuccess = false;
@@ -34,13 +34,14 @@ h5SaveCell(hid_t fid, const std::string& location, const std::string& variableNa
     if (status < 0) {
         return false;
     }
-    Dimensions dims = VariableValue.getDimensions();
-    auto* elements = (ArrayOf*)VariableValue.getDataPointer();
-    indexType elementCount = dims.getElementCount();
+    Dimensions dims = VariableValue.dimensions();
+    auto* elements = (ArrayOf*)VariableValue.dataPointer();
+    indexType elementCount = dims.elementCount();
     for (indexType k = 0; k < elementCount; k++) {
         ArrayOf element = elements[k];
         std::string name = std::to_string(k);
-        bSuccess = h5SaveVariable(fid, h5path + std::string("/"), name, element, useCompression);
+        bSuccess
+            = h5SaveVariable(eval, fid, h5path + std::string("/"), name, element, useCompression);
         if (!bSuccess) {
             return false;
         }

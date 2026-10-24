@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8" ?>
 <xmldoc>
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>en_US</language>
@@ -6,7 +6,8 @@
   <chapter>Tests framework for Nelson</chapter>
   <chapter_description>
     <p
-    >The Test Manager module in Nelson provides tools for automated testing of code, enabling users to validate functionality, ensure correctness, and manage test cases efficiently.</p>
+    >The Test Manager module in Nelson provides tools for automated testing of code, enabling users to
+      validate functionality, ensure correctness, and manage test cases efficiently.</p>
     <p
     >This module supports creating reference outputs, running test suites, and conditionally skipping tests.</p>
   </chapter_description>

@@ -8,9 +8,9 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function B = binomial(nSize, className)
-  lowerTri = abs(pascal(nSize, 1, className));
-  upperTri = lowerTri(nSize:-1:1, nSize:-1:1);
-  diagMat = diag( (-2).^(0:nSize-1) );
-  B = lowerTri * diagMat * upperTri;
+  pascalFactor = abs(pascal(nSize, 1, className));
+  reverseIndex = nSize:-1:1;
+  powerScale = (-2) .^ (0:nSize - 1);
+  B = (pascalFactor .* powerScale) * pascalFactor(reverseIndex, reverseIndex);
 end
 %=============================================================================

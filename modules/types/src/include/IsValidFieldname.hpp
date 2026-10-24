@@ -15,5 +15,6 @@
 namespace Nelson {
 NLSTYPES_IMPEXP bool
 IsValidFieldname(const std::string& fieldname);
-}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

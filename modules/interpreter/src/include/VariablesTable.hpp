@@ -39,8 +39,16 @@ public:
     isVariable(const key_type& key);
     bool
     deleteVariable(const key_type& key);
+    /**
+     * Drop every variable (locks ignored): used when the owning scope is
+     * about to be destroyed anyway.
+     */
+    void
+    clearVariables();
     bool
     insertVariable(const key_type& key, const value_type& val);
+    bool
+    insertVariableWithoutNameValidation(const key_type& key, const value_type& val);
     stringVector
     getVariablesList(bool withPersistent);
     bool

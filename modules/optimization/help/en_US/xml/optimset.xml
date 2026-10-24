@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>optimset</keyword>
+  <short_description>Create or edit optimization option structures.</short_description>
+  <syntax>
+    <syntax_item>options = optimset()</syntax_item>
+    <syntax_item>options = optimset(name, value)</syntax_item>
+    <syntax_item>options = optimset(oldopts, name, value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>name, value</param_name>
+      <param_description>option name and value pairs.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>oldopts</param_name>
+      <param_description>existing option structure.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>options</param_name>
+      <param_description>option structure.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>optimset</b> creates a structure accepted by the direct solvers in this module. Option names support unambiguous abbreviations.</p>
+  </description>
+  <used_function />
+  <bibliography>J. Nocedal and S. J. Wright, Numerical Optimization, Springer, 2006.</bibliography>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[opts = optimset('TolX', 1e-8, 'Display', 'off')
+tol = optimget(opts, 'TolX')
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${optimization}optimget">optimget</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${optimization}optimoptions">optimoptions</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

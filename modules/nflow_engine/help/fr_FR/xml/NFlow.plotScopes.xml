@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>NFlow.plotScopes</keyword>
+  <short_description>Ouvre une figure par scope d'un résultat de simulation nflow.</short_description>
+  <syntax>
+    <syntax_item>figures = NFlow.plotScopes(out)</syntax_item>
+    <syntax_item>NFlow.plotScopes(out)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>out</param_name><param_description>la structure retournée par <b>sim</b> (elle doit contenir un champ <b>logsout</b>).</param_description></param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>figures</param_name><param_description>un vecteur de handles de figures, un par scope tracé.</param_description></param_output_item>
+  </param_output>
+  <description>
+    <p><b>NFlow.plotScopes</b> ouvre une figure par signal journalisé dans <b>out.logsout</b>, en traçant chaque voie d'un scope comme une courbe sur les mêmes axes. Chaque figure est titrée avec l'identifiant du scope.</p>
+    <p>C'est pratique comme <b>stopFcn</b> de modèle : affectez le StopFcn d'un modèle à <b>NFlow.plotScopes(out)</b> pour que les courbes des scopes s'ouvrent automatiquement à l'arrêt de la simulation, aussi bien depuis <b>sim</b> que depuis le bouton Run de l'éditeur nflow.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Simuler une démo et tracer ses scopes.</example_item_description>
+      <example_item_data><![CDATA[model = [modulepath('nflow_blocks'), '/examples/causal/Second_Order_Responses_Demo.nflow'];
+out = sim(model);
+NFlow.plotScopes(out);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${nflow_engine}sim">sim</link></see_also_item>
+    <see_also_item><link linkend="${nflow_blocks}sink/scope">scope</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>1.0.0</history_version><history_description>initial version</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

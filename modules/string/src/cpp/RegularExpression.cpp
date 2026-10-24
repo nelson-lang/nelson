@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -88,10 +88,10 @@
 #endif
 #include "characters_encoding.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "EvaluateCommand.hpp"
 #include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#include "PredefinedErrorMessages.hpp"
 #include "StringHelpers.hpp"
 //=============================================================================
 namespace Nelson {
@@ -111,6 +111,7 @@ struct RegexMatch
     std::vector<int> tokenEnd;
     std::vector<std::wstring> tokens;
     std::unordered_map<std::string, std::wstring> namedTokens;
+    int groupCount = 0;
 };
 //=============================================================================
 struct RegexResult
@@ -152,6 +153,10 @@ static std::wstring
 substituteTokensInCommand(std::wstring command, const RegexMatch* match);
 static std::wstring
 expandDynamicPattern(Evaluator* eval, const std::wstring& pattern);
+static std::wstring
+translatePosixWordAnchors(const std::wstring& pattern);
+static std::wstring
+makeLenientPattern(const std::wstring& pattern);
 static RegexOptions
 parseOptions(const ArrayOfVector& args, size_t start, bool defaultIgnoreCase,
     std::vector<RegexOutputKind>& outputs, bool forReplace);
@@ -167,6 +172,12 @@ static ArrayOf
 buildOutput(const RegexResult& result, RegexOutputKind kind, const RegexOptions& options);
 static ArrayOf
 wrapIfForced(const ArrayOf& value, bool force);
+static ArrayOf
+textOutputAsString(const ArrayOf& value, RegexOutputKind kind, bool once);
+static void
+groupBranches(const std::wstring& pattern, std::vector<int>& branches, int& branchCount);
+static bool
+isAscii(const std::wstring& text);
 ArrayOfVector
 RegExpBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn, bool defaultIgnoreCase);
 static bool
@@ -190,6 +201,12 @@ wildcardToRegex(const std::wstring& input);
 ArrayOfVector
 RegexpTranslateBuiltin(int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
+#if defined(NELSON_USE_PCRE2)
+#define NLS_PCRE_UCP PCRE2_UCP
+#else
+#define NLS_PCRE_UCP PCRE_UCP
+#endif
+//=============================================================================
 class PcreRegex
 {
 private:
@@ -197,21 +214,51 @@ private:
     NLS_PCRE_WIDE_EXTRA_TYPE* extra = nullptr;
     int captureCount = 0;
     std::vector<NamedGroup> namedGroups;
+    std::vector<int> groupBranch; // top-level alternative holding each capture group
+    int branchCount = 1;
+    std::wstring expanded;
+    int baseOptions = NLS_PCRE_WIDE_UTF_FLAG | NLS_PCRE_DUPNAMES;
+    bool unicodeClasses = false;
 
 public:
     PcreRegex(const std::wstring& pattern, const RegexOptions& options, Evaluator* eval)
+        : expanded(translatePosixWordAnchors(expandDynamicPattern(eval, pattern)))
     {
-        std::wstring expanded = expandDynamicPattern(eval, pattern);
-        int compileOptions = NLS_PCRE_WIDE_UTF_FLAG | NLS_PCRE_DUPNAMES;
         if (options.ignoreCase) {
-            compileOptions |= NLS_PCRE_CASELESS;
+            baseOptions |= NLS_PCRE_CASELESS;
         }
         if (!options.dotExceptNewline) {
-            compileOptions |= NLS_PCRE_DOTALL;
+            baseOptions |= NLS_PCRE_DOTALL;
         }
         if (options.lineAnchors) {
-            compileOptions |= NLS_PCRE_MULTILINE;
+            baseOptions |= NLS_PCRE_MULTILINE;
         }
+        compile();
+    }
+
+private:
+    void
+    release()
+    {
+        if (extra != nullptr) {
+            nlsPcreWideFreeStudy(extra);
+            extra = nullptr;
+        }
+        if (code != nullptr) {
+            nlsPcreWideFree(code);
+            code = nullptr;
+        }
+    }
+
+    // NLS_PCRE_UCP (\w \d \s and POSIX classes follow Unicode properties) slows the
+    // matching down: it is only set once a subject holds a non-ASCII character.
+    void
+    compile()
+    {
+        release();
+        namedGroups.clear();
+        groupBranch.clear();
+        int compileOptions = baseOptions | (unicodeClasses ? NLS_PCRE_UCP : 0);
 #if defined(NELSON_USE_PCRE2)
         int errorCode = 0;
         PCRE2_SIZE errorOffset = 0;
@@ -219,7 +266,19 @@ public:
             PCRE2_ZERO_TERMINATED, static_cast<uint32_t>(compileOptions), &errorCode, &errorOffset,
             nullptr);
         if (code == nullptr) {
-            std::wstring message = _W("Invalid regular expression");
+            // Unbalanced metacharacters are literals: retry once with '(' ')' '[' escaped.
+            std::wstring lenient = makeLenientPattern(expanded);
+            if (lenient != expanded) {
+                int retryError = 0;
+                PCRE2_SIZE retryOffset = 0;
+                code = pcre2_compile(reinterpret_cast<NLS_PCRE_WIDE_SPTR>(lenient.c_str()),
+                    PCRE2_ZERO_TERMINATED, static_cast<uint32_t>(compileOptions), &retryError,
+                    &retryOffset, nullptr);
+            }
+        }
+        if (code == nullptr) {
+            std::wstring message = resolveMessageTemplate(
+                L"Nelson:string:invalidRegularExpression", L"Invalid regular expression");
             PCRE2_UCHAR buffer[256] = { 0 };
             if (pcre2_get_error_message(errorCode, buffer, sizeof(buffer) / sizeof(buffer[0]))
                 >= 0) {
@@ -228,7 +287,7 @@ public:
                     message.push_back(static_cast<wchar_t>(buffer[i]));
                 }
             }
-            Error(message);
+            Error(L"Nelson:regexp:invalidExpression", message);
         }
         pcre2_jit_compile(code, PCRE2_JIT_COMPLETE);
         extra = pcre2_match_data_create_from_pattern(code, nullptr);
@@ -239,15 +298,27 @@ public:
         code = nlsPcreWideCompile2(reinterpret_cast<NLS_PCRE_WIDE_SPTR>(expanded.c_str()),
             compileOptions, nullptr, &error, &errorOffset, nullptr);
         if (code == nullptr) {
-            std::wstring message = _W("Invalid regular expression");
+            // Unbalanced metacharacters are literals: retry once with '(' ')' '[' escaped.
+            std::wstring lenient = makeLenientPattern(expanded);
+            if (lenient != expanded) {
+                const char* retryError = nullptr;
+                int retryOffset = 0;
+                code = nlsPcreWideCompile2(reinterpret_cast<NLS_PCRE_WIDE_SPTR>(lenient.c_str()),
+                    compileOptions, nullptr, &retryError, &retryOffset, nullptr);
+            }
+        }
+        if (code == nullptr) {
+            std::wstring message = resolveMessageTemplate(
+                L"Nelson:string:invalidRegularExpression", L"Invalid regular expression");
             if (error != nullptr) {
                 message += L": " + utf8_to_wstring(error);
             }
-            Error(message);
+            Error(L"Nelson:regexp:invalidExpression", message);
         }
         extra = nlsPcreWideStudy(code, PCRE_STUDY_JIT_COMPILE, &error);
         nlsPcreWideFullinfo(code, extra, NLS_PCRE_INFO_CAPTURECOUNT, &captureCount);
 #endif
+        groupBranches(expanded, groupBranch, branchCount);
         int nameCount = 0;
         int entrySize = 0; // in NLS_PCRE_WIDE_CHAR_TYPE units
         NLS_PCRE_WIDE_CHAR_TYPE* nameTable = nullptr;
@@ -276,17 +347,13 @@ public:
             }
             namedGroups.push_back({ name, number });
         }
+        // the name table is sorted by name: report the groups in pattern order
+        std::sort(namedGroups.begin(), namedGroups.end(),
+            [](const NamedGroup& a, const NamedGroup& b) { return a.number < b.number; });
     }
 
-    ~PcreRegex()
-    {
-        if (extra != nullptr) {
-            nlsPcreWideFreeStudy(extra);
-        }
-        if (code != nullptr) {
-            nlsPcreWideFree(code);
-        }
-    }
+public:
+    ~PcreRegex() { release(); }
 
     const std::vector<NamedGroup>&
     names() const
@@ -298,7 +365,10 @@ public:
     match(const std::wstring& wideText, const RegexOptions& options,
         const std::vector<RegexOutputKind>& outputs = {})
     {
-        // Determine which fields to compute (skip unnecessary allocations)
+        if (!unicodeClasses && !isAscii(wideText)) {
+            unicodeClasses = true;
+            compile();
+        }
         bool needsMatchText = outputs.empty();
         bool needsTokenData = outputs.empty();
         bool needsTokenText = outputs.empty();
@@ -328,10 +398,9 @@ public:
         }
         RegexResult result;
         result.namedGroups = namedGroups;
-        // Pass the wstring directly to the wide PCRE API — no UTF-8 conversion needed.
-        // Offsets returned in ovec are in wchar_t units (= character positions on all platforms).
+        // Offsets returned in ovec are in wchar_t units, i.e. character positions.
         const int len = static_cast<int>(wideText.size());
-        const NLS_PCRE_WIDE_SPTR subject = reinterpret_cast<NLS_PCRE_WIDE_SPTR>(wideText.c_str());
+        NLS_PCRE_WIDE_SPTR subject = reinterpret_cast<NLS_PCRE_WIDE_SPTR>(wideText.c_str());
         const int ovecSize = std::max(3, (captureCount + 1) * 3);
 #if defined(NELSON_USE_PCRE2)
         PCRE2_SIZE* ovec = nullptr;
@@ -361,28 +430,53 @@ public:
             }
             int matchStart = static_cast<int>(ovec[0]);
             int matchEnd = static_cast<int>(ovec[1]);
-            if (matchStart == matchEnd && !options.emptyMatch) {
+            // An empty match is skipped unless 'emptymatch' is set; even then
+            // one that starts where the previous non-empty match ended is
+            // not reported.
+            bool afterNonEmpty = !result.matches.empty() && matchStart == previousEnd
+                && result.matches.back().start - 1 != previousEnd;
+            if (matchStart == matchEnd && (!options.emptyMatch || afterNonEmpty)) {
                 if (++startPos > len) {
                     break;
                 }
                 continue;
             }
             RegexMatch m;
-            // Offsets are wchar_t-unit indices — directly the Nelson 1-based/0-based positions.
+            m.groupCount = captureCount;
             m.start = matchStart + 1;
             m.end = matchEnd;
             if (needsMatchText) {
                 m.text = wideText.substr(
                     static_cast<size_t>(matchStart), static_cast<size_t>(matchEnd - matchStart));
             }
-            int tokenCount = std::max(0, rc - 1);
+            // every group of the pattern is a token, set or not (a group
+            // beyond the last participating one is reported unset)
+            int tokenCount = captureCount;
             if (needsTokenData && tokenCount > 0) {
                 m.tokenStart.reserve(tokenCount);
                 m.tokenEnd.reserve(tokenCount);
+                int groupEnd = matchStart;
+                // the groups of the alternatives that did not match are not tokens; when
+                // no group took part in the match there is no token at all
+                int matchedBranch = -1;
+                for (int i = 1; branchCount > 1 && i < rc && i <= tokenCount; ++i) {
+                    if (ovec[i * 2] != NLS_PCRE_UNSET
+                        && i <= static_cast<int>(groupBranch.size())) {
+                        matchedBranch = groupBranch[i - 1];
+                        break;
+                    }
+                }
                 for (int i = 1; i <= tokenCount; ++i) {
-                    if (ovec[i * 2] != NLS_PCRE_UNSET && ovec[i * 2 + 1] != NLS_PCRE_UNSET) {
+                    bool isSet = i < rc && ovec[i * 2] != NLS_PCRE_UNSET
+                        && ovec[i * 2 + 1] != NLS_PCRE_UNSET;
+                    if (!isSet && branchCount > 1 && i <= static_cast<int>(groupBranch.size())
+                        && (matchedBranch < 0 || groupBranch[i - 1] != matchedBranch)) {
+                        continue;
+                    }
+                    if (isSet) {
                         m.tokenStart.push_back(static_cast<int>(ovec[i * 2]) + 1);
                         m.tokenEnd.push_back(static_cast<int>(ovec[i * 2 + 1]));
+                        groupEnd = static_cast<int>(ovec[i * 2 + 1]);
                         if (needsTokenText) {
                             m.tokens.push_back(wideText.substr(static_cast<size_t>(ovec[i * 2]),
                                 static_cast<size_t>(ovec[i * 2 + 1] - ovec[i * 2])));
@@ -390,8 +484,9 @@ public:
                             m.tokens.push_back(L"");
                         }
                     } else {
-                        m.tokenStart.push_back(0);
-                        m.tokenEnd.push_back(0);
+                        // an unset group is empty, located after the previous one
+                        m.tokenStart.push_back(groupEnd + 1);
+                        m.tokenEnd.push_back(groupEnd);
                         m.tokens.push_back(L"");
                     }
                 }
@@ -433,13 +528,22 @@ RegExpBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn, bool defaul
 {
     nargincheck(argIn, 2);
     if (!isTextContainer(argIn[0]) || !isTextContainer(argIn[1])) {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_CELL_EXPECTED);
+        Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1),
+            L"string or cell");
     }
     std::vector<RegexOutputKind> outputs;
     RegexOptions options = parseOptions(argIn, 2, defaultIgnoreCase, outputs, false);
-    if (argIn.size() == 2 && nLhs > 1 && outputs.size() == 1
-        && outputs[0] == RegexOutputKind::START) {
-        outputs.push_back(RegexOutputKind::END);
+    // outputs beyond the selected ones follow the default order
+    const RegexOutputKind defaultOrder[] = { RegexOutputKind::START, RegexOutputKind::END,
+        RegexOutputKind::TOKEN_EXTENTS, RegexOutputKind::MATCH, RegexOutputKind::TOKENS,
+        RegexOutputKind::NAMES, RegexOutputKind::SPLIT };
+    for (RegexOutputKind kind : defaultOrder) {
+        if (static_cast<int>(outputs.size()) >= nLhs) {
+            break;
+        }
+        if (std::find(outputs.begin(), outputs.end(), kind) == outputs.end()) {
+            outputs.push_back(kind);
+        }
     }
     nargoutcheck(nLhs, 0, static_cast<int>(outputs.size()));
     if (nLhs == 0) {
@@ -448,14 +552,22 @@ RegExpBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn, bool defaul
     std::vector<std::wstring> texts = getTextElements(argIn[0]);
     std::vector<std::wstring> exprs = getTextElements(argIn[1]);
     Dimensions dims = getOutputDimensions(argIn[0], argIn[1]);
-    size_t elementCount = dims.getElementCount();
-    // Match each element once and reuse results for all outputs.
-    // Previously the inner loops re-compiled and re-matched for every output index.
+    size_t elementCount = dims.elementCount();
+    // Match each element once and reuse the results for all outputs.
     std::vector<RegexResult> allResults;
     allResults.reserve(elementCount);
-    for (size_t k = 0; k < elementCount; ++k) {
-        PcreRegex regex(elementAt(exprs, k), options, eval);
-        allResults.push_back(regex.match(elementAt(texts, k), options, outputs));
+    if (exprs.size() == 1 && elementCount > 1 && exprs[0].find(L"(??") == std::wstring::npos) {
+        // one pattern applied to many texts: compile (and JIT) it once;
+        // dynamic (??...) patterns keep the per-element compile
+        PcreRegex regex(exprs[0], options, eval);
+        for (size_t k = 0; k < elementCount; ++k) {
+            allResults.push_back(regex.match(elementAt(texts, k), options, outputs));
+        }
+    } else {
+        for (size_t k = 0; k < elementCount; ++k) {
+            PcreRegex regex(elementAt(exprs, k), options, eval);
+            allResults.push_back(regex.match(elementAt(texts, k), options, outputs));
+        }
     }
     ArrayOfVector retval;
     for (int outIdx = 0; outIdx < nLhs; ++outIdx) {
@@ -464,9 +576,24 @@ RegExpBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn, bool defaul
         for (size_t k = 0; k < elementCount; ++k) {
             cells.push_back(buildOutput(allResults[k], outputs[outIdx], options));
         }
-        bool scalarInput = elementCount == 1 && !options.forceCellOutput;
+        if (argIn[0].isStringArray()) {
+            for (auto& cell : cells) {
+                cell = textOutputAsString(cell, outputs[outIdx], options.once);
+            }
+        }
+        bool scalarInput
+            = elementCount == 1 && !options.forceCellOutput && isStringLikeScalar(argIn[0]);
         if (scalarInput) {
             retval.push_back(cells[0]);
+        } else if (argIn[0].isStringArray() && options.once && !options.forceCellOutput
+            && outputs[outIdx] == RegexOutputKind::MATCH) {
+            // one match per string: a string array shaped like the subject
+            ArrayOf* elements = static_cast<ArrayOf*>(
+                ArrayOf::allocateArrayOf(NLS_STRING_ARRAY, elementCount, stringVector(), false));
+            for (size_t k = 0; k < elementCount; ++k) {
+                elements[k] = ((ArrayOf*)cells[k].dataPointer())[0];
+            }
+            retval.push_back(ArrayOf(NLS_STRING_ARRAY, dims, elements));
         } else {
             retval.push_back(cellFromVector(cells, dims));
         }
@@ -477,42 +604,65 @@ RegExpBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn, bool defaul
     return retval;
 }
 //=============================================================================
+static std::wstring
+regexReplaceWithRegex(Evaluator* eval, PcreRegex& regex, const std::wstring& input,
+    const std::wstring& replacement, const RegexOptions& options);
+//=============================================================================
 ArrayOfVector
 RegexPrepBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
     nargincheck(argIn, 3);
     nargoutcheck(nLhs, 0, 1);
     if (!isTextContainer(argIn[0]) || !isTextContainer(argIn[1]) || !isTextContainer(argIn[2])) {
-        Error(_W("Invalid input argument(s): cell or string expected."));
+        Error(L"Nelson:string:invalidInputArgumentSCell",
+            L"Invalid input argument(s): cell or string expected.");
     }
     std::vector<RegexOutputKind> ignored;
     RegexOptions options = parseOptions(argIn, 3, false, ignored, true);
     std::vector<std::wstring> texts = getTextElements(argIn[0]);
     std::vector<std::wstring> exprs = getTextElements(argIn[1]);
     std::vector<std::wstring> repls = getTextElements(argIn[2]);
-    Dimensions dims = getOutputDimensions(argIn[0], argIn[1]);
-    if (repls.size() != 1 && repls.size() != dims.getElementCount()) {
-        Error(_W("Same size expected."));
+    // Every pattern is applied in turn to every text; a replacement is given
+    // per pattern or once for all of them.
+    Dimensions dims = isStringLikeScalar(argIn[0]) ? Dimensions(1, 1) : argIn[0].dimensions();
+    // one replacement for all patterns, one per pattern, or several for a
+    // single pattern (the first one is used)
+    if (repls.size() != 1 && repls.size() != exprs.size() && exprs.size() != 1) {
+        Error(L"Nelson:string:sameSizeExpected", L"Same size expected.");
+    }
+    for (size_t e = 0; e < exprs.size(); ++e) {
+        const std::wstring& repl = elementAt(repls, e);
+        if (exprs[e].find(L"(??") != std::wstring::npos) {
+            // dynamic (??...) patterns keep the per-text compile
+            for (auto& text : texts) {
+                text = regexReplace(eval, text, exprs[e], repl, options);
+            }
+        } else {
+            PcreRegex regex(exprs[e], options, eval);
+            for (auto& text : texts) {
+                text = regexReplaceWithRegex(eval, regex, text, repl, options);
+            }
+        }
     }
     ArrayOfVector results;
-    for (size_t k = 0; k < dims.getElementCount(); ++k) {
-        results.push_back(ArrayOf::characterArrayConstructor(regexReplace(
-            eval, elementAt(texts, k), elementAt(exprs, k), elementAt(repls, k), options)));
+    results.reserve(texts.size());
+    for (const auto& text : texts) {
+        results.push_back(ArrayOf::characterArray(text));
     }
     ArrayOfVector retval;
-    if (dims.getElementCount() == 1 && isStringLikeScalar(argIn[0])) {
+    if (dims.elementCount() == 1 && isStringLikeScalar(argIn[0])) {
         ArrayOf value = results[0];
         if (argIn[0].isStringArray()) {
-            value = ArrayOf::stringArrayConstructor(value.getContentAsWideString());
+            value = ArrayOf::stringArray(value.asWideString());
         }
         retval << value;
     } else {
         if (argIn[0].isStringArray()) {
             wstringVector v;
             for (auto& r : results) {
-                v.push_back(r.getContentAsWideString());
+                v.push_back(r.asWideString());
             }
-            retval << ArrayOf::stringArrayConstructor(v, dims);
+            retval << ArrayOf::stringArray(v, dims);
         } else {
             retval << cellFromVector(results, dims);
         }
@@ -526,46 +676,48 @@ RegexpTranslateBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargincheck(argIn, 2, 3);
     nargoutcheck(nLhs, 0, 1);
     if (!isStringLikeScalar(argIn[0]) || !isTextContainer(argIn[1])) {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+        Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1), L"string");
     }
-    std::wstring op = lower(argIn[0].getContentAsWideString());
+    std::wstring op = lower(argIn[0].asWideString());
     std::vector<std::wstring> values = getTextElements(argIn[1]);
-    Dimensions dims = isStringLikeScalar(argIn[1]) ? Dimensions(1, 1) : argIn[1].getDimensions();
+    Dimensions dims = isStringLikeScalar(argIn[1]) ? Dimensions(1, 1) : argIn[1].dimensions();
     std::wstring expression;
     if (op == L"flexible") {
         if (argIn.size() != 3 || !isStringLikeScalar(argIn[2])) {
-            Error(_W("Third argument must be a string for 'flexible'."));
+            Error(L"Nelson:string:thirdArgumentStringFlexible",
+                L"Third argument must be a string for 'flexible'.");
         }
-        expression = argIn[2].getContentAsWideString();
+        expression = argIn[2].asWideString();
     } else if (argIn.size() != 2) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(L"Nelson:tooManyInputs", L"Too many input arguments.");
     }
     ArrayOfVector results;
     for (const auto& value : values) {
         if (op == L"escape") {
-            results.push_back(ArrayOf::characterArrayConstructor(escapeRegex(value)));
+            results.push_back(ArrayOf::characterArray(escapeRegex(value)));
         } else if (op == L"wildcard") {
-            results.push_back(ArrayOf::characterArrayConstructor(wildcardToRegex(value)));
+            results.push_back(ArrayOf::characterArray(wildcardToRegex(value)));
         } else if (op == L"flexible") {
             RegexOptions options;
-            results.push_back(ArrayOf::characterArrayConstructor(
+            results.push_back(ArrayOf::characterArray(
                 regexReplace(nullptr, value, expression, escapeRegex(expression), options)));
         } else {
-            Error(_W("'escape', 'wildcard' or 'flexible' expected."));
+            Error(L"Nelson:string:escapeWildcardFlexibleExpected", L"%s expected.",
+                L"'escape', 'wildcard' or 'flexible'");
         }
     }
     ArrayOf out;
     if (isStringLikeScalar(argIn[1])) {
         out = results[0];
         if (argIn[1].isStringArray()) {
-            out = ArrayOf::stringArrayConstructor(out.getContentAsWideString());
+            out = ArrayOf::stringArray(out.asWideString());
         }
     } else if (argIn[1].isStringArray()) {
         wstringVector v;
         for (auto& r : results) {
-            v.push_back(r.getContentAsWideString());
+            v.push_back(r.asWideString());
         }
-        out = ArrayOf::stringArrayConstructor(v, dims);
+        out = ArrayOf::stringArray(v, dims);
     } else {
         out = cellFromVector(results, dims);
     }
@@ -654,19 +806,29 @@ replacementText(Evaluator* eval, const std::wstring& replacement, const RegexMat
                     auto it = match.namedTokens.find(name);
                     if (it != match.namedTokens.end()) {
                         out.append(it->second);
+                    } else {
+                        // no such group: the reference is kept literally
+                        out.append(replacement.substr(i, end + 1 - i));
                     }
                     i = end + 1;
                 } else {
                     out.push_back(replacement[i++]);
                 }
             } else if (std::iswdigit(replacement[i + 1])) {
-                size_t j = i + 1;
-                while (j < replacement.size() && std::iswdigit(replacement[j])) {
+                // $N reads digits while the number stays a group of the pattern:
+                // with two groups $10 is $1 followed by '0'
+                size_t j = i + 2;
+                int idx = replacement[i + 1] - L'0';
+                while (j < replacement.size() && std::iswdigit(replacement[j])
+                    && idx * 10 + (replacement[j] - L'0') <= match.groupCount) {
+                    idx = idx * 10 + (replacement[j] - L'0');
                     ++j;
                 }
-                int idx = std::stoi(replacement.substr(i + 1, j - i - 1));
                 if (idx > 0 && idx <= static_cast<int>(match.tokens.size())) {
                     out.append(match.tokens[idx - 1]);
+                } else {
+                    // no such token: the reference is kept literally
+                    out.append(replacement.substr(i, j - i));
                 }
                 i = j;
             } else {
@@ -684,6 +846,33 @@ replacementText(Evaluator* eval, const std::wstring& replacement, const RegexMat
                 out.push_back(L'\f');
             } else if (c == L'v') {
                 out.push_back(L'\v');
+            } else if (c == L'a') {
+                out.push_back(L'\a');
+            } else if (c == L'x' && i + 2 < replacement.size()
+                && std::iswxdigit(replacement[i + 2])) {
+                size_t j = i + 2;
+                int value = 0;
+                while (j < replacement.size() && std::iswxdigit(replacement[j])) {
+                    value = value * 16
+                        + (std::iswdigit(replacement[j])
+                                ? replacement[j] - L'0'
+                                : (std::towlower(replacement[j]) - L'a' + 10));
+                    ++j;
+                }
+                out.push_back(static_cast<wchar_t>(value));
+                i = j;
+                continue;
+            } else if (c >= L'0' && c <= L'7') {
+                size_t j = i + 1;
+                int value = 0;
+                while (j < replacement.size() && j < i + 4 && replacement[j] >= L'0'
+                    && replacement[j] <= L'7') {
+                    value = value * 8 + (replacement[j] - L'0');
+                    ++j;
+                }
+                out.push_back(static_cast<wchar_t>(value));
+                i = j;
+                continue;
             } else {
                 out.push_back(c);
             }
@@ -703,6 +892,13 @@ regexReplace(Evaluator* eval, const std::wstring& input, const std::wstring& exp
     const std::wstring& replacement, const RegexOptions& options)
 {
     PcreRegex regex(expr, options, eval);
+    return regexReplaceWithRegex(eval, regex, input, replacement, options);
+}
+//=============================================================================
+static std::wstring
+regexReplaceWithRegex(Evaluator* eval, PcreRegex& regex, const std::wstring& input,
+    const std::wstring& replacement, const RegexOptions& options)
+{
     RegexResult result = regex.match(input, options);
     if (result.matches.empty()) {
         return input;
@@ -730,6 +926,81 @@ regexReplace(Evaluator* eval, const std::wstring& input, const std::wstring& exp
     }
     out.append(input.substr(last));
     return out;
+}
+//=============================================================================
+bool
+RegexIsMatch(const std::wstring& input, const std::wstring& expression, bool ignoreCase)
+{
+    RegexOptions options;
+    options.ignoreCase = ignoreCase;
+    options.once = true;
+    PcreRegex regex(expression, options, nullptr);
+    RegexResult result = regex.match(input, options);
+    return !result.matches.empty();
+}
+//=============================================================================
+double
+RegexCountMatches(const std::wstring& input, const std::wstring& expression, bool ignoreCase)
+{
+    RegexOptions options;
+    options.ignoreCase = ignoreCase;
+    PcreRegex regex(expression, options, nullptr);
+    RegexResult result = regex.match(input, options);
+    return static_cast<double>(result.matches.size());
+}
+//=============================================================================
+std::vector<std::wstring>
+RegexMatchTexts(
+    const std::wstring& input, const std::wstring& expression, bool ignoreCase, bool emptyMatch)
+{
+    RegexOptions options;
+    options.ignoreCase = ignoreCase;
+    options.emptyMatch = emptyMatch;
+    PcreRegex regex(expression, options, nullptr);
+    RegexResult result = regex.match(input, options);
+    std::vector<std::wstring> texts;
+    texts.reserve(result.matches.size());
+    for (const auto& match : result.matches) {
+        texts.push_back(match.text);
+    }
+    return texts;
+}
+//=============================================================================
+std::vector<std::wstring>
+RegexSplitTexts(const std::wstring& input, const std::wstring& expression, bool ignoreCase)
+{
+    RegexOptions options;
+    options.ignoreCase = ignoreCase;
+    PcreRegex regex(expression, options, nullptr);
+    RegexResult result = regex.match(input, options);
+    return result.splits;
+}
+//=============================================================================
+bool
+RegexFirstMatchExtent(const std::wstring& input, const std::wstring& expression, int& start,
+    int& end, bool ignoreCase)
+{
+    RegexOptions options;
+    options.ignoreCase = ignoreCase;
+    options.once = true;
+    PcreRegex regex(expression, options, nullptr);
+    RegexResult result = regex.match(input, options);
+    if (result.matches.empty()) {
+        return false;
+    }
+    start = result.matches[0].start;
+    end = result.matches[0].end;
+    return true;
+}
+//=============================================================================
+std::wstring
+RegexReplaceText(const std::wstring& input, const std::wstring& expression,
+    const std::wstring& replacement, bool ignoreCase, bool emptyMatch)
+{
+    RegexOptions options;
+    options.ignoreCase = ignoreCase;
+    options.emptyMatch = emptyMatch;
+    return regexReplace(nullptr, input, expression, replacement, options);
 }
 //=============================================================================
 std::wstring
@@ -783,8 +1054,8 @@ isTextContainer(const ArrayOf& a)
 ArrayOf
 emptyChar()
 {
-    Dimensions dims(1, 0);
-    ArrayOf res = ArrayOf::emptyConstructor(dims);
+    Dimensions dims(0, 0);
+    ArrayOf res = ArrayOf::empty(dims);
     res.promoteType(NLS_CHAR);
     return res;
 }
@@ -792,16 +1063,16 @@ emptyChar()
 ArrayOf
 cellFromVector(const ArrayOfVector& values, const Dimensions& dims)
 {
-    if (dims.getElementCount() == 0) {
+    if (dims.elementCount() == 0) {
         return ArrayOf(NLS_CELL_ARRAY, dims, nullptr);
     }
     ArrayOf* elements = nullptr;
     try {
-        elements = new ArrayOf[dims.getElementCount()];
+        elements = new ArrayOf[dims.elementCount()];
     } catch (const std::bad_alloc&) {
-        Error(ERROR_MEMORY_ALLOCATION);
+        Error(L"Nelson:outOfMemory", L"Memory allocation error... You may have run out of memory!");
     }
-    for (indexType k = 0; k < dims.getElementCount(); ++k) {
+    for (indexType k = 0; k < dims.elementCount(); ++k) {
         elements[k] = values[k];
     }
     return ArrayOf(NLS_CELL_ARRAY, dims, elements);
@@ -815,13 +1086,13 @@ cellRowFromStrings(const std::vector<std::wstring>& values)
     for (const auto& s : values) {
         v.push_back(s);
     }
-    return ArrayOf::toCellArrayOfCharacterRowVectors(v);
+    return ArrayOf::cellArrayFromArrayOfCharacterRowVectors(v);
 }
 //=============================================================================
 ArrayOf
 cellRowFromArrays(const ArrayOfVector& values)
 {
-    Dimensions dims(1, values.size());
+    Dimensions dims(values.empty() ? 0 : 1, values.size());
     return cellFromVector(values, dims);
 }
 //=============================================================================
@@ -829,14 +1100,14 @@ ArrayOf
 doubleRowFromInts(const std::vector<int>& values)
 {
     if (values.empty()) {
-        return ArrayOf::emptyConstructor();
+        return ArrayOf::empty();
     }
     std::vector<double> doubles;
     doubles.reserve(values.size());
     for (int v : values) {
         doubles.push_back(static_cast<double>(v));
     }
-    return ArrayOf::doubleRowVectorConstructor(doubles);
+    return ArrayOf::doubleRowVector(doubles);
 }
 //=============================================================================
 ArrayOf
@@ -844,7 +1115,7 @@ tokenExtentsMatrix(const RegexMatch& m)
 {
     const indexType rows = static_cast<indexType>(m.tokenStart.size());
     if (rows == 0) {
-        return ArrayOf::emptyConstructor(Dimensions(0, 2));
+        return ArrayOf::empty();
     }
     double* data = static_cast<double*>(
         ArrayOf::allocateArrayOf(NLS_DOUBLE, rows * 2, stringVector(), false));
@@ -873,10 +1144,10 @@ std::wstring
 arrayToWideString(const ArrayOf& a)
 {
     if (a.isRowVectorCharacterArray() || (a.isStringArray() && a.isScalar())) {
-        return a.getContentAsWideString();
+        return a.asWideString();
     }
     if (a.isNumeric() || a.isLogical()) {
-        return a.getContentAsWideString();
+        return a.asWideString();
     }
     return L"";
 }
@@ -885,7 +1156,8 @@ std::wstring
 evaluateDynamicCommand(Evaluator* eval, const std::wstring& command)
 {
     if (eval == nullptr) {
-        Error(_W("Dynamic regular expressions require an evaluator."));
+        Error(L"Nelson:string:dynamicRegularExpressionsRequireEvaluator",
+            L"Dynamic regular expressions require an evaluator.");
     }
     ArrayOfVector res = EvaluateCommand(eval, 1, command, L"");
     if (res.empty()) {
@@ -960,6 +1232,115 @@ expandDynamicPattern(Evaluator* eval, const std::wstring& pattern)
     return out;
 }
 //=============================================================================
+std::wstring
+translatePosixWordAnchors(const std::wstring& pattern)
+{
+    // PCRE does not know the POSIX word anchors \< and \>. Translate them to lookarounds,
+    // leaving escaped backslashes and character classes intact.
+    if (pattern.find(L'<') == std::wstring::npos && pattern.find(L'>') == std::wstring::npos) {
+        return pattern;
+    }
+    std::wstring out;
+    out.reserve(pattern.size() + 8);
+    bool inClass = false;
+    for (size_t i = 0; i < pattern.size();) {
+        wchar_t c = pattern[i];
+        if (c == L'\\' && i + 1 < pattern.size()) {
+            wchar_t next = pattern[i + 1];
+            if (!inClass && next == L'<') {
+                out.append(L"\\b(?=\\w)");
+                i += 2;
+                continue;
+            }
+            if (!inClass && next == L'>') {
+                out.append(L"(?<=\\w)\\b");
+                i += 2;
+                continue;
+            }
+            out.push_back(c);
+            out.push_back(next);
+            i += 2;
+            continue;
+        }
+        if (!inClass && c == L'[') {
+            inClass = true;
+        } else if (inClass && c == L']') {
+            inClass = false;
+        }
+        out.push_back(c);
+        ++i;
+    }
+    return out;
+}
+//=============================================================================
+std::wstring
+makeLenientPattern(const std::wstring& pattern)
+{
+    // PCRE2 rejects a pattern with an unbalanced metacharacter. This pass escapes '(' and
+    // ')' without a partner and a '[' whose class is never terminated, so they match
+    // literally. It only runs after a compile failure. If nothing can be rescued the
+    // pattern is returned unchanged and the caller reports the original PCRE error.
+    const size_t len = pattern.size();
+    std::set<size_t> escapePositions;
+    std::vector<size_t> openParens;
+    bool inClass = false;
+    size_t classContentStart = 0;
+    size_t classOpenIdx = 0;
+    for (size_t i = 0; i < len;) {
+        wchar_t c = pattern[i];
+        if (c == L'\\') {
+            i += 2;
+            continue;
+        }
+        if (inClass) {
+            // The first ']' after '[' (or '[^') is a literal member, not the terminator.
+            if (c == L']' && i > classContentStart) {
+                inClass = false;
+            }
+            ++i;
+            continue;
+        }
+        if (c == L'[') {
+            inClass = true;
+            classOpenIdx = i;
+            classContentStart = i + 1;
+            if (classContentStart < len && pattern[classContentStart] == L'^') {
+                ++classContentStart;
+            }
+            ++i;
+            continue;
+        }
+        if (c == L'(') {
+            openParens.push_back(i);
+        } else if (c == L')') {
+            if (!openParens.empty()) {
+                openParens.pop_back();
+            } else {
+                escapePositions.insert(i);
+            }
+        }
+        ++i;
+    }
+    for (size_t idx : openParens) {
+        escapePositions.insert(idx);
+    }
+    if (inClass) {
+        escapePositions.insert(classOpenIdx);
+    }
+    if (escapePositions.empty()) {
+        return pattern;
+    }
+    std::wstring out;
+    out.reserve(len + escapePositions.size());
+    for (size_t i = 0; i < len; ++i) {
+        if (escapePositions.find(i) != escapePositions.end()) {
+            out.push_back(L'\\');
+        }
+        out.push_back(pattern[i]);
+    }
+    return out;
+}
+//=============================================================================
 RegexOptions
 parseOptions(const ArrayOfVector& args, size_t start, bool defaultIgnoreCase,
     std::vector<RegexOutputKind>& outputs, bool forReplace)
@@ -969,14 +1350,15 @@ parseOptions(const ArrayOfVector& args, size_t start, bool defaultIgnoreCase,
     for (size_t i = start; i < args.size(); ++i) {
         const ArrayOf& a = args[i];
         if (forReplace && a.isNumeric() && a.isScalar()) {
-            double v = a.getContentAsDoubleScalar();
+            double v = a.asDoubleScalar();
             options.replaceOccurrence = static_cast<int>(v);
             continue;
         }
         if (!isStringLikeScalar(a)) {
-            Error(_W("Option must be a string."));
+            Error(L"Nelson:validators:mustBeTextScalar",
+                L"%s must be a character vector or string scalar.", L"Option");
         }
-        std::wstring opt = lower(a.getContentAsWideString());
+        std::wstring opt = lower(a.asWideString());
         if (opt == L"start") {
             outputs.push_back(RegexOutputKind::START);
         } else if (opt == L"end") {
@@ -1021,7 +1403,8 @@ parseOptions(const ArrayOfVector& args, size_t start, bool defaultIgnoreCase,
         } else if (opt == L"nowarnings") {
             options.warnings = false;
         } else {
-            Error(_W("Unknown regular expression option."));
+            Error(L"Nelson:string:unknownRegularExpressionOption",
+                L"Unknown regular expression option.");
         }
     }
     if (outputs.empty() && !forReplace) {
@@ -1035,20 +1418,21 @@ getTextElements(const ArrayOf& a)
 {
     std::vector<std::wstring> values;
     if (isStringLikeScalar(a)) {
-        values.push_back(a.getContentAsWideString());
+        values.push_back(a.asWideString());
     } else if (a.isCell() || a.isStringArray()) {
-        indexType n = a.getElementCount();
-        ArrayOf* elements = (ArrayOf*)a.getDataPointer();
+        indexType n = a.elementCount();
+        ArrayOf* elements = (ArrayOf*)a.dataPointer();
         values.reserve(n);
         for (indexType k = 0; k < n; ++k) {
             if (elements[k].isRowVectorCharacterArray()) {
-                values.push_back(elements[k].getContentAsWideString());
+                values.push_back(elements[k].asWideString());
             } else {
                 values.push_back(L"");
             }
         }
     } else {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_CELL_EXPECTED);
+        Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1),
+            L"string or cell");
     }
     return values;
 }
@@ -1060,10 +1444,10 @@ getOutputDimensions(const ArrayOf& text, const ArrayOf& expr)
         return Dimensions(1, 1);
     }
     if (!isStringLikeScalar(text) && !isStringLikeScalar(expr)
-        && !text.getDimensions().equals(expr.getDimensions())) {
-        Error(_W("Same size expected."));
+        && !text.dimensions().equals(expr.dimensions())) {
+        Error(L"Nelson:string:sameSizeExpected", L"Same size expected.");
     }
-    return isStringLikeScalar(text) ? expr.getDimensions() : text.getDimensions();
+    return isStringLikeScalar(text) ? expr.dimensions() : text.dimensions();
 }
 //=============================================================================
 std::wstring
@@ -1081,25 +1465,23 @@ buildNamesStruct(const RegexResult& result)
             names.push_back(ng.name);
         }
     }
-    if (names.empty()) {
-        Dimensions dims(1, 0);
-        return ArrayOf::emptyStructConstructor(names, dims);
-    }
     if (result.matches.empty()) {
-        Dimensions dims(1, 0);
-        return ArrayOf::emptyStructConstructor(names, dims);
+        Dimensions dims(0, 0);
+        return ArrayOf::emptyStruct(names, dims);
+    }
+    if (names.empty()) {
+        return ArrayOf::emptyStruct();
     }
     ArrayOfVector values;
     for (const auto& name : names) {
         ArrayOfVector cells;
         for (const auto& m : result.matches) {
             auto it = m.namedTokens.find(name);
-            cells.push_back(
-                ArrayOf::characterArrayConstructor(it == m.namedTokens.end() ? L"" : it->second));
+            cells.push_back(ArrayOf::characterArray(it == m.namedTokens.end() ? L"" : it->second));
         }
         values.push_back(cellRowFromArrays(cells));
     }
-    return ArrayOf::structConstructor(names, values);
+    return ArrayOf::structArray(names, values);
 }
 //=============================================================================
 ArrayOf
@@ -1123,7 +1505,7 @@ buildOutput(const RegexResult& result, RegexOutputKind kind, const RegexOptions&
     case RegexOutputKind::TOKEN_EXTENTS: {
         if (options.once) {
             if (result.matches.empty()) {
-                return ArrayOf::emptyConstructor(Dimensions(0, 2));
+                return ArrayOf::empty();
             }
             return tokenExtentsMatrix(result.matches[0]);
         }
@@ -1138,7 +1520,10 @@ buildOutput(const RegexResult& result, RegexOutputKind kind, const RegexOptions&
             if (result.matches.empty()) {
                 return emptyChar();
             }
-            return ArrayOf::characterArrayConstructor(result.matches[0].text);
+            return ArrayOf::characterArray(result.matches[0].text);
+        }
+        if (result.matches.empty()) {
+            return ArrayOf(NLS_CELL_ARRAY, Dimensions(0, 0), nullptr);
         }
         std::vector<std::wstring> v;
         for (const auto& m : result.matches) {
@@ -1149,7 +1534,7 @@ buildOutput(const RegexResult& result, RegexOutputKind kind, const RegexOptions&
     case RegexOutputKind::TOKENS: {
         if (options.once) {
             if (result.matches.empty()) {
-                return cellRowFromStrings({});
+                return ArrayOf(NLS_CELL_ARRAY, Dimensions(0, 0), nullptr);
             }
             return cellRowFromStrings(result.matches[0].tokens);
         }
@@ -1164,7 +1549,7 @@ buildOutput(const RegexResult& result, RegexOutputKind kind, const RegexOptions&
     case RegexOutputKind::SPLIT:
         return cellRowFromStrings(result.splits);
     }
-    return ArrayOf::emptyConstructor();
+    return ArrayOf::empty();
 }
 //=============================================================================
 ArrayOf
@@ -1176,6 +1561,118 @@ wrapIfForced(const ArrayOf& value, bool force)
     ArrayOfVector v;
     v.push_back(value);
     return cellFromVector(v, Dimensions(1, 1));
+}
+//=============================================================================
+// A string subject gives string results: a cell of character vectors becomes
+// a string array, a 'once' match a string scalar (missing when nothing
+// matched), tokens per match stay a cell of string arrays and the fields of
+// the names structure become strings.
+static ArrayOf
+charCellToStringArray(const ArrayOf& cell)
+{
+    Dimensions dims = cell.dimensions();
+    ArrayOf* src = (ArrayOf*)cell.dataPointer();
+    ArrayOf* elements = static_cast<ArrayOf*>(
+        ArrayOf::allocateArrayOf(NLS_STRING_ARRAY, dims.elementCount(), stringVector(), false));
+    for (indexType k = 0; k < dims.elementCount(); ++k) {
+        elements[k] = src[k];
+    }
+    return ArrayOf(NLS_STRING_ARRAY, dims, elements);
+}
+//=============================================================================
+static ArrayOf
+textOutputAsString(const ArrayOf& value, RegexOutputKind kind, bool once)
+{
+    switch (kind) {
+    case RegexOutputKind::MATCH: {
+        if (!once) {
+            return charCellToStringArray(value);
+        }
+        if (value.isEmpty()) {
+            Dimensions dims(1, 1);
+            return ArrayOf::missingStringArray(dims);
+        }
+        return ArrayOf::stringArray(value.asWideString());
+    }
+    case RegexOutputKind::SPLIT:
+        return charCellToStringArray(value);
+    case RegexOutputKind::TOKENS: {
+        if (once) {
+            return charCellToStringArray(value);
+        }
+        ArrayOf res(value);
+        res.ensureSingleOwner();
+        ArrayOf* elements = (ArrayOf*)res.dataPointer();
+        for (indexType k = 0; k < res.elementCount(); ++k) {
+            elements[k] = charCellToStringArray(elements[k]);
+        }
+        return res;
+    }
+    case RegexOutputKind::NAMES: {
+        ArrayOf res(value);
+        res.ensureSingleOwner();
+        ArrayOf* elements = (ArrayOf*)res.dataPointer();
+        for (indexType k = 0; k < res.elementCount() * res.fieldNames().size(); ++k) {
+            elements[k] = ArrayOf::stringArray(elements[k].asWideString());
+        }
+        return res;
+    }
+    default:
+        return value;
+    }
+}
+//=============================================================================
+// Top-level alternative (0, 1, ...) of every capture group of a pattern.
+static void
+groupBranches(const std::wstring& pattern, std::vector<int>& branches, int& branchCount)
+{
+    int depth = 0;
+    int branch = 0;
+    bool inClass = false;
+    const size_t size = pattern.size();
+    for (size_t k = 0; k < size; ++k) {
+        wchar_t c = pattern[k];
+        if (c == L'\\') {
+            ++k;
+        } else if (inClass) {
+            inClass = (c != L']');
+        } else if (c == L'[') {
+            inClass = true;
+            k += (k + 1 < size && pattern[k + 1] == L'^') ? 1 : 0;
+            k += (k + 1 < size && pattern[k + 1] == L']') ? 1 : 0;
+        } else if (c == L'(') {
+            ++depth;
+            bool capturing = true;
+            if (k + 1 < size && pattern[k + 1] == L'?') {
+                // (?<name>...), (?P<name>...) and (?'name'...) capture
+                wchar_t n = (k + 2 < size) ? pattern[k + 2] : L'\0';
+                wchar_t after = (k + 3 < size) ? pattern[k + 3] : L'\0';
+                capturing = (n == L'<' && after != L'=' && after != L'!')
+                    || (n == L'P' && after == L'<') || n == L'\'';
+            } else if (k + 1 < size && pattern[k + 1] == L'*') {
+                capturing = false;
+            }
+            if (capturing) {
+                branches.push_back(branch);
+            }
+        } else if (c == L')') {
+            depth -= (depth > 0) ? 1 : 0;
+        } else if (c == L'|' && depth == 0) {
+            ++branch;
+        }
+    }
+    branchCount = branch + 1;
+}
+//=============================================================================
+static bool
+isAscii(const std::wstring& text)
+{
+    for (wchar_t c : text) {
+        if (c > 127) {
+            return false;
+        }
+    }
+    return true;
 }
 //=============================================================================
 } // namespace Nelson

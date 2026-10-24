@@ -81,6 +81,10 @@
     <p>
       <b>dlgeneratemake</b> generates a makefile adapted to your system environment for building shared libraries.</p>
     <p>Thanks to <b>CMake</b> to help Nelson in this task.</p>
+    <p>When it is called with at least one output argument, <b>dlgeneratemake</b>
+      returns <b>res</b> (a logical) and <b>message</b>. When it is called with no
+      output argument, it raises the error <b>Nelson:dlgeneratemake:failed</b> on
+      failure instead of returning a false status.</p>
   </description>
   <used_function />
   <bibliography />

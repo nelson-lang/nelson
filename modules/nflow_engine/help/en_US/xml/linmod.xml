@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>linmod</keyword>
+  <short_description>Numerical linearization of an nflow model.</short_description>
+  <syntax>
+    <syntax_item>[A, B, C, D] = linmod(model)</syntax_item>
+    <syntax_item>[A, B, C, D] = linmod(model, x0, u0)</syntax_item>
+    <syntax_item>A = linmod(model)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>model</param_name>
+      <param_description>a loaded system (name or handle) or the path to a .nflow file.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>x0</param_name>
+      <param_description>optional operating-point state (length nx). Absent: the post-INIT state.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>u0</param_name>
+      <param_description>optional operating-point inputs (length nu). Absent: zero.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>A</param_name>
+      <param_description>the nx-by-nx state Jacobian d(xdot)/dx about the operating point.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>B</param_name>
+      <param_description>the nx-by-nu input Jacobian d(xdot)/du about the operating point.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>C</param_name>
+      <param_description>the ny-by-nx output Jacobian dy/dx about the operating point.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>D</param_name>
+      <param_description>the ny-by-nu feedthrough Jacobian dy/du about the operating point.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>linmod</b> returns the continuous-time state-space linearization of <b>model</b> about its post-INIT operating point.</p>
+    <p>The Jacobians are obtained by central finite differences of the same global right-hand side the <b>ode4</b> / variable-step solver assembles: the continuous state <b>x</b> gathers every continuous block's state, the inputs <b>u</b> are the external-port Label Source blocks (<b>isExternalPort</b>), <b>xdot = f(x, u)</b> is the graph's derivative, and <b>y</b> the model's Label Sink outputs. A linear model linearizes to itself.</p>
+    <p>An input that should participate in <b>B</b> / <b>D</b> must be an external-port Label Source; a plain Label Source used for internal goto/from routing is not a model input.</p>
+    <p>Both top-level (flat) models and continuous states nested inside subsystems are supported: a nested state's coupling to the external inputs (<b>B</b>) and to the outputs across the subsystem boundary (<b>C</b>) is captured.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Linearize a first-order state-space model</example_item_description>
+      <example_item_data><![CDATA[d.blocks = { ...
+  struct('id','u','type','labelSource','inputs',0,'outputs',1,'params',struct('label','u','isExternalPort',true)), ...
+  struct('id','ss','type','stateSpace','inputs',1,'outputs',1,'params',struct('A',-2,'B',1,'C',1,'D',0)), ...
+  struct('id','y','type','labelSink','inputs',1,'outputs',0,'params',struct('label','y')), ...
+  struct('id','sc','type','scope','inputs',1,'outputs',0,'params',struct()) };
+d.connections = { ...
+  struct('from','u','to','ss','fromIndex',0,'toIndex',0), ...
+  struct('from','ss','to','y','fromIndex',0,'toIndex',0), ...
+  struct('from','ss','to','sc','fromIndex',0,'toIndex',0) };
+f = [tempdir(), 'linmod_demo.nflow'];
+fid = fopen(f,'wt'); fwrite(fid, jsonencode(d)); fclose(fid);
+[A, B, C, D] = linmod(f)  % A = -2, B = 1, C = 1, D = 0]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${nflow_engine}trim">trim</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}sim">sim</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}load_system">load_system</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>1.0.0</history_version><history_description>initial version</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

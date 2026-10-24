@@ -10,33 +10,37 @@
 s = struct('b', 3, 'c', 7, 'a', 4);
 REF = struct('b', 3, 'd', 7, 'a', 4);
 R = renameStructField(s, 'c', 'd');
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 s = struct('b', 3, 'c', 7, 'a', 4);
 REF = struct('a', 3, 'b', 7, 'c', 4);
-R = renameStructField(s, {'a','b','c'});
-assert_isequal(R, REF);
+R = renameStructField(s, {'a', 'b', 'c'});
+asserts.isequal(R, REF);
 %=============================================================================
 s = struct('b', 3, 'c', 7, 'a', 4);
 REF = struct('c', 3, 'a', 7, 'b', 4);
-R = renameStructField(s, {'c','a','b'});
-assert_isequal(R, REF);
+R = renameStructField(s, {'c', 'a', 'b'});
+asserts.isequal(R, REF);
 %=============================================================================
 s = struct('b', 3, 'c', 7, 'a', 4);
 REF = struct('c', 3, 'a', 7, 'b', 4);
-R = renameStructField(s, ["c","a","b"]);
-assert_isequal(R, REF);
+R = renameStructField(s, ["c", "a", "b"]);
+asserts.isequal(R, REF);
 %=============================================================================
 s = struct('bla', 3, 'c', 7, 'bli', 4);
 REF = struct('blabla', 3, 'c', 7, 'bli', 4);
 R = renameStructField(s, 'bla', 'blabla');
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 s = struct('b', 3, 'c', 7, 'a', 4);
 msg = _('Number of field names must match number of desired names.');
-assert_checkerror('R = renameStructField(s, ["b"]);', msg);
+asserts.checkerror('R = renameStructField(s, ["b"]);', msg);
 %=============================================================================
 s = struct('b', 3, 'c', 7, 'a', 4);
-R = renameStructField(s, ["c","a","b"], ["c","a","b"]);
-assert_isequal(s, R);
+R = renameStructField(s, ["c", "a", "b"], ["c", "a", "b"]);
+asserts.isequal(s, R);
+%=============================================================================
+Renamed = renameStructField(struct('a', 1, 'd', 4), 'a', 'c');
+asserts.istrue(isfield(Renamed, 'c'));
+asserts.isfalse(isfield(Renamed, 'a'));
 %=============================================================================

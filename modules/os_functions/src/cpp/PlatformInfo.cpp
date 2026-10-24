@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -14,19 +14,25 @@ namespace Nelson {
 ArrayOf
 IsPc()
 {
-    return ArrayOf::logicalConstructor(IsPcPlatform());
+    return ArrayOf::logicalScalar(IsPcPlatform());
 }
 //=============================================================================
 ArrayOf
 IsMac()
 {
-    return ArrayOf::logicalConstructor(IsMacPlatform());
+    return ArrayOf::logicalScalar(IsMacPlatform());
 }
 //=============================================================================
 ArrayOf
 IsUnix()
 {
-    return ArrayOf::logicalConstructor(IsUnixPlatform());
+    return ArrayOf::logicalScalar(IsUnixPlatform());
+}
+//=============================================================================
+ArrayOf
+IsWasm()
+{
+    return ArrayOf::logicalScalar(IsWasmPlatform());
 }
 //=============================================================================
 bool
@@ -60,6 +66,16 @@ IsUnixPlatform()
 #endif
 }
 //=============================================================================
+bool
+IsWasmPlatform()
+{
+#if defined(__EMSCRIPTEN__) || defined(__wasm__)
+    return true;
+#else
+    return false;
+#endif
+}
+//=============================================================================
 std::wstring
 GetArchitecture()
 {
@@ -75,11 +91,16 @@ GetArchitecture()
 #endif
     }
     if (IsMacPlatform()) {
-#ifdef __x86_64__
+#if defined(__arm64__) || defined(__aarch64__)
+        return std::wstring(L"maca64");
+#elif defined(__x86_64__)
         return std::wstring(L"maci64");
 #else
         return std::wstring(L"maci32");
 #endif
+    }
+    if (IsWasmPlatform()) {
+        return std::wstring(L"wasm32");
     }
 #if defined(__x86_64__) || defined(__aarch64__)
     return std::wstring(L"glnxa64");
@@ -105,11 +126,16 @@ GetArchitectureType()
 #endif
     }
     if (IsMacPlatform()) {
-#ifdef __x86_64__
+#if defined(__arm64__) || defined(__aarch64__)
+        return std::wstring(L"MACA64");
+#elif defined(__x86_64__)
         return std::wstring(L"MACI64");
 #else
         return std::wstring(L"MACI32");
 #endif
+    }
+    if (IsWasmPlatform()) {
+        return std::wstring(L"WASM32");
     }
 #ifdef __x86_64__
     return std::wstring(L"GLNXA64");

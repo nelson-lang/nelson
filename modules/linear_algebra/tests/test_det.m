@@ -7,71 +7,91 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('det'), 1);
-assert_isequal(nargout('det'), 1);
+% <--REUSE PROCESS-->
+asserts.isequal(nargin('det'), 1);
+asserts.isequal(nargout('det'), 1);
 %=============================================================================
 R = det([]);
 REF = double(1);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = det(single([]));
 REF = single(1);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = det(NaN);
 REF = NaN;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-R = det([1, 1; 1,NaN]);
+R = det([1, 1; 1, NaN]);
 REF = NaN;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = det([1 1; 1 NaN] + i);
 REF = complex(NaN, NaN);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = det(Inf);
 REF = Inf;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = det(Inf);
 REF = Inf;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = det(1);
 REF = 1;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = det(1 + i);
 REF = 1 + i;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = det([1 1; 1 2]);
 REF = 1;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = det([1 1; 1 2] + i);
 REF = 1 + i;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
+%=============================================================================
+R = det(single([1 + 1i 1; 1 2 - 1i]));
+REF = single(2 + 1i);
+asserts.isequal(class(R), 'single');
+asserts.isapprox(R, REF, 1e-6);
 %=============================================================================
 R = det(sparse([1 1; 1 2]));
 REF = 1;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = det(sparse([1 1; 1 2] + i));
 REF = 1 + i;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
+%=============================================================================
+R = det(sparse(single([1 1; 1 2])));
+REF = single(1);
+asserts.isequal(class(R), 'single');
+asserts.isequal(R, REF);
+%=============================================================================
+R = det(sparse(single([1 + 1i 1; 1 2 - 1i])));
+REF = single(2 + 1i);
+asserts.isequal(class(R), 'single');
+asserts.isapprox(R, REF, 1e-6);
 %=============================================================================
 R = det(0);
 REF = 0;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-R = det([1 2 ; 1 2]);
+R = det([1 2; 1 2]);
 REF = 0;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-assert_checkerror('R = det([1 2])', _('Square matrix expected.'));
+asserts.checkerror('R = det([1 2])', sprintf(_('%s expected.'), 'Square matrix'));
 %=============================================================================
 msg = sprintf(_('Check for incorrect argument data type or missing argument in call to function ''%s''.'), 'det');
-assert_checkerror('R = det(''hello'')', msg);
+asserts.checkerror('R = det(''hello'')', msg);
+%=============================================================================
+A = [4 2; 2 3];
+asserts.isequal(det(A), 8);
+asserts.isequal(det([]), 1);
 %=============================================================================

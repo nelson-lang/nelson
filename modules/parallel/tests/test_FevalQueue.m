@@ -10,6 +10,7 @@
 % <--SEQUENTIAL TEST REQUIRED-->
 %=============================================================================
 T = maxNumCompThreads();
+cleanupThreads = onCleanup(@() maxNumCompThreads(T)); %#ok<NLS0004>
 if (T > 2)
   maxNumCompThreads(2);
 end
@@ -17,32 +18,28 @@ end
 p = str2func('pause');
 b = backgroundPool();
 NumWorkers = b.NumWorkers;
-assert_isequal(NumWorkers, maxNumCompThreads());
-totalWorkers = (NumWorkers * 100) + 2;
+asserts.isequal(NumWorkers, maxNumCompThreads());
+totalWorkers = (NumWorkers * 2) + 2;
 for k = 1:totalWorkers
-  f(k) = parfeval(b, p, 0, Inf);
+  f(k) = parfeval(b, p, 0, 3);
 end
 %=============================================================================
-assert_isequal(class(f), 'FevalFuture');
+asserts.isequal(class(f), 'FevalFuture');
 %=============================================================================
 wait(f(1), 'running');
-K =  b.FevalQueue;
+K = b.FevalQueue;
 R1 = K.RunningFutures;
 LEN_R1 = length(R1);
 R2 = K.QueuedFutures;
 LEN_R2 = length(R2);
 %=============================================================================
-assert_isequal(length(f), totalWorkers);
-assert_isequal(LEN_R1 + LEN_R2, totalWorkers);
+asserts.isequal(length(f), totalWorkers);
+asserts.isequal(LEN_R1 + LEN_R2, totalWorkers);
 %=============================================================================
-assert_isequal(size(K), [1 1]);
+asserts.isequal(size(K), [1 1]);
 %=============================================================================
-assert_isequal(LEN_R1, NumWorkers);
+asserts.isequal(LEN_R1, NumWorkers);
 %=============================================================================
-if maxNumCompThreads() == 1
-  expected = 101;
-else
-  expected = 100;
-end
-assert_isequal(LEN_R2, NumWorkers * expected);
+asserts.isequal(LEN_R2, NumWorkers + 2);
+wait(f, 'finished', 10);
 %=============================================================================

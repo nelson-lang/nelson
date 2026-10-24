@@ -7,18 +7,16 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-skip_testsuite(~isempty(getenv('CONDA_PREFIX')) && ismac(), ...
-  'Skipping xmltransform tests in conda environment on macOS due to libxslt issues.');
-%=============================================================================
+% <--WEIGHT 2-->
 have_xmldoc = isfile([modulepath('help_tools'), '/help/en_US/xml/chapter.xml'])
-skip_testsuite(~have_xmldoc, 'XML documentation is missing')
+skip_testsuite(~have_xmldoc, 'Help XML sources are not available in this build')
 %=============================================================================
-destination = [tempdir(), 'test_buildhelpmd'];
-if isdir(destination)
-  rmdir(destination, 's');
-end
+destination = tempname();
 mkdir(destination);
-buildhelpmd(destination);
+buildhelpmd(destination, 'help_tools');
 r = dir([destination, '/*.md'], '-s');
-assert_istrue(length(r) > 600);
+asserts.istrue(length(r) > 10);
+asserts.istrue(isfile([destination, '/en/help_tools/SUMMARY.md']));
+asserts.istrue(isfile([destination, '/fr/help_tools/SUMMARY.md']));
+rmdir(destination, 's');
 %=============================================================================

@@ -16,5 +16,8 @@
 namespace Nelson {
 NLSOS_FUNCTIONS_IMPEXP std::wstring
 GetVariableEnvironment(const std::wstring& envVarName, const std::wstring& defaultValue = L"");
-}
+NLSOS_FUNCTIONS_IMPEXP bool
+IsVariableEnvironment(const std::wstring& envVarName);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

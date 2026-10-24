@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,6 +10,7 @@
 #include "dlsym_displayBuiltin.hpp"
 #include "DynamicLinkSymbolObject.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
@@ -31,15 +32,15 @@ Nelson::DynamicLinkGateway::dlsym_dispBuiltin(Evaluator* eval, int nLhs, const A
         std::wstring name;
         DisplayVariableHeader(io, param1, name, false);
         if (param1.isScalar()) {
-            if (param1.getHandleCategory() != NLS_HANDLE_DLSYM_CATEGORY_STR) {
-                Error(_W("dlsym handle expected."));
+            if (param1.handleCategory() != NLS_HANDLE_DLSYM_CATEGORY_STR) {
+                Error(L"Nelson:dynamic_link:dlsymHandle", L"dlsym handle expected.");
             }
-            auto* dlsymObj = (DynamicLinkSymbolObject*)param1.getContentAsHandleScalar();
+            auto* dlsymObj = (DynamicLinkSymbolObject*)param1.asHandleScalar();
             dlsymObj->disp(io);
         }
         DisplayVariableFooter(io, name.empty());
     } else {
-        Error(_W("dlsym handle expected."));
+        Error(L"Nelson:dynamic_link:dlsymHandle", L"dlsym handle expected.");
     }
     return retval;
 }
@@ -55,22 +56,22 @@ Nelson::DynamicLinkGateway::dlsym_displayBuiltin(
     if (param1.isHandle()) {
         std::wstring name;
         if (argIn.size() == 2) {
-            name = argIn[1].getContentAsWideString();
+            name = argIn[1].asWideString();
         } else {
             name = argIn[0].wname();
         }
         Interface* io = eval->getInterface();
         DisplayVariableHeader(io, param1, name, false);
         if (param1.isScalar()) {
-            if (param1.getHandleCategory() != NLS_HANDLE_DLSYM_CATEGORY_STR) {
-                Error(_W("dlsym handle expected."));
+            if (param1.handleCategory() != NLS_HANDLE_DLSYM_CATEGORY_STR) {
+                Error(L"Nelson:dynamic_link:dlsymHandle", L"dlsym handle expected.");
             }
-            auto* dlsymObj = (DynamicLinkSymbolObject*)param1.getContentAsHandleScalar();
+            auto* dlsymObj = (DynamicLinkSymbolObject*)param1.asHandleScalar();
             dlsymObj->disp(io);
         }
         DisplayVariableFooter(io, name.empty());
     } else {
-        Error(_W("dlsym handle expected."));
+        Error(L"Nelson:dynamic_link:dlsymHandle", L"dlsym handle expected.");
     }
     return retval;
 }

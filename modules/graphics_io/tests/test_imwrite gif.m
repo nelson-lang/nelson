@@ -17,25 +17,28 @@ movie_directory = [modulepath('graphics'), '/examples/', 'movie/'];
 sequences = {'dance', 8; 'leap', 9};
 frameIdx = 0;
 filename_gif = [tempdir, 'gif_animation.gif'];
-for s = 1:size(sequences, 1)
-    action = sequences{s, 1};
-    nb_frames_action = sequences{s, 2};
-    
-    for i = 1:nb_frames_action
-        % Construct the filename for the current frame
-        filename = fullfile(movie_directory, sprintf('%s_%d.png', action, i));
-        
-        % Read the image and store it in the movie structure
-        [image, map] = imread(filename);
-        % Read the image
-        [A, map] = imread(filename);
-        if frameIdx == 1
-            imwrite(A,map,filename_gif,"gif", 'LoopCount', Inf, 'DelayTime', 1);
-        else
-            imwrite(A,map,filename_gif,"gif", 'WriteMode', "append", 'DelayTime', 1)
-        end
-        frameIdx = frameIdx + 1;
-    end
+if isfile(filename_gif)
+  rmfile(filename_gif);
 end
-assert_istrue(isfile(filename_gif));
+for s = 1:size(sequences, 1)
+  action = sequences{s, 1};
+  nb_frames_action = sequences{s, 2};
+
+  for i = 1:nb_frames_action
+    % Construct the filename for the current frame
+    filename = fullfile(movie_directory, sprintf('%s_%d.png', action, i));
+
+    % Read the image and store it in the movie structure
+    [image, map] = imread(filename);
+    % Read the image
+    [A, map] = imread(filename);
+    if frameIdx == 0
+      imwrite(A, map, filename_gif, "gif", 'LoopCount', Inf, 'DelayTime', 1);
+    else
+      imwrite(A, map, filename_gif, "gif", 'WriteMode', "append", 'DelayTime', 1)
+    end
+    frameIdx = frameIdx + 1;
+  end
+end
+asserts.istrue(isfile(filename_gif));
 %=============================================================================

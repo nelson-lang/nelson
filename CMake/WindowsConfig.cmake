@@ -31,9 +31,6 @@ endif()
 if(_nelson_windows_platform STREQUAL "x64")
   set(NELSON_WINDOWS_PLATFORM_NAME "x64")
   set(NELSON_WINDOWS_THIRDPARTY_PLATFORM "x64")
-elseif(_nelson_windows_platform STREQUAL "Win32")
-  set(NELSON_WINDOWS_PLATFORM_NAME "win32")
-  set(NELSON_WINDOWS_THIRDPARTY_PLATFORM "win32")
 elseif(_nelson_windows_platform STREQUAL "ARM64")
   set(NELSON_WINDOWS_PLATFORM_NAME "ARM64")
   set(NELSON_WINDOWS_THIRDPARTY_PLATFORM "arm64")
@@ -62,44 +59,26 @@ if(NOT IS_DIRECTORY "${NELSON_WINDOWS_THIRDPARTY_ROOT}")
   )
 endif()
 # ==============================================================================
-# Print diagnostic information for Boost configuration on Windows ARM64
 message(STATUS "Nelson Windows CMake Configuration:")
 message(STATUS "  Platform: ${NELSON_WINDOWS_PLATFORM_NAME}")
 message(STATUS "  Third-party root: ${NELSON_WINDOWS_THIRDPARTY_ROOT}")
-if(EXISTS "${NELSON_WINDOWS_THIRDPARTY_ROOT}/boost/lib")
-  message(STATUS
-    "  Boost library path exists: ${NELSON_WINDOWS_THIRDPARTY_ROOT}/boost/lib"
-  )
-  # List first few boost libraries for debugging
-  file(GLOB _BOOST_LIBS
-    "${NELSON_WINDOWS_THIRDPARTY_ROOT}/boost/lib/boost_*.lib"
-    LIMIT
-    3
-  )
-  foreach(_LIB ${_BOOST_LIBS})
-    get_filename_component(_LIB_NAME "${_LIB}" NAME)
-    message(STATUS "    Found: ${_LIB_NAME}")
-  endforeach()
-endif()
 # ==============================================================================
-set(BIN_DIRECTORY "${CMAKE_SOURCE_DIR}/bin/${NELSON_WINDOWS_PLATFORM_NAME}")
+if(NELSON_PORTABLE_BUILD)
+  set(BIN_DIRECTORY
+    "${PROJECT_BINARY_DIR}/bin/${NELSON_WINDOWS_PLATFORM_NAME}"
+  )
+else()
+  set(BIN_DIRECTORY
+    "${CMAKE_SOURCE_DIR}/bin/${NELSON_WINDOWS_PLATFORM_NAME}"
+  )
+endif()
 file(TO_CMAKE_PATH "${BIN_DIRECTORY}" BIN_DIRECTORY)
 
-if(NELSON_WINDOWS_PLATFORM_NAME
-  STREQUAL
-  "win32"
-  OR
-  NELSON_WINDOWS_PLATFORM_NAME
-  STREQUAL
-  "x64"
-)
+if(NELSON_WINDOWS_PLATFORM_NAME STREQUAL "x64")
   set(_nelson_mpi_root "${NELSON_WINDOWS_THIRDPARTY_ROOT}/mpi")
   set(_nelson_mpi_include_dir "${_nelson_mpi_root}/Include")
 
-  if(NELSON_WINDOWS_PLATFORM_NAME STREQUAL "win32")
-    set(_nelson_mpi_library_dir "${_nelson_mpi_root}/Lib/x86")
-    set(ENV{MSMPI_LIB32} "${_nelson_mpi_library_dir}")
-  else()
+  if(NELSON_WINDOWS_PLATFORM_NAME STREQUAL "x64")
     set(_nelson_mpi_library_dir "${_nelson_mpi_root}/Lib/x64")
     set(ENV{MSMPI_LIB64} "${_nelson_mpi_library_dir}")
   endif()
@@ -132,12 +111,14 @@ endif()
 # ==============================================================================
 list(PREPEND CMAKE_PREFIX_PATH
   "${NELSON_WINDOWS_THIRDPARTY_ROOT}"
-  "${NELSON_WINDOWS_THIRDPARTY_ROOT}/boost"
   "${NELSON_WINDOWS_THIRDPARTY_ROOT}/curl"
   "${NELSON_WINDOWS_THIRDPARTY_ROOT}/hdf5"
+  "${NELSON_WINDOWS_THIRDPARTY_ROOT}/netcdf"
   "${NELSON_WINDOWS_THIRDPARTY_ROOT}/icu"
   "${NELSON_WINDOWS_THIRDPARTY_ROOT}/libffi"
   "${NELSON_WINDOWS_THIRDPARTY_ROOT}/libgif"
+  "${NELSON_WINDOWS_THIRDPARTY_ROOT}/libpng"
+  "${NELSON_WINDOWS_THIRDPARTY_ROOT}/libwebp"
   "${NELSON_WINDOWS_THIRDPARTY_ROOT}/libgit2"
   "${NELSON_WINDOWS_THIRDPARTY_ROOT}/libiconv"
   "${NELSON_WINDOWS_THIRDPARTY_ROOT}/liblzma"
@@ -147,17 +128,22 @@ list(PREPEND CMAKE_PREFIX_PATH
   "${NELSON_WINDOWS_THIRDPARTY_ROOT}/matio"
   "${NELSON_WINDOWS_THIRDPARTY_ROOT}/mkl"
   "${NELSON_WINDOWS_THIRDPARTY_ROOT}/openblas"
+  "${NELSON_WINDOWS_THIRDPARTY_ROOT}/qhull"
+  "${NELSON_WINDOWS_THIRDPARTY_ROOT}/arrow"
   "${NELSON_WINDOWS_THIRDPARTY_ROOT}/portaudio"
+  "${NELSON_WINDOWS_THIRDPARTY_ROOT}/sundials"
   "${NELSON_WINDOWS_THIRDPARTY_ROOT}/taglib"
   "${NELSON_WINDOWS_THIRDPARTY_ROOT}/tiff"
   "${NELSON_WINDOWS_THIRDPARTY_ROOT}/zlib"
 )
 
 list(PREPEND CMAKE_INCLUDE_PATH
-  "${NELSON_WINDOWS_THIRDPARTY_ROOT}/boost"
   "${NELSON_WINDOWS_THIRDPARTY_ROOT}/Eigen"
   "${NELSON_WINDOWS_THIRDPARTY_ROOT}/icu/include"
   "${NELSON_WINDOWS_THIRDPARTY_ROOT}/libffi/include"
+  "${NELSON_WINDOWS_THIRDPARTY_ROOT}/sundials/include"
+  "${NELSON_WINDOWS_THIRDPARTY_ROOT}/arrow/include"
+  "${NELSON_WINDOWS_THIRDPARTY_ROOT}/netcdf/include"
 )
 
 if(NOT _nelson_windows_is_arm64)
@@ -167,10 +153,13 @@ if(NOT _nelson_windows_is_arm64)
 endif()
 
 list(PREPEND CMAKE_LIBRARY_PATH
-  "${NELSON_WINDOWS_THIRDPARTY_ROOT}/boost/lib"
   "${NELSON_WINDOWS_THIRDPARTY_ROOT}/icu/lib"
   "${NELSON_WINDOWS_THIRDPARTY_ROOT}/libffi/lib"
   "${NELSON_WINDOWS_THIRDPARTY_ROOT}/openblas/lib"
+  "${NELSON_WINDOWS_THIRDPARTY_ROOT}/qhull/lib"
+  "${NELSON_WINDOWS_THIRDPARTY_ROOT}/sundials/lib"
+  "${NELSON_WINDOWS_THIRDPARTY_ROOT}/arrow/lib"
+  "${NELSON_WINDOWS_THIRDPARTY_ROOT}/netcdf/lib"
 )
 
 if(NOT _nelson_windows_is_arm64)
@@ -181,10 +170,18 @@ if(NOT _nelson_windows_is_arm64)
 endif()
 
 include_directories(BEFORE
-  "${NELSON_WINDOWS_THIRDPARTY_ROOT}/boost"
   "${NELSON_WINDOWS_THIRDPARTY_ROOT}/Eigen"
   "${NELSON_WINDOWS_THIRDPARTY_ROOT}/zlib/include"
+  "${NELSON_WINDOWS_THIRDPARTY_ROOT}/arrow/include"
 )
+
+set(ARROW_INCLUDE_DIRS "${NELSON_WINDOWS_THIRDPARTY_ROOT}/arrow/include")
+set(ARROW_LIBRARIES "${NELSON_WINDOWS_THIRDPARTY_ROOT}/arrow/lib/arrow.lib")
+set(PARQUET_LIBRARIES "${NELSON_WINDOWS_THIRDPARTY_ROOT}/arrow/lib/parquet.lib")
+set(ARROW_RUNTIME_DIR "${NELSON_WINDOWS_THIRDPARTY_ROOT}/arrow/bin")
+set(NETCDF_INCLUDE_DIRS "${NELSON_WINDOWS_THIRDPARTY_ROOT}/netcdf/include")
+set(NETCDF_LIBRARIES "${NELSON_WINDOWS_THIRDPARTY_ROOT}/netcdf/lib/netcdf.lib")
+set(NETCDF_RUNTIME_DIR "${NELSON_WINDOWS_THIRDPARTY_ROOT}/netcdf/bin")
 
 if(NOT _nelson_windows_is_arm64)
   include_directories(BEFORE "${NELSON_WINDOWS_THIRDPARTY_ROOT}/mkl/include")
@@ -197,129 +194,6 @@ set(
     PATH
     "Eigen include directory"
 )
-set(
-  BOOST_ROOT
-  "${NELSON_WINDOWS_THIRDPARTY_ROOT}/boost"
-  CACHE
-    PATH
-    "Boost root"
-)
-set(
-  BOOST_INCLUDEDIR
-  "${NELSON_WINDOWS_THIRDPARTY_ROOT}/boost"
-  CACHE
-    PATH
-    "Boost include directory"
-)
-set(
-  BOOST_LIBRARYDIR
-  "${NELSON_WINDOWS_THIRDPARTY_ROOT}/boost/lib"
-  CACHE
-    PATH
-    "Boost library directory"
-)
-set(
-  Boost_NO_BOOST_CMAKE
-  ON
-  CACHE
-    BOOL
-    "Use FindBoost for Nelson Windows third-party layout"
-)
-# Boost libraries on Windows are built as shared libraries (DLLs)
-# Do not force static libs, allow FindBoost to auto-detect
-if(NOT DEFINED Boost_USE_STATIC_LIBS)
-  set(
-    Boost_USE_STATIC_LIBS
-    OFF
-    CACHE
-      BOOL
-      "Use static Boost libraries (OFF for shared/DLL libraries)"
-  )
-endif()
-set(
-  Boost_USE_MULTITHREADED
-  ON
-  CACHE
-    BOOL
-    "Use multithreaded Boost libraries"
-)
-# Detect Boost compiler/architecture suffixes from available library filenames.
-# This keeps x64/win32/ARM64 working even when third-party Boost was built with
-# a different MSVC toolset tag than the active compiler (e.g. vc143 vs vc145).
-set(_nelson_boost_lib_dir "${NELSON_WINDOWS_THIRDPARTY_ROOT}/boost/lib")
-set(_nelson_boost_name_candidates)
-file(GLOB _nelson_boost_name_candidates
-  "${_nelson_boost_lib_dir}/boost_serialization-vc*-mt-*.lib"
-  "${_nelson_boost_lib_dir}/boost_filesystem-vc*-mt-*.lib"
-)
-
-if(_nelson_boost_name_candidates)
-  list(SORT _nelson_boost_name_candidates)
-  list(GET _nelson_boost_name_candidates 0 _nelson_boost_sample_path)
-  get_filename_component(_nelson_boost_sample_name
-    "${_nelson_boost_sample_path}"
-    NAME
-  )
-
-  string(REGEX
-    MATCH
-    "-vc[0-9]+"
-    _nelson_boost_compiler_suffix
-    "${_nelson_boost_sample_name}"
-  )
-  if(_nelson_boost_compiler_suffix)
-    set(
-      Boost_COMPILER
-      "${_nelson_boost_compiler_suffix}"
-      CACHE
-        STRING
-        "Boost compiler suffix detected from third-party libraries"
-      FORCE
-    )
-  endif()
-
-  string(REGEX
-    MATCH
-    "-(a64|x64|x32)-"
-    _nelson_boost_arch_match
-    "${_nelson_boost_sample_name}"
-  )
-  if(_nelson_boost_arch_match)
-    set(
-      Boost_ARCHITECTURE
-      "-${CMAKE_MATCH_1}"
-      CACHE
-        STRING
-        "Boost architecture suffix detected from third-party libraries"
-      FORCE
-    )
-  endif()
-endif()
-# Debug option for troubleshooting Boost discovery
-set(
-  Boost_DEBUG
-  OFF
-  CACHE
-    BOOL
-    "Enable verbose Boost discovery logging"
-)
-# Force FindBoost to only use our third-party Boost, not system Boost
-set(
-  Boost_NO_SYSTEM_PATHS
-  TRUE
-  CACHE
-    BOOL
-    "Do not search for Boost in system paths"
-)
-# For better debugging and compatibility
-set(
-  Boost_VERBOSE
-  ${Boost_DEBUG}
-  CACHE
-    BOOL
-    "Enable verbose Boost discovery logging"
-)
-
 if(NOT _nelson_windows_is_arm64)
   set(
     MKL_DIR
@@ -370,7 +244,7 @@ set(
   "${NELSON_WINDOWS_THIRDPARTY_ROOT}/libgif/include"
   CACHE
     PATH
-    "giflib include directory"
+    "libgif include directory"
   FORCE
 )
 set(
@@ -378,10 +252,58 @@ set(
   "${NELSON_WINDOWS_THIRDPARTY_ROOT}/libgif/lib/gif.lib"
   CACHE
     FILEPATH
-    "giflib library"
+    "libgif library"
   FORCE
 )
-set(GIF_LIBRARIES "${GIF_LIBRARY}" CACHE FILEPATH "giflib libraries" FORCE)
+set(GIF_LIBRARIES "${GIF_LIBRARY}" CACHE FILEPATH "libgif libraries" FORCE)
+set(
+  JPEG_INCLUDE_DIR
+  "${NELSON_WINDOWS_THIRDPARTY_ROOT}/tiff/include"
+  CACHE
+    PATH
+    "libjpeg-turbo include directory supplied by the TIFF bundle"
+  FORCE
+)
+set(
+  JPEG_LIBRARY
+  "${NELSON_WINDOWS_THIRDPARTY_ROOT}/tiff/lib/jpeg.lib"
+  CACHE
+    FILEPATH
+    "libjpeg-turbo library supplied by the TIFF bundle"
+  FORCE
+)
+set(
+  PNG_PNG_INCLUDE_DIR
+  "${NELSON_WINDOWS_THIRDPARTY_ROOT}/libpng/include"
+  CACHE
+    PATH
+    "libpng include directory"
+  FORCE
+)
+set(
+  PNG_LIBRARY
+  "${NELSON_WINDOWS_THIRDPARTY_ROOT}/libpng/lib/libpng16.lib"
+  CACHE
+    FILEPATH
+    "libpng library"
+  FORCE
+)
+set(
+  WEBP_INCLUDE_DIR
+  "${NELSON_WINDOWS_THIRDPARTY_ROOT}/libwebp/include"
+  CACHE
+    PATH
+    "libwebp include directory"
+  FORCE
+)
+set(
+  WEBP_LIBRARY
+  "${NELSON_WINDOWS_THIRDPARTY_ROOT}/libwebp/lib/libwebp.lib"
+  CACHE
+    FILEPATH
+    "libwebp library"
+  FORCE
+)
 set(
   TIFF_INCLUDE_DIR
   "${NELSON_WINDOWS_THIRDPARTY_ROOT}/tiff/include"

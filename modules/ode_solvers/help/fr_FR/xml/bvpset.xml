@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>bvpset</keyword>
+  <short_description>Cree ou met a jour des options BVP.</short_description>
+  <syntax>
+    <syntax_item>options = bvpset()</syntax_item>
+    <syntax_item>options = bvpset(name, value)</syntax_item>
+  </syntax>
+  <description>
+    <p>
+      <b>bvpset</b> cree des options pour les solveurs de problemes aux limites.</p>
+    <table style="width:100%">
+      <tr>
+        <th>Option</th>
+        <th>Role</th>
+      </tr>
+      <tr>
+        <td><b>RelTol</b>, <b>AbsTol</b></td>
+        <td>Tolerances de resolution.</td>
+      </tr>
+      <tr>
+        <td><b>NMax</b></td>
+        <td>Nombre maximal de points de maillage.</td>
+      </tr>
+      <tr>
+        <td><b>FJacobian</b>, <b>BCJacobian</b></td>
+        <td>Jacobiens analytiques pour l equation et les conditions aux limites.</td>
+      </tr>
+      <tr>
+        <td><b>Vectorized</b>, <b>SingularTerm</b>, <b>Stats</b></td>
+        <td>Vectorisation, terme singulier et affichage des statistiques.</td>
+      </tr>
+    </table>
+    <p>Les noms pris en charge incluent <b>AbsTol</b>, <b>RelTol</b>, <b>NMax</b>, <b>Stats</b>, <b>Vectorized</b>, <b>FJacobian</b>, <b>BCJacobian</b> et <b>SingularTerm</b>. <b>FJacobian</b> et <b>BCJacobian</b> sont utilises ensemble par l'iteration de Newton quand les deux callbacks sont presents.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Exemple complet des fonctionnalites DDE et BVP ajoutees.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[rootPath = modulepath('ode_solvers', 'root');
+run([rootPath, '/examples/dde_bvp_added_features_example.m'])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ode_solvers}bvpget">bvpget</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -19,5 +19,5 @@ namespace Nelson {
 std::vector<std::tuple<std::wstring, std::wstring, std::wstring>>
 XmlDocMakeSummary(const wstringVector xmlDirectories);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

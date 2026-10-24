@@ -1,0 +1,125 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Allan CORNET",
+    "created": "2026-09-28",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "comments": "A self-contained acausal RC low-pass circuit grouped inside a plain subsystem (Tier 1: acausal components inside a subsystem). The subsystem 'RC_Lowpass' holds a sinusoidal voltage source, a resistor, a capacitor to ground and a voltage sensor wired with physical wires; it exposes the sensed capacitor voltage as its single output. On simulation NFlow.internal.acausalExpand recurses into the subsystem and lowers the physical wires into a nested physicalIsland (the engine simulates it exactly like a top-level island). The Scope plots the filtered capacitor voltage and ToWorkspace exports it. tau = R*C = 100*1e-3 = 0.1 s.",
+  "name": "Acausal RC low-pass in a subsystem",
+  "blocks": [
+    {
+      "id": "sub",
+      "type": "subsystem",
+      "params": {
+        "name": "RC_Lowpass",
+        "subsystem": {
+          "blocks": [
+            {
+              "id": "V1",
+              "type": "SineVoltage",
+              "params": { "name": "Vin", "Amplitude": 1, "Frequency": 1, "Phase": 0 },
+              "x": 50,
+              "y": 280,
+              "rotation": 90
+            },
+            {
+              "id": "R1",
+              "type": "Resistor",
+              "params": { "name": "R1", "R": 100 },
+              "x": 200,
+              "y": 210,
+              "rotation": 0
+            },
+            {
+              "id": "C1",
+              "type": "Capacitor",
+              "params": { "name": "C1", "C": 0.001, "v0": 0 },
+              "x": 350,
+              "y": 280,
+              "rotation": 90
+            },
+            {
+              "id": "VS",
+              "type": "VoltageSensor",
+              "params": { "name": "Vc" },
+              "x": 490,
+              "y": 280,
+              "rotation": 90
+            },
+            {
+              "id": "G",
+              "type": "Ground",
+              "params": {},
+              "x": 50,
+              "y": 400,
+              "rotation": 90
+            },
+            {
+              "id": "vc_out",
+              "type": "labelSink",
+              "params": { "gotoTag": "vc" },
+              "inputs": 1,
+              "outputs": 1,
+              "x": 650,
+              "y": 130,
+              "rotation": 0
+            }
+          ],
+          "connections": [
+            { "from": "VS", "to": "vc_out", "fromIndex": 0, "toIndex": 0 }
+          ],
+          "physicalWires": [
+            { "pins": ["V1.p", "R1.p"] },
+            { "pins": ["R1.n", "C1.p", "VS.p"] },
+            { "pins": ["V1.n", "C1.n", "VS.n", "G.p"] }
+          ],
+          "externalOutputs": [
+            { "id": "vc_out", "name": "vc" }
+          ]
+        }
+      },
+      "inputs": 0,
+      "outputs": 1,
+      "x": 320,
+      "y": 200,
+      "rotation": 0
+    },
+    {
+      "id": "twV",
+      "type": "toWorkspace",
+      "params": { "VariableName": "vc", "SaveFormat": "Array", "Decimation": 1, "MaxDataPoints": "inf" },
+      "inputs": 1,
+      "outputs": 0,
+      "x": 560,
+      "y": 130,
+      "rotation": 0
+    },
+    {
+      "id": "sc",
+      "type": "scope",
+      "params": {
+        "TMin": "",
+        "TMax": "",
+        "YMin": "",
+        "YMax": "",
+        "width": 320,
+        "height": 220,
+        "ShowTickLabels": true
+      },
+      "x": 560,
+      "y": 240,
+      "rotation": 0
+    }
+  ],
+  "connections": [
+    { "from": "sub", "to": "twV", "fromIndex": 0, "toIndex": 0 },
+    { "from": "sub", "to": "sc", "fromIndex": 0, "toIndex": 0 }
+  ],
+  "solver": "dae",
+  "runtime": 3,
+  "sampleTime": 0.01,
+  "physicalWires": []
+}

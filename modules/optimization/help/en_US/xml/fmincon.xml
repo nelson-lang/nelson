@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>fmincon</keyword>
+  <short_description>Constrained nonlinear minimization.</short_description>
+  <syntax>
+    <syntax_item>x = fmincon(fun, x0, A, b)</syntax_item>
+    <syntax_item>x = fmincon(fun, x0, A, b, Aeq, beq, lb, ub, nonlcon, options)</syntax_item>
+    <syntax_item>[x, fval, exitflag, output, lambda, grad, hessian] = fmincon(___)</syntax_item>
+    <syntax_item>x = fmincon(problem)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>fun</param_name><param_description>objective function returning a real scalar.</param_description></param_input_item>
+    <param_input_item><param_name>x0</param_name><param_description>initial point.</param_description></param_input_item>
+    <param_input_item><param_name>A, b</param_name><param_description>linear inequalities A*x &lt;= b.</param_description></param_input_item>
+    <param_input_item><param_name>Aeq, beq</param_name><param_description>linear equalities Aeq*x = beq.</param_description></param_input_item>
+    <param_input_item><param_name>lb, ub</param_name><param_description>lower and upper bounds.</param_description></param_input_item>
+    <param_input_item><param_name>nonlcon</param_name><param_description>nonlinear constraint function returning c and ceq.</param_description></param_input_item>
+    <param_input_item><param_name>options</param_name><param_description>solver options created with optimoptions or optimset.</param_description></param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>x</param_name><param_description>computed minimizer.</param_description></param_output_item>
+    <param_output_item><param_name>fval</param_name><param_description>objective value at x.</param_description></param_output_item>
+    <param_output_item><param_name>exitflag</param_name><param_description>termination indicator.</param_description></param_output_item>
+    <param_output_item><param_name>output</param_name><param_description>diagnostic structure.</param_description></param_output_item>
+    <param_output_item><param_name>lambda</param_name><param_description>Lagrange multiplier structure.</param_description></param_output_item>
+    <param_output_item><param_name>grad</param_name><param_description>objective gradient at x.</param_description></param_output_item>
+    <param_output_item><param_name>hessian</param_name><param_description>approximate Hessian of the Lagrangian.</param_description></param_output_item>
+  </param_output>
+  <description>
+    <p><b>fmincon</b> solves constrained nonlinear minimization problems with linear constraints, bounds and nonlinear constraints.</p>
+    <p>The <b>sqp</b> path solves quadratic subproblems with active linearized constraints, BFGS Hessian updates and merit-function line search. Nonlinear constraints are handled directly in the SQP subproblem through finite-difference or user-supplied Jacobians.</p>
+    <p>The <b>interior-point</b> path builds an interior starting point with logarithmic barrier continuation before entering the nonlinear SQP phase. The <b>active-set</b> path keeps an explicit working set and reports active linear rows in <b>output.activeconstraints</b>. The <b>sqp-legacy</b> path uses a separate conservative SQP loop with active-set subproblems and stricter merit decrease.</p>
+    <p>For badly scaled problems, set <b>ScaleProblem</b> to <b>obj-and-constr</b> and provide <b>TypicalX</b>. Nelson scales SQP subproblems, initializes the Hessian with the variable scales and applies scaled merit decrease tests.</p>
+    <p>If nonlinear SQP cannot recover feasibility, Nelson runs a restoration phase based on penalty continuation and reports <b>output.restoration</b> when that phase supplies the returned point.</p>
+    <p>The <b>trust-region-reflective</b> path supports bound and linear-equality problems with user gradients, Hessian matrices, Hessian callbacks or Hessian multiply callbacks, projected truncated conjugate gradients, diagonal or band preconditioning, and trust-region radius updates. The <b>output</b> structure includes conjugate-gradient diagnostics such as <b>pcgflag</b>, <b>pcgresidual</b> and <b>trustregionradius</b>.</p>
+    <p>Accepted display modes include <b>off</b>, <b>none</b>, <b>final</b>, <b>final-detailed</b>, <b>notify</b>, <b>notify-detailed</b>, <b>iter</b> and <b>iter-detailed</b>. Setting <b>Diagnostics</b> to <b>on</b> prints a summary of variables, functions, constraints and selected algorithm before solving.</p>
+    <p>Default options depend on the algorithm: <b>interior-point</b> uses <b>MaxIterations</b> 1000, <b>MaxFunctionEvaluations</b> 3000, <b>StepTolerance</b> 1e-10 and <b>SubproblemAlgorithm</b> 'factorization'; the other algorithms use <b>MaxIterations</b> 400, <b>MaxFunctionEvaluations</b> '100*numberOfVariables' and <b>StepTolerance</b> 1e-6.</p>
+    <p>The <b>exitflag</b> output reports 1 (first-order optimality satisfied), 2 (step below StepTolerance), 3 (objective change below FunctionTolerance, trust-region-reflective), 0 (iteration or evaluation limit), -1 (stopped by output function), -2 (no feasible point found) or -3 (objective below ObjectiveLimit).</p>
+  </description>
+  <used_function>
+    <used_function_item>optimoptions</used_function_item>
+    <used_function_item>optimset</used_function_item>
+    <used_function_item>quadprog</used_function_item>
+    <used_function_item>fminsearch</used_function_item>
+  </used_function>
+  <bibliography>Powell, M. J. D., A fast algorithm for nonlinearly constrained optimization calculations, Lecture Notes in Mathematics, 1978.
+Han, S. P., A globally convergent method for nonlinear programming, Journal of Optimization Theory and Applications, 1977.
+Gill, P. E., Murray, W. and Wright, M. H., Practical Optimization, Academic Press, 1981.
+Nocedal, J. and Wright, S. J., Numerical Optimization, Springer, 2006.
+Byrd, R. H., Schnabel, R. B. and Shultz, G. A., Approximate solution of the trust region problem by minimization over two-dimensional subspaces, Mathematical Programming, 1988.
+Conn, A. R., Gould, N. I. M. and Toint, P. L., Trust Region Methods, SIAM, 2000.</bibliography>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Minimize Rosenbrock's function on the unit disk.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[function [c, ceq] = unitdisk(x)
+  c = x(1)^2 + x(2)^2 - 1;
+  ceq = [];
+end
+fun = @(x) 100*(x(2) - x(1)^2)^2 + (1 - x(1))^2;
+opts = optimoptions('fmincon', 'Display', 'off', 'Algorithm', 'sqp');
+[x, fval] = fmincon(fun, [0; 0], [], [], [], [], [], [], @unitdisk, opts)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Use linear constraints.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[fun = @(x) 100*(x(2) - x(1)^2)^2 + (1 - x(1))^2;
+A = [1 2];
+b = 1;
+[x, fval, exitflag] = fmincon(fun, [-1; 2], A, b)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Use a trust-region-reflective Hessian matrix.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[function [f, g] = quadobj(x)
+  f = (x(1) - 1)^2 + (x(2) - 2)^2;
+  g = [2*(x(1) - 1); 2*(x(2) - 2)];
+end
+opts = optimoptions('fmincon', 'Display', 'off', 'Algorithm', 'trust-region-reflective', ...
+  'SpecifyObjectiveGradient', true, 'Hessian', 2*eye(2));
+[x, fval] = fmincon(@quadobj, [0; 0], [], [], [], [], [0; 0], [3; 3], [], opts)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Use a trust-region-reflective Hessian multiply function.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[function [f, g] = quadobj(x)
+  f = (x(1) - 1)^2 + (x(2) - 2)^2;
+  g = [2*(x(1) - 1); 2*(x(2) - 2)];
+end
+function y = quadhessmult(x, v)
+  y = 2*v;
+end
+opts = optimoptions('fmincon', 'Display', 'off', 'Algorithm', 'trust-region-reflective', ...
+  'SpecifyObjectiveGradient', true, 'HessianMultiplyFcn', @quadhessmult);
+[x, fval] = fmincon(@quadobj, [0; 0], [], [], [], [], [0; 0], [3; 3], [], opts)
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${optimization}optimoptions">optimoptions</link></see_also_item>
+    <see_also_item><link linkend="${optimization}fminsearch">fminsearch</link></see_also_item>
+    <see_also_item><link linkend="${optimization}quadprog">quadprog</link></see_also_item>
+    <see_also_item><link linkend="${optimization}solve">solve</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>2.0.0</history_version><history_description>initial version</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

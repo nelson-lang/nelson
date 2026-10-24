@@ -7,18 +7,18 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('mustBeValidVariableName'), -1);
-assert_isequal(nargout('mustBeValidVariableName'), 0);
+asserts.isequal(nargin('mustBeValidVariableName'), -1);
+asserts.isequal(nargout('mustBeValidVariableName'), 0);
 %=============================================================================
 mustBeValidVariableName('t8');
 mustBeValidVariableName("t8");
 %=============================================================================
-assert_checkerror('mustBeValidVariableName(1)', _('Value must be valid variable name.'));
+asserts.checkerror('mustBeValidVariableName(1)', sprintf(_('%s must be a valid variable name.'), 'Value'));
 %=============================================================================
-assert_checkerror('mustBeValidVariableName("8t")', _('Value must be valid variable name.'));
+asserts.checkerror('mustBeValidVariableName("8t")', sprintf(_('%s must be a valid variable name.'), 'Value'));
 %=============================================================================
-assert_checkerror('mustBeValidVariableName("8t")', _('Value must be valid variable name.'), 'Nelson:validators:mustBeValidVariableName');
+asserts.checkerror('mustBeValidVariableName("8t")', sprintf(_('%s must be a valid variable name.'), 'Value'), 'Nelson:validators:mustBeValidVariableName');
 %=============================================================================
-msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10),  _('Value must be valid variable name.')];
-assert_checkerror('mustBeValidVariableName("8t", 3)', msg);
+msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10), sprintf(_('%s must be a valid variable name.'), 'Value')];
+asserts.checkerror('mustBeValidVariableName("8t", 3)', msg);
 %=============================================================================

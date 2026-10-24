@@ -7,10 +7,11 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--WEIGHT 4-->
 % <--ADV-CLI MODE-->
 %=============================================================================
 f = figure();
-x = logspace(-1,2);
+x = logspace(-1, 2);
 semilogx(x, x);
 grid on
 %=============================================================================
@@ -25,4 +26,19 @@ x = logspace(-1, 2);
 y = x;
 y(30) = NaN;
 semilogx(x, y)
+%=============================================================================
+f = figure('Visible', 'off');
+x = 1:100;
+y1 = x .^ 2;
+y2 = x .^ 3;
+semilogx(y1, x, '--', y2, x);
+legend('x^2', 'x^3', 'Location', 'northwest');
+drawnow();
+ax = gca();
+asserts.isequal(ax.XScale, 'log');
+asserts.isequal(char(ax.XMinorTick), 'on');
+asserts.isequal(ax.XTick, [1 10 100 1000 10000 100000 1000000]);
+asserts.isequal(ax.XTickLabel, {'10^{0}'; '10^{1}'; '10^{2}'; '10^{3}'; '10^{4}'; ...
+  '10^{5}'; '10^{6}'});
+close(f);
 %=============================================================================

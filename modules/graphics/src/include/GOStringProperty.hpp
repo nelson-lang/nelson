@@ -9,11 +9,13 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include "nlsGraphics_exports.h"
+//=============================================================================
 #include "GOGenericProperty.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-class GOStringProperty : public GOGenericProperty
+class NLSGRAPHICS_IMPEXP GOStringProperty : public GOGenericProperty
 {
 protected:
     std::wstring _data;
@@ -24,9 +26,9 @@ public:
     ArrayOf
     get() override;
     void set(ArrayOf) override;
-    std::wstring
+    virtual std::wstring
     data();
-    void
+    virtual void
     data(const std::wstring& m);
     bool
     isEqual(const std::wstring& m);
@@ -34,5 +36,5 @@ public:
     toWideString() override;
 };
 //=============================================================================
-};
+} // namespace Nelson
 //=============================================================================

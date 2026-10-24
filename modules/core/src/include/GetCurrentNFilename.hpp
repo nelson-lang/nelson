@@ -18,5 +18,6 @@ NLSCORE_IMPEXP std::wstring
 GetCurrentNFilenameW(Evaluator* eval);
 NLSCORE_IMPEXP std::string
 GetCurrentNFilenameU(Evaluator* eval);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

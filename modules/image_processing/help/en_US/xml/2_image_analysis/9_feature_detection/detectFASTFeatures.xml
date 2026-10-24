@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>detectFASTFeatures</keyword>
+  <short_description>Detect FAST corner features.</short_description>
+  <syntax>
+    <syntax_item>points = detectFASTFeatures(I)</syntax_item>
+    <syntax_item>points = detectFASTFeatures(I, Name, Value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>I</param_name>
+      <param_description>Input grayscale or RGB image.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>points</param_name>
+      <param_description>Structure with Location, Metric and Count fields.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>detectFASTFeatures applies a FAST-9 style circle test and returns local feature coordinates sorted by contrast strength. Supported options are MinContrast, MinQuality and ROI.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Detect FAST features</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[I=zeros(64,64); I(18:46,18:46)=1; I(30:34,10:54)=0.5;
+points=detectFASTFeatures(I,'MinContrast',0.2);
+figure; imagesc(I); axis image; hold on;
+plot(points.Location(:,1),points.Location(:,2),'g+'); title('FAST points');]]></example_item_data>
+      <example_item_img
+        src="../../../images/detectFASTFeatures_1.png"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}cornermetric">cornermetric</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}detectHarrisFeatures">detectHarrisFeatures</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

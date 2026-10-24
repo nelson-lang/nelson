@@ -17,5 +17,9 @@ namespace Nelson {
 NLSGRAPHICS_IMPEXP go_handle
 UIControlBuilder(const ArrayOfVector& argIn);
 //=============================================================================
-}
+// Raises the uicontrol builder error when newParent cannot hold a uicontrol.
+NLSGRAPHICS_IMPEXP void
+checkUIControlParent(const ArrayOf& newParent);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

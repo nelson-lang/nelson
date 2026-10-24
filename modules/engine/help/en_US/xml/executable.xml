@@ -9,120 +9,135 @@
     <syntax_item>nelson-cli arg1 ... argn</syntax_item>
     <syntax_item>nelson-adv-cli arg1 ... argn</syntax_item>
     <syntax_item>nelson-gui arg1 ... argn</syntax_item>
+    <syntax_item>nelson --webview [--url host] [--port port]</syntax_item>
+    <syntax_item>nelson --web [--url host] [--port port]</syntax_item>
+    <syntax_item>nelson-webview [--web] [--url host] [--port port]</syntax_item>
+    <syntax_item>nelson-cli options -- user_arg1 ... user_argn</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
-      <param_name>-cli</param_name>
-      <param_description>equivalent to call &apos;nelson-cli&apos;.</param_description>
+      <param_name>--cli</param_name>
+      <param_description>selects <b>nelson-cli</b> when passed to the <b>nelson</b> launcher.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>-adv-cli</param_name>
-      <param_description
-      >equivalent to call &apos;nelson-adv-cli&apos;.</param_description>
+      <param_name>--adv-cli</param_name>
+      <param_description>selects <b>nelson-adv-cli</b> when passed to the <b>nelson</b> launcher.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>-gui</param_name>
-      <param_description>equivalent to call &apos;nelson-gui&apos;.</param_description>
+      <param_name>--gui</param_name>
+      <param_description>selects <b>nelson-gui</b> when passed to the <b>nelson</b> launcher.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>-e &quot;nelson instructions&quot;
-      </param_name>
-      <param_description
-      >If this option is present then Nelson instruction is executed just after startup file execution into Nelson. -e and -f options are mutually exclusive.</param_description>
+      <param_name>--webview</param_name>
+      <param_description>selects <b>nelson-webview</b> in desktop webview mode when passed to the <b>nelson</b> launcher. Passed directly to <b>nelson-adv-cli</b> it is instead an option that renders figures with the web (RenderWeb) backend, with no Qt figure windows, while keeping the terminal REPL.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>-f filename</param_name>
-      <param_description
-      >Nelson script file is executed just after startup file execution) into Nelson. -e and -f options are mutually exclusive.</param_description>
+      <param_name>--web</param_name>
+      <param_description>selects <b>nelson-webview</b> in HTTP server mode when passed to the <b>nelson</b> launcher. The same option selects server mode for the direct <b>nelson-webview</b> executable.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>-F filename</param_name>
-      <param_description
-      >If this option is present then Nelson script file is executed just after startup file execution) into an existing Nelson&apos;s process or creates it.</param_description>
+      <param_name>--url host</param_name>
+      <param_description>sets the HTTP host. This option is valid only with <b>--web</b>, <b>--webview</b>, or the direct <b>nelson-webview</b> executable.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>--help</param_name>
-      <param_description>help about program options.</param_description>
+      <param_name>--port port</param_name>
+      <param_description>sets the web port from 1 to 65535. This option is valid only with <b>--web</b>, <b>--webview</b>, or the direct <b>nelson-webview</b> executable.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>--version</param_name>
-      <param_description>Return Nelson version.</param_description>
+      <param_name>--</param_name>
+      <param_description>stops Nelson option parsing. Arguments after this separator are returned by <b>argv('user')</b>.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>-e, --execute command</param_name>
+      <param_description>executes a Nelson command after startup. Options <b>-e</b> and <b>-f</b> are mutually exclusive.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>-f, --file filename</param_name>
+      <param_description>executes a Nelson script file after startup. Options <b>-e</b> and <b>-f</b> are mutually exclusive.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>-F, --file-ipc filename</param_name>
+      <param_description>executes a Nelson script file in an existing Nelson process or creates one. GUI mode only.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>--help, -h</param_name>
+      <param_description>displays help about program options.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>--version, -v</param_name>
+      <param_description>returns Nelson version.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>--vscode</param_name>
-      <param_description>enable Visual Studio Code mode.</param_description>
+      <param_description>enables Visual Studio Code mode.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>--open</param_name>
-      <param_description
-      >opens files arg2 ... argN must be valid/existing filenames.</param_description>
+      <param_name>--open, -o filename1 [filename2 ...]</param_name>
+      <param_description>opens one or more valid existing files in the text editor. GUI mode only.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>--mat</param_name>
-      <param_description
-      >load files arg2 ... argN must be valid/existing .nh5 or .mat filenames.</param_description>
+      <param_name>--mat, -m filename1 [filename2 ...]</param_name>
+      <param_description>loads one or more valid existing .nh5 or .mat files.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>--nostartup</param_name>
-      <param_description
-      >disable the main Nelson script file executed at startup.</param_description>
+      <param_name>--no-startup</param_name>
+      <param_description>disables the main Nelson startup script.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>--nousermodules</param_name>
-      <param_description
-      >disable the load of user&apos;s modules. loaded before user&apos;s script.</param_description>
+      <param_name>--no-user-modules</param_name>
+      <param_description>disables loading user modules.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>--nouserstartup</param_name>
-      <param_description
-      >disable the user script file executed at startup after the main startup file.</param_description>
+      <param_name>--no-user-startup</param_name>
+      <param_description>disables the user startup script.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>--minimize</param_name>
-      <param_description
-      >minimize main GUI Windows (GUI mode only).</param_description>
+      <param_description>minimizes the main window. GUI mode only.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>--noipc</param_name>
-      <param_description
-      >disable interprocess features (files association, ipc builtin).</param_description>
+      <param_name>--no-ipc</param_name>
+      <param_description>disables interprocess features.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>--withoutfilewatcher</param_name>
-      <param_description
-      >disable file watcher feature for this session.</param_description>
+      <param_name>--without-file-watcher</param_name>
+      <param_description>disables file watcher features for this session.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>--noaudio</param_name>
-      <param_description>disable audio module.</param_description>
+      <param_name>--no-audio</param_name>
+      <param_description>disables audio module startup code.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>--without_python</param_name>
-      <param_description>disable python_engine module.</param_description>
+      <param_name>--without-python</param_name>
+      <param_description>disables python_engine module startup code.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>--language lang</param_name>
-      <param_description
-      >If this option is present it fixes the user language. Currently, lang can be: fr_FR en_US.</param_description>
+      <param_name>--language, -l lang</param_name>
+      <param_description>sets the session language. Currently, lang can be: fr_FR en_US.</param_description>
     </param_input_item>
     <param_input_item>
-      <param_name>--quiet</param_name>
-      <param_description
-      >If this option is present no banner and version displayed.</param_description>
+      <param_name>--quiet, -q</param_name>
+      <param_description>starts without displaying the banner and version.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>--timeout seconds</param_name>
+      <param_description>kills the Nelson process after the specified positive number of seconds.</param_description>
     </param_input_item>
   </param_input>
   <description>
     <p>
-      <b>nelson-cli</b>: basic terminal, no gui (no dependency to gui framework), no history, no completion (iso latin encoding)</p>
+      <b>nelson-cli</b>: basic terminal, no gui framework dependency, no history, no completion.</p>
     <p>
-      <b>nelson-adv-cli</b>: advanced terminal, no graphical console, history, completion available (UTF-16 support)</p>
+      <b>nelson-adv-cli</b>: advanced terminal, no graphical console, history and completion available.</p>
     <p>
-      <b>nelson-gui</b>: graphical console, history, completion available (UTF-16 support)</p>
-    <p />
-    <p>If you have installed Nelson on Windows, the <b>NELSON_RUNTIME_PATH</b> environment variable will be defined.</p>
-    <p>It allows to call easily Nelson <b>
-        &quot;%NELSON_RUNTIME_PATH%\nelson.bat&quot;
-      </b>.</p>
+      <b>nelson-gui</b>: graphical console, history and completion available.</p>
+    <p><b>nelson --webview</b> and <b>nelson-webview</b> open a native desktop webview by default with a private localhost port that is not printed. Supplying <b>--url</b> or <b>--port</b> keeps the webview open and publishes the same session at the selected HTTP address. If the native webview is unavailable, Nelson stops with an error.</p>
+    <p><b>nelson --web</b> and <b>nelson-webview --web</b> start an HTTP server without opening a desktop window and print the served URL.</p>
+    <p>Mode selector options <b>--cli</b>, <b>--adv-cli</b>, <b>--gui</b>, <b>--webview</b> and launcher-level <b>--web</b> are only valid for the generic <b>nelson</b> launcher. Direct executables such as <b>nelson-cli</b>, <b>nelson-adv-cli</b> and <b>nelson-gui</b> reject them before <b>--</b>. The single exception is <b>nelson-adv-cli --webview</b>, where <b>--webview</b> is accepted as an option that switches the figure backend to web (RenderWeb) rendering.</p>
+    <p>After <b>--</b>, mode selector tokens are normal user arguments and can be read with <b>argv('user')</b>.</p>
+    <p>Module startup arguments such as <b>--no-audio</b> and <b>--without-python</b> remain visible in <b>argv()</b> for compatibility. New command builders should place user arguments after <b>--</b> and read them with <b>argv('user')</b>.</p>
+    <p>Quotes used to group arguments are interpreted by the operating system or shell before Nelson starts. Use a portable form such as <b>nelson-cli -e &quot;disp('hello world'); quit&quot;</b>.</p>
+    <p>If Nelson is installed on Windows, the <b>NELSON_RUNTIME_PATH</b> environment variable is defined and can be used to call <b>&quot;%NELSON_RUNTIME_PATH%\nelson.bat&quot;</b>.</p>
   </description>
   <used_function />
   <bibliography />
@@ -130,13 +145,12 @@
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description />
-      <example_item_data
-      ><![CDATA[nelson-adv-cli -q -e "a = 1 + 2"]]></example_item_data>
+      <example_item_data><![CDATA[nelson-adv-cli -q -e "a = 1 + 2"]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
       <example_item_description />
-      <example_item_data><![CDATA[nelson-gui -v]]></example_item_data>
+      <example_item_data><![CDATA[nelson-cli -e "disp(argv('user')); quit" -- "a b" "c d"]]></example_item_data>
     </example_item>
     <example_item>
       <example_item_type>nelson</example_item_type>
@@ -145,6 +159,9 @@
     </example_item>
   </examples>
   <see_also>
+    <see_also_item>
+      <link linkend="${engine}argv">argv</link>
+    </see_also_item>
     <see_also_item>
       <link linkend="${engine}startup">startup</link>
     </see_also_item>
@@ -156,16 +173,19 @@
     </history_item>
     <history_item>
       <history_version>1.4.0</history_version>
-      <history_description>--without_python added</history_description>
+      <history_description>--without-python added</history_description>
     </history_item>
     <history_item>
       <history_version>1.11.0</history_version>
-      <history_description
-      >About NELSON_RUNTIME_PATH environment variable added</history_description>
+      <history_description>About NELSON_RUNTIME_PATH environment variable added</history_description>
     </history_item>
     <history_item>
       <history_version>1.11.0</history_version>
-      <history_description>--vsocde argument</history_description>
+      <history_description>--vscode argument</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>command line options standardized: mode selectors now use the double dash form (--cli, --adv-cli, --gui) and multi-word options use kebab-case (--no-startup, --no-user-startup, --no-user-modules, --no-ipc, --no-audio, --without-file-watcher, --without-python, --without-julia)</history_description>
     </history_item>
   </history>
   <authors>

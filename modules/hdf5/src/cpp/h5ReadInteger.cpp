@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,8 +10,9 @@
 #include "h5ReadInteger.hpp"
 #include "h5ReadHelpers.hpp"
 #include "NewWithException.hpp"
-#include "Exception.hpp"
+#include "NelsonException.hpp"
 #include "i18n.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -27,7 +28,7 @@ h5ReadInteger(hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, s
     }
     hsize_t sizeType = H5Tget_size(type_id);
     int rank;
-    Dimensions dims = getDimensions(dspace_id, rank);
+    Dimensions dims = dimensions(dspace_id, rank);
     if ((rank == 0) && (storageSize == 0)) {
         dims = Dimensions(0, 0);
     }
@@ -71,20 +72,19 @@ h5ReadInteger(hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, s
         }
     } break;
     default: {
-        error = _W("Type not managed.");
+        error = _W("Type not supported.");
         return res;
     } break;
     }
     if (dims.isEmpty(false)) {
-        res = ArrayOf::emptyConstructor(dims);
+        res = ArrayOf::empty(dims);
         res.promoteType(outputClass);
     } else {
         void* ptr = nullptr;
         try {
-            ptr = ArrayOf::allocateArrayOf(
-                outputClass, dims.getElementCount(), stringVector(), false);
-        } catch (Exception& e) {
-            error = e.getMessage();
+            ptr = ArrayOf::allocateArrayOf(outputClass, dims.elementCount(), stringVector(), false);
+        } catch (NelsonException& e) {
+            error = e.message();
             return {};
         }
         herr_t status = H5I_INVALID_HID;
@@ -97,22 +97,23 @@ h5ReadInteger(hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, s
             try {
                 h5_dims
                     = (hsize_t*)new_with_exception<hsize_t>((size_t)rank * sizeof(hsize_t), false);
-            } catch (Exception& e) {
-                error = e.getMessage();
+            } catch (NelsonException& e) {
+                error = e.message();
                 return {};
             }
             try {
                 h5_maxdims
                     = (hsize_t*)new_with_exception<hsize_t>((size_t)rank * sizeof(hsize_t), false);
-            } catch (Exception& e) {
+            } catch (NelsonException& e) {
                 delete[] h5_dims;
-                error = e.getMessage();
+                error = e.message();
                 return {};
             }
             if (H5Sget_simple_extent_dims(dspace_id, h5_dims, h5_maxdims) < 0) {
                 delete[] h5_dims;
                 delete[] h5_maxdims;
-                error = _W("Impossible to read dimensions and maximum size of data set.");
+                error = Nelson::resolveMessageTemplate(L"Nelson:hdf5:readDimensionsFailed",
+                    L"Impossible to read dimensions and maximum size of data set.");
                 return {};
             }
             memspace = H5Screate_simple(rank, h5_dims, nullptr);
@@ -124,10 +125,12 @@ h5ReadInteger(hid_t dset_id, hid_t type_id, hid_t dspace_id, bool asAttribute, s
         if (status < 0) {
             ArrayOf(outputClass, dims, ptr);
             if (asAttribute) {
-                error = _W("Cannot read attribute.");
+                error = resolveMessageTemplate(
+                    L"Nelson:hdf5:cannotReadAttribute", L"Cannot read attribute.");
             } else {
                 H5Sclose(memspace);
-                error = _W("Cannot read data set.");
+                error = resolveMessageTemplate(
+                    L"Nelson:hdf5:cannotReadDataSet", L"Cannot read data set.");
             }
             res = ArrayOf();
         } else {

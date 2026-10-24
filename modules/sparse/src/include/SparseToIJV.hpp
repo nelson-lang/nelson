@@ -18,5 +18,5 @@ NLSSPARSE_IMPEXP void
 SparseToIJV(const ArrayOf& spA, ArrayOf& I, ArrayOf& J, ArrayOf& V, ArrayOf& M, ArrayOf& N,
     ArrayOf& NNZ, bool& needToOverload);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

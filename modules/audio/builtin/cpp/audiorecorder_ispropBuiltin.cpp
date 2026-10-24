@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,6 +10,7 @@
 #include "audiorecorder_ispropBuiltin.hpp"
 #include "AudiorecorderObject.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
@@ -22,12 +23,12 @@ Nelson::AudioGateway::audiorecorder_ispropBuiltin(int nLhs, const ArrayOfVector&
     nargoutcheck(nLhs, 0, 1);
     ArrayOfVector retval;
     ArrayOf param1 = argIn[0];
-    if (param1.getHandleCategory() != NLS_HANDLE_AUDIORECORDER_CATEGORY_STR) {
-        Error(_W("audiorecorder handle expected."));
+    if (param1.handleCategory() != NLS_HANDLE_AUDIORECORDER_CATEGORY_STR) {
+        Error(L"Nelson:audiorecorder:invalidHandle", L"audiorecorder handle expected.");
     }
     ArrayOf param2 = argIn[1];
-    std::wstring propertyName = param2.getContentAsWideString();
-    retval << ArrayOf::logicalConstructor(param1.isHandleProperty(propertyName));
+    std::wstring propertyName = param2.asWideString();
+    retval << ArrayOf::logicalScalar(param1.isHandleProperty(propertyName));
     return retval;
 }
 //=============================================================================

@@ -7,20 +7,23 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('conj'), 1)
-assert_isequal(nargout('conj'), 1)
+asserts.isequal(nargin('conj'), 1)
+asserts.isequal(nargout('conj'), 1)
 %=============================================================================
-assert_isequal(conj(NaN), NaN);
+asserts.isequal(conj(NaN), NaN);
 %=============================================================================
-assert_isequal(conj([]), []);
+asserts.isequal(conj([]), []);
 %=============================================================================
-x = [1+i,-i;i,2i];
+x = [1 + i, -i; i, 2i];
 r = conj(x);
-ref = [1-i,i;-i,-2i];
-assert_isequal(r, ref);
+ref = [1 - i, i; -i, -2i];
+asserts.isequal(r, ref);
 %=============================================================================
-x = single([1+i,-i;i,2i]);
+x = single([1 + i, -i; i, 2i]);
 r = conj(x);
-ref = single([1-i,i;-i,-2i]);
-assert_isequal(r, ref);
+ref = single([1 - i, i; -i, -2i]);
+asserts.isequal(r, ref);
+%=============================================================================
+Z = complex([1 2], [3 4]);
+asserts.isequal(conj(Z), [1 - 3i 2 - 4i]);
 %=============================================================================

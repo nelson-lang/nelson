@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,6 +10,7 @@
 #include "strjustBuiltin.hpp"
 #include "StringJustify.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "OverloadRequired.hpp"
@@ -33,7 +34,7 @@ Nelson::StringGateway::strjustBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (A.isCharacterArray() || A.isStringArray() || A.isCellArrayOfCharacterVectors()) {
         STRINGJUSTIFY side = STRINGJUSTIFY::NLS_JUSTIFY_LEFT;
         if (argIn.size() == 2) {
-            std::wstring style = argIn[1].getContentAsWideString();
+            std::wstring style = argIn[1].asWideString();
             if (style == L"left") {
                 side = STRINGJUSTIFY::NLS_JUSTIFY_LEFT;
             } else if (style == L"center") {
@@ -41,7 +42,8 @@ Nelson::StringGateway::strjustBuiltin(int nLhs, const ArrayOfVector& argIn)
             } else if (style == L"right") {
                 side = STRINGJUSTIFY::NLS_JUSTIFY_RIGHT;
             } else {
-                Error(_W("Wrong value for #2 argument: 'left', 'right', 'center' expected."));
+                Error(L"Nelson:string:wrongValue2ArgumentLeft",
+                    L"Wrong value for #%d argument: 'left', 'right', 'center' expected.", 2);
             }
         }
         retval << StringJustify(A, side);

@@ -8,16 +8,15 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include <functional>
+#include "AudioObjectDisplayHelpers.hpp"
 #include "AudioplayerObject.hpp"
 #include "AudioDevInfo.hpp"
+#include "AudioCallbackHelpers.hpp"
 #include "ClassName.hpp"
 #include "ComplexTranspose.hpp"
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
-#include "PredefinedErrorMessages.hpp"
-#include "AnonymousMacroFunctionDef.hpp"
-#include "EventCallback.hpp"
-#include "EventQueue.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -28,8 +27,8 @@ AudioplayerObject::AudioplayerObject(bool withEventLoop)
     , _NumberOfChannels(0)
     , _DeviceID(-1)
     , _CurrentSample(0)
-    , _TotalSamples(0)
     , _Running(false)
+    , _TotalSamples(0)
     , timerPeriodSeconds(0.0)
 {
     mainEvaluatorHasEventsLoop = withEventLoop;
@@ -49,16 +48,17 @@ AudioplayerObject::AudioplayerObject(bool withEventLoop)
     if (pdi) {
         _SampleRate = (int)pdi->defaultSampleRate;
         _Tag.clear();
-        _UserData = ArrayOf::emptyConstructor();
+        _UserData = ArrayOf::empty();
         _Type = NLS_HANDLE_AUDIOPLAYER_CATEGORY_STR;
         timerPeriodSeconds = 0.0500;
     }
-    paStream = nullptr;
 }
 //=============================================================================
 AudioplayerObject::~AudioplayerObject()
 {
-    stop();
+    // no StopFcn for a deleted object; closing waits for the audio thread to leave the callback
+    stopFcnPending = false;
+    stream.close();
     mainEvaluatorHasEventsLoop = false;
     propertiesNames.clear();
     _SampleRate = 0;
@@ -69,18 +69,17 @@ AudioplayerObject::~AudioplayerObject()
     _TotalSamples = 0;
     _Running = false;
     _Tag.clear();
-    _UserData = ArrayOf::emptyConstructor();
+    _UserData = ArrayOf::empty();
     _Type = NLS_HANDLE_AUDIOPLAYER_CATEGORY_STR;
-    paStream = nullptr;
     timerPeriodSeconds = 0.;
 }
 //=============================================================================
 bool
-AudioplayerObject::isWriteableProperty(const std::wstring& propertyName)
+AudioplayerObject::isWritableProperty(const std::wstring& propertyName)
 {
-    static const std::unordered_set<std::wstring> writeableProperties = { L"SampleRate", L"Running",
+    static const std::unordered_set<std::wstring> writableProperties = { L"SampleRate", L"Running",
         L"Tag", L"UserData", L"StartFcn", L"StopFcn", L"TimerFcn", L"TimerPeriod" };
-    return writeableProperties.find(propertyName) != writeableProperties.end();
+    return writableProperties.find(propertyName) != writableProperties.end();
 }
 //=============================================================================
 int
@@ -123,6 +122,12 @@ bool
 AudioplayerObject::getRunning()
 {
     return _Running;
+}
+//=============================================================================
+bool
+AudioplayerObject::isStreamFinishing()
+{
+    return stream.isOpen() && !stream.isPaused() && !stream.isFinished();
 }
 //=============================================================================
 std::wstring
@@ -169,13 +174,6 @@ AudioplayerObject::setSampleRate(int sr)
 }
 //=============================================================================
 bool
-AudioplayerObject::setRunning(bool on)
-{
-    _Running = on;
-    return true;
-}
-//=============================================================================
-bool
 AudioplayerObject::setTag(const std::wstring& tag)
 {
     _Tag = tag;
@@ -190,75 +188,44 @@ AudioplayerObject::setUserData(const Nelson::ArrayOf& userData)
     return true;
 }
 //=============================================================================
-static std::wstring
-FunctionToWideString(const ArrayOf& _data)
-{
-    if (_data.isEmpty()) {
-        return L"''";
-    } else if (_data.isFunctionHandle()) {
-        function_handle fh = _data.getContentAsFunctionHandle();
-        AnonymousMacroFunctionDef* anonymousFunction
-            = reinterpret_cast<AnonymousMacroFunctionDef*>(fh.anonymousHandle);
-        return utf8_to_wstring(anonymousFunction->getDefinition());
-    } else if (_data.isCell()) {
-        Dimensions dims = _data.getDimensions();
-        return L"{" + dims.toWideString() + L" cell}";
-    } else if (_data.isRowVectorCharacterArray() || _data.isScalarStringArray()) {
-        std::wstring callbackString
-            = std::wstring(L"'") + _data.getContentAsWideCharactersPointer() + std::wstring(L"'");
-        return callbackString;
-    }
-    return L"";
-}
-//=============================================================================
 bool
 AudioplayerObject::disp(Interface* io)
 {
     if (!io) {
         return false;
     }
+    releaseFinishedStream();
 
-    struct DisplayItem
-    {
-        const wchar_t* label;
-        std::function<std::wstring()> getter;
-    };
-
-    std::vector<DisplayItem> items = {
-        { L"SampleRate", [this] { return std::to_wstring(getSampleRate()); } },
-        { L"BitsPerSample", [this] { return std::to_wstring(getBitsPerSample()); } },
-        { L"NumChannels", [this] { return std::to_wstring(getNumberOfChannels()); } },
-        { L"DeviceID", [this] { return std::to_wstring(getDeviceID()); } },
-        { L"CurrentSample", [this] { return std::to_wstring(getCurrentSample()); } },
-        { L"TotalSamples", [this] { return std::to_wstring(getTotalSamples()); } },
-        { L"Running", [this] { return getRunning() ? L"on" : L"off"; } },
-        { L"StartFcn", [this] { return FunctionToWideString(getStartFcn()); } },
-        { L"StopFcn", [this] { return FunctionToWideString(getStopFcn()); } },
-        { L"TimerFcn", [this] { return FunctionToWideString(getTimerFcn()); } },
-        { L"TimerPeriod", [this] { return std::to_wstring(timerPeriodSeconds); } },
-        { L"Tag", [this] { return L"'" + getTag() + L"'"; } },
-        { L"UserData",
-            [this] {
-                if (_UserData.isEmpty(true)) {
-                    return L"[]";
-                }
-                Dimensions dimsUserData = _UserData.getDimensions();
-                std::string userDataClassName;
-                ClassName(_UserData, userDataClassName);
-                const std::string input
-                    = "[" + userDataClassName + "] - size: " + dimsUserData.toString();
-                std::wstring temp = utf8_to_wstring(input);
-                return temp.c_str();
-            } },
-        { L"Type", [this] { return L"'" + utf8_to_wstring(getType()) + L"'"; } },
-    };
-
-    io->outputMessage(L"\n");
-    for (const auto& item : items) {
-        std::wstring value = item.getter();
-        io->outputMessage(L"\t" + std::wstring(item.label) + L": \t" + value + L"\n");
+    std::wstring userData;
+    if (_UserData.isEmpty(true)) {
+        userData = L"[]";
+    } else {
+        Dimensions dimsUserData = _UserData.dimensions();
+        std::string userDataClassName;
+        ClassName(_UserData, userDataClassName);
+        userData
+            = utf8_to_wstring("[" + userDataClassName + "] - size: " + dimsUserData.toString());
     }
-    return true;
+
+    std::vector<AudioDisplayItem> items = {
+        { L"SampleRate", std::to_wstring(getSampleRate()) },
+        { L"BitsPerSample", std::to_wstring(getBitsPerSample()) },
+        { L"NumChannels", std::to_wstring(getNumberOfChannels()) },
+        { L"DeviceID", std::to_wstring(getDeviceID()) },
+        { L"CurrentSample", std::to_wstring(getCurrentSample()) },
+        { L"TotalSamples", std::to_wstring(getTotalSamples()) },
+        { L"Running", getRunning() ? L"on" : L"off" },
+        { L"StartFcn", audioCallbackToWideString(getStartFcn()) },
+        { L"StopFcn", audioCallbackToWideString(getStopFcn()) },
+        { L"TimerFcn", audioCallbackToWideString(getTimerFcn()) },
+        { L"TimerPeriod", std::to_wstring(timerPeriodSeconds) },
+        { L"Tag", L"'" + getTag() + L"'" },
+        { L"UserData", userData },
+        { L"Type", L"'" + utf8_to_wstring(getType()) + L"'" },
+    };
+    return displayAudioObject(io, L"audioplayer", items,
+        { L"SampleRate", L"BitsPerSample", L"NumChannels", L"DeviceID", L"CurrentSample",
+            L"TotalSamples", L"Running" });
 }
 //=============================================================================
 wstringVector
@@ -281,13 +248,13 @@ AudioplayerObject::isMethod(const std::wstring& propertyName)
 }
 //=============================================================================
 wstringVector
-AudioplayerObject::getProperties()
+AudioplayerObject::properties()
 {
     return propertiesNames;
 }
 //=============================================================================
 wstringVector
-AudioplayerObject::getMethods()
+AudioplayerObject::methods()
 {
     return methodsNames;
 }
@@ -295,31 +262,50 @@ AudioplayerObject::getMethods()
 bool
 AudioplayerObject::get(const std::wstring& propertyName, ArrayOf& res)
 {
-    using Getter = std::function<ArrayOf()>;
+    // static table: the lambdas receive the object, they must not capture it
+    using Getter = std::function<ArrayOf(AudioplayerObject*)>;
     static const std::unordered_map<std::wstring, Getter> getters = {
-        { L"SampleRate", [this]() { return ArrayOf::doubleConstructor(getSampleRate()); } },
-        { L"BitsPerSample", [this]() { return ArrayOf::doubleConstructor(getBitsPerSample()); } },
-        { L"NumChannels", [this]() { return ArrayOf::doubleConstructor(getNumberOfChannels()); } },
-        { L"DeviceID", [this]() { return ArrayOf::doubleConstructor(getDeviceID()); } },
-        { L"CurrentSample", [this]() { return ArrayOf::doubleConstructor(getCurrentSample()); } },
-        { L"TotalSamples", [this]() { return ArrayOf::doubleConstructor(getTotalSamples()); } },
-        { L"Running",
-            [this]() {
-                return getRunning() ? ArrayOf::characterArrayConstructor(L"on")
-                                    : ArrayOf::characterArrayConstructor(L"off");
+        { L"SampleRate",
+            [](AudioplayerObject* self) { return ArrayOf::doubleScalar(self->getSampleRate()); } },
+        { L"BitsPerSample",
+            [](AudioplayerObject* self) {
+                return ArrayOf::doubleScalar(self->getBitsPerSample());
             } },
-        { L"Tag", [this]() { return ArrayOf::characterArrayConstructor(getTag()); } },
-        { L"UserData", [this]() { return getUserData(); } },
-        { L"Type", [this]() { return ArrayOf::characterArrayConstructor(getType()); } },
-        { L"StartFcn", [this]() { return getStartFcn(); } },
-        { L"StopFcn", [this]() { return getStopFcn(); } },
-        { L"TimerFcn", [this]() { return getTimerFcn(); } },
-        { L"TimerPeriod", [this]() { return ArrayOf::doubleConstructor(timerPeriodSeconds); } }
+        { L"NumChannels",
+            [](AudioplayerObject* self) {
+                return ArrayOf::doubleScalar(self->getNumberOfChannels());
+            } },
+        { L"DeviceID",
+            [](AudioplayerObject* self) { return ArrayOf::doubleScalar(self->getDeviceID()); } },
+        { L"CurrentSample",
+            [](AudioplayerObject* self) {
+                return ArrayOf::doubleScalar(self->getCurrentSample());
+            } },
+        { L"TotalSamples",
+            [](AudioplayerObject* self) {
+                return ArrayOf::doubleScalar(self->getTotalSamples());
+            } },
+        { L"Running",
+            [](AudioplayerObject* self) {
+                return ArrayOf::characterArray(self->getRunning() ? L"on" : L"off");
+            } },
+        { L"Tag", [](AudioplayerObject* self) { return ArrayOf::characterArray(self->getTag()); } },
+        { L"UserData", [](AudioplayerObject* self) { return self->getUserData(); } },
+        { L"Type",
+            [](AudioplayerObject* self) { return ArrayOf::characterArray(self->getType()); } },
+        { L"StartFcn", [](AudioplayerObject* self) { return self->getStartFcn(); } },
+        { L"StopFcn", [](AudioplayerObject* self) { return self->getStopFcn(); } },
+        { L"TimerFcn", [](AudioplayerObject* self) { return self->getTimerFcn(); } },
+        { L"TimerPeriod",
+            [](AudioplayerObject* self) {
+                return ArrayOf::doubleScalar(self->timerPeriodSeconds);
+            } },
     };
 
     auto it = getters.find(propertyName);
     if (it != getters.end()) {
-        res = it->second();
+        releaseFinishedStream();
+        res = it->second(this);
         return true;
     }
     return false;
@@ -329,76 +315,60 @@ bool
 AudioplayerObject::set(
     const std::wstring& propertyName, const ArrayOf& propertyValue, std::wstring& errorMessage)
 {
-    using Setter = std::function<bool()>;
-    static const std::unordered_map<std::wstring, Setter> setters
-        = { { L"SampleRate",
-                [&]() {
-                    return setSampleRate(
-                        static_cast<int>(propertyValue.getContentAsDoubleScalar()));
-                } },
-              { L"Tag", [&]() { return setTag(propertyValue.getContentAsWideString()); } },
-              { L"UserData", [&]() { return setUserData(propertyValue); } },
-              { L"StartFcn",
-                  [&]() {
-                      if (!mainEvaluatorHasEventsLoop) {
-                          errorMessage = _W("Cannot set StartFcn without event loop.");
-                          return false;
-                      }
-                      if (!isFunctionHandleCallbackValid(propertyValue)) {
-                          errorMessage = _W("StartFcn must be a function handle.");
-                          return false;
-                      }
-                      startFunc = propertyValue;
-                      startFunc.ensureSingleOwner();
-                      return true;
-                  } },
-              { L"StopFcn",
-                  [&]() {
-                      if (!mainEvaluatorHasEventsLoop) {
-                          errorMessage = _W("Cannot set StopFcn without event loop.");
-                          return false;
-                      }
-                      if (!isFunctionHandleCallbackValid(propertyValue)) {
-                          errorMessage = _W("StopFcn must be a function handle.");
-                          return false;
-                      }
-                      stopFunc = propertyValue;
-                      stopFunc.ensureSingleOwner();
-                      return true;
-                  } },
-              { L"TimerFcn",
-                  [&]() {
-                      if (!mainEvaluatorHasEventsLoop) {
-                          errorMessage = _W("Cannot set TimerFcn without event loop.");
-                          return false;
-                      }
-                      if (!isFunctionHandleCallbackValid(propertyValue)) {
-                          errorMessage = _W("TimerFcn must be a function handle.");
-                          return false;
-                      }
-                      timerFunc = propertyValue;
-                      timerFunc.ensureSingleOwner();
-                      return true;
-                  } },
-              { L"TimerPeriod", [&]() {
-                   if (propertyValue.isScalar() && propertyValue.isDoubleType(true)) {
-                       double doubleValue = propertyValue.getContentAsDoubleScalar();
-                       if (doubleValue <= 0.002 || !std::isfinite(doubleValue)) {
-                           return false;
-                       }
-                       timerPeriodSeconds = doubleValue;
-                       return true;
-                   }
-                   return false;
-               } } };
+    // static table: the lambdas receive the object and the value, they must not capture them
+    using Setter = std::function<bool(AudioplayerObject*, const ArrayOf&, std::wstring&)>;
+    static const std::unordered_map<std::wstring, Setter> setters = {
+        { L"SampleRate",
+            [](AudioplayerObject* self, const ArrayOf& value, std::wstring&) {
+                return self->setSampleRate(static_cast<int>(value.asDoubleScalar()));
+            } },
+        { L"Tag",
+            [](AudioplayerObject* self, const ArrayOf& value, std::wstring&) {
+                return self->setTag(value.asWideString());
+            } },
+        { L"UserData",
+            [](AudioplayerObject* self, const ArrayOf& value, std::wstring&) {
+                return self->setUserData(value);
+            } },
+        { L"StartFcn",
+            [](AudioplayerObject* self, const ArrayOf& value, std::wstring& message) {
+                return setAudioCallback(
+                    L"StartFcn", value, self->mainEvaluatorHasEventsLoop, self->startFunc, message);
+            } },
+        { L"StopFcn",
+            [](AudioplayerObject* self, const ArrayOf& value, std::wstring& message) {
+                return setAudioCallback(
+                    L"StopFcn", value, self->mainEvaluatorHasEventsLoop, self->stopFunc, message);
+            } },
+        { L"TimerFcn",
+            [](AudioplayerObject* self, const ArrayOf& value, std::wstring& message) {
+                return setAudioCallback(
+                    L"TimerFcn", value, self->mainEvaluatorHasEventsLoop, self->timerFunc, message);
+            } },
+        { L"TimerPeriod",
+            [](AudioplayerObject* self, const ArrayOf& value, std::wstring&) {
+                if (!value.isScalar() || !value.isDoubleType(true)) {
+                    return false;
+                }
+                double doubleValue = value.asDoubleScalar();
+                if (doubleValue <= 0.002 || !std::isfinite(doubleValue)) {
+                    return false;
+                }
+                self->timerPeriodSeconds = doubleValue;
+                return true;
+            } },
+    };
 
     auto it = setters.find(propertyName);
     if (it != setters.end()) {
         errorMessage.clear();
-        return it->second();
+        return it->second(this, propertyValue, errorMessage);
     }
 
-    errorMessage = _W("Property not writeable: ") + propertyName;
+    errorMessage
+        = formatI18nMessage(Nelson::resolveMessageTemplate(
+                                L"Nelson:audio:propertyWritable", L"Property not writable: %s."),
+            propertyName);
     return false;
 }
 //=============================================================================
@@ -422,42 +392,46 @@ AudioplayerObject::setSamples(const ArrayOf& data, int SampleRate, int BitsPerSa
     errorMessage.clear();
     PaDeviceIndex outputIndex = getOutputDeviceIndex(deviceID);
     if (outputIndex == paNoDevice) {
-        errorMessage = _W("Wrong device ID.");
+        errorMessage
+            = Nelson::resolveMessageTemplate(L"Nelson:audio:wrongDeviceId", L"Wrong device ID.");
         return false;
     }
     const PaDeviceInfo* pdi_output = Pa_GetDeviceInfo(outputIndex);
     if (pdi_output) {
         if (!data.isNumeric() || data.isComplex() || data.isSparse()) {
-            errorMessage = ERROR_WRONG_ARGUMENT_1_TYPE;
+            errorMessage = Nelson::formatI18nMessage(L"Wrong type: #%d argument.", (1));
             return false;
         }
         if (data.isEmpty()) {
-            errorMessage = _W("Empty matrix not allowed.");
+            errorMessage = resolveMessageTemplate(
+                L"Nelson:audio:emptyMatrixAllowed", L"Empty matrix not allowed.");
             return false;
         }
         if (!data.is2D() && !data.isVector()) {
-            errorMessage = _W("Vector or matrix 2D expected.");
+            errorMessage = Nelson::resolveMessageTemplate(
+                L"Nelson:audio:vectorMatrix", L"Vector or matrix 2D expected.");
             return false;
         }
-        indexType rows = data.getRows();
-        indexType columns = data.getColumns();
+        indexType rows = data.rows();
+        indexType columns = data.columns();
         if (columns > rows) {
             bool needToOverload = false;
             audioData = ComplexTranspose(data, needToOverload);
         } else {
             audioData = data;
         }
-        Dimensions dimsAudioData = audioData.getDimensions();
-        rows = dimsAudioData.getRows();
-        columns = dimsAudioData.getColumns();
+        Dimensions dimsAudioData = audioData.dimensions();
+        rows = dimsAudioData.rows();
+        columns = dimsAudioData.columns();
         _NumberOfChannels = static_cast<int>(columns);
         if (_NumberOfChannels > pdi_output->maxOutputChannels) {
-            errorMessage = _W("Too many output channels.");
+            errorMessage = resolveMessageTemplate(
+                L"Nelson:audio:tooManyOutputChannels", L"Too many output channels.");
             return false;
         }
         outputStreamParameters.device = outputIndex;
         outputStreamParameters.channelCount = _NumberOfChannels;
-        switch (audioData.getDataClass()) {
+        switch (audioData.dataClass()) {
         case NLS_DOUBLE: {
             outputStreamParameters.sampleFormat = paFloat32;
         } break;
@@ -480,19 +454,14 @@ AudioplayerObject::setSamples(const ArrayOf& data, int SampleRate, int BitsPerSa
         }
         _SampleRate = SampleRate;
         _BitsPerSample = BitsPerSample;
-        _TotalSamples = static_cast<int>(audioData.getElementCount() / _NumberOfChannels);
+        _TotalSamples = static_cast<int>(audioData.elementCount() / _NumberOfChannels);
         outputStreamParameters.suggestedLatency
             = Pa_GetDeviceInfo(outputStreamParameters.device)->defaultLowOutputLatency;
         outputStreamParameters.hostApiSpecificStreamInfo = nullptr;
-        PaError err = Pa_IsFormatSupported(nullptr, &(outputStreamParameters), SampleRate);
-        if (err != paNoError) {
-            const char* errorText = Pa_GetErrorText(err);
-            errorMessage = utf8_to_wstring(errorText);
-            return false;
-        }
         return true;
     }
-    errorMessage = _W("Wrong device ID.");
+    errorMessage
+        = Nelson::resolveMessageTemplate(L"Nelson:audio:wrongDeviceId", L"Wrong device ID.");
 
     return false;
 }
@@ -515,106 +484,61 @@ AudioplayerObject::paPlayCallback(const void* inputBuffer, void* outputBuffer,
         }
     }
 
-    data->_Running = true;
     auto* outAsSingle = static_cast<single*>(outputBuffer);
     int8* outAsInt8 = static_cast<int8*>(outputBuffer);
     auto* outAsUInt8 = static_cast<uint8*>(outputBuffer);
     auto* outAsInt16 = static_cast<int16*>(outputBuffer);
-    NelsonType dataClass = data->audioData.getDataClass();
-    for (unsigned int i = 0; i < framesPerBuffer; i++) {
+    NelsonType dataClass = data->audioData.dataClass();
+    const void* samples = data->audioData.dataPointer();
+    const size_t totalSamples = static_cast<size_t>(data->_TotalSamples);
+    const uint32 lastSample = data->lastSample;
+    int currentSample = data->_CurrentSample.load();
+    for (unsigned long i = 0; i < framesPerBuffer; i++) {
+        const bool hasSample = static_cast<uint32>(currentSample) < lastSample;
         for (int c = 0; c < data->_NumberOfChannels; c++) {
-            if (static_cast<uint32>(data->_CurrentSample) < data->lastSample) {
-                switch (dataClass) {
-                case NLS_SINGLE: {
-                    auto* ptrData = (single*)data->audioData.getDataPointer();
-                    size_t pos = (size_t)(data->_CurrentSample)
-                        + (size_t)(c) * (size_t)(data->_TotalSamples);
-                    single val = ptrData[pos];
-                    *outAsSingle = val;
-                    outAsSingle++;
-                } break;
-                case NLS_DOUBLE: {
-                    auto* ptrData = (double*)data->audioData.getDataPointer();
-                    size_t pos = (size_t)(data->_CurrentSample)
-                        + (size_t)(c) * (size_t)(data->_TotalSamples);
-                    double val = ptrData[pos];
-                    *outAsSingle = static_cast<single>(val);
-                    outAsSingle++;
-                } break;
-                case NLS_INT8: {
-                    int8* ptrData = (int8*)data->audioData.getDataPointer();
-                    size_t pos = (size_t)(data->_CurrentSample)
-                        + (size_t)(c) * (size_t)(data->_TotalSamples);
-                    int8 val = ptrData[pos];
-                    *outAsInt8 = val;
-                    outAsInt8++;
-                } break;
-                case NLS_UINT8: {
-                    auto* ptrData = (uint8*)data->audioData.getDataPointer();
-                    size_t pos = (size_t)(data->_CurrentSample)
-                        + (size_t)(c) * (size_t)(data->_TotalSamples);
-                    uint8 val = ptrData[pos];
-                    *outAsUInt8 = val;
-                    outAsUInt8++;
-                } break;
-                case NLS_INT16: {
-                    auto* ptrData = (int16*)data->audioData.getDataPointer();
-                    size_t pos = (size_t)(data->_CurrentSample)
-                        + (size_t)(c) * (size_t)(data->_TotalSamples);
-                    int16 val = ptrData[pos];
-                    *outAsInt16 = val;
-                    outAsInt16++;
-                } break;
-                default: {
-                    // not managed here
-                } break;
-                }
-            } else {
-                switch (dataClass) {
-                case NLS_DOUBLE:
-                case NLS_SINGLE: {
-                    *outAsSingle++ = 0;
-                } break;
-                case NLS_INT8: {
-                    *outAsInt8++ = 0;
-                } break;
-                case NLS_UINT8: {
-                    *outAsUInt8++ = 0;
-                } break;
-                case NLS_INT16: {
-                    *outAsInt16++ = 0;
-                } break;
-                default: {
-                } break;
-                }
+            size_t pos = static_cast<size_t>(currentSample) + static_cast<size_t>(c) * totalSamples;
+            switch (dataClass) {
+            case NLS_SINGLE: {
+                *outAsSingle++ = hasSample ? static_cast<const single*>(samples)[pos] : 0.f;
+            } break;
+            case NLS_DOUBLE: {
+                *outAsSingle++ = hasSample
+                    ? static_cast<single>(static_cast<const double*>(samples)[pos])
+                    : 0.f;
+            } break;
+            case NLS_INT8: {
+                *outAsInt8++ = hasSample ? static_cast<const int8*>(samples)[pos] : 0;
+            } break;
+            case NLS_UINT8: {
+                *outAsUInt8++ = hasSample ? static_cast<const uint8*>(samples)[pos] : 0;
+            } break;
+            case NLS_INT16: {
+                *outAsInt16++ = hasSample ? static_cast<const int16*>(samples)[pos] : 0;
+            } break;
+            default: {
+                // not managed here
+            } break;
             }
         }
-
-        if (timerEnabled && (data->_CurrentSample % periodSamples == 0)) {
-            data->enqueueCallback(data->timerFunc);
+        if (timerEnabled && (currentSample % periodSamples == 0)) {
+            enqueueAudioCallback(data->timerFunc, data);
         }
-        data->_CurrentSample++;
+        currentSample++;
     }
-    if (static_cast<uint32>(data->_CurrentSample) >= data->lastSample) {
-        data->_CurrentSample = data->lastSample;
+    if (static_cast<uint32>(currentSample) >= lastSample) {
+        data->_CurrentSample = static_cast<int>(lastSample);
         data->_Running = false;
-        data->paStream = nullptr;
-        data->enqueueCallback(data->stopFunc);
-        return 1;
+        data->enqueueStopFcnOnce();
+        return paComplete;
     }
-    return 0;
+    data->_CurrentSample = currentSample;
+    return paContinue;
 }
 //=============================================================================
-PaStream*
-AudioplayerObject::getStream()
-{
-    return paStream;
-}
-//=============================================================================
-bool
+PaError
 AudioplayerObject::play(int start, int end)
 {
-    enqueueCallback(startFunc);
+    releaseFinishedStream();
     firstSample = start;
     if (end == 0) {
         lastSample = _TotalSamples;
@@ -625,96 +549,70 @@ AudioplayerObject::play(int start, int end)
             lastSample = end;
         }
     }
-    if (paStream) {
-        if (Pa_IsStreamStopped(paStream) == 1) {
-            stop();
-        } else {
-            _Running = true;
-            return true;
-        }
+    if (_Running) {
+        return paNoError;
     }
+    enqueueAudioCallback(startFunc, this);
     _CurrentSample = firstSample;
-    PaError err = Pa_OpenStream(&paStream, nullptr, &(outputStreamParameters), _SampleRate, 1024,
-        paNoFlag, paPlayCallback, this);
-    if (err != paNoError) {
-        paStream = nullptr;
-        return false;
-    }
-    err = Pa_StartStream(paStream);
     _Running = true;
-    return (err == paNoError);
+    stopFcnPending = true;
+    PaError err = stream.open(nullptr, &outputStreamParameters, _SampleRate, paPlayCallback, this);
+    if (err != paNoError) {
+        _Running = false;
+        stopFcnPending = false;
+    }
+    return err;
 }
 //=============================================================================
 bool
 AudioplayerObject::pause()
 {
-    if (paStream) {
-        PaError err = Pa_StopStream(paStream);
-        _Running = false;
-        return (err == paNoError);
+    releaseFinishedStream();
+    if (!stream.isOpen()) {
+        return false;
     }
-    return false;
+    _Running = false;
+    return stream.pause() == paNoError;
 }
 //=============================================================================
-bool
+PaError
 AudioplayerObject::resume()
 {
-    if (paStream) {
-        PaError err = Pa_StartStream(paStream);
-        _Running = true;
-        return (err == paNoError);
+    releaseFinishedStream();
+    if (!stream.isPaused()) {
+        return paNoError;
     }
-    return false;
+    _Running = true;
+    PaError err = stream.resume();
+    if (err != paNoError) {
+        _Running = false;
+    }
+    return err;
 }
 //=============================================================================
 bool
 AudioplayerObject::stop()
 {
-    _CurrentSample = 0;
     _Running = false;
-    if (paStream) {
-        if (!Pa_IsStreamStopped(paStream)) {
-            PaError err = Pa_AbortStream(paStream);
-            if (err == paNoError) {
-                err = Pa_CloseStream(paStream);
-                paStream = nullptr;
-                return (err == paNoError);
-            }
-            return false;
-        }
-        paStream = nullptr;
-    }
+    // closing waits for the audio thread, which cannot overwrite CurrentSample afterwards
+    stream.close();
+    _CurrentSample = 0;
+    enqueueStopFcnOnce();
     return true;
 }
 //=============================================================================
 void
-AudioplayerObject::enqueueCallback(const ArrayOf& callbackArrayOf)
+AudioplayerObject::enqueueStopFcnOnce()
 {
-    if (!callbackArrayOf.isEmpty()) {
-        if (callbackArrayOf.isScalarStringArray() || callbackArrayOf.isRowVectorCharacterArray()) {
-            EventQueue::getInstance()->add(EventCallback(callbackArrayOf));
-        } else if (callbackArrayOf.isFunctionHandle()) {
-            size_t nbElements = 3;
-            ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, nbElements);
-            elements[0] = callbackArrayOf;
-            elements[1] = ArrayOf::handleConstructor(this);
-            elements[2] = ArrayOf::emptyConstructor(0, 0);
-            EventQueue::getInstance()->add(
-                EventCallback(ArrayOf(NLS_CELL_ARRAY, Dimensions(1, nbElements), elements)));
-        }
+    if (stopFcnPending.exchange(false)) {
+        enqueueAudioCallback(stopFunc, this);
     }
 }
 //=============================================================================
-bool
-AudioplayerObject::isFunctionHandleCallbackValid(const ArrayOf& callbackArrayOf)
+void
+AudioplayerObject::releaseFinishedStream()
 {
-    if (callbackArrayOf.isScalarStringArray() || callbackArrayOf.isRowVectorCharacterArray()) {
-        return true;
-    }
-    if (callbackArrayOf.isFunctionHandle()) {
-        return true;
-    }
-    return false;
+    stream.closeIfFinished();
 }
 //=============================================================================
 } // namespace Nelson

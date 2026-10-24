@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,11 +9,11 @@
 //=============================================================================
 #include "fcloseBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "FileClose.hpp"
 #include "FilesManager.hpp"
 #include "NelsonConfiguration.hpp"
-#include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -24,25 +24,29 @@ Nelson::StreamGateway::fcloseBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOfVector retval;
     auto* fm = static_cast<FilesManager*>(NelsonConfiguration::getInstance()->getFileManager());
     if (fm == nullptr) {
-        Error(_W("Problem with file manager."));
+        Error(L"Nelson:stream_manager:fileManagerNotAvailable", L"Problem with file manager.");
     }
     nargincheck(argIn, 1, 1);
     ArrayOf param1 = argIn[0];
     if (param1.isDoubleType()) {
         nargoutcheck(nLhs, 0, 1);
-        auto iValue = static_cast<int32>(param1.getContentAsDoubleScalar());
+        auto iValue = static_cast<int32>(param1.asDoubleScalar());
         if (fm->isOpened(iValue)) {
             if (FileClose(fm, iValue)) {
-                retval << ArrayOf::doubleConstructor(0.);
+                retval << ArrayOf::doubleScalar(0.);
             } else {
-                retval << ArrayOf::doubleConstructor(-1.);
+                retval << ArrayOf::doubleScalar(-1.);
             }
         } else {
-            Error(_W("Invalid file identifier."));
+            if (nLhs == 1) {
+                retval << ArrayOf::doubleScalar(-1.);
+            } else {
+                Error(L"Nelson:stream_manager:invalidFileIdentifier", L"Invalid file identifier.");
+            }
         }
     } else if (param1.isRowVectorCharacterArray()) {
         nargoutcheck(nLhs, 0, 0);
-        std::wstring str = param1.getContentAsWideString();
+        std::wstring str = param1.asWideString();
         if (str == L"all") {
             Nelson::FilesManager* nfm;
             try {
@@ -57,13 +61,15 @@ Nelson::StreamGateway::fcloseBuiltin(int nLhs, const ArrayOfVector& argIn)
                 }
                 NelsonConfiguration::getInstance()->setFileManager((void*)nfm);
             } else {
-                Error(_W("Cannot close files."));
+                Error(L"Nelson:fclose:cannotClose", L"Cannot close files.");
             }
         } else {
-            Error(_W("Wrong value for #1: 'all' expected."));
+            Error(L"Nelson:fclose:invalidArgument", L"Wrong value for #%d: '%s' expected.", 1,
+                L"all");
         }
     } else {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_DOUBLE_EXPECTED);
+        Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1),
+            L"string or double");
     }
     return retval;
 }

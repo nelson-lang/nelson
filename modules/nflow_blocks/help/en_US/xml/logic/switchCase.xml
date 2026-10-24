@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>switchCase</keyword>
+<keyword_alias>block:switchCase</keyword_alias>
+  <short_description>Routes an integer control to one of several action outputs.</short_description>
+  <syntax>
+    <syntax_item>Block type: switchCase</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>input ports</param_name>
+      <param_description>1 input port: the control value.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>output ports</param_name>
+      <param_description>One output per case, plus an optional default output.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Routes an integer control to one of several action outputs.</p>
+    <p>The scalar input is truncated toward zero to an integer and matched against
+    <code>CaseConditions</code>, a cell literal such as <code>{1, [7 9 4]}</code>. The first
+    matching case drives its output to <code>1.0</code> and every other output to <code>0.0</code>.
+    With <code>ShowDefaultCase</code> set to <code>on</code>, an unmatched value drives the last
+    (default) output. There is no fall-through. These outputs are meant to gate action subsystems.</p>
+    <p>
+      <b>Parameters</b>
+    </p>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+          <th>Default value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <code>CaseConditions</code>
+          </td>
+          <td>{1}</td>
+        </tr>
+        <tr>
+          <td>
+            <code>ShowDefaultCase</code>
+          </td>
+          <td>on</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Block Characteristics</b>
+    </p>
+    <table border="1">
+      <tbody>
+        <tr>
+          <td>Block type</td>
+          <td>switchCase</td>
+        </tr>
+        <tr>
+          <td>Family</td>
+          <td>Logic blocks</td>
+        </tr>
+        <tr>
+          <td>Phases</td>
+          <td>ALGEBRAIC</td>
+        </tr>
+      </tbody>
+    </table>
+    <p><b>Extended Capabilities</b></p>
+    <p>Code generation: supported for C and Rust.</p>
+  </description>
+  <used_function/>
+  <bibliography/>
+  <see_also>
+    <see_also_item>
+      <link linkend="${nflow_blocks}logic/if">if</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${nflow_blocks}utility/merge">merge</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

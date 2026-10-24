@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "iskeywordBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "Keywords.hpp"
 #include "NewWithException.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -24,16 +25,17 @@ Nelson::InterpreterGateway::iskeywordBuiltin(int nLhs, const ArrayOfVector& argI
         wstringVector keys = GetKeywords(true);
         ArrayOf* elements = new_with_exception<ArrayOf>(keys.size(), false);
         for (size_t k = 0; k < keys.size(); k++) {
-            elements[k] = ArrayOf::characterArrayConstructor(keys[k]);
+            elements[k] = ArrayOf::characterArray(keys[k]);
         }
         Dimensions dims(keys.size(), 1);
         retval << ArrayOf(NLS_CELL_ARRAY, dims, elements);
     } else {
         if (!argIn[0].isRowVectorCharacterArray()) {
-            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1),
+                L"string");
         }
-        std::wstring warg = argIn[0].getContentAsWideString();
-        retval << ArrayOf::logicalConstructor(isKeyword(warg));
+        std::wstring warg = argIn[0].asWideString();
+        retval << ArrayOf::logicalScalar(isKeyword(warg));
     }
     return retval;
 }

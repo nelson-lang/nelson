@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>crypto.aead.encrypt</keyword>
+  <short_description>Authenticated encryption (XChaCha20-Poly1305).</short_description>
+  <syntax>
+    <syntax_item>boxed = crypto.aead.encrypt(key, nonce, plaintext)</syntax_item>
+    <syntax_item>boxed = crypto.aead.encrypt(key, nonce, plaintext, associatedData)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>key</param_name>
+      <param_description>a uint8 vector of 32 bytes or 64 hexadecimal characters: secret key.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>nonce</param_name>
+      <param_description>a uint8 vector of 24 bytes or 48 hexadecimal characters: unique per message for a given key (use crypto.random).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>plaintext</param_name>
+      <param_description>a uint8 vector (raw bytes) or a character vector (UTF-8 bytes): content to encrypt.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>associatedData</param_name>
+      <param_description>a uint8 vector (raw bytes) or a character vector (UTF-8 bytes): optional data authenticated but not encrypted; the same value must be given to decrypt.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>boxed</param_name>
+      <param_description>a uint8 row vector: the 16-byte authentication tag followed by the ciphertext (same length as the plaintext).</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>crypto.aead.encrypt</b> encrypts and authenticates a message with XChaCha20-Poly1305, an authenticated encryption scheme with a 256-bit key and a 192-bit nonce.</p>
+    <p>The nonce must be unique for every message encrypted with the same key; a repeated nonce breaks the security. Generate it with <b>crypto.random(24)</b> and store it alongside the encrypted message (it is not secret).</p>
+  </description>
+  <used_function>Monocypher</used_function>
+  <bibliography>https://monocypher.org/, https://datatracker.ietf.org/doc/draft-irtf-cfrg-xchacha/</bibliography>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>encrypt then decrypt</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[key = crypto.random(32);
+nonce = crypto.random(24);
+boxed = crypto.aead.encrypt(key, nonce, 'a secret message');
+char(crypto.aead.decrypt(key, nonce, boxed))]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${core}crypto.aead.decrypt">crypto.aead.decrypt</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${core}crypto.random">crypto.random</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${core}crypto.x25519.shared">crypto.x25519.shared</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -24,8 +24,9 @@
 #include "h5ReadVlen.hpp"
 #include "h5ReadReference.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
-#include "Exception.hpp"
+#include "NelsonException.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
@@ -35,13 +36,13 @@ h5ReadAttribute(
     const std::wstring& filename, const std::wstring& location, const std::wstring& attributeName)
 {
     if (filename.empty()) {
-        Error(_W("Valid filename expected."));
+        Error(L"Nelson:hdf5:invalidFilename", L"Valid %s expected.", L"filename");
     }
     if (location.empty()) {
-        Error(_W("Valid location expected."));
+        Error(L"Nelson:hdf5:invalidLocation", L"Valid %s expected.", L"location");
     }
     if (attributeName.empty()) {
-        Error(_W("Valid attribute name expected."));
+        Error(L"Nelson:hdf5:invalidAttributeName", L"Valid %s expected.", L"attribute name");
     }
     hid_t fid = H5I_INVALID_HID;
     FileSystemWrapper::Path hdf5_filename(filename);
@@ -50,15 +51,15 @@ h5ReadAttribute(
         = FileSystemWrapper::Path::is_regular_file(hdf5_filename, permissionDenied);
     if (!fileExistPreviously) {
         if (permissionDenied) {
-            Error(_W("Permission denied."));
+            Error(L"Nelson:hdf5:permissionDenied", L"Permission denied.");
         }
     }
 
     if (!fileExistPreviously) {
-        Error(_W("file does not exist."));
+        Error(L"Nelson:hdf5:fileDoesNotExist", L"File does not exist.");
     }
     if (!H5Fis_hdf5(wstring_to_utf8(hdf5_filename.wstring()).c_str())) {
-        Error(_W("HDF5 format file expected."));
+        Error(L"Nelson:hdf5:notHdf5File", L"HDF5 format file expected.");
     } else {
         fid = H5Fopen(
             wstring_to_utf8(hdf5_filename.wstring()).c_str(), H5F_ACC_RDONLY, H5P_DEFAULT);
@@ -66,7 +67,8 @@ h5ReadAttribute(
     hid_t obj_id = H5Oopen(fid, wstring_to_utf8(location).c_str(), H5P_DEFAULT);
     if (obj_id < 0) {
         H5Fclose(fid);
-        Error(_W("Specified HDF5 object location could not be opened."));
+        Error(L"Nelson:hdf5:locationNotOpened",
+            L"Specified HDF5 object location could not be opened.");
     }
 
     hid_t attr_id = H5Aopen_by_name(obj_id, wstring_to_utf8(location).c_str(),
@@ -74,14 +76,14 @@ h5ReadAttribute(
     if (attr_id < 0) {
         H5Oclose(obj_id);
         H5Fclose(fid);
-        Error(_W("Attribute name not found."));
+        Error(L"Nelson:hdf5:attributeNotFound", L"Attribute name not found.");
     }
     hid_t type = H5Aget_type(attr_id);
     if (type < 0) {
         H5Aclose(attr_id);
         H5Oclose(obj_id);
         H5Fclose(fid);
-        Error(_W("Attribute have an invalid type."));
+        Error(L"Nelson:hdf5:invalidAttributeType", L"Attribute have an invalid type.");
     }
     hid_t aspace = H5Aget_space(attr_id);
     ArrayOf res;
@@ -118,16 +120,12 @@ h5ReadAttribute(
         res = h5ReadArray(attr_id, type, aspace, true, errorMessage);
     } break;
     case H5T_TIME: {
-        /* The time datatype, H5T_TIME,
-        has not been fully implemented and is not supported.If H5T_TIME is used,
-        the resulting data will be readable
-        and modifiable only on the originating computing platform;
-        it will not be portable to other platforms. */
-        errorMessage = _W("Type not managed.");
+        // H5T_TIME is not fully implemented in HDF5 and is not portable across platforms.
+        errorMessage = _W("Type not supported.");
     } break;
     case H5T_NCLASSES:
     default: {
-        errorMessage = _W("Type not managed.");
+        errorMessage = _W("Type not supported.");
     } break;
     }
     H5Sclose(aspace);
@@ -136,7 +134,7 @@ h5ReadAttribute(
     H5Oclose(obj_id);
     H5Fclose(fid);
     if (!errorMessage.empty()) {
-        Error(errorMessage);
+        Error(L"Nelson:hdf5:readAttributeFailed", errorMessage);
     }
     return res;
 }

@@ -16,5 +16,6 @@ namespace Nelson {
 ArrayOfVector
 sortCell(const ArrayOf& arrayIn, bool withIndex, indexType linesize, indexType planecount,
     indexType planesize, Dimensions& outDim, indexType dim, bool& needToOverload);
-}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>scatteredInterpolant</keyword>
+  <short_description>Scattered data interpolant object</short_description>
+  <syntax>
+    <syntax_item>F = scatteredInterpolant(P, V)</syntax_item>
+    <syntax_item>F = scatteredInterpolant(x, y, V)</syntax_item>
+    <syntax_item>F = scatteredInterpolant(x, y, z, V)</syntax_item>
+    <syntax_item>F = scatteredInterpolant(P, V, method)</syntax_item>
+    <syntax_item>F = scatteredInterpolant(P, V, method, extrapolationMethod)</syntax_item>
+    <syntax_item>Vq = evaluate(F, Q)</syntax_item>
+    <syntax_item>Vq = F(xq, yq)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>scatteredInterpolant</b> stores scattered sample points and values for repeated interpolation queries.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Evaluate an interpolant at a query point.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[P = [0 0; 1 0; 1 1; 0 1];
+V = P(:, 1) + P(:, 2);
+F = scatteredInterpolant(P, V);
+Vq = evaluate(F, [0.25 0.25])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${geometry}griddata">griddata</link></see_also_item>
+    <see_also_item><link linkend="${geometry}delaunayTriangulation">delaunayTriangulation</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item><history_version>2.0.0</history_version><history_description>Initial version.</history_description></history_item>
+  </history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

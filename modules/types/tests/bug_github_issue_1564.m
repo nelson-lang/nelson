@@ -15,19 +15,19 @@
 A = [1 2];
 B = [1 2];
 mat = A;
-mat(1)=0;
-assert_isequal(A, B);
-assert_isequal(mat, [0 2]);
+mat(1) = 0;
+asserts.isequal(A, B);
+asserts.isequal(mat, [0 2]);
 %=============================================================================
 A = [1 2];
 mat = A;
-mat(1,1)=0;
-assert_isequal(A, B);
-assert_isequal(mat, [0 2]);
+mat(1, 1) = 0;
+asserts.isequal(A, B);
+asserts.isequal(mat, [0 2]);
 %=============================================================================
 A = [1 2];
 mat = A;
-mat(1,1,1)=0;
-assert_isequal(A, B);
-assert_isequal(mat, [0 2]);
+mat(1, 1, 1) = 0;
+asserts.isequal(A, B);
+asserts.isequal(mat, [0 2]);
 %=============================================================================

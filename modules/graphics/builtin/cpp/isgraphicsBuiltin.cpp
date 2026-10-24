@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,11 +9,12 @@
 //=============================================================================
 #include "isgraphicsBuiltin.hpp"
 #include "GOPropertyNames.hpp"
+#include "GOPropertyValues.hpp"
 #include "GraphicsObject.hpp"
 #include "GORoot.hpp"
 #include "GOHelpers.hpp"
 #include "Error.hpp"
-#include "Exception.hpp"
+#include "NelsonException.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "StringHelpers.hpp"
 //=============================================================================
@@ -26,24 +27,30 @@ GraphicsGateway::isgraphicsBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargincheck(argIn, 1, 2);
     nargoutcheck(nLhs, 0, 1);
 
-    Dimensions dims = argIn[0].getDimensions();
+    Dimensions dims = argIn[0].dimensions();
 
-    if (argIn[0].getDataClass() != NLS_GO_HANDLE) {
+    if (argIn[0].dataClass() != NLS_GO_HANDLE) {
         logical* ptrResult = (logical*)ArrayOf::allocateArrayOf(
-            NLS_LOGICAL, dims.getElementCount(), stringVector(), true);
+            NLS_LOGICAL, dims.elementCount(), stringVector(), true);
         retval << ArrayOf(NLS_LOGICAL, dims, ptrResult);
         return retval;
     }
     std::wstring typeStr;
     if (argIn.size() == 2) {
-        typeStr = argIn[1].getContentAsWideString();
+        typeStr = argIn[1].asWideString();
         StringHelpers::to_lower(typeStr);
+        if (typeStr == GO_PROPERTY_VALUE_SUBPLOT_TEXT_STR) {
+            logical* ptrResult = (logical*)ArrayOf::allocateArrayOf(
+                NLS_LOGICAL, dims.elementCount(), stringVector(), true);
+            retval << ArrayOf(NLS_LOGICAL, dims, ptrResult);
+            return retval;
+        }
     }
 
-    logical* ptrResult = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, dims.getElementCount());
+    logical* ptrResult = (logical*)ArrayOf::allocateArrayOf(NLS_LOGICAL, dims.elementCount());
     ArrayOf results = ArrayOf(NLS_LOGICAL, dims, ptrResult);
-    int64* handles = (int64*)argIn[0].getDataPointer();
-    for (size_t k = 0; k < dims.getElementCount(); k++) {
+    int64* handles = (int64*)argIn[0].dataPointer();
+    for (size_t k = 0; k < dims.elementCount(); k++) {
         bool result = false;
         if (!isDeletedGraphicsObject(handles[k])) {
             GraphicsObject* fp = nullptr;
@@ -58,14 +65,14 @@ GraphicsGateway::isgraphicsBuiltin(int nLhs, const ArrayOfVector& argIn)
                 if (!typeStr.empty() && fp) {
                     GOGenericProperty* hp = fp->findProperty(GO_TYPE_PROPERTY_NAME_STR, false);
                     if (hp) {
-                        std::wstring r = hp->get().getContentAsWideString();
+                        std::wstring r = hp->get().asWideString();
                         StringHelpers::to_lower(r);
                         result = (r == typeStr);
                     }
                 } else {
                     result = (fp != nullptr);
                 }
-            } catch (const Exception&) {
+            } catch (const NelsonException&) {
                 result = false;
             }
         }

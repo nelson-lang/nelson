@@ -10,8 +10,8 @@
 % <--AUDIO OUTPUT REQUIRED-->
 % <--SEQUENTIAL TEST REQUIRED-->
 %=============================================================================
-assert_isequal(nargin('soundsc'), -1)
-assert_isequal(nargout('soundsc'), 0)
+asserts.isequal(nargin('soundsc'), -1)
+asserts.isequal(nargout('soundsc'), 0)
 wav_file = [modulepath('audio', 'tests'), '/MacBoing.wav'];
 [y, fs] = audioread(wav_file);
 %=============================================================================
@@ -35,30 +35,30 @@ catch ex
 end
 %=============================================================================
 nBits = 16;
-yRange = [-0.7,0.7];
+yRange = [-0.7, 0.7];
 try
   soundsc(y, fs, nBits, yRange);
 catch ex
   skip_testsuite(strcmp(ex.message, 'Device unavailable'), 'Device unavailable');
 end
 %=============================================================================
-assert_checkerror('soundsc(10, 8192, 16, [10 20 30])', _('RANGE must be a 2-element [YMIN, YMAX] vector.'));
+asserts.checkerror('soundsc(10, 8192, 16, [10 20 30])', _('RANGE must be a 2-element [YMIN, YMAX] vector.'));
 %=============================================================================
-assert_checkerror('soundsc(10, 8192, 16, [20 10])', _('RANGE must be a 2-element [YMIN, YMAX] vector.'));
+asserts.checkerror('soundsc(10, 8192, 16, [20 10])', _('RANGE must be a 2-element [YMIN, YMAX] vector.'));
 %=============================================================================
-assert_checkerror('soundsc(10, 8192, [10 20 30])', _('NBITS must be 8, 16, or 24.'));
+asserts.checkerror('soundsc(10, 8192, [10 20 30])', _('NBITS must be 8, 16, or 24.'));
 %=============================================================================
-assert_checkerror('soundsc(10, 8192, [20 10])', _('NBITS must be 8, 16, or 24.'));
+asserts.checkerror('soundsc(10, 8192, [20 10])', _('NBITS must be 8, 16, or 24.'));
 %=============================================================================
-assert_checkerror('soundsc(10, [10 20 30])', _('Sample rate FS must be a positive number.'));
+asserts.checkerror('soundsc(10, [10 20 30])', _('Sample rate FS must be a positive number.'));
 %=============================================================================
-assert_checkerror('soundsc(10, [20 10])', _('Sample rate FS must be a positive number.'));
+asserts.checkerror('soundsc(10, [20 10])', _('Sample rate FS must be a positive number.'));
 %=============================================================================
-assert_checkerror('soundsc(10, [], 20)',  _('Sample rate FS must be a positive number.'));
+asserts.checkerror('soundsc(10, [], 20)', _('Sample rate FS must be a positive number.'));
 %=============================================================================
-assert_checkerror('soundsc(10, -10)',  _('Sample rate FS must be a positive number.'));
+asserts.checkerror('soundsc(10, -10)', _('Sample rate FS must be a positive number.'));
 %=============================================================================
-assert_checkerror('soundsc(10, 20, 30, 40, 50)', _('Wrong number of input arguments.'));
+asserts.checkerror('soundsc(10, 20, 30, 40, 50)', _('Too many input arguments.'));
 %=============================================================================
 
 

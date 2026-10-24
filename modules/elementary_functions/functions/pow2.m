@@ -8,7 +8,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function R = pow2 (varargin)
+function R = pow2(varargin)
   narginchk(1, 2);
   nargoutchk(0, 1);
   if (nargin == 2)
@@ -23,13 +23,32 @@ function R = pow2 (varargin)
       E = real(E);
       doComplexWarning = true;
     end
-    R = X .* (2 .^ E);
+    R = scaleByPowerOfTwo(X, E);
     if doComplexWarning
-      warning('Nelson:pow2:ignoredImagPart', _('Imaginary part is ignored.'));
+      warning('Nelson:pow2:ignoredImagPart', 'Imaginary part ignored.');
     end
   else
     Y = varargin{1};
     R = 2 .^ Y;
+  end
+end
+%=============================================================================
+function R = scaleByPowerOfTwo(X, E)
+  % X .* 2^fix(E): the exponent is truncated, and the scaling is split in two
+  % halves so that 2^E itself never overflows or underflows before X is scaled.
+  E = fix(E);
+  E1 = fix(E / 2);
+  E2 = E - E1;
+  E2(~isfinite(E)) = 0;
+  R = (X .* (2 .^ E1)) .* (2 .^ E2);
+  % an infinite exponent scales a zero to itself, and an infinite value is
+  % unchanged by any exponent but NaN (not NaN)
+  unchanged = ((X == 0) & isinf(E)) | (isinf(X) & ~isnan(E));
+  if any(unchanged(:))
+    if isscalar(X)
+      X = repmat(X, size(unchanged));
+    end
+    R(unchanged) = X(unchanged);
   end
 end
 %=============================================================================

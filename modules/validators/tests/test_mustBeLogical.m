@@ -7,13 +7,13 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('mustBeLogical'), -1);
-assert_isequal(nargout('mustBeLogical'), 0);
+asserts.isequal(nargin('mustBeLogical'), -1);
+asserts.isequal(nargout('mustBeLogical'), 0);
 %=============================================================================
 mustBeLogical([]);
 mustBeLogical([true, false]);
-assert_checkerror('mustBeLogical(1)', _('Value must be logical.'));
+asserts.checkerror('mustBeLogical(1)', sprintf(_('%s must be logical.'), 'Value'));
 %=============================================================================
-msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10),  _('Value must be logical.')];
-assert_checkerror('mustBeLogical(1, 3)', msg);
+msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10), sprintf(_('%s must be logical.'), 'Value')];
+asserts.checkerror('mustBeLogical(1, 3)', msg);
 %=============================================================================

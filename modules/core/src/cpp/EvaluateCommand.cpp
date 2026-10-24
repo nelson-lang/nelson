@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,12 +10,12 @@
 #include <string>
 #include "EvaluateCommand.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "EvaluateInterface.hpp"
 #include "ParserInterface.hpp"
 #include "characters_encoding.hpp"
 #include "NelsonPrint.hpp"
-#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -63,7 +63,7 @@ retrieveVariablesReturned(Evaluator* eval, int nLhs)
         std::wstring varname = std::wstring(TEMP_VAR_NAME) + std::to_wstring(v);
         ArrayOf var;
         if (!eval->getContext()->lookupVariableLocally(wstring_to_utf8(varname), var)) {
-            var = ArrayOf::emptyConstructor();
+            var = ArrayOf::empty();
         } else {
             var.name("");
             variables.push_back(var);
@@ -87,6 +87,36 @@ getScopeValue(SCOPE_LEVEL scope)
     }
 }
 //=============================================================================
+class BypassedScopeGuard
+{
+public:
+    BypassedScopeGuard(Context* context, int scopeValue)
+        : m_context(context), m_previousBypassedScopeCount(context->getBypassedScopeCount())
+    {
+        m_context->bypassScope(scopeValue);
+    }
+
+    ~BypassedScopeGuard() { restore(); }
+
+    void
+    restore()
+    {
+        if (m_active) {
+            size_t currentBypassedScopeCount = m_context->getBypassedScopeCount();
+            if (currentBypassedScopeCount > m_previousBypassedScopeCount) {
+                m_context->restoreBypassedScopes(
+                    static_cast<int>(currentBypassedScopeCount - m_previousBypassedScopeCount));
+            }
+            m_active = false;
+        }
+    }
+
+private:
+    Context* m_context;
+    size_t m_previousBypassedScopeCount;
+    bool m_active = true;
+};
+//=============================================================================
 static ArrayOfVector
 EvaluateCommand(Evaluator* eval, int nLhs, const std::wstring& command,
     const std::wstring& catchCommand, SCOPE_LEVEL scope)
@@ -95,28 +125,30 @@ EvaluateCommand(Evaluator* eval, int nLhs, const std::wstring& command,
     ArrayOfVector retval;
     if (catchCommand.empty()) {
         if (nLhs == 0) {
-            eval->getContext()->bypassScope(scopeValue);
+            BypassedScopeGuard guard(eval->getContext(), scopeValue);
             eval->evaluateString(command);
-            eval->getContext()->restoreBypassedScopes();
+            guard.restore();
         } else {
             std::wstring preparedCommand = prepareVariablesReturned(nLhs, command);
-            eval->getContext()->bypassScope(scopeValue);
+            BypassedScopeGuard guard(eval->getContext(), scopeValue);
             eval->evaluateString(preparedCommand);
             retval = retrieveVariablesReturned(eval, nLhs);
-            eval->getContext()->restoreBypassedScopes();
+            guard.restore();
             if (retval.size() != static_cast<size_t>(nLhs)) {
-                Error(_W("Invalid use of statement list."));
+                Error(L"Nelson:core:invalidStatementList", L"Invalid use of statement list.");
             }
         }
     } else {
         if (nLhs == 0) {
             Context* context = eval->getContext();
             try {
-                context->bypassScope(scopeValue);
+                BypassedScopeGuard guard(context, scopeValue);
                 eval->evaluateString(command, true);
-                context->restoreBypassedScopes();
-            } catch (const Exception&) {
-                context->restoreBypassedScopes();
+                guard.restore();
+            } catch (const NelsonException&) {
+                if (eval->getState() == NLS_STATE_ABORT || eval->isQuitOrForceQuitState()) {
+                    throw;
+                }
                 eval->evaluateString(catchCommand, false);
             }
         } else {
@@ -124,17 +156,19 @@ EvaluateCommand(Evaluator* eval, int nLhs, const std::wstring& command,
             std::wstring preparedCatchCommand = prepareVariablesReturned(nLhs, catchCommand);
             Context* context = eval->getContext();
             try {
-                context->bypassScope(scopeValue);
+                BypassedScopeGuard guard(context, scopeValue);
                 eval->evaluateString(preparedCommand, true);
                 retval = retrieveVariablesReturned(eval, nLhs);
-                context->restoreBypassedScopes();
-            } catch (const Exception&) {
-                context->restoreBypassedScopes();
+                guard.restore();
+            } catch (const NelsonException&) {
+                if (eval->getState() == NLS_STATE_ABORT || eval->isQuitOrForceQuitState()) {
+                    throw;
+                }
                 eval->evaluateString(preparedCatchCommand, false);
                 retval = retrieveVariablesReturned(eval, nLhs);
             }
             if (retval.size() != static_cast<size_t>(nLhs)) {
-                Error(_W("Invalid use of statement list."));
+                Error(L"Nelson:core:invalidStatementList", L"Invalid use of statement list.");
             }
         }
     }
@@ -152,7 +186,7 @@ ArrayOfVector
 EvaluateInCommand(Evaluator* eval, int nLhs, SCOPE_LEVEL scope, const std::wstring& command)
 {
     if (scope == GLOBAL_SCOPE) {
-        Error(_W("'local', 'caller', 'base' scope expected."));
+        Error(L"Nelson:core:invalidScope", L"'local', 'caller', 'base' scope expected.");
     }
     return EvaluateCommand(eval, nLhs, command, L"", scope);
 }
@@ -167,7 +201,7 @@ EvaluateConsoleCommand(
     try {
         tempIO = new EvaluateInterface();
     } catch (const std::bad_alloc&) {
-        Error(ERROR_MEMORY_ALLOCATION);
+        Error(L"Nelson:outOfMemory", L"Memory allocation error... You may have run out of memory!");
     }
     setPrintInterface(tempIO);
     eval->setInterface(tempIO);
@@ -185,7 +219,13 @@ EvaluateConsoleCommand(
         eval->setInterface(io);
         setPrintInterface(io);
         delete tempIO;
-    } catch (const Exception&) {
+    } catch (const NelsonException&) {
+        if (eval->getState() == NLS_STATE_ABORT || eval->isQuitOrForceQuitState()) {
+            eval->setInterface(io);
+            setPrintInterface(io);
+            delete tempIO;
+            throw;
+        }
         if (!catchCommand.empty()) {
             try {
                 retval = EvaluateCommand(eval, nbOutput, catchCommand, L"");
@@ -193,7 +233,7 @@ EvaluateConsoleCommand(
                 eval->setInterface(io);
                 setPrintInterface(io);
                 delete tempIO;
-            } catch (const Exception&) {
+            } catch (const NelsonException&) {
                 eval->setInterface(io);
                 setPrintInterface(io);
                 delete tempIO;
@@ -206,7 +246,7 @@ EvaluateConsoleCommand(
             throw;
         }
     }
-    retval.push_front(ArrayOf::characterArrayConstructor(buffer));
+    retval.push_front(ArrayOf::characterArray(buffer));
     return retval;
 }
 //=============================================================================
@@ -221,7 +261,9 @@ EvaluateConsoleCommandToString(Evaluator* eval, const std::wstring& command, std
     try {
         tempIO = new EvaluateInterface();
     } catch (const std::bad_alloc&) {
-        result = _W("Error:") + _W(ERROR_MEMORY_ALLOCATION);
+        result = _W("Error:")
+            + Nelson::resolveMessageTemplate(L"Nelson:core:memoryAllocationErrorYou",
+                L"Memory allocation error... You may have run out of memory!");
         return success;
     }
     setPrintInterface(tempIO);
@@ -234,7 +276,13 @@ EvaluateConsoleCommandToString(Evaluator* eval, const std::wstring& command, std
         setPrintInterface(io);
         delete tempIO;
         success = true;
-    } catch (Exception& e) {
+    } catch (NelsonException& e) {
+        if (eval->getState() == NLS_STATE_ABORT || eval->isQuitOrForceQuitState()) {
+            eval->setInterface(io);
+            setPrintInterface(io);
+            delete tempIO;
+            throw;
+        }
         e.printMe(tempIO);
         result = tempIO->getOutputBuffer();
         eval->setInterface(io);

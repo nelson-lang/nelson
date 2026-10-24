@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>histogram2</keyword>
+  <short_description>Create bivariate histogram plot.</short_description>
+  <syntax>
+    <syntax_item>histogram2(X, Y)</syntax_item>
+    <syntax_item>histogram2(X, Y, nbins)</syntax_item>
+    <syntax_item>histogram2(X, Y, xedges, yedges)</syntax_item>
+    <syntax_item>histogram2(..., propertyName, propertyValue)</syntax_item>
+    <syntax_item>histogram2(ax, ...)</syntax_item>
+    <syntax_item>h = histogram2(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description>x data values.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Y</param_name>
+      <param_description>y data values with the same number of elements as X.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>nbins</param_name>
+      <param_description>number of bins, specified as a scalar or two-element vector.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>xedges</param_name>
+      <param_description>strictly increasing x bin edges.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>yedges</param_name>
+      <param_description>strictly increasing y bin edges.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName</param_name>
+      <param_description>histogram2 object property name.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyValue</param_name>
+      <param_description>histogram2 object property value.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description>target axes object.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>h</param_name>
+      <param_description>histogram2 graphics object.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>histogram2</b> bins paired numeric data and displays the bin values as 3-D bars or a tiled surface.</p>
+    <p>See <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.histogram2.properties">histogram2 properties</link> for the complete property list.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="adv-cli"><![CDATA[x = [1 1 2 3 4 4];
+y = [1 2 2 3 3 4];
+histogram2(x, y, [0 2 4], [0 2 4]);
+]]></example_item_data>
+      <example_item_img src="../../../../images/histogram2_1.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="adv-cli"><![CDATA[rng(0);
+x = randn(400, 1);
+y = 0.5 * x + randn(400, 1);
+histogram2(x, y, [12 10], 'Normalization', 'probability');
+]]></example_item_data>
+      <example_item_img src="../../../../images/histogram2_2.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="adv-cli"><![CDATA[x = [1 1 2 3 4 4];
+y = [1 2 2 3 3 4];
+h = histogram2(x, y, [0 2 4], [0 2 4], 'DisplayStyle', 'tile');
+h.ShowEmptyBins = 'on';
+]]></example_item_data>
+      <example_item_img src="../../../../images/histogram2_3.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.histogram2.properties">histogram2 properties</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}1_plots/4_data_distribution_plots/histogram">histogram</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}1_plots/7_surfaces_volumes_polygons/surf">surf</link>
+    </see_also_item>
+  </see_also>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

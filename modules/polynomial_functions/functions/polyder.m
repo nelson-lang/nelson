@@ -8,84 +8,64 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function [a, b] = polyder(varargin)
-  narginchk(1, 2)
-  nargoutchk(0, 2)
-  u = varargin{1};
+  narginchk(1, 2);
+  nargoutchk(0, 2);
+  numerator = polynomialRow(varargin{1});
   if nargin < 2
-    v = 1;
+    denominator = 1;
   else
-    v = varargin{2};
+    denominator = polynomialRow(varargin{2});
   end
-  v = v(:).';
-  u = u(:).';
-  nu = length(u);
-  nv = length(v);
-  if nu >= 2
-    up = u(1:nu-1) .* (nu-1:-1:1);
-  else
-    up = 0;
+  numeratorDerivative = derivativeCoefficients(numerator);
+  denominatorDerivative = derivativeCoefficients(denominator);
+  leftTerm = conv(numeratorDerivative, denominator);
+  rightTerm = conv(numerator, denominatorDerivative);
+  padding = length(leftTerm) - length(rightTerm);
+  if padding > 0
+    rightTerm = [zeros(1, padding), rightTerm];
+  elseif padding < 0
+    leftTerm = [zeros(1, -padding), leftTerm];
   end
-  
-  if nv >= 2
-    vp = v(1:nv-1) .* (nv-1:-1:1);
-  else
-    vp = 0;
-  end
-  
-  av = conv(up, v);
-  au = conv(u, vp);
-  
-  i = length(av);
-  j = length(au);
-  
-  z = zeros(1, abs(i - j));
-  if i > j
-    au = [z, au];
-  elseif i < j
-    av = [z, av];
-  end
-  
   if nargout < 2
-    a = av + au;
+    a = trimDerivative(leftTerm + rightTerm);
   else
-    a = av - au;
+    a = trimDerivative(leftTerm - rightTerm);
   end
-  
-  a = polyder_trim_a(a, u, v);
-  b = polyder_trim_b(v);
-  
-  if length(a) > max(nu + nv - 2,1)
+  b = trimDenominator(conv(denominator, denominator), denominator);
+  maximumOrder = max(length(numerator) + length(denominator) - 2, 1);
+  if length(a) > maximumOrder
     a = a(2:end);
   end
-  
 end
 %=============================================================================
-function c = superiorclass(a, b)
-  if (isdouble(a) && issingle(b))
-    c = 'double';
-  elseif (issingle(a) && isdouble(b))
-    c = 'double';
+function p = polynomialRow(p)
+  p = p(:).';
+end
+%=============================================================================
+function dp = derivativeCoefficients(p)
+  degree = length(p) - 1;
+  if degree > 0
+    dp = p(1:degree) .* (degree:-1:1);
   else
-    c = 'double';
+    dp = 0;
   end
 end
 %=============================================================================
-function a = polyder_trim_a(a, u, v)
-  f = find(a ~= 0);
-  if isempty(f)
-    a = zeros(superiorclass(u, v));
-  else 
-    a = a(f(1):end);
-end
+function p = trimDerivative(p)
+  first = find(p ~= 0, 1);
+  if isempty(first)
+    p = 0;
+  else
+    p = p(first:end);
+  end
 end
 %=============================================================================
-function b = polyder_trim_b(v)
-  b = conv(v, v);
-  f = find(b ~= 0);
-  if isempty(f)
-    b = zeros(class(v));
+function p = trimDenominator(p, source)
+  first = find(p ~= 0, 1);
+  if isempty(first)
+    p = zeros(class(source));
   else
-    b = b(f(1):end);
-end
+    p = p(first:end);
+  end
 end
 %=============================================================================

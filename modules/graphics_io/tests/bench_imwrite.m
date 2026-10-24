@@ -10,10 +10,11 @@
 % <--ADV-CLI MODE-->
 % <--INDEX 64 BIT REQUIRED-->
 %=============================================================================
-path_dest = [tempdir(), 'imwrite_bench'];
+path_dest = tempname();
 RES_8K = [7680, 4320];
 IMG_8K = rand(RES_8K(1), RES_8K(2));
-IMG_8K(:,:,2) = rand(RES_8K(1), RES_8K(2));
-IMG_8K(:,:,3) = rand(RES_8K(1), RES_8K(2));
-tic();imwrite(IMG_8K,[path_dest, '8K.png']);toc()
+IMG_8K(:, :, 2) = rand(RES_8K(1), RES_8K(2));
+IMG_8K(:, :, 3) = rand(RES_8K(1), RES_8K(2));
+tic(); imwrite(IMG_8K, [path_dest, '8K.png']); toc()
+rmfile([path_dest, '8K.png']);
 %=============================================================================

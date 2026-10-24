@@ -14,8 +14,7 @@
 //=============================================================================
 namespace Nelson {
 /**
- * The right divide operation is related to the left divide operation
- * via: B/A = (A'\B')'.
+ * B/A = (A'\B')'
  */
 NLSOPERATORS_IMPEXP ArrayOf
 RightDivide(const ArrayOf& A, const ArrayOf& B, bool& needToOverload);

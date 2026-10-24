@@ -10,7 +10,7 @@
 % <--ADV-CLI MODE-->
 % <--INTERACTIVE TEST-->
 %=============================================================================
-addpath([nelsonroot(),'/modules/graphics/tests/test_callback']);
+addpath([nelsonroot(), '/modules/graphics/tests/test_callback']);
 % Create a figure window
 fig = figure('Name', 'Interruptible Example');
 

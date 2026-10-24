@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>tfestimate</keyword>
+  <short_description>Estimation de fonction de transfert.</short_description>
+  <syntax>
+    <syntax_item>[Txy, F] = tfestimate(X, Y)</syntax_item>
+    <syntax_item>[Txy, F] = tfestimate(X, Y, window, noverlap, nfft, fs)</syntax_item>
+    <syntax_item>[Txy, F] = tfestimate(..., FREQRANGE)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>X, Y</param_name><param_description>signaux d&apos;entree et de sortie.</param_description></param_input_item>
+    <param_input_item><param_name>window</param_name><param_description>fenetre d&apos;analyse.</param_description></param_input_item>
+    <param_input_item><param_name>noverlap</param_name><param_description>nombre d&apos;echantillons de recouvrement.</param_description></param_input_item>
+    <param_input_item><param_name>nfft</param_name><param_description>longueur de FFT.</param_description></param_input_item>
+    <param_input_item><param_name>fs</param_name><param_description>frequence d&apos;echantillonnage.</param_description></param_input_item>
+    <param_input_item><param_name>FREQRANGE</param_name><param_description><code>'onesided'</code>, <code>'twosided'</code>, <code>'centered'</code>, <code>'half'</code> ou <code>'whole'</code>.</param_description></param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>Txy</param_name><param_description>estimation de fonction de transfert.</param_description></param_output_item>
+    <param_output_item><param_name>F</param_name><param_description>vecteur de frequences.</param_description></param_output_item>
+  </param_output>
+  <description><p><b>tfestimate</b> estime une reponse frequentielle a partir de signaux d&apos;entree et de sortie.</p></description>
+  <examples><example_item><example_item_type>nelson</example_item_type><example_item_description /><example_item_data runnable="cli"><![CDATA[
+[txy, f] = tfestimate(sin((0:63)'), cos((0:63)'), hamming(16), 8, 32, 10, 'twosided');
+]]></example_item_data></example_item></examples>
+  <see_also><see_also_item><link linkend="${signal_processing}cpsd">cpsd</link></see_also_item><see_also_item><link linkend="${signal_processing}mscohere">mscohere</link></see_also_item></see_also>
+  <history><history_item><history_version>2.0.0</history_version><history_description>version initiale</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

@@ -7,22 +7,30 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('zp2tf'), -1);
-assert_isequal(nargout('zp2tf'), -1);
+asserts.isequal(nargin('zp2tf'), -1);
+asserts.isequal(nargout('zp2tf'), -1);
 %=============================================================================
-assert_checkerror('zp2tf([-100 -2.01], [-5 -.9 -20.1], 1)', _('First argument must be a column vector.'))
+asserts.checkerror('zp2tf([-100 -2.01], [-5 -.9 -20.1], 1)', _('First argument must be a column vector.'))
 %=============================================================================
 [N, D] = zp2tf([-1; -2.01], [-5 -9.9 -20.1], 1);
-N_REF = [0    1.0000    3.0100    2.0100];
-D_REF = [1.0000   35.0000  348.9900  994.9500];
-assert_isapprox(N, N_REF, 1e-3);
-assert_isapprox(D, D_REF, 1e-3);
+N_REF = [0 1.0000 3.0100 2.0100];
+D_REF = [1.0000 35.0000 348.9900 994.9500];
+asserts.isapprox(N, N_REF, 1e-3);
+asserts.isapprox(D, D_REF, 1e-3);
 %=============================================================================
 [N, D] = zp2tf([], [], 1);
 N_REF = 1;
 D_REF = 1;
-assert_isequal(N, N_REF);
-assert_isequal(D, D_REF);
+asserts.isequal(N, N_REF);
+asserts.isequal(D, D_REF);
+%=============================================================================
+[z, p, k] = tf2zp([0 0], [1 0.5]);
+asserts.istrue(isempty(z));
+asserts.isapprox(p, -0.5, 1e-12);
+asserts.isequal(k, 0);
+%=============================================================================
+asserts.checkerror('tf2zp([1 2], [1 0; 0 1])', _('Second argument must be a vector.'));
+asserts.checkerror('zp2tf([1 2; 3 4], [0], [1])', sprintf(_('Input argument #%d and #%d should have the same column size.'), 1, 3));
 %=============================================================================
 z = [49.498, 0; -49.498, 16.362];
 p = [0; -57.753; 53.851; 2.0831];
@@ -30,6 +38,6 @@ k = [18.182; 45.455];
 [N, D] = zp2tf(z, p, k);
 N_REF = 1.0e+04 * [0, 0, 0.0018, 0, -4.4547; 0, 0, 0.0045, -0.0744, 0];
 D_REF = 1.0e+03 * [0.0010, 0.0018, -3.1182, 6.4786, 0];
-assert_isapprox(N, N_REF, 1e-3);
-assert_isapprox(D, D_REF, 1e-3);
+asserts.isapprox(N, N_REF, 1e-3);
+asserts.isapprox(D, D_REF, 1e-3);
 %=============================================================================

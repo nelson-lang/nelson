@@ -25,7 +25,7 @@
       <example_item_description />
       <example_item_data
         runnable="cli"
-      ><![CDATA[dllib_used(),delete(dllib_used())]]></example_item_data>
+      ><![CDATA[used = dllib_used()]]></example_item_data>
     </example_item>
   </examples>
   <see_also>

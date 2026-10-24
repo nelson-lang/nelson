@@ -7,7 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-o = weboptions('RequestMethod', 'patch');
+o = weboptions('RequestMethod', 'patch', 'Timeout', 30);
 filename = fullfile(tempdir(), 'test_websave_patch.json');
 url = 'https://jsonplaceholder.typicode.com/posts/1';
 max_attempts = 3;
@@ -34,9 +34,10 @@ end
 if isempty(fullname)
   skip_testsuite(true, 'websave patch failed after retries or returned empty file');
 end
-assert_istrue(isfile(fullname));
+asserts.istrue(isfile(fullname));
 R = jsondecode(fileread(fullname));
-assert_isequal(R.id, 1);
+asserts.istrue(isstruct(R));
+asserts.isequal(R.id, 1);
 %=============================================================================
 filename = fullfile(tempdir(), 'test_websave_patch.json');
 % Repeat robust websave for second occurrence
@@ -62,7 +63,8 @@ end
 if isempty(fullname)
   skip_testsuite(true, 'websave patch (2) failed after retries or returned empty file');
 end
-assert_istrue(isfile(fullname));
+asserts.istrue(isfile(fullname));
 R = jsondecode(fileread(fullname));
-assert_isequal(R.id, 1);
+asserts.istrue(isstruct(R));
+asserts.isequal(R.id, 1);
 %=============================================================================

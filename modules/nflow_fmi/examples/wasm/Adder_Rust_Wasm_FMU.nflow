@@ -1,0 +1,117 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Modelica Association Project FMI",
+    "created": "2026-10-17",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "name": "FMU Wasm - Adder (Rust)",
+  "comments": "FMI-LS-WASM Co-Simulation addition example (Rust). Run in NFlow WebAssembly: after the first communication step, sum = 2 + 3 = 5.",
+  "blocks": [
+    {
+      "id": "a",
+      "type": "constant",
+      "name": "input_a = 2",
+      "x": 120,
+      "y": 180,
+      "inputs": 0,
+      "outputs": 1,
+      "params": {
+        "Value": 2
+      }
+    },
+    {
+      "id": "b",
+      "type": "constant",
+      "name": "input_b = 3",
+      "x": 120,
+      "y": 340,
+      "inputs": 0,
+      "outputs": 1,
+      "params": {
+        "Value": 3
+      }
+    },
+    {
+      "id": "fmu",
+      "type": "fmu",
+      "name": "Adder (Rust, Wasm)",
+      "x": 380,
+      "y": 260,
+      "inputs": 2,
+      "outputs": 1,
+      "params": {
+        "path": "nflow-example:/fmi/wasm/adder-rust-fmu.fmu",
+        "numInputs": 2,
+        "numOutputs": 1,
+        "inputNames": [
+          "input_a",
+          "input_b"
+        ],
+        "inputDescriptions": [
+          "First addend",
+          "Second addend"
+        ],
+        "inputWidths": [
+          1,
+          1
+        ],
+        "outputNames": [
+          "sum"
+        ],
+        "outputDescriptions": [
+          "Sum of both inputs"
+        ],
+        "outputWidths": [
+          1
+        ]
+      }
+    },
+    {
+      "id": "scope",
+      "type": "scope",
+      "name": "sum = 5",
+      "x": 650,
+      "y": 200,
+      "inputs": 1,
+      "outputs": 0,
+      "width": 300,
+      "height": 200,
+      "params": {
+        "width": 300,
+        "height": 200,
+        "YMin": 0,
+        "YMax": 6,
+        "ShowTickLabels": true
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "a",
+      "fromIndex": 0,
+      "to": "fmu",
+      "toIndex": 0
+    },
+    {
+      "from": "b",
+      "fromIndex": 0,
+      "to": "fmu",
+      "toIndex": 1
+    },
+    {
+      "from": "fmu",
+      "fromIndex": 0,
+      "to": "scope",
+      "toIndex": 0
+    }
+  ],
+  "variables": {},
+  "runtime": "5",
+  "sampleTime": 0.1,
+  "solver": "discrete",
+  "autoRoute": true,
+  "locked": false
+}

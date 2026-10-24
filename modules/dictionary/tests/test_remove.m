@@ -12,11 +12,19 @@ wheels = [1 2 3];
 d = dictionary(wheels, names);
 R = remove(d, 2);
 REF = dictionary([1 3], ["Unicycle" "Tricycle"]);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 names = ["Unicycle" "Bicycle" "Tricycle"];
 wheels = [1 2 3];
 d = dictionary(wheels, names);
 R = remove(d, 4);
-assert_isequal(R, d);
+asserts.isequal(R, d);
+%=============================================================================
+d = dictionary(string({'a', 'b', 'c'}), {1, [2 3], {4, 5}});
+R = remove(d, string({'a', 'c'}));
+asserts.isfalse(isKey(R, "a"));
+asserts.istrue(isKey(R, "b"));
+asserts.isfalse(isKey(R, "c"));
+asserts.isequal(R{'b'}, [2 3]);
+asserts.isequal(keys(R), "b");
 %=============================================================================

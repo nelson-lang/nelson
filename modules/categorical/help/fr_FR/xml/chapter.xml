@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>categorical</module_name>
+  <chapter>Tableaux categoriels</chapter>
+  <chapter_description>
+    <p>Le module Categorical fournit des tableaux dont les elements appartiennent a un ensemble fixe de categories textuelles.</p>
+  </chapter_description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Creer un tableau categoriel et lister ses categories.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = categorical({'red','blue','red'}); categories(A)]]></example_item_data>
+    </example_item>
+  </examples>
+</xmldoc>

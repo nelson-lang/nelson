@@ -17,9 +17,12 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-bool
-h5LoadLogical(hid_t fid, const std::string& location, const std::string& variableName, bool isEmpty,
-    const Dimensions& dims, bool isSparse, uint64 nzmax, ArrayOf& VariableValue);
+class Evaluator;
 //=============================================================================
-};
+bool
+h5LoadLogical(Evaluator* eval, hid_t fid, const std::string& location,
+    const std::string& variableName, bool isEmpty, const Dimensions& dims, bool isSparse,
+    uint64 nzmax, ArrayOf& VariableValue);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

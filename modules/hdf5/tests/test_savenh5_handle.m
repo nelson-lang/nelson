@@ -9,7 +9,7 @@
 %=============================================================================
 % <--GUI MODE-->
 %=============================================================================
-test_h5save_file = [tempdir(), 'test_h5save_handle.nh5'];
+test_h5save_file = [tempname(), '.nh5'];
 if isfile(test_h5save_file)
   rmfile(test_h5save_file);
 end
@@ -17,6 +17,6 @@ end
 % handle
 %=============================================================================
 h = errordlg();
-assert_checkerror('savenh5(test_h5save_file, ''h'');', [_('Cannot save variable:'), 'h']);
+asserts.checkerror('savenh5(test_h5save_file, ''h'');', sprintf(_('Cannot save variable: %s'), 'h'));
 delete(h);
 %=============================================================================

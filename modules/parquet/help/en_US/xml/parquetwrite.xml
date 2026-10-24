@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>parquetwrite</keyword>
+  <short_description>Write a table to a Parquet file.</short_description>
+  <syntax>
+    <syntax_item>parquetwrite(filename, T)</syntax_item>
+    <syntax_item>parquetwrite(filename, T, Name, Value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>a string: destination Parquet file.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>T</param_name>
+      <param_description>a table or timetable.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Name, Value</param_name>
+      <param_description>optional arguments specified as name-value pairs.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b>parquetwrite(filename, T)</b> writes the table or timetable <b>T</b> to a local Parquet file.</p>
+    <p>Supported variable types include logical values, integer types, single and double precision floating point values, text, datetime values, duration values, nested tables, and homogeneous primitive cell vector columns.</p>
+    <p>Unsupported variables such as complex arrays, sparse arrays, unsupported class objects, and unsupported nested cell shapes generate an error.</p>
+    <p>Supported name-value pairs are <b>VariableCompression</b>, <b>VariableEncoding</b>, <b>VariableNames</b>, <b>RowGroupHeights</b>, and <b>Version</b>.</p>
+    <p><b>VariableCompression</b> accepts values such as <b>'snappy'</b>, <b>'gzip'</b>, <b>'brotli'</b>, <b>'zstd'</b>, <b>'lz4'</b>, and <b>'uncompressed'</b>. <b>VariableEncoding</b> accepts <b>'auto'</b>, <b>'plain'</b>, or <b>'dictionary'</b>. <b>Version</b> accepts <b>'1.0'</b>, <b>'2.4'</b>, or <b>'2.6'</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[filename = [tempdir(), 'doc_parquetwrite.parquet'];
+T = table(int32([1; 2; 3]), single([1.5; 2.5; 3.5]), logical([true; false; true]), ...
+  ["A"; "B"; "C"], 'VariableNames', {'Id', 'Value', 'Flag', 'Name'});
+parquetwrite(filename, T);
+R = parquetread(filename)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[filename = [tempdir(), 'doc_parquetwrite_rowgroups.parquet'];
+T = table((1:6)', [10; 20; 30; 40; 50; 60], 'VariableNames', {'Id', 'Value'});
+parquetwrite(filename, T, 'RowGroupHeights', 2, 'VariableCompression', 'gzip');
+info = parquetinfo(filename);
+info.NumRowGroups]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[filename = [tempdir(), 'doc_parquetwrite_nested.parquet'];
+Nested = table(int16([10; 20; 30]), [1.5; 2.5; 3.5], 'VariableNames', {'Code', 'Value'});
+T = table((1:3)', Nested, 'VariableNames', {'Id', 'Nested'});
+parquetwrite(filename, T);
+R = parquetread(filename);
+R.Nested]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${parquet}parquetread">parquetread</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${parquet}parquetinfo">parquetinfo</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${table}table">table</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

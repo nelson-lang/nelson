@@ -9,7 +9,7 @@
 %=============================================================================
 function lineStyle = getLineStyleAndUpdateIndex(go)
   lineStyleOrder = go.LineStyleOrder;
-  if isempty (lineStyleOrder)
+  if isempty(lineStyleOrder)
     lineStyle = '-';
     return;
   end
@@ -18,7 +18,7 @@ function lineStyle = getLineStyleAndUpdateIndex(go)
   end
   LineStyleOrderIndex = go.LineStyleOrderIndex;
   numberOfStyles = size(lineStyleOrder, 1);
-  LineStyleOrderIndex = mod (LineStyleOrderIndex, numberOfStyles);
+  LineStyleOrderIndex = mod(LineStyleOrderIndex, numberOfStyles);
   if (LineStyleOrderIndex == 0)
     LineStyleOrderIndex = numberOfStyles;
   elseif (LineStyleOrderIndex < 0)

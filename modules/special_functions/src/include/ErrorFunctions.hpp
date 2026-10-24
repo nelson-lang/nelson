@@ -26,5 +26,5 @@ enum class ErrorFunctionType
 NLSSPECIAL_FUNCTIONS_IMPEXP ArrayOf
 ErrorFunction(const ArrayOf& arrayIn, ErrorFunctionType functionType);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,17 +9,24 @@
 //=============================================================================
 #include "formatBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "NelsonConfiguration.hpp"
+#include "ClassdefParser.hpp"
 #include "ClassName.hpp"
 #include "StringHelpers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
+#define DISPLAY_FORMAT_OPTIONS_CLASS "nelson.display.DisplayFormatOptions"
+#define DISPLAY_FORMAT_OPTIONS_NUMERIC_FORMAT_FIELD "NumericFormatValue"
+#define DISPLAY_FORMAT_OPTIONS_LINE_SPACING_FIELD "LineSpacingValue"
+#define DISPLAY_FORMAT_OPTIONS_TRUNCATE_MATRICES_FIELD "TruncateMatricesValue"
+//=============================================================================
 static ArrayOf
-DisplayFormatOptionsToArray(
-    NumericFormatDisplay currentNumericFormatDisplay, LineSpacingDisplay currentLineSpacingDisplay);
+DisplayFormatOptionsToArray(NumericFormatDisplay currentNumericFormatDisplay,
+    LineSpacingDisplay currentLineSpacingDisplay, bool currentTruncateMatricesDisplay);
 //=============================================================================
 static bool
 setDisplayOption(const std::wstring& param1, const std::wstring& param2);
@@ -33,36 +40,47 @@ Nelson::DisplayFormatGateway::formatBuiltin(int nLhs, const ArrayOfVector& argIn
     if (nLhs == 1) {
         retval << DisplayFormatOptionsToArray(
             NelsonConfiguration::getInstance()->getNumericFormatDisplay(),
-            NelsonConfiguration::getInstance()->getLineSpacingDisplay());
+            NelsonConfiguration::getInstance()->getLineSpacingDisplay(),
+            NelsonConfiguration::getInstance()->getTruncateMatricesDisplay());
     }
     switch (argIn.size()) {
     case 1: {
         if ((argIn[0].isScalar() && argIn[0].isStringArray())
             || argIn[0].isRowVectorCharacterArray()) {
-            std::wstring param = argIn[0].getContentAsWideString();
+            std::wstring param = argIn[0].asWideString();
             StringHelpers::to_upper(param);
             if (!setDisplayOption(param, L"")) {
-                Error(_W("unexpected format."));
+                Error(L"Nelson:format:unexpectedFormat", L"unexpected format.");
             }
-        } else if (ClassName(argIn[0]) == "DisplayFormatOptions") {
+        } else if (ClassName(argIn[0]) == DISPLAY_FORMAT_OPTIONS_CLASS) {
             if (argIn[0].isScalar()) {
-                ArrayOf numericFormat = argIn[0].getField("NumericFormat");
-                ArrayOf lineSpacing = argIn[0].getField("LineSpacing");
-                std::wstring numericFormatAsString = numericFormat.getContentAsWideString();
+                ArrayOf numericFormat = argIn[0].field(DISPLAY_FORMAT_OPTIONS_NUMERIC_FORMAT_FIELD);
+                ArrayOf lineSpacing = argIn[0].field(DISPLAY_FORMAT_OPTIONS_LINE_SPACING_FIELD);
+                ArrayOf truncateMatrices
+                    = argIn[0].field(DISPLAY_FORMAT_OPTIONS_TRUNCATE_MATRICES_FIELD);
+                std::wstring numericFormatAsString = numericFormat.asWideString();
                 StringHelpers::to_upper(numericFormatAsString);
                 if (!setDisplayOption(numericFormatAsString, L"")) {
-                    Error(_W("unexpected Numeric Format."));
+                    Error(L"Nelson:format:unexpectedNumericFormat", L"unexpected Numeric Format.");
                 }
-                std::wstring lineSpacingAsString = lineSpacing.getContentAsWideString();
+                std::wstring lineSpacingAsString = lineSpacing.asWideString();
                 StringHelpers::to_upper(lineSpacingAsString);
                 if (!setDisplayOption(lineSpacingAsString, L"")) {
-                    Error(_W("unexpected Line Spacing."));
+                    Error(L"Nelson:format:unexpectedLineSpacing", L"unexpected Line Spacing.");
+                }
+                std::wstring truncateMatricesAsString = truncateMatrices.asWideString();
+                StringHelpers::to_upper(truncateMatricesAsString);
+                if (!setDisplayOption(L"TRUNCATEMATRICES", truncateMatricesAsString)) {
+                    Error(L"Nelson:format:unexpectedTruncateMatrices",
+                        L"unexpected Truncate Matrices.");
                 }
             } else {
-                Error(_W("Wrong size for argument #1. scalar expected"));
+                Error(L"Nelson:format:scalarExpected",
+                    L"Wrong size for argument #1. scalar expected");
             }
         } else {
-            Error(_W("Wrong type for argument #1. 'scalar string or row char vector expected"));
+            Error(L"Nelson:format:invalidType",
+                L"Wrong type for argument #%d. 'scalar string or row char vector expected", 1);
         }
     } break;
     case 2: {
@@ -70,20 +88,22 @@ Nelson::DisplayFormatGateway::formatBuiltin(int nLhs, const ArrayOfVector& argIn
         std::wstring param2;
         if ((argIn[0].isScalar() && argIn[0].isStringArray())
             || argIn[0].isRowVectorCharacterArray()) {
-            param1 = argIn[0].getContentAsWideString();
+            param1 = argIn[0].asWideString();
             StringHelpers::to_upper(param1);
         } else {
-            Error(_W("Wrong type for argument #1. 'scalar string or row char vector expected"));
+            Error(L"Nelson:format:invalidType",
+                L"Wrong type for argument #%d. 'scalar string or row char vector expected", 1);
         }
         if ((argIn[1].isScalar() && argIn[1].isStringArray())
             || argIn[1].isRowVectorCharacterArray()) {
-            param2 = argIn[1].getContentAsWideString();
+            param2 = argIn[1].asWideString();
             StringHelpers::to_upper(param2);
         } else {
-            Error(_W("Wrong type for argument #2. 'scalar string or row char vector expected"));
+            Error(L"Nelson:format:invalidType",
+                L"Wrong type for argument #%d. 'scalar string or row char vector expected", 2);
         }
         if (!setDisplayOption(param1, param2)) {
-            Error(_W("unexpected format."));
+            Error(L"Nelson:format:unexpectedFormat", L"unexpected format.");
         }
     } break;
     case 0:
@@ -157,26 +177,37 @@ LineSpacingDisplayToString(LineSpacingDisplay currentLineSpacingDisplay)
     return asString;
 }
 //=============================================================================
-ArrayOf
-DisplayFormatOptionsToArray(
-    NumericFormatDisplay currentNumericFormatDisplay, LineSpacingDisplay currentLineSpacingDisplay)
+static std::wstring
+TruncateMatricesDisplayToString(bool currentTruncateMatricesDisplay)
 {
+    return currentTruncateMatricesDisplay ? L"on" : L"off";
+}
+//=============================================================================
+ArrayOf
+DisplayFormatOptionsToArray(NumericFormatDisplay currentNumericFormatDisplay,
+    LineSpacingDisplay currentLineSpacingDisplay, bool currentTruncateMatricesDisplay)
+{
+    ClassdefLayoutPtr layout = classdefLayout(DISPLAY_FORMAT_OPTIONS_CLASS);
+    if (!layout) {
+        Error(L"Nelson:format:classNotFound", L"DisplayFormatOptions class not found.");
+    }
     Dimensions dimsRes(1, 1);
-    stringVector fieldnames;
-    fieldnames.reserve(2);
-    fieldnames.push_back("NumericFormat");
-    fieldnames.push_back("LineSpacing");
-    ArrayOf* elementRes = static_cast<ArrayOf*>(
-        ArrayOf::allocateArrayOf(NLS_CLASS_ARRAY, dimsRes.getElementCount(), fieldnames, false));
-    ArrayOf res = ArrayOf(NLS_CLASS_ARRAY, dimsRes, elementRes, false, fieldnames);
+    ArrayOf* elementRes = static_cast<ArrayOf*>(ArrayOf::allocateArrayOf(
+        NLS_CLASSDEF_ARRAY, dimsRes.elementCount(), layout->storagePropertyNames, false));
+    ArrayOf res
+        = ArrayOf(NLS_CLASSDEF_ARRAY, dimsRes, elementRes, false, layout->storagePropertyNames);
+    res.setClassType(DISPLAY_FORMAT_OPTIONS_CLASS);
+    res.setClassdefLayout(layout);
 
     ArrayOfVector numericFormatVector(
-        ArrayOf::stringArrayConstructor(NumericFormatDisplayToString(currentNumericFormatDisplay)));
-    res.setFieldAsList(fieldnames[0], numericFormatVector);
+        ArrayOf::stringArray(NumericFormatDisplayToString(currentNumericFormatDisplay)));
+    res.setFieldAsList(DISPLAY_FORMAT_OPTIONS_NUMERIC_FORMAT_FIELD, numericFormatVector);
     ArrayOfVector lineSpacingVector(
-        ArrayOf::stringArrayConstructor(LineSpacingDisplayToString(currentLineSpacingDisplay)));
-    res.setFieldAsList(fieldnames[1], lineSpacingVector);
-    res.setClassType("DisplayFormatOptions");
+        ArrayOf::stringArray(LineSpacingDisplayToString(currentLineSpacingDisplay)));
+    res.setFieldAsList(DISPLAY_FORMAT_OPTIONS_LINE_SPACING_FIELD, lineSpacingVector);
+    ArrayOfVector truncateMatricesVector(
+        ArrayOf::stringArray(TruncateMatricesDisplayToString(currentTruncateMatricesDisplay)));
+    res.setFieldAsList(DISPLAY_FORMAT_OPTIONS_TRUNCATE_MATRICES_FIELD, truncateMatricesVector);
     return res;
 }
 //=============================================================================
@@ -186,6 +217,15 @@ setDisplayOption(const std::wstring& param1, const std::wstring& param2)
     if (param1 == L"DEFAULT" && param2.empty()) {
         NelsonConfiguration::getInstance()->setLineSpacingDisplay(NLS_LINE_SPACING_LOOSE);
         NelsonConfiguration::getInstance()->setNumericFormatDisplay(NLS_NUMERIC_FORMAT_SHORT);
+        NelsonConfiguration::getInstance()->setTruncateMatricesDisplay(true);
+        return true;
+    }
+    if (param1 == L"TRUNCATEMATRICES" && param2 == L"ON") {
+        NelsonConfiguration::getInstance()->setTruncateMatricesDisplay(true);
+        return true;
+    }
+    if (param1 == L"TRUNCATEMATRICES" && param2 == L"OFF") {
+        NelsonConfiguration::getInstance()->setTruncateMatricesDisplay(false);
         return true;
     }
     if (param1 == L"LOOSE" && param2.empty()) {

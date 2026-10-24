@@ -14,9 +14,11 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+// Unknown names raise the usual error.
 NLSTYPES_IMPEXP NelsonType
 StringToClass(const std::string& classname);
 //=============================================================================
+// haveError is set when the name cannot be mapped to a known class.
 NLSTYPES_IMPEXP NelsonType
 StringToClass(const std::string& classname, bool& haveError);
 //=============================================================================

@@ -10,16 +10,20 @@
 #include <map>
 #include <functional>
 #include <unordered_map>
+#include "AudioObjectDisplayHelpers.hpp"
 #include "AudiorecorderObject.hpp"
 #include "ClassName.hpp"
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
-#include "PredefinedErrorMessages.hpp"
-#include "AnonymousMacroFunctionDef.hpp"
-#include "EventCallback.hpp"
-#include "EventQueue.hpp"
+#include "AudioCallbackHelpers.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+template <typename T, typename Convert>
+static ArrayOf
+interleavedToColumns(const std::vector<single>& buffer, int rows, int cols, NelsonType type,
+    T missing, Convert convert);
 //=============================================================================
 AudiorecorderObject::AudiorecorderObject(bool withEventLoop)
     : HandleGenericObject(NLS_HANDLE_AUDIORECORDER_CATEGORY_STR, this, true)
@@ -32,8 +36,8 @@ AudiorecorderObject::AudiorecorderObject(bool withEventLoop)
     , _Running(false)
     , timerPeriodSeconds(0.0500)
     , mainEvaluatorHasEventsLoop(withEventLoop)
-    , inputStreamParameters {} // Initialisation de inputStreamParameters
-    , audioPlayerObject {} // Initialisation de audioPlayerObject
+    , inputStreamParameters {}
+    , audioPlayerObject {}
 {
     propertiesNames = { L"SampleRate", L"BitsPerSample", L"NumChannels", L"DeviceID",
         L"CurrentSample", L"TotalSamples", L"Running", L"StartFcn", L"StopFcn", L"TimerFcn",
@@ -42,7 +46,6 @@ AudiorecorderObject::AudiorecorderObject(bool withEventLoop)
     methodsNames = { L"getplayer", L"isrecording", L"play", L"recordblocking", L"getaudiodata",
         L"pause", L"record", L"resume", L"stop" };
 
-    paStream = nullptr;
     recordedFrames = 0;
     recordBuffer.clear();
     recordedDataClass = NLS_SINGLE;
@@ -56,7 +59,7 @@ AudiorecorderObject::AudiorecorderObject(bool withEventLoop)
         _TotalSamples = 0;
         _Running = false;
         _Tag.clear();
-        _UserData = ArrayOf::emptyConstructor();
+        _UserData = ArrayOf::empty();
         _Type = NLS_HANDLE_AUDIORECORDER_CATEGORY_STR;
         inputStreamParameters.device = paNoDevice;
         inputStreamParameters.channelCount = 1;
@@ -76,9 +79,8 @@ AudiorecorderObject::AudiorecorderObject(bool withEventLoop)
         _TotalSamples = 0;
         _Running = false;
         _Tag.clear();
-        _UserData = ArrayOf::emptyConstructor();
+        _UserData = ArrayOf::empty();
         _Type = NLS_HANDLE_AUDIORECORDER_CATEGORY_STR;
-        // initialize input stream parameters
         inputStreamParameters.device = _DeviceID;
         inputStreamParameters.channelCount = _NumberOfChannels;
         inputStreamParameters.sampleFormat = paFloat32;
@@ -94,7 +96,9 @@ AudiorecorderObject::AudiorecorderObject(bool withEventLoop)
 //=============================================================================
 AudiorecorderObject::~AudiorecorderObject()
 {
-    stop();
+    // no StopFcn for a deleted object; closing waits for the audio thread to leave the callback
+    stopFcnPending = false;
+    stream.close();
     propertiesNames.clear();
     _SampleRate = 0;
     _BitsPerSample = 0;
@@ -104,7 +108,7 @@ AudiorecorderObject::~AudiorecorderObject()
     _TotalSamples = 0;
     _Running = false;
     _Tag.clear();
-    _UserData = ArrayOf::emptyConstructor();
+    _UserData = ArrayOf::empty();
     _Type = NLS_HANDLE_AUDIORECORDER_CATEGORY_STR;
     if (audioPlayerObject && !audioPlayerUsed) {
         delete audioPlayerObject;
@@ -138,16 +142,16 @@ AudiorecorderObject::getDeviceID()
 }
 //=============================================================================
 bool
-AudiorecorderObject::isWriteableProperty(const std::wstring& propertyName)
+AudiorecorderObject::isWritableProperty(const std::wstring& propertyName)
 {
-    static const std::map<std::wstring, bool> writeableProperties = { { L"SampleRate", true },
+    static const std::map<std::wstring, bool> writableProperties = { { L"SampleRate", true },
         { L"BitsPerSample", false }, { L"NumChannels", false }, { L"DeviceID", false },
         { L"CurrentSample", false }, { L"TotalSamples", false }, { L"Running", true },
         { L"Tag", true }, { L"UserData", true }, { L"Type", false }, { L"StartFcn", true },
         { L"StopFcn", true }, { L"TimerFcn", true }, { L"TimerPeriod", true } };
 
-    auto it = writeableProperties.find(propertyName);
-    return (it != writeableProperties.end()) ? it->second : false;
+    auto it = writableProperties.find(propertyName);
+    return (it != writableProperties.end()) ? it->second : false;
 }
 //=============================================================================
 bool
@@ -158,10 +162,8 @@ AudiorecorderObject::setConfig(
     _BitsPerSample = BitsPerSample;
     _NumberOfChannels = NumberOfChannels;
     _DeviceID = deviceID;
-    // TotalSamples/CurrentSample remain zero until actual recording implemented
     _TotalSamples = 0;
     _CurrentSample = 0;
-    // configure input stream parameters for PortAudio
     int dev = deviceID;
     if (dev < 0) {
         dev = Pa_GetDefaultInputDevice();
@@ -171,7 +173,6 @@ AudiorecorderObject::setConfig(
         inputStreamParameters.device = dev;
         inputStreamParameters.channelCount
             = (_NumberOfChannels > 0) ? _NumberOfChannels : static_cast<int>(pdi->maxInputChannels);
-        // choose sample format
         if (_BitsPerSample == 32) {
             inputStreamParameters.sampleFormat = paFloat32;
         } else if (_BitsPerSample == 16) {
@@ -190,31 +191,10 @@ AudiorecorderObject::setConfig(
         inputStreamParameters.suggestedLatency = 0;
         inputStreamParameters.hostApiSpecificStreamInfo = nullptr;
     }
-    paStream = nullptr;
+    stream.close();
     recordedFrames = 0;
     recordBuffer.clear();
     return true;
-}
-//=============================================================================
-static std::wstring
-FunctionToWideString(const ArrayOf& _data)
-{
-    if (_data.isEmpty()) {
-        return L"''";
-    } else if (_data.isFunctionHandle()) {
-        function_handle fh = _data.getContentAsFunctionHandle();
-        AnonymousMacroFunctionDef* anonymousFunction
-            = reinterpret_cast<AnonymousMacroFunctionDef*>(fh.anonymousHandle);
-        return utf8_to_wstring(anonymousFunction->getDefinition());
-    } else if (_data.isCell()) {
-        Dimensions dims = _data.getDimensions();
-        return L"{" + dims.toWideString() + L" cell}";
-    } else if (_data.isRowVectorCharacterArray() || _data.isScalarStringArray()) {
-        std::wstring callbackString
-            = std::wstring(L"'") + _data.getContentAsWideCharactersPointer() + std::wstring(L"'");
-        return callbackString;
-    }
-    return L"";
 }
 //=============================================================================
 bool
@@ -223,48 +203,38 @@ AudiorecorderObject::disp(Interface* io)
     if (!io) {
         return false;
     }
+    stream.closeIfFinished();
 
-    struct DisplayItem
-    {
-        const wchar_t* label;
-        std::function<std::wstring()> getter;
-    };
-
-    std::vector<DisplayItem> items = {
-        { L"SampleRate", [this] { return std::to_wstring(getSampleRate()); } },
-        { L"BitsPerSample", [this] { return std::to_wstring(getBitsPerSample()); } },
-        { L"NumberOfChannels", [this] { return std::to_wstring(getNumberOfChannels()); } },
-        { L"DeviceID", [this] { return std::to_wstring(getDeviceID()); } },
-        { L"CurrentSample", [this] { return std::to_wstring(_CurrentSample); } },
-        { L"TotalSamples", [this] { return std::to_wstring(getTotalSamples()); } },
-        { L"Running", [this] { return getRunning() ? L"on" : L"off"; } },
-        { L"StartFcn", [this] { return FunctionToWideString(startFunc); } },
-        { L"StopFcn", [this] { return FunctionToWideString(stopFunc); } },
-        { L"TimerFcn", [this] { return FunctionToWideString(timerFunc); } },
-        { L"TimerPeriod", [this] { return std::to_wstring(timerPeriodSeconds); } },
-        { L"Tag", [this] { return L"'" + _Tag + L"'"; } },
-        { L"UserData",
-            [this] {
-                if (_UserData.isEmpty(true)) {
-                    return L"[]";
-                }
-                Dimensions dimsUserData = _UserData.getDimensions();
-                std::string userDataClassName;
-                ClassName(_UserData, userDataClassName);
-                const std::string input
-                    = "[" + userDataClassName + "] - size: " + dimsUserData.toString();
-                std::wstring temp = utf8_to_wstring(input);
-                return temp.c_str();
-            } },
-        { L"Type", [this] { return L"'" + utf8_to_wstring(_Type) + L"'"; } },
-    };
-
-    io->outputMessage(L"\n");
-    for (const auto& item : items) {
-        std::wstring value = item.getter();
-        io->outputMessage(L"\t" + std::wstring(item.label) + L": \t" + value + L"\n");
+    std::wstring userData;
+    if (_UserData.isEmpty(true)) {
+        userData = L"[]";
+    } else {
+        Dimensions dimsUserData = _UserData.dimensions();
+        std::string userDataClassName;
+        ClassName(_UserData, userDataClassName);
+        userData
+            = utf8_to_wstring("[" + userDataClassName + "] - size: " + dimsUserData.toString());
     }
-    return true;
+
+    std::vector<AudioDisplayItem> items = {
+        { L"SampleRate", std::to_wstring(getSampleRate()) },
+        { L"BitsPerSample", std::to_wstring(getBitsPerSample()) },
+        { L"NumChannels", std::to_wstring(getNumberOfChannels()) },
+        { L"DeviceID", std::to_wstring(getDeviceID()) },
+        { L"CurrentSample", std::to_wstring(_CurrentSample) },
+        { L"TotalSamples", std::to_wstring(getTotalSamples()) },
+        { L"Running", getRunning() ? L"on" : L"off" },
+        { L"StartFcn", audioCallbackToWideString(startFunc) },
+        { L"StopFcn", audioCallbackToWideString(stopFunc) },
+        { L"TimerFcn", audioCallbackToWideString(timerFunc) },
+        { L"TimerPeriod", std::to_wstring(timerPeriodSeconds) },
+        { L"Tag", L"'" + _Tag + L"'" },
+        { L"UserData", userData },
+        { L"Type", L"'" + utf8_to_wstring(_Type) + L"'" },
+    };
+    return displayAudioObject(io, L"audiorecorder", items,
+        { L"SampleRate", L"BitsPerSample", L"NumChannels", L"DeviceID", L"CurrentSample",
+            L"TotalSamples", L"Running" });
 }
 //=============================================================================
 wstringVector
@@ -288,13 +258,13 @@ AudiorecorderObject::isMethod(const std::wstring& propertyName)
 }
 //=============================================================================
 wstringVector
-AudiorecorderObject::getProperties()
+AudiorecorderObject::properties()
 {
     return propertiesNames;
 }
 //=============================================================================
 wstringVector
-AudiorecorderObject::getMethods()
+AudiorecorderObject::methods()
 {
     return methodsNames;
 }
@@ -302,31 +272,47 @@ AudiorecorderObject::getMethods()
 bool
 AudiorecorderObject::get(const std::wstring& propertyName, ArrayOf& res)
 {
-    using Getter = std::function<ArrayOf()>;
-
+    // static table: the lambdas receive the object, they must not capture it
+    using Getter = std::function<ArrayOf(AudiorecorderObject*)>;
     static const std::unordered_map<std::wstring, Getter> getters = {
-        { L"SampleRate", [&]() { return ArrayOf::doubleConstructor(_SampleRate); } },
-        { L"BitsPerSample", [&]() { return ArrayOf::doubleConstructor(_BitsPerSample); } },
-        { L"NumChannels", [&]() { return ArrayOf::doubleConstructor(_NumberOfChannels); } },
-        { L"DeviceID", [&]() { return ArrayOf::doubleConstructor(_DeviceID); } },
-        { L"CurrentSample", [&]() { return ArrayOf::doubleConstructor(_CurrentSample); } },
-        { L"TotalSamples", [&]() { return ArrayOf::doubleConstructor(_TotalSamples); } },
+        { L"SampleRate",
+            [](AudiorecorderObject* self) { return ArrayOf::doubleScalar(self->_SampleRate); } },
+        { L"BitsPerSample",
+            [](AudiorecorderObject* self) { return ArrayOf::doubleScalar(self->_BitsPerSample); } },
+        { L"NumChannels",
+            [](AudiorecorderObject* self) {
+                return ArrayOf::doubleScalar(self->_NumberOfChannels);
+            } },
+        { L"DeviceID",
+            [](AudiorecorderObject* self) { return ArrayOf::doubleScalar(self->_DeviceID); } },
+        { L"CurrentSample",
+            [](AudiorecorderObject* self) { return ArrayOf::doubleScalar(self->_CurrentSample); } },
+        { L"TotalSamples",
+            [](AudiorecorderObject* self) {
+                return ArrayOf::doubleScalar(self->getTotalSamples());
+            } },
         { L"Running",
-            [&]() { return ArrayOf::characterArrayConstructor(_Running ? L"on" : L"off"); } },
-        { L"StartFcn", [&]() { return getStartFcn(); } },
-        { L"StopFcn", [&]() { return getStopFcn(); } },
-        { L"TimerFcn", [&]() { return getTimerFcn(); } },
-        { L"TimerPeriod", [&]() { return ArrayOf::doubleConstructor(timerPeriodSeconds); } },
-        { L"Tag", [&]() { return ArrayOf::characterArrayConstructor(_Tag); } },
-        { L"UserData", [&]() { return _UserData; } },
-        { L"Type", [&]() { return ArrayOf::characterArrayConstructor(_Type); } },
+            [](AudiorecorderObject* self) {
+                return ArrayOf::characterArray(self->getRunning() ? L"on" : L"off");
+            } },
+        { L"StartFcn", [](AudiorecorderObject* self) { return self->startFunc; } },
+        { L"StopFcn", [](AudiorecorderObject* self) { return self->stopFunc; } },
+        { L"TimerFcn", [](AudiorecorderObject* self) { return self->timerFunc; } },
+        { L"TimerPeriod",
+            [](AudiorecorderObject* self) {
+                return ArrayOf::doubleScalar(self->timerPeriodSeconds);
+            } },
+        { L"Tag", [](AudiorecorderObject* self) { return ArrayOf::characterArray(self->_Tag); } },
+        { L"UserData", [](AudiorecorderObject* self) { return self->_UserData; } },
+        { L"Type", [](AudiorecorderObject* self) { return ArrayOf::characterArray(self->_Type); } },
     };
 
     auto it = getters.find(propertyName);
     if (it == getters.end()) {
         return false;
     }
-    res = it->second();
+    stream.closeIfFinished();
+    res = it->second(this);
     return true;
 }
 //=============================================================================
@@ -334,146 +320,129 @@ bool
 AudiorecorderObject::set(
     const std::wstring& propertyName, const ArrayOf& propertyValue, std::wstring& errorMessage)
 {
-    if (!isWriteableProperty(propertyName)) {
+    if (!isWritableProperty(propertyName)) {
         if (isProperty(propertyName)) {
-            errorMessage = _W("Property is not writeable:") + propertyName;
+            errorMessage
+                = formatI18nMessage(Nelson::resolveMessageTemplate(L"Nelson:audio:propertyWritable",
+                                        L"Property not writable: %s."),
+                    propertyName);
         } else {
-            errorMessage = _W("Property not found:") + propertyName;
+            errorMessage = formatI18nMessage(
+                resolveMessageTemplate(L"Nelson:audio:propertyFound", L"Property not found: %s."),
+                propertyName);
         }
         return false;
     }
 
-    using Setter = std::function<bool()>;
+    // static table: the lambdas receive the object and the value, they must not capture them
+    using Setter = std::function<bool(AudiorecorderObject*, const ArrayOf&, std::wstring&)>;
     static const std::unordered_map<std::wstring, Setter> setters = {
         { L"StartFcn",
-            [&]() {
-                if (!mainEvaluatorHasEventsLoop) {
-                    errorMessage = _W("Cannot set StartFcn without event loop.");
-                    return false;
-                }
-                if (!isFunctionHandleCallbackValid(propertyValue)) {
-                    errorMessage = _W("StartFcn must be a function handle.");
-                    return false;
-                }
-                startFunc = propertyValue;
-                startFunc.ensureSingleOwner();
-                return true;
+            [](AudiorecorderObject* self, const ArrayOf& value, std::wstring& message) {
+                return setAudioCallback(
+                    L"StartFcn", value, self->mainEvaluatorHasEventsLoop, self->startFunc, message);
             } },
         { L"StopFcn",
-            [&]() {
-                if (!mainEvaluatorHasEventsLoop) {
-                    errorMessage = _W("Cannot set StopFcn without event loop.");
-                    return false;
-                }
-                if (!isFunctionHandleCallbackValid(propertyValue)) {
-                    errorMessage = _W("StopFcn must be a function handle.");
-                    return false;
-                }
-                stopFunc = propertyValue;
-                stopFunc.ensureSingleOwner();
-                return true;
+            [](AudiorecorderObject* self, const ArrayOf& value, std::wstring& message) {
+                return setAudioCallback(
+                    L"StopFcn", value, self->mainEvaluatorHasEventsLoop, self->stopFunc, message);
             } },
         { L"TimerFcn",
-            [&]() {
-                if (!mainEvaluatorHasEventsLoop) {
-                    errorMessage = _W("Cannot set TimerFcn without event loop.");
-                    return false;
-                }
-                if (!isFunctionHandleCallbackValid(propertyValue)) {
-                    errorMessage = _W("TimerFcn must be a function handle.");
-                    return false;
-                }
-                timerFunc = propertyValue;
-                timerFunc.ensureSingleOwner();
-                return true;
+            [](AudiorecorderObject* self, const ArrayOf& value, std::wstring& message) {
+                return setAudioCallback(
+                    L"TimerFcn", value, self->mainEvaluatorHasEventsLoop, self->timerFunc, message);
             } },
         { L"TimerPeriod",
-            [&]() {
-                if (propertyValue.isScalar() && propertyValue.isDoubleType(true)) {
-                    double doubleValue = propertyValue.getContentAsDoubleScalar();
-                    if (doubleValue <= 0.002 || !std::isfinite(doubleValue)) {
-                        return false;
-                    }
-                    timerPeriodSeconds = doubleValue;
-                    return true;
+            [](AudiorecorderObject* self, const ArrayOf& value, std::wstring&) {
+                if (!value.isScalar() || !value.isDoubleType(true)) {
+                    return false;
                 }
-                return false;
+                double doubleValue = value.asDoubleScalar();
+                if (doubleValue <= 0.002 || !std::isfinite(doubleValue)) {
+                    return false;
+                }
+                self->timerPeriodSeconds = doubleValue;
+                return true;
             } },
         { L"Tag",
-            [&]() {
-                if (propertyValue.isRowVectorCharacterArray()
-                    || propertyValue.isScalarStringArray()) {
-                    _Tag = propertyValue.getContentAsWideString();
+            [](AudiorecorderObject* self, const ArrayOf& value, std::wstring& message) {
+                if (value.isRowVectorCharacterArray() || value.isScalarStringArray()) {
+                    self->_Tag = value.asWideString();
                     return true;
                 }
-                errorMessage = _W("Tag must be a character array or string.");
+                message = formatI18nMessage(
+                    Nelson::resolveMessageTemplate(L"Nelson:validators:mustBeTextScalar",
+                        L"%s must be a character vector or string scalar."),
+                    L"Tag");
                 return false;
             } },
         { L"UserData",
-            [&]() {
-                _UserData = propertyValue;
+            [](AudiorecorderObject* self, const ArrayOf& value, std::wstring&) {
+                self->_UserData = value;
                 return true;
             } },
-
     };
     auto it = setters.find(propertyName);
     if (it != setters.end()) {
-        return it->second();
+        return it->second(this, propertyValue, errorMessage);
     }
-    errorMessage = _W("Property not found:") + propertyName;
+    errorMessage = formatI18nMessage(
+        resolveMessageTemplate(L"Nelson:audio:propertyFound", L"Property not found: %s."),
+        propertyName);
 
     return false;
 }
 //=============================================================================
-static void
-TriggerTimerIfNeeded(AudiorecorderObject* data)
+void
+AudiorecorderObject::triggerTimerIfNeeded()
 {
-    if (!data) {
+    if (timerFunc.isEmpty() || !isValidAudioCallback(timerFunc)) {
         return;
     }
-
-    if (data->getTimerFcn().isEmpty()) {
+    if (!(std::isfinite(timerPeriodSeconds) && timerPeriodSeconds > 0.0) || _SampleRate <= 0) {
         return;
     }
-
-    if (!data->isFunctionHandleCallbackValid(data->getTimerFcn())) {
-        return;
-    }
-
-    if (!(std::isfinite(data->getTimerPeriodSeconds()) && data->getTimerPeriodSeconds() > 0.0)) {
-        return;
-    }
-
-    const int sampleRate = data->getSampleRate();
-    if (sampleRate <= 0) {
-        return;
-    }
-
-    // compute period in frames (at least 1)
-    uint64_t periodFrames = static_cast<uint64_t>(
-        std::ceil(data->getTimerPeriodSeconds() * static_cast<double>(sampleRate)));
+    uint64_t periodFrames
+        = static_cast<uint64_t>(std::ceil(timerPeriodSeconds * static_cast<double>(_SampleRate)));
     if (periodFrames == 0) {
         periodFrames = 1;
     }
-
-    // static structures to track last fired frame per instance
-    static std::unordered_map<AudiorecorderObject*, uint64_t> lastFiredMap;
-    static std::mutex lastFiredMutex;
-
-    uint64_t currentFrames = static_cast<uint64_t>(data->getRecordedFrames());
-
-    std::lock_guard<std::mutex> lk(lastFiredMutex);
-    uint64_t lastFired = 0;
-    auto it = lastFiredMap.find(data);
-    if (it != lastFiredMap.end()) {
-        lastFired = it->second;
+    uint64_t currentFrames = static_cast<uint64_t>(recordedFrames.load());
+    if (currentFrames >= lastTimerFrame + periodFrames) {
+        lastTimerFrame = currentFrames;
+        enqueueAudioCallback(timerFunc, this);
     }
-
-    if (currentFrames >= lastFired + periodFrames) {
-        // update last fired frame
-        lastFiredMap[data] = currentFrames;
-        data->enqueueCallback(data->getTimerFcn());
+}
+//=============================================================================
+void
+AudiorecorderObject::appendFrames(const void* inputBuffer, unsigned long framesPerBuffer)
+{
+    const size_t count
+        = static_cast<size_t>(framesPerBuffer) * static_cast<size_t>(_NumberOfChannels);
+    std::lock_guard<std::mutex> lock(recordMutex);
+    if (!inputBuffer) {
+        recordBuffer.insert(recordBuffer.end(), count, 0.0f);
+    } else if (inputStreamParameters.sampleFormat == paFloat32) {
+        const float* in = static_cast<const float*>(inputBuffer);
+        recordBuffer.insert(recordBuffer.end(), in, in + count);
+    } else if (inputStreamParameters.sampleFormat == paInt16) {
+        const int16* in = static_cast<const int16*>(inputBuffer);
+        for (size_t i = 0; i < count; ++i) {
+            recordBuffer.push_back(static_cast<single>(in[i]) / 32768.0f);
+        }
+    } else if (inputStreamParameters.sampleFormat == paInt8) {
+        const int8* in = static_cast<const int8*>(inputBuffer);
+        for (size_t i = 0; i < count; ++i) {
+            recordBuffer.push_back(static_cast<single>(in[i]) / 128.0f);
+        }
+    } else if (inputStreamParameters.sampleFormat == paUInt8) {
+        const uint8* in = static_cast<const uint8*>(inputBuffer);
+        for (size_t i = 0; i < count; ++i) {
+            recordBuffer.push_back((static_cast<single>(in[i]) - 128.0f) / 128.0f);
+        }
     }
+    recordedFrames += static_cast<uint32_t>(framesPerBuffer);
+    _TotalSamples = static_cast<int>(recordedFrames.load());
 }
 //=============================================================================
 int
@@ -482,181 +451,109 @@ AudiorecorderObject::paRecordCallback(const void* inputBuffer, void* outputBuffe
     PaStreamCallbackFlags statusFlags, void* userData)
 {
     auto* data = static_cast<AudiorecorderObject*>(userData);
-    if (!data) {
-        return paContinue;
-    }
-    if (!inputBuffer) {
-        // push zeros
-        for (unsigned long i = 0; i < framesPerBuffer * (unsigned long)data->_NumberOfChannels;
-            ++i) {
-            data->recordBuffer.push_back(0.0f);
-        }
-        data->recordedFrames += static_cast<uint32_t>(framesPerBuffer);
-        data->_TotalSamples = static_cast<int>(data->recordedFrames);
-        // check timed target after updating samples
-        if (data->timedRecording.load() && data->timedTargetFrames.load() > 0
-            && static_cast<uint64_t>(data->recordedFrames) >= data->timedTargetFrames.load()) {
-            data->timedRecording.store(false);
-            data->stop();
-
-            return paComplete;
-        }
-
-        TriggerTimerIfNeeded(data);
-        return paContinue;
-    }
-    if (data->inputStreamParameters.sampleFormat == paFloat32) {
-        const float* in = static_cast<const float*>(inputBuffer);
-        for (unsigned long i = 0; i < framesPerBuffer * (unsigned long)data->_NumberOfChannels;
-            ++i) {
-            data->recordBuffer.push_back(static_cast<single>(in[i]));
-        }
-    } else if (data->inputStreamParameters.sampleFormat == paInt16) {
-        const int16* in = static_cast<const int16*>(inputBuffer);
-        for (unsigned long i = 0; i < framesPerBuffer * (unsigned long)data->_NumberOfChannels;
-            ++i) {
-            data->recordBuffer.push_back(static_cast<single>(in[i]) / 32768.0f);
-        }
-    } else if (data->inputStreamParameters.sampleFormat == paInt8) {
-        const int8* in = static_cast<const int8*>(inputBuffer);
-        for (unsigned long i = 0; i < framesPerBuffer * (unsigned long)data->_NumberOfChannels;
-            ++i) {
-            data->recordBuffer.push_back(static_cast<single>(in[i]) / 128.0f);
-        }
-    } else if (data->inputStreamParameters.sampleFormat == paUInt8) {
-        const uint8* in = static_cast<const uint8*>(inputBuffer);
-        for (unsigned long i = 0; i < framesPerBuffer * (unsigned long)data->_NumberOfChannels;
-            ++i) {
-            data->recordBuffer.push_back((static_cast<single>(in[i]) - 128.0f) / 128.0f);
-        }
-    }
-    data->recordedFrames += static_cast<uint32_t>(framesPerBuffer);
-    data->_TotalSamples = static_cast<int>(data->recordedFrames);
-    data->_Running = true;
-
-    // If a timed non-blocking recording is active and we reached or exceeded the target, end the
-    // stream.
+    data->appendFrames(inputBuffer, framesPerBuffer);
+    // a timed recording ends itself; the stream is closed later from the main thread
     if (data->timedRecording.load() && data->timedTargetFrames.load() > 0
-        && static_cast<uint64_t>(data->recordedFrames) >= data->timedTargetFrames.load()) {
-        data->timedRecording.store(false);
+        && static_cast<uint64_t>(data->recordedFrames.load()) >= data->timedTargetFrames.load()) {
+        data->timedRecording = false;
         data->_Running = false;
-        data->stop();
+        data->enqueueStopFcnOnce();
         return paComplete;
     }
-    TriggerTimerIfNeeded(data);
+    data->triggerTimerIfNeeded();
     return paContinue;
 }
 //=============================================================================
-bool
+PaError
 AudiorecorderObject::record(double durationSeconds)
 {
-    if (std::isnan(durationSeconds)) {
-        // no duration specified: behave like start() (non-blocking)
-        timedRecording.store(false);
-        timedTargetFrames.store(0);
+    // no duration (NaN) or duration <= 0: start without automatic stop
+    if (std::isnan(durationSeconds) || durationSeconds <= 0.0) {
+        timedRecording = false;
+        timedTargetFrames = 0;
         return start();
     }
-
-    // non-blocking timed recording:
-    // compute target frames (if duration > 0) and set atomics, then start and return immediately.
-    if (durationSeconds <= 0.0) {
-        // treat <= 0 as "start and return" (no automatic stop)
-        timedRecording.store(false);
-        timedTargetFrames.store(0);
-        return start();
+    // non-blocking timed recording: the callback ends the stream when the target is reached
+    timedTargetFrames
+        = static_cast<uint64_t>(std::ceil(durationSeconds * static_cast<double>(getSampleRate())));
+    timedRecording = true;
+    PaError err = start();
+    if (err != paNoError) {
+        timedRecording = false;
+        timedTargetFrames = 0;
     }
-
-    const int sampleRate = this->getSampleRate();
-    uint64_t targetFrames
-        = static_cast<uint64_t>(std::ceil(durationSeconds * static_cast<double>(sampleRate)));
-
-    // configure timed recording state before starting stream
-    timedTargetFrames.store(targetFrames);
-    timedRecording.store(true);
-
-    // start the stream (non-blocking). If start fails, clear timed flags.
-    if (!start()) {
-        timedRecording.store(false);
-        timedTargetFrames.store(0);
-        return false;
-    }
-
-    // return immediately — the callback will stop the stream when target reached
-    return true;
+    return err;
 }
 //=============================================================================
-bool
+PaError
 AudiorecorderObject::start()
 {
-    if (paStream) {
-        if (!Pa_IsStreamStopped(paStream)) {
-            _Running = true;
-            return true;
-        }
+    stream.closeIfFinished();
+    if (_Running) {
+        return paNoError;
     }
-    enqueueCallback(startFunc);
-
-    PaError err = Pa_OpenStream(&paStream, &inputStreamParameters, nullptr, _SampleRate, 1024,
-        paNoFlag, AudiorecorderObject::paRecordCallback, this);
-    if (err != paNoError) {
-        paStream = nullptr;
-        return false;
-    }
+    enqueueAudioCallback(startFunc, this);
+    stream.close();
     recordBuffer.clear();
     recordedFrames = 0;
-    err = Pa_StartStream(paStream);
-    if (err == paNoError) {
-        _Running = true;
-        return true;
+    _TotalSamples = 0;
+    lastTimerFrame = 0;
+    _Running = true;
+    stopFcnPending = true;
+    PaError err = stream.open(
+        &inputStreamParameters, nullptr, _SampleRate, AudiorecorderObject::paRecordCallback, this);
+    if (err != paNoError) {
+        _Running = false;
+        stopFcnPending = false;
     }
-    return false;
+    return err;
 }
 //=============================================================================
 bool
 AudiorecorderObject::pause()
 {
-    if (paStream) {
-        PaError err = Pa_StopStream(paStream);
-        _Running = false;
-        return (err == paNoError);
+    stream.closeIfFinished();
+    if (!stream.isOpen()) {
+        return false;
     }
-    return false;
+    _Running = false;
+    return stream.pause() == paNoError;
 }
 //=============================================================================
-bool
+PaError
 AudiorecorderObject::resume()
 {
-    if (!paStream) {
-        start();
+    stream.closeIfFinished();
+    if (!stream.isOpen()) {
+        return start();
     }
-
-    if (paStream) {
-        PaError err = Pa_StartStream(paStream);
-        _Running = true;
-        return (err == paNoError);
+    if (!stream.isPaused()) {
+        return paNoError;
     }
-    return false;
+    _Running = true;
+    PaError err = stream.resume();
+    if (err != paNoError) {
+        _Running = false;
+    }
+    return err;
 }
 //=============================================================================
 bool
 AudiorecorderObject::stop()
 {
     _Running = false;
-    enqueueCallback(stopFunc);
-    if (paStream) {
-        if (!Pa_IsStreamStopped(paStream)) {
-            PaError err = Pa_AbortStream(paStream);
-            if (err == paNoError) {
-                err = Pa_CloseStream(paStream);
-                paStream = nullptr;
-
-                return (err == paNoError);
-            }
-            return false;
-        }
-        paStream = nullptr;
-    }
+    timedRecording = false;
+    stream.close();
+    enqueueStopFcnOnce();
     return true;
+}
+//=============================================================================
+void
+AudiorecorderObject::enqueueStopFcnOnce()
+{
+    if (stopFcnPending.exchange(false)) {
+        enqueueAudioCallback(stopFunc, this);
+    }
 }
 //=============================================================================
 int
@@ -671,172 +568,42 @@ AudiorecorderObject::getRunning()
     return _Running;
 }
 //=============================================================================
-PaStream*
-AudiorecorderObject::getStream()
-{
-    return paStream;
-}
-//=============================================================================
 ArrayOf
 AudiorecorderObject::getRecordedData(NelsonType destinationType)
 {
-    if (_TotalSamples <= 0) {
-        return ArrayOf::emptyConstructor();
-    }
-
+    std::lock_guard<std::mutex> lock(recordMutex);
     const int rows = _TotalSamples;
+    if (rows <= 0) {
+        return ArrayOf::empty();
+    }
     const int cols = _NumberOfChannels;
-
-    // helper lambdas for clamping
-    auto clampLong = [](long v, long lo, long hi) -> long {
-        if (v < lo) {
-            return lo;
-        }
-        if (v > hi) {
-            return hi;
-        }
-        return v;
+    auto quantize = [](single v, float scale, float offset, long lo, long hi) {
+        long iv = static_cast<long>(std::round(v * scale + offset));
+        return (iv < lo) ? lo : ((iv > hi) ? hi : iv);
     };
-
     switch (destinationType) {
     case NLS_DOUBLE: {
-        ArrayOf out = ArrayOf::doubleMatrix2dConstructor(rows, cols);
-        if (out.getElementCount() == 0) {
-            return out;
-        }
-        void* dstptr = out.getReadWriteDataPointer();
-        double* dst = static_cast<double*>(dstptr);
-        for (int s = 0; s < rows; ++s) {
-            for (int c = 0; c < cols; ++c) {
-                size_t srcIndex = static_cast<size_t>(s) * static_cast<size_t>(cols) + c;
-                size_t dstIndex
-                    = static_cast<size_t>(s) + static_cast<size_t>(c) * static_cast<size_t>(rows);
-                if (srcIndex < recordBuffer.size()) {
-                    dst[dstIndex] = static_cast<double>(recordBuffer[srcIndex]);
-                } else {
-                    dst[dstIndex] = 0.0;
-                }
-            }
-        }
-        return out;
-    }
-    case NLS_SINGLE: {
-        ArrayOf out = ArrayOf::singleMatrix2dConstructor(rows, cols);
-        if (out.getElementCount() == 0) {
-            return out;
-        }
-        void* dstptr = out.getReadWriteDataPointer();
-        single* dst = static_cast<single*>(dstptr);
-        for (int s = 0; s < rows; ++s) {
-            for (int c = 0; c < cols; ++c) {
-                size_t srcIndex = static_cast<size_t>(s) * static_cast<size_t>(cols) + c;
-                size_t dstIndex
-                    = static_cast<size_t>(s) + static_cast<size_t>(c) * static_cast<size_t>(rows);
-                if (srcIndex < recordBuffer.size()) {
-                    dst[dstIndex] = recordBuffer[srcIndex];
-                } else {
-                    dst[dstIndex] = 0.0f;
-                }
-            }
-        }
-        return out;
+        return interleavedToColumns<double>(recordBuffer, rows, cols, NLS_DOUBLE, 0.,
+            [](single v) { return static_cast<double>(v); });
     }
     case NLS_INT16: {
-        ArrayOf out = ArrayOf::int16Matrix2dConstructor(rows, cols);
-        if (out.getElementCount() == 0) {
-            return out;
-        }
-        void* dstptr = out.getReadWriteDataPointer();
-        int16* dst = static_cast<int16*>(dstptr);
-        for (int s = 0; s < rows; ++s) {
-            for (int c = 0; c < cols; ++c) {
-                size_t srcIndex = static_cast<size_t>(s) * static_cast<size_t>(cols) + c;
-                size_t dstIndex
-                    = static_cast<size_t>(s) + static_cast<size_t>(c) * static_cast<size_t>(rows);
-                if (srcIndex < recordBuffer.size()) {
-                    float v = recordBuffer[srcIndex];
-                    long iv = static_cast<long>(std::round(v * 32767.0f));
-                    iv = clampLong(iv, -32768, 32767);
-                    dst[dstIndex] = static_cast<int16>(iv);
-                } else {
-                    dst[dstIndex] = 0;
-                }
-            }
-        }
-        return out;
+        return interleavedToColumns<int16>(recordBuffer, rows, cols, NLS_INT16, 0,
+            [&](single v) { return static_cast<int16>(quantize(v, 32767.f, 0.f, -32768, 32767)); });
     }
     case NLS_INT8: {
-        ArrayOf out = ArrayOf::int8Matrix2dConstructor(rows, cols);
-        if (out.getElementCount() == 0) {
-            return out;
-        }
-        void* dstptr = out.getReadWriteDataPointer();
-        int8* dst = static_cast<int8*>(dstptr);
-        for (int s = 0; s < rows; ++s) {
-            for (int c = 0; c < cols; ++c) {
-                size_t srcIndex = static_cast<size_t>(s) * static_cast<size_t>(cols) + c;
-                size_t dstIndex
-                    = static_cast<size_t>(s) + static_cast<size_t>(c) * static_cast<size_t>(rows);
-                if (srcIndex < recordBuffer.size()) {
-                    float v = recordBuffer[srcIndex];
-                    long iv = static_cast<long>(std::round(v * 127.0f));
-                    iv = clampLong(iv, -128, 127);
-                    dst[dstIndex] = static_cast<int8>(iv);
-                } else {
-                    dst[dstIndex] = 0;
-                }
-            }
-        }
-        return out;
+        return interleavedToColumns<int8>(recordBuffer, rows, cols, NLS_INT8, 0,
+            [&](single v) { return static_cast<int8>(quantize(v, 127.f, 0.f, -128, 127)); });
     }
     case NLS_UINT8: {
-        ArrayOf out = ArrayOf::uint8Matrix2dConstructor(rows, cols);
-        if (out.getElementCount() == 0) {
-            return out;
-        }
-        void* dstptr = out.getReadWriteDataPointer();
-        uint8* dst = static_cast<uint8*>(dstptr);
-        for (int s = 0; s < rows; ++s) {
-            for (int c = 0; c < cols; ++c) {
-                size_t srcIndex = static_cast<size_t>(s) * static_cast<size_t>(cols) + c;
-                size_t dstIndex
-                    = static_cast<size_t>(s) + static_cast<size_t>(c) * static_cast<size_t>(rows);
-                if (srcIndex < recordBuffer.size()) {
-                    float v = recordBuffer[srcIndex];
-                    long iv = static_cast<long>(std::round(v * 127.0f + 128.0f));
-                    iv = clampLong(iv, 0, 255);
-                    dst[dstIndex] = static_cast<uint8>(iv);
-                } else {
-                    dst[dstIndex] = 128;
-                }
-            }
-        }
-        return out;
+        return interleavedToColumns<uint8>(recordBuffer, rows, cols, NLS_UINT8, 128,
+            [&](single v) { return static_cast<uint8>(quantize(v, 127.f, 128.f, 0, 255)); });
     }
+    case NLS_SINGLE:
     default: {
-        // fallback to single precision if unknown type
-        ArrayOf out = ArrayOf::singleMatrix2dConstructor(rows, cols);
-        if (out.getElementCount() == 0) {
-            return out;
-        }
-        void* dstptr = out.getReadWriteDataPointer();
-        single* dst = static_cast<single*>(dstptr);
-        for (int s = 0; s < rows; ++s) {
-            for (int c = 0; c < cols; ++c) {
-                size_t srcIndex = static_cast<size_t>(s) * static_cast<size_t>(cols) + c;
-                size_t dstIndex
-                    = static_cast<size_t>(s) + static_cast<size_t>(c) * static_cast<size_t>(rows);
-                if (srcIndex < recordBuffer.size()) {
-                    dst[dstIndex] = recordBuffer[srcIndex];
-                } else {
-                    dst[dstIndex] = 0.0f;
-                }
-            }
-        }
-        return out;
+        return interleavedToColumns<single>(
+            recordBuffer, rows, cols, NLS_SINGLE, 0.f, [](single v) { return v; });
     }
     }
-    return {};
 }
 //=============================================================================
 ArrayOf
@@ -845,37 +612,25 @@ AudiorecorderObject::getPlayer()
     std::wstring errorMessage;
     audioPlayerUsed = true;
     audioPlayerObject->setSamples(getRecordedData(NLS_DOUBLE), getSampleRate(), errorMessage);
-    return ArrayOf::handleConstructor(audioPlayerObject);
+    return ArrayOf::handle(audioPlayerObject);
 }
 //=============================================================================
-bool
-AudiorecorderObject::isFunctionHandleCallbackValid(const ArrayOf& callbackArrayOf)
+// interleaved recording buffer to a rows x cols column-major matrix
+template <typename T, typename Convert>
+static ArrayOf
+interleavedToColumns(const std::vector<single>& buffer, int rows, int cols, NelsonType type,
+    T missing, Convert convert)
 {
-    if (callbackArrayOf.isScalarStringArray() || callbackArrayOf.isRowVectorCharacterArray()) {
-        return true;
-    }
-    if (callbackArrayOf.isFunctionHandle()) {
-        return true;
-    }
-    return false;
-}
-//=============================================================================
-void
-AudiorecorderObject::enqueueCallback(const ArrayOf& callbackArrayOf)
-{
-    if (!callbackArrayOf.isEmpty()) {
-        if (callbackArrayOf.isScalarStringArray() || callbackArrayOf.isRowVectorCharacterArray()) {
-            EventQueue::getInstance()->add(EventCallback(callbackArrayOf));
-        } else if (callbackArrayOf.isFunctionHandle()) {
-            size_t nbElements = 3;
-            ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, nbElements);
-            elements[0] = callbackArrayOf;
-            elements[1] = ArrayOf::handleConstructor(this);
-            elements[2] = ArrayOf::emptyConstructor(0, 0);
-            EventQueue::getInstance()->add(
-                EventCallback(ArrayOf(NLS_CELL_ARRAY, Dimensions(1, nbElements), elements)));
+    const size_t nbRows = static_cast<size_t>(rows);
+    const size_t nbCols = static_cast<size_t>(cols);
+    T* dst = static_cast<T*>(ArrayOf::allocateArrayOf(type, nbRows * nbCols));
+    for (size_t r = 0; r < nbRows; ++r) {
+        for (size_t c = 0; c < nbCols; ++c) {
+            size_t srcIndex = r * nbCols + c;
+            dst[r + c * nbRows] = (srcIndex < buffer.size()) ? convert(buffer[srcIndex]) : missing;
         }
     }
+    return ArrayOf(type, Dimensions(nbRows, nbCols), dst);
 }
 //=============================================================================
 } // namespace Nelson

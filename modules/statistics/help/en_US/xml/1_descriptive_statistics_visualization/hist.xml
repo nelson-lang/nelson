@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>hist</keyword>
+  <short_description>Histogram bin counts.</short_description>
+  <syntax>
+    <syntax_item>hist(Y)</syntax_item>
+    <syntax_item>hist(Y, nbins)</syntax_item>
+    <syntax_item>hist(Y, centers)</syntax_item>
+    <syntax_item>n = hist(...)</syntax_item>
+    <syntax_item>[n, c] = hist(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>Y</param_name>
+      <param_description>a numeric vector.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>nbins</param_name>
+      <param_description>a scalar: number of equally spaced bins (default 10).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>centers</param_name>
+      <param_description>a vector of bin centers.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>n</param_name>
+      <param_description>the number of elements in each bin.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>c</param_name>
+      <param_description>the bin centers.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>hist</b> distributes the elements of <b>Y</b> into bins and returns the
+    bin counts.</p>
+    <p>Two modules carry a <b>hist</b>: this one and the one in the
+    <b>graphics</b> module. Both count their bins the same way, so the same call
+    answers the same counts either way. The graphics one takes over as soon as
+    that module is loaded: it is the one that draws, and the only one that
+    accepts a designated axes. This one is what answers where graphics is not
+    loaded, as in <b>nelson-cli</b>, and it only counts: asking it to draw
+    reports that the graphics module is needed.</p>
+    <p>This is a legacy function; <b>histogram</b> and <b>histcounts</b> are
+    preferred for new code.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[[n, c] = hist([2 4 4 4 5 5 7 9], 3)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}hist">hist (graphics)</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${elementary_functions}histc">histc</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}tabulate">tabulate</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.14.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>boundary</keyword>
+  <short_description>Facettes frontiere d'un ensemble de points</short_description>
+  <syntax>
+    <syntax_item>K = boundary(P)</syntax_item>
+    <syntax_item>K = boundary(x, y)</syntax_item>
+    <syntax_item>K = boundary(x, y, z)</syntax_item>
+    <syntax_item>K = boundary(..., s)</syntax_item>
+    <syntax_item>[K, A] = boundary(x, y)</syntax_item>
+    <syntax_item>boundary(P)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>boundary</b> retourne les facettes frontiere de points plans ou spatiaux.</p>
+    <p>Sans sortie, la fonction trace la frontiere.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Calculer et tracer la frontiere de points plans.</example_item_description>
+      <example_item_data runnable="gui"><![CDATA[P = [0 0; 1 0; 1 1; 0 1; 0.4 0.6];
+K = boundary(P);
+boundary(P)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${geometry}alphaShape">alphaShape</link></see_also_item>
+    <see_also_item><link linkend="${geometry}convhull">convhull</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item><history_version>2.0.0</history_version><history_description>Version initiale.</history_description></history_item>
+  </history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="306.5" height="298.5" viewBox="-153.25 -153.25 306.5 298.5">
+  <rect x="-153.25" y="-153.25" width="306.5" height="298.5" rx="56.715" fill="#E1F5EE" stroke="#9FE1CB" stroke-width="3.25"/>
+  <g transform="matrix(1 0 0 -1 0 0)">
+    <rect x="-100" y="-100" width="200" height="200" fill="#FFFFFF" stroke="#085041" stroke-width="3.25"/>
+    <g transform="translate(0,130) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32" fill="#085041">Delay</text></g>
+    <g transform="translate(8,-122) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32" fill="#085041">delayTime</text></g>
+    <path d="M-92 0 Q-80.7 34.2 -77.1 43.65 Q-73.5 53.1 -70.3 59.75 Q-67.1 66.4 -64.25 70.5 Q-61.4 74.6 -58.6 76.85 Q-55.8 79.1 -53 79.45 Q-50.2 79.8 -47.4 78.2 Q-44.6 76.6 -41.75 73.15 Q-38.9 69.7 -36.1 64.55 Q-33.3 59.4 -30.1 51.75 Q-26.9 44.1 -22.865 32.65 Q-18.83 21.2 -10.365 -4.8 Q-1.9 -30.8 1.7 -40.5 Q5.3 -50.2 8.5 -57.2 Q11.7 -64.2 14.5 -68.65 Q17.3 -73.1 20.15 -75.75 Q23 -78.4 25.8 -79.2 Q28.6 -80 31.4 -78.8 Q34.2 -77.6 37.05 -74.55 Q39.9 -71.5 42.7 -66.7 Q45.5 -61.9 48.7 -54.55 Q51.9 -47.2 55.95 -36 Q60 -24.8 68 0" fill="none" stroke="#085041" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M-62 0 Q-50.7 34.2 -47.1 43.65 Q-43.5 53.1 -40.3 59.75 Q-37.1 66.4 -34.25 70.5 Q-31.4 74.6 -28.6 76.85 Q-25.8 79.1 -23 79.45 Q-20.2 79.8 -17.4 78.2 Q-14.6 76.6 -11.75 73.15 Q-8.9 69.7 -6.1 64.55 Q-3.3 59.4 -0.1 51.75 Q3.1 44.1 7.135 32.65 Q11.17 21.2 19.635 -4.8 Q28.1 -30.8 31.7 -40.5 Q35.3 -50.2 38.5 -57.2 Q41.7 -64.2 44.5 -68.65 Q47.3 -73.1 50.15 -75.75 Q53 -78.4 55.8 -79.2 Q58.6 -80 61.4 -78.8 Q64.2 -77.6 67.05 -74.55 Q69.9 -71.5 72.7 -66.7 Q75.5 -61.9 78.7 -54.55 Q81.9 -47.2 85.95 -36 Q90 -24.8 98 0" fill="none" stroke="#9FE1CB" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

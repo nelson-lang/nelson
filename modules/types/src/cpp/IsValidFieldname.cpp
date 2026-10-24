@@ -19,5 +19,5 @@ IsValidFieldname(const std::string& fieldname)
     return (validFieldname == fieldname);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

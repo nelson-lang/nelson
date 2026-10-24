@@ -1,0 +1,31 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "e2e-tests",
+    "created": "2026-04-27",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "comments": "Empty subsystem fixture",
+  "name": "subsystem-empty",
+  "blocks": [
+    {
+      "id": "s1",
+      "type": "subsystem",
+      "x": 200,
+      "y": 200,
+      "rotation": 0,
+      "params": {
+        "name": "Subsystem",
+        "subsystem": null
+      }
+    }
+  ],
+  "connections": [],
+  "variables": "",
+  "runtime": "10",
+  "sampleTime": 0.01,
+  "autoRoute": true,
+  "locked": false
+}

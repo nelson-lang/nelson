@@ -27,18 +27,7 @@
       <example_item_description>CLI required</example_item_description>
       <example_item_data
         runnable="false"
-      ><![CDATA[
-if ~MPI_Initialized()
-  MPI_Init();
-end
-comm = MPI_Comm_object();
-MPI_Comm_used
-delete(MPI_Comm_used())
-MPI_Comm_used
-if MPI_Initialized()
-  MPI_Finalize();
-end
-]]></example_item_data>
+      ><![CDATA[used = MPI_Comm_used()]]></example_item_data>
     </example_item>
   </examples>
   <see_also>

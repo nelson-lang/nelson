@@ -9,6 +9,6 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function varargout = gram(varargin)
-  error(_("Command cannot be used for models of class 'tf'."));
+  error('Nelson:control_system:notSupported', 'Command cannot be used for models of class ''tf''.');
 end
 %=============================================================================

@@ -7,14 +7,17 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('isbanded'), -1);
-assert_isequal(nargout('isbanded'), -1);
+% <--REUSE PROCESS-->
+asserts.isequal(nargin('isbanded'), -1);
+asserts.isequal(nargout('isbanded'), -1);
 %=============================================================================
-A = [2 3 0 0 0 ; 1 -2 -3 0 0; 0 -1 2 3 0 ; 0 0 1 -2 -3; 0 0 0 -1 2];
-assert_istrue(isbanded(A, 1, 1));
-assert_isfalse(isbanded(A, 0, 1));
+A = [2 3 0 0 0; 1 -2 -3 0 0; 0 -1 2 3 0; 0 0 1 -2 -3; 0 0 0 -1 2];
+asserts.istrue(isbanded(A, 1, 1));
+asserts.isfalse(isbanded(A, 0, 1));
 %=============================================================================
 A = [1 0 0 0 0; 2 1 0 0 0; 3 2 1 0 0];
-assert_istrue(isbanded(A, 2, 0));
+asserts.istrue(isbanded(A, 2, 0));
 %=============================================================================
 
+asserts.istrue(isbanded(eye(3), 0, 0));
+%=============================================================================

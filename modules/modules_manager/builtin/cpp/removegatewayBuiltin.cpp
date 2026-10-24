@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,10 +9,10 @@
 //=============================================================================
 #include "removegatewayBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "RemoveGateway.hpp"
 #include "PathFunctionIndexerManager.hpp"
 #include "BuiltInFunctionDefManager.hpp"
-#include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -25,10 +25,10 @@ Nelson::ModulesManagerGateway::removegatewayBuiltin(
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 0);
     if (argIn[0].isRowVectorCharacterArray()) {
-        std::wstring dynlibName = argIn[0].getContentAsWideString();
+        std::wstring dynlibName = argIn[0].asWideString();
         RemoveGateway(eval, dynlibName);
     } else {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+        Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1), L"string");
     }
     return retval;
 }

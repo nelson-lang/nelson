@@ -14,15 +14,15 @@ pool = backgroundPool();
 clear f
 fn1 = str2func('@(x) [x:-1:1]''');
 fn2 = str2func('max');
-for idx= 1:10
+for idx = 1:10
   f(idx) = parfeval(pool, fn1, 1, 1000);
 end
 C = afterEach(f, fn2, 2);
 [R, I] = fetchOutputs(C);
 REF = [ones(10, 1) * 1000];
-assert_isequal(length(R), length(REF));
-assert_isequal(R, REF);
-assert_isequal(I, ones(10, 1));
+asserts.isequal(length(R), length(REF));
+asserts.isequal(R, REF);
+asserts.isequal(I, ones(10, 1));
 %=============================================================================
 fevalqueue = pool.FevalQueue;
 cancelAll(fevalqueue);

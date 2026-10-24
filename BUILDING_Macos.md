@@ -30,11 +30,11 @@ nix develop
 
 Then, use the following commands (in this order):
 
-`just config` — Configure the build environment
+`just config` - Configure the build environment
 
-`just build` — Build the project
+`just build` - Build the project
 
-`just start` — Run Nelson
+`just start` - Run Nelson
 
 ## 🛠️ Other Setup Instructions
 
@@ -81,6 +81,39 @@ Follow the [official Micromamba guide](https://mamba.readthedocs.io/en/latest/in
 ---
 
 ## 🧱 Building the Project
+
+### Optional GPU compute module
+
+The `gpu_engine` module uses Dawn's native Metal backend. Dawn is built as a
+monolithic static library so that the Nelson application bundle has no external
+Dawn runtime to copy or locate.
+
+Build and install the pinned Dawn revision into `temp/`:
+
+```bash
+./tools/install_dependencies/install-dawn-macOS.sh
+```
+
+Then configure Nelson with the generated installation prefix:
+
+```bash
+cmake -S . -B build-macos \
+  -DWITH_GPU_ENGINE_MODULE=ON \
+  -DDAWN_HOME="$PWD/temp/dawn-macos/install-$(uname -m)"
+cmake --build build-macos --parallel
+```
+
+The normal macOS packaging command includes `gpu_engine` in the application
+bundle. Since Dawn is linked statically, no extra packaging rule is required:
+
+```bash
+cmake --build build-macos --target package
+```
+
+`DAWN_INSTALL_PREFIX` can override the Dawn installation directory, and
+`DAWN_MACOS_DEPLOYMENT_TARGET` can override the default minimum macOS version
+(`12.0`). Build Dawn separately for `arm64` and `x86_64`; each Nelson package
+must use the Dawn installation matching its own target architecture.
 
 ### 🐍 Using Micromamba
 
@@ -135,6 +168,18 @@ Follow the [official Micromamba guide](https://mamba.readthedocs.io/en/latest/in
    ```bash
    just start
    ```
+
+## Debug and sanitizer builds
+
+- Debug build: switch `Release` to `Debug` in the root `CMakeLists.txt` (or
+  pass `-DCMAKE_BUILD_TYPE=Debug` to `just config`), rebuild, and run under
+  lldb.
+- AddressSanitizer: add `-fsanitize=address` to the compiler flags with a
+  Debug or RelWithDebInfo build type.
+- When running tests under a sanitizer, remember that `test_run` launches
+  each test as a child process and chdirs into the test folder: reports
+  written with a relative log path land in `modules/<mod>/tests/`, so scan
+  the whole tree for report files.
 
 ## Additional Information
 

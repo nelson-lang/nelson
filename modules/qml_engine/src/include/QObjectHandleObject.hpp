@@ -27,6 +27,16 @@ public:
     {
     }
     ~QObjectHandleObject() override = default;
+
+    virtual void
+    propertyChanged(const std::wstring&)
+    {
+    }
+
+    void
+    onDelete(Evaluator*) override
+    {
+    }
 };
 //=============================================================================
 } // namespace Nelson

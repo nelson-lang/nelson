@@ -9,15 +9,15 @@
 %=============================================================================
 function W = wilkinson(varargin)
   % https://en.wikipedia.org/wiki/Wilkinson_matrix
-  
+
   narginchk(1, 2);
   nargoutchk(0, 1);
   N = varargin{1};
   mustBeScalarOrEmpty(N, 1);
   mustBeInteger(N, 1);
   mustBeNonnegative(N, 1);
-  
-  classname = 'double';    
+
+  classname = 'double';
   if nargin == 2
     classname = varargin{2};
   end
@@ -28,12 +28,12 @@ function W = wilkinson(varargin)
     W = cast([], classname);
     return
   end
-  
+
   N1 = N - 1;
   N12 = cast(N1 / 2, classname);
   S = ones(N1, 1, classname);
-  C = abs (-N12 : N12);    
-  S = ones (N1, 1);
+  C = abs(-N12:N12);
+  S = ones(N1, 1);
   W = diag(S, -1) + diag(C) + diag(S, 1);
 end
 %=============================================================================

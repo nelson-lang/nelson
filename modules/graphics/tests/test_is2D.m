@@ -12,12 +12,12 @@
 f = figure();
 ax = gca();
 plot(ax, 1:10, sin(1:10));
-assert_istrue(is2D(ax)); 
+asserts.istrue(is2D(ax));
 %=============================================================================
 f = figure();
 ax = gca()
 surf(peaks);
 sleep(0.5);
 refresh(f);
-assert_isfalse(is2D(ax)); 
+asserts.isfalse(is2D(ax));
 %=============================================================================

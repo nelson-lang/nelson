@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>discretize</keyword>
+  <short_description>Group numeric data into bins.</short_description>
+  <syntax>
+    <syntax_item>Y = discretize(X, edges)</syntax_item>
+    <syntax_item>Y = discretize(X, edges, values)</syntax_item>
+    <syntax_item>C = discretize(X, edges, 'categorical', names)</syntax_item>
+    <syntax_item>C = discretize(T, 'month', 'categorical')</syntax_item>
+    <syntax_item>C = discretize(D, 'hour', 'categorical', format)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>discretize</b> assigns each numeric value in <b>X</b> to a bin defined by consecutive edge values.</p>
+    <p>Datetime values can be grouped by calendar month with categorical month-year labels.</p>
+    <p>Duration values can be grouped by hour with interval labels formatted as minutes or time values.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Create categorical bins.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[X = [5 15 25 NaN];
+C = discretize(X, [0 10 20 30], 'categorical', {'small', 'medium', 'large'})]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Group normally distributed data into categorical bins.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[rng(1);
+X = randn(1000, 1);
+edges = std(X) * (-3:3);
+C = discretize(X, edges, 'categorical', ...
+  {'-3sigma', '-2sigma', '-sigma', 'sigma', '2sigma', '3sigma'});
+ratio = nnz(C == '-sigma' | C == 'sigma') / numel(C)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Group datetime values by month.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[T = datetime(2016, 1, [31; 60; 335]);
+C = discretize(T, 'month', 'categorical')]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Group duration values by hour.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[D = minutes([30; 90; 150; 210]);
+C = discretize(D, 'hour', 'categorical', 'hh:mm:ss')]]></example_item_data>
+    </example_item>
+  </examples>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

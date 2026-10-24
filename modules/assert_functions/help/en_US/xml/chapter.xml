@@ -5,9 +5,8 @@
   <module_name>assert_functions</module_name>
   <chapter>Assertion functions</chapter>
   <chapter_description>
-    <p
-    >The Asserts Functions module in Nelson provides tools for validating program behavior and verifying conditions during development or testing.</p>
-    <p
-    >These functions help ensure that computations and logical conditions meet expected criteria, improving code reliability and catching errors early.</p>
+    <p>The assert_functions module provides assertion tools for unit tests, runtime contracts and diagnostic checks.</p>
+    <p>All assertions share the same contract: with no output they raise an error on failure; with outputs they return <b>[res, msg]</b>.</p>
+    <p>The canonical API uses qualified assertion names, for example <b>asserts.isequal</b>, <b>asserts.warning</b> and <b>asserts.satisfies</b>.</p>
   </chapter_description>
 </xmldoc>

@@ -30,6 +30,10 @@
       <b>C = gt(A, B)</b> returns a logical array with elements set to logical<b>true</b> A is greater than B.</p>
     <p>
       <b>gt</b> compare uniquement la partie réelle des tableaux numériques.</p>
+    <p>
+      Lorsque les entrees sont des tableaux sparse numeriques ou logiques, le resultat est un tableau sparse logique. Les operandes sparse single et single-complex sont pris en charge.</p>
+    <p>
+      Pour les tableaux sparse complexes, les comparaisons d'ordre utilisent le module de chaque valeur.</p>
   </description>
   <used_function />
   <bibliography />
@@ -67,6 +71,15 @@
         runnable="cli"
       ><![CDATA[gt(0.8 - 0.6 - 0.2, 0)]]></example_item_data>
     </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[S = sparse(single([1 + 2i 0; 0 3 - 4i]));
+T = sparse(single([2 + 0.1i 0; 0 1 + 0.1i]));
+R = S > T]]></example_item_data>
+    </example_item>
   </examples>
   <see_also>
     <see_also_item>
@@ -89,6 +102,10 @@
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>operandes sparse single et single-complex pris en charge.</history_description>
     </history_item>
   </history>
   <authors>

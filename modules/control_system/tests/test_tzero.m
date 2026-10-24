@@ -13,14 +13,14 @@ C = [1 0];
 D = 0;
 sys = ss(A, B, C, D);
 z = tzero(sys);
-assert_isequal(z, 4);
+asserts.isequal(z, 4);
 [z, nrank] = tzero(sys);
-assert_isequal(z, 4);
-assert_isapprox(nrank, 1, 1e-4);
+asserts.isequal(z, 4);
+asserts.isapprox(nrank, 1, 1e-4);
 %=============================================================================
 z = tzero(A, B, C, D);
-assert_isequal(z, 4)
+asserts.isequal(z, 4)
 [z, nrank] = tzero(A, B, C, D);
-assert_isequal(z, 4);
-assert_isapprox(nrank, 1, 1e-4);
+asserts.isequal(z, 4);
+asserts.isapprox(nrank, 1, 1e-4);
 %=============================================================================

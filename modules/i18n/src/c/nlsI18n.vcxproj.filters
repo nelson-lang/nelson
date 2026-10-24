@@ -24,7 +24,10 @@
     <ClInclude Include="..\cpp\I18nManager.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\poToJson.hpp">
+    <ClInclude Include="..\cpp\i18nSourceScanners.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\i18nExtract.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\i18nJsonMerger.hpp">
@@ -44,7 +47,13 @@
     <ClCompile Include="..\cpp\I18nManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\cpp\poToJson.cpp">
+    <ClCompile Include="..\cpp\i18nExtract.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\i18nMSourceScan.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cpp\i18nSourceScan.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\cpp\i18nJsonMerger.cpp">

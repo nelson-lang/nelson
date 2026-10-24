@@ -1,0 +1,83 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Allan CORNET",
+    "created": "2026-08-08",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "comments": "Acausal one-way-clutch demo: a prescribed rotating source drives a flywheel through a Freewheel (overrunning clutch). Torque is transmitted only while the source overruns the flywheel; when the source slows, the clutch releases and the flywheel coasts on its own inertia. The Scope plots flywheel speed; ToWorkspace exports it.",
+  "name": "Acausal Freewheel",
+  "blocks": [
+    {
+      "id": "A",
+      "type": "ConstantRotSpeed",
+      "params": { "w": 5, "phi0": 0 },
+      "x": 0,
+      "y": 210,
+      "rotation": 180
+    },
+    {
+      "id": "FW",
+      "type": "Freewheel",
+      "params": { "d": 100, "w_eps": 0.01 },
+      "x": 200,
+      "y": 210,
+      "rotation": 0
+    },
+    {
+      "id": "J1",
+      "type": "Inertia",
+      "params": { "J": 1, "phi0": 0, "w0": 0 },
+      "x": 290,
+      "y": 90,
+      "rotation": 270
+    },
+    {
+      "id": "WS",
+      "type": "RotSpeedSensor",
+      "params": {},
+      "x": 290,
+      "y": 490,
+      "rotation": 90
+    },
+    {
+      "id": "tw",
+      "type": "toWorkspace",
+      "params": { "VariableName": "w" },
+      "inputs": 1,
+      "outputs": 0,
+      "x": 450,
+      "y": 130,
+      "rotation": 0
+    },
+    {
+      "id": "sc",
+      "type": "scope",
+      "params": {
+        "TMin": "",
+        "TMax": "",
+        "YMin": "",
+        "YMax": "",
+        "width": 320,
+        "height": 220,
+        "ShowTickLabels": true
+      },
+      "x": 450,
+      "y": 300,
+      "rotation": 0
+    }
+  ],
+  "connections": [
+    { "from": "WS", "to": "tw", "fromIndex": 0, "toIndex": 0 },
+    { "from": "WS", "to": "sc", "fromIndex": 0, "toIndex": 0 }
+  ],
+  "solver": "ode4",
+  "runtime": 2,
+  "sampleTime": 0.01,
+  "physicalWires": [
+    { "pins": ["A.flange", "FW.a"] },
+    { "pins": ["FW.b", "WS.flange", "J1.flange"] }
+  ]
+}

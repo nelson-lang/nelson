@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>unidrnd</keyword>
+  <short_description>Discrete uniform random numbers</short_description>
+  <syntax>
+    <syntax_item>r = unidrnd(n)</syntax_item>
+    <syntax_item>r = unidrnd(n, sz)</syntax_item>
+    <syntax_item>r = unidrnd(n, sz1, ..., szN)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>n</param_name><param_description>positive integer scalar or array: maximum value.</param_description></param_input_item>
+    <param_input_item><param_name>sz</param_name><param_description>scalar, vector, or comma-separated dimensions: output size.</param_description></param_input_item>
+  </param_input>
+  <param_output><param_output_item><param_name>r</param_name><param_description>array: random integer values.</param_description></param_output_item></param_output>
+  <description><p><b>unidrnd</b> generates discrete uniform random integers from 1 to <b>n</b>.</p></description>
+  <examples><example_item><example_item_type>nelson</example_item_type><example_item_description /><example_item_data runnable="cli"><![CDATA[rng(0);
+r = unidrnd(5, 2, 3);]]></example_item_data></example_item></examples>
+  <history><history_item><history_version>2.0.0</history_version><history_description>initial version</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

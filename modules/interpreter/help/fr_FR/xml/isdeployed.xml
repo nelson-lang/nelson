@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>isdeployed</keyword>
+  <short_description>Indique si le code s'execute dans une application deployee.</short_description>
+  <syntax><syntax_item>state = isdeployed()</syntax_item></syntax>
+  <param_output>
+    <param_output_item>
+      <param_name>state</param_name>
+      <param_description>Scalaire logique.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>isdeployed</b> retourne true pendant l'execution du code d'une application produite par <b>nelsonc</b>, y compris ses callbacks graphiques. Il retourne false dans une session Nelson ordinaire, meme si le module compiler est charge.</p>
+    <p>Le resultat ne depend pas d'une variable d'environnement modifiable par l'application. Les modes de runtime livre et installe partagent le meme comportement. Cette fonction appartient au module d'execution et ne charge pas le compilateur.</p>
+    <p>L'analyse des dependances ne supprime pas automatiquement les branches conditionnelles utilisant cette fonction.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[state = isdeployed()]]></example_item_data>
+    </example_item>
+  </examples>
+  <history />
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

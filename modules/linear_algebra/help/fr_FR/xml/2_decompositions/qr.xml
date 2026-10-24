@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>qr</keyword>
+  <short_description>Factorisation QR d'une matrice.</short_description>
+  <syntax>
+    <syntax_item>R = qr(A)</syntax_item>
+    <syntax_item>[Q, R] = qr(A)</syntax_item>
+    <syntax_item>[Q, R, P] = qr(A)</syntax_item>
+    <syntax_item>[...] = qr(A, 'econ')</syntax_item>
+    <syntax_item>[Q, R, P] = qr(A, outputForm)</syntax_item>
+    <syntax_item>[...] = qr(A, 0)</syntax_item>
+    <syntax_item>[C, R] = qr(S, B)</syntax_item>
+    <syntax_item>[C, R, P] = qr(S, B)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>une matrice pleine ou sparse single ou double, reelle ou complexe.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>S</param_name>
+      <param_description>une matrice de coefficients sparse.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>B</param_name>
+      <param_description>une matrice second membre de meme classe numerique que S.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>outputForm</param_name>
+      <param_description>'matrix' ou 'vector'.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>Q</param_name>
+      <param_description>facteur orthogonal ou unitaire.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>R</param_name>
+      <param_description>facteur triangulaire superieur.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>P</param_name>
+      <param_description>matrice ou vecteur de permutation des colonnes.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>C</param_name>
+      <param_description>facteur egal a Q' * B pour les formes moindres carres sparse.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>qr</b> calcule une factorisation QR. Pour les matrices pleines, <b>A = Q * R</b>. Avec trois sorties, une permutation de colonnes est retournee et <b>A * P = Q * R</b>, ou <b>A(:, P) = Q * R</b> lorsque <b>outputForm</b> vaut <b>'vector'</b>.</p>
+    <p>L'option <b>'econ'</b> retourne des facteurs de taille economique pour les matrices hautes. L'option historique <b>0</b> est equivalente a une sortie economique avec vecteurs de permutation.</p>
+    <p>Pour une matrice sparse <b>S</b> et un second membre <b>B</b>, <b>qr(S, B)</b> retourne <b>C = Q' * B</b> et <b>R</b> pour les resolutions aux moindres carres.</p>
+  </description>
+  <used_function>LAPACK dgeqrf, LAPACK sgeqrf, LAPACK zgeqrf, LAPACK cgeqrf, LAPACK dgeqp3, LAPACK sgeqp3, LAPACK zgeqp3, LAPACK cgeqp3, Eigen::SparseQR</used_function>
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[A = magic(5);
+[Q, R] = qr(A);
+norm(A - Q * R)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Factorisation QR economique.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = rand(10, 3);
+[Q, R, p] = qr(A, 'econ', 'vector');
+norm(A(:, p) - Q * R)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${linear_algebra}lu">lu</link></see_also_item>
+    <see_also_item><link linkend="${linear_algebra}chol">chol</link></see_also_item>
+    <see_also_item><link linkend="${linear_algebra}svd">svd</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

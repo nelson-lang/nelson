@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="306.5" height="256.5" viewBox="-153.25 -153.25 306.5 256.5">
+  <rect x="-153.25" y="-153.25" width="306.5" height="256.5" rx="48.735" fill="#EEEDFE" stroke="#AFA9EC" stroke-width="3.25"/>
+  <g transform="matrix(1 0 0 -1 0 0)">
+    <rect x="-100" y="-100" width="200" height="200" fill="#FFFFFF" stroke="#3C3489" stroke-width="3.25"/>
+    <g transform="translate(0,130) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32" fill="#3C3489">Math Function</text></g>
+    <polyline points="0,-80 0,68" fill="none" stroke="#AFA9EC" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="0,90 -8,68 8,68 0,90" fill="#AFA9EC" stroke="#AFA9EC" stroke-width="3.25" stroke-linejoin="round"/>
+    <g transform="translate(-50,26) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="38.4" fill="#3C3489">exp</text></g>
+    <polyline points="-80,-80 -31,-77.9 -6.03,-74 10.9,-68.4 23.7,-61 34.2,-51.6 43,-40.3 50.3,-27.8 56.7,-13.5 62.3,2.23 67.1,18.6 72,38.2 76,57.6 80,80" fill="none" stroke="#3C3489" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-90,-80.4 68,-80.4" fill="none" stroke="#AFA9EC" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="90,-80.4 68,-72.4 68,-88.4 90,-80.4" fill="#AFA9EC" stroke="#AFA9EC" stroke-width="3.25" stroke-linejoin="round"/>
+  </g>
+</svg>

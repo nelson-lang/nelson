@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>crypto.blake2b</keyword>
+  <short_description>Get BLAKE2b hash, optionally keyed.</short_description>
+  <syntax>
+    <syntax_item>hexa_hash = crypto.blake2b(message)</syntax_item>
+    <syntax_item>hexa_hash = crypto.blake2b(message, key)</syntax_item>
+    <syntax_item>hexa_hash = crypto.blake2b(message, key, digestSize)</syntax_item>
+    <syntax_item>hexa_hash = crypto.blake2b(filename, key, digestSize, &apos;-file&apos;)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>message</param_name>
+      <param_description
+      >a uint8 vector (raw bytes) or a character vector (UTF-8 bytes): content to hash.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>a string: existing file whose raw bytes are hashed.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>key</param_name>
+      <param_description
+      >a uint8 vector (raw bytes) or a character vector (UTF-8 bytes) of at most 64 bytes, or [] for an unkeyed hash (default).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>digestSize</param_name>
+      <param_description>an integer between 1 and 64: digest length in bytes (default: 64).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>&apos;-file&apos;</param_name>
+      <param_description>first argument is a filename (always the last argument).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>hexa_hash</param_name>
+      <param_description>a character vector: 2 * digestSize lowercase hexadecimal characters.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>crypto.blake2b</b> computes a BLAKE2b digest (RFC 7693): a fast cryptographic hash with a configurable output size. With a key it acts as a message authentication code without the HMAC construction.</p>
+  </description>
+  <used_function>Monocypher</used_function>
+  <bibliography>https://www.rfc-editor.org/rfc/rfc7693, https://monocypher.org/</bibliography>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[R = crypto.blake2b('abc')
+R = crypto.blake2b('abc', [], 20)
+R = crypto.blake2b('abc', 'my secret key', 32)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>hash a file</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[filename = [tempdir(), 'blake2b_example.txt'];
+filewrite(filename, 'abc');
+R = crypto.blake2b(filename, [], 64, '-file')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${core}crypto.sha512">crypto.sha512</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${core}crypto.hmac">crypto.hmac</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${core}crypto.argon2">crypto.argon2</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

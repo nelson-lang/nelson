@@ -241,6 +241,7 @@
       <xs:element name="table" type="TableType"/>
       <xs:element name="ul" type="UlType"/>
       <xs:element name="ol" type="OlType"/>
+      <xs:element name="source_code" type="SourceCodeType"/>
       <xs:element name="b" type="InlineType"/>
       <xs:element name="a" type="AnchorType"/>
       <xs:element name="link" type="LinkType"/>
@@ -266,6 +267,16 @@
       <xs:element name="latex" type="LatexType"/>
       <xs:element name="p" type="PType"/>
     </xs:choice>
+  </xs:complexType>
+
+  <xs:complexType name="SourceCodeType">
+    <xs:attribute name="label" type="xs:string" use="optional"/>
+    <xs:attribute name="path" type="xs:string" use="required"/>
+    <xs:attribute name="language" type="xs:string" use="optional"/>
+    <!-- Optional text markers: only the lines from the first line containing
+         `start` to the first following line containing `end` are embedded. -->
+    <xs:attribute name="start" type="xs:string" use="optional"/>
+    <xs:attribute name="end" type="xs:string" use="optional"/>
   </xs:complexType>
 
   <!-- Examples Section -->

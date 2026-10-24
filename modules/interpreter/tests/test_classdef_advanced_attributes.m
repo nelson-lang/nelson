@@ -1,0 +1,323 @@
+%=============================================================================
+% Copyright (c) 2016-present Allan CORNET (Nelson)
+%=============================================================================
+% This file is part of Nelson.
+%=============================================================================
+% LICENCE_BLOCK_BEGIN
+% SPDX-License-Identifier: LGPL-3.0-or-later
+% LICENCE_BLOCK_END
+%=============================================================================
+% <--WEIGHT 32-->
+path_test = [modulepath('interpreter', 'tests'), '/classdef'];
+addpath(path_test);
+fixtureDirectory = tempname();
+mkdir(fixtureDirectory);
+%=============================================================================
+asserts.isequal(parsefile([path_test, '/ClassdefAdvancedAttributes.m']), 'classdef');
+obj = ClassdefAdvancedAttributes(3);
+asserts.isequal(obj.Value, 3);
+obj.Value = 4;
+asserts.isequal(obj.Value, 4);
+asserts.checkerror('obj.Value = [1, 2];', 'Property validation failed: Value');
+asserts.checkerror('obj.Value = ones(1, 1, 2);', 'Property validation failed: Value');
+asserts.checkerror('obj.Value = "bad";', 'Property validation failed: Value');
+asserts.isequal(obj.Value, 4);
+asserts.isequal(obj.Count, 1);
+obj.Count = 5;
+asserts.isequal(obj.Count, 5);
+asserts.checkerror('obj.Count = 1.5;', _('Value must be an integer.'));
+asserts.checkerror('obj.Count = -1;', _('Value must be positive.'));
+asserts.isequal(obj.Count, 5);
+asserts.isequal(obj.Bounded, 5);
+obj.Bounded = 8;
+asserts.isequal(obj.Bounded, 8);
+asserts.checkerror('obj.Bounded = 0;', sprintf(_('Value must exceed %s.'), '0'));
+asserts.checkerror('obj.Bounded = 11;', sprintf(_('Value must be %s or less.'), num2str(10)));
+asserts.isequal(obj.Bounded, 8);
+asserts.isequal(obj.Choice, 1);
+obj.Choice = 3;
+asserts.isequal(obj.Choice, 3);
+asserts.checkerror('obj.Choice = 2;', _('Value must be member of the compared value.'));
+asserts.isequal(obj.Choice, 3);
+objStruct = struct(obj);
+asserts.isequal(length(fieldnames(objStruct)), 0);
+objCopy = copy(obj);
+asserts.isequal(class(objCopy), 'ClassdefAdvancedAttributes');
+asserts.isequal(objCopy.Value, 1);
+asserts.isequal(objCopy.Count, 1);
+asserts.isequal(objCopy.Bounded, 5);
+asserts.isequal(objCopy.Choice, 1);
+transientFile = fullfile(fixtureDirectory, 'classdef_transient_attributes_roundtrip.mat');
+if isfile(transientFile)
+  rmfile(transientFile);
+end
+transientObject = obj;
+save(transientFile, 'transientObject');
+clear transientObject;
+clear classes;
+load(transientFile);
+asserts.isequal(class(transientObject), 'ClassdefAdvancedAttributes');
+asserts.isequal(transientObject.Value, 1);
+asserts.isequal(transientObject.Count, 1);
+asserts.isequal(transientObject.Bounded, 5);
+asserts.isequal(transientObject.Choice, 1);
+%=============================================================================
+valueObject = ClassdefValueTransientAttributes(7, 99);
+asserts.isequal(valueObject.Value, 7);
+asserts.isequal(valueObject.Cache, 99);
+valueStruct = struct(valueObject);
+asserts.isequal(fieldnames(valueStruct), {'Value'});
+asserts.isequal(valueStruct.Value, 7);
+asserts.isfalse(any(strcmp(fieldnames(valueStruct), 'Cache')));
+valueTransientFile = fullfile(fixtureDirectory, 'classdef_value_transient_roundtrip.nh5');
+if isfile(valueTransientFile)
+  rmfile(valueTransientFile);
+end
+save(valueTransientFile, 'valueObject');
+clear valueObject;
+clear classes;
+load(valueTransientFile);
+asserts.isequal(class(valueObject), 'ClassdefValueTransientAttributes');
+asserts.isequal(valueObject.Value, 7);
+asserts.isequal(valueObject.Cache, 10);
+matVersions = {'-v7', '-v7.3'};
+for v = matVersions
+  valueObject = ClassdefValueTransientAttributes(8, 100);
+  valueTransientFile = fullfile(fixtureDirectory, ['classdef_value_transient_roundtrip', v{1}, '.mat']);
+  if isfile(valueTransientFile)
+    rmfile(valueTransientFile);
+  end
+  savemat(valueTransientFile, 'valueObject', v{1});
+  clear valueObject;
+  clear classes;
+  loadmat(valueTransientFile);
+  asserts.isequal(class(valueObject), 'ClassdefValueTransientAttributes');
+  asserts.isequal(valueObject.Value, 8);
+  asserts.isequal(valueObject.Cache, 10);
+end
+%=============================================================================
+dimensionObject = ClassdefValidationDimensions();
+asserts.isequal(dimensionObject.ScalarValue, 1);
+dimensionObject.ScalarValue = ones(1, 1, 1);
+asserts.isequal(dimensionObject.ScalarValue, 1);
+asserts.checkerror('dimensionObject.ScalarValue = ones(1, 1, 2);', 'Property validation failed: ScalarValue');
+dimensionObject.RowValue = [1 2 3];
+asserts.isequal(dimensionObject.RowValue, [1 2 3]);
+asserts.checkerror('dimensionObject.RowValue = ones(1, 2, 2);', 'Property validation failed: RowValue');
+asserts.checkerror('ClassdefInvalidDefaultValidation();', 'Property validation failed: ScalarValue');
+holderObject = ClassdefValidationHolder();
+holderObject.Item = ClassdefValidationChild();
+asserts.isequal(class(holderObject.Item), 'ClassdefValidationChild');
+asserts.checkerror('holderObject.Item = 1;', 'Property validation failed: Item');
+asserts.isequal(class(holderObject.Items), 'ClassdefValidationBase');
+asserts.isequal(size(holderObject.Items), [1 2]);
+asserts.isequal([holderObject.Items.Value], [1 1]);
+validationChild = ClassdefValidationChild();
+validationChild.Value = 8;
+holderObject.Items = validationChild;
+asserts.isequal(class(holderObject.Items), 'ClassdefValidationChild');
+asserts.isequal(size(holderObject.Items), [1 2]);
+asserts.isequal([holderObject.Items.Value], [8 8]);
+handleHolder = ClassdefHandleValidationHolder();
+asserts.isequal(class(handleHolder.HandleItem), 'ClassdefAdvancedAttributes');
+asserts.isequal(class(handleHolder.HandleItems), 'ClassdefCounter');
+asserts.isequal(size(handleHolder.HandleItems), [1 2]);
+asserts.isequal(class(handleHolder.CopyableItem), 'ClassdefAdvancedAttributes');
+handleHolder.HandleItem = ClassdefAdvancedAttributes();
+asserts.isequal(class(handleHolder.HandleItem), 'ClassdefAdvancedAttributes');
+handleHolder.HandleItems = ClassdefCounter();
+asserts.isequal(class(handleHolder.HandleItems), 'ClassdefCounter');
+asserts.isequal(size(handleHolder.HandleItems), [1 2]);
+handleHolder.CopyableItem = ClassdefAdvancedAttributes();
+asserts.isequal(class(handleHolder.CopyableItem), 'ClassdefAdvancedAttributes');
+asserts.checkerror('handleHolder.HandleItem = ClassdefValidationBase();', 'Property validation failed: HandleItem');
+numericObject = ClassdefNumericValidation();
+asserts.isequal(class(numericObject.DoubleValue), 'double');
+asserts.isequal(numericObject.DoubleValue, 1);
+asserts.isequal(class(numericObject.DoubleRow), 'double');
+asserts.isequal(numericObject.DoubleRow, [2 2]);
+asserts.isequal(class(numericObject.SingleValue), 'single');
+asserts.isequal(numericObject.SingleValue, single(1));
+asserts.isequal(class(numericObject.IntValue), 'int32');
+asserts.isequal(numericObject.IntValue, int32(1));
+asserts.isequal(class(numericObject.LogicalValue), 'logical');
+asserts.istrue(numericObject.LogicalValue);
+asserts.isequal(class(numericObject.LogicalRow), 'logical');
+asserts.isequal(numericObject.LogicalRow, [true true]);
+numericObject.DoubleValue = uint8(3);
+asserts.isequal(class(numericObject.DoubleValue), 'double');
+asserts.isequal(numericObject.DoubleValue, 3);
+numericObject.DoubleRow = 9;
+asserts.isequal(class(numericObject.DoubleRow), 'double');
+asserts.isequal(numericObject.DoubleRow, [9 9]);
+numericObject.SingleValue = 4;
+asserts.isequal(class(numericObject.SingleValue), 'single');
+asserts.isequal(numericObject.SingleValue, single(4));
+numericObject.IntValue = 5;
+asserts.isequal(class(numericObject.IntValue), 'int32');
+asserts.isequal(numericObject.IntValue, int32(5));
+numericObject.IntValue = 300;
+asserts.isequal(numericObject.IntValue, int32(300));
+numericObject.LogicalValue = 300;
+asserts.isequal(class(numericObject.LogicalValue), 'logical');
+asserts.istrue(numericObject.LogicalValue);
+numericObject.LogicalValue = 0;
+asserts.isfalse(numericObject.LogicalValue);
+numericObject.LogicalRow = 0;
+asserts.isequal(numericObject.LogicalRow, [false false]);
+textObject = ClassdefTextValidation();
+asserts.isequal(class(textObject.CharValue), 'char');
+asserts.isequal(textObject.CharValue, 'abc');
+asserts.isequal(class(textObject.TwoChars), 'char');
+asserts.isequal(textObject.TwoChars, 'AB');
+asserts.isequal(class(textObject.RepeatedChars), 'char');
+asserts.isequal(textObject.RepeatedChars, 'AA');
+asserts.isequal(class(textObject.StringValue), 'string');
+asserts.isequal(textObject.StringValue, "abc");
+asserts.isequal(class(textObject.StringRow), 'string');
+asserts.isequal(textObject.StringRow, ["A" "A"]);
+asserts.isequal(class(textObject.TextScalar), 'string');
+asserts.isequal(textObject.TextScalar, "123");
+asserts.isequal(class(textObject.NonzeroText), 'char');
+asserts.isequal(textObject.NonzeroText, 'abc');
+asserts.isequal(class(textObject.TextValue), 'string');
+asserts.isequal(textObject.TextValue, "456");
+textObject.CharValue = "def";
+asserts.isequal(class(textObject.CharValue), 'char');
+asserts.isequal(textObject.CharValue, 'def');
+textObject.TwoChars = "CD";
+asserts.isequal(class(textObject.TwoChars), 'char');
+asserts.isequal(textObject.TwoChars, 'CD');
+textObject.RepeatedChars = 'Z';
+asserts.isequal(textObject.RepeatedChars, 'ZZ');
+textObject.CharValue = 65;
+asserts.isequal(class(textObject.CharValue), 'char');
+asserts.isequal(textObject.CharValue, 'A');
+textObject.StringValue = 'ghi';
+asserts.isequal(class(textObject.StringValue), 'string');
+asserts.isequal(textObject.StringValue, "ghi");
+textObject.StringValue = 123;
+asserts.isequal(class(textObject.StringValue), 'string');
+asserts.isequal(textObject.StringValue, "123");
+textObject.StringRow = "B";
+asserts.isequal(textObject.StringRow, ["B" "B"]);
+textObject.TextScalar = 789;
+asserts.isequal(class(textObject.TextScalar), 'string');
+asserts.isequal(textObject.TextScalar, "789");
+textObject.TextValue = 321;
+asserts.isequal(class(textObject.TextValue), 'string');
+asserts.isequal(textObject.TextValue, "321");
+asserts.checkerror('textObject.NonzeroText = "";', 'Property validation failed: NonzeroText');
+containerObject = ClassdefContainerValidation();
+asserts.isequal(class(containerObject.Cells), 'cell');
+asserts.isequal(size(containerObject.Cells), [1 2]);
+asserts.isequal([containerObject.Cells{:}], [1 1]);
+asserts.isequal(class(containerObject.Structs), 'struct');
+asserts.isequal(size(containerObject.Structs), [1 2]);
+asserts.isequal([containerObject.Structs.Value], [2 2]);
+asserts.isequal(class(containerObject.FunctionValue), 'function_handle');
+functionValue = containerObject.FunctionValue;
+asserts.isequal(feval(functionValue, 0), 0);
+containerObject.Cells = {3};
+asserts.isequal(size(containerObject.Cells), [1 2]);
+asserts.isequal([containerObject.Cells{:}], [3 3]);
+containerObject.Structs = struct('Value', 4);
+asserts.isequal(size(containerObject.Structs), [1 2]);
+asserts.isequal([containerObject.Structs.Value], [4 4]);
+containerObject.FunctionValue = @cos;
+functionValue = containerObject.FunctionValue;
+asserts.isequal(feval(functionValue, 0), 1);
+asserts.checkerror('ClassdefInvalidFunctionHandleExpansion();', 'Property validation failed: Functions');
+asserts.checkerror('ClassdefInvalidCellDimension();', 'Property validation failed: Cells');
+asserts.checkerror('ClassdefInvalidStructDimension();', 'Property validation failed: Structs');
+asserts.checkerror('ClassdefInvalidObjectDimension();', 'Property validation failed: Items');
+asserts.checkerror('ClassdefInvalidHandleDimension();', 'Property validation failed: Handles');
+dependentValue = ClassdefDependentValidatedValue();
+dependentValue.ScaledValue = 6;
+asserts.isequal(dependentValue.LastAssignedClass, 'single');
+asserts.isequal(class(dependentValue.StoredValue), 'single');
+asserts.isequal(dependentValue.StoredValue, single(12));
+dependentValue.ScaledRowValue = 6;
+asserts.isequal(dependentValue.LastAssignedRowClass, 'single');
+asserts.isequal(class(dependentValue.StoredRowValue), 'single');
+asserts.isequal(dependentValue.StoredRowValue, single([12 12]));
+dependentHandle = ClassdefDependentValidatedHandle();
+dependentHandle.ScaledValue = 7;
+asserts.isequal(dependentHandle.LastAssignedClass, 'single');
+asserts.isequal(class(dependentHandle.StoredValue), 'single');
+asserts.isequal(dependentHandle.StoredValue, single(14));
+dependentHandle.ScaledRowValue = 7;
+asserts.isequal(dependentHandle.LastAssignedRowClass, 'single');
+asserts.isequal(class(dependentHandle.StoredRowValue), 'single');
+asserts.isequal(dependentHandle.StoredRowValue, single([14 14]));
+delete(dependentHandle);
+%=============================================================================
+meta = metaclass('ClassdefAdvancedAttributes');
+asserts.istrue(meta.ClassDetails.Handle);
+asserts.istrue(meta.ClassDetails.Hidden);
+asserts.istrue(meta.ClassDetails.ConstructOnLoad);
+asserts.isequal(meta.ClassDetails.InferiorClasses, '');
+asserts.istrue(any(strcmp(meta.ClassDetails.Attributes, 'ConstructOnLoad')));
+asserts.istrue(any(strcmp(meta.ClassDetails.Attributes, 'Hidden')));
+inferiorMeta = metaclass('ClassdefInferiorAttributes');
+asserts.isequal(inferiorMeta.ClassDetails.InferiorClasses, '?double');
+asserts.istrue(any(strcmp(inferiorMeta.ClassDetails.Attributes, 'InferiorClasses = ?double')));
+%=============================================================================
+propertyNames = {meta.PropertyDetails.Name};
+valueDetail = meta.PropertyDetails(find(strcmp(propertyNames, 'Value')));
+asserts.isequal(valueDetail.DefaultValueExpression, '1');
+asserts.isequal(valueDetail.ValidationExpression, '(1, 1) double');
+asserts.istrue(valueDetail.AbortSet);
+asserts.istrue(valueDetail.Transient);
+asserts.istrue(valueDetail.NonCopyable);
+asserts.istrue(valueDetail.GetObservable);
+asserts.istrue(valueDetail.SetObservable);
+asserts.istrue(any(strcmp(valueDetail.Attributes, 'AbortSet')));
+asserts.istrue(any(strcmp(valueDetail.Attributes, 'Transient')));
+asserts.istrue(any(strcmp(valueDetail.Attributes, 'NonCopyable')));
+countDetail = meta.PropertyDetails(find(strcmp(propertyNames, 'Count')));
+asserts.isequal(countDetail.DefaultValueExpression, '1');
+asserts.isequal(countDetail.ValidationExpression, '(1, 1) double {mustBeInteger, mustBePositive}');
+boundedDetail = meta.PropertyDetails(find(strcmp(propertyNames, 'Bounded')));
+asserts.isequal(boundedDetail.DefaultValueExpression, '5');
+asserts.isequal(boundedDetail.ValidationExpression, '(1, 1) double {mustBeGreaterThan(0), mustBeLessThanOrEqual(10)}');
+choiceDetail = meta.PropertyDetails(find(strcmp(propertyNames, 'Choice')));
+asserts.isequal(choiceDetail.DefaultValueExpression, '1');
+asserts.isequal(choiceDetail.ValidationExpression, '(1, 1) double {mustBeMember([1, 3, 5])}');
+%=============================================================================
+eventNames = {meta.EventDetails.Name};
+eventDetail = meta.EventDetails(find(strcmp(eventNames, 'ValueChanged')));
+asserts.isequal(eventDetail.ListenAccess, 'public');
+asserts.isequal(eventDetail.NotifyAccess, 'private');
+asserts.isfalse(eventDetail.Hidden);
+asserts.istrue(any(strcmp(eventDetail.Attributes, 'ListenAccess = public')));
+asserts.istrue(any(strcmp(eventDetail.Attributes, 'NotifyAccess = private')));
+%=============================================================================
+booleanAttributes = ClassdefBooleanAttributes();
+booleanProperties = properties(booleanAttributes);
+booleanMethods = methods(booleanAttributes);
+asserts.istrue(any(strcmp(booleanProperties, 'VisibleValue')));
+asserts.istrue(any(strcmp(booleanProperties, 'MutableValue')));
+asserts.istrue(any(strcmp(booleanProperties, 'ObservableValue')));
+booleanAttributes.MutableValue = 6;
+asserts.isequal(booleanAttributes.visibleMethod(), 7);
+asserts.isequal(booleanAttributes.instanceOnly(), 6);
+asserts.istrue(any(strcmp(booleanMethods, 'visibleMethod')));
+asserts.istrue(any(strcmp(booleanMethods, 'instanceOnly')));
+asserts.checkerror('ClassdefBooleanAttributes.instanceOnly();', sprintf(_('No such property: %s'), 'instanceOnly'));
+booleanMeta = metaclass('ClassdefBooleanAttributes');
+booleanPropertyNames = {booleanMeta.PropertyDetails.Name};
+observableDetail = booleanMeta.PropertyDetails(find(strcmp(booleanPropertyNames, 'ObservableValue')));
+asserts.isfalse(observableDetail.Hidden);
+asserts.istrue(observableDetail.GetObservable);
+asserts.istrue(observableDetail.SetObservable);
+%=============================================================================
+if isvar('objCopy') && isvalid(objCopy)
+  delete(objCopy);
+end
+if isvar('transientObject') && isvalid(transientObject)
+  delete(transientObject);
+end
+rmpath(path_test);
+rmdir(fixtureDirectory, 's');
+%=============================================================================

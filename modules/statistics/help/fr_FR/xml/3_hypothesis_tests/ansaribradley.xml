@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>ansaribradley</keyword>
+  <short_description>Test d&apos;Ansari-Bradley pour dispersion egale.</short_description>
+  <syntax>
+    <syntax_item>h = ansaribradley(x, y)</syntax_item>
+    <syntax_item>h = ansaribradley(x, y, Name, Value)</syntax_item>
+    <syntax_item>[h, p, stats] = ansaribradley(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>ansaribradley</b> effectue un test non parametrique a deux echantillons pour une dispersion egale. Les vecteurs peuvent avoir des longueurs differentes. Les tableaux sont testes le long d&apos;une dimension choisie et doivent correspondre hors de cette dimension.</p>
+    <p>Les arguments nom-valeur incluent <b>Alpha</b>, <b>Dim</b>, <b>Tail</b> et <b>Method</b>. La sortie <b>stats</b> contient <b>W</b> et <b>Wstar</b>.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[x = [1 2 9 10];
+y = [4 5 6 7];
+[h, p, stats] = ansaribradley(x, y)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}vartest2">vartest2</link></see_also_item>
+    <see_also_item><link linkend="${statistics}ranksum">ranksum</link></see_also_item>
+    <see_also_item><link linkend="${statistics}normcdf">normcdf</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

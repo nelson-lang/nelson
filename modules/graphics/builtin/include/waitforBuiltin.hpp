@@ -17,5 +17,5 @@ namespace Nelson::GraphicsGateway {
 ArrayOfVector
 waitforBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
-}
+} // namespace Nelson::GraphicsGateway
 //=============================================================================

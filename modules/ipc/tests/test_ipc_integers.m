@@ -14,48 +14,48 @@
 clear('R');
 REF = uint8([3, 4]);
 ipc(getpid, 'put', REF, 'R')
-q = 0;while(~isvar('R') && q < 10), sleep(1), q = q + 1; end
-assert_isequal(R, REF);
+q = 0; while (~isvar('R') && q < 1000), sleep(0.01), q = q + 1; end
+asserts.isequal(R, REF);
 %=============================================================================
 clear('R');
 REF = int8([3, 4]);
 ipc(getpid, 'put', REF, 'R')
-q = 0;while(~isvar('R') && q < 10), sleep(1), q = q + 1; end
-assert_isequal(R, REF);
+q = 0; while (~isvar('R') && q < 1000), sleep(0.01), q = q + 1; end
+asserts.isequal(R, REF);
 %=============================================================================
 clear('R');
 REF = uint16([3, 4]);
 ipc(getpid, 'put', REF, 'R')
-q = 0;while(~isvar('R') && q < 10), sleep(1), q = q + 1; end
-assert_isequal(R, REF);
+q = 0; while (~isvar('R') && q < 1000), sleep(0.01), q = q + 1; end
+asserts.isequal(R, REF);
 %=============================================================================
 clear('R');
 REF = int16([3, 4]);
 ipc(getpid, 'put', REF, 'R')
-q = 0;while(~isvar('R') && q < 10), sleep(1), q = q + 1; end
-assert_isequal(R, REF);
+q = 0; while (~isvar('R') && q < 1000), sleep(0.01), q = q + 1; end
+asserts.isequal(R, REF);
 %=============================================================================
 clear('R');
 REF = uint32([3, 4]);
 ipc(getpid, 'put', REF, 'R')
-q = 0;while(~isvar('R') && q < 10), sleep(1), q = q + 1; end
-assert_isequal(R, REF);
+q = 0; while (~isvar('R') && q < 1000), sleep(0.01), q = q + 1; end
+asserts.isequal(R, REF);
 %=============================================================================
 clear('R');
 REF = int32([3, 4]);
 ipc(getpid, 'put', REF, 'R')
-q = 0;while(~isvar('R') && q < 10), sleep(1), q = q + 1; end
-assert_isequal(R, REF);
+q = 0; while (~isvar('R') && q < 1000), sleep(0.01), q = q + 1; end
+asserts.isequal(R, REF);
 %=============================================================================
 clear('R');
 REF = uint64([3, 4]);
 ipc(getpid, 'put', REF, 'R')
-q = 0;while(~isvar('R') && q < 10), sleep(1), q = q + 1; end
-assert_isequal(R, REF);
+q = 0; while (~isvar('R') && q < 1000), sleep(0.01), q = q + 1; end
+asserts.isequal(R, REF);
 %=============================================================================
 clear('R');
 REF = int64([3, 4]);
 ipc(getpid, 'put', REF, 'R')
-q = 0;while(~isvar('R') && q < 10), sleep(1), q = q + 1; end
-assert_isequal(R, REF);
+q = 0; while (~isvar('R') && q < 1000), sleep(0.01), q = q + 1; end
+asserts.isequal(R, REF);
 %=============================================================================

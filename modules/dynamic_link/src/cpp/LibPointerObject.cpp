@@ -10,10 +10,10 @@
 #include "LibPointerObject.hpp"
 #include "DynamicLinkSymbolObject.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "IsValidHandle.hpp"
 #include "StringHelpers.hpp"
-#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -35,7 +35,7 @@ LibPointerObject::LibPointerObject(const std::wstring& DataType)
 {
     initializeCommon();
     if (!DynamicLinkSymbolObject::isValidDataType(DataType)) {
-        Error(_W("Invalid argument type:") + DataType);
+        Error(L"Nelson:libpointer:unsupportedType", L"Invalid argument type: %s.", DataType);
     }
     this->_DataType = DataType;
     _currentType = DynamicLinkSymbolObject::GetNelsonType(DataType);
@@ -58,31 +58,31 @@ LibPointerObject::LibPointerObject(const std::wstring& DataType, ArrayOf Value)
 {
     initializeCommon();
     if (!DynamicLinkSymbolObject::isValidDataType(DataType)) {
-        Error(_W("Invalid argument type:") + DataType);
+        Error(L"Nelson:libpointer:unsupportedType", L"Invalid argument type: %s.", DataType);
     }
     this->_DataType = DataType;
     if (DataType == L"voidPtr") {
-        _currentType = Value.getDataClass();
+        _currentType = Value.dataClass();
     } else {
         _currentType = DynamicLinkSymbolObject::GetNelsonType(DataType);
     }
-    _initialDimX = static_cast<long int>(Value.getRows());
-    _initialDimY = static_cast<long int>(Value.getElementCount()) / _initialDimX;
+    _initialDimX = static_cast<long int>(Value.rows());
+    _initialDimY = static_cast<long int>(Value.elementCount()) / _initialDimX;
     _dimX = _initialDimX;
     _dimY = _initialDimY;
     if (!StringHelpers::ends_with(DataType, L"Ptr")) {
-        if (_currentType != Value.getDataClass()) {
-            Error(_W("Invalid #2 argument type expected:") + DataType);
+        if (_currentType != Value.dataClass()) {
+            Error(L"Nelson:libpointer:invalidValueType", L"Invalid #%d argument type expected:%s",
+                2, DataType);
         }
     }
     if (!StringHelpers::ends_with(DataType, L"Ptr")
-        && (Value.getElementCount() > 1 || Value.getElementCount() == 0)) {
-        Error(_W("Invalid #2 argument scalar expected."));
+        && (Value.elementCount() > 1 || Value.elementCount() == 0)) {
+        Error(L"Nelson:libpointer:scalarExpected", L"Invalid #%d argument scalar expected.", 2);
     }
-    _voidPointer = ArrayOf::allocateArrayOf(
-        Value.getDataClass(), Value.getElementCount(), stringVector(), true);
-    memcpy(_voidPointer, Value.getReadWriteDataPointer(),
-        Value.getElementSize() * Value.getElementCount());
+    _voidPointer
+        = ArrayOf::allocateArrayOf(Value.dataClass(), Value.elementCount(), stringVector(), true);
+    memcpy(_voidPointer, Value.readWriteDataPointer(), Value.elementSize() * Value.elementCount());
 }
 //=============================================================================
 LibPointerObject::LibPointerObject(
@@ -110,13 +110,13 @@ LibPointerObject::initializeCommon()
 }
 //=============================================================================
 wstringVector
-LibPointerObject::getProperties()
+LibPointerObject::properties()
 {
     return _propertiesNames;
 }
 //=============================================================================
 wstringVector
-LibPointerObject::getMethods()
+LibPointerObject::methods()
 {
     return _methodsNames;
 }
@@ -139,7 +139,7 @@ LibPointerObject::disp(Interface* io)
 }
 //=============================================================================
 void*
-LibPointerObject::getPointer()
+LibPointerObject::pointer()
 {
     return _voidPointer;
 }
@@ -165,7 +165,7 @@ LibPointerObject::isProperty(const std::wstring& propertyName)
 }
 //=============================================================================
 bool
-LibPointerObject::isWriteableProperty(const std::wstring& propertyName)
+LibPointerObject::isWritableProperty(const std::wstring& propertyName)
 {
     return false;
 }
@@ -181,14 +181,16 @@ LibPointerObject::plus(indexType offset)
 {
     LibPointerObject* newPtr = nullptr;
     if (_dimX == -1 || _dimY == -1 || _currentType == NLS_UNKNOWN) {
-        Error(_W("The datatype and size of the value must be defined."));
+        Error(L"Nelson:libpointer:undefinedValue",
+            L"The datatype and size of the value must be defined.");
     }
     if ((_dimX * _dimY) < offset) {
-        Error(_W("Offset must not be greater than the size of the pointer."));
+        Error(L"Nelson:libpointer:offsetTooLarge",
+            L"Offset must not be greater than the size of the pointer.");
     }
     void* incrementedPtr = nullptr;
     if (_voidPointer == nullptr) {
-        Error(_W("null pointer cannot be incremented."));
+        Error(L"Nelson:libpointer:nullPointerIncrement", L"null pointer cannot be incremented.");
     }
     if (_DataType == L"logical") {
         incrementedPtr = static_cast<uint8*>(_voidPointer) + offset;
@@ -233,7 +235,8 @@ LibPointerObject::plus(indexType offset)
         incrementedPtr = static_cast<wchar_t*>(_voidPointer) + offset;
     }
     if (_DataType == L"void") {
-        Error(_W("void cannot be incremented."));
+        Error(L"Nelson:libpointer:cannotIncrement:voidCannotIncremented",
+            L"void cannot be incremented.");
     }
     if (_DataType == L"logicalPtr") {
         incrementedPtr = static_cast<uint8*>(_voidPointer) + offset;
@@ -272,26 +275,28 @@ LibPointerObject::plus(indexType offset)
         incrementedPtr = static_cast<double*>(_voidPointer) + offset;
     }
     if (_DataType == L"voidPtr") {
-        Error(_W("voidPtr cannot be incremented."));
+        Error(L"Nelson:libpointer:cannotIncrement:voidPtrCannotIncremented",
+            L"voidPtr cannot be incremented.");
     }
     if (_DataType == L"libpointer") {
-        Error(_W("libpointer cannot be incremented."));
+        Error(L"Nelson:libpointer:cannotIncrement:libpointerCannotIncremented",
+            L"libpointer cannot be incremented.");
     }
     if (incrementedPtr == nullptr) {
-        Error(_DataType + L" " + _W("cannot be incremented."));
+        Error(L"Nelson:libpointer:cannotIncrement", L"%s cannot be incremented.", _DataType);
     }
     try {
         newPtr = new LibPointerObject(incrementedPtr, _DataType, _currentType);
         newPtr->_initialDimX = _initialDimX;
         newPtr->_initialDimY = _initialDimY;
     } catch (const std::bad_alloc&) {
-        Error(ERROR_MEMORY_ALLOCATION);
+        Error(L"Nelson:outOfMemory", L"Memory allocation error... You may have run out of memory!");
     }
     return newPtr;
 }
 //=============================================================================
 std::wstring
-LibPointerObject::getDataType()
+LibPointerObject::dataType()
 {
     return _DataType;
 }
@@ -300,12 +305,13 @@ void
 LibPointerObject::setDataType(const std::wstring& dataType)
 {
     if (!DynamicLinkSymbolObject::isValidDataType(dataType)) {
-        Error(_W("Invalid type."));
+        Error(L"Nelson:libpointer:invalidType", L"Invalid type.");
     }
     if (_DataType == L"voidPtr" || _DataType.empty()) {
         _currentType = DynamicLinkSymbolObject::GetNelsonType(dataType);
     } else {
-        Error(_W("Incompatible types") + L" " + _DataType + L" --> " + dataType);
+        Error(L"Nelson:libpointer:incompatibleTypes", L"Incompatible types %s --> %s", _DataType,
+            dataType);
     }
     _DataType = dataType;
 }
@@ -314,8 +320,9 @@ void
 LibPointerObject::reshape(indexType dimX, indexType dimY)
 {
     if (!StringHelpers::ends_with(_DataType, L"Ptr")) {
-        Error(_W("Only numericPtr can be reshaped."));
+        Error(L"Nelson:libpointer:cannotReshape", L"Only numericPtr can be reshaped.");
     }
+    // Only the intended shape is recorded; get() refuses a value whose size is unknown.
     _dimX = static_cast<long int>(dimX);
     _dimY = static_cast<long int>(dimY);
 }
@@ -333,33 +340,36 @@ LibPointerObject::get(ArrayOf& res)
     fieldvalues.push_back(value);
     fieldnames.push_back(L"DataType");
     fieldvalues.push_back(datatype);
-    res = ArrayOf::structConstructor(fieldnames, fieldvalues);
+    res = ArrayOf::structArray(fieldnames, fieldvalues);
 }
 //=============================================================================
 bool
 LibPointerObject::get(const std::wstring& propertyName, ArrayOf& res)
 {
     if (propertyName == L"DataType") {
-        res = ArrayOf::characterArrayConstructor(_DataType);
+        res = ArrayOf::characterArray(_DataType);
         return true;
     }
     if (propertyName == L"Value") {
         if (_dimX == -1 || _dimY == -1 || _currentType == NLS_UNKNOWN || _voidPointer == nullptr) {
-            Error(_W("The datatype and size of the value must be defined."));
+            Error(L"Nelson:libpointer:undefinedValue",
+                L"The datatype and size of the value must be defined.");
         }
+        // A pointer returned by a native call has no size of its own: reshape() declares
+        // how many elements may be read.
         void* copyPointer
             = ArrayOf::allocateArrayOf(_currentType, _dimX * _dimY, stringVector(), true);
         if (_initialDimX != -1 && _initialDimY != -1) {
             res = ArrayOf(_currentType);
             if (_initialDimX * _initialDimY > _dimX * _dimY) {
-                memcpy(copyPointer, _voidPointer, res.getElementSize() * (_dimX * _dimY));
+                memcpy(copyPointer, _voidPointer, res.elementSize() * (_dimX * _dimY));
             } else {
-                memcpy(copyPointer, _voidPointer,
-                    res.getElementSize() * (_initialDimX * _initialDimY));
+                memcpy(
+                    copyPointer, _voidPointer, res.elementSize() * (_initialDimX * _initialDimY));
             }
         } else {
             res = ArrayOf(_currentType);
-            memcpy(copyPointer, _voidPointer, res.getElementSize() * (_dimX * _dimY));
+            memcpy(copyPointer, _voidPointer, res.elementSize() * (_dimX * _dimY));
         }
         res = ArrayOf(_currentType, Dimensions(_dimX, _dimY), copyPointer);
         return true;

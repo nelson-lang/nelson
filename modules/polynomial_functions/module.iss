@@ -9,12 +9,16 @@
 ;==============================================================================
 #define MODULE_NAME "polynomial_functions"
 ;==============================================================================
+Source: {#RootPath}bin\{#BinPath}\libnlsPolynomial_functions_builtin.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_POLYNOMIAL_FUNCTIONS};
+;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\loader.m; DestDir: {app}\modules\{#MODULE_NAME}\;Components: {#COMPONENT_POLYNOMIAL_FUNCTIONS};
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\etc\startup.m; DestDir: {app}\modules\{#MODULE_NAME}\etc\;Components: {#COMPONENT_POLYNOMIAL_FUNCTIONS};
 Source: {#RootPath}modules\{#MODULE_NAME}\etc\finish.m; DestDir: {app}\modules\{#MODULE_NAME}\etc\;Components: {#COMPONENT_POLYNOMIAL_FUNCTIONS};
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\functions\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\;Components: {#COMPONENT_POLYNOMIAL_FUNCTIONS};
+;==============================================================================
+Source: {#RootPath}modules\{#MODULE_NAME}\examples\*; DestDir: {app}\modules\{#MODULE_NAME}\examples\; Flags: recursesubdirs;Components: {#COMPONENT_POLYNOMIAL_FUNCTIONS};
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\help\*.nhz; DestDir: {app}\modules\{#MODULE_NAME}\help\; Flags: recursesubdirs;Components: {#COMPONENT_POLYNOMIAL_FUNCTIONS} and {#COMPONENT_HELP_FILES};
 ;==============================================================================

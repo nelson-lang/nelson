@@ -1,0 +1,91 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Allan CORNET",
+    "created": "2026-08-08",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "comments": "Acausal 1-D contact demo: a mass driven by a constant force meets a compliant one-sided contact (ElastoGap) with an initial gap. While the gap is open the mass moves freely; once closed, the contact acts as a spring-damper that pushes back -- a unilateral (non-penetrating) contact, regularised so it stays event-free. The three translational flanges share one physical node. The Scope plots the mass position; ToWorkspace exports it.",
+  "name": "Acausal Contact (ElastoGap)",
+  "blocks": [
+    {
+      "id": "W",
+      "type": "Fixed",
+      "params": { "s0": 0 },
+      "x": 150,
+      "y": 400,
+      "rotation": 90
+    },
+    {
+      "id": "EG",
+      "type": "ElastoGap",
+      "params": { "c": 100, "d": 5, "s_rel0": 0.5 },
+      "x": 150,
+      "y": 280,
+      "rotation": 90
+    },
+    {
+      "id": "M",
+      "type": "Mass",
+      "params": { "m": 1, "s0": 0.5, "v0": 0 },
+      "x": 150,
+      "y": 90,
+      "rotation": 270
+    },
+    {
+      "id": "F",
+      "type": "ConstantForce",
+      "params": { "F": -2 },
+      "x": 0,
+      "y": 210,
+      "rotation": 180
+    },
+    {
+      "id": "PS",
+      "type": "PositionSensor",
+      "params": {},
+      "x": 0,
+      "y": 490,
+      "rotation": 90
+    },
+    {
+      "id": "tw",
+      "type": "toWorkspace",
+      "params": { "VariableName": "s" },
+      "inputs": 1,
+      "outputs": 0,
+      "x": 310,
+      "y": 130,
+      "rotation": 0
+    },
+    {
+      "id": "sc",
+      "type": "scope",
+      "params": {
+        "TMin": "",
+        "TMax": "",
+        "YMin": "",
+        "YMax": "",
+        "width": 320,
+        "height": 220,
+        "ShowTickLabels": true
+      },
+      "x": 310,
+      "y": 300,
+      "rotation": 0
+    }
+  ],
+  "connections": [
+    { "from": "PS", "to": "tw", "fromIndex": 0, "toIndex": 0 },
+    { "from": "PS", "to": "sc", "fromIndex": 0, "toIndex": 0 }
+  ],
+  "solver": "ode4",
+  "runtime": 4,
+  "sampleTime": 0.01,
+  "physicalWires": [
+    { "pins": ["F.flange", "M.flange", "PS.flange", "EG.a"] },
+    { "pins": ["EG.b", "W.flange"] }
+  ]
+}

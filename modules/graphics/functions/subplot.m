@@ -25,7 +25,7 @@ function varargout = subplot(varargin)
     if (ischar(varargin{1}))
       str = varargin{1};
       if (length(str) ~= 3)
-        error(_('Unknown command option.'));
+        error('Nelson:subplot:unknownCommandOption', 'Unknown command option.');
       end
       m = double(str(1)) - double('0');
       n = double(str(2)) - double('0');
@@ -39,36 +39,34 @@ function varargout = subplot(varargin)
       m = round(varargin{1}(1));
     end
     if (nargin >= 2)
-      n = round(varargin{2}(1)); 
+      n = round(varargin{2}(1));
     end
     if (nargin >= 3)
       p = round(varargin{3});
       p = p(:);
     end
   end
-  
-  row = m + 1 - round(fix((p - 1) ./ n) + 1);
+
+  row = round(fix((p - 1) ./ n) + 1);
   col = round(mod(p - 1, n) + 1);
-  width = 1.0 / n;
-  height = 1.0 / m;
-  left = (col - 1) * width;
-  bottom = (row - 1) * height;
-  position = [left, bottom, left + width, bottom + height];
+  position = subplotPosition(m, n, row, col);
   if (length(p) > 1)
     position = [min(position(:, 1:2)), max(position(:, 3:4))];
   end
   position = [position(1), position(2), position(3) - position(1), position(4) - position(2)];
   fig = gcf();
-  children = fig.Children;
+  compactVerticalStack = m == 4 && n == 1 && isDefaultFigureSize(fig);
+  largeVerticalStack = m == 4 && n == 1 && isLargeFigureSize(fig);
+  children = allchild(fig);
   found = false;
   childrenToDelete = [];
-  for (i=1:length(children))
+  for (i = 1:length(children))
     if (isgraphics(children(i), 'axes'))
-      outerPosition = children(i).OuterPosition;
-      if (all(outerPosition == position))
+      currentPosition = children(i).Position;
+      if (all(abs(currentPosition - position) < 1e-12))
         axes(children(i));
         found = true;
-      elseif (intersectionBetweenRectangles(outerPosition, position))
+      elseif (intersectionBetweenRectangles(currentPosition, position))
         childrenToDelete = [childrenToDelete, i];
       end
     end
@@ -76,12 +74,40 @@ function varargout = subplot(varargin)
   children(childrenToDelete) = [];
   fig.Children = children;
   if (~found || isempty(ax))
-    ax = axes('OuterPosition', position, 'LineStyleOrder', '-');
+    ax = axes('Position', position, 'LineStyleOrder', '-', 'Box', 'off');
+  end
+  if compactVerticalStack && isprop(ax, 'FontSize') && abs(ax.FontSize - 10) < 1e-12
+    ax.FontSize = 8.5;
+  elseif largeVerticalStack && isprop(ax, 'FontSize') && abs(ax.FontSize - 10) < 1e-12
+    ax.FontSize = 9.5;
   end
   fig.NextPlot = 'add';
-  if (nargout > 0) 
+  if (nargout > 0)
     varargout{1} = ax;
   end;
+end
+%=============================================================================
+function tf = isDefaultFigureSize(fig)
+  position = fig.Position;
+  tf = numel(position) >= 4 && abs(position(3) - 859) <= 1 && abs(position(4) - 517) <= 1;
+end
+%=============================================================================
+function tf = isLargeFigureSize(fig)
+  position = fig.Position;
+  tf = numel(position) >= 4 && position(3) >= 1500 && position(4) >= 900;
+end
+%=============================================================================
+function position = subplotPosition(m, n, row, col)
+  defaultPosition = [0.13, 0.11, 0.775, 0.815];
+  horizontalGapRatio = 6 / 19;
+  verticalGapRatio = 7 / 18;
+  width = defaultPosition(3) / (n + (n - 1) * horizontalGapRatio);
+  height = defaultPosition(4) / (m + (m - 1) * verticalGapRatio);
+  horizontalGap = horizontalGapRatio * width;
+  verticalGap = verticalGapRatio * height;
+  left = defaultPosition(1) + (col - 1) * (width + horizontalGap);
+  bottom = defaultPosition(2) + (m - row) * (height + verticalGap);
+  position = [left, bottom, left + width, bottom + height];
 end
 %=============================================================================
 function tf = intersectionBetweenRectangles(rectangle1, rectangle2)

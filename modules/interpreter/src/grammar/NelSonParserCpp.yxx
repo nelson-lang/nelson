@@ -1,0 +1,720 @@
+%require "3.2"
+%language "C++"
+%skeleton "lalr1.cc"
+%defines
+%define api.namespace {Nelson}
+%define api.parser.class {NelSonParser}
+%define api.value.type {ParseRHS}
+%parse-param { LexerContext &lexerContext }
+%parse-param { ParserContext &parserContext }
+%lex-param { LexerContext &lexerContext }
+%code requires {
+#include "NelsonParserHelpers.hpp"
+}
+%{
+// clang-format off
+//=============================================================================
+// Copyright (c) 2016-present Allan CORNET (Nelson)
+//=============================================================================
+// This file is part of Nelson.
+//=============================================================================
+// LICENCE_BLOCK_BEGIN
+// SPDX-License-Identifier: LGPL-3.0-or-later
+// LICENCE_BLOCK_END
+//=============================================================================
+// clang-format off
+// Generated C++ parser output is committed as NelSonParserCpp.cpp/.hpp.
+//=============================================================================
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include "NelsonParserHelpers.hpp"
+#include "AbstractSyntaxTree.hpp"
+#include "i18n.hpp"
+#include "ErrorID.hpp"
+#include "LexerContext.hpp"
+#include "ParserInterface.hpp"
+#include "AnonymousFunctionText.hpp"
+//=============================================================================
+#if defined(__GNUC__)
+#pragma GCC diagnostic ignored "-Wfree-nonheap-object"
+#endif
+
+//=============================================================================
+extern int yylex(Nelson::LexerContext& lexerContext);
+extern thread_local Nelson::ParseRHS yylval;
+namespace Nelson {
+  static int yylex(ParseRHS* semanticValue, LexerContext& lexerContext);
+}
+extern int yydebug;
+//=============================================================================
+namespace Nelson {
+  void yyerror(Nelson::LexerContext& lexerContext, Nelson::ParserContext& parserContext, const char* s) {
+    return;
+  }
+}
+//=============================================================================
+using namespace Nelson;
+//=============================================================================
+%}
+
+%token IDENT
+%token NUMERIC ENDQSTMNT ENDSTMNT
+%token LE GE EQ
+%token DOTTIMES DOTRDIV DOTLDIV
+%token DOTPOWER DOTTRANSPOSE
+%token CHARACTER STRING SPECIALCALL
+%token END IF FUNCTION FOR BREAK
+%token MAGICEND
+%token WHILE ELSE ELSEIF
+%token SWITCH CASE OTHERWISE CONTINUE
+%token TRY CATCH
+%token FIELD REFLPAREN REFRPAREN
+%token KEYBOARD RETURN VARARGIN VARARGOUT
+%token ABORT
+%token ENDFUNCTION
+%token ARGUMENTS
+
+%left SOR
+%left SAND
+%left '|'
+%left '&'
+%left '<' LE '>' GE EQ NE
+%left ':'
+%left '+' '-'
+%left '*' '/' '\\' DOTTIMES DOTRDIV DOTLDIV
+%left POS NEG NOT
+%right '^' DOTPOWER
+%nonassoc '\'' DOTTRANSPOSE
+
+%%
+
+program:
+  statementList { setParsedScriptBlock($1.v.p);}
+  | functionDefList |
+  | error {yyxpt(Nelson::resolveMessageTemplate("Nelson:interpreter:statementListFunctionDefinition", "statement list or function definition"));}
+  ;
+
+functionDef:
+   FUNCTION  returnDeclaration IDENT '(' inputArgumentList ')' functionSignatureTerminator statementList {
+   ParseRHS lhsRhs = $2;
+   ParseRHS nameRhs = $3;
+   ParseRHS rhsRhs = $5;
+   ParseRHS codeRhs = $8;
+   functionBody(lhsRhs, nameRhs, rhsRhs, codeRhs);
+  }
+  | FUNCTION  IDENT '(' inputArgumentList ')' functionSignatureTerminator statementList {
+   ParseRHS lhsRhs;
+   lhsRhs.v.p = nullptr;
+   ParseRHS nameRhs = $2;
+   ParseRHS rhsRhs = $4;
+   ParseRHS codeRhs = $7;
+   functionBody(lhsRhs, nameRhs, rhsRhs, codeRhs);
+   }
+   | FUNCTION  returnDeclaration IDENT functionSignatureTerminator statementList {
+    ParseRHS lhsRhs = $2;
+    ParseRHS nameRhs = $3;
+    ParseRHS rhsRhs;
+    rhsRhs.v.p = nullptr;
+    ParseRHS codeRhs = $5;
+   functionBody(lhsRhs, nameRhs, rhsRhs, codeRhs);
+   }
+   | FUNCTION  IDENT functionSignatureTerminator statementList {
+    ParseRHS lhsRhs;
+    lhsRhs.v.p = nullptr;
+    ParseRHS nameRhs = $2;
+    ParseRHS rhsRhs;
+    rhsRhs.v.p = nullptr;
+    ParseRHS codeRhs = $4;
+   functionBody(lhsRhs, nameRhs, rhsRhs, codeRhs);
+   }
+   | FUNCTION  returnDeclaration IDENT '(' ')' functionSignatureTerminator statementList {
+    ParseRHS lhsRhs = $2;
+    ParseRHS nameRhs = $3;
+    ParseRHS rhsRhs;
+    rhsRhs.v.p = nullptr;
+    ParseRHS codeRhs = $7;
+   functionBody(lhsRhs, nameRhs, rhsRhs, codeRhs);
+   }
+   | FUNCTION  IDENT '(' ')' functionSignatureTerminator statementList {
+    ParseRHS lhsRhs;
+    lhsRhs.v.p = nullptr;
+    ParseRHS nameRhs = $2;
+    ParseRHS rhsRhs;
+    rhsRhs.v.p = nullptr;
+   ParseRHS codeRhs = $6;
+   functionBody(lhsRhs, nameRhs, rhsRhs, codeRhs);
+   }
+   | FUNCTION  returnDeclaration IDENT '(' inputArgumentList ')' functionSignatureTerminator emptyFunctionBody {
+   ParseRHS lhsRhs = $2;
+   ParseRHS nameRhs = $3;
+   ParseRHS rhsRhs = $5;
+   ParseRHS codeRhs = $8;
+   functionBody(lhsRhs, nameRhs, rhsRhs, codeRhs);
+   YYACCEPT;
+  }
+  | FUNCTION  IDENT '(' inputArgumentList ')' functionSignatureTerminator emptyFunctionBody {
+   ParseRHS lhsRhs;
+   lhsRhs.v.p = nullptr;
+   ParseRHS nameRhs = $2;
+   ParseRHS rhsRhs = $4;
+   ParseRHS codeRhs = $7;
+   functionBody(lhsRhs, nameRhs, rhsRhs, codeRhs);
+   YYACCEPT;
+   }
+   | FUNCTION  returnDeclaration IDENT '(' inputArgumentList ')' emptyFunctionBody {
+   ParseRHS lhsRhs = $2;
+   ParseRHS nameRhs = $3;
+   ParseRHS rhsRhs = $5;
+   ParseRHS codeRhs = $7;
+   functionBody(lhsRhs, nameRhs, rhsRhs, codeRhs);
+   YYACCEPT;
+  }
+  | FUNCTION  IDENT '(' inputArgumentList ')' emptyFunctionBody {
+   ParseRHS lhsRhs;
+   lhsRhs.v.p = nullptr;
+   ParseRHS nameRhs = $2;
+   ParseRHS rhsRhs = $4;
+   ParseRHS codeRhs = $6;
+   functionBody(lhsRhs, nameRhs, rhsRhs, codeRhs);
+   YYACCEPT;
+   }
+   | FUNCTION  error {yyxpt(Nelson::resolveMessageTemplate("Nelson:interpreter:legalFunctionNameReturn", "legal function name or return declaration after 'function'"), $1);}
+   | FUNCTION  IDENT error {yyxpt(Nelson::resolveMessageTemplate("Nelson:interpreter:listStatementListAfter", "argument list or statement list after identifier '") + $2.v.p->text.c_str() + "'",$2);}
+   | FUNCTION  IDENT '('  error {yyxpt(Nelson::resolveMessageTemplate("Nelson:interpreter:possiblyEmptyListAfter", "(possibly empty) argument list after '('"),$3);}
+   | FUNCTION  IDENT '(' inputArgumentList ')' error {yyxpt(Nelson::resolveMessageTemplate("Nelson:interpreter:statementListAfter", "statement list after ')'"),$5);}
+   | FUNCTION  returnDeclaration  error {yyxpt(Nelson::resolveMessageTemplate("Nelson:interpreter:functionNameFunctionDeclared", "function name for function declared"),$1);}
+   | FUNCTION  returnDeclaration IDENT error {yyxpt(Nelson::resolveMessageTemplate("Nelson:interpreter:listStatementListFollowing", "argument list or statement list following function name :") + $3.v.p->text.c_str(), $3);}
+   | FUNCTION  returnDeclaration IDENT '('  error {yyxpt(Nelson::resolveMessageTemplate("Nelson:interpreter:possiblyEmptyListAfter", "(possibly empty) argument list after '('"),$4);}
+   | FUNCTION  returnDeclaration IDENT '(' inputArgumentList ')' error {yyxpt(Nelson::resolveMessageTemplate("Nelson:interpreter:statementListAfter", "statement list after ')'"),$6);}
+    ;
+
+/* A function signature may be followed by a newline, a ';' (both are newLine
+   tokens), or a ',' so that a one-line function 'function y = f(x), y = x; end'
+   is accepted in addition to the multi-line form. */
+functionSignatureTerminator:
+  newLine
+  | columnSep
+  ;
+
+functionDefList:
+  functionDef
+  | functionDefList functionDef
+  ;
+
+emptyFunctionBody:
+  YYEOF {
+    AbstractSyntaxTreePtr emptyStatement = AbstractSyntaxTree::createNode(null_node, "", -1);
+    $$.v.p = AbstractSyntaxTree::createNode(OP_BLOCK, emptyStatement, -1);
+  }
+  ;
+
+returnDeclaration:
+  VARARGOUT '=' {$$.v.p = $1.v.p;}
+  | IDENT '=' {$$.v.p = $1.v.p;}
+  | '[' argumentList ']' '=' {$$.v.p = $2.v.p;}
+  | '[' ']' '=' {$$.v.p = nullptr;}
+  | IDENT error {yyxpt(Nelson::resolveMessageTemplate("Nelson:interpreter:symbolAfterIdentifierReturn", "an '=' symbol after identifier in return declaration"),$1);}
+  | '[' error {yyxpt(Nelson::resolveMessageTemplate("Nelson:interpreter:validListReturnReturn", "a valid list of return arguments in return declaration"),$1);}
+  | '[' argumentList error {yyxpt(Nelson::resolveMessageTemplate("Nelson:interpreter:matchingReturnDeclaration", "matching ']' in return declaration for '['"),$1);}
+  | '[' argumentList ']' error {yyxpt(Nelson::resolveMessageTemplate("Nelson:interpreter:symbolAfterReturnDeclaration", "an '=' symbol after return declaration"),$3);}
+  ;
+
+argumentList:
+  argument {$$.v.p = $1.v.p;}
+  | argumentList columnSep argument {$$.v.p = $1.v.p; $$.v.p->addChild($3.v.p);}
+  ;
+
+argument:
+  IDENT
+  ;
+
+inputArgumentList:
+  inputArgument {$$.v.p = $1.v.p;}
+  | inputArgumentList columnSep inputArgument {$$.v.p = $1.v.p; $$.v.p->addChild($3.v.p);}
+  ;
+
+inputArgument:
+  IDENT
+  | '~' {$$.v.p = AbstractSyntaxTree::createNode(id_node, "~", $1.v.i);}
+  ;
+
+statementList:
+  statement {$$.v.p = AbstractSyntaxTree::createNode(OP_BLOCK,$1.v.p,$1.v.p->getContext());} |
+  statementList statement {$$.v.p = $1.v.p; $$.v.p->addChild($2.v.p);}
+  ;
+
+statement:
+  statementType ENDQSTMNT {
+      $$.v.p = AbstractSyntaxTree::createNode(OP_QSTATEMENT,NULL,$2.v.i);
+      $$.v.p->down = $1.v.p;
+  }
+  | statementType ENDSTMNT {
+     $$.v.p = AbstractSyntaxTree::createNode(OP_RSTATEMENT,NULL,$2.v.i);
+     $$.v.p->down = $1.v.p;
+  }
+  | statementType columnSep {
+    $$.v.p = AbstractSyntaxTree::createNode(OP_RSTATEMENT,NULL,$2.v.i);
+    $$.v.p->down = $1.v.p;
+  }
+  ;
+
+statementType:
+  assignmentStatement
+  | expr
+  | {$$.v.p = AbstractSyntaxTree::createNode(null_node,"",-1);}
+  | multiFunctionCall
+  | forStatement
+  | breakStatement
+  | continueStatement
+  | whileStatement
+  | ifStatement
+  | switchStatement
+  | tryStatement
+  | pauseStatement
+  | returnStatement
+  | specialSyntaxStatement
+  | ABORT
+  | functionTerminatorStatement
+  | argumentsStatement
+  ;
+
+argumentsStatement:
+  ARGUMENTS {$$.v.p = AbstractSyntaxTree::createNode(OP_ARGUMENTS, $1.v.p, $1.v.p->getContext());}
+  ;
+
+functionTerminatorStatement:
+  ENDFUNCTION {$$.v.p = AbstractSyntaxTree::createNode(reserved_node, NLS_KEYWORD_RETURN, $1.v.p->getContext());};
+
+specialSyntaxStatement:
+  SPECIALCALL {$$.v.p = AbstractSyntaxTree::createNode(OP_SCALL,$1.v.p,$1.v.p->getContext());}
+  | IDENT NUMERIC {$$.v.p = AbstractSyntaxTree::createNode(OP_SCALL,$1.v.p,$2.v.p,$1.v.p->getContext());}
+  | STRING STRING {$$.v.p = AbstractSyntaxTree::createNode(OP_SCALL,$1.v.p,$2.v.p,$1.v.p->getContext());}
+  | CHARACTER CHARACTER {$$.v.p = AbstractSyntaxTree::createNode(OP_SCALL,$1.v.p,$2.v.p,$1.v.p->getContext());}
+  | IDENT STRING {$$.v.p = AbstractSyntaxTree::createNode(OP_SCALL,$1.v.p,$2.v.p,$1.v.p->getContext());}
+  | IDENT CHARACTER {$$.v.p = AbstractSyntaxTree::createNode(OP_SCALL,$1.v.p,$2.v.p,$1.v.p->getContext());}
+  | IDENT IDENT {$$.v.p = AbstractSyntaxTree::createNode(OP_SCALL,$1.v.p,$2.v.p,$1.v.p->getContext()); }
+  | specialSyntaxStatement STRING {$1.v.p->addChild($2.v.p);}
+  | specialSyntaxStatement CHARACTER {$1.v.p->addChild($2.v.p);}
+  | specialSyntaxStatement IDENT {$1.v.p->addChild($2.v.p);}
+  | specialSyntaxStatement NUMERIC {$1.v.p->addChild($2.v.p);}
+
+returnStatement:
+  RETURN
+  ;
+
+pauseStatement:
+  KEYBOARD
+  ;
+
+continueStatement:
+   CONTINUE
+   ;
+breakStatement:
+   BREAK
+   ;
+
+tryStatement:
+  TRY statementList optionalCatch END
+  {
+    $$.v.p = $1.v.p;
+    $$.v.p->addChild($2.v.p);
+    if ($3.v.p != nullptr) $$.v.p->addChild($3.v.p);
+  }
+  | TRY statementList optionalCatch error
+  {yyxpt(formatI18nMessage(Nelson::resolveMessageTemplate("Nelson:interpreter:matchingEndClauseFrom", "matching 'end' to '%s' clause from line %s"), "try", decodeline($1)),$4);}
+        ;
+
+optionalCatch:
+  CATCH IDENT newLine statementList {
+    $$.v.p = $2.v.p;
+    $$.v.p->addChild($4.v.p);
+  }
+  | CATCH IDENT newLine {
+    // empty catch body: give the identifier node the same block-shaped child as usual
+    $$.v.p = $2.v.p;
+    AbstractSyntaxTreePtr emptyStatement = AbstractSyntaxTree::createNode(OP_QSTATEMENT, NULL, $3.v.i);
+    emptyStatement->down = AbstractSyntaxTree::createNode(null_node, "", -1);
+    $$.v.p->addChild(AbstractSyntaxTree::createNode(OP_BLOCK, emptyStatement, emptyStatement->getContext()));
+  }
+  | CATCH statementList {$$.v.p = $2.v.p;}
+  | {$$.v.p = nullptr;}
+  ;
+
+switchStatement:
+  SWITCH  expr switchExprTerminator caseBlock otherwiseClause END {
+    $$.v.p = $1.v.p;
+    $$.v.p->addChild($2.v.p);
+    if ($4.v.p != nullptr) $$.v.p->addChild($4.v.p);
+    if ($5.v.p != nullptr) $$.v.p->addChild($5.v.p);
+  }
+  | SWITCH  expr switchExprTerminator caseBlock otherwiseClause error {
+    yyxpt(formatI18nMessage(Nelson::resolveMessageTemplate("Nelson:interpreter:matchingEndClauseFrom", "matching 'end' to '%s' clause from line %s"), "switch", decodeline($1)),$6);
+  }
+  ;
+
+// The switch body (caseBlock) only accepts CASE/OTHERWISE/END, so unlike an
+// if/for/while body it cannot swallow a stray newline as an empty statement.
+// A ',' after the switch expression stays two tokens (columnSep then ENDSTMNT),
+// whereas ';' collapses with its newline into one ENDQSTMNT in the lexer. Absorb
+// any run of trailing newlines here so `switch x,<newline>` keeps command syntax.
+switchExprTerminator:
+  optionalEndStatement
+  | switchExprTerminator newLine
+  ;
+
+optionalEndStatement:
+  columnSep
+  | ENDSTMNT
+  | ENDQSTMNT
+  | ';'
+  ;
+
+newLine:
+  ENDSTMNT
+  | ENDQSTMNT
+  ;
+
+
+caseBlock:
+  {$$.v.p = nullptr;}
+  | caseList
+  ;
+
+caseList:
+  caseStatement {
+    $$.v.p = AbstractSyntaxTree::createNode(OP_CASEBLOCK,$1.v.p,$1.v.p->getContext());
+  }
+  | caseList caseStatement {
+    $$.v.p = $1.v.p; $$.v.p->addChild($2.v.p);
+  }
+  ;
+
+caseStatement:
+  CASE expr optionalEndStatement statementList {
+    $$.v.p = $1.v.p; $$.v.p->addChild($2.v.p); $$.v.p->addChild($4.v.p);
+  }
+  | CASE expr optionalEndStatement {
+    $$.v.p = $1.v.p; $$.v.p->addChild($2.v.p);
+  }
+  ;
+
+otherwiseClause:
+  OTHERWISE statementList {
+    $$.v.p = $2.v.p;
+  }
+  | OTHERWISE {
+    $$.v.p = nullptr;
+  }
+  | {
+    $$.v.p = nullptr;
+  }
+  ;
+
+forStatement:
+  FOR forIndexExpression optionalEndStatement END {
+   $$.v.p = $1.v.p;
+   $$.v.p->addChild($2.v.p);
+  }
+  | FOR forIndexExpression optionalEndStatement statementList END {
+    $$.v.p = $1.v.p;
+    $$.v.p->addChild($2.v.p);
+    $$.v.p->addChild($4.v.p);
+  }
+  | FOR forIndexExpression optionalEndStatement statementList error
+           {yyxpt(formatI18nMessage(Nelson::resolveMessageTemplate("Nelson:interpreter:endMatchStatementFrom", "'end' to match '%s' statement from line %s"), "for", decodeline($1)),$5);}
+  ;
+
+forIndexExpression:
+  '(' IDENT '=' expr ')' {$$.v.p = $2.v.p; $$.v.p->addChild($4.v.p);}
+  | IDENT '=' expr {$$.v.p = $1.v.p; $$.v.p->addChild($3.v.p);}
+  | IDENT {$$.v.p = $1.v.p;
+        $$.v.p->addChild(AbstractSyntaxTree::createNode(OP_RHS, AbstractSyntaxTree::createNode(id_node,$1.v.p->text.c_str(), $1.v.p->getContext()),$1.v.p->getContext())); }
+  | '(' IDENT '=' expr error {yyxpt(Nelson::resolveMessageTemplate("Nelson:interpreter:matchingRightParenthesis", "matching right parenthesis"),$1);}
+  | '(' IDENT '=' error {yyxpt(Nelson::resolveMessageTemplate("Nelson:interpreter:indexingExpression", "indexing expression"),$3);}
+  | '(' IDENT error {yyxpt(Nelson::resolveMessageTemplate("Nelson:interpreter:equalsOperatorAfterLoop", "equals operator after loop index"),$2);}
+  | '(' error {yyxpt(Nelson::resolveMessageTemplate("Nelson:interpreter:identifierThatLoopVariable", "identifier that is the loop variable"),$1);}
+  | IDENT '=' error {yyxpt(Nelson::resolveMessageTemplate("Nelson:interpreter:indexingExpression", "indexing expression"),$2);}
+  | error {yyxpt(Nelson::resolveMessageTemplate("Nelson:interpreter:identifierAssignmentIdExpr", "identifier or assignment (id = expr) after 'for' "));}
+  ;
+
+whileStatement:
+  WHILE expr optionalEndStatement END {
+    $$.v.p = $1.v.p;
+    $$.v.p->addChild($2.v.p);
+  }
+  | WHILE expr optionalEndStatement statementList END {
+    $$.v.p = $1.v.p;
+    $$.v.p->addChild($2.v.p);
+    $$.v.p->addChild($4.v.p);
+  }
+  | WHILE error {yyxpt(Nelson::resolveMessageTemplate("Nelson:interpreter:testExpressionAfterWhile", "test expression after 'while'"),$1);}
+  | WHILE expr optionalEndStatement statementList error {yyxpt(formatI18nMessage(Nelson::resolveMessageTemplate("Nelson:interpreter:endMatchStatementFrom", "'end' to match '%s' statement from line %s"), "while", decodeline($1)),$5);}
+  ;
+
+ifStatement:
+  IF conditionedStatement elseIfBlock elseStatement END {
+    $$.v.p = $1.v.p;
+    $$.v.p->addChild($2.v.p);
+    if ($3.v.p != nullptr) $$.v.p->addChild($3.v.p);
+    if ($4.v.p != nullptr) $$.v.p->addChild($4.v.p);
+  }
+  | IF error {yyxpt(Nelson::resolveMessageTemplate("Nelson:interpreter:conditionExpressionIf", "condition expression for 'if'"),$1);}
+  | IF conditionedStatement elseIfBlock elseStatement error {yyxpt(formatI18nMessage(Nelson::resolveMessageTemplate("Nelson:interpreter:endMatchStatementFrom", "'end' to match '%s' statement from line %s"), "if", decodeline($1)),$5);}
+  ;
+
+conditionedStatement:
+  expr optionalEndStatement statementList {
+    $$.v.p = AbstractSyntaxTree::createNode(OP_CSTAT,$1.v.p,$3.v.p,$1.v.p->getContext());
+  }
+  | expr optionalEndStatement {
+	  $$.v.p = AbstractSyntaxTree::createNode(OP_CSTAT,$1.v.p,$1.v.p->getContext());
+	}
+  | expr error {yyxpt("valid list of statements after condition",$2);}
+  ;
+
+elseIfBlock:
+  /* empty */ {$$.v.p = nullptr;}
+  | elseIfStatementList
+  ;
+
+elseIfStatementList:
+  elseIfStatement {
+    $$.v.p = AbstractSyntaxTree::createNode(OP_ELSEIFBLOCK,$1.v.p,$1.v.p->getContext());
+  }
+  | elseIfStatementList elseIfStatement {
+    $$.v.p = $1.v.p; $$.v.p->addChild($2.v.p);
+  }
+  ;
+
+elseIfStatement:
+  ELSEIF conditionedStatement {
+    $$.v.p = $2.v.p;
+  }
+  | ELSEIF error {yyxpt(Nelson::resolveMessageTemplate("Nelson:interpreter:testConditionElseifClause", "test condition for 'elseif' clause"),$1);}
+  ;
+
+elseStatement:
+  ELSE statementList {
+    $$.v.p = $2.v.p;
+  }
+  |/* empty */ {$$.v.p = nullptr;}
+  | ELSE error {yyxpt(Nelson::resolveMessageTemplate("Nelson:interpreter:statementListElseClause", "statement list for 'else' clause"),$1);}
+  ;
+
+assignmentStatement:
+  symbRefList '=' expr {$$.v.p = AbstractSyntaxTree::createNode(OP_ASSIGN,$1.v.p,$3.v.p,$2.v.i);}
+  | symbRefList '=' error {yyxpt(Nelson::resolveMessageTemplate("Nelson:interpreter:expressionAssignment", "expression in assignment"),$2);}
+  ;
+
+multiFunctionCall:
+  '[' matrixDef ']' '=' expr {
+    $$.v.p = assignOrMultiFunctionCall($2.v.p,$5.v.p,$1.v.i,$4.v.i);
+  }
+  | '[' matrixDef ']' '=' error {yyxpt(Nelson::resolveMessageTemplate("Nelson:interpreter:expressionRightHandSide", "expression on the right hand side of assignment"),$4);}
+  ;
+
+expr:
+  expr ':' expr {$$.v.p = AbstractSyntaxTree::createNode(OP_COLON,$1.v.p,$3.v.p,$2.v.i);}
+  | expr ':' error {yyxpt(formatI18nMessage(Nelson::resolveMessageTemplate("Nelson:interpreter:expressionAfter", "an expression after '%s'"), ":"), $2);}
+  | terminal
+  | expr '+' expr {$$.v.p = AbstractSyntaxTree::createNode(OP_PLUS,$1.v.p,$3.v.p,$2.v.i);}
+  | expr '+' error {yyxpt(formatI18nMessage(Nelson::resolveMessageTemplate("Nelson:interpreter:expressionAfter", "an expression after '%s'"), "+"), $2);}
+  | expr '-' expr {$$.v.p = AbstractSyntaxTree::createNode(OP_SUBTRACT,$1.v.p,$3.v.p,$2.v.i);}
+  | expr '-' error {yyxpt(formatI18nMessage(Nelson::resolveMessageTemplate("Nelson:interpreter:expressionAfter", "an expression after '%s'"), "-"), $2);}
+  | expr '*' expr {$$.v.p = AbstractSyntaxTree::createNode(OP_TIMES,$1.v.p,$3.v.p,$2.v.i);}
+  | expr '*' error {yyxpt(formatI18nMessage(Nelson::resolveMessageTemplate("Nelson:interpreter:expressionAfter", "an expression after '%s'"), "*"),$2);}
+  | expr '/' expr {$$.v.p = AbstractSyntaxTree::createNode(OP_RDIV,$1.v.p,$3.v.p,$2.v.i);}
+  | expr '/' error {yyxpt(formatI18nMessage(Nelson::resolveMessageTemplate("Nelson:interpreter:expressionAfter", "an expression after '%s'"), "/"),$2);}
+  | expr '\\' expr {$$.v.p = AbstractSyntaxTree::createNode(OP_LDIV,$1.v.p,$3.v.p,$2.v.i);}
+  | expr '\\' error {yyxpt(formatI18nMessage(Nelson::resolveMessageTemplate("Nelson:interpreter:expressionAfter", "an expression after '%s'"), "\\"),$2);}
+  | expr '|' expr {$$.v.p = AbstractSyntaxTree::createNode(OP_OR,$1.v.p,$3.v.p,$2.v.i);}
+  | expr '|' error {yyxpt(formatI18nMessage(Nelson::resolveMessageTemplate("Nelson:interpreter:expressionAfter", "an expression after '%s'"), "|"),$2);}
+  | expr '&' expr {$$.v.p = AbstractSyntaxTree::createNode(OP_AND,$1.v.p,$3.v.p,$2.v.i);}
+  | expr '&' error {yyxpt(formatI18nMessage(Nelson::resolveMessageTemplate("Nelson:interpreter:expressionAfter", "an expression after '%s'"), "&"),$2);}
+  | expr SOR expr {$$.v.p = AbstractSyntaxTree::createNode(OP_SOR,$1.v.p,$3.v.p,$2.v.i);}
+  | expr SOR error {yyxpt(formatI18nMessage(Nelson::resolveMessageTemplate("Nelson:interpreter:expressionAfter", "an expression after '%s'"), "||"),$2);}
+  | expr SAND expr {$$.v.p = AbstractSyntaxTree::createNode(OP_SAND,$1.v.p,$3.v.p,$2.v.i);}
+  | expr SAND error {yyxpt(formatI18nMessage(Nelson::resolveMessageTemplate("Nelson:interpreter:expressionAfter", "an expression after '%s'"), "&&"),$2);}
+  | expr '<' expr {$$.v.p = AbstractSyntaxTree::createNode(OP_LT,$1.v.p,$3.v.p,$2.v.i);}
+  | expr '<' error {yyxpt(formatI18nMessage(Nelson::resolveMessageTemplate("Nelson:interpreter:expressionAfter", "an expression after '%s'"), "<"),$2);}
+  | expr LE  expr {$$.v.p = AbstractSyntaxTree::createNode(OP_LEQ,$1.v.p,$3.v.p,$2.v.i);}
+  | expr LE  error {yyxpt(formatI18nMessage(Nelson::resolveMessageTemplate("Nelson:interpreter:expressionAfter", "an expression after '%s'"), "<="),$2);}
+  | expr '>' expr {$$.v.p = AbstractSyntaxTree::createNode(OP_GT,$1.v.p,$3.v.p,$2.v.i);}
+  | expr '>' error {yyxpt(formatI18nMessage(Nelson::resolveMessageTemplate("Nelson:interpreter:expressionAfter", "an expression after '%s'"), ">"),$2);}
+  | expr GE  expr {$$.v.p = AbstractSyntaxTree::createNode(OP_GEQ,$1.v.p,$3.v.p,$2.v.i);}
+  | expr GE  error {yyxpt(formatI18nMessage(Nelson::resolveMessageTemplate("Nelson:interpreter:expressionAfter", "an expression after '%s'"), ">="),$2);}
+  | expr EQ  expr {$$.v.p = AbstractSyntaxTree::createNode(OP_EQ,$1.v.p,$3.v.p,$2.v.i);}
+  | expr EQ  error {yyxpt(formatI18nMessage(Nelson::resolveMessageTemplate("Nelson:interpreter:expressionAfter", "an expression after '%s'"), "=="),$2);}
+  | expr NE  expr {$$.v.p = AbstractSyntaxTree::createNode(OP_NEQ,$1.v.p,$3.v.p,$2.v.i);}
+  | expr NE  error {yyxpt(formatI18nMessage(Nelson::resolveMessageTemplate("Nelson:interpreter:expressionAfter", "an expression after '%s'"), "~="),$2);}
+  | expr DOTTIMES expr {$$.v.p = AbstractSyntaxTree::createNode(OP_DOT_TIMES,$1.v.p,$3.v.p,$2.v.i);}
+  | expr DOTTIMES error {yyxpt(formatI18nMessage(Nelson::resolveMessageTemplate("Nelson:interpreter:expressionAfter", "an expression after '%s'"), ".*"), $2);}
+  | expr DOTRDIV  expr {$$.v.p = AbstractSyntaxTree::createNode(OP_DOT_RDIV,$1.v.p,$3.v.p,$2.v.i);}
+  | expr DOTRDIV  error {yyxpt(formatI18nMessage(Nelson::resolveMessageTemplate("Nelson:interpreter:expressionAfter", "an expression after '%s'"), "./"),$2);}
+  | expr DOTLDIV expr {$$.v.p = AbstractSyntaxTree::createNode(OP_DOT_LDIV,$1.v.p,$3.v.p,$2.v.i);}
+  | expr DOTLDIV error {yyxpt(formatI18nMessage(Nelson::resolveMessageTemplate("Nelson:interpreter:expressionAfter", "an expression after '%s'"), ".\\"),$2);}
+  | '-' expr %prec NEG {$$.v.p = AbstractSyntaxTree::createNode(OP_UMINUS,$2.v.p,$1.v.i);}
+  | '+' expr %prec POS {$$.v.p = AbstractSyntaxTree::createNode(OP_UPLUS, $2.v.p, $1.v.i);}
+  | '~' expr %prec NOT {$$.v.p = AbstractSyntaxTree::createNode(OP_NOT,$2.v.p,$1.v.i);}
+  | '~' error %prec NOT {yyxpt(Nelson::resolveMessageTemplate("Nelson:interpreter:expressionAfterLogical", "an expression after logical not"),$1);}
+  | expr '^' expr  {$$.v.p = AbstractSyntaxTree::createNode(OP_MPOWER,$1.v.p,$3.v.p,$2.v.i);}
+  | expr '^' error  {yyxpt(formatI18nMessage(Nelson::resolveMessageTemplate("Nelson:interpreter:expressionAfter", "an expression after '%s'"), "^"),$2);}
+  | expr DOTPOWER expr {$$.v.p = AbstractSyntaxTree::createNode(OP_POWER,$1.v.p,$3.v.p,$2.v.i);}
+  | expr DOTPOWER error {yyxpt(formatI18nMessage(Nelson::resolveMessageTemplate("Nelson:interpreter:expressionAfter", "an expression after '%s'"), ".^"),$2);}
+  | expr '\''          {$$.v.p = AbstractSyntaxTree::createNode(OP_TRANSPOSE,$1.v.p,$2.v.i);}
+  | expr DOTTRANSPOSE  {$$.v.p = AbstractSyntaxTree::createNode(OP_DOT_TRANSPOSE,$1.v.p,$2.v.i);}
+  | parenExpr postfixRefList {$$.v.p = AbstractSyntaxTree::createNode(OP_POSTFIX,$1.v.p,$2.v.p,$1.v.p->getContext());}
+  | postfixableLiteral postfixRefList {$$.v.p = AbstractSyntaxTree::createNode(OP_POSTFIX,$1.v.p,$2.v.p,$1.v.p->getContext());}
+  | parenExpr
+  ;
+
+namedHandleTarget:
+  IDENT {$$ = $1;}
+  | namedHandleTarget '.' IDENT {$$.isToken = false; $$.v.p = AbstractSyntaxTree::createNode(id_node, $1.v.p->text + "." + $3.v.p->text, $1.v.p->getContext());}
+  ;
+
+anonymousFunction:
+  '@' namedHandleTarget {$$.v.p =  AbstractSyntaxTree::createNode(OP_FUNCTION_HANDLE_NAMED, $2.v.p, $2.v.p->getContext());}
+  | '@' '(' inputArgumentList ')' expr {$$.v.p = AbstractSyntaxTree::createNode(OP_FUNCTION_HANDLE_ANONYMOUS,$3.v.p,$5.v.p, $3.v.p->getContext()); $$.v.p->text = takeAnonymousFunctionText(lexerContext);}
+  | '@' '(' ')' expr {$$.v.p = AbstractSyntaxTree::createNode(OP_FUNCTION_HANDLE_ANONYMOUS,$4.v.p, $4.v.p->getContext()); $$.v.p->text = takeAnonymousFunctionText(lexerContext);}
+  | '@' error {yyxpt(Nelson::resolveMessageTemplate("Nelson:interpreter:functionNameParameterList", "function name or parameter list after '@'"), $1);}
+  | '@' '(' error {yyxpt(Nelson::resolveMessageTemplate("Nelson:interpreter:listClosingParenthesisAfter", "argument list or closing parenthesis after '('"), $2);}
+  | '@' '(' inputArgumentList ')' error {yyxpt(Nelson::resolveMessageTemplate("Nelson:interpreter:expressionAnonymousFunctionBody", "expression for anonymous function body after ')'"), $4);}
+  | '@' '(' ')' error {yyxpt(Nelson::resolveMessageTemplate("Nelson:interpreter:expressionAnonymousFunctionBody", "expression for anonymous function body after ')'"), $3);}
+
+terminal:
+	NUMERIC
+  | CHARACTER
+  | STRING
+  | MAGICEND {$$.v.p = AbstractSyntaxTree::createNode(reserved_node, NLS_KEYWORD_END, $1.v.p->getContext());}
+  | anonymousFunction
+  | symbRefList {$$.v.p = AbstractSyntaxTree::createNode(OP_RHS,$1.v.p,$1.v.p->getContext());}
+  | IDENT '@' symbRefList {$$.v.p = AbstractSyntaxTree::createNode(OP_SUPERCLASS_CALL,$1.v.p,$3.v.p,$2.v.i);}
+  | '[' matrixDef ']' {$$.v.p = $2.v.p;}
+  | '[' error {yyxpt(Nelson::resolveMessageTemplate("Nelson:interpreter:matrixDefinitionFollowedBy", "a matrix definition followed by a right bracket"),$1);}
+  | '[' rowSeparator matrixDef ']' {$$.v.p = $3.v.p;}
+  | '[' matrixDef rowSeparator ']' {$$.v.p = $2.v.p;}
+  | '[' rowSeparator matrixDef rowSeparator ']' {$$.v.p = $3.v.p;}
+	| '[' ']' {$$.v.p = AbstractSyntaxTree::createNode(OP_EMPTY,NULL,$1.v.i);}
+  | '{' cellDef '}' {$$.v.p = $2.v.p;}
+  | '{' rowSeparator cellDef '}' {$$.v.p = $3.v.p;}
+  | '{' cellDef rowSeparator '}' {$$.v.p = $2.v.p;}
+  | '{' rowSeparator cellDef rowSeparator '}' {$$.v.p = $3.v.p;}
+	| '{' '}' {$$.v.p = AbstractSyntaxTree::createNode(OP_EMPTY_CELL,NULL,$1.v.i);}
+	| '{' error {yyxpt(Nelson::resolveMessageTemplate("Nelson:interpreter:cellArrayDefinitionFollowed", "a cell-array definition followed by a right brace"),$1);}
+  ;
+
+postfixableLiteral:
+  CHARACTER
+  | STRING
+  | '[' matrixDef ']' {$$.v.p = $2.v.p;}
+  | '[' rowSeparator matrixDef ']' {$$.v.p = $3.v.p;}
+  | '[' matrixDef rowSeparator ']' {$$.v.p = $2.v.p;}
+  | '[' rowSeparator matrixDef rowSeparator ']' {$$.v.p = $3.v.p;}
+	| '[' ']' {$$.v.p = AbstractSyntaxTree::createNode(OP_EMPTY,NULL,$1.v.i);}
+  | '{' cellDef '}' {$$.v.p = $2.v.p;}
+  | '{' rowSeparator cellDef '}' {$$.v.p = $3.v.p;}
+  | '{' cellDef rowSeparator '}' {$$.v.p = $2.v.p;}
+  | '{' rowSeparator cellDef rowSeparator '}' {$$.v.p = $3.v.p;}
+	| '{' '}' {$$.v.p = AbstractSyntaxTree::createNode(OP_EMPTY_CELL,NULL,$1.v.i);}
+  ;
+
+symbRefList:
+  IDENT
+  | symbRefList symbRef {$$.v.p = $1.v.p; $$.v.p->addChild($2.v.p);}
+  ;
+
+postfixRefList:
+  symbRef
+  | postfixRefList symbRef {$$.v.p = $1.v.p; $$.v.p->addPeer($2.v.p);}
+  ;
+
+symbRef:
+  '(' indexList ')' {$$.v.p = AbstractSyntaxTree::createNode(OP_PARENS,$2.v.p,$1.v.i); }
+  | '(' ')' {$$.v.p = AbstractSyntaxTree::createNode(OP_PARENS,NULL,$1.v.i); }
+	| '(' indexList error {yyxpt(Nelson::resolveMessageTemplate("Nelson:interpreter:matchingRightParenthesis", "matching right parenthesis"),$1);}
+  | '{' indexList '}' {$$.v.p = AbstractSyntaxTree::createNode(OP_BRACES,$2.v.p,$1.v.i); }
+	| '{' indexList error {yyxpt(Nelson::resolveMessageTemplate("Nelson:interpreter:matchingRightBrace", "matching right brace"),$1);}
+  | '.' IDENT {$$.v.p = AbstractSyntaxTree::createNode(OP_DOT,$2.v.p,$1.v.i); }
+	| '.' '(' expr ')' {$$.v.p = AbstractSyntaxTree::createNode(OP_DOTDYN,$3.v.p,$1.v.i);}
+  ;
+
+indexElement:
+  expr
+  | ':' {$$.v.p = AbstractSyntaxTree::createNode(OP_ALL,NULL,$1.v.i);}
+  | '/' IDENT '=' expr {yyxpt(Nelson::resolveMessageTemplate("Nelson:interpreter:slashKeywordSupported", "slash keyword arguments are not supported"),$1);}
+  | '/' IDENT '=' error {yyxpt(Nelson::resolveMessageTemplate("Nelson:interpreter:slashKeywordSupported", "slash keyword arguments are not supported"),$1);}
+  | '/' IDENT {yyxpt(Nelson::resolveMessageTemplate("Nelson:interpreter:slashKeywordSupported", "slash keyword arguments are not supported"),$1);}
+  | '/' error {yyxpt(Nelson::resolveMessageTemplate("Nelson:interpreter:slashKeywordSupported", "slash keyword arguments are not supported"),$1);}
+  ;
+
+indexList:
+  indexElement
+  | indexList columnSep indexElement {$$.v.p = $1.v.p; $$.v.p->addPeer($3.v.p);}
+  ;
+
+cellDef:
+  rowDef {$$.v.p = AbstractSyntaxTree::createNode(OP_BRACES,$1.v.p,$1.v.p->getContext());}
+  | cellDef rowSeparator rowDef {$$.v.p = $1.v.p; $$.v.p->addChild($3.v.p);}
+  ;
+
+matrixDef:
+  rowDef {$$.v.p = AbstractSyntaxTree::createNode(OP_BRACKETS,$1.v.p,$1.v.p->getContext());}
+  | matrixDef rowSeparator rowDef {$$.v.p = $1.v.p; $$.v.p->addChild($3.v.p);}
+  ;
+
+rowSeparator:
+  ENDSTMNT
+  | ENDQSTMNT
+  ;
+
+columnSep:
+  ','
+  ;
+
+rowDef:
+  rowElements {$$.v.p = $1.v.p;}
+  | columnSep rowElements {$$.v.p = $2.v.p;}
+  | rowElements columnSep {$$.v.p = $1.v.p;}
+  | columnSep rowElements columnSep {$$.v.p = $2.v.p;}
+  ;
+
+rowElements:
+  expr {$$.v.p = AbstractSyntaxTree::createNode(OP_SEMICOLON,$1.v.p,$1.v.p->getContext());}
+  | rowElements columnSep expr {$$.v.p = $1.v.p; $$.v.p->addChild($3.v.p);}
+  ;
+
+
+parenExpr:
+  '(' expr ')' {$$.v.p = $2.v.p;}
+  | '(' expr error  {yyxpt(Nelson::resolveMessageTemplate("Nelson:interpreter:rightParenthesisAfterExpression", "a right parenthesis after expression to match this one"),$1);}
+  | '(' error  {yyxpt(Nelson::resolveMessageTemplate("Nelson:interpreter:expressionAfterLeftParenthesis", "an expression after left parenthesis"),$1);}
+  ;
+%%
+//=============================================================================
+namespace Nelson {
+//=============================================================================
+  int callyyparse(LexerContext& lexerContext, ParserContext& parserContext) {
+    NelSonParser parser(lexerContext, parserContext);
+    return parser.parse();
+  }
+
+  static int yylex(ParseRHS* semanticValue, Nelson::LexerContext& lexerContext) {
+    int token = ::yylex(lexerContext);
+    if (token > 0) {
+      *semanticValue = ::yylval;
+    }
+    return token;
+  }
+
+  void NelSonParser::error(const std::string& message) {
+    const int column = lexerContext.linestart == nullptr
+        ? 0
+        : static_cast<int>(lexerContext.datap - lexerContext.linestart + 1);
+    setParserDiagnostic(message, lexerContext.lineNumber + 1, column);
+  }
+//=============================================================================
+}
+//=============================================================================
+// clang-format on

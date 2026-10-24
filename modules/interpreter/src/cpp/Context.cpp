@@ -1,6 +1,5 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
-// Copyright (c) 2002, 2003 Samit Basu
 //=============================================================================
 // This file is part of Nelson.
 //=============================================================================
@@ -8,19 +7,13 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#define FMT_HEADER_ONLY
-#include <fmt/format.h>
-#include <fmt/xchar.h>
 #include "Context.hpp"
 #include "ArrayOf.hpp"
 #include "RecursionStack.hpp"
 #include "characters_encoding.hpp"
-#include "FunctionsInMemory.hpp"
-#include "BuiltInFunctionDefManager.hpp"
-#include "PathFunctionIndexerManager.hpp"
 #include "Error.hpp"
-#include "PredefinedErrorMessages.hpp"
-#include "HandleManager.hpp"
+#include "ErrorID.hpp"
+#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -42,86 +35,61 @@ Context::~Context()
 }
 //=============================================================================
 void
-Context::pushScope(const std::string& name)
-{
-    if (scopestack.size() > getRecursionDepth()) {
-        Error(ERROR_STACK_DEPTH_EXCEEDED);
-    }
-    try {
-        scopestack.emplace_back(new Scope(name));
-    } catch (const std::bad_alloc&) {
-        Error(ERROR_STACK_DEPTH_EXCEEDED);
-    }
-}
-//=============================================================================
-void
-Context::pushScope(const std::string& name, const std::wstring& fullfilename)
-{
-    Scope* sc = nullptr;
-    if (scopestack.size() > getRecursionDepth()) {
-        Error(ERROR_STACK_DEPTH_EXCEEDED);
-    }
-    try {
-        if (!scopestack.empty()) {
-            if (scopestack.back()->getName() == name
-                && scopestack.back()->getFilename() == fullfilename) {
-                sc = new Scope(*scopestack.back());
-            } else {
-                sc = new Scope(name, fullfilename);
-            }
-        } else {
-            sc = new Scope(name, fullfilename);
-        }
-    } catch (const std::bad_alloc&) {
-        Error(ERROR_STACK_DEPTH_EXCEEDED);
-    }
-    scopestack.emplace_back(sc);
-}
-//=============================================================================
-void
-Context::popScope()
-{
-    if (scopestack.size() == 1) {
-        Error(ERROR_POP_GLOBAL_SCOPE);
-    }
-    Scope* sc = scopestack.back();
-    scopestack.pop_back();
-    delete sc;
-}
-//=============================================================================
-void
 Context::insertVariableLocally(const std::string& varName, const ArrayOf& var)
 {
     scopestack.back()->insertVariable(varName, var);
+}
+//=============================================================================
+void
+Context::removeVariableLocally(const std::string& varName)
+{
+    scopestack.back()->deleteVariable(varName);
 }
 //=============================================================================
 bool
 Context::insertVariable(const std::string& varName, const ArrayOf& var)
 {
     Scope* backScope = scopestack.back();
-    // Fast path: local variable (most common case)
-    if (!backScope->isVariablePersistent(varName) && !backScope->isVariableGlobal(varName)) {
+    bool isPersistent = backScope->isVariablePersistent(varName);
+    bool isGlobal = !isPersistent && backScope->isVariableGlobal(varName);
+    if (!isPersistent && !isGlobal) {
         return backScope->insertVariable(varName, var);
     }
-    // Slow path: persistent or global variable
     Scope* frontScope = scopestack.front();
-    if (backScope->isVariablePersistent(varName)) {
+    if (isPersistent) {
         return frontScope->insertVariable(backScope->getMangledName(varName), var);
     }
     return frontScope->insertVariable(varName, var);
+}
+//=============================================================================
+bool
+Context::insertVariableWithoutNameValidation(const std::string& varName, const ArrayOf& var)
+{
+    Scope* backScope = scopestack.back();
+    bool isPersistent = backScope->isVariablePersistent(varName);
+    bool isGlobal = !isPersistent && backScope->isVariableGlobal(varName);
+    if (!isPersistent && !isGlobal) {
+        return backScope->insertVariableWithoutNameValidation(varName, var);
+    }
+    Scope* frontScope = scopestack.front();
+    if (isPersistent) {
+        return frontScope->insertVariableWithoutNameValidation(
+            backScope->getMangledName(varName), var);
+    }
+    return frontScope->insertVariableWithoutNameValidation(varName, var);
 }
 //=============================================================================
 ArrayOf*
 Context::lookupVariable(const std::string& varName)
 {
     Scope* back = scopestack.back();
-    // Fast path: local variable (most common case)
-    if (!back->isVariablePersistent(varName) && !back->isVariableGlobal(varName)) {
+    bool isPersistent = back->isVariablePersistent(varName);
+    bool isGlobal = !isPersistent && back->isVariableGlobal(varName);
+    if (!isPersistent && !isGlobal) {
         return back->lookupVariable(varName);
     }
-    // Slow path: persistent or global variable
     Scope* front = scopestack.front();
-    if (back->isVariablePersistent(varName)) {
+    if (isPersistent) {
         return front->lookupVariable(back->getMangledName(varName));
     }
     return front->lookupVariable(varName);
@@ -148,13 +116,13 @@ bool
 Context::isVariable(const std::string& varname)
 {
     Scope* back = scopestack.back();
-    // Fast path: local variable (most common case)
-    if (!back->isVariablePersistent(varname) && !back->isVariableGlobal(varname)) {
+    bool isPersistent = back->isVariablePersistent(varname);
+    bool isGlobal = !isPersistent && back->isVariableGlobal(varname);
+    if (!isPersistent && !isGlobal) {
         return back->isVariable(varname);
     }
-    // Slow path: persistent or global variable
     Scope* front = scopestack.front();
-    if (back->isVariablePersistent(varname)) {
+    if (isPersistent) {
         return front->isVariable(back->getMangledName(varname));
     }
     return front->isVariable(varname);
@@ -184,64 +152,10 @@ Context::insertMacroFunctionLocally(FunctionDefPtr f)
     scopestack.back()->insertMacroFunctionLocally(f);
 }
 //=============================================================================
-bool
-Context::lookupFunction(const std::wstring& wfuncName, FunctionDefPtr& val, bool builtinOnly)
+void
+Context::removeMacroFunctionLocally(const std::string& funcName)
 {
-    std::string funcName = wstring_to_utf8(wfuncName);
-    return lookupFunction(funcName, val, builtinOnly);
-}
-//=============================================================================
-bool
-Context::lookupFunction(const std::string& funcName, FunctionDefPtr& val, bool builtinOnly)
-{
-    bool found = false;
-    if (builtinOnly) {
-        if (FunctionsInMemory::getInstance()->find(
-                funcName, val, FunctionsInMemory::FIND_FUNCTION_TYPE::BUILTIN)) {
-            return true;
-        }
-        found = BuiltInFunctionDefManager::getInstance()->find(funcName, val);
-        if (found) {
-            FunctionsInMemory::getInstance()->add(funcName, val);
-        }
-        return found;
-    }
-
-    if (FunctionsInMemory::getInstance()->find(funcName, val)) {
-        if (val->type() == NLS_MACRO_FUNCTION || val->type() == NLS_MEX_FUNCTION) {
-            PathFunctionIndexerManager::getInstance()->hashOnFileWatcher();
-        }
-        return true;
-    } else {
-        PathFunctionIndexerManager::getInstance()->hashOnFileWatcher();
-    }
-
-    if (scopestack.back()->lookupFunction(funcName, val)) {
-        return true;
-    }
-    found = PathFunctionIndexerManager::getInstance()->find(funcName, val);
-    if (found) {
-        FunctionsInMemory::getInstance()->add(funcName, val);
-        return true;
-    }
-
-    if (isInMacroFile()) {
-        std::wstring directory = scopestack.back()->getDirectory();
-        found = PathFunctionIndexerManager::getInstance()->find(
-            getMangledPrivateFunction(directory, funcName), val);
-        if (found) {
-            FunctionsInMemory::getInstance()->add(
-                getMangledPrivateFunction(directory, funcName), val);
-            return true;
-        }
-    }
-
-    found = BuiltInFunctionDefManager::getInstance()->find(funcName, val);
-    if (found) {
-        FunctionsInMemory::getInstance()->add(funcName, val);
-        return true;
-    }
-    return scopestack.front()->lookupFunction(funcName, val);
+    scopestack.back()->removeMacroFunctionLocally(funcName);
 }
 //=============================================================================
 void
@@ -254,16 +168,19 @@ Context::addPersistentVariable(const std::string& var)
 {
     Scope* back = scopestack.back();
     Scope* front = scopestack.front();
-    // Delete local variables with this name
+    if (back->isVariableGlobal(var)) {
+        Error(L"Nelson:interpreter:globalAndPersistent",
+            L"A variable cannot be both global and persistent.");
+    }
     back->deleteVariable(var);
-    // Delete global variables with this name
-    front->deleteVariable(var);
+    // A persistent declaration shadows a same-scope global declaration, but it
+    // must not delete a same-named global variable owned by another scope.
+    back->deleteGlobalVariablePointer(var);
     back->addPersistentVariablePointer(var);
-    // Check and create if needed in one lookup
     std::string mangledName = back->getMangledName(var);
     ArrayOf v;
     if (!front->lookupVariable(mangledName, v)) {
-        front->insertVariable(mangledName, ArrayOf::emptyConstructor());
+        front->insertVariable(mangledName, ArrayOf::empty());
     }
 }
 //=============================================================================
@@ -272,16 +189,17 @@ Context::addGlobalVariable(const std::string& var)
 {
     Scope* back = scopestack.back();
     Scope* front = scopestack.front();
-    // Delete local variables with this name
+    if (back->isVariablePersistent(var)) {
+        Error(L"Nelson:interpreter:globalAndPersistent",
+            L"A variable cannot be both global and persistent.");
+    }
     back->deleteVariable(var);
     // Delete global persistent variables with this name
     front->deleteVariable(back->getMangledName(var));
-    // Add a point in the local scope to the global variable
     back->addGlobalVariablePointer(var);
-    // Check and create if needed in one lookup
     ArrayOf v;
     if (!front->lookupVariable(var, v)) {
-        front->insertVariable(var, ArrayOf::emptyConstructor());
+        front->insertVariable(var, ArrayOf::empty());
     }
 }
 //=============================================================================
@@ -299,126 +217,6 @@ Context::deleteVariable(const std::string& var)
         return;
     }
     scopestack.back()->deleteVariable(var);
-}
-//=============================================================================
-void
-Context::bypassScope(int count)
-{
-    if (count < 0) {
-        count = (int)(scopestack.size() - 2);
-    }
-    if (count > (int)scopestack.size()) {
-        return;
-    }
-    for (int i = 0; i < count; i++) {
-        bypassstack.push_back(scopestack.back());
-        scopestack.pop_back();
-    }
-}
-//=============================================================================
-void
-Context::restoreBypassedScopes()
-{
-    std::reverse(bypassstack.begin(), bypassstack.end());
-    for (auto* scope : bypassstack) {
-        scopestack.push_back(scope);
-    }
-    bypassstack.clear();
-}
-//=============================================================================
-void
-Context::restoreBypassedScopes(int count)
-{
-    if (count <= 0 || bypassstack.empty()) {
-        return;
-    }
-    // Restore 'count' scopes from bypassstack back to scopestack
-    // bypassstack stores scopes in reverse order (last bypassed is at end)
-    int toRestore = std::min(count, static_cast<int>(bypassstack.size()));
-    for (int i = 0; i < toRestore; ++i) {
-        scopestack.push_back(bypassstack.back());
-        bypassstack.pop_back();
-    }
-}
-//=============================================================================
-Scope*
-Context::getCallerScope()
-{
-    Scope* callerScope;
-    if (scopestack.size() - 2 <= 0) {
-        callerScope = scopestack[1];
-    } else {
-        callerScope = scopestack[scopestack.size() - 2];
-    }
-    return callerScope;
-}
-//=============================================================================
-Scope*
-Context::getBaseScope()
-{
-    return scopestack.size() > 1 ? scopestack[1] : nullptr;
-}
-//=============================================================================
-stringVector
-Context::getLockedVariables()
-{
-    return scopestack.back()->getLockedVariables();
-}
-//=============================================================================
-bool
-Context::isLockedVariable(const std::string& varname)
-{
-    return scopestack.back()->isLockedVariable(varname);
-}
-//=============================================================================
-bool
-Context::lockVariable(const std::string& varname)
-{
-    return scopestack.back()->lockVariable(varname);
-}
-//=============================================================================
-bool
-Context::unlockVariable(const std::string& varname)
-{
-    return scopestack.back()->unlockVariable(varname);
-}
-//=============================================================================
-size_t
-Context::getRecursionDepth()
-{
-    return currentrecursiondepth;
-}
-//=============================================================================
-bool
-Context::setRecursionDepth(size_t newDepth)
-{
-    if (newDepth <= MAX_RECURSION_FUNCTION_CALL) {
-        currentrecursiondepth = newDepth;
-        return true;
-    }
-    return false;
-}
-//=============================================================================
-size_t
-Context::getMaximumRecursionDepth()
-{
-    return MAX_RECURSION_FUNCTION_CALL;
-}
-//=============================================================================
-std::string
-Context::getMangledPrivateFunction(const std::wstring& directory, const std::string& functionName)
-{
-    return wstring_to_utf8(directory) + "/private/" + functionName;
-}
-//=============================================================================
-bool
-Context::isInMacroFile()
-{
-    Scope* scope = getCurrentScope();
-    if (scope) {
-        return scope->isInMacroFile();
-    }
-    return false;
 }
 //=============================================================================
 } // namespace Nelson

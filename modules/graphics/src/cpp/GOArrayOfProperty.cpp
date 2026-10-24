@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -39,8 +39,8 @@ GOArrayOfProperty::data(const ArrayOf& m)
 std::wstring
 GOArrayOfProperty::toWideString()
 {
-    return L"[" + _data.getDimensions().toWideString() + L"]";
+    return L"[" + _data.dimensions().toWideString() + L"]";
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

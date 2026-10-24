@@ -79,6 +79,8 @@ UnregisterModule(const std::wstring& moduleshortname);
 NLSMODULES_MANAGER_IMPEXP bool
 IsExistingModuleName(const std::wstring& moduleshortname);
 NLSMODULES_MANAGER_IMPEXP bool
+IsConfiguredModuleName(const std::wstring& moduleshortname);
+NLSMODULES_MANAGER_IMPEXP bool
 IsProtectedModuleName(const std::wstring& moduleshortname);
 NLSMODULES_MANAGER_IMPEXP bool
 IsExistingModulePath(const std::wstring& modulerootpath);

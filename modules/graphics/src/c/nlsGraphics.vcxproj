@@ -5,10 +5,6 @@
       <Configuration>Debug</Configuration>
       <Platform>ARM64</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Debug|Win32">
-      <Configuration>Debug</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|x64">
       <Configuration>Debug</Configuration>
       <Platform>x64</Platform>
@@ -16,10 +12,6 @@
     <ProjectConfiguration Include="Release|ARM64">
       <Configuration>Release</Configuration>
       <Platform>ARM64</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|Win32">
-      <Configuration>Release</Configuration>
-      <Platform>Win32</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Release|x64">
       <Configuration>Release</Configuration>
@@ -33,6 +25,15 @@
     <ProjectReference Include="..\..\..\commons\src\c\nlsCommons.vcxproj">
       <Project>{867f2f84-cc27-4bd8-b44b-5ef4f69c6e15}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\json\src\c\nlsJson.vcxproj">
+      <Project>{4a61d482-7d1a-4233-a2a4-01444505690c}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\render_web\src\c\nlsRenderWeb.vcxproj">
+      <Project>{abff81f0-8bd9-4822-8ff9-1e661e4976ac}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\font_metrics\src\c\nlsFontMetrics.vcxproj">
+      <Project>{c63a45e1-9e38-4b67-bd2e-7a4e8f1d2c90}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\elementary_functions\src\c\nlsElementary_functions.vcxproj">
       <Project>{c87973dd-f66c-4f35-b875-5e0a0a47b3e7}</Project>
     </ProjectReference>
@@ -42,9 +43,6 @@
     <ProjectReference Include="..\..\..\error_manager\src\c\nlsError_manager.vcxproj">
       <Project>{d0ef0ceb-a3bd-44ab-91b3-f33db1870f8d}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\gui\src\c\nlsGui.vcxproj">
-      <Project>{075f60ad-38ba-4531-9d46-7453e3416e15}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\i18n\src\c\nlsI18n.vcxproj">
       <Project>{eca1e952-8391-4e71-9a91-0e7fd2854320}</Project>
     </ProjectReference>
@@ -53,9 +51,6 @@
     </ProjectReference>
     <ProjectReference Include="..\..\..\nelson_manager\src\c\nlsNelson_manager.vcxproj">
       <Project>{e467b14f-0d56-4237-b649-eb5572b5e731}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\text_editor\src\c\nlsText_editor.vcxproj">
-      <Project>{02ad5a6d-f80a-4888-9178-29a0d7d04814}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\types\src\c\nlsTypes.vcxproj">
       <Project>{ab85e897-56b7-4792-8a8e-f3797be2b7cc}</Project>
@@ -71,253 +66,14 @@
     <ResourceCompile Include="resources.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\cpp\CallExportGraphicsGui.hpp" />
     <ClInclude Include="..\cpp\GOAxisHelpers.hpp" />
-    <CustomBuild Include="..\cpp\GOUIControl.h">
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-    </CustomBuild>
+    <ClInclude Include="..\cpp\GOSurfaceScale.hpp" />
     <ClInclude Include="..\cpp\MinMaxHelpers.hpp" />
-    <CustomBuild Include="..\cpp\QMultiLineEdit.h">
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="..\cpp\QPushButtonWidget.h">
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="..\cpp\QCheckBoxWidget.h">
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="..\cpp\QRadioButtonWidget.h">
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="..\cpp\QToggleButtonWidget.h">
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="..\cpp\QSliderWidget.h">
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="..\cpp\QLabelWidget.h">
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="..\cpp\QPopupMenuWidget.h">
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="..\cpp\QLineEditWidget.h">
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="..\cpp\QMultiLineEditWidget.h">
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-    </CustomBuild>
-    <CustomBuild Include="..\cpp\QListBoxWidget.h">
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">Compiling %(Filename)%(Extension) using MOC</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">%(RootDir)%(Directory)../cpp/moc_%(Filename).cpp</Outputs>
-    </CustomBuild>
-    <ClInclude Include="..\cpp\RenderHelpers.hpp" />
     <ClInclude Include="..\cpp\TexToUnicode.hpp" />
-    <ClInclude Include="..\cpp\UnitsConversionHelpers.hpp" />
-    <ClInclude Include="..\include\BaseFigureQt.hpp" />
+    <ClInclude Include="..\include\UnitsConversionHelpers.hpp" />
+    <ClInclude Include="..\include\GOUIWidgetBinding.hpp" />
+    <ClInclude Include="..\include\GraphicsEnvironment.hpp" />
+    <ClInclude Include="..\include\RenderHelpers.hpp" />
     <ClInclude Include="..\include\CloseFigure.hpp" />
     <ClInclude Include="..\include\ColoredPoint.hpp" />
     <ClInclude Include="..\include\ContourGenerator.hpp" />
@@ -325,43 +81,88 @@
     <ClInclude Include="..\include\DrawNow.hpp" />
     <ClInclude Include="..\include\EqGraphicsObjects.hpp" />
     <ClInclude Include="..\include\FindObj.hpp" />
+    <ClInclude Include="..\include\FigurePersistence.hpp" />
     <ClInclude Include="..\include\GetFrame.hpp" />
+    <ClInclude Include="..\include\WebFigureAnimation.hpp" />
+    <ClInclude Include="..\include\WebFigureBinary.hpp" />
+    <ClInclude Include="..\include\WebFigureBridgeExports.hpp" />
+    <ClInclude Include="..\include\WebFigureAxesMetadata.hpp" />
+    <ClInclude Include="..\include\WebFigureRenderMutex.hpp" />
     <ClInclude Include="..\include\GOAlignHorizProperty.hpp" />
     <ClInclude Include="..\include\GOAlignVertProperty.hpp" />
+    <ClInclude Include="..\include\GOAnimatedLine.hpp" />
     <ClInclude Include="..\include\GOArrayOfProperty.hpp" />
+    <ClInclude Include="..\include\GOArea.hpp" />
+    <ClInclude Include="..\include\GOAxesToolbar.hpp" />
+    <ClInclude Include="..\include\GOAxesToolbarProperty.hpp" />
+    <ClInclude Include="..\include\GOAnnotation.hpp" />
     <ClInclude Include="..\include\GOAutoFlatColorProperty.hpp" />
     <ClInclude Include="..\include\GOAxis.hpp" />
     <ClInclude Include="..\include\GOBackFaceLightingProperty.hpp" />
+    <ClInclude Include="..\include\GOBar.hpp" />
+    <ClInclude Include="..\include\GOBinscatter.hpp" />
+    <ClInclude Include="..\include\GOBoxChart.hpp" />
+    <ClInclude Include="..\include\GOBubbleChart.hpp" />
+    <ClInclude Include="..\include\GOBubbleCloud.hpp" />
+    <ClInclude Include="..\include\GOBubbleLegend.hpp" />
     <ClInclude Include="..\include\GOBusyActionProperty.hpp" />
     <ClInclude Include="..\include\GOCallbackProperty.hpp" />
     <ClInclude Include="..\include\GOColorHelpers.hpp" />
     <ClInclude Include="..\include\GOColorInterpProperty.hpp" />
+    <ClInclude Include="..\include\GOChartDecorators.hpp" />
     <ClInclude Include="..\include\GOColorProperty.hpp" />
     <ClInclude Include="..\include\GOColorVectorProperty.hpp" />
+    <ClInclude Include="..\include\GOColorBar.hpp" />
+    <ClInclude Include="..\include\GOColorBarGeometry.hpp" />
+    <ClInclude Include="..\include\GOLegend.hpp" />
+    <ClInclude Include="..\include\GOLegendLayout.hpp" />
+    <ClInclude Include="..\include\GOCommonProperties.hpp" />
+    <ClInclude Include="..\include\GOCompassPlot.hpp" />
     <ClInclude Include="..\include\GOContour.hpp" />
     <ClInclude Include="..\include\GOControlStyleProperty.hpp" />
     <ClInclude Include="..\include\GOGroup.hpp" />
+    <ClInclude Include="..\include\GOTransform.hpp" />
     <ClInclude Include="..\include\GOMenuBarProperty.hpp" />
+    <ClInclude Include="..\include\GOContextMenu.hpp" />
+    <ClInclude Include="..\include\GOMenu.hpp" />
+    <ClInclude Include="..\include\GOMenuBuilder.hpp" />
     <ClInclude Include="..\include\GOPatch.hpp" />
+    <ClInclude Include="..\include\GOPolarAxes.hpp" />
+    <ClInclude Include="..\include\GORectangle.hpp" />
+    <ClInclude Include="..\include\GOUIAxes.hpp" />
+    <ClInclude Include="..\include\GOConstantLine.hpp" />
+    <ClInclude Include="..\include\GORuler.hpp" />
     <ClInclude Include="..\include\GORestrictedStringColorProperty.hpp" />
     <ClInclude Include="..\include\GORestrictedStringProperty.hpp" />
     <ClInclude Include="..\include\GORestrictedStringScalarProperty.hpp" />
     <ClInclude Include="..\include\GORestrictedStringVectorProperty.hpp" />
     <ClInclude Include="..\include\GODataMappingModeProperty.hpp" />
-    <ClInclude Include="..\include\GOEgdeAlphaProperty.hpp" />
+    <ClInclude Include="..\include\GOEdgeAlphaProperty.hpp" />
+    <ClInclude Include="..\include\GOErrorBar.hpp" />
     <ClInclude Include="..\include\GOFaceAlphaProperty.hpp" />
     <ClInclude Include="..\include\GOFigure.hpp" />
     <ClInclude Include="..\include\GOFiguresManager.hpp" />
+    <ClInclude Include="..\include\HeadlessFigureHost.hpp" />
     <ClInclude Include="..\include\GOFixedVectorProperty.hpp" />
     <ClInclude Include="..\include\GOFontAngleProperty.hpp" />
     <ClInclude Include="..\include\GOFontUnitsProperty.hpp" />
     <ClInclude Include="..\include\GOFontWeightProperty.hpp" />
     <ClInclude Include="..\include\GOGenericProperty.hpp" />
+    <ClInclude Include="..\include\GOFunctionContour.hpp" />
+    <ClInclude Include="..\include\GOFunctionLine.hpp" />
+    <ClInclude Include="..\include\GOFunctionSurface.hpp" />
+    <ClInclude Include="..\include\GOImplicitFunctionLine.hpp" />
+    <ClInclude Include="..\include\GOImplicitFunctionSurface.hpp" />
     <ClInclude Include="..\include\GOGObjectsProperty.hpp" />
+    <ClInclude Include="..\include\GOHeatmapChart.hpp" />
     <ClInclude Include="..\include\GOHelpers.hpp" />
+    <ClInclude Include="..\include\GOHistogram.hpp" />
+    <ClInclude Include="..\include\GOHistogramBinning.hpp" />
+    <ClInclude Include="..\include\GOHistogram2.hpp" />
     <ClInclude Include="..\include\GOImage.hpp" />
     <ClInclude Include="..\include\GOInOutProperty.hpp" />
     <ClInclude Include="..\include\GOLeftRightProperty.hpp" />
+    <ClInclude Include="..\include\GOLight.hpp" />
     <ClInclude Include="..\include\GOLightingModeProperty.hpp" />
     <ClInclude Include="..\include\GOLinearLogProperty.hpp" />
     <ClInclude Include="..\include\GOLineSeries.hpp" />
@@ -369,10 +170,17 @@
     <ClInclude Include="..\include\GOLineStyleProperty.hpp" />
     <ClInclude Include="..\include\GOList.hpp" />
     <ClInclude Include="..\include\GOMappingModeProperty.hpp" />
+    <ClInclude Include="..\include\GOMaximumNumPointsProperty.hpp" />
     <ClInclude Include="..\include\GONextPlotModeProperty.hpp" />
     <ClInclude Include="..\include\GONormalReverseProperty.hpp" />
+    <ClInclude Include="..\include\GOParallelPlot.hpp" />
+    <ClInclude Include="..\include\GOParameterizedFunctionLine.hpp" />
+    <ClInclude Include="..\include\GOPositionHelpers.hpp" />
     <ClInclude Include="..\include\GOPositionProperty.hpp" />
+    <ClInclude Include="..\include\GOPickablePartsProperty.hpp" />
+    <ClInclude Include="..\include\GOPieChart.hpp" />
     <ClInclude Include="..\include\GOProjectionModeProperty.hpp" />
+    <ClInclude Include="..\include\GOQuiver.hpp" />
     <ClInclude Include="..\include\GOPropertyNames.hpp" />
     <ClInclude Include="..\include\GOPropertyValues.hpp" />
     <ClInclude Include="..\include\GORoot.hpp" />
@@ -380,13 +188,20 @@
     <ClInclude Include="..\include\GOScalarAlphaProperty.hpp" />
     <ClInclude Include="..\include\GOScalarDoubleProperty.hpp" />
     <ClInclude Include="..\include\GOScalarPositiveIntegerValueProperty.hpp" />
+    <ClInclude Include="..\include\GOScatterHistogram.hpp" />
     <ClInclude Include="..\include\GOScatterSeries.hpp" />
+    <ClInclude Include="..\include\GOSeriesIndexProperty.hpp" />
     <ClInclude Include="..\include\GOStringAutoManualProperty.hpp" />
     <ClInclude Include="..\include\GOStringOnOffProperty.hpp" />
     <ClInclude Include="..\include\GOStringProperty.hpp" />
     <ClInclude Include="..\include\GOStringVectorProperty.hpp" />
+    <ClInclude Include="..\include\GOCategoricalVectorProperty.hpp" />
+    <ClInclude Include="..\include\GOStackedLineChart.hpp" />
+    <ClInclude Include="..\include\GOStair.hpp" />
+    <ClInclude Include="..\include\GOStem.hpp" />
     <ClInclude Include="..\include\GOSurface.hpp" />
     <ClInclude Include="..\include\GOSymbolProperty.hpp" />
+    <ClInclude Include="..\include\GOSubplotText.hpp" />
     <ClInclude Include="..\include\GOText.hpp" />
     <ClInclude Include="..\include\GOTextInterpreterProperty.hpp" />
     <ClInclude Include="..\include\GOToolBarProperty.hpp" />
@@ -394,148 +209,273 @@
     <ClInclude Include="..\include\GOTiledChartLayout.hpp" />
     <ClInclude Include="..\include\GOLayoutOptions.hpp" />
     <ClInclude Include="..\include\GOWindowStateProperty.hpp" />
+    <ClInclude Include="..\include\GOWindowStyleProperty.hpp" />
     <ClInclude Include="..\include\IsValidGraphicsProperty.hpp" />
     <ClInclude Include="..\include\LayoutHelpers.hpp" />
     <ClInclude Include="..\include\RGBAColorData.hpp" />
+    <ClInclude Include="..\include\GOScalarLogicalProperty.hpp" />
+    <ClInclude Include="..\include\UIComponentBuilder.hpp" />
+    <ClInclude Include="..\include\UIParentRules.hpp" />
     <ClInclude Include="..\include\UIControlBuilder.hpp" />
+    <ClInclude Include="..\include\GOUIButton.h" />
+    <ClInclude Include="..\include\GOUICheckBox.h" />
+    <ClInclude Include="..\include\GOUITable.h" />
+    <ClInclude Include="..\include\GOUITree.h" />
+    <ClInclude Include="..\include\GOUITreeNode.h" />
+    <ClInclude Include="..\include\GOUISlider.h" />
+    <ClInclude Include="..\include\GOUIKnob.h" />
+    <ClInclude Include="..\include\GOUIGauge.h" />
+    <ClInclude Include="..\include\GOUILamp.h" />
+    <ClInclude Include="..\include\GOUISwitch.h" />
+    <ClInclude Include="..\include\GOUIDatePicker.h" />
+    <ClInclude Include="..\include\GOUIComponent.h" />
+    <ClInclude Include="..\include\GOUIComponentUnits.hpp" />
+    <ClInclude Include="..\include\GOUIWebChildren.hpp" />
+    <ClInclude Include="..\include\UIControlTabOrder.hpp" />
+    <ClInclude Include="..\include\GOFigureMouseEvents.hpp" />
+    <ClInclude Include="..\include\GOUIContainer.h" />
+    <ClInclude Include="..\include\GOUIDropDown.h" />
+    <ClInclude Include="..\include\GOUIEditField.h" />
+    <ClInclude Include="..\include\GOUIHTML.h" />
+    <ClInclude Include="..\include\GOUIGridLayout.h" />
+    <ClInclude Include="..\include\GOUILabel.h" />
+    <ClInclude Include="..\include\GOUIListBox.h" />
+    <ClInclude Include="..\include\GOUIPanel.h" />
+    <ClInclude Include="..\include\GOUIRadioButton.h" />
+    <ClInclude Include="..\include\GOUISpinner.h" />
+    <ClInclude Include="..\include\GOUITab.h" />
+    <ClInclude Include="..\include\GOUITabGroup.h" />
+    <ClInclude Include="..\include\GOUITextArea.h" />
+    <ClInclude Include="..\include\UIItemsHelpers.h" />
+    <ClInclude Include="..\include\UITicksHelpers.h" />
     <ClInclude Include="..\include\GOUnitsProperty.hpp" />
     <ClInclude Include="..\include\GOVectorFourDoubleProperty.hpp" />
     <ClInclude Include="..\include\GOVectorProperty.hpp" />
     <ClInclude Include="..\include\GOVectorSixDoubleProperty.hpp" />
     <ClInclude Include="..\include\GOVectorThreeDoubleProperty.hpp" />
     <ClInclude Include="..\include\GOVectorTwoDoubleProperty.hpp" />
-    <ClInclude Include="..\include\GOWindow.hpp" />
+    <ClInclude Include="..\include\GORainCloudPlot.hpp" />
+    <ClInclude Include="..\cpp\ViolinDensityHelpers.hpp" />
+    <ClInclude Include="..\include\GOViolinPlot.hpp" />
     <ClInclude Include="..\include\GOZLocationProperty.hpp" />
+    <ClInclude Include="..\include\GOWordCloudChart.hpp" />
+    <ClInclude Include="..\include\GOReferenceSurfaceMask.hpp" />
     <ClInclude Include="..\include\GraphicsObject.hpp" />
     <ClInclude Include="..\include\GraphicsObjectDisplay.hpp" />
+    <ClInclude Include="..\include\GraphicsObjectFactory.hpp" />
     <ClInclude Include="..\include\nlsGraphics_exports.h" />
-    <ClInclude Include="..\include\NonClosableWidget.hpp" />
     <ClInclude Include="..\include\RefreshFigure.hpp" />
-    <ClInclude Include="..\include\RenderQt.hpp" />
     <ClInclude Include="..\include\RenderInterface.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\cpp\BaseFigureQt.cpp" />
-    <ClCompile Include="..\cpp\CallExportGraphicsGui.cpp" />
     <ClCompile Include="..\cpp\CloseFigure.cpp" />
     <ClCompile Include="..\cpp\ContourGenerator.cpp" />
     <ClCompile Include="..\cpp\dllMain.cpp" />
     <ClCompile Include="..\cpp\DrawNow.cpp" />
     <ClCompile Include="..\cpp\EqGraphicsObjects.cpp" />
     <ClCompile Include="..\cpp\FindObj.cpp" />
+    <ClCompile Include="..\cpp\FigurePersistence.cpp" />
     <ClCompile Include="..\cpp\GetFrame.cpp" />
+    <ClCompile Include="..\cpp\WebFigureAnimation.cpp" />
+    <ClCompile Include="..\cpp\WebFigureFramePush.cpp" />
+    <ClCompile Include="..\cpp\WebFigureBinary.cpp" />
+    <ClCompile Include="..\cpp\WebFigureBridge.cpp" />
+    <ClCompile Include="..\cpp\WebFigureAxesMetadata.cpp" />
+    <ClCompile Include="..\cpp\WebFigureView.cpp" />
+    <ClCompile Include="..\cpp\WebFigurePick.cpp" />
+    <ClCompile Include="..\cpp\GOAxisReferenceView.cpp" />
+    <ClCompile Include="..\cpp\GOAxisMapping.cpp" />
+    <ClCompile Include="..\cpp\WebFigureRaster.cpp" />
+    <ClCompile Include="..\cpp\WebFigureSize.cpp" />
+    <ClCompile Include="..\cpp\WebFigureKeyEvent.cpp" />
+    <ClCompile Include="..\cpp\GOFigureMouseEvents.cpp" />
+    <ClCompile Include="..\cpp\WebFigureMouseEvent.cpp" />
     <ClCompile Include="..\cpp\GOAlignHorizProperty.cpp" />
     <ClCompile Include="..\cpp\GOAlignVertProperty.cpp" />
+    <ClCompile Include="..\cpp\GOAnimatedLine.cpp" />
     <ClCompile Include="..\cpp\GOArrayOfProperty.cpp" />
+    <ClCompile Include="..\cpp\GOArea.cpp" />
+    <ClCompile Include="..\cpp\GOAxesToolbar.cpp" />
+    <ClCompile Include="..\cpp\GOAxesToolbarProperty.cpp" />
+    <ClCompile Include="..\cpp\GOAnnotation.cpp" />
     <ClCompile Include="..\cpp\GOAutoFlatColorProperty.cpp" />
     <ClCompile Include="..\cpp\GOAxis.cpp" />
+    <ClCompile Include="..\cpp\GOAxisOrthographicProjection.cpp" />
     <ClCompile Include="..\cpp\GOAxisHelpers.cpp" />
+    <ClCompile Include="..\cpp\GOSurfaceScale.cpp" />
     <ClCompile Include="..\cpp\GOBackFaceLightingProperty.cpp" />
+    <ClCompile Include="..\cpp\GOBar.cpp" />
+    <ClCompile Include="..\cpp\GOBinscatter.cpp" />
+    <ClCompile Include="..\cpp\GOBoxChart.cpp" />
+    <ClCompile Include="..\cpp\GOBubbleChart.cpp" />
+    <ClCompile Include="..\cpp\GOBubbleCloud.cpp" />
+    <ClCompile Include="..\cpp\GOBubbleLegend.cpp" />
     <ClCompile Include="..\cpp\GOBusyActionProperty.cpp" />
     <ClCompile Include="..\cpp\GOCallbackProperty.cpp" />
     <ClCompile Include="..\cpp\GOColorHelpers.cpp" />
     <ClCompile Include="..\cpp\GOColorInterpProperty.cpp" />
+    <ClCompile Include="..\cpp\GOChartDecorators.cpp" />
     <ClCompile Include="..\cpp\GOColorProperty.cpp" />
     <ClCompile Include="..\cpp\GOColorVectorProperty.cpp" />
+    <ClCompile Include="..\cpp\GOColorBar.cpp" />
+    <ClCompile Include="..\cpp\GOColorBarGeometry.cpp" />
+    <ClCompile Include="..\cpp\GOColorBarLayout.cpp" />
+    <ClCompile Include="..\cpp\GOColorBarUnits.cpp" />
+    <ClCompile Include="..\cpp\GOLegend.cpp" />
+    <ClCompile Include="..\cpp\GOLegendLayout.cpp" />
+    <ClCompile Include="..\cpp\GOLegendRender.cpp" />
+    <ClCompile Include="..\cpp\GOCommonProperties.cpp" />
+    <ClCompile Include="..\cpp\GOCompassPlot.cpp" />
     <ClCompile Include="..\cpp\GOContour.cpp" />
     <ClCompile Include="..\cpp\GOControlStyleProperty.cpp" />
     <ClCompile Include="..\cpp\GOGroup.cpp" />
+    <ClCompile Include="..\cpp\GOTransform.cpp" />
     <ClCompile Include="..\cpp\GOMenuBarProperty.cpp" />
+    <ClCompile Include="..\cpp\GOContextMenu.cpp" />
+    <ClCompile Include="..\cpp\GOMenu.cpp" />
+    <ClCompile Include="..\cpp\GOMenuBuilder.cpp" />
     <ClCompile Include="..\cpp\GOPatch.cpp" />
+    <ClCompile Include="..\cpp\GOPolarAxes.cpp" />
+    <ClCompile Include="..\cpp\GORectangle.cpp" />
+    <ClCompile Include="..\cpp\GOUIAxes.cpp" />
+    <ClCompile Include="..\cpp\GOConstantLine.cpp" />
+    <ClCompile Include="..\cpp\GORuler.cpp" />
     <ClCompile Include="..\cpp\GORestrictedStringColorProperty.cpp" />
     <ClCompile Include="..\cpp\GORestrictedStringProperty.cpp" />
     <ClCompile Include="..\cpp\GORestrictedStringScalarProperty.cpp" />
     <ClCompile Include="..\cpp\GORestrictedStringVectorProperty.cpp" />
     <ClCompile Include="..\cpp\GODataMappingModeProperty.cpp" />
-    <ClCompile Include="..\cpp\GOEgdeAlphaProperty.cpp" />
+    <ClCompile Include="..\cpp\GOEdgeAlphaProperty.cpp" />
+    <ClCompile Include="..\cpp\GOErrorBar.cpp" />
     <ClCompile Include="..\cpp\GOFaceAlphaProperty.cpp" />
     <ClCompile Include="..\cpp\GOFigure.cpp" />
+    <ClCompile Include="..\cpp\GOFigureProperties.cpp" />
     <ClCompile Include="..\cpp\GOFiguresManager.cpp" />
+    <ClCompile Include="..\cpp\HeadlessFigureHost.cpp" />
     <ClCompile Include="..\cpp\GOFixedVectorProperty.cpp" />
     <ClCompile Include="..\cpp\GOFontAngleProperty.cpp" />
     <ClCompile Include="..\cpp\GOFontUnitsProperty.cpp" />
     <ClCompile Include="..\cpp\GOFontWeightProperty.cpp" />
+    <ClCompile Include="..\cpp\GOFunctionContour.cpp" />
+    <ClCompile Include="..\cpp\GOFunctionLine.cpp" />
+    <ClCompile Include="..\cpp\GOFunctionSurface.cpp" />
+    <ClCompile Include="..\cpp\GOImplicitFunctionLine.cpp" />
+    <ClCompile Include="..\cpp\GOImplicitFunctionSurface.cpp" />
     <ClCompile Include="..\cpp\GOGObjectsProperty.cpp" />
+    <ClCompile Include="..\cpp\GOHeatmapChart.cpp" />
     <ClCompile Include="..\cpp\GOHelpers.cpp" />
+    <ClCompile Include="..\cpp\GOHistogram.cpp" />
+    <ClCompile Include="..\cpp\GOHistogramBinning.cpp" />
+    <ClCompile Include="..\cpp\GOHistogram2.cpp" />
     <ClCompile Include="..\cpp\GOImage.cpp" />
     <ClCompile Include="..\cpp\GOInOutProperty.cpp" />
     <ClCompile Include="..\cpp\GOLeftRightProperty.cpp" />
+    <ClCompile Include="..\cpp\GOLight.cpp" />
     <ClCompile Include="..\cpp\GOLightingModeProperty.cpp" />
     <ClCompile Include="..\cpp\GOLinearLogProperty.cpp" />
     <ClCompile Include="..\cpp\GOLineSeries.cpp" />
     <ClCompile Include="..\cpp\GOLineStyleOrderProperty.cpp" />
     <ClCompile Include="..\cpp\GOLineStyleProperty.cpp" />
     <ClCompile Include="..\cpp\GOMappingModeProperty.cpp" />
+    <ClCompile Include="..\cpp\GOMaximumNumPointsProperty.cpp" />
     <ClCompile Include="..\cpp\GONextPlotModeProperty.cpp" />
     <ClCompile Include="..\cpp\GONormalReverseProperty.cpp" />
+    <ClCompile Include="..\cpp\GOParallelPlot.cpp" />
+    <ClCompile Include="..\cpp\GOParameterizedFunctionLine.cpp" />
+    <ClCompile Include="..\cpp\GOPositionHelpers.cpp" />
     <ClCompile Include="..\cpp\GOPositionProperty.cpp" />
+    <ClCompile Include="..\cpp\GOPickablePartsProperty.cpp" />
+    <ClCompile Include="..\cpp\GOPieChart.cpp" />
     <ClCompile Include="..\cpp\GOProjectionModeProperty..cpp" />
+    <ClCompile Include="..\cpp\GOQuiver.cpp" />
     <ClCompile Include="..\cpp\GORoot.cpp" />
+    <ClCompile Include="..\cpp\GraphicsEnvironment.cpp" />
+    <ClCompile Include="..\cpp\RenderHelpers.cpp" />
     <ClCompile Include="..\cpp\GORowColumnProperty.cpp" />
     <ClCompile Include="..\cpp\GOScalarAlphaProperty.cpp" />
     <ClCompile Include="..\cpp\GOScalarDoubleProperty.cpp" />
+    <ClCompile Include="..\cpp\GOScalarLogicalProperty.cpp" />
     <ClCompile Include="..\cpp\GOScalarPositiveIntegerValueProperty.cpp" />
+    <ClCompile Include="..\cpp\GOScatterHistogram.cpp" />
     <ClCompile Include="..\cpp\GOScatterSeries.cpp" />
+    <ClCompile Include="..\cpp\GOSeriesIndexProperty.cpp" />
     <ClCompile Include="..\cpp\GOStringAutoManualProperty.cpp" />
     <ClCompile Include="..\cpp\GOStringOnOffProperty.cpp" />
     <ClCompile Include="..\cpp\GOStringProperty.cpp" />
+    <ClCompile Include="..\cpp\GOThemeProperty.cpp" />
     <ClCompile Include="..\cpp\GOStringVectorProperty.cpp" />
+    <ClCompile Include="..\cpp\GOCategoricalVectorProperty.cpp" />
+    <ClCompile Include="..\cpp\GOStackedLineChart.cpp" />
+    <ClCompile Include="..\cpp\GOStair.cpp" />
+    <ClCompile Include="..\cpp\GOStem.cpp" />
     <ClCompile Include="..\cpp\GOSurface.cpp" />
     <ClCompile Include="..\cpp\GOSymbolProperty.cpp" />
+    <ClCompile Include="..\cpp\GOSubplotText.cpp" />
     <ClCompile Include="..\cpp\GOText.cpp" />
     <ClCompile Include="..\cpp\GOTextInterpreterProperty.cpp" />
     <ClCompile Include="..\cpp\GOTiledChartLayout.cpp" />
     <ClCompile Include="..\cpp\GOLayoutOptions.cpp" />
     <ClCompile Include="..\cpp\GOToolBarProperty.cpp" />
     <ClCompile Include="..\cpp\GOTopBottomProperty.cpp" />
+    <ClCompile Include="..\cpp\GOUIButton.cpp" />
+    <ClCompile Include="..\cpp\GOUICheckBox.cpp" />
+    <ClCompile Include="..\cpp\GOUITable.cpp" />
+    <ClCompile Include="..\cpp\GOUITree.cpp" />
+    <ClCompile Include="..\cpp\GOUITreeNode.cpp" />
+    <ClCompile Include="..\cpp\GOUISlider.cpp" />
+    <ClCompile Include="..\cpp\GOUIKnob.cpp" />
+    <ClCompile Include="..\cpp\GOUIGauge.cpp" />
+    <ClCompile Include="..\cpp\GOUILamp.cpp" />
+    <ClCompile Include="..\cpp\GOUISwitch.cpp" />
+    <ClCompile Include="..\cpp\GOUIDatePicker.cpp" />
+    <ClCompile Include="..\cpp\GOUIComponent.cpp" />
+    <ClCompile Include="..\cpp\GOUIComponentUnits.cpp" />
+    <ClCompile Include="..\cpp\GOUIWebChildren.cpp" />
+    <ClCompile Include="..\cpp\UIControlTabOrder.cpp" />
+    <ClCompile Include="..\cpp\GOUIComponentWidget.cpp" />
+    <ClCompile Include="..\cpp\GOUIContainer.cpp" />
+    <ClCompile Include="..\cpp\GOUIDropDown.cpp" />
+    <ClCompile Include="..\cpp\GOUIEditField.cpp" />
+    <ClCompile Include="..\cpp\GOUIHTML.cpp" />
+    <ClCompile Include="..\cpp\GOUIGridLayout.cpp" />
+    <ClCompile Include="..\cpp\GOUIListBox.cpp" />
+    <ClCompile Include="..\cpp\GOUIPanel.cpp" />
+    <ClCompile Include="..\cpp\GOUIRadioButton.cpp" />
+    <ClCompile Include="..\cpp\GOUISpinner.cpp" />
+    <ClCompile Include="..\cpp\GOUITab.cpp" />
+    <ClCompile Include="..\cpp\GOUITabGroup.cpp" />
+    <ClCompile Include="..\cpp\GOUITextArea.cpp" />
+    <ClCompile Include="..\cpp\UIItemsHelpers.cpp" />
+    <ClCompile Include="..\cpp\UITicksHelpers.cpp" />
     <ClCompile Include="..\cpp\GOUIControl.cpp" />
     <ClCompile Include="..\cpp\GOUIControlEvents.cpp" />
     <ClCompile Include="..\cpp\GOUIControlHelpers.cpp" />
     <ClCompile Include="..\cpp\GOUIControlProperties.cpp" />
     <ClCompile Include="..\cpp\GOUIControlRendering.cpp" />
-    <ClCompile Include="..\cpp\GOUIControlWidgets.cpp" />
+    <ClCompile Include="..\cpp\GOUILabel.cpp" />
     <ClCompile Include="..\cpp\GOUnitsProperty.cpp" />
     <ClCompile Include="..\cpp\GOVectorFourDoubleProperty.cpp" />
     <ClCompile Include="..\cpp\GOVectorProperty.cpp" />
     <ClCompile Include="..\cpp\GOVectorSixDoubleProperty.cpp" />
     <ClCompile Include="..\cpp\GOVectorThreeDoubleProperty.cpp" />
     <ClCompile Include="..\cpp\GOVectorTwoDoubleProperty.cpp" />
-    <ClCompile Include="..\cpp\GOWindow.cpp" />
+    <ClCompile Include="..\cpp\GORainCloudPlot.cpp" />
+    <ClCompile Include="..\cpp\GOViolinPlot.cpp" />
     <ClCompile Include="..\cpp\GOWindowStateProperty.cpp" />
+    <ClCompile Include="..\cpp\GOWindowStyleProperty.cpp" />
+    <ClCompile Include="..\cpp\GOWordCloudChart.cpp" />
     <ClCompile Include="..\cpp\GOZLocationProperty.cpp" />
+    <ClCompile Include="..\cpp\GOReferenceSurfaceMask.cpp" />
     <ClCompile Include="..\cpp\GraphicsObject.cpp" />
     <ClCompile Include="..\cpp\GraphicsObjectDisplay.cpp" />
+    <ClCompile Include="..\cpp\GraphicsObjectFactory.cpp" />
     <ClCompile Include="..\cpp\IsValidGraphicsProperty.cpp" />
     <ClCompile Include="..\cpp\LayoutHelpers.cpp" />
     <ClCompile Include="..\cpp\MinMaxHelpers.cpp" />
-    <ClCompile Include="..\cpp\moc_GOUIControl.cpp" />
-    <ClCompile Include="..\cpp\moc_QCheckBoxWidget.cpp" />
-    <ClCompile Include="..\cpp\moc_QLabelWidget.cpp" />
-    <ClCompile Include="..\cpp\moc_QLineEditWidget.cpp" />
-    <ClCompile Include="..\cpp\moc_QListBoxWidget.cpp" />
-    <ClCompile Include="..\cpp\moc_QMultiLineEdit.cpp" />
-    <ClCompile Include="..\cpp\moc_QMultiLineEditWidget.cpp" />
-    <ClCompile Include="..\cpp\moc_QPopupMenuWidget.cpp" />
-    <ClCompile Include="..\cpp\moc_QPushButtonWidget.cpp" />
-    <ClCompile Include="..\cpp\moc_QRadioButtonWidget.cpp" />
-    <ClCompile Include="..\cpp\moc_QSliderWidget.cpp" />
-    <ClCompile Include="..\cpp\moc_QToggleButtonWidget.cpp" />
-    <ClCompile Include="..\cpp\NonClosableWidget.cpp" />
-    <ClCompile Include="..\cpp\QCheckBoxWidget.cpp" />
-    <ClCompile Include="..\cpp\QLabelWidget.cpp" />
-    <ClCompile Include="..\cpp\QLineEditWidget.cpp" />
-    <ClCompile Include="..\cpp\QListBoxWidget.cpp" />
-    <ClCompile Include="..\cpp\QMultiLineEditWidget.cpp" />
-    <ClCompile Include="..\cpp\QMultiLineEdit.cpp" />
-    <ClCompile Include="..\cpp\QPopupMenuWidget.cpp" />
-    <ClCompile Include="..\cpp\QPushButtonWidget.cpp" />
-    <ClCompile Include="..\cpp\QRadioButtonWidget.cpp" />
-    <ClCompile Include="..\cpp\QSliderWidget.cpp" />
-    <ClCompile Include="..\cpp\QToggleButtonWidget.cpp" />
     <ClCompile Include="..\cpp\RefreshFigure.cpp" />
-    <ClCompile Include="..\cpp\RenderQt.cpp" />
-    <ClCompile Include="..\cpp\RenderHelpers.cpp" />
     <ClCompile Include="..\cpp\TexToUnicode.cpp" />
+    <ClCompile Include="..\cpp\UIComponentBuilder.cpp" />
+    <ClCompile Include="..\cpp\UIParentRules.cpp" />
     <ClCompile Include="..\cpp\UIControlBuilder.cpp" />
     <ClCompile Include="..\cpp\UnitsConversionHelpers.cpp" />
   </ItemGroup>
@@ -546,58 +486,39 @@
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
-    <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v143</PlatformToolset>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v143</PlatformToolset>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
@@ -607,12 +528,6 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)bin/$(PlatformName)/</OutDir>
-    <IntDir>$(Configuration)\</IntDir>
-    <TargetName>lib$(ProjectName)</TargetName>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
@@ -624,12 +539,6 @@
     <LinkIncremental>true</LinkIncremental>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)bin/$(PlatformName)/</OutDir>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)bin/$(PlatformName)/</OutDir>
-    <IntDir>$(Configuration)\</IntDir>
-    <TargetName>lib$(ProjectName)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -643,41 +552,15 @@
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)bin/$(PlatformName)/</OutDir>
   </PropertyGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <ClCompile>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSGRAPHICS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/graphics/src/include;$(SolutionDir)modules/graphics/src/cpp/QtGifImage;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/files_folders_functions/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/text_editor/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(QTDIR)/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/libgif/include</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp17</LanguageStandard>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <AdditionalOptions> /Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
-      <ConformanceMode>true</ConformanceMode>
-    </ClCompile>
-    <Link>
-      <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(QTDIR)/lib;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/libgif/lib;/lib</AdditionalLibraryDirectories>
-    </Link>
-    <PreLinkEvent>
-      <Command>
-      </Command>
-    </PreLinkEvent>
-  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSGRAPHICS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>QT_NO_DEPRECATED_WARNINGS;WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSGRAPHICS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/graphics/src/include;$(SolutionDir)modules/graphics/src/cpp/QtGifImage;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/files_folders_functions/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/text_editor/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(QTDIR)/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/libgif/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/graphics/src/include;$(SolutionDir)modules/render_web/src/include;$(SolutionDir)modules/font_metrics/src/include;$(SolutionDir)modules/graphics/src/cpp/QtGifImage;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/files_folders_functions/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/json/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/libgif/include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalOptions> /Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
@@ -688,7 +571,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(QTDIR)/lib;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/libgif/lib;/lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/libgif/lib;/lib</AdditionalLibraryDirectories>
     </Link>
     <PreLinkEvent>
       <Command>
@@ -701,9 +584,9 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSGRAPHICS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>QT_NO_DEPRECATED_WARNINGS;WIN32;_DEBUG;_WINDOWS;_USRDLL;NLSGRAPHICS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/graphics/src/include;$(SolutionDir)modules/graphics/src/cpp/QtGifImage;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/files_folders_functions/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/text_editor/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(QTDIR)/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/libgif/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/graphics/src/include;$(SolutionDir)modules/render_web/src/include;$(SolutionDir)modules/font_metrics/src/include;$(SolutionDir)modules/graphics/src/cpp/QtGifImage;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/files_folders_functions/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/json/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/libgif/include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalOptions> /Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
@@ -714,37 +597,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(QTDIR)/lib;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/libgif/lib;/lib</AdditionalLibraryDirectories>
-    </Link>
-    <PreLinkEvent>
-      <Command>
-      </Command>
-    </PreLinkEvent>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
-      <Optimization>MaxSpeed</Optimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSGRAPHICS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/graphics/src/include;$(SolutionDir)modules/graphics/src/cpp/QtGifImage;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/files_folders_functions/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/text_editor/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(QTDIR)/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/libgif/include</AdditionalIncludeDirectories>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalOptions> /Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
-      <ConformanceMode>true</ConformanceMode>
-    </ClCompile>
-    <Link>
-      <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-      <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(QTDIR)/lib;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/libgif/lib;/lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/libgif/lib;/lib</AdditionalLibraryDirectories>
     </Link>
     <PreLinkEvent>
       <Command>
@@ -759,9 +612,9 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSGRAPHICS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>QT_NO_DEPRECATED_WARNINGS;WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSGRAPHICS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/graphics/src/include;$(SolutionDir)modules/graphics/src/cpp/QtGifImage;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/files_folders_functions/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/text_editor/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(QTDIR)/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/libgif/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/graphics/src/include;$(SolutionDir)modules/render_web/src/include;$(SolutionDir)modules/font_metrics/src/include;$(SolutionDir)modules/graphics/src/cpp/QtGifImage;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/files_folders_functions/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/json/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/libgif/include</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalOptions> /Zc:__cplusplus /arch:AVX2 %(AdditionalOptions)</AdditionalOptions>
@@ -774,7 +627,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(QTDIR)/lib;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/libgif/lib;/lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/libgif/lib;/lib</AdditionalLibraryDirectories>
     </Link>
     <PreLinkEvent>
       <Command>
@@ -789,9 +642,9 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSGRAPHICS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>QT_NO_DEPRECATED_WARNINGS;WIN32;NDEBUG;_WINDOWS;_USRDLL;NLSGRAPHICS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)modules/graphics/src/include;$(SolutionDir)modules/graphics/src/cpp/QtGifImage;$(SolutionDir)modules/gui/src/include;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/files_folders_functions/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/text_editor/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(QTDIR)/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/libgif/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)modules/graphics/src/include;$(SolutionDir)modules/render_web/src/include;$(SolutionDir)modules/font_metrics/src/include;$(SolutionDir)modules/graphics/src/cpp/QtGifImage;$(SolutionDir)modules/i18n/src/include;$(SolutionDir)modules/elementary_functions/src/include;$(SolutionDir)modules/nelson_manager/src/include;$(SolutionDir)modules/modules_manager/src/include;$(SolutionDir)modules/characters_encoding/src/include;$(SolutionDir)modules/interpreter/src/include;$(SolutionDir)modules/types/src/include;$(SolutionDir)modules/files_folders_functions/src/include;$(SolutionDir)modules/commons/src/fmt/include;$(SolutionDir)modules/commons/src/include;$(SolutionDir)modules/stream_manager/src/include;$(SolutionDir)modules/core/src/include;$(SolutionDir)modules/error_manager/src/include;$(SolutionDir)modules/json/src/include;$(SolutionDir)modules/engine/src/include;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/Eigen;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/libgif/include</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalOptions> /Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
@@ -804,7 +657,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(QTDIR)/lib;$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/libgif/lib;/lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)../NelSon-thirdparty-$(PlatformName)/libgif/lib;/lib</AdditionalLibraryDirectories>
     </Link>
     <PreLinkEvent>
       <Command>

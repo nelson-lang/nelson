@@ -114,6 +114,28 @@ NLSjl_string_ptr(jl_value_t* s);
 jl_value_t*
 NLSjl_call(jl_function_t* f, jl_value_t** args, uint32_t nargs);
 //=============================================================================
+int
+NLSjl_gc_enable(int on);
+//=============================================================================
+// RAII helper that disables the Julia garbage collector for its lifetime and
+// restores the previous state on destruction. Julia is dlsym-loaded, so JL_GC_PUSH
+// and jl_pgcstack cannot root bare C locals: use this around code that keeps
+// unrooted jl_value_t* across allocating Julia calls. Guards nest: each one
+// restores the state it found.
+class NLSjlGcDisableGuard
+{
+public:
+    NLSjlGcDisableGuard() : m_previous(NLSjl_gc_enable(0)) { }
+    ~NLSjlGcDisableGuard() { NLSjl_gc_enable(m_previous); }
+    NLSjlGcDisableGuard(const NLSjlGcDisableGuard&) = delete;
+    NLSjlGcDisableGuard&
+    operator=(const NLSjlGcDisableGuard&)
+        = delete;
+
+private:
+    int m_previous;
+};
+//=============================================================================
 jl_value_t*
 NLSjl_call0(jl_function_t* f);
 //=============================================================================

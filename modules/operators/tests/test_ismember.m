@@ -7,78 +7,107 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('ismember'), 2)
-assert_isequal(nargout('ismember'), 1)
+asserts.isequal(nargin('ismember'), 2)
+asserts.isequal(nargout('ismember'), 1)
 %=============================================================================
 R = ismember({''}, {'abc', 'def'});
-assert_isfalse(R)
+asserts.isfalse(R)
 %=============================================================================
 R = ismember('abc', {'abc', 'def'});
-assert_istrue(R)
+asserts.istrue(R)
 %=============================================================================
 R = ismember([], [1, 2]);
-assert_isequal(R, logical([]))
+asserts.isequal(R, logical([]))
 %=============================================================================
 R = ismember({}, {'a', 'b'});
-assert_isequal(R, logical([]))
+asserts.isequal(R, logical([]))
 %=============================================================================
 R = ismember([], 'a');
-assert_isequal(R, logical([]))
+asserts.isequal(R, logical([]))
 %=============================================================================
 R = ismember('', {'abc', 'def'});
-assert_isfalse(R)
+asserts.isfalse(R)
 %=============================================================================
 R = ismember(1, 'abc');
-assert_isfalse(R)
+asserts.isfalse(R)
 %=============================================================================
 R = ismember('abc', 1);
-assert_isequal(R, [false false false]);
+asserts.isequal(R, [false false false]);
 %=============================================================================
 R = ismember('abc', 99);
-assert_isequal(R, [false false true]);
+asserts.isequal(R, [false false true]);
 %=============================================================================
 msg = sprintf(_('Check for incorrect argument data type or missing argument in call to function ''%s''.'), 'ismember');
-assert_checkerror('R = ismember([], {1, 2})', msg)
+asserts.checkerror('R = ismember([], {1, 2})', msg)
 %=============================================================================
-assert_checkerror('R = ismember({[]}, {1, 2})', msg)
+asserts.checkerror('R = ismember({[]}, {1, 2})', msg)
 %=============================================================================
-assert_checkerror('R = ismember({}, {1, 2})', msg)
+asserts.checkerror('R = ismember({}, {1, 2})', msg)
 %=============================================================================
-assert_checkerror('R = ismember({1}, {''1'', ''2''})', msg)
+asserts.checkerror('R = ismember({1}, {''1'', ''2''})', msg)
 %=============================================================================
 R = ismember({'1'}, {'1' '2'});
-assert_istrue(R)
+asserts.istrue(R)
 %=============================================================================
 R = ismember([1 2 3], [5 4 3 1]);
-assert_isequal(R, [true false true])
+asserts.isequal(R, [true false true])
 %=============================================================================
 R = ismember({'foo', 'bar'}, {'foobar'});
-assert_isequal(R, [false false])
+asserts.isequal(R, [false false])
 %=============================================================================
 R = ismember({'foo'}, {'foobar'});
-assert_isfalse(R)
+asserts.isfalse(R)
 %=============================================================================
 R = ismember({'bar'}, {'foobar'});
-assert_isfalse(R)
+asserts.isfalse(R)
 %=============================================================================
 R = ismember({'bar'}, {'foobar', 'bar'});
-assert_istrue(R)
+asserts.istrue(R)
 %=============================================================================
 R = ismember({'foo', 'bar'}, {'foobar', 'bar'});
-assert_isequal(R, [false true])
+asserts.isequal(R, [false true])
 %=============================================================================
 R = ismember({'xfb', 'f', 'b'}, {'fb', 'b'});
-assert_isequal(R, [false false true])
+asserts.isequal(R, [false false true])
 %=============================================================================
 R = ismember('1', '0123456789.');
-assert_istrue(R)
+asserts.istrue(R)
 %=============================================================================
 R = ismember("1", "0123456789.");
-assert_isfalse(R)
+asserts.isfalse(R)
 %=============================================================================
 R = ismember("0123456789.", "1");
-assert_isfalse(R)
+asserts.isfalse(R)
 %=============================================================================
 R = ismember('0123456789.', '1');
-assert_isequal(R, logical([0   1   0   0   0   0   0   0   0   0   0]));
+asserts.isequal(R, logical([0 1 0 0 0 0 0 0 0 0 0]));
+%=============================================================================
+[tf, loc] = ismember([2 5 3], [1 2 3 4]);
+asserts.isequal(tf, [true false true]);
+asserts.isequal(loc, [2 0 3]);
+%=============================================================================
+[tf, loc] = ismember([3 1 2], [1 2 3 1 2 3]);
+asserts.isequal(loc, [3 1 2]);
+%=============================================================================
+[tf, loc] = ismember(int32(5), int32([5 5]));
+asserts.isequal(loc, 1);
+%=============================================================================
+[tf, loc] = ismember({'b', 'x'}, {'a', 'b', 'c', 'b'});
+asserts.isequal(tf, [true false]);
+asserts.isequal(loc, [2 0]);
+%=============================================================================
+[tf, loc] = ismember(["a", "z"], ["z", "a", "a"]);
+asserts.isequal(loc, [2 1]);
+%=============================================================================
+% 'rows' option
+[tf, loc] = ismember([1 2; 3 4; 5 6], [5 6; 1 2], 'rows');
+asserts.isequal(tf, [true; false; true]);
+asserts.isequal(loc, [2; 0; 1]);
+%=============================================================================
+tf = ismember([1 2; 3 4], [3 4; 1 2], 'rows');
+asserts.isequal(tf, [true; true]);
+%=============================================================================
+[tf, loc] = ismember(int32([1 2; 3 4]), int32([3 4]), 'rows');
+asserts.isequal(tf, [false; true]);
+asserts.isequal(loc, [0; 1]);
 %=============================================================================

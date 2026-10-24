@@ -11,13 +11,13 @@
 //=============================================================================
 #include <string>
 #include "nlsGraphics_exports.h"
-#include "GOWindow.hpp"
+#include "GOFigureHost.hpp"
 #include "ArrayOf.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 NLSGRAPHICS_IMPEXP ArrayOf
-GetFrame(GOWindow* f);
+GetFrame(GOFigureHost* f, bool rawOpenGL = false);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

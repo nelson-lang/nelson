@@ -14,7 +14,7 @@
     <param_input_item>
       <param_name>function_name</param_name>
       <param_description
-      >une chaîne de caractères : nom de la fonction</param_description>
+      >une chaîne de caractères : nom de fonction, mot-clé, alias ou nom de page XML externe</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -27,6 +27,9 @@
   <description>
     <p>
       <b>help(&apos;function_name&apos;)</b> affiche le texte d&apos;aide pour la fonctionnalité spécifiée.</p>
+    <p>L&apos;index JSON fourni avec Nelson est interrogé en premier. Si le mot-clé est absent, help recherche les pages XML des modules externes actuellement chargés dans help/langue/xml, y compris ses sous-dossiers. Une page est accessible par keyword, keyword_alias ou son nom de fichier XML sans extension. Une API dans un namespace et un guide autonome ne nécessitent pas de macro portant le nom du mot-clé.</p>
+    <p>Pour chaque module externe, la langue courante est recherchée, puis la langue par défaut si cette page est absente. Les modules chargés le plus récemment sont parcourus en premier. Les pages doivent avoir une racine xmldoc et ne pas contenir de DOCTYPE. Les pages illisibles ou mal formées sont ignorées ; le repli existant sur les commentaires de macro reste disponible en l&apos;absence de page.</p>
+    <p>Une page externe affiche sa description complète, ses syntaxes, descriptions des entrées/sorties et exemples sous forme de texte. Les exemples ne sont jamais exécutés. Aucun index global n&apos;est généré ou modifié ; un module déchargé n&apos;est plus recherché. Les fichiers XML doivent rester présents : la seule archive d&apos;aide HTML ne suffit pas pour cette commande. Le lecteur graphique de documentation reste une commande distincte.</p>
   </description>
   <used_function />
   <bibliography />
@@ -37,7 +40,16 @@
       <example_item_data runnable="cli"><![CDATA[help sin]]></example_item_data>
     </example_item>
   </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${help_tools}doc">doc</link>
+    </see_also_item>
+  </see_also>
   <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>Lecture des pages XML des modules externes chargés, y compris guides autonomes et API dans un namespace.</history_description>
+    </history_item>
     <history_item>
       <history_version>1.15.0</history_version>
       <history_description>version initiale</history_description>

@@ -9,10 +9,22 @@
 %=============================================================================
 M = sparse([]);
 R = abs(M);
-assert_isequal(R, M);
+asserts.isequal(R, M);
 %=============================================================================
 M = logical(sparse(1));
 R = abs(M);
 REF = double(sparse(true));
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
+%=============================================================================
+M = sparse(single([-2 0; 0 3]));
+R = abs(M);
+asserts.istrue(issparse(R));
+asserts.isequal(class(R), 'single');
+asserts.isequal(full(R), single([2 0; 0 3]));
+%=============================================================================
+M = sparse(single([1 + 2i 0; -3i 4]));
+R = abs(M);
+asserts.istrue(issparse(R));
+asserts.isequal(class(R), 'single');
+asserts.isapprox(full(R), single([sqrt(5) 0; 3 4]), 1e-6);
 %=============================================================================

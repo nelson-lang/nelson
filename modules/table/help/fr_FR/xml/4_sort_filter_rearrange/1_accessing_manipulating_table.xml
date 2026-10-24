@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>AccÃ¨s et manipulation des tables dans Nelson</keyword>
+  <description>
+    <p>
+      <b>Insertion dans une table</b>
+    </p>
+    <p
+    >Pour insÃ©rer de nouvelles donnÃ©es dans une table, utilisez la notation par point ou les accolades<b>{}</b> pour une insertion Ã©lÃ©ment par Ã©lÃ©ment. Vous pouvez ajouter de nouvelles lignes, colonnes ou mettre Ã  jour des donnÃ©es existantes.</p>
+    <p>voir exemples : <b>Ajout d&apos;une nouvelle colonne</b> et <b>Mise Ã  jour d&apos;un Ã©lÃ©ment existant</b>
+    </p>
+    <p />
+    <p>
+      <b>Extraction depuis une table</b>
+    </p>
+    <p
+    >Vous pouvez extraire des lignes, colonnes ou Ã©lÃ©ments individuels en utilisant l&apos;indexation ou en rÃ©fÃ©rant les noms de variables.</p>
+    <p>voir exemples : <b>Extraction de colonnes spÃ©cifiques</b> et <b>Extraction de lignes spÃ©cifiques</b>
+    </p>
+    <p />
+    <p>
+      <b>Suppression de donnÃ©es dans une table</b>
+    </p>
+    <p
+    >Dans Nelson, vous pouvez supprimer des lignes, colonnes ou Ã©lÃ©ments spÃ©cifiques d&apos;une table en utilisant l&apos;indexation ou la fonction removevars. Les lignes ou colonnes peuvent Ãªtre supprimÃ©es en dÃ©finissant les indices sur des crochets vides [].</p>
+    <p>voir exemples : <b>Suppression de lignes</b> et <b>Suppression de colonnes</b>
+    </p>
+    <p />
+    <p>
+      <b>ConcatÃ©nation horizontale (horzcat)</b>
+    </p>
+    <p
+    >Vous pouvez concatÃ©ner des tables horizontalement (cÃ´te Ã  cÃ´te) en utilisant la fonction horzcat. Cette fonction combine les tables en ajoutant les colonnes d&apos;une table aux colonnes d&apos;une autre.</p>
+    <p>voir exemples : <b>ConcatÃ©nation horizontale</b>
+    </p>
+    <p />
+    <p>
+      <b>ConcatÃ©nation verticale (vertcat)</b>
+    </p>
+    <p
+    >Vous pouvez concatÃ©ner des tables verticalement (l&apos;une sous l&apos;autre) en utilisant la fonction vertcat. Cette fonction combine les tables en ajoutant les lignes d&apos;une table aux lignes d&apos;une autre.</p>
+    <p>voir exemples : <b>ConcatÃ©nation verticale</b>
+    </p>
+    <p />
+    <p>
+      <b>Conversion des types de variables</b>
+    </p>
+    <p
+    >Vous pouvez convertir les variables d&apos;une table en utilisant la propriÃ©tÃ©<b>VariableTypes</b>.</p>
+    <p>voir exemples : exemple <b>VariableTypes</b>
+    </p>
+    <p />
+    <p>
+      <b>Organisation des variables</b>
+    </p>
+    <p>Utilisez <b>addvars</b>, <b>movevars</b>, <b>renamevars</b> et <b>removevars</b> pour manipuler les variables tout en conservant les metadonnees de table.</p>
+    <p>voir exemples : <b>Organisation des variables</b>
+    </p>
+    <p />
+    <p>
+      <b>Metadonnees personnalisees</b>
+    </p>
+    <p>Utilisez <b>addprop</b> et <b>rmprop</b> pour gerer les metadonnees personnalisees stockees dans <b>T.Properties.CustomProperties</b>.</p>
+    <p>voir exemples : <b>Metadonnees personnalisees</b>
+    </p>
+    <p />
+    <p>
+      <b>RÃ©sumÃ©</b>
+    </p>
+    <p
+    >Dans Nelson, les tables stockent et manipulent des données hétérogènes. La notation par point et les fonctions de concaténation (horzcat, vertcat) permettent d&apos;insérer des données, d&apos;extraire des parties de table et de concaténer des tables horizontalement ou verticalement.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Adding a New Column</example_item_description>
+      <example_item_data
+      ><![CDATA[T = table([1; 2], {'A'; 'B'}, 'VariableNames', {'ID', 'Label'})
+% Insert a new column 'Score'
+T.Score = [10; 20]
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Updating an Existing Element</example_item_description>
+      <example_item_data
+      ><![CDATA[T = table([1; 2], {'A'; 'B'}, 'VariableNames', {'ID', 'Label'})
+% Insert a new column 'Score'
+T.Score = [10; 20]
+% Update the value in row 1, column 'Score'
+T{1, 'Score'} = 15
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Extracting Specific Columns</example_item_description>
+      <example_item_data
+      ><![CDATA[T = table([1; 2], {'A'; 'B'}, 'VariableNames', {'ID', 'Label'})
+% Insert a new column 'Score'
+T.Score = [10; 20]
+% Update the value in row 1, column 'Score'
+T{1, 'Score'} = 15
+% Extract the 'ID' column from the table
+ID_column = T.ID
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Extracting Specific Rows</example_item_description>
+      <example_item_data
+      ><![CDATA[T = table([1; 2], {'A'; 'B'}, 'VariableNames', {'ID', 'Label'})
+% Insert a new column 'Score'
+T.Score = [10; 20]
+% Update the value in row 1, column 'Score'
+T{1, 'Score'} = 15
+% Extract the first two rows of the table
+rows_1_2 = T(1:2, :)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Removing a Column</example_item_description>
+      <example_item_data
+      ><![CDATA[T = table([1; 2], {'A'; 'B'}, 'VariableNames', {'ID', 'Label'})
+% Insert a new column 'Score'
+T.Score = [10; 20]
+% Remove the 'Score' column from the table
+T(:, 'Score') = [];
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Removing a Row</example_item_description>
+      <example_item_data
+      ><![CDATA[T = table([1; 2], {'A'; 'B'}, 'VariableNames', {'ID', 'Label'})
+% Insert a new column 'Score'
+T.Score = [10; 20]
+% Remove the second row from the table
+T(2, :) = [];
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Horizontal Concatenation</example_item_description>
+      <example_item_data
+      ><![CDATA[% Create two tables with the same number of rows
+T1 = table([1; 2], {'A'; 'B'}, 'VariableNames', {'ID', 'Label'});
+T2 = table([10; 20], {'X'; 'Y'}, 'VariableNames', {'Score', 'Grade'});
+
+% Concatenate horizontally
+T_horz = [T1, T2]  % or T_horz = horzcat(T1, T2);
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Vertical Concatenation</example_item_description>
+      <example_item_data
+      ><![CDATA[T1 = table([1; 2], {'A'; 'B'}, 'VariableNames', {'ID', 'Label'});
+% Create two tables with the same column names
+T3 = table([3; 4], {'C'; 'D'}, 'VariableNames', {'ID', 'Label'});
+
+% Concatenate vertically
+T_vert = [T1; T3]  % or T_vert = vertcat(T1, T3)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Convert variable types</example_item_description>
+      <example_item_data
+      ><![CDATA[Names = {'John'; 'Alice'; 'Bob'; 'Diana'};
+Age = [28; 34; 22; 30];
+Height = [175; 160; 180; 165];
+Weight = [70; 55; 80; 60];
+T = table(Names, Age, Height, Weight);
+T.Properties.VariableTypes
+T{:,1}
+T{:,2}
+T.Properties.VariableTypes = ["string"    "int8"    "double"    "double"];
+T{:,1}
+T{:,2}
+T.Properties.VariableTypes]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Ajouter et deplacer des variables</example_item_description>
+      <example_item_data
+      ><![CDATA[T = table([1; 2], [5; 6], 'VariableNames', {'A', 'C'});
+T = addvars(T, [3; 4], 'NewVariableNames', {'B'}, 'Before', 'C');
+T = movevars(T, 'C', 'Before', 1)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Proprietes personnalisees</example_item_description>
+      <example_item_data
+      ><![CDATA[T = table([1; 2], 'VariableNames', {'A'});
+T = addprop(T, 'Source', 'table');
+T.Properties.CustomProperties.Source = 'manual';
+T.Properties.CustomProperties.Source
+T = rmprop(T, 'Source')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${table}table">table</link>
+    </see_also_item>
+    <see_also_item>
+      <link
+        linkend="${table}7_apply_functions/2_direct_computation_with_table"
+      >Direct computation with Table</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${table}addvars">addvars</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${table}movevars">movevars</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${data_analysis}summary">summary</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.8.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>1.10.0</history_version>
+      <history_description>VariableTypes property</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>fonctions d'organisation des variables et proprietes personnalisees</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -16,5 +16,6 @@
 namespace Nelson {
 NLSASSERT_FUNCTIONS_IMPEXP logical
 Assert_IsTrue(logical value, const std::wstring& modifiedmsg, std::wstring& msg);
-}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

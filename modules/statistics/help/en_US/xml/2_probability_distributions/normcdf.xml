@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>normcdf</keyword>
+  <short_description>Normal cumulative distribution function</short_description>
+  <syntax>
+    <syntax_item>p = normcdf(x)</syntax_item>
+    <syntax_item>p = normcdf(x, mu, sigma)</syntax_item>
+    <syntax_item>p = normcdf(..., &apos;upper&apos;)</syntax_item>
+    <syntax_item>[p, pLo, pUp] = normcdf(x, mu, sigma, pCov)</syntax_item>
+    <syntax_item>[p, pLo, pUp] = normcdf(x, mu, sigma, pCov, alpha)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>x</param_name>
+      <param_description>real scalar or array: values where the distribution is evaluated.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>mu</param_name>
+      <param_description>real scalar or array, 0 by default: mean.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>sigma</param_name>
+      <param_description>positive real scalar or array, 1 by default: standard deviation.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>pCov</param_name>
+      <param_description>2-by-2 covariance matrix for the estimated parameters.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>alpha</param_name>
+      <param_description>scalar in (0,1), 0.05 by default: significance level for confidence bounds.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>p</param_name>
+      <param_description>scalar or array: cumulative probabilities.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>pLo</param_name>
+      <param_description>lower confidence bound.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>pUp</param_name>
+      <param_description>upper confidence bound.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>normcdf</b> evaluates the cumulative distribution function of the normal distribution.</p>
+    <p>Scalar inputs are expanded to match array inputs. If any distribution input uses single precision, the result uses single precision.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[x = [-2 -1 0 1 2];
+p = normcdf(x);
+upperTail = normcdf(x, 0, 1, 'upper');
+[p, pLo, pUp] = normcdf(0, 0, 1, [0.04 0; 0 0.01]);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${statistics}normpdf">normpdf</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}norminv">norminv</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

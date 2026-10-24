@@ -12,32 +12,32 @@
 % <-- Short Description -->
 % wrong result from arithmetic operation with integers and floats
 %=============================================================================
-assert_isequal(int16(325) * 4.39, int16(1427))
-assert_isequal(int16(325) .* 4.39, int16(1427))
-assert_isequal(4.39 * int16(325) , int16(1427))
-assert_isequal(4.39 .* int16(325), int16(1427))
+asserts.isequal(int16(325) * 4.39, int16(1427))
+asserts.isequal(int16(325) .* 4.39, int16(1427))
+asserts.isequal(4.39 * int16(325), int16(1427))
+asserts.isequal(4.39 .* int16(325), int16(1427))
 %=============================================================================
-assert_isequal(int16(325) / 4.39, int16(74))
-assert_isequal(int16(325) ./ 4.39, int16(74))
-assert_isequal(4.39 / int16(325), int16(0))
-assert_isequal(4.39 ./ int16(325), int16(0))
+asserts.isequal(int16(325) / 4.39, int16(74))
+asserts.isequal(int16(325) ./ 4.39, int16(74))
+asserts.isequal(4.39 / int16(325), int16(0))
+asserts.isequal(4.39 ./ int16(325), int16(0))
 %=============================================================================
-assert_isequal(int16(325) \ 4.39, int16(0))
-assert_isequal(int16(325) .\ 4.39, int16(0))
-assert_isequal(4.39 \ int16(325), int16(74))
-assert_isequal(4.39 .\ int16(325), int16(74))
+asserts.isequal(int16(325) \ 4.39, int16(0))
+asserts.isequal(int16(325) .\ 4.39, int16(0))
+asserts.isequal(4.39 \ int16(325), int16(74))
+asserts.isequal(4.39 .\ int16(325), int16(74))
 %=============================================================================
-assert_isequal(4.39 + int16(325), int16(329))
-assert_isequal(int16(325) + 4.39, int16(329))
-assert_isequal(4.39 - int16(325), int16(-321))
-assert_isequal(int16(325) - 4.39, int16(321))
+asserts.isequal(4.39 + int16(325), int16(329))
+asserts.isequal(int16(325) + 4.39, int16(329))
+asserts.isequal(4.39 - int16(325), int16(-321))
+asserts.isequal(int16(325) - 4.39, int16(321))
 %=============================================================================
-assert_isequal(4.39 ^ int16(325), intmax('int16'))
-assert_isequal(4.39 ^ int64(325), intmax('int64'))
-assert_checkerror('int64(325) .^ 4.39', _('Positive integral powers expected.'))
-% assert_checkerror('int16(325) ^ 4.39', _('Positive integral powers expected.'))
+asserts.isequal(4.39 ^ int16(325), intmax('int16'))
+asserts.isequal(4.39 ^ int64(325), intmax('int64'))
+asserts.checkerror('int64(325) .^ 4.39', _('Positive integral powers expected.'))
+% asserts.checkerror('int16(325) ^ 4.39', _('Positive integral powers expected.'))
 %=============================================================================
-R = [int16(325),4.39];
+R = [int16(325), 4.39];
 REF = int16([325, 4]);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================

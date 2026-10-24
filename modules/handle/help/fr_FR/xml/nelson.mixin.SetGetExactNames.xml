@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nelson.mixin.SetGetExactNames</keyword>
+  <short_description>Accès set et get aux propriétés avec noms sensibles à la casse.</short_description>
+  <syntax>
+    <syntax_item>classdef MaClasse &lt; nelson.mixin.SetGetExactNames</syntax_item>
+    <syntax_item>set(obj, nom, valeur)</syntax_item>
+    <syntax_item>valeur = get(obj, nom)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>obj</param_name><param_description>un objet handle d'une classe dérivant de nelson.mixin.SetGetExactNames.</param_description></param_input_item>
+    <param_input_item><param_name>nom</param_name><param_description>un nom de propriété (char ou string), ou un tableau de cellules de noms, écrit avec la casse exacte.</param_description></param_input_item>
+    <param_input_item><param_name>valeur</param_name><param_description>la valeur à affecter.</param_description></param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>valeur</param_name><param_description>la valeur de la propriété.</param_description></param_output_item>
+  </param_output>
+  <description>
+    <p>Dérivez une classe handle de <b>nelson.mixin.SetGetExactNames</b> pour lui donner des méthodes
+    <b>set</b> et <b>get</b> permettant de lire et écrire les propriétés par leur nom. Elle se
+    comporte exactement comme <b>nelson.mixin.SetGet</b>, dont elle dérive, sauf que les noms de
+    propriétés sont comparés de façon <b>sensible à la casse</b> : un nom qui ne diffère de la
+    propriété déclarée que par la casse est rejeté.</p>
+    <p><b>set(obj, nom, valeur)</b> affecte une propriété ; <b>set(obj, n1, v1, n2, v2, ...)</b> en
+    affecte plusieurs. <b>get(obj, nom)</b> renvoie la valeur d'une propriété ; <b>get(obj)</b>
+    renvoie une structure de toutes les propriétés.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Accès aux propriétés par nom, sensible à la casse.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[classdef Widget < nelson.mixin.SetGetExactNames
+  properties
+    Width = 0
+    Height = 0
+  end
+end
+w = Widget();
+set(w, 'Width', 100);
+get(w, 'Width')     % renvoie 100
+get(w, 'width')     % erreur : 'width' n'est pas le nom déclaré 'Width']]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${handle}handle">handle</link></see_also_item>
+    <see_also_item><link linkend="${handle}nelson.mixin.SetGet">nelson.mixin.SetGet</link></see_also_item>
+    <see_also_item><link linkend="${interpreter}classdef">classdef</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>2.0.0</history_version><history_description>version initiale</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

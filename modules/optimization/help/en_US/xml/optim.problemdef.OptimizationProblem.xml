@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>optim.problemdef.OptimizationProblem</keyword>
+  <short_description>Optimization problem object.</short_description>
+  <syntax>
+    <syntax_item>prob = optimproblem</syntax_item>
+    <syntax_item>prob = optimproblem(Name, Value)</syntax_item>
+    <syntax_item>[sol, fval] = solve(prob, x0)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>Objective</param_name>
+      <param_description>objective expression to minimize or maximize.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Constraints</param_name>
+      <param_description>structure of named optimization constraints.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Name, Value</param_name>
+      <param_description>problem properties such as Objective, Description, and ObjectiveSense.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>prob</param_name>
+      <param_description>optimization problem object.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>sol</param_name>
+      <param_description>solution structure returned by solve.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>fval</param_name>
+      <param_description>objective value at the solution.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>optim.problemdef.OptimizationProblem stores an objective, constraints, variables, objective sense, and description.</p>
+    <p>Use optimproblem to create the object and solve to compute a solution.</p>
+  </description>
+  <used_function>
+    <used_function_item>optimproblem</used_function_item>
+    <used_function_item>optimvar</used_function_item>
+    <used_function_item>solve</used_function_item>
+  </used_function>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Create and solve a small constrained problem.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[x = optimvar('x', 2, 1, 'LowerBound', 0);
+prob = optimproblem('Objective', (x(1) - 1)^2 + (x(2) - 2)^2);
+prob.Constraints.limit = x(1) + x(2) <= 4;
+[sol, fval] = solve(prob)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${optimization}optimproblem">optimproblem</link></see_also_item>
+    <see_also_item><link linkend="${optimization}optimvar">optimvar</link></see_also_item>
+    <see_also_item><link linkend="${optimization}solve">solve</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

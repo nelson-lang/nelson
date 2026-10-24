@@ -7,23 +7,23 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('isstruct'), 1);
-assert_isequal(nargout('isstruct'), 1);
+asserts.isequal(nargin('isstruct'), 1);
+asserts.isequal(nargout('isstruct'), 1);
 %=============================================================================
 A = 1;
 res = isstruct(A);
-assert_isfalse(res);
+asserts.isfalse(res);
 %=============================================================================
 B = struct();
 res = isstruct(B);
-assert_istrue(res);
+asserts.istrue(res);
 %=============================================================================
 C.a = 1;
 C.B = 'hello';
 res = isstruct(C);
-assert_istrue(res);
+asserts.istrue(res);
 %=============================================================================
 B = struct([]);
 res = isstruct(B);
-assert_istrue(res);
+asserts.istrue(res);
 %=============================================================================

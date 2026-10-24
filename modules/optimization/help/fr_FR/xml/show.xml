@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>show</keyword>
+  <short_description>Afficher un objet d'optimization.</short_description>
+  <syntax>
+    <syntax_item>show(obj)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>obj</param_name>
+      <param_description>problème, expression, contrainte ou variable d'optimization.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p>
+      <b>show</b> affiche une représentation textuelle compacte d'un objet problem-based. Les variables d'optimization sont affichées par dimensions et indices seulement ; les types et bornes ne sont pas affichés dans l'affichage de la variable. Les expressions, contraintes et problèmes sont affichés sous forme de formules problem-based.</p>
+  </description>
+  <used_function>
+    <used_function_item>optimproblem</used_function_item>
+    <used_function_item>optimvar</used_function_item>
+  </used_function>
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[x = optimvar('x', 2);
+show(x)
+obj = log(1 + 100 * (x(2) - x(1)^2)^2 + (1 - x(1))^2);
+show(obj)
+cons = x(1)^2 + x(2)^2 <= 1;
+show(cons)
+prob = optimproblem('Objective', obj, 'Constraints', cons);
+show(prob)
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${optimization}evaluate">evaluate</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${optimization}optimproblem">optimproblem</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,0 +1,99 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "",
+    "created": "2026-08-09",
+    "tool": "Nelson nflow"
+  },
+  "license": "",
+  "comments": "A sinusoidal velocity drives a Coulomb & Viscous Friction block (y = Gain*u + Offset*sign(u)). Scopes compare the input velocity and the resulting friction force, showing the viscous slope plus the Coulomb jump at zero.",
+  "name": "Coulomb & Viscous Friction Demo",
+  "blocks": [
+    {
+      "id": "vel",
+      "type": "sine",
+      "x": 60,
+      "y": 200,
+      "rotation": 0,
+      "params": {
+        "Amplitude": 2,
+        "Frequency": 0.3
+      }
+    },
+    {
+      "id": "fric",
+      "type": "coulombViscousFriction",
+      "x": 220,
+      "y": 100,
+      "rotation": 0,
+      "params": {
+        "Gain": 0.5,
+        "Offset": 1
+      }
+    },
+    {
+      "id": "scope_in",
+      "type": "scope",
+      "x": 380,
+      "y": 260,
+      "rotation": 0,
+      "params": {
+        "Title": "velocity"
+      }
+    },
+    {
+      "id": "scope_out",
+      "type": "scope",
+      "x": 380,
+      "y": 60,
+      "rotation": 0,
+      "params": {
+        "Title": "friction force"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "vel",
+      "to": "fric",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [140, 240],
+        [200, 240],
+        [200, 140],
+        [220, 140]
+      ]
+    },
+    {
+      "from": "vel",
+      "to": "scope_in",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [140, 240],
+        [360, 240],
+        [360, 300],
+        [380, 300]
+      ]
+    },
+    {
+      "from": "fric",
+      "to": "scope_out",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [300, 140],
+        [360, 140],
+        [360, 100],
+        [380, 100]
+      ]
+    }
+  ],
+  "variables": "",
+  "runtime": "10",
+  "sampleTime": 0.01,
+  "autoRoute": true,
+  "locked": false
+}

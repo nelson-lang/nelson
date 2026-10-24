@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/" xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>Sample RSS Feed</title>
+    <link>https://example.org/</link>
+    <description>A sample channel for tests</description>
+    <item>
+      <title>First article</title>
+      <link>https://example.org/first</link>
+      <pubDate>Mon, 01 Sep 2025 08:00:00 GMT</pubDate>
+      <description>Body of the &lt;b&gt;first&lt;/b&gt; article.</description>
+      <media:thumbnail url="https://example.org/img/first.jpg" width="240" height="135"/>
+    </item>
+    <item>
+      <title>Second article</title>
+      <link>https://example.org/second</link>
+      <pubDate>Tue, 02 Sep 2025 09:30:00 GMT</pubDate>
+      <description>Second summary with inline image &lt;img src="https://example.org/inline2.png"&gt;.</description>
+    </item>
+  </channel>
+</rss>

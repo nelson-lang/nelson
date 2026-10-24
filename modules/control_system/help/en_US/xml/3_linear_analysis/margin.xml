@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>margin</keyword>
+  <short_description>Gain and phase margins of a SISO LTI system.</short_description>
+  <syntax>
+    <syntax_item>margin(sys)</syntax_item>
+    <syntax_item>[Gm, Pm, Wcg, Wcp] = margin(sys)</syntax_item>
+    <syntax_item>[Gm, Pm, Wcg, Wcp] = margin(mag, phase, w)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>sys</param_name>
+      <param_description>a SISO LTI model.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>mag</param_name>
+      <param_description
+      >magnitude of the frequency response (absolute values).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>phase</param_name>
+      <param_description
+      >phase of the frequency response, in degrees.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>w</param_name>
+      <param_description>frequencies, in rad/s.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>Gm</param_name>
+      <param_description
+      >gain margin (absolute value), equal to 1/|G(j*Wcg)|.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>Pm</param_name>
+      <param_description>phase margin, in degrees.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>Wcg</param_name>
+      <param_description
+      >phase crossover frequency (rad/s), where the phase equals -180 degrees.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>Wcp</param_name>
+      <param_description
+      >gain crossover frequency (rad/s), where the magnitude equals 1 (0 dB).</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>margin</b> computes the gain margin, the phase margin and the associated crossover frequencies of a SISO open-loop model <b>sys.</b>
+    </p>
+    <p
+    >The gain margin <b>Gm</b> is returned as an absolute value (not in decibels) and is the factor by which the open-loop gain can be increased before the closed loop becomes unstable.</p>
+    <p
+    >The phase margin <b>Pm</b> is expressed in degrees and is the additional phase lag required to reach instability.</p>
+    <p
+    >When a margin is infinite, <b>Gm</b> or <b>Pm</b> is returned as <b>Inf.</b> The associated phase crossover frequency <b>Wcg</b> is <b>Inf</b> when the phase reaches -180 degrees only at infinite frequency (continuous system of relative degree two or more), and <b>NaN</b> when there is no phase crossover at all.</p>
+    <p
+    >The alternate form <b>margin(mag, phase, w)</b> computes the margins directly from frequency-response data obtained elsewhere.</p>
+    <p
+    >Called without output arguments, <b>margin(sys)</b> draws the Bode diagram of the system.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+      ><![CDATA[H = tf(1, [1 3 2 0]);
+[Gm, Pm, Wcg, Wcp] = margin(H)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${control_system}bode">bode</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

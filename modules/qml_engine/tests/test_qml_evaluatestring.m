@@ -10,21 +10,21 @@
 % <--ADV-CLI MODE-->
 % <--WITH DISPLAY-->
 %=============================================================================
-assert_isequal(nargin('qml_evaluatestring'), 1);
-assert_isequal(nargout('qml_evaluatestring'), 1);
+asserts.isequal(nargin('qml_evaluatestring'), 1);
+asserts.isequal(nargout('qml_evaluatestring'), 1);
 %=============================================================================
 r = qml_evaluatestring('var A = 1 + 1');
-assert_isequal(r, []);
+asserts.isequal(r, []);
 %=============================================================================
 r = qml_evaluatestring('A = 1 + 1');
-assert_isequal(r, 2);
+asserts.isequal(r, 2);
 %=============================================================================
 r = qml_evaluatestring('A = [1, 2]');
-assert_isequal(r, '1,2');
+asserts.isequal(r, '1,2');
 %=============================================================================
 r = qml_evaluatestring('[[1, 2], [3, 4]]');
-assert_isequal(r, '1,2,3,4');
+asserts.isequal(r, '1,2,3,4');
 %=============================================================================
 r = qml_evaluatestring('true');
-assert_isequal(r, true);
+asserts.isequal(r, true);
 %=============================================================================

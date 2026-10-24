@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nelson.lang.correction.AppendArgumentsCorrection</keyword>
+  <short_description>Corrige une erreur en ajoutant des arguments manquants.</short_description>
+  <syntax>
+    <syntax_item>correction = nelson.lang.correction.AppendArgumentsCorrection(arguments)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>arguments</param_name>
+      <param_description>arguments suggeres, specifies sous forme de chaine, vecteur de caracteres ou tableau cellulaire de vecteurs de caracteres.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>correction</param_name>
+      <param_description>un objet nelson.lang.correction.AppendArgumentsCorrection.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Utilisez les objets <b>nelson.lang.correction.AppendArgumentsCorrection</b> dans les fonctions qui levent un objet MException.</p>
+    <p><b>correction = nelson.lang.correction.AppendArgumentsCorrection(arguments)</b> cree une correction qui suggere d&apos;ajouter les arguments d&apos;entree <b>arguments</b> a l&apos;appel de fonction qui a leve l&apos;objet MException.</p>
+    <p>La propriete en lecture seule <b>Arguments</b> contient les arguments suggeres.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data><![CDATA[ME = MException('nelson:notEnoughInputs', 'Not enough input arguments.');
+correction = nelson.lang.correction.AppendArgumentsCorrection('"world"');
+ME = addCorrection(ME, correction)
+ME.Correction.Arguments]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${error_manager}addCorrection">addCorrection</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${error_manager}nelson.lang.correction.ConvertToFunctionNotationCorrection">nelson.lang.correction.ConvertToFunctionNotationCorrection</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${error_manager}nelson.lang.correction.ReplaceIdentifierCorrection">nelson.lang.correction.ReplaceIdentifierCorrection</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

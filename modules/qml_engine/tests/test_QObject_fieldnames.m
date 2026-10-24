@@ -10,40 +10,36 @@
 % <--ADV-CLI MODE-->
 % <--WITH DISPLAY-->
 %=============================================================================
-if semver(qt_version(), '>=6.0')
-  qml_file = [modulepath('qml_engine', 'tests'), '/test_qml_loadfile_window_qt6.qml'];
-else
-  qml_file = [modulepath('qml_engine', 'tests'), '/test_qml_loadfile_window_qt5.qml'];
-end
+qml_file = [modulepath('qml_engine', 'tests'), '/test_qml_loadfile_window_qt6.qml'];
 qobj1 = qml_loadfile(qml_file);
 %=============================================================================
 R1 = fieldnames(qobj1);
 R2 = fieldnames(qobj1);
-assert_isequal(R1, R2);
+asserts.isequal(R1, R2);
 %=============================================================================
-REF = { 'active'
-'activeFocusItem'
-'children'
-'className'
-'color'
-'contentItem'
-'contentOrientation'
-'data'
-'flags'
-'height'
-'maximumHeight'
-'maximumWidth'
-'minimumHeight'
-'minimumWidth'
-'modality'
-'objectName'
-'opacity'
-'parent'
-'title'
-'visibility'
-'visible'
-'width'
-'x'
-'y'};
-assert_istrue(any(contains(R1, REF)));
+REF = {'active'
+  'activeFocusItem'
+  'children'
+  'className'
+  'color'
+  'contentItem'
+  'contentOrientation'
+  'data'
+  'flags'
+  'height'
+  'maximumHeight'
+  'maximumWidth'
+  'minimumHeight'
+  'minimumWidth'
+  'modality'
+  'objectName'
+  'opacity'
+  'parent'
+  'title'
+  'visibility'
+  'visible'
+  'width'
+  'x'
+  'y'};
+asserts.istrue(any(contains(R1, REF)));
 %=============================================================================

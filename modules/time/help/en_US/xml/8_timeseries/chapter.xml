@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>time</module_name>
+  <chapter>Time Series</chapter>
+  <chapter_description>
+    <p>Time series, time series collections, events, metadata, and related operations.</p>
+  </chapter_description>
+</xmldoc>

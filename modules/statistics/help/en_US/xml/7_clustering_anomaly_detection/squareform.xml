@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>squareform</keyword>
+  <short_description>Convert between condensed distance vector and square distance matrix.</short_description>
+  <syntax>
+    <syntax_item>Z = squareform(D)</syntax_item>
+    <syntax_item>D = squareform(Z)</syntax_item>
+    <syntax_item>Y = squareform(X, direction)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>D</param_name>
+      <param_description>distance vector with n*(n-1)/2 elements.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Z</param_name>
+      <param_description>square symmetric distance matrix.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>direction</param_name>
+      <param_description>'tomatrix' or 'tovector'.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b>squareform</b> converts a condensed distance vector to a square symmetric matrix, or the reverse.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[D = [1 2 3];
+Z = squareform(D)
+D2 = squareform(Z)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${statistics}pdist">pdist</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

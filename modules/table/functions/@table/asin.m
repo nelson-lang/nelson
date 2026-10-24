@@ -7,11 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function A = asin(X)
-  try
-    A = feval('@table/unaryFunctionTableHelper', X, @asin);
-  catch Exception
-    throwAsCaller(Exception);
-  end
+function R = asin(A)
+  R = table.applyUnary(A, @asin, 'asin');
 end
 %=============================================================================

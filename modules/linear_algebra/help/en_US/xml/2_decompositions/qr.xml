@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>qr</keyword>
+  <short_description>QR matrix factorization.</short_description>
+  <syntax>
+    <syntax_item>R = qr(A)</syntax_item>
+    <syntax_item>[Q, R] = qr(A)</syntax_item>
+    <syntax_item>[Q, R, P] = qr(A)</syntax_item>
+    <syntax_item>[...] = qr(A, 'econ')</syntax_item>
+    <syntax_item>[Q, R, P] = qr(A, outputForm)</syntax_item>
+    <syntax_item>[...] = qr(A, 0)</syntax_item>
+    <syntax_item>[C, R] = qr(S, B)</syntax_item>
+    <syntax_item>[C, R, P] = qr(S, B)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>a full or sparse single or double matrix, real or complex.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>S</param_name>
+      <param_description>a sparse coefficient matrix.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>B</param_name>
+      <param_description>a right-hand side matrix with the same numeric class as S.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>outputForm</param_name>
+      <param_description>'matrix' or 'vector'.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>Q</param_name>
+      <param_description>orthogonal or unitary factor.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>R</param_name>
+      <param_description>upper triangular factor.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>P</param_name>
+      <param_description>column permutation matrix or vector.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>C</param_name>
+      <param_description>factor equal to Q' * B for sparse least-squares forms.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>qr</b> computes a QR factorization. For full matrices, <b>A = Q * R</b>. With three outputs, a column permutation is returned and <b>A * P = Q * R</b>, or <b>A(:, P) = Q * R</b> when <b>outputForm</b> is <b>'vector'</b>.</p>
+    <p>The <b>'econ'</b> option returns economy-size factors for tall matrices. The legacy option <b>0</b> is equivalent to economy-size output with permutation vectors.</p>
+    <p>For sparse <b>S</b> and right-hand side <b>B</b>, <b>qr(S, B)</b> returns <b>C = Q' * B</b> and <b>R</b> for least-squares solves.</p>
+  </description>
+  <used_function>LAPACK dgeqrf, LAPACK sgeqrf, LAPACK zgeqrf, LAPACK cgeqrf, LAPACK dgeqp3, LAPACK sgeqp3, LAPACK zgeqp3, LAPACK cgeqp3, Eigen::SparseQR</used_function>
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[A = magic(5);
+[Q, R] = qr(A);
+norm(A - Q * R)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Economy-size QR factorization.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = rand(10, 3);
+[Q, R, p] = qr(A, 'econ', 'vector');
+norm(A(:, p) - Q * R)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${linear_algebra}lu">lu</link></see_also_item>
+    <see_also_item><link linkend="${linear_algebra}chol">chol</link></see_also_item>
+    <see_also_item><link linkend="${linear_algebra}svd">svd</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

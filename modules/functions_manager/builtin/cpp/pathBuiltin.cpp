@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -12,6 +12,7 @@
 #endif
 #include "pathBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "PathFunctionIndexerManager.hpp"
 #include "NelsonPrint.hpp"
@@ -39,16 +40,17 @@ Nelson::FunctionsGateway::pathBuiltin(int nLhs, const ArrayOfVector& argIn)
                 }
             }
         } else {
-            retval << ArrayOf::characterArrayConstructor(
+            retval << ArrayOf::characterArray(
                 PathFunctionIndexerManager::getInstance()->getPathNameAsString());
         }
     }
     if (argIn.size() == 1) {
         ArrayOf param1 = argIn[0];
         if (!param1.isRowVectorCharacterArray()) {
-            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1),
+                L"string");
         }
-        std::wstring p = param1.getContentAsWideString();
+        std::wstring p = param1.asWideString();
         wstringVector paths;
 #ifdef _MSC_VER
         StringHelpers::split(paths, p, L';');
@@ -67,14 +69,16 @@ Nelson::FunctionsGateway::pathBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (argIn.size() == 2) {
         ArrayOf param1 = argIn[0];
         if (!param1.isRowVectorCharacterArray()) {
-            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1),
+                L"string");
         }
         ArrayOf param2 = argIn[1];
         if (!param2.isRowVectorCharacterArray()) {
-            Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
+            Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (2),
+                L"string");
         }
-        std::wstring p1 = param1.getContentAsWideString();
-        std::wstring p2 = param2.getContentAsWideString();
+        std::wstring p1 = param1.asWideString();
+        std::wstring p2 = param2.asWideString();
         wstringVector paths1;
 #ifdef _MSC_VER
         StringHelpers::split(paths1, p1, L';');

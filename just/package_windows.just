@@ -6,14 +6,11 @@ set working-directory := ".."
 # Package Windows 64-bit version
 win64: (package "x64")
 
-# Package Windows 32-bit version
-win32: (package "win32")
-
 # Package Windows ARM64 version
 arm64: (package "ARM64")
 
 # Helper to package Nelson for a given architecture
 [private]
 package arch:
-    @.\bin\{{arch}}\nelson-cli --noipc --quiet -e run('.\tools\innosetup\innosetup.m');exit
+    @.\bin\{{arch}}\nelson-cli --no-ipc --quiet -e run('.\tools\innosetup\innosetup.m');exit
     @iscc .\tools\innosetup\Nelson.iss

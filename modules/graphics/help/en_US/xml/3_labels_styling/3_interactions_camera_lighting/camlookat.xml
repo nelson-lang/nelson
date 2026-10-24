@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>camlookat</keyword>
+  <short_description>Aim the camera at an object.</short_description>
+  <syntax>
+    <syntax_item>camlookat</syntax_item>
+    <syntax_item>camlookat(obj)</syntax_item>
+    <syntax_item>camlookat(ax)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>obj</param_name>
+      <param_description>a graphics object to look at (for example a surface or line).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description>an axes whose contents are framed.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b>camlookat</b> sets the camera target to the center of the object and
+    moves the camera along the current viewing direction so the object fills
+    the view. With no argument it frames the current axes.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
+[x, y, z] = sphere(20);
+s = surf(x + 5, y - 3, z);
+axis equal;
+camlookat(s);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}3_labels_styling/3_interactions_camera_lighting/camtarget">camtarget</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}3_labels_styling/3_interactions_camera_lighting/campos">campos</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

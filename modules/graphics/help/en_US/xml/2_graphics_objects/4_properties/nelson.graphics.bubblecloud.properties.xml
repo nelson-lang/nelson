@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>bubblecloud properties</keyword>
+  <short_description>bubblecloud graphics object properties.</short_description>
+  <description>
+    <p>This page documents the visible properties returned by <b>properties</b> for a <b>bubblecloud</b> graphics object.</p>
+    <table>
+      <tr>
+        <th>Property</th>
+        <th>Action</th>
+        <th>Type and supported values</th>
+      </tr>
+      <tr><td><b>Annotation</b></td><td>updates annotation metadata used by graphics tools.</td><td>Type: graphics annotation object or empty handle value. Supported values: an annotation object associated with the graphics item, or an empty graphics handle.</td></tr>
+      <tr><td><b>BeingDeleted</b></td><td>reports whether deletion is in progress.</td><td>Type: text scalar or character row vector. Supported values: 'off', 'on'.</td></tr>
+      <tr><td><b>BusyAction</b></td><td>controls callback queuing while another callback runs.</td><td>Type: text scalar or character row vector. Supported values: 'queue', 'cancel'.</td></tr>
+      <tr><td><b>ButtonDownFcn</b></td><td>runs when the object receives a mouse-button event.</td><td>Type: callback value. Supported values: [], function handle, character vector, string scalar, or callback cell array.</td></tr>
+      <tr><td><b>Children</b></td><td>lists child graphics primitives owned by the chart.</td><td>Type: graphics object handle vector. Supported values: empty vector or child handles.</td></tr>
+      <tr><td><b>ContextMenu</b></td><td>attaches the menu used for context-click actions.</td><td>Type: graphics object handle scalar. Supported values: [] or a uicontextmenu handle.</td></tr>
+      <tr><td><b>CreateFcn</b></td><td>runs when the object is created.</td><td>Type: callback value. Supported values: [], function handle, character vector, string scalar, or callback cell array.</td></tr>
+      <tr><td><b>DeleteFcn</b></td><td>runs when the object is deleted.</td><td>Type: callback value. Supported values: [], function handle, character vector, string scalar, or callback cell array.</td></tr>
+      <tr><td><b>DisplayName</b></td><td>stores the label used by legends and object identification.</td><td>Type: text value. Supported values: character row vector or string scalar.</td></tr>
+      <tr><td><b>EdgeColor</b></td><td>sets the bubble outline color.</td><td>Type: color value. Supported values: short color names, RGB triplet with values in [0,1], or hexadecimal color.</td></tr>
+      <tr><td><b>FaceColor</b></td><td>sets the bubble fill color.</td><td>Type: color value or color keyword. Supported values: short color names, RGB triplet with values in [0,1], hexadecimal color, or 'flat'.</td></tr>
+      <tr><td><b>GroupData</b></td><td>stores grouping labels used to color bubbles and create legend entries.</td><td>Type: cell array of character rows. Supported values: empty cell array or one label per bubble.</td></tr>
+      <tr><td><b>GroupVariable</b></td><td>stores the table variable used for grouping labels.</td><td>Type: text value. Supported values: empty text or a source-table variable name.</td></tr>
+      <tr><td><b>HandleVisibility</b></td><td>controls handle discovery through graphics queries.</td><td>Type: text scalar or character row vector. Supported values: 'on', 'off', 'callback'.</td></tr>
+      <tr><td><b>HitTest</b></td><td>includes or excludes the object from mouse hit testing.</td><td>Type: text scalar or character row vector. Supported values: 'on', 'off'.</td></tr>
+      <tr><td><b>InnerPosition</b></td><td>stores the inner chart rectangle.</td><td>Type: numeric row vector. Supported values: four finite values [left bottom width height].</td></tr>
+      <tr><td><b>Interruptible</b></td><td>controls interruption of running callbacks.</td><td>Type: text scalar or character row vector. Supported values: 'on', 'off'.</td></tr>
+      <tr><td><b>LabelData</b></td><td>stores labels displayed inside bubbles.</td><td>Type: cell array of character rows. Supported values: empty cell array or one label per bubble.</td></tr>
+      <tr><td><b>LabelVariable</b></td><td>stores the table variable used for bubble labels.</td><td>Type: text value. Supported values: empty text or a source-table variable name.</td></tr>
+      <tr><td><b>LegendTitle</b></td><td>sets the title displayed above group legend entries.</td><td>Type: text value. Supported values: character row vector, string scalar, or empty text.</td></tr>
+      <tr><td><b>OuterPosition</b></td><td>stores the outer chart rectangle.</td><td>Type: numeric row vector. Supported values: four finite values [left bottom width height].</td></tr>
+      <tr><td><b>Parent</b></td><td>stores the parent graphics container.</td><td>Type: graphics object handle scalar. Supported values: figure handle.</td></tr>
+      <tr><td><b>PickableParts</b></td><td>controls which visible parts can be picked.</td><td>Type: text scalar or character row vector. Supported values: 'visible', 'all', 'none'.</td></tr>
+      <tr><td><b>Position</b></td><td>stores the chart position rectangle.</td><td>Type: numeric row vector. Supported values: four finite values [left bottom width height].</td></tr>
+      <tr><td><b>Selected</b></td><td>controls selection state.</td><td>Type: text scalar or character row vector. Supported values: 'on', 'off'.</td></tr>
+      <tr><td><b>SelectionHighlight</b></td><td>controls selection highlight display.</td><td>Type: text scalar or character row vector. Supported values: 'on', 'off'.</td></tr>
+      <tr><td><b>SizeData</b></td><td>stores numeric bubble sizes.</td><td>Type: numeric row vector. Supported values: finite numeric values.</td></tr>
+      <tr><td><b>SizeVariable</b></td><td>stores the table variable used for bubble sizes.</td><td>Type: text value. Supported values: empty text or a source-table variable name.</td></tr>
+      <tr><td><b>SourceTable</b></td><td>stores the table used to create the chart.</td><td>Type: table or empty array. Supported values: [] or a table supplied to bubblecloud.</td></tr>
+      <tr><td><b>Tag</b></td><td>stores user-defined text for identifying the object.</td><td>Type: text value. Supported values: character row vector or string scalar.</td></tr>
+      <tr><td><b>Title</b></td><td>sets chart title text.</td><td>Type: text value. Supported values: character row vector, string scalar, or empty text.</td></tr>
+      <tr><td><b>Type</b></td><td>identifies the graphics object type.</td><td>Type: text scalar or character row vector. Supported values: 'bubblecloud'.</td></tr>
+      <tr><td><b>Units</b></td><td>sets units used by position properties.</td><td>Type: text scalar or character row vector. Supported values: 'normalized', 'pixels', 'inches', 'centimeters', 'points', 'characters'.</td></tr>
+      <tr><td><b>UserData</b></td><td>stores user data attached to the chart.</td><td>Type: any Nelson value. Supported values: any value.</td></tr>
+      <tr><td><b>Visible</b></td><td>controls chart visibility.</td><td>Type: text scalar or character row vector. Supported values: 'on', 'off'.</td></tr>
+    </table>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Inspect bubblecloud properties.</example_item_description>
+      <example_item_data><![CDATA[h = bubblecloud([10 20 30], {'A','B','C'});
+props = properties(h)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/4_data_distribution_plots/bubblecloud">bubblecloud</link></see_also_item>
+    <see_also_item><link linkend="${handle}properties">properties</link></see_also_item>
+  </see_also>
+</xmldoc>

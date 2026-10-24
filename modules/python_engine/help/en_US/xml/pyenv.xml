@@ -44,7 +44,7 @@
     </p>
     <p />
     <p
-    >Use environment variables to force python environment at each startup (usefull for snapcraft or docker distribution):</p>
+    >Use environment variables to force python environment at each startup (useful for snapcraft or docker distribution):</p>
     <p />
     <p>
       <b>__NELSON_PYTHON_VERSION__</b>: example &quot;3.10&quot;

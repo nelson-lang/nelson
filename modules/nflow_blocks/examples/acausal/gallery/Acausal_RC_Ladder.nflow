@@ -1,0 +1,32 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": { "author": "Allan CORNET", "created": "2026-09-28", "tool": "Nelson nflow" },
+  "license": "LGPL-3.0",
+  "comments": "Two-stage RC ladder low-pass: a step source feeds R1 into C1, then R2 into C2, both capacitors returned to ground. The output at C2 is a smoothed second-order response. Exercises the modified-nodal-analysis solver on a multi-node passive network. The Scope plots the C2 voltage; ToWorkspace exports it.",
+  "name": "RC Ladder",
+  "blocks": [
+    { "id": "V1", "type": "ConstantVoltage", "params": { "V": 1 }, "x": 60, "y": 280, "rotation": 90 },
+    { "id": "R1", "type": "Resistor", "params": { "R": 1 }, "x": 200, "y": 200, "rotation": 0 },
+    { "id": "C1", "type": "Capacitor", "params": { "C": 0.5, "v0": 0 }, "x": 340, "y": 280, "rotation": 90 },
+    { "id": "R2", "type": "Resistor", "params": { "R": 2 }, "x": 480, "y": 200, "rotation": 0 },
+    { "id": "C2", "type": "Capacitor", "params": { "C": 1, "v0": 0 }, "x": 620, "y": 280, "rotation": 90 },
+    { "id": "VS", "type": "VoltageSensor", "params": {}, "x": 760, "y": 280, "rotation": 90 },
+    { "id": "G", "type": "Ground", "params": {}, "x": 60, "y": 420, "rotation": 90 },
+    { "id": "tw", "type": "toWorkspace", "params": { "VariableName": "vc2", "SaveFormat": "Array", "Decimation": 1, "MaxDataPoints": "inf" }, "inputs": 1, "outputs": 0, "x": 900, "y": 130, "rotation": 0 },
+    { "id": "sc", "type": "scope", "params": { "TMin": "", "TMax": "", "YMin": "", "YMax": "", "width": 320, "height": 220, "ShowTickLabels": true }, "x": 900, "y": 300, "rotation": 0 }
+  ],
+  "connections": [
+    { "from": "VS", "to": "tw", "fromIndex": 0, "toIndex": 0 },
+    { "from": "VS", "to": "sc", "fromIndex": 0, "toIndex": 0 }
+  ],
+  "solver": "dae",
+  "runtime": 6,
+  "sampleTime": 0.01,
+  "physicalWires": [
+    { "pins": ["V1.p", "R1.p"] },
+    { "pins": ["R1.n", "C1.p", "R2.p"] },
+    { "pins": ["R2.n", "C2.p", "VS.p"] },
+    { "pins": ["G.p", "V1.n", "C1.n", "C2.n", "VS.n"] }
+  ]
+}

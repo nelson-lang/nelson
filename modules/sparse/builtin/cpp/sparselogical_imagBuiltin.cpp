@@ -9,8 +9,8 @@
 //=============================================================================
 #include "sparselogical_imagBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "SparseImagPart.hpp"
-#include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -22,10 +22,12 @@ Nelson::SparseGateway::sparselogical_imagBuiltin(int nLhs, const ArrayOfVector& 
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
     if (!argIn[0].isSparse()) {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_LOGICAL_EXPECTED);
+        Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1),
+            L"sparse logical");
     }
     if (!argIn[0].isLogical()) {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_SPARSE_LOGICAL_EXPECTED);
+        Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1),
+            L"sparse logical");
     }
     retval << SparseImagPart(argIn[0]);
     return retval;

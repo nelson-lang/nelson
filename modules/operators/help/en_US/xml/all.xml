@@ -36,6 +36,7 @@
   <description>
     <p>
       <b>all</b> returns true if all of the elements of a matrix satisfy some condition.</p>
+    <p>Sparse logical, double, single, complex double, and complex single inputs are supported. Sparse numeric zeros are treated as false and nonzero real or complex entries are treated as true.</p>
   </description>
   <used_function />
   <bibliography />
@@ -48,6 +49,15 @@
       ><![CDATA[all([33, 22; 11, 0])
 all([33, 22; 11, 0], 2)]]></example_item_data>
     </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[S = sparse(single([1 0; 2 + 1i 3]));
+all(S)
+all(S, 'all')]]></example_item_data>
+    </example_item>
   </examples>
   <see_also>
     <see_also_item>
@@ -58,6 +68,10 @@ all([33, 22; 11, 0], 2)]]></example_item_data>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>added sparse single and complex single support</history_description>
     </history_item>
   </history>
   <authors>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>textscan</keyword>
+  <short_description>Read formatted data from a character vector, string or file.</short_description>
+  <syntax>
+    <syntax_item>C = textscan(chr, format)</syntax_item>
+    <syntax_item>C = textscan(fid, format)</syntax_item>
+    <syntax_item>C = textscan(__, Name, Value)</syntax_item>
+    <syntax_item>[C, position] = textscan(__)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>chr</param_name>
+      <param_description>a character vector or string scalar to read from.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>fid</param_name>
+      <param_description
+      >a file identifier returned by fopen. Data is read from the current position to the end of the file.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>format</param_name>
+      <param_description
+      >a character vector describing the conversion specifiers applied to each field.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Name, Value</param_name>
+      <param_description>one or more name/value option pairs.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>C</param_name>
+      <param_description
+      >a cell array with one cell per conversion specifier.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>position</param_name>
+      <param_description
+      >the number of characters read when scanning stopped.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>textscan</b> reads formatted data and returns a cell array
+    <b>C</b>. Each cell holds one output column collected across all
+    repetitions of the format string, since the format is cycled over the
+    whole input.</p>
+    <p>Numeric conversion specifiers produce column vectors, while <b>%s</b>,
+    <b>%q</b> and <b>%[...]</b> produce cell arrays of character vectors.</p>
+    <p>Supported conversion specifiers:</p>
+    <p><b>%d</b> signed integer (int32), <b>%u</b> unsigned integer
+    (uint32), <b>%f</b> floating point (double), <b>%s</b> whitespace or
+    delimiter separated text, <b>%q</b> optionally double quoted text,
+    <b>%c</b> a fixed number of characters, <b>%[...]</b> and
+    <b>%[^...]</b> character set scanning.</p>
+    <p>A field width may be given (for example <b>%5d</b> or <b>%3s</b>).
+    A conversion prefixed with <b>*</b> (for example <b>%*d</b>) is read
+    but not stored. A size suffix selects the numeric class
+    (<b>%d8</b>, <b>%d16</b>, <b>%d32</b>, <b>%d64</b>, <b>%u8</b> and
+    <b>%f32</b>). Literal text between specifiers must be matched in the
+    input.</p>
+    <p>Supported name/value options:</p>
+    <p><b>Delimiter</b> a character vector, or a cell array of character
+    vectors, used to separate fields.</p>
+    <p><b>HeaderLines</b> the number of leading lines to skip.</p>
+    <p><b>CollectOutput</b> when true, consecutive columns of the same class
+    are concatenated into a single array.</p>
+    <p><b>EmptyValue</b> the numeric value used for empty numeric fields.</p>
+    <p><b>Whitespace</b> the characters treated as whitespace.</p>
+    <p><b>MultipleDelimsAsOne</b> when true, consecutive delimiters are
+    treated as a single delimiter.</p>
+    <p><b>CommentStyle</b> a comment marker, or a start and end pair, whose
+    text is ignored.</p>
+    <p><b>TreatAsEmpty</b> text values that are treated as empty numeric
+    fields.</p>
+    <p><b>EndOfLine</b> accepted for compatibility; end of line characters
+    are always treated as whitespace separators.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[C = textscan('1 2 3', '%d')]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[C = textscan('a,b,c', '%s', 'Delimiter', ',');
+C{1}]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[C = textscan('name:42', '%[^:]:%d')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${stream_manager}sscanf">sscanf</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${stream_manager}fscanf">fscanf</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${stream_manager}fopen">fopen</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

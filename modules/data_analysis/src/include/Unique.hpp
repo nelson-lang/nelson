@@ -15,7 +15,7 @@
 namespace Nelson {
 //=============================================================================
 NLSDATA_ANALYSIS_IMPEXP ArrayOfVector
-Unique(const ArrayOf& input, int nLhs, bool asRows, bool& needOverload);
+Unique(const ArrayOf& input, int nLhs, bool asRows, bool& needOverload, bool stable = false);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

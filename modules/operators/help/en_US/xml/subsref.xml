@@ -63,6 +63,17 @@ S.subs = 'number';
 R = subsref(A, S)]]></example_item_data>
     </example_item>
   </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${operators}subsasgn">subsasgn</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}subsindex">subsindex</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${operators}colon">colon</link>
+    </see_also_item>
+  </see_also>
   <history>
     <history_item>
       <history_version>1.0.0</history_version>

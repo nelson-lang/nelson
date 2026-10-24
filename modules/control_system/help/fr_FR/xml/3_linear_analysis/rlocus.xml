@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>rlocus</keyword>
+  <short_description>Lieu des racines d'un modèle SISO.</short_description>
+  <syntax>
+    <syntax_item>rlocus(sys)</syntax_item>
+    <syntax_item>rlocus(sys, k)</syntax_item>
+    <syntax_item>rlocus(sys1, sys2, ...)</syntax_item>
+    <syntax_item>[r, k] = rlocus(sys)</syntax_item>
+    <syntax_item>[r, k] = rlocus(sys, k)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>sys</param_name>
+      <param_description>Système dynamique SISO</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>k</param_name>
+      <param_description>Vecteur des gains de contre-réaction</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>r</param_name>
+      <param_description>Positions complexes des pôles en boucle fermée, une colonne par gain</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>k</param_name>
+      <param_description>Vecteur des gains utilisés</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>La fonction du lieu des racines, <b>rlocus(sys)</b>, calcule et trace le lieu des pôles en boucle fermée de la boucle <b>feedback(k*sys, 1)</b>, c'est-à-dire les racines de <b>den + k*num</b>, lorsque le gain <b>k</b> varie de 0 à l'infini.</p>
+    <p
+    >Chaque branche part d'un pôle en boucle ouverte (marqué <b>x</b>) pour <b>k = 0</b> et se termine sur un zéro fini en boucle ouverte (marqué <b>o</b>) ou tend vers l'infini lorsque <b>k</b> augmente.</p>
+    <p
+    >Lorsqu'un vecteur de gains <b>k</b> est fourni, ces gains sont utilisés à la place de la plage sélectionnée automatiquement.</p>
+    <p
+    >Avec des arguments de sortie, <b>[r, k] = rlocus(sys)</b> renvoie les positions des pôles en boucle fermée et les gains sans tracer.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
+sys = tf([1 3], [1 3 2]);
+rlocus(sys);
+]]></example_item_data>
+      <example_item_img
+        src="../../images/rlocus_1.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[G = tf(1, [1 3 2]);
+[r, k] = rlocus(G);
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${control_system}nyquist">nyquist</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${control_system}bode">bode</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

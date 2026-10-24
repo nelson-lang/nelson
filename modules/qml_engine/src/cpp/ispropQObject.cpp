@@ -9,6 +9,7 @@
 //=============================================================================
 #include "ispropQObject.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "HandleManager.hpp"
 #include "QObjectHandleObject.hpp"
@@ -20,9 +21,9 @@ namespace Nelson {
 bool
 ispropQObject(QObjectHandleObject* qmlHandle, const std::wstring& propertyName)
 {
-    void* ptr = qmlHandle->getPointer();
+    void* ptr = qmlHandle->pointer();
     if (ptr == nullptr) {
-        Error(_W("QObject valid handle expected."));
+        Error(L"Nelson:QObject:invalidHandle", L"QObject valid handle expected.");
     }
     QObject* qobj = (QObject*)ptr;
     const QMetaObject* meta = qobj->metaObject();
@@ -49,8 +50,8 @@ ispropQObject(QObjectHandleObject* qmlHandle, const std::wstring& propertyName)
         }
     }
     if (upropertyName == QOBJECT_PROPERTY_CHILDREN_STR) {
-        QObjectList childs = qobj->children();
-        int s = childs.size();
+        QObjectList children = qobj->children();
+        int s = children.size();
         if (s > 0) {
             return true;
         }
@@ -61,14 +62,14 @@ ispropQObject(QObjectHandleObject* qmlHandle, const std::wstring& propertyName)
 ArrayOf
 ispropQObject(const ArrayOf& A, const std::wstring& propertyName)
 {
-    HandleGenericObject* hlObj = A.getContentAsHandleScalar();
-    if (hlObj->getCategory() != NLS_HANDLE_QOBJECT_CATEGORY_STR) {
-        Error(_W("QObject handle expected."));
+    HandleGenericObject* hlObj = A.asHandleScalar();
+    if (hlObj->category() != NLS_HANDLE_QOBJECT_CATEGORY_STR) {
+        Error(L"Nelson:QObject:notHandle", L"QObject handle expected.");
     }
     QObjectHandleObject* qmlhandleobj = (QObjectHandleObject*)hlObj;
     bool res = ispropQObject(qmlhandleobj, propertyName);
-    return ArrayOf::logicalConstructor(res);
+    return ArrayOf::logicalScalar(res);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>anova2</keyword>
+  <short_description>Two-way analysis of variance.</short_description>
+  <syntax>
+    <syntax_item>p = anova2(Y)</syntax_item>
+    <syntax_item>p = anova2(Y, reps)</syntax_item>
+    <syntax_item>p = anova2(Y, reps, displayopt)</syntax_item>
+    <syntax_item>[p, tbl, stats] = anova2(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>anova2</b> performs a balanced two-way analysis of variance. Rows represent levels of the row factor and columns represent levels of the column factor.</p>
+    <p>When <b>reps</b> is greater than one, each row-factor level occupies <b>reps</b> consecutive rows. The returned p-values test columns, rows, and interaction. Without replication, interaction is not estimated.</p>
+    <p><b>displayopt</b> can be <b>'on'</b> or <b>'off'</b>.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[Y = [8 9 6; 7 8 5; 9 10 7; 12 14 11; 13 15 12; 11 13 10];
+[p, tbl, stats] = anova2(Y, 2, 'off')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}anova1">anova1</link></see_also_item>
+    <see_also_item><link linkend="${statistics}fcdf">fcdf</link></see_also_item>
+    <see_also_item><link linkend="${statistics}vartest2">vartest2</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

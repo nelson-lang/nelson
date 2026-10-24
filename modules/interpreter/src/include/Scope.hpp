@@ -26,10 +26,8 @@
 namespace Nelson {
 //=============================================================================
 /**
- * A Scope is a collection of functions and variables all visible
- * at some point in the execution.  The scope also keeps track of
- * the loop level, and a list of the global and persistent variables
- * relevant to the current scope.
+ * Variables and functions visible at one point of the execution, with the
+ * loop level and the global and persistent variable names of that scope.
  */
 class NLSINTERPRETER_IMPEXP Scope
 {
@@ -38,192 +36,104 @@ private:
     int nargin = 0;
     int nargout = 0;
 
-    /**
-     * This is the hash-table of ArrayOf pointers that forms the
-     * symbol table.  Each variable has a name associated with
-     * it that must be unique to the Scope.  The Scope owns the
-     * variables in the symbol table, and is responsible for
-     * destructing them when destroyed.
-     */
-
     LocalFunctionsTable currentLocalFunctions;
 
+    // The Scope owns the variables of this table.
     VariablesTable variablesTab;
-    /**
-     * This is a hash-table of function pointers.  The Scope does
-     * _not_ own the function pointers, and it must not destroy
-     * them when destructed.
-     */
     // CodeTable macroTab;
 
-    /**
-     * The name of the scope.
-     */
     std::string name;
-    /**
-     * The loop level.  This is used to track the depth of nested
-     * loops.
-     */
+    // depth of nested loops
     int loopLevel;
-    /**
-     * These are the global variables as defined in the current
-     * scope.  Global variables are not stored in this Scope, but
-     * are deferred to the top scope in the Context.
-     */
+    // Global variables are not stored in this Scope, they live in the top scope of the Context.
     std::unordered_set<std::string> globalVars;
-    /**
-     * Persistent variables are similar to global variables in that
-     * they are deferred to the top scope in the Context.  However,
-     * unlike global variables, persistent variables are mangled
-     * with the name of the scope before being indexed into the global
-     * scope.
-     */
-    std::unordered_set<std::string>
-        persistentVars; /**
-                         * The location ID stack - stores information on where in the source
-                         * file the current token resides.
-                         */
+    // Like globals, but the name is mangled with the scope name before it is indexed into the
+    // global scope.
+    std::unordered_set<std::string> persistentVars;
+    // location of the current token in the source file
     std::vector<int> IDstack;
 
     std::wstring filename;
     std::wstring directory;
     bool isInMacro;
+    stringVector importList;
 
 public:
-    /**
-     * Construct a scope with the given name.
-     */
     Scope(const Scope& scopeOrigin);
 
     Scope(const std::string& scopeName);
 
     Scope(const std::string& scopeName, const std::wstring& fullfilename);
 
-    /**
-     * Default destructor.
-     */
     ~Scope();
-    /**
-     * Insert a variable with the given name.  If the variable
-     * already exists in the Scope, then the previous definition
-     * is replaced with the given one.
-     */
+    // An existing variable with the same name is replaced.
     bool
     insertVariable(const std::string& varName, const ArrayOf& var);
-    /**
-     * Insert a function pointer into the current scope.  The name of
-     * of the function is encoded in the FuncPtr.
-     */
+    bool
+    insertVariableWithoutNameValidation(const std::string& varName, const ArrayOf& var);
     void
     insertMacroFunctionLocally(FunctionDefPtr a);
+    void
+    removeMacroFunctionLocally(const std::string& funcName);
 
-    /**
-     * Lookup a function.  Return true if the function is defined, and
-     * assigns the value of the function pointer to the second argument.
-     */
+    // Returns true and sets val when the function is defined.
     bool
     lookupFunction(const std::string& funcName, FunctionDefPtr& val);
-    /**
-     * Lookup a variable.  Return true if the variable is defined, and
-     * assigns the value of the variable to the second argument.
-     */
+    std::vector<std::pair<std::string, FunctionDefPtr>>
+    getLocalFunctionsList();
+    // Returns true and sets val when the variable is defined.
     bool
     lookupVariable(const std::string& varName, ArrayOf& val);
     ArrayOf*
     lookupVariable(const std::string& varName);
-    /**
-     * Add a variable name to the global variables list.
-     */
     void
     addGlobalVariablePointer(const std::string& varName);
-    /**
-     * Delete a variable name from the global variables list.
-     */
     void
     deleteGlobalVariablePointer(const std::string& varName);
-    /**
-     * Check to see if a variable is globally defined.
-     */
     bool
     isVariableGlobal(const std::string& varName);
-    /**
-     * Add a variable name to the persistent variables list.
-     */
     void
     addPersistentVariablePointer(const std::string& varName);
-    /**
-     * Delete a variable name from the persistent variables list.
-     */
     void
     deletePersistentVariablePointer(const std::string& varName);
-    /**
-     * Check to see if a variable is defined in the persistent
-     * list.
-     */
     bool
     isVariablePersistent(const std::string& varName);
-    /**
-     * Mangle the name of a variable by prepending
-     * a "_scopename_" to the name of the variable.
-     */
+    // Prepends "_scopename_" to the variable name.
     std::string
     getMangledName(const std::string& varName);
-    /**
-     * Dump the scope.
-     */
     void
     printMe();
-    /**
-     * Dump only the variables in the scope (not the functions).
-     */
     void
     printData();
-    /**
-     * Get the name of the scope.
-     */
     inline std::string
     getName()
     {
         return name;
     }
-    /**
-     * Test the loop counter.
-     */
     inline bool
     inLoop()
     {
         return (loopLevel > 0);
     }
 
-    /**
-     * Increment the loop counter.
-     */
     inline void
     enterLoop()
     {
         loopLevel++;
     }
-    /**
-     * Decrement the loop counter.
-     */
     inline void
     exitLoop()
     {
         loopLevel--;
     }
 
-    /* Get symbols list*/
     void
     getVariablesList(bool withPersistent, stringVector& list);
 
     void
     getVariablesList(bool withPersistent, wstringVector& list);
 
-    /**
-     * Delete a variable in this scope.  It does not simply
-     * replace the variable with an empty variable, but deletes
-     * the variable from the symbol table completely.
-     */
+    // Removes the variable from the symbol table, it is not replaced by an empty one.
     bool
     deleteVariable(const std::string& var);
 
@@ -261,6 +171,27 @@ public:
 
     bool
     isInMacroFile();
+
+    bool
+    addImport(const std::string& importSpec);
+    void
+    clearImports();
+    // Used right before the scope dies.
+    void
+    clearVariables();
+    stringVector
+    getImports();
+    // The task is owned by the function call this scope belongs to.
+    void
+    addCleanupTask(const ArrayOf& task);
+    // The scope keeps no task afterwards.
+    ArrayOfVector
+    takeCleanupTasks();
+
+private:
+    // Declared last: other modules access the members above through inline
+    // accessors, their offsets must not move.
+    ArrayOfVector cleanupTasks;
 };
 //=============================================================================
 } // namespace Nelson

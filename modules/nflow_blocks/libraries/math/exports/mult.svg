@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="306.5" height="256.5" viewBox="-153.25 -153.25 306.5 256.5">
+  <rect x="-153.25" y="-153.25" width="306.5" height="256.5" rx="48.735" fill="#EEEDFE" stroke="#AFA9EC" stroke-width="3.25"/>
+  <g transform="matrix(1 0 0 -1 0 0)">
+    <rect x="-100" y="-100" width="200" height="200" fill="#FFFFFF" stroke="#3C3489" stroke-width="3.25"/>
+    <g transform="translate(0,130) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32" fill="#3C3489">Mult</text></g>
+    <polyline points="-100,60 -40,60 -30,40" fill="none" stroke="#3C3489" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-100,-60 -40,-60 -30,-40" fill="none" stroke="#3C3489" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="50,0 100,0" fill="none" stroke="#3C3489" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-30,0 30,0" fill="none" stroke="#3C3489" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-15,25.99 15,-25.99" fill="none" stroke="#3C3489" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-15,-25.99 15,25.99" fill="none" stroke="#3C3489" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <ellipse cx="0" cy="0" rx="50" ry="50" fill="none" stroke="#3C3489" stroke-width="3.25"/>
+  </g>
+</svg>

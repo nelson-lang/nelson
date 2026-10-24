@@ -7,13 +7,18 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--WEIGHT 2-->
 % <--ADV-CLI MODE-->
 %=============================================================================
 f = figure();
 h = uicontrol('Style', 'slider', 'Position', [100, 100, 100, 20], 'Min', 0, 'Max', 100, 'Value', 50);
-assert_isequal(h.Value, 50);
+asserts.isequal(h.Value, 50);
 for i = 1:100
-    h.Value = i;
-    pause(0.01);
+  h.Value = i;
+  pause(0.01);
 end
+
+hNegative = uicontrol('Style', 'slider', 'Position', [100, 130, 100, 20], ...
+    'Min', -100, 'Max', 100, 'Value', -50);
+asserts.isequal(hNegative.Value, -50);
 %=============================================================================

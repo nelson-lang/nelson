@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>demux</keyword>
+  <keyword_alias>block:demux</keyword_alias>
+  <short_description>Routes one input to multiple output ports.</short_description>
+  <syntax>
+    <syntax_item>Block type: demux</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>input ports</param_name>
+      <param_description>1 input port(s) declared.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>output ports</param_name>
+      <param_description>2 output port(s) declared.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Routes one input to multiple output ports.</p>
+    <table border="1">
+      <tbody>
+        <tr>
+          <td>Module</td>
+          <td>
+            <code>nflow_blocks</code>
+          </td>
+        </tr>
+        <tr>
+          <td>Library</td>
+          <td>Utility blocks</td>
+        </tr>
+        <tr>
+          <td>Type</td>
+          <td>
+            <code>demux</code>
+          </td>
+        </tr>
+        <tr>
+          <td>Label</td>
+          <td>Demux</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <img src="../../../../libraries/utility/exports/demux.svg" align="middle"/>
+    </p>
+    <p>
+      <b>Description</b>
+    </p>
+    <p>Virtual routing block that splits a single input into multiple output ports. The demux block performs no computation - it is a wiring convenience used to fan out signals and organise connections.</p>
+    <p>
+      <b>Ports</b>
+    </p>
+    <p>
+      <b>Input(s)</b>
+    </p>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Port</th>
+          <th>Role</th>
+          <th>Side</th>
+          <th>Position</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Port_1</td>
+          <td>Numeric signal read by the block.</td>
+          <td>left</td>
+          <td>x=0, y=20</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Output(s)</b>
+    </p>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Port</th>
+          <th>Role</th>
+          <th>Side</th>
+          <th>Position</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Port_1</td>
+          <td>Numeric signal produced by the block.</td>
+          <td>right</td>
+          <td>x=8, y=10</td>
+        </tr>
+        <tr>
+          <td>Port_2</td>
+          <td>Numeric signal produced by the block.</td>
+          <td>right</td>
+          <td>x=8, y=30</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Parameters</b>
+    </p>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+          <th>Default value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <code>outputs</code>
+          </td>
+          <td>2</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Inspector Keys</b>
+    </p>
+    <p>These serialized keys are exposed by the block inspector.</p>
+    <ul>
+      <li>
+        <code>outputs</code>
+      </li>
+    </ul>
+    <p>
+      <b>Block Characteristics</b>
+    </p>
+    <table border="1">
+      <tbody>
+        <tr>
+          <td>Block type</td>
+          <td>demux</td>
+        </tr>
+        <tr>
+          <td>Family</td>
+          <td>Utility blocks</td>
+        </tr>
+        <tr>
+          <td>Rendered size</td>
+          <td>8 x 40</td>
+        </tr>
+        <tr>
+          <td>Phases</td>
+          <td>OUTPUT</td>
+        </tr>
+        <tr>
+          <td>Direct feedthrough</td>
+          <td>see Algorithms</td>
+        </tr>
+        <tr>
+          <td>Internal state or history</td>
+          <td>yes</td>
+        </tr>
+        <tr>
+          <td>Signal data type</td>
+          <td>double numeric values</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Algorithms</b>
+    </p>
+    <ul>
+      <li>The manifest controls the output count.</li>
+      <li>The block is a graph routing utility rather than a stateful numeric transform.</li>
+    </ul>
+    <p>
+      <b>Equation or Rule</b>
+    </p>
+    <latex>y_i = u</latex>
+    <p>
+      <b>Extended Capabilities</b>
+    </p>
+    <p>This page describes the native runtime behavior observed in the module C++ sources. Declared phases indicate when the simulation engine calls the block.</p>
+    <p>Code generation: supported for C and Rust.</p>
+    <p>
+      <b>Implementation Sources</b>
+    </p>
+    <source_code label="Manifest" path="modules/nflow_blocks/libraries/utility/library.json" language="json"/>
+    <p>Runtime: family registry, UI path, or codegen path; no dedicated native runtime file found.</p>
+  </description>
+  <used_function/>
+  <bibliography/>
+  <see_also>
+    <see_also_item>
+      <link linkend="${nflow_blocks}utility/mux">mux</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${nflow_blocks}utility/subsystem">subsystem</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

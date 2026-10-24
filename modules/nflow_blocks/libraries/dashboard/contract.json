@@ -1,0 +1,1624 @@
+{
+  "invalidSentinel": "__nflow_invalid__",
+  "types": [
+    "dashboardScope",
+    "dashboardDisplay",
+    "dashboardEdit",
+    "dashboardGauge",
+    "dashboardHalfGauge",
+    "dashboardKnob",
+    "dashboardLamp",
+    "dashboardLinearGauge",
+    "dashboardMultiStateImage",
+    "dashboardPushButton",
+    "dashboardQuarterGauge",
+    "dashboardRadioButton",
+    "dashboardRockerSwitch",
+    "dashboardRotarySwitch",
+    "dashboardSlider",
+    "dashboardSliderSwitch",
+    "dashboardToggleSwitch",
+    "dashboardCallbackButton",
+    "dashboardCheckBox",
+    "dashboardComboBox"
+  ],
+  "blocks": [
+    {
+      "type": "dashboardScope",
+      "blockType": "DashboardScope",
+      "width": 230,
+      "height": 165,
+      "properties": {
+        "LabelPosition": {
+          "source": "dialog",
+          "type": "enum",
+          "default": "Hide",
+          "enum": [
+            "Top",
+            "Bottom",
+            "Hide"
+          ],
+          "invalidRejected": true
+        },
+        "Binding": {
+          "source": "dialog",
+          "type": "binding",
+          "default": null,
+          "enum": [],
+          "invalidRejected": null
+        },
+        "ShowInitialText": {
+          "source": "dialog",
+          "type": "boolean",
+          "default": "on",
+          "enum": [],
+          "invalidRejected": true
+        },
+        "TimeSpan": {
+          "source": "dialog",
+          "type": "string",
+          "default": "auto",
+          "enum": [],
+          "invalidRejected": null
+        },
+        "LegendPosition": {
+          "source": "dialog",
+          "type": "enum",
+          "default": "Top",
+          "enum": [
+            "Top",
+            "Right",
+            "Hide",
+            "InsideTop",
+            "InsideRight"
+          ],
+          "invalidRejected": true
+        },
+        "ScaleAtStop": {
+          "source": "dialog",
+          "type": "boolean",
+          "default": "on",
+          "enum": [],
+          "invalidRejected": true
+        },
+        "UpdateMode": {
+          "source": "dialog",
+          "type": "enum",
+          "default": "Wrap",
+          "enum": [
+            "Wrap",
+            "Scroll"
+          ],
+          "invalidRejected": true
+        },
+        "NormalizeYAxis": {
+          "source": "dialog",
+          "type": "boolean",
+          "default": "off",
+          "enum": [],
+          "invalidRejected": true
+        },
+        "TicksPosition": {
+          "source": "dialog",
+          "type": "enum",
+          "default": "Outside",
+          "enum": [
+            "Outside",
+            "Inside",
+            "None"
+          ],
+          "invalidRejected": true
+        },
+        "TickLabels": {
+          "source": "dialog",
+          "type": "enum",
+          "default": "All",
+          "enum": [
+            "All",
+            "T-Axis",
+            "Y-Axis",
+            "None"
+          ],
+          "invalidRejected": true
+        },
+        "Grid": {
+          "source": "dialog",
+          "type": "enum",
+          "default": "All",
+          "enum": [
+            "All",
+            "Horizontal",
+            "Vertical",
+            "None"
+          ],
+          "invalidRejected": true
+        },
+        "Border": {
+          "source": "dialog",
+          "type": "boolean",
+          "default": "on",
+          "enum": [],
+          "invalidRejected": true
+        },
+        "Markers": {
+          "source": "dialog",
+          "type": "boolean",
+          "default": "off",
+          "enum": [],
+          "invalidRejected": true
+        },
+        "FontColor": {
+          "source": "dialog",
+          "type": "matrix",
+          "default": [
+            0,
+            0,
+            0
+          ],
+          "enum": [],
+          "invalidRejected": null
+        },
+        "YLimits": {
+          "source": "dialog",
+          "type": "matrix",
+          "default": [
+            -3,
+            3
+          ],
+          "enum": [],
+          "invalidRejected": null
+        },
+        "Colors": {
+          "source": "dialog",
+          "type": "matrix",
+          "default": [],
+          "enum": [],
+          "invalidRejected": null
+        }
+      }
+    },
+    {
+      "type": "dashboardDisplay",
+      "blockType": "DisplayBlock",
+      "width": 180,
+      "height": 40,
+      "properties": {
+        "LabelPosition": {
+          "source": "dialog",
+          "type": "enum",
+          "default": "Hide",
+          "enum": [
+            "Top",
+            "Bottom",
+            "Hide"
+          ],
+          "invalidRejected": true
+        },
+        "Binding": {
+          "source": "dialog",
+          "type": "binding",
+          "default": null,
+          "enum": [],
+          "invalidRejected": null
+        },
+        "ShowInitialText": {
+          "source": "dialog",
+          "type": "boolean",
+          "default": "on",
+          "enum": [],
+          "invalidRejected": true
+        },
+        "Format": {
+          "source": "dialog",
+          "type": "enum",
+          "default": "short",
+          "enum": [
+            "long",
+            "long_e",
+            "short",
+            "long",
+            "shortE",
+            "longE",
+            "shortG",
+            "longG",
+            "shortEng",
+            "longEng",
+            "bank",
+            "+",
+            "hex",
+            "rat",
+            "Custom",
+            "Integer"
+          ],
+          "invalidRejected": true
+        },
+        "Alignment": {
+          "source": "dialog",
+          "type": "enum",
+          "default": "Center",
+          "enum": [
+            "Left",
+            "Center",
+            "Right"
+          ],
+          "invalidRejected": true
+        },
+        "Opacity": {
+          "source": "dialog",
+          "type": "string",
+          "default": "1",
+          "enum": [],
+          "invalidRejected": null
+        },
+        "Layout": {
+          "source": "dialog",
+          "type": "enum",
+          "default": "Preserve dimensions",
+          "enum": [
+            "Preserve dimensions",
+            "Fill available space"
+          ],
+          "invalidRejected": true
+        },
+        "FormatString": {
+          "source": "dialog",
+          "type": "string",
+          "default": "%d",
+          "enum": [],
+          "invalidRejected": null
+        },
+        "GridColor": {
+          "source": "dialog",
+          "type": "matrix",
+          "default": [
+            0.502,
+            0.502,
+            0.502
+          ],
+          "enum": [],
+          "invalidRejected": null
+        },
+        "ShowGrid": {
+          "source": "dialog",
+          "type": "boolean",
+          "default": "on",
+          "enum": [],
+          "invalidRejected": true
+        }
+      }
+    },
+    {
+      "type": "dashboardEdit",
+      "blockType": "EditField",
+      "width": 150,
+      "height": 30,
+      "properties": {
+        "LabelPosition": {
+          "source": "dialog",
+          "type": "enum",
+          "default": "Hide",
+          "enum": [
+            "Top",
+            "Bottom",
+            "Hide"
+          ],
+          "invalidRejected": true
+        },
+        "Binding": {
+          "source": "dialog",
+          "type": "binding",
+          "default": null,
+          "enum": [],
+          "invalidRejected": null
+        },
+        "ShowInitialText": {
+          "source": "dialog",
+          "type": "boolean",
+          "default": "on",
+          "enum": [],
+          "invalidRejected": true
+        },
+        "Alignment": {
+          "source": "dialog",
+          "type": "enum",
+          "default": "Center",
+          "enum": [
+            "Left",
+            "Center",
+            "Right"
+          ],
+          "invalidRejected": true
+        },
+        "Opacity": {
+          "source": "dialog",
+          "type": "string",
+          "default": "1",
+          "enum": [],
+          "invalidRejected": null
+        }
+      }
+    },
+    {
+      "type": "dashboardGauge",
+      "blockType": "CircularGaugeBlock",
+      "width": 125,
+      "height": 140,
+      "properties": {
+        "LabelPosition": {
+          "source": "dialog",
+          "type": "enum",
+          "default": "Top",
+          "enum": [
+            "Top",
+            "Bottom",
+            "Hide"
+          ],
+          "invalidRejected": true
+        },
+        "Binding": {
+          "source": "dialog",
+          "type": "binding",
+          "default": null,
+          "enum": [],
+          "invalidRejected": null
+        },
+        "ShowInitialText": {
+          "source": "dialog",
+          "type": "boolean",
+          "default": "on",
+          "enum": [],
+          "invalidRejected": true
+        },
+        "ScaleColors": {
+          "source": "dialog",
+          "type": "matrix",
+          "default": [],
+          "enum": [],
+          "invalidRejected": null
+        },
+        "Limits": {
+          "source": "dialog",
+          "type": "matrix",
+          "default": [
+            0,
+            -1,
+            100
+          ],
+          "enum": [],
+          "invalidRejected": null
+        },
+        "FontColor": {
+          "source": "dialog",
+          "type": "matrix",
+          "default": [
+            0,
+            0,
+            0
+          ],
+          "enum": [],
+          "invalidRejected": null
+        },
+        "Opacity": {
+          "source": "dialog",
+          "type": "string",
+          "default": "1",
+          "enum": [],
+          "invalidRejected": null
+        },
+        "ScaleDirection": {
+          "source": "dialog",
+          "type": "enum",
+          "default": "Clockwise",
+          "enum": [
+            "Clockwise",
+            "Counterclockwise"
+          ],
+          "invalidRejected": true
+        }
+      }
+    },
+    {
+      "type": "dashboardHalfGauge",
+      "blockType": "SemiCircularGaugeBlock",
+      "width": 156,
+      "height": 108,
+      "properties": {
+        "LabelPosition": {
+          "source": "dialog",
+          "type": "enum",
+          "default": "Top",
+          "enum": [
+            "Top",
+            "Bottom",
+            "Hide"
+          ],
+          "invalidRejected": true
+        },
+        "Binding": {
+          "source": "dialog",
+          "type": "binding",
+          "default": null,
+          "enum": [],
+          "invalidRejected": null
+        },
+        "ShowInitialText": {
+          "source": "dialog",
+          "type": "boolean",
+          "default": "on",
+          "enum": [],
+          "invalidRejected": true
+        },
+        "ScaleColors": {
+          "source": "dialog",
+          "type": "matrix",
+          "default": [],
+          "enum": [],
+          "invalidRejected": null
+        },
+        "Limits": {
+          "source": "dialog",
+          "type": "matrix",
+          "default": [
+            0,
+            -1,
+            100
+          ],
+          "enum": [],
+          "invalidRejected": null
+        },
+        "FontColor": {
+          "source": "dialog",
+          "type": "matrix",
+          "default": [
+            0,
+            0,
+            0
+          ],
+          "enum": [],
+          "invalidRejected": null
+        },
+        "Opacity": {
+          "source": "dialog",
+          "type": "string",
+          "default": "1",
+          "enum": [],
+          "invalidRejected": null
+        },
+        "ScaleDirection": {
+          "source": "dialog",
+          "type": "enum",
+          "default": "Clockwise",
+          "enum": [
+            "Clockwise",
+            "Counterclockwise"
+          ],
+          "invalidRejected": true
+        }
+      }
+    },
+    {
+      "type": "dashboardKnob",
+      "blockType": "KnobBlock",
+      "width": 110,
+      "height": 115,
+      "properties": {
+        "LabelPosition": {
+          "source": "dialog",
+          "type": "enum",
+          "default": "Top",
+          "enum": [
+            "Top",
+            "Bottom",
+            "Hide"
+          ],
+          "invalidRejected": true
+        },
+        "Binding": {
+          "source": "dialog",
+          "type": "binding",
+          "default": null,
+          "enum": [],
+          "invalidRejected": null
+        },
+        "ShowInitialText": {
+          "source": "dialog",
+          "type": "boolean",
+          "default": "on",
+          "enum": [],
+          "invalidRejected": true
+        },
+        "ScaleType": {
+          "source": "dialog",
+          "type": "enum",
+          "default": "Linear",
+          "enum": [
+            "Linear",
+            "Log"
+          ],
+          "invalidRejected": true
+        },
+        "Limits": {
+          "source": "dialog",
+          "type": "matrix",
+          "default": [
+            0,
+            -1,
+            100
+          ],
+          "enum": [],
+          "invalidRejected": null
+        }
+      }
+    },
+    {
+      "type": "dashboardLamp",
+      "blockType": "LampBlock",
+      "width": 65,
+      "height": 60,
+      "properties": {
+        "LabelPosition": {
+          "source": "dialog",
+          "type": "enum",
+          "default": "Hide",
+          "enum": [
+            "Top",
+            "Bottom",
+            "Hide"
+          ],
+          "invalidRejected": true
+        },
+        "Binding": {
+          "source": "dialog",
+          "type": "binding",
+          "default": null,
+          "enum": [],
+          "invalidRejected": null
+        },
+        "ShowInitialText": {
+          "source": "dialog",
+          "type": "boolean",
+          "default": "on",
+          "enum": [],
+          "invalidRejected": true
+        },
+        "ColorDefault": {
+          "source": "dialog",
+          "type": "matrix",
+          "default": [
+            0.7529411764705882,
+            0.7529411764705882,
+            0.7529411764705882
+          ],
+          "enum": [],
+          "invalidRejected": null
+        },
+        "StateColors": {
+          "source": "dialog",
+          "type": "matrix",
+          "default": [
+            {
+              "Value": 0,
+              "Color": [
+                0.392156862745098,
+                0.8313725490196079,
+                0.07450980392156863
+              ]
+            }
+          ],
+          "enum": [],
+          "invalidRejected": null
+        },
+        "Opacity": {
+          "source": "dialog",
+          "type": "string",
+          "default": "1",
+          "enum": [],
+          "invalidRejected": null
+        }
+      }
+    },
+    {
+      "type": "dashboardLinearGauge",
+      "blockType": "LinearGaugeBlock",
+      "width": 210,
+      "height": 90,
+      "properties": {
+        "LabelPosition": {
+          "source": "dialog",
+          "type": "enum",
+          "default": "Top",
+          "enum": [
+            "Top",
+            "Bottom",
+            "Hide"
+          ],
+          "invalidRejected": true
+        },
+        "Binding": {
+          "source": "dialog",
+          "type": "binding",
+          "default": null,
+          "enum": [],
+          "invalidRejected": null
+        },
+        "ShowInitialText": {
+          "source": "dialog",
+          "type": "boolean",
+          "default": "on",
+          "enum": [],
+          "invalidRejected": true
+        },
+        "ScaleColors": {
+          "source": "dialog",
+          "type": "matrix",
+          "default": [],
+          "enum": [],
+          "invalidRejected": null
+        },
+        "Limits": {
+          "source": "dialog",
+          "type": "matrix",
+          "default": [
+            0,
+            -1,
+            100
+          ],
+          "enum": [],
+          "invalidRejected": null
+        },
+        "FontColor": {
+          "source": "dialog",
+          "type": "matrix",
+          "default": [
+            0,
+            0,
+            0
+          ],
+          "enum": [],
+          "invalidRejected": null
+        },
+        "Opacity": {
+          "source": "dialog",
+          "type": "string",
+          "default": "1",
+          "enum": [],
+          "invalidRejected": null
+        },
+        "ScaleDirection": {
+          "source": "dialog",
+          "type": "enum",
+          "default": "Clockwise",
+          "enum": [
+            "Clockwise",
+            "Counterclockwise"
+          ],
+          "invalidRejected": true
+        }
+      }
+    },
+    {
+      "type": "dashboardMultiStateImage",
+      "blockType": "MultiStateImageBlock",
+      "width": 190,
+      "height": 180,
+      "properties": {
+        "LabelPosition": {
+          "source": "dialog",
+          "type": "enum",
+          "default": "Top",
+          "enum": [
+            "Top",
+            "Bottom",
+            "Hide"
+          ],
+          "invalidRejected": true
+        },
+        "Binding": {
+          "source": "dialog",
+          "type": "binding",
+          "default": null,
+          "enum": [],
+          "invalidRejected": null
+        },
+        "ShowInitialText": {
+          "source": "dialog",
+          "type": "boolean",
+          "default": "on",
+          "enum": [],
+          "invalidRejected": true
+        },
+        "States": {
+          "source": "dialog",
+          "type": "matrix",
+          "default": [
+            {
+              "State": 0,
+              "Size": [
+                0,
+                0
+              ],
+              "Image": "",
+              "Thumbnail": ""
+            }
+          ],
+          "enum": [],
+          "invalidRejected": null
+        },
+        "DefaultImage": {
+          "source": "dialog",
+          "type": "matrix",
+          "default": {
+            "Size": [
+              0,
+              0
+            ],
+            "Image": "",
+            "Thumbnail": ""
+          },
+          "enum": [],
+          "invalidRejected": null
+        },
+        "ScaleMode": {
+          "source": "dialog",
+          "type": "enum",
+          "default": "Fill with fixed aspect ratio",
+          "enum": [
+            "Fixed",
+            "Fill",
+            "Fill with fixed aspect ratio"
+          ],
+          "invalidRejected": true
+        }
+      }
+    },
+    {
+      "type": "dashboardPushButton",
+      "blockType": "PushButtonBlock",
+      "width": 91,
+      "height": 44,
+      "properties": {
+        "LabelPosition": {
+          "source": "dialog",
+          "type": "enum",
+          "default": "Hide",
+          "enum": [
+            "Top",
+            "Bottom",
+            "Hide"
+          ],
+          "invalidRejected": true
+        },
+        "Binding": {
+          "source": "dialog",
+          "type": "binding",
+          "default": null,
+          "enum": [],
+          "invalidRejected": null
+        },
+        "ShowInitialText": {
+          "source": "dialog",
+          "type": "boolean",
+          "default": "on",
+          "enum": [],
+          "invalidRejected": true
+        },
+        "ButtonText": {
+          "source": "dialog",
+          "type": "string",
+          "default": "Button",
+          "enum": [],
+          "invalidRejected": null
+        },
+        "OnValue": {
+          "source": "dialog",
+          "type": "string",
+          "default": "1",
+          "enum": [],
+          "invalidRejected": null
+        },
+        "Opacity": {
+          "source": "dialog",
+          "type": "string",
+          "default": "1",
+          "enum": [],
+          "invalidRejected": null
+        },
+        "ButtonType": {
+          "source": "dialog",
+          "type": "enum",
+          "default": "Momentary",
+          "enum": [
+            "Momentary",
+            "Latch"
+          ],
+          "invalidRejected": true
+        },
+        "Icon": {
+          "source": "dialog",
+          "type": "enum",
+          "default": "None",
+          "enum": [
+            "None",
+            "AdaptiveCruiseControl",
+            "AdaptiveCruiseControlFailure",
+            "AntilockBrakeSystem",
+            "Battery",
+            "CheckEngine",
+            "CheckEngine2",
+            "CruiseControl",
+            "EcoMode",
+            "ElectronicStability",
+            "Engine",
+            "EngineCoolantTemp",
+            "EngineFailure",
+            "EngineHeating",
+            "EngineOil",
+            "ExteriorBulbFailure",
+            "FrontFogLight",
+            "Fuel",
+            "Hazards",
+            "HeadlampLeveling",
+            "HighBeams",
+            "HillDescentControl",
+            "LightingSwitch",
+            "LowBeams",
+            "ParkingAssistance",
+            "RearFogLight",
+            "SideLights",
+            "StabilityControl",
+            "StabilityControlOff",
+            "TireMonitor",
+            "TractionControl",
+            "TractionControlOff",
+            "TractionControlFailure",
+            "TurnSignalLeft",
+            "TurnSignalRight",
+            "SolidFrown1",
+            "SolidFrown2",
+            "SolidFace",
+            "SolidSmile1",
+            "SolidSmile2",
+            "Frown1",
+            "Frown2",
+            "Face",
+            "Smile1",
+            "Smile2",
+            "Check1",
+            "Check2",
+            "Check3",
+            "Check4",
+            "Ex1",
+            "Ex2",
+            "Ex3",
+            "Ex4",
+            "Square",
+            "Rectangle",
+            "Triangle",
+            "Circle",
+            "Pentagon",
+            "Hexagon",
+            "Network3G",
+            "Network4G",
+            "Network5G",
+            "NetworkNoSignal",
+            "Network",
+            "NetworkTransmission",
+            "Custom"
+          ],
+          "invalidRejected": true
+        },
+        "CustomIcon": {
+          "source": "dialog",
+          "type": "string",
+          "default": "",
+          "enum": [],
+          "invalidRejected": null
+        },
+        "IconAlignment": {
+          "source": "dialog",
+          "type": "enum",
+          "default": "Left",
+          "enum": [
+            "Left",
+            "Right",
+            "Top",
+            "Bottom",
+            "Center"
+          ],
+          "invalidRejected": true
+        },
+        "IconOnColor": {
+          "source": "dialog",
+          "type": "matrix",
+          "default": [
+            0,
+            0.392156862745098,
+            0
+          ],
+          "enum": [],
+          "invalidRejected": null
+        },
+        "IconOffColor": {
+          "source": "dialog",
+          "type": "matrix",
+          "default": [
+            0,
+            1,
+            0
+          ],
+          "enum": [],
+          "invalidRejected": null
+        },
+        "IconColor": {
+          "source": "dialog",
+          "type": "enum",
+          "default": "Off",
+          "enum": [
+            "Off",
+            "On"
+          ],
+          "invalidRejected": true
+        }
+      }
+    },
+    {
+      "type": "dashboardQuarterGauge",
+      "blockType": "QuarterGaugeBlock",
+      "width": 140,
+      "height": 160,
+      "properties": {
+        "LabelPosition": {
+          "source": "dialog",
+          "type": "enum",
+          "default": "Top",
+          "enum": [
+            "Top",
+            "Bottom",
+            "Hide"
+          ],
+          "invalidRejected": true
+        },
+        "Binding": {
+          "source": "dialog",
+          "type": "binding",
+          "default": null,
+          "enum": [],
+          "invalidRejected": null
+        },
+        "ShowInitialText": {
+          "source": "dialog",
+          "type": "boolean",
+          "default": "on",
+          "enum": [],
+          "invalidRejected": true
+        },
+        "ScaleColors": {
+          "source": "dialog",
+          "type": "matrix",
+          "default": [],
+          "enum": [],
+          "invalidRejected": null
+        },
+        "Limits": {
+          "source": "dialog",
+          "type": "matrix",
+          "default": [
+            0,
+            -1,
+            100
+          ],
+          "enum": [],
+          "invalidRejected": null
+        },
+        "FontColor": {
+          "source": "dialog",
+          "type": "matrix",
+          "default": [
+            0,
+            0,
+            0
+          ],
+          "enum": [],
+          "invalidRejected": null
+        },
+        "Opacity": {
+          "source": "dialog",
+          "type": "string",
+          "default": "1",
+          "enum": [],
+          "invalidRejected": null
+        },
+        "ScaleDirection": {
+          "source": "dialog",
+          "type": "enum",
+          "default": "Clockwise",
+          "enum": [
+            "Clockwise",
+            "Counterclockwise"
+          ],
+          "invalidRejected": true
+        }
+      }
+    },
+    {
+      "type": "dashboardRadioButton",
+      "blockType": "RadioButtonGroup",
+      "width": 135,
+      "height": 115,
+      "properties": {
+        "LabelPosition": {
+          "source": "dialog",
+          "type": "enum",
+          "default": "Top",
+          "enum": [
+            "Top",
+            "Bottom",
+            "Hide"
+          ],
+          "invalidRejected": true
+        },
+        "Binding": {
+          "source": "dialog",
+          "type": "binding",
+          "default": null,
+          "enum": [],
+          "invalidRejected": null
+        },
+        "ShowInitialText": {
+          "source": "dialog",
+          "type": "boolean",
+          "default": "on",
+          "enum": [],
+          "invalidRejected": true
+        },
+        "ButtonGroupName": {
+          "source": "dialog",
+          "type": "string",
+          "default": "Group",
+          "enum": [],
+          "invalidRejected": null
+        },
+        "States": {
+          "source": "dialog",
+          "type": "matrix",
+          "default": [
+            {
+              "Value": 0,
+              "Label": "Label1"
+            },
+            {
+              "Value": 1,
+              "Label": "Label2"
+            },
+            {
+              "Value": 2,
+              "Label": "Label3"
+            }
+          ],
+          "enum": [],
+          "invalidRejected": null
+        },
+        "UseEnumeratedDataType": {
+          "source": "dialog",
+          "type": "boolean",
+          "default": "off",
+          "enum": [],
+          "invalidRejected": true
+        },
+        "EnumeratedDataType": {
+          "source": "dialog",
+          "type": "string",
+          "default": "",
+          "enum": [],
+          "invalidRejected": null
+        },
+        "Opacity": {
+          "source": "dialog",
+          "type": "string",
+          "default": "1",
+          "enum": [],
+          "invalidRejected": null
+        }
+      }
+    },
+    {
+      "type": "dashboardRockerSwitch",
+      "blockType": "RockerSwitchBlock",
+      "width": 55,
+      "height": 100,
+      "properties": {
+        "LabelPosition": {
+          "source": "dialog",
+          "type": "enum",
+          "default": "Top",
+          "enum": [
+            "Top",
+            "Bottom",
+            "Hide"
+          ],
+          "invalidRejected": true
+        },
+        "Binding": {
+          "source": "dialog",
+          "type": "binding",
+          "default": null,
+          "enum": [],
+          "invalidRejected": null
+        },
+        "ShowInitialText": {
+          "source": "dialog",
+          "type": "boolean",
+          "default": "on",
+          "enum": [],
+          "invalidRejected": true
+        },
+        "States": {
+          "source": "dialog",
+          "type": "matrix",
+          "default": [
+            {
+              "Value": 0,
+              "Label": "Off"
+            },
+            {
+              "Value": 1,
+              "Label": "On"
+            }
+          ],
+          "enum": [],
+          "invalidRejected": null
+        }
+      }
+    },
+    {
+      "type": "dashboardRotarySwitch",
+      "blockType": "RotarySwitchBlock",
+      "width": 125,
+      "height": 100,
+      "properties": {
+        "LabelPosition": {
+          "source": "dialog",
+          "type": "enum",
+          "default": "Top",
+          "enum": [
+            "Top",
+            "Bottom",
+            "Hide"
+          ],
+          "invalidRejected": true
+        },
+        "Binding": {
+          "source": "dialog",
+          "type": "binding",
+          "default": null,
+          "enum": [],
+          "invalidRejected": null
+        },
+        "ShowInitialText": {
+          "source": "dialog",
+          "type": "boolean",
+          "default": "on",
+          "enum": [],
+          "invalidRejected": true
+        },
+        "States": {
+          "source": "dialog",
+          "type": "matrix",
+          "default": [
+            {
+              "Value": 0,
+              "Label": "Off"
+            },
+            {
+              "Value": 1,
+              "Label": "Low"
+            },
+            {
+              "Value": 2,
+              "Label": "Medium"
+            },
+            {
+              "Value": 3,
+              "Label": "High"
+            }
+          ],
+          "enum": [],
+          "invalidRejected": null
+        },
+        "UseEnumeratedDataType": {
+          "source": "dialog",
+          "type": "boolean",
+          "default": "off",
+          "enum": [],
+          "invalidRejected": true
+        },
+        "EnumeratedDataType": {
+          "source": "dialog",
+          "type": "string",
+          "default": "",
+          "enum": [],
+          "invalidRejected": null
+        }
+      }
+    },
+    {
+      "type": "dashboardSlider",
+      "blockType": "SliderBlock",
+      "width": 200,
+      "height": 90,
+      "properties": {
+        "LabelPosition": {
+          "source": "dialog",
+          "type": "enum",
+          "default": "Top",
+          "enum": [
+            "Top",
+            "Bottom",
+            "Hide"
+          ],
+          "invalidRejected": true
+        },
+        "Binding": {
+          "source": "dialog",
+          "type": "binding",
+          "default": null,
+          "enum": [],
+          "invalidRejected": null
+        },
+        "ShowInitialText": {
+          "source": "dialog",
+          "type": "boolean",
+          "default": "on",
+          "enum": [],
+          "invalidRejected": true
+        },
+        "ScaleType": {
+          "source": "dialog",
+          "type": "enum",
+          "default": "Linear",
+          "enum": [
+            "Linear",
+            "Log"
+          ],
+          "invalidRejected": true
+        },
+        "Limits": {
+          "source": "dialog",
+          "type": "matrix",
+          "default": [
+            0,
+            -1,
+            100
+          ],
+          "enum": [],
+          "invalidRejected": null
+        }
+      }
+    },
+    {
+      "type": "dashboardSliderSwitch",
+      "blockType": "SliderSwitchBlock",
+      "width": 120,
+      "height": 45,
+      "properties": {
+        "LabelPosition": {
+          "source": "dialog",
+          "type": "enum",
+          "default": "Top",
+          "enum": [
+            "Top",
+            "Bottom",
+            "Hide"
+          ],
+          "invalidRejected": true
+        },
+        "Binding": {
+          "source": "dialog",
+          "type": "binding",
+          "default": null,
+          "enum": [],
+          "invalidRejected": null
+        },
+        "ShowInitialText": {
+          "source": "dialog",
+          "type": "boolean",
+          "default": "on",
+          "enum": [],
+          "invalidRejected": true
+        },
+        "States": {
+          "source": "dialog",
+          "type": "matrix",
+          "default": [
+            {
+              "Value": 0,
+              "Label": "Off"
+            },
+            {
+              "Value": 1,
+              "Label": "On"
+            }
+          ],
+          "enum": [],
+          "invalidRejected": null
+        }
+      }
+    },
+    {
+      "type": "dashboardToggleSwitch",
+      "blockType": "ToggleSwitchBlock",
+      "width": 55,
+      "height": 100,
+      "properties": {
+        "LabelPosition": {
+          "source": "dialog",
+          "type": "enum",
+          "default": "Top",
+          "enum": [
+            "Top",
+            "Bottom",
+            "Hide"
+          ],
+          "invalidRejected": true
+        },
+        "Binding": {
+          "source": "dialog",
+          "type": "binding",
+          "default": null,
+          "enum": [],
+          "invalidRejected": null
+        },
+        "ShowInitialText": {
+          "source": "dialog",
+          "type": "boolean",
+          "default": "on",
+          "enum": [],
+          "invalidRejected": true
+        },
+        "States": {
+          "source": "dialog",
+          "type": "matrix",
+          "default": [
+            {
+              "Value": 0,
+              "Label": "Off"
+            },
+            {
+              "Value": 1,
+              "Label": "On"
+            }
+          ],
+          "enum": [],
+          "invalidRejected": null
+        }
+      }
+    },
+    {
+      "type": "dashboardCallbackButton",
+      "blockType": "CustomCallbackButton",
+      "width": 110,
+      "height": 35,
+      "properties": {
+        "LabelPosition": {
+          "source": "dialog",
+          "type": "enum",
+          "default": "Top",
+          "enum": [
+            "Top",
+            "Bottom",
+            "Hide"
+          ],
+          "invalidRejected": true
+        },
+        "Binding": {
+          "source": "dialog",
+          "type": "binding",
+          "default": null,
+          "enum": [],
+          "invalidRejected": null
+        },
+        "ShowInitialText": {
+          "source": "dialog",
+          "type": "boolean",
+          "default": "off",
+          "enum": [],
+          "invalidRejected": true
+        },
+        "fixedAspectRatio": {
+          "source": "dialog",
+          "type": "string",
+          "default": "off",
+          "enum": [],
+          "invalidRejected": null
+        },
+        "AutoActivate": {
+          "source": "configuration",
+          "type": "boolean",
+          "default": true,
+          "enum": [],
+          "invalidRejected": null
+        },
+        "ButtonText": {
+          "source": "configuration",
+          "type": "string",
+          "default": "Callback Button",
+          "enum": [],
+          "invalidRejected": null
+        },
+        "ButtonType": {
+          "source": "configuration",
+          "type": "string",
+          "default": "Momentary",
+          "enum": [],
+          "invalidRejected": null
+        },
+        "ClickFcn": {
+          "source": "configuration",
+          "type": "string",
+          "default": "",
+          "enum": [],
+          "invalidRejected": null
+        },
+        "OnValue": {
+          "source": "configuration",
+          "type": "number",
+          "default": 1,
+          "enum": [],
+          "invalidRejected": null
+        },
+        "PressDelay": {
+          "source": "configuration",
+          "type": "string",
+          "default": "500",
+          "enum": [],
+          "invalidRejected": null
+        },
+        "PressFcn": {
+          "source": "configuration",
+          "type": "string",
+          "default": "",
+          "enum": [],
+          "invalidRejected": null
+        },
+        "RepeatInterval": {
+          "source": "configuration",
+          "type": "string",
+          "default": "0",
+          "enum": [],
+          "invalidRejected": null
+        }
+      }
+    },
+    {
+      "type": "dashboardCheckBox",
+      "blockType": "Checkbox",
+      "width": 135,
+      "height": 30,
+      "properties": {
+        "LabelPosition": {
+          "source": "dialog",
+          "type": "enum",
+          "default": "Hide",
+          "enum": [
+            "Top",
+            "Bottom",
+            "Hide"
+          ],
+          "invalidRejected": true
+        },
+        "Binding": {
+          "source": "dialog",
+          "type": "binding",
+          "default": null,
+          "enum": [],
+          "invalidRejected": null
+        },
+        "ShowInitialText": {
+          "source": "dialog",
+          "type": "boolean",
+          "default": "on",
+          "enum": [],
+          "invalidRejected": true
+        },
+        "Label": {
+          "source": "dialog",
+          "type": "string",
+          "default": "Label",
+          "enum": [],
+          "invalidRejected": null
+        },
+        "Values": {
+          "source": "dialog",
+          "type": "matrix",
+          "default": [
+            0,
+            1
+          ],
+          "enum": [],
+          "invalidRejected": null
+        },
+        "Opacity": {
+          "source": "dialog",
+          "type": "string",
+          "default": "1",
+          "enum": [],
+          "invalidRejected": null
+        }
+      }
+    },
+    {
+      "type": "dashboardComboBox",
+      "blockType": "ComboBox",
+      "width": 160,
+      "height": 25,
+      "properties": {
+        "LabelPosition": {
+          "source": "dialog",
+          "type": "enum",
+          "default": "Hide",
+          "enum": [
+            "Top",
+            "Bottom",
+            "Hide"
+          ],
+          "invalidRejected": true
+        },
+        "Binding": {
+          "source": "dialog",
+          "type": "binding",
+          "default": null,
+          "enum": [],
+          "invalidRejected": null
+        },
+        "ShowInitialText": {
+          "source": "dialog",
+          "type": "boolean",
+          "default": "on",
+          "enum": [],
+          "invalidRejected": true
+        },
+        "States": {
+          "source": "dialog",
+          "type": "matrix",
+          "default": [
+            {
+              "Value": 0,
+              "Label": "Label1"
+            },
+            {
+              "Value": 1,
+              "Label": "Label2"
+            },
+            {
+              "Value": 2,
+              "Label": "Label3"
+            }
+          ],
+          "enum": [],
+          "invalidRejected": null
+        },
+        "UseEnumeratedDataType": {
+          "source": "dialog",
+          "type": "boolean",
+          "default": "off",
+          "enum": [],
+          "invalidRejected": true
+        },
+        "EnumeratedDataType": {
+          "source": "dialog",
+          "type": "string",
+          "default": "",
+          "enum": [],
+          "invalidRejected": null
+        },
+        "Opacity": {
+          "source": "dialog",
+          "type": "string",
+          "default": "1",
+          "enum": [],
+          "invalidRejected": null
+        }
+      }
+    }
+  ]
+}

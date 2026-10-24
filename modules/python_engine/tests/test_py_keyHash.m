@@ -9,10 +9,10 @@
 %=============================================================================
 % <--PYTHON ENVIRONMENT REQUIRED-->
 %=============================================================================
-A = pyrun('','A', 'A', int32(3));
-assert_isequal(A.keyHash(), uint64(3));
+A = pyrun('', 'A', 'A', int32(3));
+asserts.isequal(A.keyHash(), uint64(3));
 %=============================================================================
 R = pyrun("R = {'name': 'Dionysia', 'age': 28, 'location': 'Athens'}", "R");
 msg = sprintf(_("TypeError: unhashable type: '%s'"), 'dict')
-assert_checkerror('R.keyHash()', msg)
+asserts.checkerror('R.keyHash()', msg)
 %=============================================================================

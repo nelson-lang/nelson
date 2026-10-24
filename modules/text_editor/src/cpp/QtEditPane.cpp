@@ -9,12 +9,15 @@
 //=============================================================================
 #include "QtEditPane.h"
 #include "QtBreakpointArea.h"
+#include "QtCodeAnalyzerMarkerArea.h"
 #include "QtHighlighter.h"
 #include "QtLineNumber.h"
 #include "QtTextIndent.h"
+#include "TextEditorIndentPreferences.h"
 #include <QtWidgets/QHBoxLayout>
 //=============================================================================
-QtEditPane::QtEditPane(Evaluator* eval) : currentEncoding("UTF-8"), nlsEvaluator(eval)
+QtEditPane::QtEditPane(Evaluator* eval)
+    : currentEncoding("UTF-8"), currentEol(QtEditPane::defaultEol()), nlsEvaluator(eval)
 {
     textEditor = new QtTextEdit();
     completer = new QCompleter(this);
@@ -22,19 +25,22 @@ QtEditPane::QtEditPane(Evaluator* eval) : currentEncoding("UTF-8"), nlsEvaluator
 
     breakpointArea = new QtBreakpointArea(textEditor, nlsEvaluator);
     QtLineNumber* tLN = new QtLineNumber(textEditor);
+    codeAnalyzerMarkerArea = new QtCodeAnalyzerMarkerArea(textEditor);
 
     QHBoxLayout* layout = new QHBoxLayout;
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
     layout->addWidget(breakpointArea);
     layout->addWidget(tLN);
+    layout->addWidget(codeAnalyzerMarkerArea);
     layout->addWidget(textEditor);
     setLayout(layout);
 
-    QtTextIndent* ind = new QtTextIndent();
-    connect(textEditor, SIGNAL(indent()), ind, SLOT(update()));
+    textIndent = new QtTextIndent(this);
+    textIndent->setIndentSize(TextEditorGetIndentSize());
+    connect(textEditor, SIGNAL(indent()), textIndent, SLOT(update()));
     highlight = new Highlighter(textEditor->document());
-    ind->setDocument(textEditor);
+    textIndent->setDocument(textEditor);
 }
 //=============================================================================
 QtEditPane::~QtEditPane()
@@ -55,10 +61,15 @@ void
 QtEditPane::setFileName(const QString& filename)
 {
     currentFilename = filename;
-    if (filename.endsWith(".m")) {
-        highlight->setEnable(true);
-    } else {
-        highlight->setEnable(false);
+    // an unnamed tab (new file) is also highlighted as a Nelson script
+    bool isNelsonScript = filename.isEmpty() || filename.endsWith(".m", Qt::CaseInsensitive);
+    if (highlight && (highlight->getEnable() != isNelsonScript)) {
+        highlight->setEnable(isNelsonScript);
+        highlight->rehighlight();
+    }
+    // automatic indentation only applies to Nelson scripts
+    if (textIndent) {
+        textIndent->setEnabled(isNelsonScript);
     }
     if (breakpointArea) {
         breakpointArea->setFilename(filename);
@@ -83,10 +94,76 @@ QtEditPane::getEncoding()
     return currentEncoding;
 }
 //=============================================================================
+QString
+QtEditPane::defaultEol()
+{
+#if defined(_WIN32)
+    return QString(EOL_STYLE_CRLF);
+#else
+    return QString(EOL_STYLE_LF);
+#endif
+}
+//=============================================================================
+QString
+QtEditPane::eolSequence(const QString& eol)
+{
+    if (eol == EOL_STYLE_CRLF) {
+        return QString("\r\n");
+    }
+    if (eol == EOL_STYLE_CR) {
+        return QString("\r");
+    }
+    return QString("\n");
+}
+//=============================================================================
+void
+QtEditPane::setEol(const QString& eol)
+{
+    if ((eol == EOL_STYLE_CRLF) || (eol == EOL_STYLE_LF) || (eol == EOL_STYLE_CR)) {
+        currentEol = eol;
+    }
+}
+//=============================================================================
+QString
+QtEditPane::getEol()
+{
+    if (currentEol.isEmpty()) {
+        currentEol = QtEditPane::defaultEol();
+    }
+    return currentEol;
+}
+//=============================================================================
 QtBreakpointArea*
 QtEditPane::getBreakpointArea()
 {
     return breakpointArea;
+}
+//=============================================================================
+QtCodeAnalyzerMarkerArea*
+QtEditPane::getCodeAnalyzerMarkerArea()
+{
+    return codeAnalyzerMarkerArea;
+}
+//=============================================================================
+void
+QtEditPane::setCodeAnalyzerDiagnostics(
+    const std::vector<Nelson::CodeAnalyzerDiagnostic>& diagnostics)
+{
+    if (textEditor) {
+        textEditor->setCodeAnalyzerDiagnostics(diagnostics);
+    }
+    if (codeAnalyzerMarkerArea) {
+        codeAnalyzerMarkerArea->setDiagnostics(diagnostics);
+    }
+}
+//=============================================================================
+std::vector<Nelson::CodeAnalyzerDiagnostic>
+QtEditPane::getCodeAnalyzerDiagnostics() const
+{
+    if (textEditor) {
+        return textEditor->getCodeAnalyzerDiagnostics();
+    }
+    return {};
 }
 //=============================================================================
 void

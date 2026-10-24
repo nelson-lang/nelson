@@ -18,26 +18,31 @@ set(_options_modules
   MPI
   AUDIO
   WEBTOOLS
+  WEBVIEW
   FILE_ARCHIVER
   IPC
   PARALLEL
   GRAPHICS
   QML_ENGINE
-  SIO_CLIENT
   SIGNAL_PROCESSING
   VALIDATORS
   MATIO
   HDF5
+  PREFERENCES
+  NETCDF
   HELP_TOOLS
   TEXT_EDITOR
   DATA_ANALYSIS
+  ODE_SOLVERS
+  CATEGORICAL
   DYNAMIC_LINK
+  COMPILER
   TESTS_MANAGER
   IMAGE_PROCESSING
   JSON
+  AI
   XML
   GUI
-  NIG
   ASSERT_FUNCTIONS
   STATISTICS
   TRIGONOMETRIC_FUNCTIONS
@@ -45,17 +50,31 @@ set(_options_modules
   LOCALIZATION
   I18N
   RANDOM
+  OPTIMIZATION
   SPECIAL_FUNCTIONS
   TEXT_COMPLETION
   CHARACTERS_ENCODING
   GEOMETRY
   PYTHON_ENGINE
+  PARQUET
   SPREADSHEET
+  NFLOW_BLOCKS
+  NFLOW_ENGINE
+  NFLOW_FMI
+  NFLOW_GUI
   JULIA_ENGINE
+  NMM_GUI
 )
 # ==============================================================================
 # Generate modules.m (uses "true"/"false" strings)
 # ==============================================================================
+set(NELSON_GENERATED_CONFIG_DIR "${CMAKE_BINARY_DIR}/generated/config")
+set(NELSON_GENERATED_INCLUDE_DIR "${NELSON_GENERATED_CONFIG_DIR}/include")
+set(NELSON_GENERATED_MODULES_FILE "${NELSON_GENERATED_CONFIG_DIR}/modules.m")
+set(NELSON_GENERATED_BUILD_CONFIG
+  "${NELSON_GENERATED_INCLUDE_DIR}/nlsBuildConfig.h"
+)
+file(MAKE_DIRECTORY "${NELSON_GENERATED_INCLUDE_DIR}")
 foreach(_mod IN LISTS _options_modules)
   if(WITHOUT_${_mod}_MODULE)
     set(WITH_${_mod}_MODULE "false")
@@ -63,11 +82,38 @@ foreach(_mod IN LISTS _options_modules)
     set(WITH_${_mod}_MODULE "true")
   endif()
 endforeach()
+# gpu_engine is opt-in (WITH_GPU_ENGINE_MODULE option, OFF by default)
+if(WITH_GPU_ENGINE_MODULE)
+  set(WITH_GPU_ENGINE_MODULE_LOADER "true")
+else()
+  set(WITH_GPU_ENGINE_MODULE_LOADER "false")
+endif()
+# history_manager's core library is always linked by the terminal, but its
+# builtin layer only serves the interactive history of the advanced CLI and the
+# GUI; a GUI-less (minimal/CLI) build does not load it.
+if(WITHOUT_GUI_MODULE)
+  set(WITH_HISTORY_MANAGER_MODULE_LOADER "false")
+else()
+  set(WITH_HISTORY_MANAGER_MODULE_LOADER "true")
+endif()
 # ==============================================================================
 configure_file(
   "${CMAKE_SOURCE_DIR}/modules/modules.m.in"
-  "${CMAKE_SOURCE_DIR}/modules/modules.m"
+  "${NELSON_GENERATED_MODULES_FILE}"
 )
+# ==============================================================================
+# Native in-place dev builds run directly from the source tree: the runtime
+# root-path detection walks up from the binaries directory looking for
+# "<root>/modules/modules.m". WebAssembly preloads the generated file into its
+# virtual filesystem instead, so it does not need the copy in the source tree.
+# This path is listed in .gitignore.
+# ==============================================================================
+if(NOT CMAKE_SYSTEM_NAME STREQUAL "Emscripten")
+  configure_file(
+    "${CMAKE_SOURCE_DIR}/modules/modules.m.in"
+    "${CMAKE_SOURCE_DIR}/modules/modules.m"
+  )
+endif()
 # ==============================================================================
 # Helper: set WITH_X to 0 or 1 from a boolean condition
 # ==============================================================================
@@ -85,6 +131,7 @@ endmacro()
 _nelson_bool_to_01(GIF_FOUND WITH_GIF)
 _nelson_bool_to_01(TIFF_FOUND WITH_TIFF)
 _nelson_bool_to_01(TAGLIB_FOUND WITH_TAGLIB)
+_nelson_bool_to_01(ARPACK_FOUND WITH_ARPACK)
 # ==============================================================================
 # Invert WITHOUT_* -> WITH_*
 if(WITHOUT_OPENMP)
@@ -129,5 +176,6 @@ endforeach()
 # ==============================================================================
 configure_file(
   "${CMAKE_SOURCE_DIR}/modules/commons/src/include/nlsBuildConfig.h.in"
-  "${CMAKE_SOURCE_DIR}/modules/commons/src/include/nlsBuildConfig.h"
+  "${NELSON_GENERATED_BUILD_CONFIG}"
 )
+include_directories(BEFORE "${NELSON_GENERATED_INCLUDE_DIR}")

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>lookup2D</keyword>
+<keyword_alias>block:lookup2D</keyword_alias>
+  <short_description>Table de consultation 2-D interpolee.</short_description>
+  <syntax>
+    <syntax_item>Block type: lookup2D</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>input ports</param_name>
+      <param_description>2 input port(s) declared.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>output ports</param_name>
+      <param_description>1 output port(s) declared.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Table de consultation 2-D interpolee.</p>
+    <table border="1">
+      <tbody>
+        <tr>
+          <td>Module</td>
+          <td>
+            <code>nflow_blocks</code>
+          </td>
+        </tr>
+        <tr>
+          <td>Library</td>
+          <td>Tables de consultation</td>
+        </tr>
+        <tr>
+          <td>Type</td>
+          <td>
+            <code>lookup2D</code>
+          </td>
+        </tr>
+        <tr>
+          <td>Label</td>
+          <td>2-D Lookup Table</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Description</b>
+    </p>
+    <p>Deux entrees (coordonnees ligne et colonne) indexent une matrice Table statique column-major ; interpolation bilineaire / Flat / Nearest avec extrapolation Clip ou Linear.</p>
+    <p>La page decrit le comportement runtime natif observe dans les sources C++ du module. Les phases declarees indiquent quand le moteur de simulation appelle le bloc.</p>
+    <p>Generation de code : prise en charge pour C et Rust.</p>
+    <p>
+      <b>Sources d implementation</b>
+    </p>
+    <source_code label="Manifest" path="modules/nflow_blocks/libraries/lookup/library.json" language="json"/>
+    <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/lookup/lookup2D.cpp" language="cpp"/>
+  </description>
+  <used_function/>
+  <bibliography/>
+  <see_also>
+    <see_also_item>
+      <link linkend="${nflow_blocks}lookup/lookup1D">lookup1D</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>compiler_standalone_tutorial</keyword>
+  <keyword_alias>compiler_standalone_tutorial</keyword_alias>
+  <short_description>Tutorial: distribute an application with multiple source files and data.</short_description>
+  <syntax>
+    <syntax_item>ncc('options', AppFile, Name, Value, ...)</syntax_item>
+    <syntax_item>result = ncc(options)</syntax_item>
+  </syntax>
+
+  <description>
+    <p>This tutorial uses the available ncc and nelson.compiler interfaces. The optional compiler module and its precompiled launchers must be installed. No C++ toolchain is needed. Run the following four examples in order in the same Nelson session.</p>
+    <p>The supplied example has three files under <b>modules/compiler/examples/standalone</b>: <b>app_entry.m</b> accepts a command-line argument, explicitly converts it with str2double, reads factor.txt and calls <b>helper_value.m</b>. The helper multiplies by two and factor.txt contains three. Input 5 therefore produces <b>TUTORIAL_RESULT=30</b>.</p>
+    <p>The first example makes a private working copy. The second explicitly includes factor.txt because its path is computed relative to mfilename('fullpath'). Static analysis selects the helper function. The executable contains the application bytecode (.nbc) and resource, so the original .m files are not needed at run time.</p>
+    <p>The installed build produces an executable without a runtime directory. The third example selects the current compatible Nelson installation with NELSONC_RUNTIME_ROOT, runs the application and restores the previous environment variable. The required architecture and engine fingerprint must match; the version number alone is insufficient.</p>
+    <p>The fourth example changes a copy of the options to bundled mode. Distribute both paths in bundledResult.Files: the executable and its adjacent .runtime directory, preserving their names. This is a portable application distribution, not an application installer. Keep runtime license notices with the distribution.</p>
+    <p>Inspect plan.runtime.modules and result.RuntimePlan to understand size. Bundled mode copies selected dependencies. Graphics and unresolved dynamic call patterns can require larger module sets. Removing dependencies without analysis can break deployed applications.</p>
+    <p>For a Windows application without a console, set <b>NoConsole=true</b> and use a new OutputDir or ExecutableName. Use <b>Mode='gui'</b> when graphics are required; NoConsole and graphics support are independent. Figure and uicontrol callbacks keep the graphical event loop alive while application windows remain.</p>
+    <p>Build on each target platform: Windows produces .exe, other supported platforms use their native executable format. Packaging uses the normal execution engine and does not guarantee faster calculations or a particular first-start time.</p>
+    <p>Use isdeployed to distinguish packaged execution. ctfroot is a temporary extraction directory, removed after normal shutdown. Store persistent results outside it. The tutorial keeps the work directory available for inspection; do not delete or move unrelated installation files.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>1. Prepare the example</example_item_description>
+      <example_item_data runnable="false"><![CDATA[ncc('--help');
+work = tempname();
+mkdir(work);
+source = fullfile(work, 'source');
+mkdir(source);
+example = fullfile(modulepath('compiler'), 'examples', 'standalone');
+for file = {'app_entry.m', 'helper_value.m', 'factor.txt'}
+  copyfile(fullfile(example, file{1}), fullfile(source, file{1}));
+end]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>2. Analyze and build with an installed runtime</example_item_description>
+      <example_item_data runnable="false"><![CDATA[options = ncc('options', fullfile(source, 'app_entry.m'), ...
+  'ExecutableName', 'application', 'ExecutableVersion', '2.0', ...
+  'OutputDir', fullfile(work, 'installed'), 'RuntimeMode', 'installed', ...
+  'AdditionalFiles', fullfile(source, 'factor.txt'));
+plan = nelson.compiler.analyze(options);
+disp(plan.runtime.modules);
+result = ncc(options);
+disp(result.Files);]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>3. Run the installed-runtime application</example_item_description>
+      <example_item_data runnable="false"><![CDATA[previousRuntime = getenv('NELSONC_RUNTIME_ROOT');
+restoreRuntime = onCleanup(@() setenv('NELSONC_RUNTIME_ROOT', previousRuntime));
+setenv('NELSONC_RUNTIME_ROOT', nelsonroot());
+[status, output] = system(['"', result.Executable, '" 5'], 60);
+clear restoreRuntime;
+if status ~= 0
+  error(output);
+end
+disp(output);]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>4. Build and run with a bundled runtime</example_item_description>
+      <example_item_data runnable="false"><![CDATA[bundledOptions = options;
+bundledOptions.RuntimeMode = 'bundled';
+bundledOptions.OutputDir = fullfile(work, 'bundled');
+bundledResult = ncc(bundledOptions);
+disp(bundledResult.Files);
+[status, output] = system(['"', bundledResult.Executable, '" 5'], 60);
+if status ~= 0
+  error(output);
+end
+disp(output);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${modules_manager}ncc">ncc</link></see_also_item>
+    <see_also_item><link linkend="${compiler}nelson.compiler.BuildOptions">nelson.compiler.BuildOptions</link></see_also_item>
+    <see_also_item><link linkend="${compiler}nelson.compiler.BuildResult">nelson.compiler.BuildResult</link></see_also_item>
+    <see_also_item><link linkend="${compiler}nelson.compiler.build">nelson.compiler.build</link></see_also_item>
+    <see_also_item><link linkend="${compiler}nelson.compiler.analyze">nelson.compiler.analyze</link></see_also_item>
+    <see_also_item><link linkend="${interpreter}isdeployed">isdeployed</link></see_also_item>
+    <see_also_item><link linkend="${interpreter}ctfroot">ctfroot</link></see_also_item>
+  </see_also>
+  <history />
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

@@ -19,3 +19,18 @@ t1.Visible = 'on';
 s.Visible = 'on';
 ff.Visible = 'on';
 %=============================================================================
+% an empty value clears a text String (xlabel([]) / set(h,'String',[]))
+xlabel('something');
+xlabel([]);
+assert_isequal(char(get(gca(), 'XLabel').String), '');
+ylabel([]);
+assert_isequal(char(get(gca(), 'YLabel').String), '');
+title('a title');
+title([]);
+assert_isequal(char(get(gca(), 'Title').String), '');
+tx = text(0.5, 0.5, 'hi');
+set(tx, 'String', []);
+assert_istrue(isempty(char(tx.String)));
+%=============================================================================
+close all
+%=============================================================================

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>image_processing</module_name>
+  <chapter>Types d'image et couleur</chapter>
+  <chapter_description>
+    <p>Fonctions pour la conversion de type d'image, la conversion d'espace couleur et la conversion d'images indexees.</p>
+  </chapter_description>
+</xmldoc>

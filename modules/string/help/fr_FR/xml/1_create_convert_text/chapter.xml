@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>string</module_name>
+  <chapter>Creation et conversion de texte</chapter>
+  <chapter_description>
+    <p>Fonctions pour creer du texte, le formater et convertir entre texte et autres donnees.</p>
+  </chapter_description>
+</xmldoc>

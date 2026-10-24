@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>uifigure</keyword>
+  <short_description>Create a figure for app-style user interfaces.</short_description>
+  <syntax>
+    <syntax_item>f = uifigure()</syntax_item>
+    <syntax_item>f = uifigure(Name, Value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>Name, Value</param_name>
+      <param_description>Figure property name-value pairs. uifigure applies MenuBar = 'none', ToolBar = 'none', NumberTitle = 'off', Resize = 'on', WindowStyle = 'normal', and a default 560-by-420 pixel size before user-supplied properties.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>f</param_name>
+      <param_description>Graphics figure handle.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>uifigure creates a graphics figure configured for interface-oriented dialogs and controls. The returned handle can be used with get, set, close, delete, and as the parent for UI dialog functions.</p>
+    <p>Supported properties are the figure properties available in Nelson, including 'Name', 'Position', 'Visible', 'WindowStyle', 'Resize', 'Color', 'Tag', and callback properties.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Captured UI figure for the help image.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = uifigure('Visible', 'off', 'Name', 'Results', 'Position', [100 100 420 260]);
+uilabel(f, 'Text', 'Result:', 'Position', [80 150 90 24]);
+uibutton(f, 'Text', 'Run', 'Position', [80 95 100 30]);
+uislider(f, 'Position', [210 110 150 3], 'Value', 55);
+drawnow();]]></example_item_data>
+      <example_item_img
+        src="../images/uifigure_example.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Create a named modal UI figure.</example_item_description>
+      <example_item_data><![CDATA[f = uifigure('Name', 'Results', 'WindowStyle', 'modal');
+f.Name
+close(f)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${gui}dialog">dialog</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${gui}uialert">uialert</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${gui}uiconfirm">uiconfirm</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>Introduced app-style UI figure.</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

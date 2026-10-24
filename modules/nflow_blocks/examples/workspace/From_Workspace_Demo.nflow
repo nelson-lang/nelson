@@ -1,0 +1,108 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Allan CORNET",
+    "created": "2026-08-02",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "comments": "From/To Workspace round-trip. Define the source signal in Nelson before running, e.g.  simin = [(0:0.01:10)', sin(2*pi*0.5*(0:0.01:10))'];  The From Workspace block reads 'simin', a gain of 2 is applied, and the result is written back to 'simout'.",
+  "name": "From Workspace Demo",
+  "blocks": [
+    {
+      "id": "fw",
+      "type": "fromWorkspace",
+      "x": 60,
+      "y": 236,
+      "rotation": 0,
+      "params": {
+        "VariableName": "simin",
+        "SampleTime": "0",
+        "Interpolate": "on",
+        "OutputAfterFinalValue": "Holding final value"
+      }
+    },
+    {
+      "id": "g",
+      "type": "gain",
+      "x": 220,
+      "y": 220,
+      "rotation": 0,
+      "params": {
+        "Gain": 2
+      }
+    },
+    {
+      "id": "sc",
+      "type": "scope",
+      "x": 400,
+      "y": 60,
+      "rotation": 0,
+      "params": {
+        "TMin": "",
+        "TMax": "",
+        "YMin": "",
+        "YMax": "",
+        "width": 320,
+        "height": 220,
+        "ShowTickLabels": false
+      }
+    },
+    {
+      "id": "tw",
+      "type": "toWorkspace",
+      "x": 400,
+      "y": 316,
+      "rotation": 0,
+      "params": {
+        "VariableName": "simout",
+        "MaxDataPoints": "inf",
+        "Decimation": 1,
+        "SaveFormat": "Structure With Time",
+        "SampleTime": "-1"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "fw",
+      "to": "g",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [140, 260],
+        [220, 260]
+      ]
+    },
+    {
+      "from": "g",
+      "to": "sc",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [320, 260],
+        [380, 260],
+        [380, 100],
+        [400, 100]
+      ]
+    },
+    {
+      "from": "g",
+      "to": "tw",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [320, 260],
+        [380, 260],
+        [380, 340],
+        [400, 340]
+      ]
+    }
+  ],
+  "variables": "",
+  "runtime": 10,
+  "sampleTime": 0.01,
+  "autoRoute": true,
+  "locked": false
+}

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>dateshift</keyword>
+  <short_description>Shift datetime values to calendar boundaries or selected weekdays.</short_description>
+  <syntax>
+    <syntax_item>t2 = dateshift(t, &apos;start&apos;, unit)</syntax_item>
+    <syntax_item>t2 = dateshift(t, &apos;end&apos;, unit)</syntax_item>
+    <syntax_item>t2 = dateshift(t, &apos;start&apos;, unit, rule)</syntax_item>
+    <syntax_item>t2 = dateshift(t, &apos;dayofweek&apos;, day, rule)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>inputs</param_name>
+      <param_description>A datetime array, shift mode, unit or weekday selector, and optional rule.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>output</param_name>
+      <param_description>A datetime array shifted according to the selected rule.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Shift datetime values to calendar boundaries or selected weekdays.</p>
+    <p>Supported boundary units include year, quarter, month, week, day, hour, minute, and second. Weekday shifting accepts weekday names, numbers, weekday, and weekend.</p>
+    <p>Array-valued inputs keep their data shape when the operation supports arrays. Scalar operands are expanded where the implementation defines scalar expansion.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Basic usage.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[t = datetime(2024, 5, 17, 13, 14, 15)
+dateshift(t, 'start', 'month')
+dateshift(t, 'dayofweek', 'Monday', 'next')
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${time}datetime">datetime</link></see_also_item>
+    <see_also_item><link linkend="${time}duration">duration</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

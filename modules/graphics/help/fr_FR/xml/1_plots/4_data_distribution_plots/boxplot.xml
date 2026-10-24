@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>boxplot</keyword>
+  <short_description>Afficher des boites a moustaches pour des donnees numeriques.</short_description>
+  <syntax>
+    <syntax_item>boxplot(X)</syntax_item>
+    <syntax_item>boxplot(X, group)</syntax_item>
+    <syntax_item>boxplot(parent, ...)</syntax_item>
+    <syntax_item>boxplot(..., propertyName, propertyValue)</syntax_item>
+    <syntax_item>h = boxplot(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description>Vecteur ou matrice numerique. Les colonnes d'une matrice sont affichees comme boites separees.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>group</param_name>
+      <param_description>Valeurs de regroupement pour les donnees vectorielles.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>parent</param_name>
+      <param_description>Axes ou hggroup parent.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>h</param_name>
+      <param_description>Groupe graphique contenant les patches et lignes des boites, moustaches, medianes et valeurs aberrantes.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>boxplot</b> affiche les quartiles, la mediane, les moustaches et les valeurs aberrantes de donnees numeriques. Les valeurs NaN sont ignorees.</p>
+    <p>Les proprietes prises en charge sont <b>Labels</b>, <b>Orientation</b>, <b>Widths</b>, <b>Whisker</b>, <b>Symbol</b>, <b>Colors</b>, <b>LineWidth</b>, <b>ShowOutliers</b>, <b>Notch</b>, <b>Positions</b> et <b>BoxStyle</b>.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Boites pour les colonnes d'une matrice.</example_item_description>
+      <example_item_data><![CDATA[X = [2 2 3; 3 4 6; 4 6 9; 5 7 12; 6 5 8; 20 6 10];
+boxplot(X, 'Labels', {'A', 'B', 'C'});]]></example_item_data>
+      <example_item_img src="../../../../images/boxplot_1.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Tailles groupees avec etiquettes.</example_item_description>
+      <example_item_data><![CDATA[girls = randn(10, 1) * 5 + 140;
+boys = randn(13, 1) * 8 + 135;
+heights = [girls; boys];
+sex = [ones(numel(girls), 1); 2 * ones(numel(boys), 1)];
+boxplot(heights, sex, 'Labels', {'girls', 'boys'});
+xlim([0 3]);
+title('Grade 3 heights');]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Groupes avec positions explicites.</example_item_description>
+      <example_item_data><![CDATA[data = [(randn(10, 1) * 5 + 140); (randn(25, 1) * 8 + 135); ...
+  (randn(20, 1) * 6 + 165)];
+groups = [ones(10, 1); ones(25, 1) * 2; ones(20, 1) * 3];
+labels = {'Team A', 'Team B', 'Team C'};
+pos = [2, 1, 3];
+boxplot(data, groups, 'Notch', 'on', 'Labels', labels, 'Positions', pos, ...
+  'BoxStyle', 'filled', 'Widths', 0.45);
+title('Group splitting with paired vectors');]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Couleurs specifiees avec caracteres.</example_item_description>
+      <example_item_data><![CDATA[boxplot(randn(100, 9), 'Notch', 'on', 'BoxStyle', 'filled', ...
+  'Colors', 'ygcwkmb', 'Whisker', 1.2);
+title('Different colors specified with characters');]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Couleurs specifiees en RGB.</example_item_description>
+      <example_item_data><![CDATA[colors = [0.7 0.7 0.7; 0.0 0.4 0.9; 0.7 0.4 0.3; ...
+  0.7 0.1 0.7; 0.8 0.7 0.4; 0.1 0.8 0.5; 0.9 0.9 0.2];
+boxplot(randn(100, 13), 'Notch', 'on', 'BoxStyle', 'filled', ...
+  'Colors', colors, 'Whisker', 1.3, 'Widths', 0.45);
+title('Different colors specified as RGB values');]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Boites groupees horizontales.</example_item_description>
+      <example_item_data><![CDATA[y = [1 2 3 4 10 11 12 25];
+g = {'left', 'left', 'left', 'left', 'right', 'right', 'right', 'right'};
+boxplot(y, g, 'Orientation', 'horizontal', 'Symbol', 'rx');]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/4_data_distribution_plots/boxchart">boxchart</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/1_line_plots/plot">plot</link></see_also_item>
+  </see_also>
+</xmldoc>

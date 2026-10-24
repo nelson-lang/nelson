@@ -19,5 +19,5 @@ GOColorInterpProperty::GOColorInterpProperty() : GORestrictedStringColorProperty
 {
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

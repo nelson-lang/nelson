@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -16,8 +16,8 @@
 namespace Nelson {
 //=============================================================================
 bool
-h5SaveStruct(hid_t fid, const std::string& location, const std::string& variableName,
-    const ArrayOf& VariableValue, bool useCompression)
+h5SaveStruct(Evaluator* eval, hid_t fid, const std::string& location,
+    const std::string& variableName, const ArrayOf& VariableValue, bool useCompression)
 {
     bool bSuccess = false;
     std::string h5path;
@@ -34,24 +34,24 @@ h5SaveStruct(hid_t fid, const std::string& location, const std::string& variable
     if (status < 0) {
         return false;
     }
-    stringVector fNames = VariableValue.getFieldNames();
+    stringVector fNames = VariableValue.fieldNames();
     Dimensions dimsNames(1, fNames.size());
-    ArrayOf fieldnames = ArrayOf::stringArrayConstructor(fNames, dimsNames);
+    ArrayOf fieldnames = ArrayOf::stringArray(fNames, dimsNames);
     bSuccess = h5SaveStringArray(
-        fid, h5path + std::string("/"), FIELDNAMES_STR, fieldnames, useCompression);
+        eval, fid, h5path + std::string("/"), FIELDNAMES_STR, fieldnames, useCompression);
     if (!bSuccess) {
         return false;
     }
-    Dimensions dims = VariableValue.getDimensions();
-    indexType length = dims.getElementCount();
-    auto* elements = (ArrayOf*)VariableValue.getDataPointer();
+    Dimensions dims = VariableValue.dimensions();
+    indexType length = dims.elementCount();
+    auto* elements = (ArrayOf*)VariableValue.dataPointer();
     indexType offset = 0;
     for (indexType j = 0; j < length; j++) {
         for (indexType i = 0; i < (indexType)fNames.size(); i++) {
             ArrayOf element = elements[offset];
             std::string name = std::to_string(offset);
-            bSuccess
-                = h5SaveVariable(fid, h5path + std::string("/"), name, element, useCompression);
+            bSuccess = h5SaveVariable(
+                eval, fid, h5path + std::string("/"), name, element, useCompression);
             offset++;
             if (!bSuccess) {
                 return false;

@@ -8,34 +8,22 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "CloseAllFiles.hpp"
-#include <cstdio>
-//=============================================================================
-#ifdef _MSC_VER
-#define fcloseall _fcloseall
-#endif
+#include "FilesManager.hpp"
+#include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 void
 CloseAllFiles()
 {
-#ifdef _MSC_VER
-    _fcloseall();
-#else
-#if defined(__APPLE__) || defined(__MACH__)
-    FILE* fds_to_close[3]; /* the size being hardcoded to '3' is temporary */
-    int i; /* loop counter */
-    fds_to_close[0] = stdin;
-    fds_to_close[1] = stdout;
-    fds_to_close[2] = stderr;
-    /* max iterations being hardcoded to '3' is temporary: */
-    for ((i = 0); (i < 3); i++) {
-        fclose(fds_to_close[i]);
+    auto* fm = static_cast<FilesManager*>(NelsonConfiguration::getInstance()->getFileManager());
+    if (fm == nullptr) {
+        return;
     }
-#else
-    fcloseall();
-#endif
-#endif
+    auto* io = static_cast<Interface*>(fm->getFilePointer(1));
+    auto* newFileManager = new FilesManager(io);
+    delete fm;
+    NelsonConfiguration::getInstance()->setFileManager(newFileManager);
 }
 //=============================================================================
 } // namespace Nelson

@@ -7,18 +7,17 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
+skip_testsuite(~findcmake(), 'C toolchain (cmake) not available')
 if ispc() && ~havecompiler()
   configuremsvc();
 end
 %=============================================================================
 if exist('mxGetFieldByNumber') == 0
-  test_dir = [tempdir(), 'mxGetFieldByNumber'];
-  if isdir(test_dir)
-    rmdir(test_dir,'s');
-  end
+  test_dir = tempname();
   mkdir(test_dir);
   status = copyfile('mxGetFieldByNumber.c', test_dir);
-  assert_istrue(status);
+  asserts.istrue(status);
   cd(test_dir);
   mex('mxGetFieldByNumber.c');
   addpath(pwd())
@@ -31,17 +30,17 @@ C(2).A = 3;
 C(2).B = single(4);
 C(2).C = false;
 R = mxGetFieldByNumber(C, 0, 0);
-assert_isequal(R, 1);
+asserts.isequal(R, 1);
 R = mxGetFieldByNumber(C, 0, 1);
-assert_isequal(R, single(2));
+asserts.isequal(R, single(2));
 R = mxGetFieldByNumber(C, 0, 2);
-assert_isequal(R, true);
+asserts.isequal(R, true);
 R = mxGetFieldByNumber(C, 1, 0);
-assert_isequal(R, 3);
+asserts.isequal(R, 3);
 R = mxGetFieldByNumber(C, 1, 1);
-assert_isequal(R, single(4));
+asserts.isequal(R, single(4));
 R = mxGetFieldByNumber(C, 1, 2);
-assert_isequal(R, false);
+asserts.isequal(R, false);
 R = mxGetFieldByNumber(C, 2, 2);
-assert_isequal(R, false);
+asserts.isequal(R, false);
 %=============================================================================

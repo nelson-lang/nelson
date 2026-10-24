@@ -11,7 +11,7 @@
 function varargout = evalfr(varargin)
   narginchk(2, 2);
   nargoutchk(0, 1);
-  
+
   sysIn = tf(varargin{1});
   w = varargin{2};
   varargout{1} = evalfr(sysIn, w);

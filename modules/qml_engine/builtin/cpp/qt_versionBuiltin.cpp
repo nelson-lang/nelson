@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -19,7 +19,7 @@ Nelson::QmlEngineGateway::qt_versionBuiltin(int nLhs, const ArrayOfVector& argIn
     nargincheck(argIn, 0, 0);
     nargoutcheck(nLhs, 0, 1);
     ArrayOfVector retval;
-    retval.push_back(ArrayOf::characterArrayConstructor(QtVersionAsString()));
+    retval.push_back(ArrayOf::characterArray(QtVersionAsString()));
     return retval;
 }
 //=============================================================================

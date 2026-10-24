@@ -36,6 +36,8 @@
   <description>
     <p>
       <b>webread()</b> lit du contenu depuis le web et le charge dans une variable Nelson.</p>
+    <p>Les redirections HTTP sont suivies par défaut (voir <b>FollowLocation</b> dans <b>weboptions</b>).</p>
+    <p>Quand <b>ContentType</b> vaut <b>&apos;auto&apos;</b> (valeur par défaut), l&apos;en-tête Content-Type de la réponse choisit le décodeur : une réponse <b>image/*</b> est lue avec <b>imread</b>, une réponse <b>audio/*</b> avec <b>audioread</b> et une réponse JSON avec <b>jsondecode</b>. Les autres types sont détectés depuis le contenu.</p>
   </description>
   <used_function />
   <bibliography />
@@ -86,6 +88,10 @@ res = webread(url,weboptions('ContentType','json'));
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>redirections suivies par défaut, le type de contenu &apos;auto&apos; utilise l&apos;en-tête Content-Type de la réponse</history_description>
     </history_item>
   </history>
   <authors>

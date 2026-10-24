@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>streamtube</keyword>
+  <short_description>Display stream paths with tube-like line styling.</short_description>
+  <syntax>
+    <syntax_item>streamtube(U, V, W, sx, sy, sz)</syntax_item>
+    <syntax_item>streamtube(X, Y, Z, U, V, W, sx, sy, sz)</syntax_item>
+    <syntax_item>streamtube(vertices)</syntax_item>
+    <syntax_item>streamtube(vertices, width)</syntax_item>
+    <syntax_item>h = streamtube(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>streamtube</b> displays 3-D stream paths as tube surfaces.</p>
+    <p><b>streamtube(vertices)</b> uses precomputed streamline vertices. The returned handles are surface objects.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Display a stream tube style path.</example_item_description>
+      <example_item_data><![CDATA[t = 0:.15:2;
+vertices = {[cos(t)' sin(t)' t']};
+streamtube(vertices);]]></example_item_data>
+      <example_item_img src="../../../../images/streamtube_1.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/5_vector_fields/streamline">streamline</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/5_vector_fields/streamribbon">streamribbon</link></see_also_item>
+  </see_also>
+</xmldoc>

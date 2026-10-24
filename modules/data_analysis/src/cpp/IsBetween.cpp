@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "IsBetween.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 //=============================================================================
 #include <algorithm>
@@ -53,9 +54,9 @@ std::wstring
 getTextScalar(const ArrayOf& value, const std::wstring& message)
 {
     if (!isTextScalar(value)) {
-        Error(message);
+        Error(L"Nelson:isbetween:mustBeText", message);
     }
-    return value.getContentAsWideString();
+    return value.asWideString();
 }
 //=============================================================================
 bool
@@ -64,7 +65,7 @@ parseIntervalType(const ArrayOf& value, IntervalType& intervalType)
     if (!isTextScalar(value)) {
         return false;
     }
-    std::wstring text = toLower(value.getContentAsWideString());
+    std::wstring text = toLower(value.asWideString());
     if (text == L"closed") {
         intervalType = IntervalType::CLOSED;
         return true;
@@ -109,24 +110,26 @@ broadcastDimensions(
     const Dimensions& valueDims, const Dimensions& lowerDims, const Dimensions& upperDims)
 {
     indexType length
-        = std::max(std::max(valueDims.getLength(), lowerDims.getLength()), upperDims.getLength());
+        = std::max(std::max(valueDims.length(), lowerDims.length()), upperDims.length());
     length = std::max<indexType>(length, 2);
     Dimensions result(length);
     for (indexType k = 0; k < length; k++) {
-        indexType valueDim = valueDims.getDimensionLength(k);
-        indexType lowerDim = lowerDims.getDimensionLength(k);
-        indexType upperDim = upperDims.getDimensionLength(k);
+        indexType valueDim = valueDims.dimensionLength(k);
+        indexType lowerDim = lowerDims.dimensionLength(k);
+        indexType upperDim = upperDims.dimensionLength(k);
         indexType resultDim;
         if (valueDim == 0 || lowerDim == 0 || upperDim == 0) {
             if (valueDim > 1 || lowerDim > 1 || upperDim > 1) {
-                Error(_("Arrays have incompatible sizes."));
+                Error("Nelson:data_analysis:arraysIncompatibleSizes",
+                    "Arrays have incompatible sizes.");
             }
             resultDim = 0;
         } else {
             resultDim = std::max(std::max(valueDim, lowerDim), upperDim);
             if ((valueDim != resultDim && valueDim != 1) || (lowerDim != resultDim && lowerDim != 1)
                 || (upperDim != resultDim && upperDim != 1)) {
-                Error(_("Arrays have incompatible sizes."));
+                Error("Nelson:data_analysis:arraysIncompatibleSizes",
+                    "Arrays have incompatible sizes.");
             }
         }
         result[k] = resultDim;
@@ -141,11 +144,11 @@ broadcastIndex(indexType linearIndex, const Dimensions& outputDims, const Dimens
     indexType sourceIndex = 0;
     indexType stride = 1;
     indexType remaining = linearIndex;
-    indexType length = std::max(outputDims.getLength(), inputDims.getLength());
+    indexType length = std::max(outputDims.length(), inputDims.length());
     length = std::max<indexType>(length, 2);
     for (indexType dim = 0; dim < length; dim++) {
-        indexType outputLength = outputDims.getDimensionLength(dim);
-        indexType inputLength = inputDims.getDimensionLength(dim);
+        indexType outputLength = outputDims.dimensionLength(dim);
+        indexType inputLength = inputDims.dimensionLength(dim);
         indexType coordinate = outputLength == 0 ? 0 : remaining % outputLength;
         remaining = outputLength == 0 ? 0 : remaining / outputLength;
         sourceIndex += (inputLength == 1 ? 0 : coordinate) * stride;
@@ -167,17 +170,17 @@ evaluateNumericBetween(const ArrayOf& value, const ArrayOf& lowerBound, const Ar
     lowerAsDouble.promoteType(targetType);
     upperAsDouble.promoteType(targetType);
 
-    Dimensions valueDims = valueAsDouble.getDimensions();
-    Dimensions lowerDims = lowerAsDouble.getDimensions();
-    Dimensions upperDims = upperAsDouble.getDimensions();
+    Dimensions valueDims = valueAsDouble.dimensions();
+    Dimensions lowerDims = lowerAsDouble.dimensions();
+    Dimensions upperDims = upperAsDouble.dimensions();
     Dimensions outputDims = broadcastDimensions(valueDims, lowerDims, upperDims);
 
-    indexType elementCount = outputDims.getElementCount();
+    indexType elementCount = outputDims.elementCount();
     auto* result = static_cast<logical*>(
         ArrayOf::allocateArrayOf(NLS_LOGICAL, elementCount, stringVector(), false));
-    auto* values = static_cast<const double*>(valueAsDouble.getDataPointer());
-    auto* lowers = static_cast<const double*>(lowerAsDouble.getDataPointer());
-    auto* uppers = static_cast<const double*>(upperAsDouble.getDataPointer());
+    auto* values = static_cast<const double*>(valueAsDouble.dataPointer());
+    auto* lowers = static_cast<const double*>(lowerAsDouble.dataPointer());
+    auto* uppers = static_cast<const double*>(upperAsDouble.dataPointer());
 
     const bool openLower
         = intervalType == IntervalType::OPEN || intervalType == IntervalType::OPEN_LEFT;
@@ -231,31 +234,38 @@ parseOptions(Evaluator* eval, const ArrayOfVector& originalArgIn)
             options.intervalType = parsed;
             index++;
         } else if (isTextScalar(argIn[index]) && ((argIn.size() - index) % 2) != 0) {
-            Error(_("Invalid interval type."));
+            Error("Nelson:data_analysis:invalidIntervalType", "Invalid interval type.");
         }
     }
     if (((argIn.size() - index) % 2) != 0) {
-        Error(_("Wrong number of input arguments. Inputs must be name-value pairs."));
+        Error("Nelson:data_analysis:wrongNumberInputArgumentsInputs",
+            "Wrong number of input arguments. Inputs must be name-value pairs.");
     }
     while (index < argIn.size()) {
-        std::wstring name = toLower(getTextScalar(
-            argIn[index], _W("Name must be a string scalar or character row vector.")));
+        std::wstring name = toLower(getTextScalar(argIn[index],
+            formatI18nMessage(Nelson::resolveMessageTemplate(L"Nelson:validators:mustBeTextScalar",
+                                  L"%s must be a character vector or string scalar."),
+                L"Name")));
         ArrayOf value = argIn[index + 1];
         if (name == L"datavariables") {
             options.hasDataVariables = true;
             options.dataVariables = value;
         } else if (name == L"outputformat") {
-            std::wstring outputFormat = toLower(getTextScalar(
-                value, _W("OutputFormat must be a string scalar or character row vector.")));
+            std::wstring outputFormat = toLower(getTextScalar(value,
+                formatI18nMessage(
+                    Nelson::resolveMessageTemplate(L"Nelson:validators:mustBeTextScalar",
+                        L"%s must be a character vector or string scalar."),
+                    L"OutputFormat")));
             if (outputFormat == L"logical") {
                 options.outputTabular = false;
             } else if (outputFormat == L"tabular") {
                 options.outputTabular = true;
             } else {
-                Error(_("OutputFormat must be 'logical' or 'tabular'."));
+                Error("Nelson:data_analysis:outputFormatLogicalTabular",
+                    "OutputFormat must be 'logical' or 'tabular'.");
             }
         } else {
-            Error(_("Unknown name-value argument."));
+            Error("Nelson:data_analysis:unknownNameValueArgument", "Unknown name-value argument.");
         }
         index += 2;
     }
@@ -267,11 +277,12 @@ evaluateComparison(Evaluator* eval, const std::string& functionName, const Array
 {
     FunctionDefPtr funcDef;
     if (!eval->lookupFunction(functionName, funcDef)) {
-        Error(_("Comparison function not found."));
+        Error("Nelson:data_analysis:comparisonFunctionFound", "Comparison function not found.");
     }
     ArrayOfVector result = funcDef->evaluateFunction(eval, args, 1);
     if (result.empty()) {
-        Error(_("Comparison function did not return a value."));
+        Error("Nelson:data_analysis:comparisonFunctionReturnValue",
+            "Comparison function did not return a value.");
     }
     return result[0];
 }
@@ -320,7 +331,7 @@ allTableColumns(indexType width)
 std::vector<indexType>
 selectedTableColumns(const ArrayOf& table, const Options& options)
 {
-    indexType width = table.getTableWidth();
+    indexType width = table.tableWidth();
     if (!options.hasDataVariables) {
         return allTableColumns(width);
     }
@@ -330,17 +341,18 @@ selectedTableColumns(const ArrayOf& table, const Options& options)
         || selector.isStringArray()) {
         stringVector selectedNames;
         if (isTextScalar(selector)) {
-            stringVector scalarName = selector.getContentAsCStringVector();
+            stringVector scalarName = selector.asUtf8StringVector();
             selectedNames.push_back(scalarName[0]);
         } else {
-            selectedNames = selector.getContentAsCStringVector();
+            selectedNames = selector.asUtf8StringVector();
         }
-        stringVector variableNames = table.getTableVariableNames();
+        stringVector variableNames = table.tableVariableNames();
         std::vector<indexType> indices;
         for (const std::string& name : selectedNames) {
             auto it = std::find(variableNames.begin(), variableNames.end(), name);
             if (it == variableNames.end()) {
-                Error(_("Unknown table variable name."));
+                Error("Nelson:data_analysis:unknownTableVariableName",
+                    "Unknown table variable name.");
             }
             indices.push_back(static_cast<indexType>(std::distance(variableNames.begin(), it)));
         }
@@ -348,10 +360,11 @@ selectedTableColumns(const ArrayOf& table, const Options& options)
     }
 
     if (selector.isLogical()) {
-        if (selector.getElementCount() != width) {
-            Error(_("DataVariables logical selector must match table width."));
+        if (selector.elementCount() != width) {
+            Error("Nelson:data_analysis:dataVariablesLogicalSelectorMatchTable",
+                "DataVariables logical selector must match table width.");
         }
-        auto* values = static_cast<const logical*>(selector.getDataPointer());
+        auto* values = static_cast<const logical*>(selector.dataPointer());
         std::vector<indexType> indices;
         for (indexType k = 0; k < width; k++) {
             if (values[k] != 0) {
@@ -362,17 +375,19 @@ selectedTableColumns(const ArrayOf& table, const Options& options)
     }
 
     if (selector.isNumeric()) {
-        std::vector<indexType> indices = selector.getContentAsIndexVector();
+        std::vector<indexType> indices = selector.asIndexVector();
         for (indexType& index : indices) {
             if (index == 0 || index > width) {
-                Error(_("DataVariables index out of bounds."));
+                Error("Nelson:data_analysis:dataVariablesIndexOutBounds",
+                    "DataVariables index out of bounds.");
             }
             index--;
         }
         return indices;
     }
 
-    Error(_("Unsupported DataVariables selector."));
+    Error("Nelson:data_analysis:unsupportedDataVariablesSelector",
+        "Unsupported DataVariables selector.");
     return {};
 }
 //=============================================================================
@@ -380,7 +395,7 @@ ArrayOf
 getBoundForTableColumn(const ArrayOf& bound, const std::string& variableName)
 {
     if (bound.isTable()) {
-        return bound.getTableColumn(variableName);
+        return bound.tableColumn(variableName);
     }
     return bound;
 }
@@ -410,30 +425,36 @@ tableIsBetween(Evaluator* eval, const ArrayOf& table, const ArrayOf& lowerBound,
     const ArrayOf& upperBound, const Options& options)
 {
     std::vector<indexType> selectedColumns = selectedTableColumns(table, options);
-    stringVector variableNames = table.getTableVariableNames();
+    stringVector variableNames = table.tableVariableNames();
     stringVector selectedNames;
     ArrayOfVector resultColumns;
     selectedNames.reserve(selectedColumns.size());
     for (indexType columnIndex : selectedColumns) {
         const std::string& variableName = variableNames[columnIndex];
-        ArrayOf value = table.getTableColumn(columnIndex);
+        ArrayOf value = table.tableColumn(columnIndex);
         ArrayOf lb = getBoundForTableColumn(lowerBound, variableName);
         ArrayOf ub = getBoundForTableColumn(upperBound, variableName);
         resultColumns << evaluateBetween(eval, value, lb, ub, options.intervalType);
         selectedNames.push_back(variableName);
     }
     if (options.outputTabular) {
-        return ArrayOf::tableConstructor(resultColumns, selectedNames, table.getTableRowNames());
+        ArrayOf result = ArrayOf::table(resultColumns, selectedNames, table.tableRowNames());
+        if (resultColumns.empty()) {
+            // A table without variables keeps its height in an n-by-0 data struct.
+            Dimensions zeroWidth(table.tableHeight(), 0);
+            result.setTableData(ArrayOf::emptyStruct(stringVector(), zeroWidth));
+        }
+        return result;
     }
-    return horzcatColumns(eval, resultColumns, table.getTableHeight());
+    return horzcatColumns(eval, resultColumns, table.tableHeight());
 }
 //=============================================================================
 ArrayOf
 allLogical(ArrayOf value)
 {
     value.promoteType(NLS_LOGICAL);
-    const auto* values = static_cast<const logical*>(value.getDataPointer());
-    indexType elementCount = value.getElementCount();
+    const auto* values = static_cast<const logical*>(value.dataPointer());
+    indexType elementCount = value.elementCount();
     bool result = true;
     for (indexType k = 0; k < elementCount; k++) {
         if (values[k] == 0) {
@@ -441,7 +462,7 @@ allLogical(ArrayOf value)
             break;
         }
     }
-    return ArrayOf::logicalConstructor(result);
+    return ArrayOf::logicalScalar(result);
 }
 //=============================================================================
 } // namespace
@@ -457,7 +478,8 @@ Nelson::IsBetween(Evaluator* eval, const ArrayOfVector& argIn)
         return tableIsBetween(eval, value, lowerBound, upperBound, options);
     }
     if (options.hasDataVariables || options.outputTabular) {
-        Error(_("DataVariables and OutputFormat are supported only for table inputs."));
+        Error("Nelson:data_analysis:dataVariablesOutputFormatSupportedTableInputs",
+            "DataVariables and OutputFormat are supported only for table inputs.");
     }
     return evaluateBetween(eval, value, lowerBound, upperBound, options.intervalType);
 }

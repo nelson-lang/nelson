@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>figure</keyword>
+  <short_description>Creates an figure window.</short_description>
+  <syntax>
+    <syntax_item>f = figure()</syntax_item>
+    <syntax_item>f = figure(ID)</syntax_item>
+    <syntax_item>f = figure(H)</syntax_item>
+    <syntax_item>f = figure(propertyName, propertyValue)</syntax_item>
+    <syntax_item>f = figure(ID, propertyName, propertyValue)</syntax_item>
+    <syntax_item>f = figure(H, propertyName, propertyValue)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>ID</param_name>
+      <param_description
+      >a scalar integer value: find or creates with ID.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>H</param_name>
+      <param_description
+      >a scalar graphics object on an existing figure.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName</param_name>
+      <param_description
+      >a scalar string or row vector character.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyValue</param_name>
+      <param_description>a value.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>f</param_name>
+      <param_description>a graphics object: figure handle.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>figure</b> creates figure.</p>
+    <p
+    >Clicking on an figure automatically sets it as the current figure object.</p>
+    <p />
+    <p>See <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.figure.properties">figure properties</link> for the complete property list.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure(1)
+g = figure(2)
+h = figure(3)
+figure(g)
+gcf()
+figure('Name', 'Hello')
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.figure.properties">figure properties</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/1_object_management/gcf">gcf</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/1_object_management/close">close</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>1.2.0</history_version>
+      <history_description
+      >Clicking on an figure automatically sets it as the current figure object.</history_description>
+    </history_item>
+    <history_item>
+      <history_version>1.7.0</history_version>
+      <history_description
+      >CreateFcn, DeleteFcn, CloseRequestFcn, KeyPressFcn, KeyReleaseFcn, ButtonDownFcn callback added.</history_description>
+    </history_item>
+    <history_item>
+      <history_version>--</history_version>
+      <history_description>BeingDeleted property added.</history_description>
+    </history_item>
+    <history_item>
+      <history_version>1.8.0</history_version>
+      <history_description>Resize property added.</history_description>
+    </history_item>
+    <history_item>
+      <history_version>1.13.0</history_version>
+      <history_description
+      >DevicePixelRatio property added.</history_description>
+    </history_item>
+    <history_item>
+      <history_version>1.14.0</history_version>
+      <history_description>WindowState property added.</history_description>
+    </history_item>
+    <history_item>
+      <history_version>--</history_version>
+      <history_description>Figure property documentation updated.</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

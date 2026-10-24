@@ -41,5 +41,5 @@ computeProfileStack(Evaluator* eval, const std::string& currentFunctionName,
     return std::make_tuple(profilerStack, currentFunctionName, currentFilename, isBuiltin);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nelson.mixin.CustomDisplay</keyword>
+  <short_description>Customize how an object is displayed.</short_description>
+  <syntax>
+    <syntax_item>classdef MyClass &lt; nelson.mixin.CustomDisplay</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>obj</param_name><param_description>an object of a class deriving from nelson.mixin.CustomDisplay.</param_description></param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>txt</param_name><param_description>custom display text produced by the derived class methods.</param_description></param_output_item>
+  </param_output>
+  <description>
+    <p>Derive from <b>nelson.mixin.CustomDisplay</b> to customize how instances of a class are
+    displayed. A subclass may override any of these protected methods and let the default
+    composition render the rest:</p>
+    <p><b>getHeader(obj)</b> - the header text (a char vector or a string scalar). Default: the
+    class name followed by <b>with properties:</b>.</p>
+    <p><b>getFooter(obj)</b> - the footer text (char or string). Default: empty.</p>
+    <p><b>getPropertyGroups(obj)</b> - an array of <b>nelson.mixin.util.PropertyGroup</b> objects
+    describing which properties are shown and how they are grouped. Default: one group with all
+    public properties.</p>
+    <p><b>displayScalarObject(obj)</b>, <b>displayNonScalarObject(obj)</b> and
+    <b>displayEmptyObject(obj)</b> - take full control of the display of a scalar object, an object
+    array, or an empty object array respectively.</p>
+    <p>When none of the display methods is overridden, the object is shown as
+    <b>getHeader</b>, then the property groups, then <b>getFooter</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Override only the header and footer.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[classdef Point < nelson.mixin.CustomDisplay
+  properties
+    X = 0
+    Y = 0
+  end
+  methods (Access = protected)
+    function h = getHeader(obj)
+      h = "A 2-D point:";
+    end
+    function f = getFooter(obj)
+      f = '(cartesian)';
+    end
+  end
+end]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${types}nelson.mixin.util.PropertyGroup">nelson.mixin.util.PropertyGroup</link></see_also_item>
+    <see_also_item><link linkend="${interpreter}classdef">classdef</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>2.0.0</history_version><history_description>initial version</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

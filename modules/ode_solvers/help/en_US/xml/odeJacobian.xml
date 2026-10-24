@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>odeJacobian</keyword>
+  <short_description>Jacobian description for ODE solvers.</short_description>
+  <syntax>
+    <syntax_item>J = odeJacobian(value)</syntax_item>
+    <syntax_item>J = odeJacobian(value, name, value)</syntax_item>
+    <syntax_item>J = odeJacobian(name, value)</syntax_item>
+  </syntax>
+  <description>
+    <p>
+      <b>odeJacobian</b> stores a Jacobian function, matrix, or finite-difference pattern for the object ODE workflow.</p>
+    <table style="width:100%">
+      <tr>
+        <th>Object</th>
+        <th>Purpose</th>
+        <th>Used by</th>
+      </tr>
+      <tr>
+        <td><b>odeJacobian</b></td>
+        <td>Stores a reusable definition for the <b>ode</b> object workflow.</td>
+        <td>The matching <b>ode</b> property and <b>solve</b>.</td>
+      </tr>
+      <tr>
+        <td>Validation</td>
+        <td>Checks supported names and shapes at construction time.</td>
+        <td>Tests and errors stay explicit before integration.</td>
+      </tr>
+    </table>
+    <p>Public properties are <b>Jacobian</b> and <b>SparsityPattern</b>. The compatible alias <b>Pattern</b> is accepted by the constructor. The compatible <b>Constant</b> hint is also accepted and passed to solver options.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_data runnable="cli"><![CDATA[J = odeJacobian(-1)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Jacobian pattern for the object workflow.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[J = odeJacobian('SparsityPattern', [1 0; 0 1]);
+problem = ode('ODEFcn', @(t,y) [-10*y(1); -20*y(2)], 'InitialValue', [1; 2], 'Jacobian', J);
+result = solve(problem, 0, 0.2)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Constant Jacobian hint.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[J = odeJacobian(-25, 'Constant', 'on');
+problem = ode('ODEFcn', @(t,y) -25*y, 'InitialValue', 1, 'Jacobian', J);
+result = solve(problem, 0, 0.2)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ode_solvers}ode">ode</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}odeset">odeset</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

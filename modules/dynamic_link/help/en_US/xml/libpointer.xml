@@ -4,7 +4,7 @@
   <language>en_US</language>
   <keyword>libpointer</keyword>
   <short_description
-  >Creates an C pointer object usuable in Nelson.</short_description>
+  >Creates an C pointer object usable in Nelson.</short_description>
   <syntax>
     <syntax_item>ptr = libpointer()</syntax_item>
     <syntax_item>ptr = libpointer(datatype)</syntax_item>

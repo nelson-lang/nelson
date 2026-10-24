@@ -10,6 +10,7 @@
 #include <algorithm>
 #include "Who.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "ParallelSort.hpp"
 //=============================================================================
@@ -33,7 +34,7 @@ Who(Evaluator* eval, SCOPE_LEVEL scopeLevel, bool withPersistent)
         scope = eval->getContext()->getCurrentScope();
     } break;
     default: {
-        Error(_W("Wrong scope."));
+        Error(L"Nelson:who:invalidScope", L"Wrong scope.");
     } break;
     }
     return Who(eval, scope, withPersistent);

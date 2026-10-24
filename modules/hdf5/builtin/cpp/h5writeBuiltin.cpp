@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -22,9 +22,9 @@ Nelson::Hdf5Gateway::h5writeBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargoutcheck(nLhs, 0, 0);
     nargincheck(argIn, 3, 3);
     ArrayOf param1 = argIn[0];
-    std::wstring filename = param1.getContentAsWideString();
+    std::wstring filename = param1.asWideString();
     ArrayOf param2 = argIn[1];
-    std::wstring location = param2.getContentAsWideString();
+    std::wstring location = param2.asWideString();
     ArrayOf data = argIn[2];
     h5WriteDataset(filename, location, data);
     return retval;

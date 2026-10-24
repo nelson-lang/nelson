@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "file": "polynomial_roots.m",
+      "title": "Polynomial roots and coefficients",
+      "description": "Build a polynomial from roots and recover them numerically.",
+      "tags": [
+        "polynomial",
+        "roots"
+      ],
+      "requirements": []
+    }
+  ]
+}

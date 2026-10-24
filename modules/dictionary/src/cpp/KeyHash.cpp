@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -11,11 +11,13 @@
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include <random>
+#include <type_traits>
 #include <Eigen/Sparse>
 #include "KeyHash.hpp"
 #include "AnonymousMacroFunctionDef.hpp"
 #include "HandleGenericObject.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
@@ -37,7 +39,14 @@ uint64_t
 hash_combine(uint64_t seed, const T* ptr, indexType nbElements)
 {
     for (indexType k = 0; k < nbElements; ++k) {
-        std::size_t hash = std::hash<T>()(ptr[k]);
+        T value = ptr[k];
+        if constexpr (std::is_floating_point_v<T>) {
+            // normalize -0.0 to +0.0 so that 0 and -0 hash identically
+            if (value == static_cast<T>(0)) {
+                value = static_cast<T>(0);
+            }
+        }
+        std::size_t hash = std::hash<T>()(value);
         seed = hash_combine(seed, hash);
     }
     return seed;
@@ -63,51 +72,37 @@ template <typename T>
 void
 handleData(Evaluator* eval, size_t& hashValue, const ArrayOf& A)
 {
-    const T* ptr = static_cast<const T*>(A.getDataPointer());
-    hashData(hashValue, ptr, A.getElementCount());
+    const T* ptr = static_cast<const T*>(A.dataPointer());
+    hashData(hashValue, ptr, A.elementCount());
 }
 //=============================================================================
-/**
- * @brief Calculate the hash value for an ArrayOf object.
- *
- * @param eval Pointer to the Evaluator object.
- * @param A Reference to the ArrayOf object.
- * @return The calculated hash value.
- */
 size_t
 KeyHash(Evaluator* eval, const ArrayOf& A)
 {
-    // If randomSeed is not initialized, generate a random seed
     if (randomSeed == 0) {
         randomSeed = getRandomHashPart();
     }
-    // Initialize hashValue
     size_t hashValue = 0;
-    // Combine hashValue with randomSeed
     hashValue = hash_combine(hashValue, randomSeed);
 
-    // Lambda function to hash the data class of the ArrayOf object
     auto hashClass = [&hashValue](const ArrayOf& A) {
-        std::size_t hashClass = std::hash<int>()(static_cast<int>(A.getDataClass()));
+        std::size_t hashClass = std::hash<int>()(static_cast<int>(A.dataClass()));
         hashValue = hash_combine(hashValue, hashClass);
     };
 
-    // Lambda function to hash whether the ArrayOf object is sparse
     auto hashSparse = [&hashValue](const ArrayOf& A) {
         std::size_t hashIsSparse = std::hash<bool>()(static_cast<bool>(A.isSparse()));
         hashValue = hash_combine(hashValue, hashIsSparse);
     };
 
-    // Lambda function to hash the dimensions of the ArrayOf object
     auto hashDimensions = [&hashValue](const ArrayOf& A) {
-        Dimensions dims = A.getDimensions();
-        std::vector<indexType> vectorDims = dims.getAsVector();
+        Dimensions dims = A.dimensions();
+        std::vector<indexType> vectorDims = dims.asVector();
         hashValue = hash_combine<indexType>(hashValue, vectorDims.data(), vectorDims.size());
     };
 
-    // Lambda function to hash the function handle content of the ArrayOf object
     auto hashFunctionHandle = [&hashValue](const ArrayOf& A) {
-        function_handle fh = A.getContentAsFunctionHandle();
+        function_handle fh = A.asFunctionHandle();
         AnonymousMacroFunctionDef* cp
             = reinterpret_cast<AnonymousMacroFunctionDef*>(fh.anonymousHandle);
         std::string asString = cp->toString();
@@ -115,29 +110,26 @@ KeyHash(Evaluator* eval, const ArrayOf& A)
         hashValue = hash_combine(hashValue, value);
     };
 
-    // Lambda function to hash the graphics object handle content of the ArrayOf object
     auto hashGraphicsObjectHandle = [&hashValue](const ArrayOf& A) {
-        go_handle handle = A.getContentAsGraphicsObjectScalar();
+        go_handle handle = A.asGraphicsObjectScalar();
         std::size_t hashGO = std::hash<go_handle>()(handle);
         hashValue = hash_combine(hashValue, hashGO);
     };
 
-    // Lambda function to hash cell or string array content of the ArrayOf object
     auto hashCellOrStringArray = [&hashValue, eval](const ArrayOf& A) {
-        ArrayOf* elements = (ArrayOf*)(A.getDataPointer());
-        for (indexType k = 0; k < A.getElementCount(); ++k) {
+        ArrayOf* elements = (ArrayOf*)(A.dataPointer());
+        for (indexType k = 0; k < A.elementCount(); ++k) {
             size_t value = KeyHash(eval, elements[k]);
             hashValue = hash_combine(hashValue, value);
         }
     };
 
-    // Lambda function to hash struct or class array content of the ArrayOf object
     auto hashStructOrClassArray = [&hashValue, eval](const ArrayOf& A) {
-        stringVector names = A.getFieldNames();
+        stringVector names = A.fieldNames();
         for (auto& name : names) {
             size_t hashName = std::hash<std::string>()(name);
             hashValue = hash_combine(hashValue, hashName);
-            ArrayOfVector fields = A.getFieldAsList(name);
+            ArrayOfVector fields = A.fieldAsList(name);
             for (size_t k = 0; k < fields.size(); ++k) {
                 size_t value = KeyHash(eval, fields[k]);
                 hashValue = hash_combine(hashValue, value);
@@ -145,52 +137,69 @@ KeyHash(Evaluator* eval, const ArrayOf& A)
         }
     };
 
-    // Lambda function to hash generic handle content of the ArrayOf object
     auto hashGenericHandle = [&hashValue](const ArrayOf& A) {
-        HandleGenericObject* ptr = A.getContentAsHandleScalar();
+        HandleGenericObject* ptr = A.asHandleScalar();
         if (ptr) {
             hashValue = hash_combine(hashValue, ptr->keyHash());
         } else {
-            std::string message = fmt::format(_("Unhashable type '{0}'."), A.getHandleCategory());
-            Error(message);
+            std::string message
+                = formatI18nMessage(resolveMessageTemplate("Nelson:dictionary:unhashableTypeS",
+                                        "Unhashable type '%s'."),
+                    A.handleCategory());
+            Error("Nelson:dictionary:unhashableType", message);
         }
     };
 
-    // Lambda function to hash numeric content of the ArrayOf object
+    // Sparse storage only holds nonZeros() values: hash those plus their
+    // positions (elementCount() would read past the end of valuePtr()).
     auto hashNumeric = [&hashValue](const ArrayOf& A) {
         if (A.isSparse()) {
             Eigen::SparseMatrix<double, 0, signedIndexType>* spMat
-                = (Eigen::SparseMatrix<double, 0, signedIndexType>*)(A.getSparseDataPointer());
-            double* ptr = spMat->valuePtr();
-            hashValue = hash_combine<double>(hashValue, ptr, A.getElementCount());
+                = (Eigen::SparseMatrix<double, 0, signedIndexType>*)(A.sparseDataPointer());
+            spMat->makeCompressed();
+            auto nnz = static_cast<indexType>(spMat->nonZeros());
+            hashValue = hash_combine<double>(hashValue, spMat->valuePtr(), nnz);
+            hashValue = hash_combine<signedIndexType>(hashValue, spMat->innerIndexPtr(), nnz);
         } else {
-            const double* ptr = static_cast<const double*>(A.getDataPointer());
-            hashValue = hash_combine<double>(hashValue, ptr, A.getElementCount());
+            const double* ptr = static_cast<const double*>(A.dataPointer());
+            hashValue = hash_combine<double>(hashValue, ptr, A.elementCount());
         }
     };
 
-    // Lambda function to hash complex content of the ArrayOf object
+    auto hashLogical = [&hashValue](const ArrayOf& A) {
+        if (A.isSparse()) {
+            Eigen::SparseMatrix<logical, 0, signedIndexType>* spMat
+                = (Eigen::SparseMatrix<logical, 0, signedIndexType>*)(A.sparseDataPointer());
+            spMat->makeCompressed();
+            auto nnz = static_cast<indexType>(spMat->nonZeros());
+            hashValue = hash_combine<logical>(hashValue, spMat->valuePtr(), nnz);
+            hashValue = hash_combine<signedIndexType>(hashValue, spMat->innerIndexPtr(), nnz);
+        } else {
+            handleData<logical>(nullptr, hashValue, A);
+        }
+    };
+
     auto hashComplex = [&hashValue](const ArrayOf& A) {
         if (A.isSparse()) {
             Eigen::SparseMatrix<std::complex<double>, 0, signedIndexType>* spMat
                 = (Eigen::SparseMatrix<std::complex<double>, 0, signedIndexType>*)(A
-                        .getSparseDataPointer());
-            std::complex<double>* ptrZ = spMat->valuePtr();
-            double* ptr = reinterpret_cast<double*>(ptrZ);
-            hashValue = hash_combine<double>(hashValue, ptr, A.getElementCount() * 2);
+                        .sparseDataPointer());
+            spMat->makeCompressed();
+            auto nnz = static_cast<indexType>(spMat->nonZeros());
+            double* ptr = reinterpret_cast<double*>(spMat->valuePtr());
+            hashValue = hash_combine<double>(hashValue, ptr, nnz * 2);
+            hashValue = hash_combine<signedIndexType>(hashValue, spMat->innerIndexPtr(), nnz);
         } else {
-            const double* ptr = static_cast<const double*>(A.getDataPointer());
-            hashValue = hash_combine<double>(hashValue, ptr, A.getElementCount() * 2);
+            const double* ptr = static_cast<const double*>(A.dataPointer());
+            hashValue = hash_combine<double>(hashValue, ptr, A.elementCount() * 2);
         }
     };
 
-    // Call lambda functions to hash different aspects of the ArrayOf object
     hashClass(A);
     hashSparse(A);
     hashDimensions(A);
 
-    // Switch statement to handle hashing based on data class of the ArrayOf object
-    switch (A.getDataClass()) {
+    switch (A.dataClass()) {
     case NLS_MISSING_ARRAY:
         handleData<double>(nullptr, hashValue, A);
         break;
@@ -209,9 +218,10 @@ KeyHash(Evaluator* eval, const ArrayOf& A)
     case NLS_SINGLE:
         handleData<single>(nullptr, hashValue, A);
         break;
-    case NLS_SCOMPLEX:
-        handleData<single>(nullptr, hashValue, A);
-        break;
+    case NLS_SCOMPLEX: {
+        const single* ptr = static_cast<const single*>(A.dataPointer());
+        hashValue = hash_combine<single>(hashValue, ptr, A.elementCount() * 2);
+    } break;
     case NLS_INT8:
         handleData<int8>(nullptr, hashValue, A);
         break;
@@ -248,6 +258,7 @@ KeyHash(Evaluator* eval, const ArrayOf& A)
         break;
     case NLS_STRUCT_ARRAY:
     case NLS_CLASS_ARRAY:
+    case NLS_CLASSDEF_ARRAY:
         hashStructOrClassArray(A);
         break;
     case NLS_HANDLE:
@@ -255,10 +266,9 @@ KeyHash(Evaluator* eval, const ArrayOf& A)
         break;
     case NLS_UNKNOWN:
     default:
-        Error(_W("Unhashable type."));
+        Error(L"Nelson:containersMap:unhashableType", L"Unhashable type.");
         break;
     }
-    // Return the final hash value
     return hashValue;
 }
 //=============================================================================
@@ -271,5 +281,5 @@ getRandomHashPart()
     return dist(rng);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -35,7 +35,8 @@ end
 if isempty(fullname)
   skip_testsuite(true, 'websave post failed after retries or returned empty file');
 end
-assert_istrue(isfile(fullname));
+asserts.istrue(isfile(fullname));
 R = jsondecode(fileread(fullname));
-assert_isequal(R.id, 101);
+asserts.istrue(isstruct(R));
+asserts.isequal(R.id, 101);
 %=============================================================================

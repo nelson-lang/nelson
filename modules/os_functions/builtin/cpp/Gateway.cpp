@@ -11,9 +11,11 @@
 #include "computerBuiltin.hpp"
 #include "createGUIDBuiltin.hpp"
 #include "getenvBuiltin.hpp"
+#include "isenvBuiltin.hpp"
 #include "ismacBuiltin.hpp"
 #include "ispcBuiltin.hpp"
 #include "isunixBuiltin.hpp"
+#include "iswasmBuiltin.hpp"
 #include "searchenvBuiltin.hpp"
 #include "setenvBuiltin.hpp"
 #include "loadenvBuiltin.hpp"
@@ -37,11 +39,13 @@ static const nlsGateway gateway[] = {
     { "loadenv", (ptrBuiltin)Nelson::OsFunctionsGateway::loadenvBuiltin, -1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "getenv", (ptrBuiltin)Nelson::OsFunctionsGateway::getenvBuiltin, 1, 1 },
+    { "isenv", (ptrBuiltin)Nelson::OsFunctionsGateway::isenvBuiltin, 1, 1 },
     { "setenv", (ptrBuiltin)Nelson::OsFunctionsGateway::setenvBuiltin, 1, 2 },
     { "searchenv", (ptrBuiltin)Nelson::OsFunctionsGateway::searchenvBuiltin, 1, 2 },
     { "ispc", (ptrBuiltin)Nelson::OsFunctionsGateway::ispcBuiltin, 1, 0 },
     { "isunix", (ptrBuiltin)Nelson::OsFunctionsGateway::isunixBuiltin, 1, 0 },
     { "ismac", (ptrBuiltin)Nelson::OsFunctionsGateway::ismacBuiltin, 1, 0 },
+    { "iswasm", (ptrBuiltin)Nelson::OsFunctionsGateway::iswasmBuiltin, 1, 0 },
     { "computer", (ptrBuiltin)Nelson::OsFunctionsGateway::computerBuiltin, 3, 0 },
     { "createGUID", (ptrBuiltin)Nelson::OsFunctionsGateway::createGUIDBuiltin, 1, 1 },
     { "winopen", (ptrBuiltin)Nelson::OsFunctionsGateway::winopenBuiltin, 0, 1 },
@@ -51,11 +55,7 @@ static const nlsGateway gateway[] = {
 
 };
 //=============================================================================
-NLSGATEWAYFUNC(gateway)
+NLS_GATEWAY_FUNC(gateway)
 //=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+NLS_GATEWAY_REMOVE(gateway)
 //=============================================================================

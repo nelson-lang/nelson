@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -8,8 +8,9 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "LoadMatioVariable.hpp"
+#include "ErrorID.hpp"
 #include "Warning.hpp"
-#include "Exception.hpp"
+#include "NelsonException.hpp"
 #include "LoadMatioCharacters.hpp"
 #include "LoadMatioDouble.hpp"
 #include "LoadMatioSingle.hpp"
@@ -28,12 +29,13 @@
 namespace Nelson {
 //=============================================================================
 bool
-LoadMatioVariable(matvar_t* matVariable, bool fromCellOrStruct, ArrayOf& VariableValue)
+LoadMatioVariable(
+    Evaluator* eval, matvar_t* matVariable, bool fromCellOrStruct, ArrayOf& VariableValue)
 {
     bool bSuccess = false;
     if (matVariable == nullptr) {
-        Warning(WARNING_MATIO_TYPE_NOT_SUPPORTED, _W("Cannot read variable."));
-        VariableValue = ArrayOf::emptyStructWithoutFields();
+        Warning(L"Nelson:matio:type-not-supported", L"Cannot read variable.");
+        VariableValue = ArrayOf::emptyStruct();
         return true;
     }
     switch (matVariable->class_type) {
@@ -41,15 +43,15 @@ LoadMatioVariable(matvar_t* matVariable, bool fromCellOrStruct, ArrayOf& Variabl
         bSuccess = LoadMatioEmpty(matVariable, fromCellOrStruct, VariableValue);
     } break;
     case MAT_C_OBJECT: {
-        // NOT MANAGED by MATIO 1.5.13 :(
+        // Not supported by matio 1.5.13
         bSuccess = LoadMatioObject(matVariable, VariableValue);
     } break;
     case MAT_C_FUNCTION: {
-        // NOT MANAGED by MATIO 1.5.13 :(
+        // Not supported by matio 1.5.13
         bSuccess = LoadMatioFunction(matVariable, VariableValue);
     } break;
     case MAT_C_OPAQUE: {
-        // NOT MANAGED by MATIO 1.5.13 :(
+        // Not supported by matio 1.5.13
         bSuccess = LoadMatioOpaque(matVariable, VariableValue);
     } break;
     case MAT_C_SPARSE: {
@@ -60,10 +62,10 @@ LoadMatioVariable(matvar_t* matVariable, bool fromCellOrStruct, ArrayOf& Variabl
         }
     } break;
     case MAT_C_CELL: {
-        bSuccess = LoadMatioCell(matVariable, VariableValue);
+        bSuccess = LoadMatioCell(eval, matVariable, VariableValue);
     } break;
     case MAT_C_STRUCT: {
-        bSuccess = LoadMatioStruct(matVariable, VariableValue);
+        bSuccess = LoadMatioStruct(eval, matVariable, VariableValue);
     } break;
     case MAT_C_CHAR: {
         bSuccess = LoadMatioCharacters(matVariable, VariableValue);

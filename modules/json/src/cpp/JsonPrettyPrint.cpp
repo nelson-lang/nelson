@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -41,11 +41,13 @@ SOFTWARE.
 enum class Colons
 {
     TIGHT,
-    SPACED
+    SPACED,
+    AFTER
 };
 //=============================================================================
 std::wstring
-JSONPrettify(const std::wstring& json, const Nelson::Colons spacing = Nelson::Colons::TIGHT)
+JSONPrettify(const std::wstring& json, const Nelson::Colons spacing = Nelson::Colons::TIGHT,
+    int indentWidth = 4, bool collapseEmpty = false)
 {
     std::wstring result;
     result.reserve(json.size() * 2);
@@ -81,27 +83,43 @@ JSONPrettify(const std::wstring& json, const Nelson::Colons spacing = Nelson::Co
 
         switch (c) {
         case L'{':
-        case L'[':
+        case L'[': {
+            if (collapseEmpty) {
+                // An empty object or array stays on a single line.
+                wchar_t closing = (c == L'{') ? L'}' : L']';
+                size_t j = i + 1;
+                while (j < json.size() && iswspace(json[j])) {
+                    ++j;
+                }
+                if (j < json.size() && json[j] == closing) {
+                    result.push_back(c);
+                    result.push_back(closing);
+                    i = j;
+                    break;
+                }
+            }
             result.push_back(c);
             result.push_back(L'\n');
             ++depth;
-            result.append(depth * 4, L' ');
-            break;
+            result.append(depth * indentWidth, L' ');
+        } break;
         case L'}':
         case L']':
             result.push_back(L'\n');
             --depth;
-            result.append(depth * 4, L' ');
+            result.append(depth * indentWidth, L' ');
             result.push_back(c);
             break;
         case L',':
             result.push_back(c);
             result.push_back(L'\n');
-            result.append(depth * 4, L' ');
+            result.append(depth * indentWidth, L' ');
             break;
         case L':':
             if (spacing == Nelson::Colons::SPACED) {
                 result.append(L" : ");
+            } else if (spacing == Nelson::Colons::AFTER) {
+                result.append(L": ");
             } else {
                 result.push_back(L':');
             }
@@ -121,7 +139,14 @@ jsonPrettyPrint(const std::wstring& stringToPrettify)
 {
     // <nlohmann/json> does not manage NaN
     std::wstring jsonPrettified = JSONPrettify(stringToPrettify, Colons::TIGHT);
-    return ArrayOf::characterArrayConstructor(jsonPrettified);
+    return ArrayOf::characterArray(jsonPrettified);
+}
+//=============================================================================
+std::wstring
+jsonPrettyPrintForEncode(const std::wstring& compactJson)
+{
+    // Two-space indentation, one space after each key colon, empty collections inline.
+    return JSONPrettify(compactJson, Colons::AFTER, 2, true);
 }
 //=============================================================================
 } // namespace Nelson

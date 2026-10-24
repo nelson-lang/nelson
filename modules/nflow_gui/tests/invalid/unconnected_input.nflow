@@ -1,0 +1,45 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "usability-tests",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "comments": "INTENTIONALLY BROKEN: the gain block g1 has no source wired to its input port. Used to assert nflow reports the dangling input instead of failing silently.",
+  "name": "unconnected_input",
+  "blocks": [
+    {
+      "id": "g1",
+      "type": "gain",
+      "x": 220,
+      "y": 200,
+      "rotation": 0,
+      "params": {
+        "Gain": 2
+      }
+    },
+    {
+      "id": "sc1",
+      "type": "scope",
+      "x": 440,
+      "y": 200,
+      "rotation": 0,
+      "params": {}
+    }
+  ],
+  "connections": [
+    {
+      "from": "g1",
+      "to": "sc1",
+      "fromIndex": 0,
+      "toIndex": 0
+    }
+  ],
+  "variables": "",
+  "runtime": 10,
+  "sampleTime": 0.1,
+  "solver": "ode45",
+  "autoRoute": true,
+  "locked": false
+}

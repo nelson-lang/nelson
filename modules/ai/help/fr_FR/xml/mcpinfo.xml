@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>mcpinfo</keyword>
+  <short_description>Retourne les informations du serveur MCP Nelson.</short_description>
+  <syntax>
+    <syntax_item>info = mcpinfo()</syntax_item>
+  </syntax>
+  <description>
+    <p><b>mcpinfo</b> retourne la version, le transport, le mode d'affichage par defaut, la racine de workspace par defaut, la limite de sortie par defaut, les outils, les ressources, les prompts exposes et les politiques par defaut.</p>
+  </description>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ai}mcpserver">mcpserver</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ai}mcpusage">mcpusage</link>
+    </see_also_item>
+  </see_also>
+ <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+</xmldoc>

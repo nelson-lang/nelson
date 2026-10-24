@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>x2fx</keyword>
+  <short_description>Convertir des facteurs en matrice de plan.</short_description>
+  <syntax>
+    <syntax_item>D = x2fx(X, modelspec)</syntax_item>
+  </syntax>
+  <description><p><b>x2fx</b> cree une matrice de plan avec une colonne constante et les termes demandes par la specification du modele.</p></description>
+  <used_function>
+    <link linkend="${statistics}candgen">candgen</link>
+    <link linkend="${statistics}rowexch">rowexch</link>
+    <link linkend="${statistics}cordexch">cordexch</link>
+  </used_function>
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Creer des matrices de modele courantes depuis des reglages de facteurs.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[X = [1 2; 3 4];
+Dlinear = x2fx(X, 'linear')
+Dquadratic = x2fx(X, 'quadratic')]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Utiliser une matrice de specification de modele explicite.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[X = [1 2; 3 4];
+modelspec = [1 0; 0 2; 1 1];
+D = x2fx(X, modelspec)]]></example_item_data>
+    </example_item>
+  </examples>
+</xmldoc>

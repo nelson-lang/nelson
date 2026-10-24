@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>var</keyword>
+  <short_description>Variance</short_description>
+  <syntax>
+    <syntax_item>V = var(A)</syntax_item>
+    <syntax_item>V = var(A, w)</syntax_item>
+    <syntax_item>V = var(A, w, dim)</syntax_item>
+    <syntax_item>V = var(A, w, vecdim)</syntax_item>
+    <syntax_item>V = var(A, w, 'all')</syntax_item>
+    <syntax_item>V = var(..., nanflag)</syntax_item>
+    <syntax_item>[V, M] = var(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>un vecteur, une matrice ou un tableau multidimensionnel : single, double, int8, int16, int32, int64, uint8, uint16, uint32 ou uint64.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>w</param_name>
+      <param_description>poids : 0 (normalisation par N-1, par défaut), 1 (normalisation par N) ou un vecteur de poids positifs ou nuls dont la longueur est la taille de la dimension de calcul.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>dim</param_name>
+      <param_description>un entier positif scalaire : dimension de calcul.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>vecdim</param_name>
+      <param_description>un vecteur d&apos;entiers positifs : dimensions de calcul.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>nanflag</param_name>
+      <param_description>'includenan' (par défaut) ou 'omitnan'.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>V</param_name>
+      <param_description>Variance de A.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>M</param_name>
+      <param_description>Moyenne de A utilisée pour calculer la variance, de même taille que V. C&apos;est la moyenne pondérée lorsque w est un vecteur de poids.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>V = var(A)</b> renvoie la variance des éléments de A le long de la première dimension du tableau dont la taille n&apos;est pas égale à 1.</p>
+    <p><b>[V, M] = var(...)</b> renvoie aussi la moyenne <b>M</b> calculée avec les mêmes poids, dimensions et nanflag que la variance.</p>
+    <p>Pour des données entières (int8, int16, int32, int64, uint8, uint16, uint32, uint64), la variance est calculée en double précision et <b>V</b> et <b>M</b> sont de type double.</p>
+  </description>
+  <used_function>
+    <link linkend="${statistics}std">std</link>
+    <link linkend="${statistics}mean">mean</link>
+    <link linkend="${statistics}cov">cov</link>
+  </used_function>
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[M = [4 -7 3; 1 4 -2; 10 7 9];
+V = var(M)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Données entières</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[V = var(int8([-128 127 0]))]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Variance pondérée et moyenne pondérée</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[A = [4 -7 3; 1 4 -2; 10 7 9];
+[V, M] = var(A, [1 2 3])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${statistics}cov">cov</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}mean">mean</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>Données entières supportées.</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>Second résultat M : moyenne utilisée pour calculer la variance.</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

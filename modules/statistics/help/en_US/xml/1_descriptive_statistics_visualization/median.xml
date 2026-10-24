@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>median</keyword>
+  <short_description>Median value of array elements.</short_description>
+  <syntax>
+    <syntax_item>R = median(M)</syntax_item>
+    <syntax_item>R = median(M, d)</syntax_item>
+    <syntax_item>R = median(M, 'all')</syntax_item>
+    <syntax_item>R = median(..., 'omitnan')</syntax_item>
+  </syntax>
+  <description>
+    <p>
+      <b>median</b> returns the middle value of sorted data along the selected dimension.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_data runnable="cli"><![CDATA[R = median([4 1 2 3])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${statistics}mean">mean</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${data_analysis}sort">sort</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

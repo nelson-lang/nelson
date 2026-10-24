@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>isundefined</keyword>
+  <short_description>Trouver les elements categoriels non definis.</short_description>
+  <syntax><syntax_item>tf = isundefined(A)</syntax_item></syntax>
+  <param_input><param_input_item><param_name>A</param_name><param_description>Tableau d'entree.</param_description></param_input_item></param_input>
+  <param_output><param_output_item><param_name>tf</param_name><param_description>Tableau logique de meme taille que <b>A</b>.</param_description></param_output_item></param_output>
+  <description>
+    <p><b>isundefined</b> retourne <b>true</b> pour les elements categoriels qui n'appartiennent a aucune categorie.</p>
+    <p>Pour une entree non categorielle, le resultat est un tableau logique de valeurs <b>false</b>.</p>
+  </description>
+  <examples><example_item><example_item_type>nelson</example_item_type><example_item_description>Localiser les valeurs categorielles non definies.</example_item_description><example_item_data runnable="cli"><![CDATA[A = categorical({'red','','blue'}); tf = isundefined(A)]]></example_item_data></example_item></examples>
+  <see_also>
+    <see_also_item><link linkend="${categorical}categorical">categorical</link></see_also_item>
+    <see_also_item><link linkend="${categorical}categories">categories</link></see_also_item>
+    <see_also_item><link linkend="${categorical}setcats">setcats</link></see_also_item>
+    <see_also_item><link linkend="${categorical}countcats">countcats</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

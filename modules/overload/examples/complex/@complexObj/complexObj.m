@@ -7,9 +7,23 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-function r = complexObj(a,b)
-  s.r = a;
-  s.i = b;
-  r = class(s, 'complexObj');
-end
+classdef complexObj
+  properties
+    r
+    i
+  end
 
+  methods
+    function obj = complexObj(a, b)
+      if nargin == 0
+        a = [];
+        b = [];
+      elseif nargin ~= 2
+        error('Nelson:complexObj:twoInputsExpected', 'Two input arguments expected.');
+      end
+      obj.r = a;
+      obj.i = b;
+    end
+  end
+end
+%=============================================================================

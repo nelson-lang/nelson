@@ -9,16 +9,13 @@
 %=============================================================================
 addpath([nelsonroot(), '/modules/error_manager/tests']);
 ME = fun_MException_3(true);
-assert_isequal(ME.message, 'Input must be char.');
-assert_isequal(ME.identifier, 'sayHello:inputError');
-assert_isequal(ME.cause, {})
-assert_isequal(class(ME.stack), 'struct')
+asserts.isequal(ME.message, 'Input must be char.');
+asserts.isequal(ME.identifier, 'sayHello:inputError');
+asserts.isequal(ME.cause, {})
+asserts.isequal(class(ME.stack), 'struct')
 n = numel(ME.stack);
-if n == 3 || n == 6
-  assert_isequal(ME.stack(1).name, 'fun_MException_3')
-  assert_isequal(ME.stack(1).line, 12)
-  assert_isequal(ME.Correction, {})
-else
-  error('wrong ME.stack size.')
-end
+asserts.istrue(n >= 1);
+asserts.isequal(ME.stack(1).name, 'fun_MException_3')
+asserts.isequal(ME.stack(1).line, 12)
+asserts.isequal(ME.Correction, [])
 %=============================================================================

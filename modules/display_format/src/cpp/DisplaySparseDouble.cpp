@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,29 +10,28 @@
 #define FMT_HEADER_ONLY
 #include <fmt/format.h>
 #include <fmt/xchar.h>
+#include <type_traits>
 #include <Eigen/Dense>
 #include <Eigen/Sparse>
 #include "DisplayDouble.hpp"
 #include "NelsonConfiguration.hpp"
 #include "DisplayVariableHelpers.hpp"
+#include "DisplaySparseHelpers.hpp"
 #include "FormatHelpers.hpp"
 #include "ArrayOfFormatInfo.hpp"
 #include "ComputeFormatInfo.hpp"
-#include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+template <class T>
 static void
-DisplayEmptySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
+DisplaySparseReal(size_t evaluatorID, Interface* io, const ArrayOf& A,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
+template <class T>
 static void
-DisplaySparseDouble(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
-//=============================================================================
-static void
-DisplaySparseDoubleScalar(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
+DisplaySparseRealScalar(Interface* io, const ArrayOf& A, NumericFormatDisplay currentNumericFormat,
+    LineSpacingDisplay currentLineSpacing, bool asDisp);
 //=============================================================================
 void
 DisplaySparseDouble(
@@ -44,92 +43,68 @@ DisplaySparseDouble(
         = NelsonConfiguration::getInstance()->getLineSpacingDisplay();
 
     DisplayVariableHeader(io, A, name, asDisp);
-    if (A.isEmpty()) {
-        DisplayEmptySparseDouble(io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
-    } else {
-        if (A.getNonzeros() == 1) {
-            DisplaySparseDoubleScalar(
-                io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
+    if (!A.isEmpty() && DisplaySparseBeginning(io, A, currentLineSpacing, asDisp)) {
+        bool asSingle = A.isSingleClass();
+        if (A.nonzeros() == 1) {
+            if (asSingle) {
+                DisplaySparseRealScalar<single>(
+                    io, A, currentNumericFormat, currentLineSpacing, asDisp);
+            } else {
+                DisplaySparseRealScalar<double>(
+                    io, A, currentNumericFormat, currentLineSpacing, asDisp);
+            }
         } else {
-            DisplaySparseDouble(
-                evaluatorID, io, A, name, currentNumericFormat, currentLineSpacing, asDisp);
+            if (asSingle) {
+                DisplaySparseReal<single>(
+                    evaluatorID, io, A, currentNumericFormat, currentLineSpacing, asDisp);
+            } else {
+                DisplaySparseReal<double>(
+                    evaluatorID, io, A, currentNumericFormat, currentLineSpacing, asDisp);
+            }
         }
     }
     DisplayVariableFooter(io, asDisp);
 }
 //=============================================================================
+template <class T>
 void
-DisplayEmptySparseDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
+DisplaySparseRealScalar(Interface* io, const ArrayOf& A, NumericFormatDisplay currentNumericFormat,
+    LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
-}
-//=============================================================================
-void
-DisplaySparseDoubleScalar(Interface* io, const ArrayOf& A, const std::wstring& name,
-    NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
-{
-    Eigen::SparseMatrix<double, 0, signedIndexType>* spMat
-        = (Eigen::SparseMatrix<double, 0, signedIndexType>*)A.getSparseDataPointer();
+    Eigen::SparseMatrix<T, 0, signedIndexType>* spMat
+        = (Eigen::SparseMatrix<T, 0, signedIndexType>*)A.sparseDataPointer();
 
     indexType r = 0;
     indexType c = 0;
     for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
-        for (Eigen::SparseMatrix<double, 0, signedIndexType>::InnerIterator it(*spMat, k); it;
+        for (typename Eigen::SparseMatrix<T, 0, signedIndexType>::InnerIterator it(*spMat, k); it;
             ++it) {
             r = it.row() + 1;
             c = it.col() + 1;
         }
     }
-    std::wstring formatIndex = L"({},{})";
-    std::wstring indexAsString = fmt::format(formatIndex, (long long)r, (long long)c);
-    size_t maxLenIndexString = indexAsString.length();
-
     FormatDisplayInformation formatInfo = computeFormatInfo(A, currentNumericFormat);
     formatInfo.trim = false;
-    const double* values = spMat->valuePtr();
-    std::wstring asStr = formatScalarNumber(values[0], false, formatInfo);
-    indexAsString = fmt::format(formatIndex, (long long)r, (long long)c);
-    std::wstring msg = BLANKS_AT_BOL + centerText(indexAsString, maxLenIndexString) + BLANKS_BETWEEN
-        + asStr + L"\n";
-    io->outputMessage(msg);
-    if (currentLineSpacing == NLS_LINE_SPACING_LOOSE && asDisp) {
-        io->outputMessage(L"\n");
-    }
+    const T* values = spMat->valuePtr();
+    std::wstring asStr
+        = formatScalarNumber((double)values[0], std::is_same<T, single>::value, formatInfo);
+    io->outputMessage(sparseIndexText(A, r, c) + asStr + L"\n");
+    DisplaySparseEnd(io, currentLineSpacing, asDisp);
 }
 //=============================================================================
-static void
-DisplaySparseDouble(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::wstring& name,
+template <class T>
+void
+DisplaySparseReal(size_t evaluatorID, Interface* io, const ArrayOf& A,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
-    if (A.getNonzeros() == 0) {
-        std::wstring format = _W("All zero sparse: {0}");
-        std::wstring msg = fmt::format(format, A.getDimensions().toWideString());
-        io->outputMessage(BLANKS_AT_BOL + msg + L"\n");
-        return;
-    }
-
-    Eigen::SparseMatrix<double, 0, signedIndexType>* spMat
-        = (Eigen::SparseMatrix<double, 0, signedIndexType>*)A.getSparseDataPointer();
-
-    indexType rMax = 0;
-    indexType cMax = 0;
-    for (indexType k = 0; k < (indexType)spMat->outerSize(); ++k) {
-        for (Eigen::SparseMatrix<double, 0, signedIndexType>::InnerIterator it(*spMat, k); it;
-            ++it) {
-            rMax = std::max((long long)rMax, (long long)it.row() + 1);
-            cMax = std::max((long long)cMax, (long long)it.col() + 1);
-        }
-    }
-
-    std::wstring formatIndex = L"({},{})";
-    std::wstring indexAsString = fmt::format(formatIndex, (long long)rMax, (long long)cMax);
-    size_t maxLenIndexString = indexAsString.length();
+    Eigen::SparseMatrix<T, 0, signedIndexType>* spMat
+        = (Eigen::SparseMatrix<T, 0, signedIndexType>*)A.sparseDataPointer();
 
     FormatDisplayInformation formatInfo = computeFormatInfo(A, currentNumericFormat);
 
     if (formatInfo.scaleFactor != 1) {
         std::wstring scaleFactorAsString = formatScaleFactor(formatInfo);
-        io->outputMessage(BLANKS_AT_BOL + scaleFactorAsString + L"\n");
+        io->outputMessage(L"   " + scaleFactorAsString + L"\n");
         if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
             io->outputMessage(L"\n");
         }
@@ -143,19 +118,14 @@ DisplaySparseDouble(size_t evaluatorID, Interface* io, const ArrayOf& A, const s
             continueDisplay = false;
             break;
         }
-        for (Eigen::SparseMatrix<double, 0, signedIndexType>::InnerIterator it(*spMat, k);
+        for (typename Eigen::SparseMatrix<T, 0, signedIndexType>::InnerIterator it(*spMat, k);
             it && continueDisplay; ++it) {
             if (NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID)) {
                 continueDisplay = false;
                 break;
             }
-            double value = it.value();
-            std::wstring asStr = formatElement(value, formatInfo);
-            std::wstring indexAsString
-                = fmt::format(formatIndex, (long long)(it.row() + 1), (long long)(it.col() + 1));
-            buffer.append(BLANKS_AT_BOL);
-            buffer.append(
-                centerText(indexAsString, maxLenIndexString) + BLANKS_BETWEEN + asStr + L"\n");
+            std::wstring asStr = formatElement(it.value(), formatInfo);
+            buffer.append(sparseIndexText(A, it.row() + 1, it.col() + 1) + asStr + L"\n");
             if (block_page >= io->getTerminalHeight()) {
                 io->outputMessage(buffer);
                 buffer.clear();
@@ -170,9 +140,7 @@ DisplaySparseDouble(size_t evaluatorID, Interface* io, const ArrayOf& A, const s
             block_page = 0;
         }
     }
-    if (currentLineSpacing == NLS_LINE_SPACING_LOOSE && asDisp) {
-        io->outputMessage(L"\n");
-    }
+    DisplaySparseEnd(io, currentLineSpacing, asDisp);
 }
 //=============================================================================
 } // namespace Nelson

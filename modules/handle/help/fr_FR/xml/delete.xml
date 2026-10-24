@@ -3,56 +3,102 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>delete</keyword>
-  <short_description>supprime des objets handle.</short_description>
+  <short_description>Supprime des objets handle ou des fichiers.</short_description>
   <syntax>
     <syntax_item>delete(h)</syntax_item>
+    <syntax_item>delete filename</syntax_item>
+    <syntax_item>delete(filename)</syntax_item>
+    <syntax_item>delete(filename1, ..., filenameN)</syntax_item>
+    <syntax_item>delete(filenames)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>h</param_name>
-      <param_description
-      >un objet handle : scalaire ou matrice.</param_description>
+      <param_description>un objet handle : scalaire ou matrice.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>un vecteur de caracteres ou une chaine scalaire : nom du fichier a supprimer. Le caractere generique * est accepte.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>filenames</param_name>
+      <param_description>un tableau de chaines ou un tableau de cellules de vecteurs de caracteres : noms des fichiers a supprimer. Chaque element peut contenir le caractere generique *.</param_description>
     </param_input_item>
   </param_input>
   <description>
     <p>
-      <b>delete(h)</b> supprime de la mémoire les objets handle référencés par h.</p>
-    <p
-    >Une fois supprimées, toutes les références aux objets contenus dans h deviennent invalides.</p>
-    <p>Pour supprimer les variables handle, utilisez la fonction<link
-        linkend="${memory_manager}clear"
-      >clear</link>.</p>
-    <p>Voir la fonction clear pour savoir comment forcer la suppression.</p>
+      <b>delete(h)</b> invalide les objets handle references par h et libere leurs ressources natives.</p>
+    <p>Une fois supprimes, tous les alias vers les memes objets deviennent invalides.</p>
+    <p>Pour les objets handle classdef, <b>delete</b> appelle la methode destructeur de la classe quand elle existe et notifie <b>ObjectBeingDestroyed</b> avant que l&apos;objet devienne invalide.</p>
+    <p>Pour les tableaux de handles, chaque element valide est invalide.</p>
+    <p>Pour supprimer seulement une variable, utilisez la fonction <link linkend="${memory_manager}clear">clear</link>. Les autres alias restent valides jusqu&apos;a l&apos;appel a delete.</p>
+    <p>
+      <b>delete(filename)</b> supprime definitivement le fichier <b>filename</b> du disque. Les dossiers ne sont pas supprimes (voir <b>rmdir</b>).</p>
+    <p>
+      <b>delete(filenames)</b> supprime plusieurs fichiers donnes sous forme de tableau de chaines ou de tableau de cellules de vecteurs de caracteres. Plusieurs noms de fichiers peuvent aussi etre passes en arguments separes.</p>
+    <p>Chaque nom de fichier peut contenir le caractere generique <b>*</b>. Quand aucun fichier ne correspond a un nom, un avertissement (identifiant <b>Nelson:FileNotFound</b>) est affiche et les autres fichiers sont tout de meme supprimes.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
     <example_item>
       <example_item_type>nelson</example_item_type>
-      <example_item_description />
-      <example_item_data
-        runnable="adv-cli"
-      ><![CDATA[f = figure();
-ax = gca();
-img = image();
-hold on
-P = plot(magic(5));
-children1 = ax.Children;
-delete(img);
-size(children1)
-children2 = ax.Children;
-size(children2)]]></example_item_data>
+      <example_item_description>Supprimer plusieurs fichiers avec un vecteur de noms de fichiers.</example_item_description>
+      <example_item_data><![CDATA[d = tempname();
+mkdir(d);
+filewrite(fullfile(d, 'a.txt'), 'a');
+filewrite(fullfile(d, 'b.txt'), 'b');
+filewrite(fullfile(d, 'c.dat'), 'c');
+delete({fullfile(d, 'a.txt'), fullfile(d, 'b.txt')});
+delete(string(fullfile(d, "*.dat")));
+dir(d)
+rmdir(d);]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Supprimer un tableau de handles classdef.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[clear classes
+d = [tempdir(), 'nelson_help_delete/'];
+mkdir(d);
+filewrite([d, '/NelsonHelpDeleteCounter.m'], ["classdef NelsonHelpDeleteCounter < handle"; "  properties"; "    Count = 0"; "  end"; "end"]);
+addpath(d);
+a = NelsonHelpDeleteCounter();
+b = NelsonHelpDeleteCounter();
+h = [a, b];
+delete(h);
+isvalid(a)
+isvalid(b)]]></example_item_data>
     </example_item>
   </examples>
   <see_also>
     <see_also_item>
       <link linkend="${memory_manager}clear">clear</link>
     </see_also_item>
+    <see_also_item>
+      <link linkend="${interpreter}classdef">classdef</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}addlistener">addlistener</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${files_folders_functions}rmfile">rmfile</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${files_folders_functions}rmdir">rmdir</link>
+    </see_also_item>
   </see_also>
   <history>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>comportement des destructeurs handle classdef et des tableaux de handles documente</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>les fichiers peuvent etre supprimes avec un tableau de chaines ou un tableau de cellules de noms de fichiers</history_description>
     </history_item>
   </history>
   <authors>

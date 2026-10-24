@@ -10,14 +10,17 @@
 #include <unordered_map>
 #include <map>
 #include <algorithm>
+#include <cctype>
 #include <fstream>
 #include <nlohmann/json.hpp>
 #include <semver.h>
 #include "StringHelpers.hpp"
 #include "ModulesManager.hpp"
+#include "NelsonConfiguration.hpp"
 #include "Nelson_VERSION.h"
 #include "characters_encoding.hpp"
 #include "Warning.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
@@ -135,7 +138,7 @@ ModulesManager::readVersionFromJson(const std::wstring& path)
     if (version.size() == 3) {
         return std::make_tuple(version[0], version[1], version[2]);
     }
-    Warning(L"module_manager:modulejson", _W("Please check: ") + moduleJsonFilename);
+    Warning(L"Nelson:modules_manager:moduleJson", L"Please check: %s", moduleJsonFilename);
 
     return std::make_tuple(std::nan(""), std::nan(""), std::nan(""));
 }
@@ -283,6 +286,33 @@ IsExistingModuleName(const std::wstring& moduleshortname)
 {
     std::wstring modulerootpath;
     return ModulesManager::Instance().findModule(moduleshortname, modulerootpath);
+}
+//=============================================================================
+bool
+IsConfiguredModuleName(const std::wstring& moduleshortname)
+{
+    const std::wstring modulesFile
+        = NelsonConfiguration::getInstance()->getNelsonModulesDirectory() + L"/modules.m";
+#ifdef _MSC_VER
+    std::ifstream registry(modulesFile);
+#else
+    std::ifstream registry(wstring_to_utf8(modulesFile));
+#endif
+    if (!registry.is_open()) {
+        return false;
+    }
+
+    const std::string expected = "{'" + wstring_to_utf8(moduleshortname) + "',true};";
+    std::string line;
+    while (std::getline(registry, line)) {
+        line.erase(std::remove_if(line.begin(), line.end(),
+                       [](unsigned char character) { return std::isspace(character); }),
+            line.end());
+        if (line == expected) {
+            return true;
+        }
+    }
+    return false;
 }
 //=============================================================================
 bool

@@ -17,12 +17,14 @@ Source: {#RootPath}modules\{#MODULE_NAME}\etc\startup.m; DestDir: {app}\modules\
 Source: {#RootPath}modules\{#MODULE_NAME}\etc\finish.m; DestDir: {app}\modules\{#MODULE_NAME}\etc\;Components: {#COMPONENT_HELP_TOOLS};
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\resources\banner_homepage.png; DestDir: {app}\modules\{#MODULE_NAME}\resources\;Components: {#COMPONENT_HELP_TOOLS};
+Source: {#RootPath}modules\{#MODULE_NAME}\resources\banner_nelson_small.png; DestDir: {app}\modules\{#MODULE_NAME}\resources\;Components: {#COMPONENT_HELP_TOOLS};
 Source: {#RootPath}modules\{#MODULE_NAME}\resources\nelson_help.xsd; DestDir: {app}\modules\{#MODULE_NAME}\resources\;Components: {#COMPONENT_HELP_TOOLS};
 Source: {#RootPath}modules\{#MODULE_NAME}\resources\highlight.pack.js; DestDir: {app}\modules\{#MODULE_NAME}\resources\;Components: {#COMPONENT_HELP_TOOLS};
 Source: {#RootPath}modules\{#MODULE_NAME}\resources\highlight.css; DestDir: {app}\modules\{#MODULE_NAME}\resources\;Components: {#COMPONENT_HELP_TOOLS};
 Source: {#RootPath}modules\{#MODULE_NAME}\resources\nelson_common.css; DestDir: {app}\modules\{#MODULE_NAME}\resources\;Components: {#COMPONENT_HELP_TOOLS};
 Source: {#RootPath}modules\{#MODULE_NAME}\resources\nelson_help.js; DestDir: {app}\modules\{#MODULE_NAME}\resources\;Components: {#COMPONENT_HELP_TOOLS};
 Source: {#RootPath}modules\{#MODULE_NAME}\resources\tex-mml-chtml.js; DestDir: {app}\modules\{#MODULE_NAME}\resources\;Components: {#COMPONENT_HELP_TOOLS};
+Source: {#RootPath}modules\{#MODULE_NAME}\resources\tex-svg.js; DestDir: {app}\modules\{#MODULE_NAME}\resources\;Components: {#COMPONENT_HELP_TOOLS};
 Source: {#RootPath}modules\{#MODULE_NAME}\resources\nelson_html.xslt; DestDir: {app}\modules\{#MODULE_NAME}\resources\;Components: {#COMPONENT_HELP_TOOLS};
 Source: {#RootPath}modules\{#MODULE_NAME}\resources\nelson_markdown.xslt; DestDir: {app}\modules\{#MODULE_NAME}\resources\;Components: {#COMPONENT_HELP_TOOLS};
 Source: {#RootPath}modules\{#MODULE_NAME}\resources\nelson_json.xslt; DestDir: {app}\modules\{#MODULE_NAME}\resources\;Components: {#COMPONENT_HELP_TOOLS};
@@ -30,6 +32,11 @@ Source: {#RootPath}modules\{#MODULE_NAME}\resources\nelson_summary2html.xslt; De
 Source: {#RootPath}modules\{#MODULE_NAME}\resources\nelson_toc2html.xslt; DestDir: {app}\modules\{#MODULE_NAME}\resources\;Components: {#COMPONENT_HELP_TOOLS};
 Source: {#RootPath}modules\{#MODULE_NAME}\resources\nelson_summary2md.xslt; DestDir: {app}\modules\{#MODULE_NAME}\resources\;Components: {#COMPONENT_HELP_TOOLS};
 Source: {#RootPath}modules\{#MODULE_NAME}\resources\nelson_toc2md.xslt; DestDir: {app}\modules\{#MODULE_NAME}\resources\;Components: {#COMPONENT_HELP_TOOLS};
+Source: {#RootPath}modules\{#MODULE_NAME}\resources\nelson_typst.xslt; DestDir: {app}\modules\{#MODULE_NAME}\resources\;Components: {#COMPONENT_HELP_TOOLS};
+Source: {#RootPath}modules\{#MODULE_NAME}\resources\nelson_typst_common.xslt; DestDir: {app}\modules\{#MODULE_NAME}\resources\;Components: {#COMPONENT_HELP_TOOLS};
+Source: {#RootPath}modules\{#MODULE_NAME}\resources\nelson_summary2typ.xslt; DestDir: {app}\modules\{#MODULE_NAME}\resources\;Components: {#COMPONENT_HELP_TOOLS};
+Source: {#RootPath}modules\{#MODULE_NAME}\resources\nelson_toc2typ.xslt; DestDir: {app}\modules\{#MODULE_NAME}\resources\;Components: {#COMPONENT_HELP_TOOLS};
+Source: {#RootPath}modules\{#MODULE_NAME}\resources\nelson_help.typ; DestDir: {app}\modules\{#MODULE_NAME}\resources\;Components: {#COMPONENT_HELP_TOOLS};
 Source: {#RootPath}modules\{#MODULE_NAME}\resources\help_viewer.html; DestDir: {app}\modules\{#MODULE_NAME}\resources\;Components: {#COMPONENT_HELP_TOOLS};
 Source: {#RootPath}modules\{#MODULE_NAME}\resources\search_results.html; DestDir: {app}\modules\{#MODULE_NAME}\resources\;Components: {#COMPONENT_HELP_TOOLS};
 ;==============================================================================
@@ -37,9 +44,10 @@ Source: {#RootPath}modules\{#MODULE_NAME}\functions\*.m; DestDir: {app}\modules\
 Source: {#RootPath}modules\{#MODULE_NAME}\functions\private\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\private\;Components: {#COMPONENT_HELP_TOOLS};
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\help\*.nhz; DestDir: {app}\modules\{#MODULE_NAME}\help\; Flags: recursesubdirs;Components: {#COMPONENT_HELP_TOOLS} and {#COMPONENT_HELP_FILES};
-Source: {#RootPath}modules\{#MODULE_NAME}\help\*.json; DestDir: {app}\modules\{#MODULE_NAME}\help\; Flags: recursesubdirs;Components: {#COMPONENT_HELP_TOOLS} and {#COMPONENT_HELP_FILES};
+Source: {#RootPath}modules\{#MODULE_NAME}\help\*.json; DestDir: {app}\modules\{#MODULE_NAME}\help\; Flags: recursesubdirs skipifsourcedoesntexist;Components: {#COMPONENT_HELP_TOOLS} and {#COMPONENT_HELP_FILES};
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.m; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs;Components: {#COMPONENT_HELP_TOOLS} and {#COMPONENT_TESTS_MANAGER} and {#COMPONENT_UNIT_TESTS};
+Source: {#RootPath}modules\{#MODULE_NAME}\tests\*.xml; DestDir: {app}\modules\{#MODULE_NAME}\tests\; Flags: recursesubdirs;Components: {#COMPONENT_HELP_TOOLS} and {#COMPONENT_TESTS_MANAGER} and {#COMPONENT_UNIT_TESTS};
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\tests\xml\*.xml; DestDir: {app}\modules\{#MODULE_NAME}\tests\xml; Flags: recursesubdirs;Components: {#COMPONENT_HELP_TOOLS} and {#COMPONENT_TESTS_MANAGER} and {#COMPONENT_UNIT_TESTS};
 Source: {#RootPath}modules\{#MODULE_NAME}\tests\xml_nested\*.xml; DestDir: {app}\modules\{#MODULE_NAME}\tests\xml_nested; Flags: recursesubdirs;Components: {#COMPONENT_HELP_TOOLS} and {#COMPONENT_TESTS_MANAGER} and {#COMPONENT_UNIT_TESTS};

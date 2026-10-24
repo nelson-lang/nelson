@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,8 +10,9 @@
 #include "h5ReadString.hpp"
 #include "h5ReadHelpers.hpp"
 #include "NewWithException.hpp"
-#include "Exception.hpp"
+#include "NelsonException.hpp"
 #include "i18n.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -29,16 +30,16 @@ h5ReadStringVlen(hid_t attr_id, hid_t type, hid_t aspace, Dimensions& dims, int 
     hsize_t sizeType = H5Tget_size(type);
     ArrayOf* elements = nullptr;
     try {
-        elements = new_with_exception<ArrayOf>(dims.getElementCount(), false);
-    } catch (Exception& e) {
-        error = e.getMessage();
+        elements = new_with_exception<ArrayOf>(dims.elementCount(), false);
+    } catch (NelsonException& e) {
+        error = e.message();
         return res;
     }
     char** temp = nullptr;
     try {
-        temp = new_with_exception<char*>((size_t)sizeType, true);
-    } catch (Exception& e) {
-        error = e.getMessage();
+        temp = new_with_exception<char*>((size_t)dims.elementCount(), true);
+    } catch (NelsonException& e) {
+        error = e.message();
         return res;
     }
     hid_t memtype = H5Tcopy(H5T_C_S1);
@@ -57,21 +58,23 @@ h5ReadStringVlen(hid_t attr_id, hid_t type, hid_t aspace, Dimensions& dims, int 
         delete[] temp;
 
         if (asAttribute) {
-            error = _W("Cannot read attribute.");
+            error = resolveMessageTemplate(
+                L"Nelson:hdf5:cannotReadAttribute", L"Cannot read attribute.");
         } else {
-            error = _W("Cannot read data set.");
+            error = resolveMessageTemplate(
+                L"Nelson:hdf5:cannotReadDataSet", L"Cannot read data set.");
         }
         H5Tclose(memtype);
         return res;
     }
     indexType pos = 0;
-    indexType elementCount = dims.getElementCount();
+    indexType elementCount = dims.elementCount();
     for (indexType k = 0; k < elementCount; k++) {
         std::string str;
         if (temp != nullptr) {
             str = temp[k];
         }
-        elements[k] = ArrayOf::characterArrayConstructor(str);
+        elements[k] = ArrayOf::characterArray(str);
     }
     herr_t err = H5Dvlen_reclaim(type, aspace, H5P_DEFAULT, temp);
 
@@ -99,24 +102,24 @@ h5ReadStringNullTerm(hid_t attr_id, hid_t type, hid_t aspace, Dimensions& dims, 
     if (rank == 0) {
         nbElements = 1;
     } else {
-        nbElements = dims.getElementCount();
+        nbElements = dims.elementCount();
     }
     if (nbElements > 1) {
         try {
             elements = new_with_exception<ArrayOf>(nbElements, false);
-        } catch (Exception& e) {
-            error = e.getMessage();
+        } catch (NelsonException& e) {
+            error = e.message();
             return {};
         }
     }
     char* temp = nullptr;
     try {
         temp = new_with_exception<char>((size_t((sizeType + 1) * nbElements)), true);
-    } catch (Exception& e) {
+    } catch (NelsonException& e) {
 
         delete[] elements;
 
-        error = e.getMessage();
+        error = e.message();
         return res;
     }
     herr_t status = H5I_INVALID_HID;
@@ -135,10 +138,12 @@ h5ReadStringNullTerm(hid_t attr_id, hid_t type, hid_t aspace, Dimensions& dims, 
         delete[] temp;
 
         if (asAttribute) {
-            error = _W("Cannot read attribute.");
+            error = resolveMessageTemplate(
+                L"Nelson:hdf5:cannotReadAttribute", L"Cannot read attribute.");
         } else {
             H5Tclose(memtype);
-            error = _W("Cannot read data set.");
+            error = resolveMessageTemplate(
+                L"Nelson:hdf5:cannotReadDataSet", L"Cannot read data set.");
         }
         return {};
     }
@@ -153,7 +158,7 @@ h5ReadStringNullTerm(hid_t attr_id, hid_t type, hid_t aspace, Dimensions& dims, 
                     str.push_back(temp[pos]);
                     pos++;
                 }
-                elements[k] = ArrayOf::characterArrayConstructor(str);
+                elements[k] = ArrayOf::characterArray(str);
             }
         } else {
             for (indexType l = 0; l < (indexType)sizeType; l++) {
@@ -179,7 +184,7 @@ h5ReadStringNullTerm(hid_t attr_id, hid_t type, hid_t aspace, Dimensions& dims, 
                 pos++;
             }
             if (nbElements > 1) {
-                elements[k] = ArrayOf::characterArrayConstructor(str);
+                elements[k] = ArrayOf::characterArray(str);
             }
         }
     }
@@ -187,7 +192,7 @@ h5ReadStringNullTerm(hid_t attr_id, hid_t type, hid_t aspace, Dimensions& dims, 
         H5Tclose(memtype);
     }
     if (nbElements == 1) {
-        res = ArrayOf::characterArrayConstructor(str);
+        res = ArrayOf::characterArray(str);
     } else {
         res = ArrayOf(NLS_CELL_ARRAY, dims, elements);
     }
@@ -199,7 +204,7 @@ h5ReadString(hid_t attr_id, hid_t type, hid_t aspace, bool asAttribute, std::wst
 {
     ArrayOf res;
     int rank = -1;
-    Dimensions dims = getDimensions(aspace, rank);
+    Dimensions dims = dimensions(aspace, rank);
     bool isVlenString = H5Tis_variable_str(type);
     if (isVlenString) {
         res = h5ReadStringVlen(attr_id, type, aspace, dims, rank, asAttribute, error);

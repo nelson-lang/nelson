@@ -7,11 +7,11 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-field1 = 'f1';  value1 = zeros(1,10);
-field2 = 'f2';  value2 = {'a', 'b'};
-field3 = 'f3';  value3 = {pi, pi*pi};
-field4 = 'f4';  value4 = {'fourth'};
-s = struct(field1,value1,field2,value2,field3,value3,field4,value4);
+field1 = 'f1'; value1 = zeros(1, 10);
+field2 = 'f2'; value2 = {'a', 'b'};
+field3 = 'f3'; value3 = {pi, pi * pi};
+field4 = 'f4'; value4 = {'fourth'};
+s = struct(field1, value1, field2, value2, field3, value3, field4, value4);
 r = jsonprettyprint(jsonencode(s));
 ref = '[
     {
@@ -49,9 +49,9 @@ ref = '[
         "f4":"fourth"
     }
 ]';
-assert_isequal(r, ref);
+asserts.isequal(r, ref);
 %=============================================================================
-r = jsonencode([1, NaN, Inf, -Inf],'ConvertInfAndNaN', true);
+r = jsonencode([1, NaN, Inf, -Inf], 'ConvertInfAndNaN', false);
 s = jsonprettyprint(r);
 ref = '[
     1,
@@ -59,7 +59,7 @@ ref = '[
     Inf,
     -Inf
 ]';
-assert_isequal(s, ref);
+asserts.isequal(s, ref);
 %=============================================================================
 s = jsonprettyprint('[ 1 ,2 , "nel son", " "]');
 ref = '[
@@ -68,5 +68,5 @@ ref = '[
     "nel son",
     " "
 ]';
-assert_isequal(s, ref);
+asserts.isequal(s, ref);
 %=============================================================================

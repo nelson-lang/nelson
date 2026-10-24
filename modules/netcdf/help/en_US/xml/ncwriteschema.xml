@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>ncwriteschema</keyword>
+  <short_description>Add schema definitions to a netCDF file.</short_description>
+  <syntax>
+    <syntax_item>ncwriteschema(filename, schema)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>Path of the netCDF file to create or update.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>schema</param_name>
+      <param_description>Structure describing dimensions, variables, groups, and attributes. The structure can follow the shape returned by ncinfo where applicable.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>none</param_name>
+      <param_description>This function does not return a value.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>ncwriteschema creates definitions from a schema structure.</p>
+    <p>Use it to reproduce metadata layout before writing variable data.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Copy-paste example for ncwriteschema.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[source = [tempdir(), 'help_ncwriteschema_source.nc'];
+target = [tempdir(), 'help_ncwriteschema_target.nc'];
+nccreate(source, 'temperature', 'Dimensions', {'x', 3});
+info = ncinfo(source);
+ncwriteschema(target, info);
+copyInfo = ncinfo(target);
+copyInfo.Variables(1).Name]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${netcdf}ncinfo">ncinfo</link></see_also_item>
+    <see_also_item><link linkend="${netcdf}nccreate">nccreate</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

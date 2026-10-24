@@ -7,40 +7,72 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#if _MSC_VER
-#define _WIN32_WINNT 0x0550
+#ifdef _MSC_VER
+#ifndef _WIN32_WINNT
+#define _WIN32_WINNT 0x0601
+#endif
 #endif
 //=============================================================================
-#include <boost/version.hpp>
-#include <boost/interprocess/managed_shared_memory.hpp>
-#if BOOST_VERSION >= 108800
-#include <boost/process/v1/child.hpp>
+#include <cstdint>
+#include <cstdio>
+#include <cstring>
+#include <string>
+#ifdef _MSC_VER
+#include <windows.h>
 #else
-#include <boost/process.hpp>
-#endif
-#ifndef _MSC_VER
 #include <sys/utsname.h>
+#include <sys/mman.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <csignal>
+#include <cerrno>
 #endif
 #include "NelsonPIDs.hpp"
 #include "GetUsername.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
-#if BOOST_VERSION >= 108800
-#define PROCESS_PID_T boost::process::v1::pid_t
-#define PROCESS_CHILD boost::process::v1::child
-#else
-#define PROCESS_PID_T boost::process::pid_t
-#define PROCESS_CHILD boost::process::child
-#endif
-//=============================================================================
 #define MAX_NB_PIDS 256
 #define NELSON_PIDS "NELSON_PIDS"
-#define PIDS_ID_DATA "PIDS_ID_DATA"
-#define PIDS_MODE_DATA "PIDS_MODE_DATA"
+//=============================================================================
+// Fixed-layout PID registry. A single POD struct is mapped by every Nelson
+// process. It is created on demand, freed by the OS when the last mapping
+// handle closes (Windows) or unlinked by the last process to leave (POSIX).
+#define NELSON_PIDS_REGISTRY_MAGIC 0x4450494Eu // 'N','I','P','D'
+#define NELSON_PIDS_REGISTRY_VERSION 1u
 //=============================================================================
 namespace Nelson {
 //=============================================================================
+struct NelsonPidRegistry
+{
+    uint32_t magic;
+    uint32_t version;
+    int32_t pids[MAX_NB_PIDS];
+    int32_t modes[MAX_NB_PIDS];
+};
+//=============================================================================
 static std::string channelName;
+#ifdef _MSC_VER
+static HANDLE registryMappingHandle = nullptr;
+#else
+static int registryShmFd = -1;
+#endif
+static NelsonPidRegistry* registryView = nullptr;
+//=============================================================================
+static void
+removeOldPIDs(int* pids);
+static std::string
+buildNelsonPIDsChannelName();
+static std::string
+registryObjectName();
+static void
+initializeRegistry(NelsonPidRegistry* registry);
+static NelsonPidRegistry*
+mapRegistry(bool createIfMissing);
+static void
+unmapRegistry(bool unlinkSegment);
+static bool
+registryHasReadableData(const NelsonPidRegistry* registry);
 //=============================================================================
 bool
 isPIDRunning(int pID)
@@ -48,19 +80,141 @@ isPIDRunning(int pID)
     if (pID <= 0) {
         return false;
     }
-    try {
-        PROCESS_PID_T _pid = (PROCESS_PID_T)pID;
-        PROCESS_CHILD child(_pid);
-        return child.valid();
-    } catch (const std::runtime_error&) {
-        return false;
+#ifdef _MSC_VER
+    HANDLE process
+        = OpenProcess(SYNCHRONIZE | PROCESS_QUERY_LIMITED_INFORMATION, FALSE, (DWORD)pID);
+    if (process == nullptr) {
+        // A process owned by another user denies access but still exists.
+        return GetLastError() == ERROR_ACCESS_DENIED;
     }
+    DWORD waitResult = WaitForSingleObject(process, 0);
+    CloseHandle(process);
+    return waitResult == WAIT_TIMEOUT;
+#else
+    if (kill((pid_t)pID, 0) == 0) {
+        return true;
+    }
+    return errno == EPERM;
+#endif
 }
 //=============================================================================
 int
 getCurrentPID()
 {
-    return (int)boost::interprocess::ipcdetail::get_current_process_id();
+#ifdef _MSC_VER
+    return (int)GetCurrentProcessId();
+#else
+    return (int)getpid();
+#endif
+}
+//=============================================================================
+bool
+registerPidInSharedMemory(int pid, NELSON_ENGINE_MODE mode)
+{
+    NelsonPidRegistry* registry = mapRegistry(true);
+    if (registry == nullptr) {
+        return false;
+    }
+    removeOldPIDs(registry->pids);
+    int index = MAX_NB_PIDS - 1;
+    for (int j = 0; j < MAX_NB_PIDS; ++j) {
+        if (registry->pids[j] == 0) {
+            index = j;
+            break;
+        }
+    }
+    registry->pids[index] = pid;
+    registry->modes[index] = (int)mode;
+    return true;
+}
+//=============================================================================
+bool
+unregisterPidInSharedMemory(int pid)
+{
+    NelsonPidRegistry* registry = mapRegistry(false);
+    if (registry == nullptr) {
+        return false;
+    }
+    for (int j = 0; j < MAX_NB_PIDS; ++j) {
+        if (registry->pids[j] == pid) {
+            registry->pids[j] = 0;
+            registry->modes[j] = -1;
+        }
+    }
+    bool anyAlive = false;
+    for (int j = 0; j < MAX_NB_PIDS; ++j) {
+        if (registry->pids[j] != 0 && isPIDRunning(registry->pids[j])) {
+            anyAlive = true;
+            break;
+        }
+    }
+    if (!anyAlive) {
+        unmapRegistry(true);
+    }
+    return true;
+}
+//=============================================================================
+std::vector<int>
+getNelsonPIDs()
+{
+    std::vector<int> PIDs;
+    NelsonPidRegistry* registry = mapRegistry(false);
+    if (!registryHasReadableData(registry)) {
+        return PIDs;
+    }
+    for (int j = 0; j < MAX_NB_PIDS; ++j) {
+        if (registry->pids[j] != 0 && isPIDRunning(registry->pids[j])) {
+            PIDs.push_back(registry->pids[j]);
+        }
+    }
+    return PIDs;
+}
+//=============================================================================
+std::vector<NELSON_ENGINE_MODE>
+getNelsonPIDModes()
+{
+    std::vector<NELSON_ENGINE_MODE> Modes;
+    NelsonPidRegistry* registry = mapRegistry(false);
+    if (!registryHasReadableData(registry)) {
+        return Modes;
+    }
+    for (int j = 0; j < MAX_NB_PIDS; ++j) {
+        if (registry->pids[j] != 0 && isPIDRunning(registry->pids[j])) {
+            Modes.push_back((NELSON_ENGINE_MODE)registry->modes[j]);
+        }
+    }
+    return Modes;
+}
+//=============================================================================
+int
+getLatestPidInSharedMemory()
+{
+    NelsonPidRegistry* registry = mapRegistry(false);
+    if (!registryHasReadableData(registry)) {
+        return 0;
+    }
+    for (int j = MAX_NB_PIDS - 1; j >= 0; --j) {
+        if (registry->pids[j] != 0 && isPIDRunning(registry->pids[j])) {
+            return registry->pids[j];
+        }
+    }
+    return 0;
+}
+//=============================================================================
+int
+getLatestPidWithModeInSharedMemory(NELSON_ENGINE_MODE _mode)
+{
+    NelsonPidRegistry* registry = mapRegistry(false);
+    if (!registryHasReadableData(registry)) {
+        return 0;
+    }
+    for (int j = MAX_NB_PIDS - 1; j >= 0; --j) {
+        if (registry->pids[j] != 0 && isPIDRunning(registry->pids[j])
+            && registry->modes[j] == (int)_mode) {
+            return registry->pids[j];
+        }
+    }
+    return 0;
 }
 //=============================================================================
 static void
@@ -81,7 +235,7 @@ static std::string
 buildNelsonPIDsChannelName()
 {
     if (channelName.empty()) {
-        std::string arch; // Declare the variable here
+        std::string arch;
 
 #ifdef _MSC_VER
 #ifdef _WIN64
@@ -90,7 +244,6 @@ buildNelsonPIDsChannelName()
         arch = "win32";
 #endif
 #elif defined(__linux__)
-        // Get more specific Linux architecture information
         struct utsname sysInfo;
         if (uname(&sysInfo) == 0) {
             arch = std::string("linux_") + sysInfo.machine;
@@ -110,194 +263,147 @@ buildNelsonPIDsChannelName()
     return channelName;
 }
 //=============================================================================
-static bool
-needToCreateSharedMemory()
+static std::string
+registryObjectName()
 {
-    bool bNeedToCreate = false;
-    try {
-        boost::interprocess::managed_shared_memory managed_shm { boost::interprocess::open_only,
-            buildNelsonPIDsChannelName().c_str() };
-        bNeedToCreate = false;
-    } catch (boost::interprocess::interprocess_exception&) {
-        bNeedToCreate = true;
+    // Short, bumped name so this native layout never collides with an older
+    // boost segment and fits the POSIX shm name limit (macOS: 31 characters).
+    const std::string identity = buildNelsonPIDsChannelName();
+    uint32_t hash = 2166136261u;
+    for (unsigned char c : identity) {
+        hash ^= c;
+        hash *= 16777619u;
     }
-    return bNeedToCreate;
+    char buffer[24];
+    std::snprintf(buffer, sizeof(buffer), "nls_pids2_%08x", hash);
+    return std::string(buffer);
 }
 //=============================================================================
-bool
-registerPidInSharedMemory(int pid, NELSON_ENGINE_MODE mode)
+static void
+initializeRegistry(NelsonPidRegistry* registry)
 {
-    bool needToCreate = needToCreateSharedMemory();
-    try {
-        size_t size_shm = sizeof(int*) * MAX_NB_PIDS * 2 + 1024;
-        boost::interprocess::managed_shared_memory managed_shm {
-            boost::interprocess::open_or_create, buildNelsonPIDsChannelName().c_str(), size_shm
-        };
-        int* pids = nullptr;
-        int* modes = nullptr;
-        int index = 0;
-        if (needToCreate) {
-            pids = managed_shm.construct<int>(PIDS_ID_DATA)[MAX_NB_PIDS](0);
-            modes = managed_shm.construct<int>(PIDS_MODE_DATA)[MAX_NB_PIDS](-1);
-            for (int j = 0; j < MAX_NB_PIDS; j++) {
-                pids[j] = 0;
+    for (int j = 0; j < MAX_NB_PIDS; ++j) {
+        registry->pids[j] = 0;
+        registry->modes[j] = -1;
+    }
+    registry->version = NELSON_PIDS_REGISTRY_VERSION;
+    registry->magic = NELSON_PIDS_REGISTRY_MAGIC; // published last
+}
+//=============================================================================
+static NelsonPidRegistry*
+mapRegistry(bool createIfMissing)
+{
+    if (registryView != nullptr) {
+        return registryView;
+    }
+#ifdef _MSC_VER
+    const std::string name = "Local\\" + registryObjectName();
+    HANDLE handle = nullptr;
+    bool created = false;
+    if (createIfMissing) {
+        handle = CreateFileMappingA(INVALID_HANDLE_VALUE, nullptr, PAGE_READWRITE, 0,
+            (DWORD)sizeof(NelsonPidRegistry), name.c_str());
+        if (handle == nullptr) {
+            return nullptr;
+        }
+        created = (GetLastError() != ERROR_ALREADY_EXISTS);
+    } else {
+        handle = OpenFileMappingA(FILE_MAP_ALL_ACCESS, FALSE, name.c_str());
+        if (handle == nullptr) {
+            return nullptr;
+        }
+    }
+    auto* view = (NelsonPidRegistry*)MapViewOfFile(
+        handle, FILE_MAP_ALL_ACCESS, 0, 0, sizeof(NelsonPidRegistry));
+    if (view == nullptr) {
+        CloseHandle(handle);
+        return nullptr;
+    }
+    if (created) {
+        initializeRegistry(view); // a fresh pagefile-backed mapping arrives zeroed
+    }
+    registryMappingHandle = handle;
+    registryView = view;
+#else
+    const std::string name = "/" + registryObjectName();
+    int fd = -1;
+    bool created = false;
+    if (createIfMissing) {
+        fd = shm_open(name.c_str(), O_CREAT | O_EXCL | O_RDWR, 0600);
+        if (fd >= 0) {
+            created = true;
+            if (ftruncate(fd, (off_t)sizeof(NelsonPidRegistry)) != 0) {
+                ::close(fd);
+                shm_unlink(name.c_str());
+                return nullptr;
             }
         } else {
-            std::pair<int*, std::size_t> pPIDs = managed_shm.find<int>(PIDS_ID_DATA);
-            std::pair<int*, std::size_t> pModes = managed_shm.find<int>(PIDS_MODE_DATA);
-            pids = pPIDs.first;
-            modes = pModes.first;
-            bool indexModified = false;
-            removeOldPIDs(pids);
-            if (pids != nullptr) {
-                for (int j = 0; j < MAX_NB_PIDS; j++) {
-                    if (pids[j] == 0) {
-                        index = j;
-                        indexModified = true;
-                        break;
-                    }
-                }
-            }
-            if (!indexModified) {
-                index = MAX_NB_PIDS - 1;
-            }
+            fd = shm_open(name.c_str(), O_RDWR, 0600);
         }
-        if (pids != nullptr) {
-            pids[index] = pid;
-        }
-        if (modes != nullptr) {
-            modes[index] = (int)mode;
-        }
-        if (pids == nullptr || modes == nullptr) {
-            boost::interprocess::shared_memory_object::remove(buildNelsonPIDsChannelName().c_str());
-        }
-
-    } catch (boost::interprocess::interprocess_exception&) {
-        boost::interprocess::shared_memory_object::remove(buildNelsonPIDsChannelName().c_str());
-        return false;
+    } else {
+        fd = shm_open(name.c_str(), O_RDWR, 0600);
     }
-    return true;
+    if (fd < 0) {
+        return nullptr;
+    }
+    void* addr
+        = mmap(nullptr, sizeof(NelsonPidRegistry), PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+    if (addr == MAP_FAILED) {
+        ::close(fd);
+        if (created) {
+            shm_unlink(name.c_str());
+        }
+        return nullptr;
+    }
+    auto* view = (NelsonPidRegistry*)addr;
+    if (created) {
+        initializeRegistry(view);
+    }
+    registryShmFd = fd;
+    registryView = view;
+#endif
+    if (registryView->magic != NELSON_PIDS_REGISTRY_MAGIC && createIfMissing) {
+        // Segment created by another process but not yet initialized (tiny
+        // startup race); a writer safely initializes it.
+        initializeRegistry(registryView);
+    }
+    return registryView;
 }
 //=============================================================================
-bool
-unregisterPidInSharedMemory(int pid)
+static void
+unmapRegistry(bool unlinkSegment)
 {
-    bool needToCreate = needToCreateSharedMemory();
-    if (!needToCreate) {
-        std::vector<int> PIDs = getNelsonPIDs();
-        if (PIDs.empty() || (PIDs.size() == 1 && PIDs[0] == pid)) {
-            boost::interprocess::shared_memory_object::remove(buildNelsonPIDsChannelName().c_str());
-            return true;
-        }
-        try {
-            boost::interprocess::managed_shared_memory managed_shm { boost::interprocess::open_only,
-                buildNelsonPIDsChannelName().c_str() };
-            std::pair<int*, std::size_t> pPIDs = managed_shm.find<int>(PIDS_ID_DATA);
-            int* pids = pPIDs.first;
-            if (pids != nullptr) {
-                for (int j = 0; j < MAX_NB_PIDS; j++) {
-                    if (pids[j] == pid) {
-                        pids[j] = 0;
-                    }
-                }
-            }
-            return true;
-        } catch (boost::interprocess::interprocess_exception&) {
-        }
+#ifdef _MSC_VER
+    (void)unlinkSegment; // the OS frees the mapping when the last handle closes
+    if (registryView != nullptr) {
+        UnmapViewOfFile(registryView);
+        registryView = nullptr;
     }
-    return false;
+    if (registryMappingHandle != nullptr) {
+        CloseHandle(registryMappingHandle);
+        registryMappingHandle = nullptr;
+    }
+#else
+    const std::string name = "/" + registryObjectName();
+    if (registryView != nullptr) {
+        munmap(registryView, sizeof(NelsonPidRegistry));
+        registryView = nullptr;
+    }
+    if (registryShmFd >= 0) {
+        ::close(registryShmFd);
+        registryShmFd = -1;
+    }
+    if (unlinkSegment) {
+        shm_unlink(name.c_str());
+    }
+#endif
 }
 //=============================================================================
-std::vector<int>
-getNelsonPIDs()
+static bool
+registryHasReadableData(const NelsonPidRegistry* registry)
 {
-    std::vector<int> PIDs;
-    try {
-        boost::interprocess::managed_shared_memory managed_shm {
-            boost::interprocess::open_read_only, buildNelsonPIDsChannelName().c_str()
-        };
-        std::pair<int*, std::size_t> pValues = managed_shm.find<int>(PIDS_ID_DATA);
-
-        int* pids = pValues.first;
-        for (int j = 0; j < MAX_NB_PIDS; j++) {
-            if (pids[j] != 0) {
-                if (isPIDRunning(pids[j])) {
-                    PIDs.push_back(pids[j]);
-                }
-            }
-        }
-    } catch (boost::interprocess::interprocess_exception&) {
-    }
-    return PIDs;
+    return registry != nullptr && registry->magic == NELSON_PIDS_REGISTRY_MAGIC;
 }
 //=============================================================================
-std::vector<NELSON_ENGINE_MODE>
-getNelsonPIDModes()
-{
-    std::vector<NELSON_ENGINE_MODE> Modes;
-    try {
-        boost::interprocess::managed_shared_memory managed_shm {
-            boost::interprocess::open_read_only, buildNelsonPIDsChannelName().c_str()
-        };
-        std::pair<int*, std::size_t> pIDs = managed_shm.find<int>(PIDS_ID_DATA);
-        std::pair<int*, std::size_t> pModes = managed_shm.find<int>(PIDS_MODE_DATA);
-
-        int* pids = pIDs.first;
-        int* pmodes = pModes.first;
-        for (int j = 0; j < MAX_NB_PIDS; j++) {
-            if (pids[j] != 0) {
-                if (isPIDRunning(pids[j])) {
-                    Modes.push_back((NELSON_ENGINE_MODE)pmodes[j]);
-                }
-            }
-        }
-    } catch (boost::interprocess::interprocess_exception&) {
-    }
-    return Modes;
-}
-//=============================================================================
-int
-getLatestPidInSharedMemory()
-{
-    try {
-        boost::interprocess::managed_shared_memory managed_shm {
-            boost::interprocess::open_read_only, buildNelsonPIDsChannelName().c_str()
-        };
-        std::pair<int*, std::size_t> pIDs = managed_shm.find<int>(PIDS_ID_DATA);
-        int* pids = pIDs.first;
-
-        for (int j = MAX_NB_PIDS - 1; j >= 0; j--) {
-            if (isPIDRunning(pids[j])) {
-                return pids[j];
-            }
-        }
-    } catch (boost::interprocess::interprocess_exception&) {
-    }
-    return 0;
-}
-//=============================================================================
-int
-getLatestPidWithModeInSharedMemory(NELSON_ENGINE_MODE _mode)
-{
-    try {
-        boost::interprocess::managed_shared_memory managed_shm {
-            boost::interprocess::open_read_only, buildNelsonPIDsChannelName().c_str()
-        };
-        std::pair<int*, std::size_t> pIDs = managed_shm.find<int>(PIDS_ID_DATA);
-        std::pair<int*, std::size_t> pModes = managed_shm.find<int>(PIDS_MODE_DATA);
-
-        int* pids = pIDs.first;
-        int* pmodes = pModes.first;
-
-        for (int j = MAX_NB_PIDS - 1; j >= 0; j--) {
-            if (isPIDRunning(pids[j]) && pmodes[j] == (int)_mode) {
-                return pids[j];
-            }
-        }
-    } catch (boost::interprocess::interprocess_exception&) {
-    }
-    return 0;
-}
-//=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

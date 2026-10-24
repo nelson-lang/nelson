@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>fmesh</keyword>
+  <short_description>Plot a mesh from a function of two variables.</short_description>
+  <syntax>
+    <syntax_item>fmesh(fun)</syntax_item>
+    <syntax_item>fmesh(fun, xyinterval)</syntax_item>
+    <syntax_item>fmesh(fun, [xmin xmax ymin ymax])</syntax_item>
+    <syntax_item>fmesh(funx, funy, funz)</syntax_item>
+    <syntax_item>fmesh(..., Name, Value)</syntax_item>
+    <syntax_item>fmesh(parent, ...)</syntax_item>
+    <syntax_item>h = fmesh(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>fmesh</b> creates a <b>functionsurface</b> graphics object and displays a mesh for a function of two variables.</p>
+    <p>The function can be specified as <b>fun(x,y)</b>. A parametric surface can be specified with <b>funx(u,v)</b>, <b>funy(u,v)</b>, and <b>funz(u,v)</b>.</p>
+    <p>The default range is <b>[-5 5 -5 5]</b>. A two-element interval applies to both x and y ranges.</p>
+    <p>See <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.functionsurface.properties">functionsurface properties</link> for the complete property list.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Display a function mesh.</example_item_description>
+      <example_item_data><![CDATA[fmesh(@(x, y) sin(x) + cos(y), [-pi pi -pi pi]);]]></example_item_data>
+      <example_item_img src="../../../../images/fmesh_1.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Use a denser mesh and set a line property.</example_item_description>
+      <example_item_data><![CDATA[fmesh(@(x, y) x.^2 - y.^2, [-2 2 -2 2], 'MeshDensity', 51, 'LineWidth', 1.5);]]></example_item_data>
+      <example_item_img src="../../../../images/fmesh_2.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Display a parametric mesh.</example_item_description>
+      <example_item_data><![CDATA[fmesh(@(u, v) u, @(u, v) v, @(u, v) sin(u) + cos(v), [-pi pi -pi pi]);]]></example_item_data>
+      <example_item_img src="../../../../images/fmesh_3.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.functionsurface.properties">functionsurface properties</link>
+    </see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/7_surfaces_volumes_polygons/mesh">mesh</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/7_surfaces_volumes_polygons/fsurf">fsurf</link></see_also_item>
+  </see_also>
+</xmldoc>

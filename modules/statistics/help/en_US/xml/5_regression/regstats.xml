@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>regstats</keyword>
+  <short_description>Regression diagnostic statistics.</short_description>
+  <syntax>
+    <syntax_item>stats = regstats(y, X)</syntax_item>
+    <syntax_item>stats = regstats(y, X, modelspec)</syntax_item>
+    <syntax_item>stats = regstats(y, X, modelspec, StatNames)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>regstats</b> fits a linear regression model of response vector <b>y</b> on predictor matrix <b>X</b> and returns diagnostic statistics in a structure.</p>
+    <p>The model includes a constant term by default. Supported model specifications are <b>linear</b>, <b>additive</b>, <b>interactions</b>, <b>quadratic</b>, <b>purequadratic</b>, a positive integer degree, or a numeric matrix of term exponents.</p>
+    <p><b>StatNames</b> can be <b>all</b>, a text scalar, or a cell array of names. Supported statistic names include <b>Q</b>, <b>R</b>, <b>beta</b>, <b>covb</b>, <b>yhat</b>, <b>r</b>, <b>mse</b>, <b>rsquare</b>, <b>adjrsquare</b>, <b>leverage</b>, <b>hatmat</b>, <b>s2_i</b>, <b>beta_i</b>, <b>standres</b>, <b>studres</b>, <b>dfbetas</b>, <b>dffit</b>, <b>dffits</b>, <b>covratio</b>, <b>cookd</b>, <b>tstat</b>, <b>fstat</b>, and <b>dwstat</b>.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[X = [1 5; 2 4; 3 6; 4 8; 5 7; 6 9];
+y = [3.2; 4.1; 5.9; 7.8; 8.4; 10.2];
+stats = regstats(y, X, 'linear', {'beta', 'rsquare', 'tstat'})]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[X = [1 5; 2 4; 3 6; 4 8; 5 7; 6 9];
+y = [3.2; 4.1; 5.9; 7.8; 8.4; 10.2];
+stats = regstats(y, X, 'interactions', {'yhat', 'r'})]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}regress">regress</link></see_also_item>
+    <see_also_item><link linkend="${statistics}robustfit">robustfit</link></see_also_item>
+    <see_also_item><link linkend="${statistics}ridge">ridge</link></see_also_item>
+    <see_also_item><link linkend="${statistics}lasso">lasso</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

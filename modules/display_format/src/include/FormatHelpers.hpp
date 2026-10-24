@@ -43,5 +43,6 @@ centerText(const std::wstring& text, size_t width);
 //=============================================================================
 indexType
 getNominalWidth(const FormatDisplayInformation& formatInfo);
-}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

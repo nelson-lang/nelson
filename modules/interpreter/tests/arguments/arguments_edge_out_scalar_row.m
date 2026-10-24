@@ -9,7 +9,7 @@
 %=============================================================================
 function out = arguments_edge_out_scalar_row()
   arguments (Output)
-    out (1,:) double
+    out(1, :) double
   end
   out = 3;
 end

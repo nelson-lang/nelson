@@ -10,11 +10,11 @@
 % <--ADV-CLI MODE-->
 % <--WITH DISPLAY-->
 %=============================================================================
-assert_isequal(nargin('qml_importpathlist'), 0);
-assert_isequal(nargout('qml_importpathlist'), 1);
+asserts.isequal(nargin('qml_importpathlist'), 0);
+asserts.isequal(nargout('qml_importpathlist'), 1);
 %=============================================================================
 r = qml_pluginpathlist();
-assert_isequal(class(r), 'cell');
-assert_isfalse(isempty(r));
-assert_isequal(class(r{1}), 'char');
+asserts.isequal(class(r), 'cell');
+asserts.isfalse(isempty(r));
+asserts.isequal(class(r{1}), 'char');
 %=============================================================================

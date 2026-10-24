@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>harmmean</keyword>
+  <short_description>Moyenne harmonique d'un jeu de donnees.</short_description>
+  <syntax>
+    <syntax_item>m = harmmean(X)</syntax_item>
+    <syntax_item>m = harmmean(X, dim)</syntax_item>
+    <syntax_item>m = harmmean(X, vecdim)</syntax_item>
+    <syntax_item>m = harmmean(X, 'all')</syntax_item>
+    <syntax_item>m = harmmean(..., nanflag)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>harmmean</b> calcule la moyenne harmonique de donnees numeriques.</p>
+    <p>Par defaut, les valeurs <b>NaN</b> sont incluses. Utiliser <b>omitnan</b> pour les ignorer.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[X = reshape(1:30, [3 5 2]);
+m = harmmean(X, [1 2])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}geomean">geomean</link></see_also_item>
+    <see_also_item><link linkend="${statistics}mean">mean</link></see_also_item>
+    <see_also_item><link linkend="${statistics}median">median</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

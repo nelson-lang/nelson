@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>aimodels</keyword>
+  <short_description>List models available from an AI provider.</short_description>
+  <syntax>
+    <syntax_item>models = aimodels()</syntax_item>
+    <syntax_item>models = aimodels(options)</syntax_item>
+    <syntax_item>[models, response] = aimodels(options)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>aimodels</b> returns the available model names for a configured AI provider.</p>
+    <p>For Ollama, <b>aimodels</b> calls the local <b>/api/tags</b> endpoint derived from the endpoint stored in <b>options</b>. The default endpoint is <b>http://127.0.0.1:11434/api/tags</b>.</p>
+    <p>For OpenAI-compatible providers, <b>aimodels</b> calls <b>/v1/models</b> derived from the configured endpoint and uses <b>TokenEnvVar</b> as a bearer token when provided.</p>
+    <p>The first output is a cell array of model names. The optional second output is the raw provider response.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>List local Ollama models.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[
+models = aimodels()
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Use the first available Ollama model with aiask.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[
+models = aimodels();
+opts = aioptions('Provider', 'ollama', ...
+                 'Model', models{1}, ...
+                 'SystemPrompt', 'Return only Nelson code. Nelson functions use syntax: function y = name(x), statements, end.', ...
+                 'Think', false, ...
+                 'NumPredict', 120, ...
+                 'Temperature', 0);
+answer = aiask('Write function y = vector_mean(x). Use y = mean(x).', opts)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Use a known local Ollama model.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[
+opts = aioptions('Provider', 'ollama', ...
+                 'Model', 'gemma4:latest', ...
+                 'SystemPrompt', 'Return only Nelson code. Nelson functions use syntax: function y = name(x), statements, end.', ...
+                 'Think', false, ...
+                 'NumPredict', 120, ...
+                 'Temperature', 0);
+answer = aiask('Write function y = vector_mean(x). Use y = mean(x).', opts)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>List models from an OpenAI-compatible local endpoint.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[
+opts = aioptions('Provider', 'openai-compatible', ...
+                 'Endpoint', 'http://127.0.0.1:8000/v1/chat/completions', ...
+                 'Timeout', 30);
+models = aimodels(opts)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>List models from an OpenAI-compatible endpoint requiring a token.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[
+% Define MY_AI_TOKEN in the environment before starting Nelson.
+opts = aioptions('Provider', 'openai-compatible', ...
+                 'Endpoint', 'https://example.local/v1/chat/completions', ...
+                 'TokenEnvVar', 'MY_AI_TOKEN', ...
+                 'Timeout', 30);
+models = aimodels(opts)
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ai}aiask">aiask</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ai}aioptions">aioptions</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+</xmldoc>

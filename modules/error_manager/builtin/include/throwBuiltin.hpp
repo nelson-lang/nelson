@@ -15,5 +15,6 @@
 namespace Nelson::ErrorManagerGateway {
 ArrayOfVector
 throwBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

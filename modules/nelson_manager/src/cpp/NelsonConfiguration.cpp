@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -22,9 +22,11 @@ NelsonConfiguration* NelsonConfiguration::m_pInstance = nullptr;
 NelsonConfiguration::NelsonConfiguration()
 {
     InterruptPending.clear();
+    mainInterruptPending.store(false, std::memory_order_relaxed);
     currentOverloadLevelCompatibility = NLS_OVERLOAD_ALL_TYPES;
     currentNumericFormatDisplay = NLS_NUMERIC_FORMAT_SHORT;
     currentLineSpacingDisplay = NLS_LINE_SPACING_LOOSE;
+    currentTruncateMatricesDisplay = true;
     modulesProtected = false;
     nelsonRootPath = L"";
     ipcEnabled = false;
@@ -42,12 +44,11 @@ NelsonConfiguration::NelsonConfiguration()
     currentLocale = getDefaultLocale();
     useEmbeddedEditorFlag = true;
     editorCommandLine = L"";
-    ompThreshold = OMP_DEFAULT_THRESHOLD;
+    ompThreshold = OMP_RUNTIME_DEFAULT_THRESHOLD;
     ompEnable = true;
     m_isClosing = false;
 }
 //=============================================================================
-
 NelsonConfiguration*
 NelsonConfiguration::getInstance()
 {
@@ -73,18 +74,40 @@ NelsonConfiguration::destroy()
 bool
 NelsonConfiguration::getInterruptPending(size_t evaluatorID)
 {
-    if (InterruptPending.find(evaluatorID) == InterruptPending.end()) {
+    if (evaluatorID == 0) {
+        return mainInterruptPending.load(std::memory_order_relaxed);
+    }
+    std::lock_guard<std::mutex> lock(InterruptPendingMutex);
+    auto it = InterruptPending.find(evaluatorID);
+    if (it == InterruptPending.end()) {
         return false;
     }
-    return InterruptPending[evaluatorID];
+    return it->second;
 }
 //=============================================================================
 bool
 NelsonConfiguration::setInterruptPending(bool bInterruptPending, size_t evaluatorID)
 {
     bool bPrevious = getInterruptPending(evaluatorID);
+    if (evaluatorID == 0) {
+        mainInterruptPending.store(bInterruptPending, std::memory_order_relaxed);
+        return bPrevious;
+    }
+    std::lock_guard<std::mutex> lock(InterruptPendingMutex);
     InterruptPending[evaluatorID] = bInterruptPending;
     return bPrevious;
+}
+//=============================================================================
+bool
+NelsonConfiguration::isProfilerActive()
+{
+    return m_profilerActive.load(std::memory_order_relaxed);
+}
+//=============================================================================
+void
+NelsonConfiguration::setProfilerActive(bool active)
+{
+    m_profilerActive.store(active, std::memory_order_relaxed);
 }
 //=============================================================================
 NumericFormatDisplay
@@ -113,6 +136,20 @@ LineSpacingDisplay
 NelsonConfiguration::getLineSpacingDisplay()
 {
     return currentLineSpacingDisplay;
+}
+//=============================================================================
+bool
+NelsonConfiguration::setTruncateMatricesDisplay(bool truncateMatrices)
+{
+    bool previousTruncateMatricesDisplay = currentTruncateMatricesDisplay;
+    currentTruncateMatricesDisplay = truncateMatrices;
+    return previousTruncateMatricesDisplay;
+}
+//=============================================================================
+bool
+NelsonConfiguration::getTruncateMatricesDisplay()
+{
+    return currentTruncateMatricesDisplay;
 }
 //=============================================================================
 void
@@ -154,60 +191,70 @@ NelsonConfiguration::isFileWatcherEnabled()
 void
 NelsonConfiguration::setNelsonRootDirectory(const std::wstring& nelsonroot)
 {
+    std::lock_guard<std::recursive_mutex> lock(stringMutex);
     nelsonRootPath = nelsonroot;
 }
 //=============================================================================
 std::wstring
 NelsonConfiguration::getNelsonRootDirectory()
 {
+    std::lock_guard<std::recursive_mutex> lock(stringMutex);
     return nelsonRootPath;
 }
 //=============================================================================
 void
 NelsonConfiguration::setNelsonBinaryDirectory(const std::wstring& directory)
 {
+    std::lock_guard<std::recursive_mutex> lock(stringMutex);
     nelsonBinaryPath = directory;
 }
 //=============================================================================
 std::wstring
 NelsonConfiguration::getNelsonBinaryDirectory()
 {
+    std::lock_guard<std::recursive_mutex> lock(stringMutex);
     return nelsonBinaryPath;
 }
 //=============================================================================
 void
 NelsonConfiguration::setNelsonLibraryDirectory(const std::wstring& directory)
 {
+    std::lock_guard<std::recursive_mutex> lock(stringMutex);
     nelsonLibraryPath = directory;
 }
 //=============================================================================
 std::wstring
 NelsonConfiguration::getNelsonLibraryDirectory()
 {
+    std::lock_guard<std::recursive_mutex> lock(stringMutex);
     return nelsonLibraryPath;
 }
 //=============================================================================
 void
 NelsonConfiguration::setNelsonModulesDirectory(const std::wstring& directory)
 {
+    std::lock_guard<std::recursive_mutex> lock(stringMutex);
     nelsonModulesPath = directory;
 }
 //=============================================================================
 std::wstring
 NelsonConfiguration::getNelsonModulesDirectory()
 {
+    std::lock_guard<std::recursive_mutex> lock(stringMutex);
     return nelsonModulesPath;
 }
 //=============================================================================
 void
 NelsonConfiguration::setNelsonPreferencesDirectory(const std::wstring& directory)
 {
+    std::lock_guard<std::recursive_mutex> lock(stringMutex);
     nelsonPreferencesPath = directory;
 }
 //=============================================================================
 std::wstring
 NelsonConfiguration::getNelsonPreferencesDirectory()
 {
+    std::lock_guard<std::recursive_mutex> lock(stringMutex);
     return nelsonPreferencesPath;
 }
 //=============================================================================
@@ -298,7 +345,8 @@ NelsonConfiguration::setNelsonEngineMode(int nelsonMode)
 bool
 NelsonConfiguration::haveEventsLoop()
 {
-    return ((this->engineMode != BASIC_ENGINE) && (this->engineMode != BASIC_TERMINAL));
+    return ((this->engineMode != BASIC_ENGINE) && (this->engineMode != BASIC_TERMINAL)
+        && (this->engineMode != WASM_TERMINAL));
 }
 //=============================================================================
 void
@@ -308,7 +356,7 @@ NelsonConfiguration::setMaxNumCompThreads(int nbThreads)
 }
 //=============================================================================
 int
-NelsonConfiguration::getMaxNumCompThreads()
+NelsonConfiguration::maxNumCompThreads()
 {
     return nbOfThreadsToUse;
 }
@@ -410,6 +458,7 @@ NelsonConfiguration::getDefaultFromConfFile(const std::wstring& name)
 std::wstring
 NelsonConfiguration::getUpdateUrl()
 {
+    std::lock_guard<std::recursive_mutex> lock(stringMutex);
     if (updateUrl.empty()) {
         updateUrl = getDefaultFromConfFile(L"update_url");
     }
@@ -419,6 +468,7 @@ NelsonConfiguration::getUpdateUrl()
 std::wstring
 NelsonConfiguration::getWebsiteUrl()
 {
+    std::lock_guard<std::recursive_mutex> lock(stringMutex);
     if (websiteUrl.empty()) {
         websiteUrl = getDefaultFromConfFile(L"website_url");
     }
@@ -428,6 +478,7 @@ NelsonConfiguration::getWebsiteUrl()
 std::wstring
 NelsonConfiguration::getBugTrackerUrl()
 {
+    std::lock_guard<std::recursive_mutex> lock(stringMutex);
     if (bugTrackerUrl.empty()) {
         bugTrackerUrl = getDefaultFromConfFile(L"issues_url");
     }
@@ -437,12 +488,14 @@ NelsonConfiguration::getBugTrackerUrl()
 void
 NelsonConfiguration::setDocBookUrl(const std::wstring& url)
 {
+    std::lock_guard<std::recursive_mutex> lock(stringMutex);
     docBookUrl = url;
 }
 //=============================================================================
 std::wstring
 NelsonConfiguration::getDocBookUrl()
 {
+    std::lock_guard<std::recursive_mutex> lock(stringMutex);
     if (docBookUrl.empty()) {
         std::wstring prefdir = getNelsonPreferencesDirectory();
         std::wstring docroot = prefdir + L"/docroot.json";
@@ -471,12 +524,14 @@ NelsonConfiguration::getDocBookUrl()
 void
 NelsonConfiguration::setCurrentLocale(const std::wstring& locale)
 {
+    std::lock_guard<std::recursive_mutex> lock(stringMutex);
     currentLocale = locale;
 }
 //=============================================================================
 std::wstring
 NelsonConfiguration::getCurrentLocale()
 {
+    std::lock_guard<std::recursive_mutex> lock(stringMutex);
     return currentLocale;
 }
 //=============================================================================
@@ -514,11 +569,11 @@ loadEditorUsed()
 bool
 NelsonConfiguration::useEmbeddedEditor()
 {
+    std::lock_guard<std::recursive_mutex> lock(stringMutex);
     if (!isVsCode && !embeddedEditorFlagLoaded) {
         loadEditorUsed();
         embeddedEditorFlagLoaded = true;
     }
-
     return useEmbeddedEditorFlag;
 }
 //=============================================================================
@@ -534,7 +589,6 @@ saveEditorCommandLine(const std::wstring& editorCommandLine)
 #else
     std::ofstream file(wstring_to_utf8(editorFile));
 #endif
-    // Serialize the JSON object to the file
     if (file.is_open()) {
 #ifdef _MSC_VER
         file << utf8_to_wstring(jsonObject.dump(2));
@@ -598,6 +652,7 @@ NelsonConfiguration::getNelsonApplicationId()
 void
 NelsonConfiguration::setCurrentEditor(const std::wstring& _editorCommandLine, bool save)
 {
+    std::lock_guard<std::recursive_mutex> lock(stringMutex);
     if (_editorCommandLine.empty()) {
         editorCommandLine = L"";
         useEmbeddedEditorFlag = true;
@@ -613,6 +668,7 @@ NelsonConfiguration::setCurrentEditor(const std::wstring& _editorCommandLine, bo
 std::wstring
 NelsonConfiguration::getCurrentEditor()
 {
+    std::lock_guard<std::recursive_mutex> lock(stringMutex);
     return editorCommandLine;
 }
 //=============================================================================

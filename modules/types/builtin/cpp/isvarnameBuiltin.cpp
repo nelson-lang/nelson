@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "isvarnameBuiltin.hpp"
 #include "IsValidVariableName.hpp"
+#include "Keywords.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -21,9 +22,12 @@ Nelson::TypeGateway::isvarnameBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargincheck(argIn, 1, 1);
     bool isvarname = false;
     if (argIn[0].isRowVectorCharacterArray() || (argIn[0].isStringArray() && argIn[0].isScalar())) {
-        isvarname = IsValidVariableName(argIn[0].getContentAsWideString());
+        std::wstring name = argIn[0].asWideString();
+        // A language keyword is not a valid variable name, even though it is a
+        // syntactically valid identifier.
+        isvarname = IsValidVariableName(name) && !isKeyword(name);
     }
-    retval << ArrayOf::logicalConstructor(isvarname);
+    retval << ArrayOf::logicalScalar(isvarname);
     return retval;
 }
 //=============================================================================

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nelson.display.DisplayFormatOptions</keyword>
+  <short_description>Display format options object.</short_description>
+  <syntax>
+    <syntax_item>fmt = nelson.display.DisplayFormatOptions()</syntax_item>
+    <syntax_item>fmt = nelson.display.DisplayFormatOptions(Name, Value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>Name, Value</param_name>
+      <param_description>name-value pairs for NumericFormat, LineSpacing, and TruncateMatrices</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>fmt</param_name>
+      <param_description>display format options object</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>nelson.display.DisplayFormatOptions</b> stores display format options used by <b>format</b>.</p>
+    <p>The object has three public properties: <b>NumericFormat</b>, <b>LineSpacing</b>, and <b>TruncateMatrices</b>.</p>
+    <p>
+      <b>NumericFormat</b> can be <b>short</b>, <b>long</b>, <b>shortE</b>, <b>longE</b>, <b>shortG</b>, <b>longG</b>, <b>shortEng</b>, <b>longEng</b>, <b>+</b>, <b>bank</b>, <b>hex</b>, or <b>rational</b>.</p>
+    <p>
+      <b>LineSpacing</b> can be <b>compact</b> or <b>loose</b>.</p>
+    <p>
+      <b>TruncateMatrices</b> can be <b>on</b> or <b>off</b>. In the graphical command window, <b>on</b> truncates large two-dimensional numeric, logical, and sparse matrices when their full display exceeds the visible area.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Save and restore display format.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[oldFormat = format();
+fmt = nelson.display.DisplayFormatOptions('NumericFormat', 'longE', 'LineSpacing', 'compact', 'TruncateMatrices', 'on');
+format(fmt)
+format(oldFormat)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${display_format}format">format</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${display_format}disp">disp</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

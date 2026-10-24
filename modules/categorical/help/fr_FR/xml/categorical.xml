@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>categorical</keyword>
+  <short_description>Créer un tableau catégoriel.</short_description>
+  <syntax>
+    <syntax_item>C = categorical(A)</syntax_item>
+    <syntax_item>C = categorical(A, valueset)</syntax_item>
+    <syntax_item>C = categorical(A, valueset, categoryNames)</syntax_item>
+    <syntax_item>C = categorical(..., 'Ordinal', tf)</syntax_item>
+    <syntax_item>C = categorical(..., 'Protected', tf)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>A</param_name><param_description>Valeurs d'entrée : texte, string, numérique, logique ou catégoriel.</param_description></param_input_item>
+    <param_input_item><param_name>valueset</param_name><param_description>Ensemble explicite de valeurs qui définissent les catégories.</param_description></param_input_item>
+    <param_input_item><param_name>categoryNames</param_name><param_description>Noms associés aux catégories définies par <b>valueset</b>.</param_description></param_input_item>
+    <param_input_item><param_name>tf</param_name><param_description>Scalaire logique qui active l'ordre ordinal ou la protection des catégories.</param_description></param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>C</param_name><param_description>Tableau catégoriel de même taille que <b>A</b>.</param_description></param_output_item>
+  </param_output>
+  <description>
+    <p><b>categorical</b> stocke les valeurs répétées sous forme de codes entiers et d'une liste de noms de catégories.</p>
+    <p>Les valeurs texte vides, les strings manquants ou les valeurs absentes d'un <b>valueset</b> explicite deviennent des éléments catégoriels non définis.</p>
+    <p>Les tableaux ordinaux utilisent l'ordre des catégories pour les comparaisons relationnelles et sont automatiquement protégés.</p>
+    <p><b>contains</b>, <b>startsWith</b>, <b>endsWith</b> et <b>matches</b> acceptent un tableau catégoriel en entrée : ils testent le nom de catégorie de chaque élément avec le motif (texte, cellule de textes, tableau de chaînes ou objet pattern, avec l&apos;option facultative <b>&apos;IgnoreCase&apos;</b>) et renvoient un tableau logique de même taille. Les éléments non définis renvoient false. Chaque nom de catégorie n&apos;est testé qu&apos;une seule fois.</p>
+    <p>Concaténer un tableau catégoriel avec du texte (<b>["z" C]</b>, <b>['z' C]</b>, <b>[{'z'} C]</b>) ou <b>missing</b> convertit les autres opérandes : le résultat garde les catégories du premier opérande catégoriel et ajoute les nouvelles valeurs dans l&apos;ordre des opérandes ; le texte vide et <b>missing</b> sont non définis. Les tableaux ordinaux et protégés refusent les valeurs qui ne sont pas déjà des catégories, et les autres classes (numériques, logiques, tableaux de chaînes à plusieurs éléments) sont refusées.</p>
+  </description>
+  <examples>
+    <example_item><example_item_type>nelson</example_item_type><example_item_description>Créer des catégories à partir de valeurs texte.</example_item_description><example_item_data runnable="cli"><![CDATA[C = categorical({'red','blue','red'}); categories(C)]]></example_item_data></example_item>
+    <example_item><example_item_type>nelson</example_item_type><example_item_description>Créer un tableau ordinal avec un ordre explicite.</example_item_description><example_item_data runnable="cli"><![CDATA[C = categorical({'low','high','mid'}, {'low','mid','high'}, 'Ordinal', true); C > 'mid']]></example_item_data></example_item>
+    <example_item><example_item_type>nelson</example_item_type><example_item_description>Rechercher les éléments dont le nom de catégorie correspond à un motif.</example_item_description><example_item_data runnable="cli"><![CDATA[C = categorical({'winter storm','fire','Thunder Storm',''}); contains(C, "storm", 'IgnoreCase', true)]]></example_item_data></example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${categorical}categories">categories</link></see_also_item>
+    <see_also_item><link linkend="${categorical}iscategorical">iscategorical</link></see_also_item>
+    <see_also_item><link linkend="${categorical}isundefined">isundefined</link></see_also_item>
+    <see_also_item><link linkend="${categorical}isordinal">isordinal</link></see_also_item>
+    <see_also_item><link linkend="${categorical}isprotected">isprotected</link></see_also_item>
+    <see_also_item><link linkend="${string}contains">contains</link></see_also_item>
+    <see_also_item><link linkend="${string}startsWith">startsWith</link></see_also_item>
+    <see_also_item><link linkend="${string}endsWith">endsWith</link></see_also_item>
+    <see_also_item><link linkend="${string}matches">matches</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

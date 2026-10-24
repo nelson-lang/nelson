@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>hsv2rgb</keyword>
+  <short_description>Convert HSV color values to RGB color values.</short_description>
+  <syntax>
+    <syntax_item>RGB = hsv2rgb(HSV)</syntax_item>
+    <syntax_item>rgbmap = hsv2rgb(hsvmap)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>HSV</param_name>
+      <param_description>m-by-n-by-3 HSV image with class double, single, or logical.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>hsvmap</param_name>
+      <param_description>HSV colormap with three columns and values in the range [0, 1].</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>RGB</param_name>
+      <param_description>RGB image. The output is single only when the input image is single; otherwise it is double.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>rgbmap</param_name>
+      <param_description>RGB colormap with the same number of rows as hsvmap.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Convert HSV color values to RGB color values. HSV inputs must be real double, single, or logical arrays. Saturation and value channels are converted without clipping. Empty HSV images preserve their size.</p>
+    <p>Nonempty HSV colormaps with three columns and values in [0, 1] are converted row by row.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Convert HSV image to RGB</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[[H,S]=meshgrid(linspace(0,1,96),linspace(0,1,64));
+HSV=zeros(64,96,3); HSV(:,:,1)=H; HSV(:,:,2)=S; HSV(:,:,3)=1;
+RGB=hsv2rgb(HSV);
+figure; image(RGB); title('HSV to RGB');]]></example_item_data>
+      <example_item_img
+        src="../../../images/hsv2rgb_1.png"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}rgb2hsv">rgb2hsv</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}ycbcr2rgb">ycbcr2rgb</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

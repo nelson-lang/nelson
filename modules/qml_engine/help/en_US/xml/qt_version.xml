@@ -15,7 +15,7 @@
   </param_output>
   <description>
     <p>
-      <b>v = qt_version()</b> returns the version number of Qt at run-time as a string (for example, &quot;5.15.2&quot;).</p>
+      <b>v = qt_version()</b> returns the version number of Qt at run-time as a string (for example, &quot;6.2.4&quot;).</p>
   </description>
   <used_function />
   <bibliography />
@@ -25,7 +25,7 @@
       <example_item_description />
       <example_item_data
         runnable="adv-cli"
-      ><![CDATA[semver(qt_version(), '>5.15')]]></example_item_data>
+      ><![CDATA[semver(qt_version(), '>=6.2')]]></example_item_data>
     </example_item>
   </examples>
   <see_also>

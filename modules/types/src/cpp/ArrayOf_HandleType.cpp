@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,7 +10,9 @@
 #include "ArrayOf.hpp"
 #include "Data.hpp"
 #include "HandleManager.hpp"
+#include "HandleState.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
@@ -26,38 +28,74 @@ ArrayOf::isHandle() const
 }
 //=============================================================================
 ArrayOf
-ArrayOf::handleConstructor(nelson_handle hl)
+ArrayOf::handle(nelson_handle hl)
 {
     Dimensions dims(1, 1);
-    return ArrayOf(NLS_HANDLE, dims, static_cast<const void*>(&hl), sizeof(nelson_handle));
+    auto* ref = static_cast<HandleRef*>(
+        allocateArrayOf(NLS_HANDLE, dims.elementCount(), stringVector(), false));
+    ref[0] = HandleManager::getInstance()->getHandleRef(hl);
+    ArrayOf result(NLS_HANDLE, dims, ref);
+    if (ref[0]) {
+        result.dp->setClassTypeName(ref[0]->category());
+    }
+    return result;
 }
 //=============================================================================
 ArrayOf
-ArrayOf::handleConstructor(HandleGenericObject* ptr)
+ArrayOf::handle(HandleGenericObject* ptr)
 {
     Dimensions dims(1, 1);
-    nelson_handle hl = HandleManager::getInstance()->addHandle(ptr);
-    return ArrayOf(NLS_HANDLE, dims, static_cast<const void*>(&hl), sizeof(nelson_handle));
+    auto* ref = static_cast<HandleRef*>(
+        allocateArrayOf(NLS_HANDLE, dims.elementCount(), stringVector(), false));
+    ref[0] = HandleManager::getInstance()->addHandleRef(ptr);
+    ArrayOf result(NLS_HANDLE, dims, ref);
+    if (ref[0]) {
+        result.dp->setClassTypeName(ref[0]->category());
+    }
+    return result;
+}
+//=============================================================================
+ArrayOf
+ArrayOf::emptyHandle(const std::string& className, Dimensions& dim)
+{
+    if (dim.elementCount() != 0) {
+        Error(L"Nelson:types:invalidDimensions:invalidDimensions", L"Invalid dimensions.");
+    }
+    auto* qp = static_cast<HandleRef*>(
+        allocateArrayOf(NLS_HANDLE, dim.elementCount(), stringVector(), false));
+    ArrayOf result(NLS_HANDLE, dim, qp, false);
+    result.dp->setClassTypeName(className.empty() ? std::string(NLS_HANDLE_STR) : className);
+    return result;
+}
+//=============================================================================
+ArrayOf
+ArrayOf::invalidHandle(const std::string& className, Dimensions& dim)
+{
+    auto* qp = static_cast<HandleRef*>(
+        allocateArrayOf(NLS_HANDLE, dim.elementCount(), stringVector(), false));
+    const std::string category = className.empty() ? std::string(NLS_HANDLE_STR) : className;
+    for (indexType k = 0; k < dim.elementCount(); ++k) {
+        qp[k] = HandleManager::getInstance()->addInvalidHandleRef(category);
+    }
+    ArrayOf result(NLS_HANDLE, dim, qp, false);
+    result.dp->setClassTypeName(category);
+    return result;
 }
 //=============================================================================
 HandleGenericObject*
-ArrayOf::getContentAsHandleScalar() const
+ArrayOf::asHandleScalar() const
 {
     if (!isHandle()) {
-        Error(_W("Expected a handle scalar."));
+        Error(L"Nelson:types:handleExpected:expectedAHandleScalar", L"Expected a handle scalar.");
     }
     if (!isScalar()) {
-        Error(_W("Expected a handle scalar."));
+        Error(L"Nelson:types:handleExpected:expectedAHandleScalar", L"Expected a handle scalar.");
     }
-    auto* qp = (nelson_handle*)dp->getData();
+    const auto* qp = static_cast<const HandleRef*>(dp->data());
     if (qp == nullptr) {
-        Error(_W("Expected a valid handle."));
+        Error(L"Nelson:types:handleExpected:expectedAValidHandle", L"Expected a valid handle.");
     }
-    nelson_handle hl = 0L;
-    if (qp != nullptr) {
-        hl = (*qp);
-    }
-    return HandleManager::getInstance()->getPointer(hl);
+    return qp[0] ? qp[0]->object() : nullptr;
 }
 //=============================================================================
 bool
@@ -69,8 +107,27 @@ ArrayOf::isHandleProperty(const std::string& methodName) const
 bool
 ArrayOf::isHandleProperty(const std::wstring& propertyName) const
 {
-    HandleGenericObject* obj = getContentAsHandleScalar();
-    return obj->isProperty(propertyName);
+    if (!isHandle()) {
+        Error(L"Nelson:types:handleExpected:expectedAHandle", L"Expected a handle.");
+    }
+    const auto* ptr = static_cast<const HandleRef*>(dataPointer());
+    indexType nbElements = elementCount();
+    bool isProperty = false;
+    if (nbElements > 0) {
+        for (indexType k = 0; k < nbElements; k++) {
+            if (ptr[k]) {
+                HandleGenericObject* hlObj = ptr[k]->object();
+                if (!hlObj) {
+                    continue;
+                }
+                isProperty = hlObj->isProperty(propertyName);
+                if (!isProperty) {
+                    return false;
+                }
+            }
+        }
+    }
+    return isProperty;
 }
 //=============================================================================
 bool
@@ -83,15 +140,15 @@ bool
 ArrayOf::isHandleMethod(const std::wstring& methodName) const
 {
     if (!isHandle()) {
-        Error(_W("Expected a handle."));
+        Error(L"Nelson:types:handleExpected:expectedAHandle", L"Expected a handle.");
     }
-    auto* ptr = (nelson_handle*)getDataPointer();
-    indexType nbElements = getElementCount();
+    const auto* ptr = static_cast<const HandleRef*>(dataPointer());
+    indexType nbElements = elementCount();
     bool isMethod = false;
     if (nbElements > 0) {
         for (indexType k = 0; k < nbElements; k++) {
             if (ptr[k]) {
-                HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(ptr[k]);
+                HandleGenericObject* hlObj = ptr[k]->object();
                 if (!hlObj) {
                     continue;
                 }
@@ -106,23 +163,24 @@ ArrayOf::isHandleMethod(const std::wstring& methodName) const
 }
 //=============================================================================
 std::string
-ArrayOf::getHandleCategory() const
+ArrayOf::handleCategory() const
 {
     if (!isHandle()) {
-        Error(_W("Expected a handle."));
+        Error(L"Nelson:types:handleExpected:expectedAHandle", L"Expected a handle.");
     }
-    auto* qp = (nelson_handle*)dp->getData();
+    const auto* qp = static_cast<const HandleRef*>(dp->data());
+    if (elementCount() == 0) {
+        const std::string category = dp->classTypeName();
+        return category.empty() || category == NLS_CLASS_ARRAY_STR ? NLS_HANDLE_STR : category;
+    }
     if (qp == nullptr) {
         return NLS_HANDLE_STR;
     }
-    indexType nbElements = getElementCount();
+    indexType nbElements = elementCount();
     std::string category = NLS_HANDLE_STR;
-    /* handle can be 'handle' or another type but not mixed */
     for (indexType k = 0; k < nbElements; k++) {
-        nelson_handle hl = qp[k];
-        HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
-        if (hlObj != nullptr) {
-            std::string current = hlObj->getCategory();
+        if (qp[k]) {
+            std::string current = qp[k]->category();
             if (category != current && current != "handle") {
                 category = std::move(current);
             }
@@ -132,23 +190,24 @@ ArrayOf::getHandleCategory() const
 }
 //=============================================================================
 std::string
-ArrayOf::getHandleClassName() const
+ArrayOf::handleClassName() const
 {
     if (!isHandle()) {
-        Error(_W("Expected a handle."));
+        Error(L"Nelson:types:handleExpected:expectedAHandle", L"Expected a handle.");
     }
-    auto* qp = (nelson_handle*)dp->getData();
+    const auto* qp = static_cast<const HandleRef*>(dp->data());
+    if (elementCount() == 0) {
+        const std::string className = dp->classTypeName();
+        return className.empty() || className == NLS_CLASS_ARRAY_STR ? NLS_HANDLE_STR : className;
+    }
     if (qp == nullptr) {
         return NLS_HANDLE_STR;
     }
-    nelson_handle hl = qp[0];
-    HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
-    if (hlObj) {
-        return hlObj->getClassName();
+    if (qp[0]) {
+        return qp[0]->className();
     }
     return NLS_HANDLE_STR;
 }
 //=============================================================================
-
 } // namespace Nelson
 //=============================================================================

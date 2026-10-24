@@ -28,9 +28,13 @@ private:
         GraphicsObject* go, const std::wstring& className, const std::wstring& actionName);
     GraphicCallback
     buildGraphicCallback(GraphicsObject* go);
+    GraphicCallback
+    buildGraphicCallback(GraphicsObject* go, const std::wstring& className,
+        const std::wstring& eventName, const wstringVector& fieldNames,
+        const ArrayOfVector& fieldValues);
 
 public:
-    GOCallbackProperty() : GOArrayOfProperty() { }
+    GOCallbackProperty() : GOArrayOfProperty() { _data = ArrayOf::characterArray(""); }
     ~GOCallbackProperty() override = default;
     void set(ArrayOf) override;
     ArrayOf
@@ -46,10 +50,13 @@ public:
     void
     pushEvent(GraphicsObject* go);
     void
+    pushEvent(GraphicsObject* go, const std::wstring& className, const std::wstring& eventName,
+        const wstringVector& fieldNames, const ArrayOfVector& fieldValues);
+    void
     executeNow(GraphicsObject* go);
     void
     executeNow(GraphicsObject* go, const std::wstring& className, const std::wstring& actionName);
 };
 //=============================================================================
-};
+} // namespace Nelson
 //=============================================================================

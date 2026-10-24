@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "XmlDocLinkChecker.hpp"
+#include "XmlDocLinkIndex.hpp"
 #include "XmlDocListOfFiles.hpp"
 #include "characters_encoding.hpp"
 #include <filesystem>
@@ -17,38 +18,6 @@
 #include <set>
 //=============================================================================
 namespace Nelson {
-//=============================================================================
-static void
-collectValidTargets(const XmlDocSection& section, std::set<std::wstring>& validTargets)
-{
-    for (const auto& page : section.pages) {
-        std::filesystem::path pageStem = std::filesystem::path(page.relativeFilename);
-        pageStem.replace_extension();
-        std::wstring target = pageStem.generic_wstring();
-        if (!target.empty()) {
-            validTargets.insert(target);
-            if (!section.moduleName.empty()) {
-                validTargets.insert(L"${" + section.moduleName + L"}" + target);
-                validTargets.insert(L"{" + section.moduleName + L"}" + target);
-            }
-        }
-
-        for (const auto& keywordOrAlias : page.keywordAndAlias) {
-            if (keywordOrAlias.empty()) {
-                continue;
-            }
-            std::wstring aliasTarget = utf8_to_wstring(keywordOrAlias);
-            validTargets.insert(aliasTarget);
-            if (!section.moduleName.empty()) {
-                validTargets.insert(L"${" + section.moduleName + L"}" + aliasTarget);
-                validTargets.insert(L"{" + section.moduleName + L"}" + aliasTarget);
-            }
-        }
-    }
-    for (const auto& child : section.children) {
-        collectValidTargets(child, validTargets);
-    }
-}
 //=============================================================================
 static void
 collectAllXmlFiles(const XmlDocSection& section, wstringVector& xmlFiles)
@@ -87,14 +56,14 @@ readXmlFile(const std::wstring& xmlFilename, std::string& buffer, std::wstring& 
 //=============================================================================
 static void
 collectLinkErrors(xmlNodePtr node, const std::wstring& xmlFilename,
-    const std::set<std::wstring>& validTargets, wstringVector& errors)
+    const XmlDocLinkIndex& validTargets, wstringVector& errors)
 {
     for (xmlNodePtr current = node; current; current = current->next) {
         if (current->type == XML_ELEMENT_NODE && xmlStrcmp(current->name, BAD_CAST "link") == 0) {
             xmlChar* attribute = xmlGetProp(current, BAD_CAST "linkend");
             if (attribute) {
                 std::wstring linkend = utf8_to_wstring(reinterpret_cast<const char*>(attribute));
-                if (!linkend.empty() && validTargets.find(linkend) == validTargets.end()) {
+                if (!linkend.empty() && !validTargets.isValidLinkend(linkend)) {
                     errors.push_back(L"Missing XML link in " + xmlFilename + L": " + linkend);
                 }
                 xmlFree(attribute);
@@ -107,7 +76,7 @@ collectLinkErrors(xmlNodePtr node, const std::wstring& xmlFilename,
 }
 //=============================================================================
 static bool
-checkXmlFile(const std::wstring& xmlFilename, const std::set<std::wstring>& validTargets,
+checkXmlFile(const std::wstring& xmlFilename, const XmlDocLinkIndex& validTargets,
     wstringVector& errors, std::wstring& errorMessage)
 {
     std::string buffer;
@@ -144,10 +113,10 @@ xmldoclinkchecker(const wstringVector& xmlDirectories, const wstringVector& xmlF
     }
     (void)language;
 
-    std::set<std::wstring> validTargets;
+    XmlDocLinkIndex validTargets;
+    validTargets.addSections(xmlDocFilesList);
     wstringVector effectiveXmlFiles = xmlFilesToCheck;
     for (const auto& section : xmlDocFilesList) {
-        collectValidTargets(section, validTargets);
         if (effectiveXmlFiles.empty()) {
             collectAllXmlFiles(section, effectiveXmlFiles);
         }

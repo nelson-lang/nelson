@@ -1,0 +1,183 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "file": "ballode.m",
+      "title": "Bouncing ball events",
+      "description": "Integrate a bouncing ball model with event detection.",
+      "tags": [
+        "ode",
+        "events"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    },
+    {
+      "file": "dde_bvp_added_features_example.m",
+      "title": "Boundary-value problem",
+      "description": "Solve a delayed boundary-value problem with additional options.",
+      "tags": [
+        "dde",
+        "boundary-value"
+      ],
+      "requirements": []
+    },
+    {
+      "file": "ode_delay_sensitivity_example.m",
+      "title": "Delay sensitivity",
+      "description": "Study sensitivities in a delayed differential system.",
+      "tags": [
+        "ode",
+        "sensitivity"
+      ],
+      "requirements": []
+    },
+    {
+      "file": "ode_fully_implicit_consistent_example.m",
+      "title": "Fully implicit system",
+      "description": "Compute consistent initial conditions for an implicit system.",
+      "tags": [
+        "ode",
+        "implicit"
+      ],
+      "requirements": []
+    },
+    {
+      "file": "ode_object_event_interpolation_example.m",
+      "title": "Events and interpolation",
+      "description": "Use solver objects, event locations and dense interpolation.",
+      "tags": [
+        "ode",
+        "events"
+      ],
+      "requirements": []
+    },
+    {
+      "file": "ode_sundials_sparse_preconditioner_example.m",
+      "title": "Sparse preconditioning",
+      "description": "Solve a larger system with a sparse preconditioner.",
+      "tags": [
+        "ode",
+        "sparse"
+      ],
+      "requirements": []
+    },
+    {
+      "file": "ode45_convergence.m",
+      "title": {
+        "en_US": "Measure ode45 convergence",
+        "fr_FR": "Mesurer la convergence d’ode45"
+      },
+      "description": {
+        "en_US": "Compare measured integration errors with fourth- and fifth-order reference slopes.",
+        "fr_FR": "Comparer les erreurs d’intégration mesurées à des pentes de référence d’ordre quatre et cinq."
+      },
+      "tags": [
+        "ode45",
+        "accuracy",
+        "convergence"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    },
+    {
+      "file": "lorenz_attractor.m",
+      "title": {
+        "en_US": "Lorenz attractor",
+        "fr_FR": "Attracteur de Lorenz"
+      },
+      "description": {
+        "en_US": "Integrate a chaotic three-state system and display its phase-space trajectory.",
+        "fr_FR": "Intégrer un système chaotique à trois états et afficher sa trajectoire dans l’espace des phases."
+      },
+      "tags": [
+        "ode45",
+        "chaos",
+        "phase-space"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    },
+    {
+      "file": "black_hole.m",
+      "title": {
+        "en_US": "Black hole funnel orbit",
+        "fr_FR": "Orbite sur l’entonnoir du trou noir"
+      },
+      "description": {
+        "en_US": "Orbit a point mass on the curved z = -1/r funnel and relaunch it from an interactive control panel.",
+        "fr_FR": "Faire orbiter une masse ponctuelle sur l’entonnoir courbe z = -1/r et la relancer depuis un panneau de contrôle interactif."
+      },
+      "tags": [
+        "ode45",
+        "animation",
+        "gravity"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    },
+    {
+      "file": "levitron.m",
+      "title": {
+        "en_US": "Levitron spinning top",
+        "fr_FR": "Toupie Levitron"
+      },
+      "description": {
+        "en_US": "Integrate the heavy symmetric-top equations and animate the hovering, precessing and nutating top in 3D.",
+        "fr_FR": "Intégrer les équations de la toupie symétrique lourde et animer en 3D la toupie qui lévite, précesse et nute."
+      },
+      "tags": [
+        "ode45",
+        "animation",
+        "gyroscope"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    },
+    {
+      "file": "solar_system.m",
+      "title": {
+        "en_US": "Solar system (N-body gravity)",
+        "fr_FR": "Système solaire (gravité à N corps)"
+      },
+      "description": {
+        "en_US": "Precompute a softened 3D N-body solar system with ode45, then animate planets on inclined orbits with fading trails and interactive controls.",
+        "fr_FR": "Précalcule un système solaire 3D à N corps adouci avec ode45, puis anime les planètes sur des orbites inclinées avec des traînées qui s’estompent et des contrôles interactifs."
+      },
+      "tags": [
+        "ode45",
+        "animation",
+        "nbody",
+        "gravity"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    },
+    {
+      "file": "strange_attractors.m",
+      "title": {
+        "en_US": "Strange attractors gallery",
+        "fr_FR": "Galerie d’attracteurs étranges"
+      },
+      "description": {
+        "en_US": "Pick a famous 3D strange attractor (Aizawa, Rossler, Thomas, Halvorsen, Lorenz), integrate it with ode45 and animate a growing, slowly rotating comet that traces the chaotic orbit.",
+        "fr_FR": "Choisir un célèbre attracteur étrange 3D (Aizawa, Rössler, Thomas, Halvorsen, Lorenz), l’intégrer avec ode45 et animer une comète grandissante et lentement tournante qui trace l’orbite chaotique."
+      },
+      "tags": [
+        "ode45",
+        "chaos",
+        "strange-attractor",
+        "animation"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    }
+  ]
+}

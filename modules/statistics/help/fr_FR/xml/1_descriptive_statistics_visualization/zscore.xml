@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>zscore</keyword>
+  <short_description>Scores z standardises.</short_description>
+  <syntax>
+    <syntax_item>Z = zscore(X)</syntax_item>
+    <syntax_item>Z = zscore(X, flag)</syntax_item>
+    <syntax_item>Z = zscore(X, flag, dim)</syntax_item>
+    <syntax_item>Z = zscore(X, flag, vecdim)</syntax_item>
+    <syntax_item>Z = zscore(X, flag, 'all')</syntax_item>
+    <syntax_item>[Z, mu, sigma] = zscore(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>zscore</b> centre et reduit des donnees numeriques en soustrayant la moyenne puis en divisant par l'ecart type.</p>
+    <p><b>flag</b> vaut 0 pour l'ecart type d'echantillon et 1 pour l'ecart type de population. Les echantillons contenant <b>NaN</b> retournent des scores <b>NaN</b>. Les echantillons constants retournent des scores nuls.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[X = [1 2 3; 4 5 6];
+[Z, mu, sigma] = zscore(X, 0, 1)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}mean">mean</link></see_also_item>
+    <see_also_item><link linkend="${statistics}std">std</link></see_also_item>
+    <see_also_item><link linkend="${statistics}var">var</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

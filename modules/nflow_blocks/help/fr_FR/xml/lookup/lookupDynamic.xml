@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>lookupDynamic</keyword>
+  <keyword_alias>block:lookupDynamic</keyword_alias>
+  <short_description>Recherche 1-D interpolee dont les breakpoints et la table sont pris sur les ports d entree.</short_description>
+  <syntax>
+    <syntax_item>Type de bloc : lookupDynamic</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>ports d entree</param_name>
+      <param_description>3 port(s) d entree declare(s).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>ports de sortie</param_name>
+      <param_description>1 port(s) de sortie declare(s).</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Recherche 1-D interpolee dont les breakpoints et la table sont pris sur les ports d entree.</p>
+    <table border="1">
+      <tbody>
+        <tr><td>Module</td><td><code>nflow_blocks</code></td></tr>
+        <tr><td>Bibliotheque</td><td>Tables de correspondance</td></tr>
+        <tr><td>Type</td><td><code>lookupDynamic</code></td></tr>
+        <tr><td>Libelle</td><td>Lookup Table Dynamic</td></tr>
+      </tbody>
+    </table>
+    <p><img src="../../../../libraries/lookup/exports/lookupDynamic.svg" align="middle"/></p>
+    <p><b>Description</b></p>
+    <p>Une lecture de table 1-D interpolee lineairement dont les donnees de breakpoints et de table proviennent de ports d'entree plutot que de parametres, de sorte que la table peut changer a l'execution. Port 0 = valeur x ; port 1 = vecteur de breakpoints xdat (strictement croissant) ; port 2 = vecteur de table ydat (meme longueur). La sortie est l'interpolation lineaire de (xdat, ydat) en x, bornee hors plage.</p>
+    <p>Execution native (la table vectorielle a l'execution sera generee en code ulterieurement).</p>
+    <p><b>Ports</b></p>
+    <p><b>Entree(s)</b></p>
+    <table border="1">
+      <thead><tr><th>Port</th><th>Role</th><th>Cote</th><th>Position</th></tr></thead>
+      <tbody>
+        <tr><td>Port_1</td><td>Signal numerique lu par le bloc.</td><td>gauche</td><td>x=0, y=20</td></tr>
+        <tr><td>Port_2</td><td>Signal numerique lu par le bloc.</td><td>gauche</td><td>x=0, y=40</td></tr>
+        <tr><td>Port_3</td><td>Signal numerique lu par le bloc.</td><td>gauche</td><td>x=0, y=60</td></tr>
+      </tbody>
+    </table>
+    <p><b>Sortie(s)</b></p>
+    <table border="1">
+      <thead><tr><th>Port</th><th>Role</th><th>Cote</th><th>Position</th></tr></thead>
+      <tbody>
+        <tr><td>Port_1</td><td>Signal numerique produit par le bloc.</td><td>droite</td><td>x=90, y=40</td></tr>
+      </tbody>
+    </table>
+    <p><b>Parametres</b></p>
+    <table border="1">
+      <thead><tr><th>Parametre</th><th>Valeur par defaut</th></tr></thead>
+      <tbody>
+        <tr><td><i>none</i></td><td></td></tr>
+      </tbody>
+    </table>
+    <p><b>Caracteristiques du bloc</b></p>
+    <table border="1">
+      <tbody>
+        <tr><td>Type de bloc</td><td>lookupDynamic</td></tr>
+        <tr><td>Famille</td><td>Tables de correspondance</td></tr>
+        <tr><td>Taille rendue</td><td>90 x 80</td></tr>
+        <tr><td>Phases</td><td>ALGEBRAIC</td></tr>
+        <tr><td>Etat interne ou historique</td><td>non</td></tr>
+        <tr><td>Type de donnees du signal</td><td>valeurs numeriques double</td></tr>
+      </tbody>
+    </table>
+    <p><b>Algorithmes</b></p>
+    <ul>
+      <li>ALGEBRAIC : localise l'intervalle dans xdat, interpole ydat lineairement, borne hors plage.</li>
+    </ul>
+    <p><b>Equation ou regle</b></p>
+    <latex>y = \text{interp}(\text{xdat}, \text{ydat}, x)</latex>
+    <p><b>Capacites etendues</b></p>
+    <p><b>Sources d implementation</b></p>
+    <p>Generation de code : prise en charge pour C et Rust.</p>
+    <source_code label="Manifest" path="modules/nflow_blocks/libraries/lookup/library.json" language="json"/>
+    <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/lookup/lookupDynamic.cpp" language="cpp"/>
+  </description>
+  <used_function/>
+  <bibliography/>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Interpoler ydat=[0 1 4 9 16] sur xdat=[0 1 2 3 4] en x=2.5 -&gt; 6.5.</example_item_description>
+      <example_item_data><![CDATA[d.blocks={ struct('id','x','type','constant','inputs',0,'outputs',1,'params',struct('Value',2.5)), struct('id','xd','type','constant','inputs',0,'outputs',1,'params',struct('Value',[0 1 2 3 4])), struct('id','yd','type','constant','inputs',0,'outputs',1,'params',struct('Value',[0 1 4 9 16])), struct('id','ld','type','lookupDynamic','inputs',3,'outputs',1,'params',struct()), struct('id','w','type','toWorkspace','inputs',1,'outputs',0,'params',struct('VariableName','y','SaveFormat','Array')) };
+d.connections={ struct('from','x','to','ld','fromIndex',0,'toIndex',0), struct('from','xd','to','ld','fromIndex',0,'toIndex',1), struct('from','yd','to','ld','fromIndex',0,'toIndex',2), struct('from','ld','to','w','fromIndex',0,'toIndex',0) };
+d.sampleTime=0.1; d.duration=0.2; d.solver='discrete'; d.variables=struct();
+r=jsondecode(__nflow_simulate__(jsonencode(d)));]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${nflow_blocks}lookup/lookup1D">lookup1D</link></see_also_item>
+    <see_also_item><link linkend="${nflow_blocks}lookup/prelookup">prelookup</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

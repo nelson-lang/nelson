@@ -17,5 +17,5 @@ static const wchar_t* ROWS_COLS_DICT[4]
 //=============================================================================
 GORowColumnProperty::GORowColumnProperty() : GORestrictedStringProperty(ROWS_COLS_DICT) { }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

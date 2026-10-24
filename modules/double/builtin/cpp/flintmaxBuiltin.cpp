@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,6 +10,7 @@
 #include <cfloat>
 #include "flintmaxBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
@@ -23,40 +24,41 @@ Nelson::DoubleGateway::flintmaxBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargoutcheck(nLhs, 0, 1);
     if (argIn.size() == 1) {
         ArrayOf param1 = argIn[0];
-        std::wstring paramStr = param1.getContentAsWideString();
+        std::wstring paramStr = param1.asWideString();
         if ((paramStr == L"double" || paramStr == L"single")) {
             if (paramStr == L"double") {
                 double intmax = (1ULL << DBL_MANT_DIG);
-                retval << ArrayOf::doubleConstructor(intmax);
+                retval << ArrayOf::doubleScalar(intmax);
             } else {
                 single intmax = (1UL << FLT_MANT_DIG);
-                retval << ArrayOf::singleConstructor(intmax);
+                retval << ArrayOf::singleScalar(intmax);
             }
         } else {
-            Error(_W("#1 'double' or 'single' expected."));
+            Error(L"Nelson:double:invalidClassName", L"%s expected.", L"#1 'double' or 'single'");
         }
     } else if (argIn.size() == 2) {
         if (argIn[0].isRowVectorCharacterArray() || argIn[0].isScalarStringArray()) {
-            std::wstring param = argIn[0].getContentAsWideString();
+            std::wstring param = argIn[0].asWideString();
             if (param == L"like") {
                 if (argIn[1].isDoubleType()) {
                     double intmax = (1ULL << DBL_MANT_DIG);
-                    retval << ArrayOf::doubleConstructor(intmax);
+                    retval << ArrayOf::doubleScalar(intmax);
                 } else if (argIn[1].isSingleType()) {
                     single intmax = (1UL << FLT_MANT_DIG);
-                    retval << ArrayOf::singleConstructor(intmax);
+                    retval << ArrayOf::singleScalar(intmax);
                 } else {
-                    Error(_("Second argument must a double or single variable."));
+                    Error("Nelson:flintmax:secondArgNotFloat",
+                        "Second argument must a double or single variable.");
                 }
             } else {
-                Error(_("First argument must be 'like'."));
+                Error("Nelson:flintmax:firstArgNotLike", "First argument must be 'like'.");
             }
         } else {
-            Error(_("First argument must be 'like'."));
+            Error("Nelson:flintmax:firstArgNotLike", "First argument must be 'like'.");
         }
     } else {
         double intmax = (1ULL << DBL_MANT_DIG);
-        retval << ArrayOf::doubleConstructor(intmax);
+        retval << ArrayOf::doubleScalar(intmax);
     }
     return retval;
 }

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -14,6 +14,8 @@
 #include "characters_encoding.hpp"
 #include "StringHelpers.hpp"
 #include "EvaluateCommand.hpp"
+#include "ClassdefParser.hpp"
+#include "CompleterHelper.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -21,7 +23,7 @@ wstringVector
 MethodCompleter(const std::wstring& prefix)
 {
     wstringVector res;
-    auto* eval = static_cast<Evaluator*>(NelsonConfiguration::getInstance()->getMainEvaluator());
+    auto* eval = getCompletionEvaluator();
     if (!eval) {
         return res;
     }
@@ -33,51 +35,59 @@ MethodCompleter(const std::wstring& prefix)
         return res;
     }
 
-    std::string variable = utf8prefix.substr(0, lastDotPos);
+    std::string variableExpression = utf8prefix.substr(0, lastDotPos);
     std::string postfix = utf8prefix.substr(lastDotPos + 1);
-    size_t lastCharacterIndex = variable.find_last_of(" ([{,;");
+    std::string variable = getLookupSymbolFromCompletionExpression(variableExpression);
 
-    if (lastCharacterIndex != std::string::npos) {
-        variable = variable.substr(lastCharacterIndex + 1);
-    }
-
-    Exception lastError = eval->getLastErrorException();
+    NelsonException lastError = eval->getLastErrorException();
 
     try {
-        ArrayOfVector variableArray
-            = EvaluateCommand(eval, 1, utf8_to_wstring(variable), std::wstring());
-        if (variableArray.size() != 1) {
+        if (variable == variableExpression && classdefLoadClass(variable)) {
+            stringVector methodNames = classdefMethods(variable);
+            for (const auto& name : methodNames) {
+                if (name != variable && StringHelpers::icontains(name, postfix)) {
+                    res.push_back(utf8_to_wstring(name));
+                }
+            }
             return res;
         }
 
-        if (variableArray[0].isGraphicsObject() || variableArray[0].isClassType()
-            || variableArray[0].isHandle()) {
+        ArrayOf variableValue;
+        if (!resolveCompletionExpressionValue(context, eval, variableExpression, variableValue)) {
+            return res;
+        }
+        if (!isValidCompletionHandle(variableValue)) {
+            return res;
+        }
+
+        stringVector methodNames;
+        std::string className;
+        if (variableValue.isClassType()) {
+            className = variableValue.classType();
+        } else if (variableValue.isHandle()) {
+            className = variableValue.handleClassName();
+        }
+        if (!className.empty() && classdefLoadClass(className)) {
+            methodNames = classdefMethods(className);
+        } else if (variableValue.isGraphicsObject() || variableValue.isHandle()) {
             ArrayOfVector methodsArray = EvaluateCommand(
-                eval, 1, utf8_to_wstring("methods(" + variable + ")"), std::wstring());
-            stringVector methodNames;
-
+                eval, 1, utf8_to_wstring("methods(" + variableExpression + ")"), std::wstring());
             if (methodsArray.size() == 1) {
-                methodNames = methodsArray[0].getContentAsCStringVector();
+                methodNames = methodsArray[0].asUtf8StringVector();
             }
-
-            std::string className;
-            if (variableArray[0].isClassType()) {
-                className = variableArray[0].getClassType();
+            if (variableValue.isHandle()) {
+                className = variableValue.handleCategory();
             }
+        }
 
-            if (variableArray[0].isHandle()) {
-                className = variableArray[0].getHandleCategory();
-            }
-            for (const auto& name : methodNames) {
-
-                if (StringHelpers::starts_with(name, postfix)) {
-                    if (name != className) {
-                        res.push_back(utf8_to_wstring(name));
-                    }
+        for (const auto& name : methodNames) {
+            if (StringHelpers::icontains(name, postfix)) {
+                if (name != className) {
+                    res.push_back(utf8_to_wstring(name));
                 }
             }
         }
-    } catch (const Exception&) {
+    } catch (const NelsonException&) {
         eval->setLastErrorException(lastError);
     }
 

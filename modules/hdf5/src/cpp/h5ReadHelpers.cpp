@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -13,7 +13,7 @@
 namespace Nelson {
 //=============================================================================
 Dimensions
-getDimensions(hid_t space_id, int& rank)
+dimensions(hid_t space_id, int& rank)
 {
     Dimensions dims;
     if (space_id > 0) {
@@ -41,10 +41,10 @@ getDimensions(hid_t space_id, int& rank)
     } else {
         rank = -1;
     }
-    if (dims.getLength() == 1) {
+    if (dims.length() == 1) {
         dims[1] = 1;
     }
-    if (dims.getLength() == 0) {
+    if (dims.length() == 0) {
         dims[0] = 0;
         dims[1] = 0;
     }

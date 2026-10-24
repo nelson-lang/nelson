@@ -9,11 +9,23 @@
 %=============================================================================
 % Use a function_handle with weboptions
 % to read an audio and play it directly
-current = nfilename('fullpathext');
-[p, f, e ] = fileparts(current);
-addpath(p);
+devices = audiodevinfo();
+if isempty(devices.output)
+  error('This example requires an audio output device.');
+end
+current = mfilename('fullpathext');
+p = fileparts(current);
+previousPath = addpath(p);
+cleanupPath = onCleanup(@() path(previousPath));
 fh = str2func('download_play');
 o = weboptions('ContentType', 'binary', 'ContentReader', fh);
 o.Timeout = 10;
-R = webread('https://ccrma.stanford.edu/~jos/wav/Latin.wav', o)
+try
+  playerObj = webread('https://ccrma.stanford.edu/~jos/wav/Latin.wav', o);
+catch exception
+  error(['This example requires network access to the public audio resource: ', exception.message]);
+end
+playblocking(playerObj);
+delete(playerObj);
+clear playerObj cleanupPath;
 %=============================================================================

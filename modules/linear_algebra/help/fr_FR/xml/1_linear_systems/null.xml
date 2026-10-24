@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>null</keyword>
+  <short_description>Noyau d'une matrice</short_description>
+  <syntax>
+    <syntax_item>Z = null(A)</syntax_item>
+    <syntax_item>Z = null(A, 'r')</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>une matrice numérique 2D.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>Z</param_name>
+      <param_description>base orthonormale du noyau de A ; avec 'r', une base rationnelle.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>null</b> retourne une base orthonormale du noyau de A, obtenue à partir de la décomposition en valeurs singulières. null(A, 'r') retourne une base rationnelle du noyau obtenue à partir de la forme échelonnée réduite.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description></example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = [1 2 3; 4 5 6; 7 8 9];
+Z = null(A)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${linear_algebra}orth">orth</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${linear_algebra}rank">rank</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${linear_algebra}svd">svd</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

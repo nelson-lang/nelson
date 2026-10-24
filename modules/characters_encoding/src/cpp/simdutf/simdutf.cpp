@@ -19869,7 +19869,7 @@ const char16_t *arm_validate_utf16(const char16_t *input, size_t size) {
       const uint64_t a =
           L & (H >> 4); // A low surrogate must be followed by high one.
                         // (A low surrogate placed in the 7th register's word
-                        // is an exception we handle.)
+                        // is an NelsonException we handle.)
       const uint64_t b =
           a << 4; // Just mark that the opposite fact is hold,
                   // thanks to that we have only two masks for valid case.
@@ -19965,7 +19965,7 @@ const result arm_validate_utf16_with_errors(const char16_t *input,
       const uint64_t a =
           L & (H >> 4); // A low surrogate must be followed by high one.
                         // (A low surrogate placed in the 7th register's word
-                        // is an exception we handle.)
+                        // is an NelsonException we handle.)
       const uint64_t b =
           a << 4; // Just mark that the opposite fact is hold,
                   // thanks to that we have only two masks for valid case.
@@ -38565,7 +38565,7 @@ const result validate_utf16_with_errors(const char16_t *input, size_t size) {
       const uint16_t a = static_cast<uint16_t>(
           L & (H >> 1)); // A low surrogate must be followed by high one.
                          // (A low surrogate placed in the 7th register's word
-                         // is an exception we handle.)
+                         // is an NelsonException we handle.)
       const uint16_t b = static_cast<uint16_t>(
           a << 1); // Just mark that the opinput - startite fact is hold,
                    // thanks to that we have only two masks for valid case.
@@ -45287,7 +45287,7 @@ const result validate_utf16_with_errors(const char16_t *input, size_t size) {
       const uint16_t a = static_cast<uint16_t>(
           L & (H >> 1)); // A low surrogate must be followed by high one.
                          // (A low surrogate placed in the 7th register's word
-                         // is an exception we handle.)
+                         // is an NelsonException we handle.)
       const uint16_t b = static_cast<uint16_t>(
           a << 1); // Just mark that the opinput - startite fact is hold,
                    // thanks to that we have only two masks for valid case.
@@ -54192,7 +54192,7 @@ const result validate_utf16_with_errors(const char16_t *input, size_t size) {
       const uint16_t a = static_cast<uint16_t>(
           L & (H >> 1)); // A low surrogate must be followed by high one.
                          // (A low surrogate placed in the 7th register's word
-                         // is an exception we handle.)
+                         // is an NelsonException we handle.)
       const uint16_t b = static_cast<uint16_t>(
           a << 1); // Just mark that the opinput - startite fact is hold,
                    // thanks to that we have only two masks for valid case.
@@ -61607,7 +61607,7 @@ const result validate_utf16_with_errors(const char16_t *input, size_t size) {
       const uint16_t a = static_cast<uint16_t>(
           L & (H >> 1)); // A low surrogate must be followed by high one.
                          // (A low surrogate placed in the 7th register's word
-                         // is an exception we handle.)
+                         // is an NelsonException we handle.)
       const uint16_t b = static_cast<uint16_t>(
           a << 1); // Just mark that the opinput - startite fact is hold,
                    // thanks to that we have only two masks for valid case.
@@ -68608,7 +68608,7 @@ const result validate_utf16_with_errors(const char16_t *input, size_t size) {
       const uint16_t a = static_cast<uint16_t>(
           L & (H >> 1)); // A low surrogate must be followed by high one.
                          // (A low surrogate placed in the 7th register's word
-                         // is an exception we handle.)
+                         // is an NelsonException we handle.)
       const uint16_t b = static_cast<uint16_t>(
           a << 1); // Just mark that the opinput - startite fact is hold,
                    // thanks to that we have only two masks for valid case.

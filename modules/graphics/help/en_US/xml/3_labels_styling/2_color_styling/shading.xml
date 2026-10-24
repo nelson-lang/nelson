@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>shading</keyword>
+  <short_description>Set surface and patch shading mode.</short_description>
+  <syntax>
+    <syntax_item>shading(type)</syntax_item>
+    <syntax_item>shading(ax, type)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description>target axes.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>type</param_name>
+      <param_description><b>faceted</b>, <b>flat</b>, or <b>interp</b>.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b>shading</b> changes the <b>FaceColor</b> and <b>EdgeColor</b> of surface and patch children in axes.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="adv-cli"><![CDATA[
+surf(peaks(20));
+shading interp;
+]]></example_item_data>
+      <example_item_img src="../../../../images/shading_1.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}1_plots/7_surfaces_volumes_polygons/surf">surf</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}3_labels_styling/3_interactions_camera_lighting/lighting">lighting</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

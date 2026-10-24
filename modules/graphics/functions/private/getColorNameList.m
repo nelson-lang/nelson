@@ -8,6 +8,6 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function l = getColorNameList()
-  l = {'yellow','magenta','cyan','red','green','blue','white','black'};
+  l = {'yellow', 'magenta', 'cyan', 'red', 'green', 'blue', 'white', 'black'};
 end
 %=============================================================================

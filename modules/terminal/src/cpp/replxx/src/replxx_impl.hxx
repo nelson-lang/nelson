@@ -283,6 +283,9 @@ private:
     Replxx::ACTION_RESULT
     insert_character(char32_t);
     Replxx::ACTION_RESULT
+    insert_characters(UnicodeString const&);
+    void update_after_action(action_trait_t);
+    Replxx::ACTION_RESULT
     new_line(char32_t);
     Replxx::ACTION_RESULT
     go_to_begining_of_line(char32_t);

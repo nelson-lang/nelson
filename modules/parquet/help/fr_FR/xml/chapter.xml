@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>parquet</module_name>
+  <chapter>Parquet</chapter>
+  <chapter_description>
+    <p>Le module Parquet fournit le support des fichiers locaux Apache Parquet.</p>
+    <p>Il permet de lire et d&apos;ecrire des tables orientees colonnes, d&apos;obtenir les metadonnees d&apos;un fichier et de traiter un ou plusieurs fichiers Parquet avec un datastore et des filtres de lignes.</p>
+    <p>Les variables de table prises en charge incluent les valeurs logiques, les types entiers, les nombres flottants simple et double precision, le texte, les valeurs datetime, les durees, les tables imbriquees stockees comme colonnes struct, et les cellules homogenes de vecteurs primitifs stockees comme colonnes list.</p>
+  </chapter_description>
+</xmldoc>

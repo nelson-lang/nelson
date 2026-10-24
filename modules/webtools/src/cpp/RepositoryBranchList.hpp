@@ -21,6 +21,5 @@ RepositoryBranchList(const std::wstring& localPath, std::wstring& errorMessage);
 NLSWEBTOOLS_IMPEXP std::wstring
 RepositoryGetCurrentBranchName(const std::wstring& localPath, std::wstring& errorMessage);
 //=============================================================================
-
-};
+} // namespace Nelson
 //=============================================================================

@@ -7,207 +7,118 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('str2double'), 1);
-assert_isequal(nargout('str2double'), 1);
+% <--WEIGHT 8-->
+asserts.isequal(nargin('str2double'), 1);
+asserts.isequal(nargout('str2double'), 1);
 %=============================================================================
-assert_isequal(str2double(''), NaN);
-assert_isequal(str2double('NaN'), NaN);
-assert_isequal(str2double('NAN'), NaN);
-assert_isequal(str2double('Nan'), NaN);
-assert_isequal(str2double('-NaN'), NaN);
-assert_isequal(str2double('-NAN'), NaN);
-assert_isequal(str2double('-Nan'), NaN);
-assert_isequal(str2double('+NaN'), NaN);
-assert_isequal(str2double('+NAN'), NaN);
-assert_isequal(str2double('+Nan'), NaN);
-assert_isequal(str2double('Inf'), Inf);
-assert_isequal(str2double('INf'), Inf);
-assert_isequal(str2double('+Inf'), Inf);
-assert_isequal(str2double('+INf'), Inf);
-assert_isequal(str2double('-Inf'), -Inf);
-assert_isequal(str2double('-INf'), -Inf);
+asserts.isequal(str2double(''), NaN);
+asserts.isequal(str2double('NaN'), NaN);
+asserts.isequal(str2double('NAN'), NaN);
+asserts.isequal(str2double('Nan'), NaN);
+asserts.isequal(str2double('-NaN'), NaN);
+asserts.isequal(str2double('-NAN'), NaN);
+asserts.isequal(str2double('-Nan'), NaN);
+asserts.isequal(str2double('+NaN'), NaN);
+asserts.isequal(str2double('+NAN'), NaN);
+asserts.isequal(str2double('+Nan'), NaN);
+asserts.isequal(str2double('Inf'), Inf);
+asserts.isequal(str2double('INf'), Inf);
+asserts.isequal(str2double('+Inf'), Inf);
+asserts.isequal(str2double('+INf'), Inf);
+asserts.isequal(str2double('-Inf'), -Inf);
+asserts.isequal(str2double('-INf'), -Inf);
 %=============================================================================
-assert_isequal(str2double('10') , 10);
-assert_isequal(str2double('+10') , 10);
-assert_isequal(str2double('-10') , -10);
-assert_isequal(str2double('10.') , 10);
-assert_isequal(str2double('+10.') , 10);
-assert_isequal(str2double('-10.') , -10);
-assert_isequal(str2double('.4') , .4);
-assert_isequal(str2double('+.4') , .4);
-assert_isequal(str2double('-.44') , -.44);
-assert_isequal(str2double('10.4') , 10.4);
-assert_isequal(str2double('+10.44') , 10.44);
-assert_isequal(str2double('-10.44') , -10.44);
+asserts.isequal(str2double('10'), 10);
+asserts.isequal(str2double('+10'), 10);
+asserts.isequal(str2double('-10'), -10);
+asserts.isequal(str2double('10.'), 10);
+asserts.isequal(str2double('+10.'), 10);
+asserts.isequal(str2double('-10.'), -10);
+asserts.isequal(str2double('.4'), .4);
+asserts.isequal(str2double('+.4'), .4);
+asserts.isequal(str2double('-.44'), -.44);
+asserts.isequal(str2double('10.4'), 10.4);
+asserts.isequal(str2double('+10.44'), 10.44);
+asserts.isequal(str2double('-10.44'), -10.44);
 %=============================================================================
-assert_isequal(str2double('123.45e7'), 123.45e7);
-assert_isequal(str2double('3.14159'), 3.14159);
-assert_isequal(str2double('1,200.34'), 1200.34);
+asserts.isequal(str2double('123.45e7'), 123.45e7);
+asserts.isequal(str2double('3.14159'), 3.14159);
+asserts.isequal(str2double('1,200.34'), 1200.34);
 %=============================================================================
-assert_isequal(str2double('4e2'), 400);
-assert_isequal(str2double('-4e2'), -400);
-assert_isequal(str2double('+4e2'), 400);
-assert_isequal(str2double('0.4e2'), 40);
+asserts.isequal(str2double('4e2'), 400);
+asserts.isequal(str2double('-4e2'), -400);
+asserts.isequal(str2double('+4e2'), 400);
+asserts.isequal(str2double('0.4e2'), 40);
 %=============================================================================
-assert_isequal(str2double('3d2') , 300);
-assert_isequal(str2double('3D2') , 300);
-assert_isequal(str2double('3e2') , 300);
-assert_isequal(str2double('3E2') , 300);
+asserts.istrue(isnan(str2double('3d2')));
+asserts.istrue(isnan(str2double('3D2')));
+asserts.isequal(str2double('3e2'), 300);
+asserts.isequal(str2double('3E2'), 300);
 %=============================================================================
-assert_isequal(str2double('3 2') , NaN);
-assert_isequal(str2double('  2') , 2);
-assert_isequal(str2double('2  ') , 2);
-assert_isequal(str2double('  2  ') , 2);
+asserts.isequal(str2double('3 2'), NaN);
+asserts.isequal(str2double('  2'), 2);
+asserts.isequal(str2double('2  '), 2);
+asserts.isequal(str2double('  2  '), 2);
 %=============================================================================
-assert_isequal(str2double({'3', 3; 5, '5'}), [3, NaN; NaN, 5]);
+asserts.isequal(str2double({'3', 3; 5, '5'}), [3, NaN; NaN, 5]);
 %=============================================================================
-assert_isequal(str2double('+i'), i);
-assert_isequal(str2double('-i'), -i);
-assert_isequal(str2double('+j'), i);
-assert_isequal(str2double('-j'), -i);
-assert_isequal(str2double('i'), i);
-assert_isequal(str2double('j'), i);
+% non-text input is NaN, not an error
+asserts.istrue(isnan(str2double(5)));
+asserts.istrue(isnan(str2double(true)));
+asserts.istrue(isnan(str2double([1 2])));
+asserts.istrue(isnan(str2double({5})));
+asserts.istrue(isnan(str2double(struct())));
+asserts.istrue(isnan(str2double(@sin)));
+R = str2double({'1', 5});
+asserts.istrue(R(1) == 1 && isnan(R(2)));
 %=============================================================================
-assert_isequal(str2double('I'), NaN);
-assert_isequal(str2double('J'), NaN);
+% the imaginary term may come first, an operator may be followed by a sign
+asserts.isequal(str2double('1i+1'), 1 + 1i);
+asserts.isequal(str2double('2i-3'), -3 + 2i);
+asserts.isequal(str2double('2i - 3'), -3 + 2i);
+asserts.isequal(str2double('i+1'), 1 + 1i);
+asserts.isequal(str2double('-i+1'), 1 - 1i);
+asserts.isequal(str2double('1e3i+1e2'), 100 + 1000i);
+asserts.isequal(str2double('1+-1i'), 1 - 1i);
+asserts.isequal(str2double('1--1i'), 1 + 1i);
+asserts.isequal(str2double('-1+-1i'), -1 - 1i);
+asserts.isequal(str2double('1 + i'), 1 + 1i);
+asserts.isequal(str2double('1 i'), 1i);
+asserts.isequal(str2double('5*i'), 5i);
+asserts.isequal(str2double('i*5'), 5i);
+asserts.istrue(isnan(str2double('1+--1i')));
+asserts.istrue(isnan(str2double('1i+1i')));
+asserts.istrue(isnan(str2double('1+1i+1i')));
+asserts.istrue(isnan(str2double('1+1')));
+asserts.istrue(isnan(str2double('5*1i')));
+asserts.istrue(isnan(str2double('1 2')));
 %=============================================================================
-assert_isequal(str2double(' 3 + 2i'), complex(3, 2));
-assert_isequal(str2double(' 3 - 2i'), complex(3, -2));
-assert_isequal(str2double(' -3 + 2i'), complex(-3, 2));
-assert_isequal(str2double(' 3 - 2i'), complex(3, -2));
-assert_isequal(str2double('- 3 - 2i'), complex(-3, -2));
-assert_isequal(str2double('+3 - 2i'), complex(+3, -2));
-assert_isequal(str2double('+3 + 2i'), complex(3, 2));
-assert_isequal(str2double('+3 - 2i'), complex(3, -2));
+% Inf and NaN parts
+asserts.isequal(str2double('Inf+1i'), complex(Inf, 1));
+R = str2double('NaN+1i');
+asserts.istrue(isnan(real(R)) && imag(R) == 1);
+R = str2double('1+NaNi');
+asserts.istrue(real(R) == 1 && isnan(imag(R)));
+R = str2double('NaNi');
+asserts.istrue(real(R) == 0 && isnan(imag(R)));
 %=============================================================================
-assert_isequal(str2double('4+i'), complex(4, 1));
-assert_isequal(str2double('4-i'), complex(4, -1));
-assert_isequal(str2double('-4+i'), complex(-4, 1));
-assert_isequal(str2double('-4-i'), complex(-4, -1));
-assert_isequal(str2double('+4+i'), complex(4, 1));
-assert_isequal(str2double('+4-i'), complex(4, -1));
+% only Inf and NaN are words, no D exponent, hexadecimal floating point
+asserts.istrue(isnan(str2double('Infinity')));
+asserts.istrue(isnan(str2double('-Infinity')));
+asserts.istrue(isnan(str2double('1d3')));
+asserts.istrue(isnan(str2double('1D3')));
+asserts.isequal(str2double('0x10'), 16);
+asserts.isequal(str2double('0x1p3'), 8);
+asserts.isequal(str2double('0x1p-3'), 0.125);
+asserts.isequal(str2double('0x1.8p3'), 12);
+asserts.isequal(str2double('0x1.8'), 1.5);
+asserts.isequal(str2double('0x10i'), 16i);
+asserts.isequal(str2double('0x10+1i'), 16 + 1i);
 %=============================================================================
-assert_isequal(str2double('10+10j'), complex(10, 10));
-assert_isequal(str2double('+10+10j'), complex(10, 10));
-assert_isequal(str2double('-10+10j'), complex(-10, 10));
-assert_isequal(str2double('10.+10j'), complex(10, 10));
-assert_isequal(str2double('+10.+10j'), complex(10, 10));
-assert_isequal(str2double('-10.+10j'), complex(-10, 10));
-assert_isequal(str2double('10.4+10j'), complex(10.4, 10));
-assert_isequal(str2double('+10.4+10j'), complex(10.4, 10));
-assert_isequal(str2double('-10.4+10j'), complex(-10.4, 10));
-assert_isequal(str2double('.4+10j'), complex(.4, 10));
-assert_isequal(str2double('+.4+10j'), complex(.4, 10));
-assert_isequal(str2double('-.4+10j'), complex(-.4, 10));
-assert_isequal(str2double('10+10.4j'), complex(10, 10.4));
-assert_isequal(str2double('10.4+10.4j'), complex(10.4, 10.4));
-assert_isequal(str2double('+10.4+10.4j'), complex(10.4, 10.4));
-assert_isequal(str2double('+10.4-10.4j'), complex(10.4, -10.4));
-%=============================================================================
-assert_isequal(str2double('1i'), i);
-assert_isequal(str2double('1j'), i);
-assert_isequal(str2double('+1j'), i);
-assert_isequal(str2double('+1i'), i);
-assert_isequal(str2double('-1j'), complex(0,-1));
-assert_isequal(str2double('-1i'), complex(0,-1));
-assert_isequal(str2double('10j'), complex(0,10));
-assert_isequal(str2double('+10j'), complex(0,10));
-assert_isequal(str2double('-10j'), complex(0, -10));
-assert_isequal(str2double('10.j'), complex(0,10));
-assert_isequal(str2double('+10.j'), complex(0,10));
-assert_isequal(str2double('-10.j'), complex(0,-10));
-assert_isequal(str2double('.4j'), complex(0,.4));
-assert_isequal(str2double('+.4j'), complex(0,.4));
-assert_isequal(str2double('-.4j'), complex(0,-.4));
-assert_isequal(str2double('10.4j'), complex(0,10.4));
-assert_isequal(str2double('+10.4j'), complex(0,10.4));
-assert_isequal(str2double('-10.4j') , complex(0,-10.4));
-%=============================================================================
-assert_isequal(str2double('3e2 + 2e3i'), complex(300, 2000));
-assert_isequal(str2double('3e2 - 2e3i'), complex(300, -2000));
-assert_isequal(str2double('3e2 - 2d3i'), complex(300, -2000));
-assert_isequal(str2double('3e2 + 2d3i'), complex(300, 2000));
-assert_isequal(str2double('3d2 + 2e3i'), complex(300, 2000));
-assert_isequal(str2double('3d2 - 2e3i'), complex(300, -2000));
-assert_isequal(str2double('3d2 + 2d3i'), complex(300, 2000));
-assert_isequal(str2double('3d2 - 2d3i'), complex(300, -2000));
-%=============================================================================
-assert_isequal(str2double('1,2 + 3,4i'), complex(12, 34));
-%=============================================================================
-ce = {'2.718','3.1416'; '137','0.015'};
-X = str2double(ce);
-REF =  [ 2.7180    3.1416; 137.0000    0.0150];
-assert_isapprox(X, REF, 1e-4);
-%=============================================================================
-X = str2double('1,,2');
-REF = 12;
-assert_isequal(X, REF);
-%=============================================================================
-X = str2double('NaN*i');
-REF = complex(NaN, NaN);
-assert_isequal(X, REF);
-%=============================================================================
-X = str2double('Nan*i');
-REF = complex(NaN, NaN);
-assert_isequal(X, REF);
-%=============================================================================
-X = str2double('Inf*i');
-REF = complex(0, Inf);
-assert_isequal(X, REF);
-%=============================================================================
-X = str2double('Infi');
-REF = complex(0, Inf);
-assert_isequal(X, REF);
-%=============================================================================
-X = str2double('INFi');
-REF = complex(0, Inf);
-assert_isequal(X, REF);
-%=============================================================================
-X = str2double('-NaN*i');
-REF = complex(NaN, NaN);
-assert_isequal(X, REF);
-%=============================================================================
-X = str2double('-Nan*i');
-REF = complex(NaN, NaN);
-assert_isequal(X, REF);
-%=============================================================================
-X = str2double('-Inf*i');
-REF = complex(0, -Inf);
-assert_isequal(X, REF);
-%=============================================================================
-X = str2double('-Infi');
-REF = complex(0, -Inf);
-assert_isequal(X, REF);
-%=============================================================================
-X = str2double('-INFi');
-REF = complex(0, -Inf);
-assert_isequal(X, REF);
-%=============================================================================
-X = str2double('+NaN*i');
-REF = complex(NaN, NaN);
-assert_isequal(X, REF);
-%=============================================================================
-X = str2double('+Nan*i');
-REF = complex(NaN, NaN);
-assert_isequal(X, REF);
-%=============================================================================
-X = str2double('+Inf*i');
-REF = complex(0, Inf);
-assert_isequal(X, REF);
-%=============================================================================
-X = str2double('+Infi');
-REF = complex(0, Inf);
-assert_isequal(X, REF);
-%=============================================================================
-X = str2double('+INFi');
-REF = complex(0, Inf);
-assert_isequal(X, REF);
-%=============================================================================
-X = str2double('InfI');
-assert_isequal(X, NaN);
-%=============================================================================
-ce = ["2.718", "3.1416"; "137", "0.015"];
-X = str2double(ce);
-REF =  [ 2.7180    3.1416; 137.0000    0.0150];
-assert_isapprox(X, REF, 1e-4);
+% surrounding whitespace of any kind
+asserts.isequal(str2double(sprintf('5\n')), 5);
+asserts.isequal(str2double(sprintf('\t5\t')), 5);
+asserts.isequal(str2double(sprintf('5\r')), 5);
+asserts.isequal(str2double(char([53 8192])), 5);
+asserts.isequal(str2double(char([53 12288])), 5);
 %=============================================================================

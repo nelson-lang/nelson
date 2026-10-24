@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -26,7 +26,7 @@ getMatVarDimensions(matvar_t* matVariable)
 size_t*
 convertDimensionsForMatVar(const Dimensions& variableDims, indexType& rank)
 {
-    rank = variableDims.getLength();
+    rank = variableDims.length();
     size_t* dims = nullptr;
     try {
         dims = new size_t[rank];

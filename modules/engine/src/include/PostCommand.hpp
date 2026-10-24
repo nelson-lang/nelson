@@ -16,7 +16,7 @@ namespace Nelson {
 NLSENGINE_IMPEXP bool
 postCommand(const std::wstring& commandToExecute);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================
 extern "C"
 {

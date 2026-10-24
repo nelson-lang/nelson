@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 rng(5489);
-filename = [tempdir(), 'bench_write_read_matrix.csv'];
+filename = [tempname(), '.csv'];
 A = rand(3000, 3000);
 tic();writematrix(A, filename);toc()
 options = detectImportOptions(filename);

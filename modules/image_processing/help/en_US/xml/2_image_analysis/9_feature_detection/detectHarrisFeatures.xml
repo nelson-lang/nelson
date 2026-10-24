@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>detectHarrisFeatures</keyword>
+  <short_description>Detect Harris corner features.</short_description>
+  <syntax>
+    <syntax_item>points = detectHarrisFeatures(I)</syntax_item>
+    <syntax_item>points = detectHarrisFeatures(I, Name, Value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>I</param_name>
+      <param_description>Input grayscale or RGB image.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>points</param_name>
+      <param_description>Structure with Location, Metric and Count fields.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>detectHarrisFeatures computes a Harris corner metric, keeps local maxima, sorts them by metric strength, and returns their image coordinates. Supported options are MinQuality, FilterSize, SensitivityFactor and ROI.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Detect corners in a square image</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[I=zeros(64,64); I(18:46,18:46)=1;
+points=detectHarrisFeatures(I,'MinQuality',0.05);
+figure; imagesc(I); axis image; hold on;
+plot(points.Location(:,1),points.Location(:,2),'r+'); title('Harris points');]]></example_item_data>
+      <example_item_img
+        src="../../../images/detectHarrisFeatures_1.png"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}cornermetric">cornermetric</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}detectFASTFeatures">detectFASTFeatures</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

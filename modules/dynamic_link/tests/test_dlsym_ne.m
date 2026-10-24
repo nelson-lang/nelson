@@ -11,5 +11,5 @@ path_ref = [modulepath('nelson', 'builtin'), '/libnlsDynamic_link', getdynlibext
 lib = dlopen(path_ref);
 f1 = dlsym(lib, 'dynlibTestMultiplyDoubleArrayWithReturn', 'int32', {'doublePtr', 'int32'});
 f2 = dlsym(lib, 'dynlibTestInputDoublePtr', 'void', {'doublePtr', 'int32'});
-assert_istrue(f1 ~= f2);
+asserts.istrue(f1 ~= f2);
 %=============================================================================

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>spfun</keyword>
+  <short_description>Apply a function to the nonzero elements of a sparse matrix.</short_description>
+  <syntax>
+    <syntax_item>R = spfun(fun, S)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>fun</param_name>
+      <param_description>a function handle applied to the vector of nonzero values.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>S</param_name>
+      <param_description>a sparse matrix. A full matrix is first converted to sparse.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>R</param_name>
+      <param_description>a sparse matrix with the same size and nonzero locations as <b>S</b>, whose values are <b>fun</b> applied to the nonzero values of <b>S</b>.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>spfun</b> evaluates <b>fun</b> only on the nonzero elements of <b>S</b>, which avoids applying the function to the many stored zeros and preserves the sparse structure.</p>
+    <p>The function handle must accept and return a column vector of the same length. Any resulting zero value is pruned from the sparse result.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[S = sparse([2 0 -3; 0 4 0]);
+R = spfun(@(x) x .* 10, S)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[S = sparse([2 0; 0 4]);
+R = spfun(@(x) 1 ./ x, S)
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${sparse}spones">spones</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${sparse}nonzeros">nonzeros</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${elementary_functions}find">find</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

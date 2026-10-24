@@ -11,14 +11,20 @@
 % Audio Recording Demo in Nelson
 % This script demonstrates how to record, play, and analyze audio
 
-clear; clc;
+devices = audiodevinfo();
+if isempty(devices.input)
+  error('This example requires an audio input device.');
+end
+if isempty(devices.output)
+  error('This example requires an audio output device.');
+end
 
 %% 1. Setup Audio Recorder
 % Parameters
-Fs = 44100;        % Sample rate (Hz)
-nBits = 16;        % Bit depth
-nChannels = 1;     % Mono recording
-duration = 3;      % Recording duration (seconds)
+Fs = 44100; % Sample rate (Hz)
+nBits = 16; % Bit depth
+nChannels = 1; % Mono recording
+duration = 3; % Recording duration (seconds)
 
 % Create audiorecorder object
 recorder = audiorecorder(Fs, nBits, nChannels);
@@ -42,7 +48,7 @@ audioData = getaudiodata(recorder);
 
 fprintf('Audio Data Statistics:\n');
 fprintf('Length: %d samples\n', length(audioData));
-fprintf('Duration: %.2f seconds\n', length(audioData)/Fs);
+fprintf('Duration: %.2f seconds\n', length(audioData) / Fs);
 fprintf('Max Amplitude: %.3f\n', max(abs(audioData)));
 fprintf('Mean Amplitude: %.3f\n\n', mean(abs(audioData)));
 
@@ -56,8 +62,8 @@ fprintf('Playback complete!\n\n');
 figure('Name', 'Audio Recording Analysis', 'Position', [100 100 1000 400]);
 
 % Time domain plot
-subplot(1,2,1);
-t = (0:length(audioData)-1) / Fs;
+subplot(1, 2, 1);
+t = (0:length(audioData) - 1) / Fs;
 plot(t, audioData, 'b', 'LineWidth', 1);
 xlabel('Time (seconds)');
 ylabel('Amplitude');
@@ -65,12 +71,12 @@ title('Time Domain Signal');
 grid on;
 
 % Frequency spectrum
-subplot(1,2,2);
+subplot(1, 2, 2);
 N = length(audioData);
-f = (0:N-1) * (Fs/N);
+f = (0:N - 1) * (Fs / N);
 Y = fft(audioData);
-magnitude = abs(Y/N);
-plot(f(1:N/2), magnitude(1:N/2), 'r', 'LineWidth', 1);
+magnitude = abs(Y / N);
+plot(f(1:N / 2), magnitude(1:N / 2), 'r', 'LineWidth', 1);
 xlabel('Frequency (Hz)');
 ylabel('Magnitude');
 title('Frequency Spectrum');

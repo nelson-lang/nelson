@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -20,16 +20,16 @@ Nelson::FileArchiverGateway::unzipBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOfVector retval;
     nargincheck(argIn, 1, 2);
     nargoutcheck(nLhs, 0, 1);
-    std::wstring zipFilename = argIn[0].getContentAsWideString();
+    std::wstring zipFilename = argIn[0].asWideString();
     std::wstring rootPath = L".";
     if (argIn.size() > 1) {
-        rootPath = argIn[1].getContentAsWideString();
+        rootPath = argIn[1].asWideString();
     }
     wstringVector filenames;
 
     UnZip(zipFilename, rootPath, filenames);
     if (nLhs > 0) {
-        retval << ArrayOf::toCellArrayOfCharacterRowVectors(filenames);
+        retval << ArrayOf::cellArrayFromArrayOfCharacterRowVectors(filenames);
     }
     return retval;
 }

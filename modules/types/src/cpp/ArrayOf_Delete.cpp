@@ -8,301 +8,263 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "ArrayOf.hpp"
+#include "ArrayOfIndexPlan.hpp"
 #include "Data.hpp"
 #include "Dimensions.hpp"
-#include "SparseDynamicFunctions.hpp"
+#include "SparseType.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
-#include "Exception.hpp"
+#include "NelsonException.hpp"
+#include "Decomplexify.hpp"
+#include <memory>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-// Delete functions
+static std::unique_ptr<bool[]>
+buildIndexMap(constIndexPtr indexes, indexType indexCount, indexType dimensionLength);
 //=============================================================================
-/**
- * Delete a vector subset of a variable.
- */
+static void
+realWhenEmpty(ArrayOf& A);
+//=============================================================================
 void
 ArrayOf::deleteVectorSubset(ArrayOf& arg)
 {
+    materializeScalar();
+    if (isColonOperator(arg)) {
+        // A(:) = [] empties the array, which keeps its class
+        Dimensions emptyDims(0, 0);
+        bool wasSparse = dp->sparse;
+        std::string structTypeName = dp->classTypeName();
+        dp = dp->putData(dp->dataClass, emptyDims, nullptr, false, dp->fieldNames());
+        dp->setClassTypeName(structTypeName);
+        realWhenEmpty(*this);
+        if (wasSparse) {
+            makeSparse();
+        }
+        return;
+    }
     void* qp = nullptr;
-    bool* deletionMap = nullptr;
     try {
-        // First convert arg to an ordinal type.
         arg.toOrdinalType();
+        if (isEmpty() && !arg.isEmpty()) {
+            // nothing can be addressed in an empty array
+            Error(L"Nelson:badsubscript", L"Index exceeds array bounds.");
+        }
         if (isSparse()) {
-            indexType rows = getDimensionLength(0);
-            indexType cols = getDimensionLength(1);
-            void* cp = DeleteSparseMatrixVectorSubsetDynamicFunction(dp->dataClass, rows, cols,
-                dp->getData(), static_cast<const indexType*>(arg.getDataPointer()),
-                arg.getElementCount());
+            indexType rows = dimensionLength(0);
+            indexType cols = dimensionLength(1);
+            void* sparseData = sparseReadWriteDataPointer();
+            void* cp = Eigen_DeleteSparseMatrixVectorSubset(dp->dataClass, rows, cols, sparseData,
+                static_cast<const indexType*>(arg.dataPointer()), arg.elementCount());
             Dimensions newdim;
             newdim[0] = rows;
             newdim[1] = cols;
             dp = dp->putData(dp->dataClass, newdim, cp, true);
+            realWhenEmpty(*this);
             return;
         }
-        // Next, build a deletion map.
-        indexType N = getElementCount();
+        indexType N = elementCount();
         indexType i = 0;
-        deletionMap = arg.getBinaryMap(N);
-        // Now, we count up the number of elements that remain after deletion.
+        std::unique_ptr<bool[]> deletionMap(arg.getBinaryMap(N));
         indexType newSize = 0;
         for (i = 0; i < N; i++) {
             if (!deletionMap[i]) {
                 newSize++;
             }
         }
-        // Allocate a new space to hold the data.
-        qp = allocateArrayOf(dp->dataClass, newSize, dp->fieldNames, true);
-        // Loop through the indices - copy elements in that
-        // have not been deleted.
+        const stringVector& fieldNames = dp->fieldNames();
+        qp = allocateArrayOf(dp->dataClass, newSize, fieldNames, true);
         indexType dstIndex = 0;
         for (i = 0; i < N; i++) {
             if (!deletionMap[i]) {
                 copyElements(i, qp, dstIndex++, 1);
             }
         }
-        delete[] deletionMap;
-        deletionMap = nullptr;
+        // A vector keeps its orientation; a scalar, a matrix or an N-D array
+        // becomes a row (also when nothing is deleted: A([]) = [] on a 3x3
+        // matrix gives 1x9). An empty array keeps its shape.
         Dimensions newDim;
-        if (dp->isScalar()) {
-            if (arg.getElementCount() == 1) {
-                newDim[0] = 0;
-                newDim[1] = 0;
-            } else {
-                newDim[0] = 1;
-                newDim[1] = newSize;
-            }
-        } else if (dp->isVector()) {
-            newDim = dp->dimensions;
-            if (dp->dimensions[0] != 1) {
+        if (dp->isVector() && !dp->isScalar()) {
+            newDim = dp->dimensions_;
+            if (dp->dimensions_[0] != 1) {
                 newDim[0] = newSize;
             } else {
                 newDim[1] = newSize;
             }
+        } else if (N == 0) {
+            newDim = dp->dimensions_;
         } else {
-            if (newSize == 0) {
-                newDim[0] = 0;
-                newDim[1] = 0;
-            } else {
-                newDim[0] = 1;
-                newDim[1] = newSize;
-            }
+            newDim[0] = 1;
+            newDim[1] = newSize;
         }
-        std::string structTypeName = dp->getClassTypeName();
-        dp = dp->putData(dp->dataClass, newDim, qp, dp->sparse, dp->fieldNames);
+        std::string structTypeName = dp->classTypeName();
+        dp = dp->putData(dp->dataClass, newDim, qp, dp->sparse, fieldNames);
         dp->setClassTypeName(structTypeName);
-    } catch (const Exception&) {
+    } catch (const NelsonException&) {
         deleteArrayOf(qp, dp->dataClass);
         qp = nullptr;
-        delete[] deletionMap;
-        deletionMap = nullptr;
         throw;
     }
+    realWhenEmpty(*this);
 }
 //=============================================================================
-/**
- * Delete a subset of a variable.
- */
 void
 ArrayOf::deleteNDimSubset(ArrayOfVector& args)
 {
+    materializeScalar();
     indexType singletonReferences = 0;
     indexType singletonDimension = 0;
     indexType i = 0;
-    ArrayOf qp;
-    bool* indxCovered = nullptr;
-    bool* deletionMap = nullptr;
     void* cp = nullptr;
     try {
-        // Our strategy is as follows.  To make the deletion, we need
-        // one piece of information: the dimension to delete.
-        // To do so, we first make a pass through the set of arguments,
-        // checking each one to see if it "covers" its index set.
-        //
-        // However, to simplify the testing of
-        // conditions later on, we must make sure that the length of
-        // the index list matches our number of dimensions.  We extend
-        // it using 1 references, and throw an exception if there are
-        // more indices than our dimension set.
         for (i = 0; i < static_cast<indexType>(args.size()); i++) {
             if (args[i].isRowVectorCharacterArray()) {
-                std::wstring str = args[i].getContentAsWideString();
+                std::wstring str = args[i].asWideString();
                 if (str != L":") {
-                    Error(_W("index must either be real positive integers or logicals."));
+                    Error(L"Nelson:types:invalidIndex:indexEitherRealPositiveIntegersLogicals",
+                        L"index must either be real positive integers or logicals.");
                 }
-                indexType maxVal = dp->dimensions.getDimensionLength(i);
-                args[i] = ArrayOf::integerRangeConstructor(1, 1, maxVal, false);
-            }
-            args[i].toOrdinalType();
-        }
-        // First, add enough "1" singleton references to pad the
-        // index set out to the size of our variable.
-        if (static_cast<indexType>(args.size()) < dp->dimensions.getLength()) {
-            for (i = args.size(); i < dp->dimensions.getLength(); i++) {
-                args.push_back(ArrayOf::uint32Constructor(1));
             }
         }
-        // Now cycle through indices one at a time.  Count
-        // the number of non-covering indices.  Also track the
-        // location of the last-occurring non-covering index.
+        if (isEmpty()) {
+            // an empty subscript selects nothing: the empty array is unchanged
+            for (i = 0; i < static_cast<indexType>(args.size()); i++) {
+                if (!args[i].isRowVectorCharacterArray() && args[i].isEmpty()) {
+                    return;
+                }
+            }
+        }
+        // With fewer subscripts than dimensions the trailing dimensions are
+        // folded into the last subscript; with more, the missing dimensions
+        // have length 1.
+        Dimensions workDims(dp->dimensions_);
+        if (static_cast<indexType>(args.size()) < workDims.length()) {
+            workDims = workDims.foldForSubscriptCount(args.size());
+        }
+        for (i = workDims.length(); i < static_cast<indexType>(args.size()); i++) {
+            workDims[i] = 1;
+        }
+        // Exactly one subscript may be something else than the literal ':': it
+        // names the dimension to delete from. A subscript covering its whole
+        // dimension is not a ':' (A(1:3, 1) = [] on a 3x3 matrix is an error).
+        // A(:,...,:) = [] empties the first dimension.
+        singletonDimension = 0;
         for (i = 0; i < static_cast<indexType>(args.size()); i++) {
-            qp = args[i];
-            // Get a binary representation of each index over the range
-            // [0,dimensions[i]-1]
-            indxCovered = qp.getBinaryMap(dp->dimensions[i]);
-            // Scan the array, and make sure all elements are true.  If not,
-            // then this is the "singleton" dimension.  Kick the singleton
-            // reference counter, and record the current dimension.
-            bool allCovered = true;
-            for (indexType k = 0; allCovered && (k < dp->dimensions[i]); k++) {
-                allCovered = allCovered && indxCovered[k];
-            }
-            delete[] indxCovered;
-            indxCovered = nullptr;
-            if (!allCovered) {
+            if (!args[i].isRowVectorCharacterArray()) {
                 singletonReferences++;
                 singletonDimension = i;
             }
         }
-        // Now, we check the number of singleton references we
-        // encountered.  There are three cases to check:
-        //  Case 1. No singleton references.  This is OK - it
-        //	      means we wish to delete the entire variable.
-        //	      We set a flag, and proceed to validate the covering
-        //	      of each dimension by its corresponding index set.
-        //  Case 2. One singleton reference.  This is OK - it
-        //	      means we wish to delete a single plane of
-        //	      data.  Retrieve the index of the plane, and store
-        //	      it in singletonIndex.
-        //  Case 3. Two or more singleton references.  Can't do it -
-        //	      throw an error.
         if (singletonReferences > 1) {
-            Error(_W("Statement A(...) = [] can only contain one non-colon index."));
+            Error(L"Nelson:types:invalidIndex:statementACanOnlyContainOne",
+                L"Statement A(...) = [] can only contain one non-colon index.");
+        }
+        if (singletonReferences == 1 && args[singletonDimension].isEmpty()) {
+            // nothing to delete: the array keeps its shape
+            return;
         }
         if (singletonReferences == 0) {
-            singletonDimension = -1;
+            singletonReferences = 1;
+            args[0] = ArrayOf::integerRange(1, 1, workDims[0], false);
         }
-        // If we got this far, the user either entered an expression like
-        // A(:,:,...,:,s,:,...,:) = [], or something numerically equivalent,
-        // or the user entered something like A(:,...,:) = [].
-        // In the latter case (indicated by singletonReferences = 0), we simply
-        // delete the entire variable, and make it an empty type.
-        // In the former case, we will have more work to do...
+        IndexPlan plan(false, workDims, args, false);
+        constIndexPtr* indexes = plan.data();
+        Dimensions indexLengths = plan.outDims();
+        // singletonReferences = 0 means A(:,...,:) = []: the whole variable becomes empty.
+        // Otherwise the planes of the singleton dimension are deleted.
         if (singletonReferences != 0) {
-            // We have to rescan our (now-identified) singleton
-            // dimension to build a deletion map.  The map is
-            // marked true for each plane we wish to delete.
-            // The map is the size of the _data_'s dimension.
-            indexType M = dp->dimensions[singletonDimension];
-            deletionMap = args[singletonDimension].getBinaryMap(M);
-            // We can now calculate the new size of the variable in the
-            // singletonDimension by counting the number of "false" entries in
-            // deletionMap.
+            // The deletion map has one entry per plane of the singleton dimension, true when the
+            // plane is deleted.
+            indexType M = workDims[singletonDimension];
+            std::unique_ptr<bool[]> deletionMap(
+                buildIndexMap(indexes[singletonDimension], indexLengths[singletonDimension], M));
             int newSize = 0;
             for (size_t i = 0; i < static_cast<size_t>(M); i++) {
                 if (!deletionMap[i]) {
                     newSize++;
                 }
             }
-            indexType rowCount = dp->dimensions[0];
             Dimensions retDims;
-            // Copy our current dimensions to the output dimensions.
-            retDims = dp->dimensions;
-            // Update the singleton dimension to the new size.
+            retDims = workDims;
             retDims[singletonDimension] = newSize;
-            // For sparse matrices, we branch here to call the sparse matrix deletion
-            // code
             if (isSparse()) {
-                indexType rows = getDimensionLength(0);
-                indexType cols = getDimensionLength(1);
+                indexType rows = dimensionLength(0);
+                indexType cols = dimensionLength(1);
+                void* sparseData = sparseReadWriteDataPointer();
                 if (singletonDimension == 0) {
                     dp = dp->putData(dp->dataClass, retDims,
-                        DeleteSparseMatrixRowsDynamicFunction(
-                            dp->dataClass, rows, cols, dp->getData(), deletionMap),
+                        Eigen_DeleteSparseMatrixRows(
+                            dp->dataClass, rows, cols, sparseData, deletionMap.get()),
                         true);
                 } else if (singletonDimension == 1) {
                     dp = dp->putData(dp->dataClass, retDims,
-                        DeleteSparseMatrixColsDynamicFunction(
-                            dp->dataClass, rows, cols, dp->getData(), deletionMap),
+                        Eigen_DeleteSparseMatrixCols(
+                            dp->dataClass, rows, cols, sparseData, deletionMap.get()),
                         true);
                 } else {
-                    Error(_W("sparse matrices do not support deleting "
-                             "n-dimensional planes - Only 2-D"));
+                    Error(L"Nelson:types:sparseNDimDelete",
+                        L"sparse matrices do not support deleting n-dimensional planes - Only 2-D");
                 }
-                delete[] deletionMap;
-                deletionMap = nullptr;
-                delete[] indxCovered;
-                indxCovered = nullptr;
+                realWhenEmpty(*this);
                 return;
             }
-            // Allocate space for the return objects data
-            cp = allocateArrayOf(dp->dataClass, retDims.getElementCount(), dp->fieldNames, true);
-            // Track our offset into the original data & our offset into
-            // the truncated data.
+            const stringVector& fieldNames = dp->fieldNames();
+            cp = allocateArrayOf(dp->dataClass, retDims.elementCount(), fieldNames, true);
+            // The planes kept along the deleted dimension are copied as
+            // contiguous blocks: a block holds all the dimensions before it.
+            indexType blockSize = 1;
+            for (indexType k = 0; k < singletonDimension; k++) {
+                blockSize *= workDims[k];
+            }
+            indexType blockCount = 1;
+            for (indexType k = singletonDimension + 1; k < workDims.length(); k++) {
+                blockCount *= workDims[k];
+            }
             indexType srcIndex = 0;
             indexType dstIndex = 0;
-            // Inintialize an ND pointer to the first element in the
-            // current data structure.
-            indexType L = dp->dimensions.getLength();
-            Dimensions curPos(L);
-            // Loop until we have exhausted the original data.
-            while (curPos.inside(dp->dimensions)) {
-                // Check to see if this column is to be skipped
-                if (!deletionMap[curPos[singletonDimension]]) {
-                    // Copy the data from our original data structure to the
-                    // new data structure, starting from srcIndex, and
-                    // copying to dstIndex.
-                    copyElements(srcIndex, cp, dstIndex, 1);
-                    // Advance the destination pointer. - we only do this on a copy
-                    dstIndex++;
+            for (indexType block = 0; block < blockCount; block++) {
+                for (indexType plane = 0; plane < M; plane++) {
+                    if (!deletionMap[plane]) {
+                        copyElements(srcIndex, cp, dstIndex, blockSize);
+                        dstIndex += blockSize;
+                    }
+                    srcIndex += blockSize;
                 }
-                // Advance the source pointer - we always do this
-                srcIndex++;
-                curPos.incrementModulo(dp->dimensions, 0);
             }
-            delete[] deletionMap;
-            deletionMap = nullptr;
             retDims.simplify();
-            std::string structTypeName = dp->getClassTypeName();
-            dp = dp->putData(dp->dataClass, retDims, cp, dp->sparse, dp->fieldNames);
-            dp->setClassTypeName(structTypeName);
-        } else {
-            /* here we need to return empty mxn and not only 0x0*/
-            /*
-            A = [0 2 1 ;
-            3 4 5];
-            A([1 2],:) = []
-            */
-            Dimensions newDims(0, 0);
-            Dimensions d = getDimensions();
-            indexType m = d[0];
-            for (indexType k = 1; k < d.getLength(); ++k) {
-                if (m < d[k]) {
-                    m = d[k];
-                }
-            }
-            indexType idxm = 0;
-            for (indexType k = 0; k < d.getLength(); ++k) {
-                if (m == d[k]) {
-                    break;
-                }
-                idxm++;
-            }
-            newDims[idxm] = m;
-            std::string structTypeName = dp->getClassTypeName();
-            dp = dp->putData(dp->dataClass, newDims, nullptr, dp->sparse, dp->fieldNames);
+            std::string structTypeName = dp->classTypeName();
+            dp = dp->putData(dp->dataClass, retDims, cp, dp->sparse, fieldNames);
             dp->setClassTypeName(structTypeName);
         }
-    } catch (const Exception&) {
-        delete[] deletionMap;
-        deletionMap = nullptr;
+    } catch (const NelsonException&) {
         deleteArrayOf(cp, dp->dataClass);
         cp = nullptr;
-        delete[] indxCovered;
-        indxCovered = nullptr;
         throw;
+    }
+    realWhenEmpty(*this);
+}
+//=============================================================================
+static std::unique_ptr<bool[]>
+buildIndexMap(constIndexPtr indexes, indexType indexCount, indexType dimensionLength)
+{
+    std::unique_ptr<bool[]> map(new bool[dimensionLength]());
+    for (indexType i = 0; i < indexCount; i++) {
+        indexType index = indexes[i];
+        if (index == 0 || index > dimensionLength) {
+            Error(L"Nelson:badsubscript", L"Index exceeds array bounds.");
+        }
+        map[index - 1] = true;
+    }
+    return map;
+}
+//=============================================================================
+static void
+realWhenEmpty(ArrayOf& A)
+{
+    // the remaining elements may hold no imaginary part any more
+    if (A.isComplex()) {
+        A = decomplexify(A);
     }
 }
 //=============================================================================

@@ -1,0 +1,141 @@
+{
+  "version": 3,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 21,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "minimal",
+      "displayName": "Nelson minimal native",
+      "binaryDir": "${sourceDir}/temp/build-minimal",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "MINIMAL_BUILD": "ON"
+      }
+    },
+    {
+      "name": "portable",
+      "displayName": "Nelson portable native",
+      "binaryDir": "${sourceDir}/temp/build-portable",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "NELSON_PORTABLE_BUILD": "ON",
+        "NELSON_PORTABLE_WITH_PLOTS": "ON",
+        "NELSON_PORTABLE_WITH_NMM": "ON",
+        "NELSON_PORTABLE_WITH_STATISTICS": "ON",
+        "NELSON_PORTABLE_WITH_IMAGE_PROCESSING": "ON",
+        "NELSON_PORTABLE_WITH_OPTIMIZATION": "ON",
+        "NELSON_PORTABLE_WITH_GEOMETRY": "ON",
+        "NELSON_PORTABLE_WITH_HDF5": "ON",
+        "NELSON_PORTABLE_WITH_NETCDF": "ON",
+        "NELSON_PORTABLE_WITH_MATIO": "ON",
+        "NELSON_PORTABLE_WITH_XML": "ON",
+        "NELSON_PORTABLE_WITH_SPREADSHEET": "ON",
+        "NELSON_PORTABLE_WITH_CONTROL_SYSTEM": "ON",
+        "NELSON_PORTABLE_WITH_NFLOW": "OFF"
+      }
+    },
+    {
+      "name": "portable-nflow",
+      "displayName": "Nelson portable native with NFlow",
+      "inherits": "portable",
+      "binaryDir": "${sourceDir}/temp/build-portable-nflow",
+      "cacheVariables": {
+        "NELSON_PORTABLE_WITH_NFLOW": "ON",
+        "NELSON_PORTABLE_WITH_ODE_SOLVERS": "ON"
+      }
+    },
+    {
+      "name": "wasm",
+      "displayName": "Nelson WebAssembly",
+      "binaryDir": "${sourceDir}/temp/build-wasm",
+      "toolchainFile": "$env{EMSDK}/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "NELSON_WASM_BUILD": "ON",
+        "NELSON_WASM_NATIVE_EXCEPTIONS": "ON",
+        "NELSON_WASM_MAIN_MODULE": "ON",
+        "NELSON_PORTABLE_WITH_PLOTS": "ON",
+        "NELSON_PORTABLE_WITH_NMM": "ON",
+        "NELSON_PORTABLE_WITH_STATISTICS": "ON",
+        "NELSON_PORTABLE_WITH_IMAGE_PROCESSING": "ON",
+        "NELSON_PORTABLE_WITH_OPTIMIZATION": "ON",
+        "NELSON_PORTABLE_WITH_FFTW": "ON",
+        "NELSON_PORTABLE_WITH_SIGNAL_PROCESSING": "ON",
+        "NELSON_PORTABLE_WITH_GEOMETRY": "ON",
+        "NELSON_PORTABLE_WITH_HDF5": "ON",
+        "NELSON_PORTABLE_WITH_NETCDF": "ON",
+        "NELSON_PORTABLE_WITH_MATIO": "ON",
+        "NELSON_PORTABLE_WITH_PARQUET": "ON",
+        "NELSON_PORTABLE_WITH_XML": "ON",
+        "NELSON_PORTABLE_WITH_SPREADSHEET": "ON",
+        "NELSON_PORTABLE_WITH_AUDIO": "ON",
+        "NELSON_PORTABLE_WITH_PREFERENCES": "ON",
+        "NELSON_PORTABLE_WITH_CONTROL_SYSTEM": "ON",
+        "NELSON_PORTABLE_WITH_NFLOW": "ON",
+        "NELSON_PORTABLE_WITH_ODE_SOLVERS": "ON",
+        "NELSON_PORTABLE_WITH_SUNDIALS": "ON",
+        "NELSON_PORTABLE_WITH_WEBTOOLS": "ON"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "minimal",
+      "configurePreset": "minimal"
+    },
+    {
+      "name": "portable",
+      "configurePreset": "portable",
+      "targets": [
+        "nelson-portable"
+      ]
+    },
+    {
+      "name": "portable-nflow",
+      "configurePreset": "portable-nflow",
+      "targets": [
+        "nelson-portable"
+      ]
+    },
+    {
+      "name": "wasm",
+      "configurePreset": "wasm",
+      "targets": [
+        "nelson-wasm-browser"
+      ]
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "minimal",
+      "configurePreset": "minimal",
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "portable",
+      "configurePreset": "portable",
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "portable-nflow",
+      "configurePreset": "portable-nflow",
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "wasm",
+      "configurePreset": "wasm",
+      "output": {
+        "outputOnFailure": true
+      }
+    }
+  ]
+}

@@ -18,6 +18,7 @@
 #include <libxml/parser.h>
 #include <libxml/xpathInternals.h>
 #include <libxml/xmlerror.h>
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -32,13 +33,17 @@ readXmlFile(const std::wstring& xmlFile, std::wstring& errorMessage)
     file.open(xmlFileUtf8, std::ios::binary);
 #endif
     if (!file) {
-        errorMessage = _W("Cannot open file: ") + xmlFile;
+        errorMessage = formatI18nMessage(
+            Nelson::resolveMessageTemplate(L"Nelson:xml:cannotOpenFile", L"Cannot open file: %s"),
+            xmlFile);
         return {};
     }
     std::string buffer((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
     file.close();
     if (buffer.empty()) {
-        errorMessage = _W("File is empty or cannot be read: ") + xmlFile;
+        errorMessage = formatI18nMessage(resolveMessageTemplate(L"Nelson:xml:fileEmptyCannotRead",
+                                             L"File is empty or cannot be read: %s"),
+            xmlFile);
         return {};
     }
     return buffer;
@@ -96,13 +101,13 @@ startsWithOpeningBoldTag(const std::string& text, size_t pos)
     }
     return text.compare(pos, 3, "<b>") == 0 || text.compare(pos, 3, "<b ") == 0;
 }
-
+//=============================================================================
 static bool
 startsWithClosingBoldTag(const std::string& text, size_t pos)
 {
     return pos + 4 <= text.size() && text.compare(pos, 4, "</b>") == 0;
 }
-
+//=============================================================================
 static bool
 startsWithBoldTag(const std::string& text, size_t pos)
 {
@@ -119,8 +124,7 @@ static std::string
 formatXmlString(const std::string& xmlContent, const std::string& xmlFileUtf8, bool formatSpace,
     std::wstring& errorMessage)
 {
-    // Do not remove all whitespace from the raw XML content — that breaks required spaces.
-    // Only normalize/fix a known malformed XML declaration if present.
+    // Do not remove all whitespace from the raw XML content - that breaks required spaces.
     std::string buffer = xmlContent;
     const std::string badDecl = "<?xmlversion=\"1.0\"encoding=\"UTF-8\"?>";
     const std::string goodDecl = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
@@ -197,7 +201,6 @@ formatXmlString(const std::string& xmlContent, const std::string& xmlFileUtf8, b
                 continue;
             }
             if (c == '"' || c == '\'') {
-                // toggle in-quote state; quotes themselves are preserved
                 if (!in_quote) {
                     in_quote = true;
                     quote_char = c;
@@ -209,20 +212,17 @@ formatXmlString(const std::string& xmlContent, const std::string& xmlFileUtf8, b
                 last_space = false;
                 continue;
             }
-            // normalize whitespace chars to space
             if (c == '\n' || c == '\r' || c == '\t') {
                 c = ' ';
             }
 
             if (in_quote) {
-                // inside quotes preserve spaces/newlines-as-space exactly
+                // spaces inside quotes are significant: keep them, leave last_space alone
                 compact += c;
-                // do not update last_space because spaces inside quotes are significant
                 continue;
             } else {
                 if (c == ' ') {
                     size_t j = i + 1;
-                    // Skip all whitespace after the space
                     while (j < buffer.size()
                         && (buffer[j] == ' ' || buffer[j] == '\n' || buffer[j] == '\r'
                             || buffer[j] == '\t')) {
@@ -234,14 +234,12 @@ formatXmlString(const std::string& xmlContent, const std::string& xmlFileUtf8, b
                         last_space = true;
                         continue;
                     }
-                    // --- fix: insert space between adjacent </b> and <b> tags if missing ---
                     if (compact.size() >= 4 && compact.compare(compact.size() - 4, 4, "</b>") == 0
                         && j < buffer.size() && startsWithOpeningBoldTag(buffer, j)) {
                         compact += ' ';
                         last_space = true;
                         continue;
                     }
-                    // --- end fix ---
                     if (j < buffer.size() && buffer[j] == '<') {
                         compact += ' ';
                         last_space = true;
@@ -260,7 +258,6 @@ formatXmlString(const std::string& xmlContent, const std::string& xmlFileUtf8, b
                         last_space = true;
                     }
                 } else {
-                    // remove all spaces between tags
                     if (c == '>' && i + 1 < buffer.size()) {
                         size_t k = i + 1;
                         while (k < buffer.size()
@@ -274,21 +271,17 @@ formatXmlString(const std::string& xmlContent, const std::string& xmlFileUtf8, b
                             continue;
                         }
                     }
-                    // --- fix: insert space between adjacent </b> and <b> tags if missing ---
                     if (compact.size() >= 4 && compact.compare(compact.size() - 4, 4, "</b>") == 0
                         && startsWithOpeningBoldTag(buffer, i)) {
-                        // Only insert a space if not already present
                         if (compact.back() != ' ') {
                             compact += ' ';
                         }
                     }
-                    // --- end fix ---
                     compact += c;
                     last_space = false;
                 }
             }
         }
-        // trim leading/trailing spaces
         size_t start = 0;
         while (start < compact.size() && compact[start] == ' ') {
             ++start;
@@ -300,22 +293,25 @@ formatXmlString(const std::string& xmlContent, const std::string& xmlFileUtf8, b
         return compact.substr(start, end - start);
     }
 
-    // Use libxml2 to prettify — pass filename as base URI and explicit encoding.
     xmlDocPtr doc = xmlReadMemory(buffer.data(), (int)buffer.size(), xmlFileUtf8.c_str(), "UTF-8",
         XML_PARSE_NOERROR | XML_PARSE_NOWARNING | XML_PARSE_NOBLANKS);
     if (!doc) {
-        errorMessage = _W("Failed to parse XML for formatting: ") + utf8_to_wstring(xmlFileUtf8);
+        errorMessage
+            = formatI18nMessage(resolveMessageTemplate(L"Nelson:xml:failedParseXmlFormatting",
+                                    L"Failed to parse XML for formatting: %s"),
+                utf8_to_wstring(xmlFileUtf8));
         return {};
     }
     xmlChar* xmlbuff = nullptr;
     int buffersize = 0;
     int previous = xmlKeepBlanksDefault(0);
-    // Ask libxml2 to output with UTF-8 encoding and pretty print (last parameter = 1).
     xmlDocDumpFormatMemoryEnc(doc, &xmlbuff, &buffersize, "UTF-8", 1);
     xmlKeepBlanksDefault(previous);
     if (!xmlbuff) {
         xmlFreeDoc(doc);
-        errorMessage = _W("Failed to prettify XML file: ") + utf8_to_wstring(xmlFileUtf8);
+        errorMessage = formatI18nMessage(resolveMessageTemplate(L"Nelson:xml:failedPrettifyXmlFile",
+                                             L"Failed to prettify XML file: %s"),
+            utf8_to_wstring(xmlFileUtf8));
         return {};
     }
     std::string formattedXml(reinterpret_cast<const char*>(xmlbuff), buffersize);
@@ -334,7 +330,9 @@ saveString(const std::wstring& xmlFile, const std::string& content, std::wstring
     std::ofstream outFile(wstring_to_utf8(xmlFile), std::ios::binary);
 #endif
     if (!outFile) {
-        errorMessage = _W("Cannot write to file: ") + xmlFile;
+        errorMessage = formatI18nMessage(
+            resolveMessageTemplate(L"Nelson:xml:cannotWriteFile", L"Cannot write to file: %s"),
+            xmlFile);
         return false;
     }
     outFile.write(content.data(), content.size());
@@ -358,7 +356,10 @@ XmlPrettyPrint(
         } else if (std::filesystem::is_regular_file(fileOrDir)) {
             xmlFiles.push_back(fileOrDir);
         } else {
-            errorMessage = _W("File or directory does not exist: ") + fileOrDir;
+            errorMessage
+                = formatI18nMessage(resolveMessageTemplate(L"Nelson:xml:fileDirectoryDoesExist",
+                                        L"File or directory does not exist: %s"),
+                    fileOrDir);
             return;
         }
     }
@@ -381,5 +382,5 @@ XmlPrettyPrint(
     }
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

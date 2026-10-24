@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>compiler_build_tutorial</keyword>
+  <keyword_alias>compiler_build_tutorial</keyword_alias>
+  <short_description>Tutorial: build console and no-console applications.</short_description>
+  <syntax><syntax_item>result = compiler.build.standaloneApplication(options)</syntax_item><syntax_item>result = compiler.build.standaloneWindowsApplication(options)</syntax_item></syntax>
+  <description>
+    <p>Execute the three blocks in order in one session. This example builds a multi-file application and embeds its factor.txt data file. Each executable prints TUTORIAL_RESULT=30 for the input 5.</p>
+    <p>The console application is native to the current platform. On Windows, the second build creates a separate Windows-subsystem executable without requesting graphical services for this numerical example.</p>
+    <p>Each output directory contains an executable, readme.txt and the build-time report buildresult.json, not a runtime or an installer. Results.Files contains the executable and readme.txt, plus the .nca for the external variant. Distribute that archive beside its executable, with the same base name. The last block selects the currently running Nelson installation as the compatible runtime. On another machine, install a compatible runtime and set NELSONC_RUNTIME_ROOT to its root.</p>
+    <p>RuntimeDependencies.Required is the captured runtime file inventory; inspecting it does not copy these files. The selected application code and factor.txt are already inside the executable or its external archive, so the copied source directory is not needed at execution time.</p>
+    <p>Additional option effects remain separate implementation work. Windows application installers and shared minimal-runtime installers are described in compiler_installer_tutorial and compiler_runtime_tutorial. The ncc bundled-runtime path is described in compiler_standalone_tutorial.</p>
+    <p>TreatInputsAsNumeric passes the input 5 as a double to app_entry. The supplied example also accepts character input when the option is false. Invalid numeric text becomes NaN; applications must validate input before calculation.</p>
+    <p>SupportPackages filters installed nmm dependencies; this example uses none because its sources do not need an external package.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>1. Prepare the source files</example_item_description>
+      <example_item_data runnable="false"><![CDATA[ncc('--help');
+work = tempname();
+mkdir(work);
+source = fullfile(work, 'source');
+mkdir(source);
+example = fullfile(modulepath('compiler'), 'examples', 'standalone');
+for name = {'app_entry.m', 'helper_value.m', 'factor.txt', 'app_icon.png'}
+  copyfile(fullfile(example, name{1}), source);
+end]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>2. Build and inspect the results</example_item_description>
+      <example_item_data runnable="false"><![CDATA[options = compiler.build.StandaloneApplicationOptions(fullfile(source, 'app_entry.m'), ...
+  'AdditionalFiles', fullfile(source, 'factor.txt'), ...
+  'RuntimeLogFile', 'application.log', ...
+  'TreatInputsAsNumeric', true, ...
+  'SupportPackages', 'none', ...
+  'OutputDir', fullfile(work, 'console'));
+if ispc()
+  options.ExecutableIcon = fullfile(source, 'app_icon.png');
+end
+result = compiler.build.standaloneApplication(options);
+disp(result.Files);
+disp(height(result.RuntimeDependencies.Required));
+reportPath = fullfile(result.Options.OutputDir, 'buildresult.json');
+report = jsondecode(fileread(reportPath));
+disp(report.applicationName);
+options.EmbedArchive = false;
+options.OutputDir = fullfile(work, 'external');
+external = compiler.build.standaloneApplication(options);
+disp(external.Files);
+options.EmbedArchive = true;
+windowed = [];
+if ispc()
+  options.OutputDir = fullfile(work, 'windowed');
+  windowed = compiler.build.standaloneWindowsApplication(options);
+end]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>3. Run with an installed runtime</example_item_description>
+      <example_item_data runnable="false"><![CDATA[previousRuntime = getenv('NELSONC_RUNTIME_ROOT');
+restoreRuntime = onCleanup(@() setenv('NELSONC_RUNTIME_ROOT', previousRuntime));
+setenv('NELSONC_RUNTIME_ROOT', nelsonroot());
+applications = {result, external};
+if ispc()
+  applications{end + 1} = windowed;
+end
+for k = 1:numel(applications)
+  executable = applications{k}.Files{1};
+  [status, output] = system(['"', executable, '" 5'], 60);
+  if status ~= 0
+    error(output);
+  end
+  disp(output);
+  logText = fileread(fullfile(applications{k}.Options.OutputDir, 'application.log'));
+  asserts.istrue(contains(logText, 'TUTORIAL_RESULT=30'));
+  disp(logText);
+end
+clear restoreRuntime;]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${compiler}compiler.build.StandaloneApplicationOptions">compiler.build.StandaloneApplicationOptions</link></see_also_item>
+    <see_also_item><link linkend="${compiler}compiler.build.Results">compiler.build.Results</link></see_also_item>
+    <see_also_item><link linkend="${compiler}compiler.runtime.Dependencies">compiler.runtime.Dependencies</link></see_also_item>
+    <see_also_item><link linkend="${compiler}compiler_standalone_tutorial">compiler_standalone_tutorial</link></see_also_item>
+  </see_also>
+  <history />
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

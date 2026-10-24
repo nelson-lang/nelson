@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>max</keyword>
+  <keyword_alias>block:max</keyword_alias>
+  <short_description>Outputs the maximum of two inputs.</short_description>
+  <syntax>
+    <syntax_item>Block type: max</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>input ports</param_name>
+      <param_description>2 input port(s) declared.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>output ports</param_name>
+      <param_description>1 output port(s) declared.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Outputs the maximum of two inputs.</p>
+    <table border="1">
+      <tbody>
+        <tr>
+          <td>Module</td>
+          <td>
+            <code>nflow_blocks</code>
+          </td>
+        </tr>
+        <tr>
+          <td>Library</td>
+          <td>Math blocks</td>
+        </tr>
+        <tr>
+          <td>Type</td>
+          <td>
+            <code>max</code>
+          </td>
+        </tr>
+        <tr>
+          <td>Label</td>
+          <td>Max</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <img src="../../../../libraries/math/exports/max.svg" align="middle"/>
+    </p>
+    <p>
+      <b>Description</b>
+    </p>
+    <p>Returns the maximum of two inputs.</p>
+    <p>
+      <b>Ports</b>
+    </p>
+    <p>
+      <b>Input(s)</b>
+    </p>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Port</th>
+          <th>Role</th>
+          <th>Side</th>
+          <th>Position</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Port_1</td>
+          <td>Numeric signal read by the block.</td>
+          <td>left</td>
+          <td>x=0, y=30</td>
+        </tr>
+        <tr>
+          <td>Port_2</td>
+          <td>Numeric signal read by the block.</td>
+          <td>left</td>
+          <td>x=0, y=50</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Output(s)</b>
+    </p>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Port</th>
+          <th>Role</th>
+          <th>Side</th>
+          <th>Position</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Port_1</td>
+          <td>Numeric signal produced by the block.</td>
+          <td>right</td>
+          <td>x=80, y=40</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Parameters</b>
+    </p>
+    <p>No block parameters are declared in the manifest.</p>
+    <p>
+      <b>Block Characteristics</b>
+    </p>
+    <table border="1">
+      <tbody>
+        <tr>
+          <td>Block type</td>
+          <td>max</td>
+        </tr>
+        <tr>
+          <td>Family</td>
+          <td>Math blocks</td>
+        </tr>
+        <tr>
+          <td>Rendered size</td>
+          <td>80 x 80</td>
+        </tr>
+        <tr>
+          <td>Phases</td>
+          <td>ALGEBRAIC</td>
+        </tr>
+        <tr>
+          <td>Direct feedthrough</td>
+          <td>yes</td>
+        </tr>
+        <tr>
+          <td>Internal state or history</td>
+          <td>not observed in the documented runtime</td>
+        </tr>
+        <tr>
+          <td>Signal data type</td>
+          <td>double numeric values</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Algorithms</b>
+    </p>
+    <ul>
+      <li>Algebraic block. Requires input 1.</li>
+      <li>Input 2 defaults to 0 when unconnected.</li>
+    </ul>
+    <p>
+      <b>Equation or Rule</b>
+    </p>
+    <latex>y = \max(u_1, u_2)</latex>
+    <p>
+      <b>Extended Capabilities</b>
+    </p>
+    <p>This page describes the native runtime behavior observed in the module C++ sources. Declared phases indicate when the simulation engine calls the block.</p>
+    <p>Code generation: supported for C and Rust.</p>
+    <p>
+      <b>Implementation Sources</b>
+    </p>
+    <source_code label="Manifest" path="modules/nflow_blocks/libraries/math/library.json" language="json"/>
+    <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/math/max.cpp" language="cpp"/>
+  </description>
+  <used_function/>
+  <bibliography/>
+  <see_also>
+    <see_also_item>
+      <link linkend="${nflow_blocks}math/min">min</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${nflow_blocks}nonlinear/saturation">saturation</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

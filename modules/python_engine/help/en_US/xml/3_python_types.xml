@@ -100,7 +100,28 @@
         <td>py.dict</td>
         <td>struct</td>
       </tr>
+      <tr>
+        <td>py.pandas.DataFrame</td>
+        <td>table</td>
+      </tr>
+      <tr>
+        <td>py.pandas.Series</td>
+        <td>table (single column)</td>
+      </tr>
     </table>
+    <p />
+    <p>A <b>py.pandas.DataFrame</b> is converted with the <b>table</b> function:
+    each DataFrame column becomes a table variable and keeps its column name;
+    numeric columns become Nelson numeric columns and textual columns become
+    Nelson string columns. A non-default index is moved into a leading
+    <b>index</b> variable, while a default <b>RangeIndex</b> is dropped. A
+    <b>py.pandas.Series</b> becomes a table with a single variable named after
+    the Series (an unnamed Series uses the column label <b>0</b>). Column labels
+    that are not valid Nelson variable names are made valid, and the original
+    labels are kept in the table <b>VariableDescriptions</b>. Datetime columns
+    are converted to their textual (ISO) representation. These conversions
+    require the <b>pandas</b> package to be installed in the Python
+    environment.</p>
     <p />
     <p>
       <b>Pass scalar Nelson type to Python:</b>
@@ -183,7 +204,17 @@
         <td>struct</td>
         <td>py.dict</td>
       </tr>
+      <tr>
+        <td>table</td>
+        <td>py.pandas.DataFrame (py.dict when pandas is not installed)</td>
+      </tr>
     </table>
+    <p />
+    <p>A Nelson <b>table</b> passed to Python is implicitly converted to a
+    <b>py.pandas.DataFrame</b>: the table variable names become the DataFrame
+    columns and the row names, when present, become the DataFrame index. When
+    the <b>pandas</b> package is not available, the table falls back to a
+    dictionary with <b>data</b> and <b>Properties</b> fields.</p>
     <p />
     <p>
       <b>Pass 1-by-N Vector Nelson type to Python:</b>

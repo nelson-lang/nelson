@@ -7,11 +7,19 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
-#include <cstdlib>
-#include <thread>
-#ifndef _MSC_VER
+#ifdef _MSC_VER
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#else
 #include <csignal>
+#include <unistd.h>
 #endif
+#include <chrono>
+#include <condition_variable>
+#include <cstdlib>
+#include <memory>
+#include <mutex>
+#include <thread>
 #include "TimeoutThread.hpp"
 //=============================================================================
 namespace Nelson {
@@ -21,53 +29,60 @@ class WaitTimeout
     //=============================================================================
 private:
     //=============================================================================
-    bool _running = false;
-    bool _stop = false;
+    std::mutex _mutex;
+    std::condition_variable _condition;
+    bool _stopRequested = false;
     //=============================================================================
-    void
-    exitWithCode()
+    static int
+    timeoutExitCode()
     {
 #ifdef _MSC_VER
         // https://msdn.microsoft.com/en-us/library/windows/desktop/ms681382(v=vs.85).aspx
         // WAIT_TIMEOUT (258)
-        exit(258);
+        return 258;
 #else
-        // SIGABRT
-        exit(128 + SIGABRT);
+        return 128 + SIGABRT;
 #endif
+    }
+    //=============================================================================
+    static void
+    forceTerminateProcess()
+    {
+#ifdef _MSC_VER
+        TerminateProcess(GetCurrentProcess(), (UINT)timeoutExitCode());
+#else
+        _exit(timeoutExitCode());
+#endif
+    }
+    //=============================================================================
+    [[noreturn]] static void
+    exitWithCode()
+    {
+        forceTerminateProcess();
+        std::_Exit(timeoutExitCode());
     }
     //=============================================================================
 public:
     //=============================================================================
-    bool
-    isRunning()
-    {
-        return _running;
-    }
-    //=============================================================================
     void
     start(uint64 _timeout_seconds)
     {
-        _running = true;
-        std::chrono::nanoseconds begin_time = std::chrono::steady_clock::now().time_since_epoch();
-        bool bContinue = true;
-        do {
-            std::this_thread::sleep_for(std::chrono::milliseconds(uint64(1)));
-            std::chrono::nanoseconds current_time
-                = std::chrono::steady_clock::now().time_since_epoch();
-            std::chrono::nanoseconds difftime = (current_time - begin_time);
-            bContinue = (difftime <= std::chrono::seconds(_timeout_seconds));
-        } while (bContinue && !_stop);
-        if (!_stop) {
+        std::unique_lock<std::mutex> lock(_mutex);
+        bool stopped = _condition.wait_for(
+            lock, std::chrono::seconds(_timeout_seconds), [this]() { return _stopRequested; });
+        if (!stopped) {
             exitWithCode();
         }
-        _running = false;
     }
     //=============================================================================
     void
     stop()
     {
-        _stop = true;
+        {
+            std::lock_guard<std::mutex> lock(_mutex);
+            _stopRequested = true;
+        }
+        _condition.notify_all();
     }
     //=============================================================================
 };
@@ -79,18 +94,16 @@ bool
 createTimeoutThread(uint64 _timeoutseconds)
 {
     try {
-        waitTask = new WaitTimeout();
-        timeout_thread = new std::thread(&WaitTimeout::start, waitTask, _timeoutseconds);
+        auto newWaitTask = std::make_unique<WaitTimeout>();
+        auto newTimeoutThread = std::make_unique<std::thread>(
+            &WaitTimeout::start, newWaitTask.get(), _timeoutseconds);
+        waitTask = newWaitTask.release();
+        timeout_thread = newTimeoutThread.release();
     } catch (const std::bad_alloc&) {
         timeout_thread = nullptr;
         waitTask = nullptr;
     }
-
-    if (timeout_thread) {
-        timeout_thread->detach();
-        return true;
-    }
-    return false;
+    return timeout_thread != nullptr;
 }
 //=============================================================================
 bool
@@ -98,8 +111,8 @@ destroyTimeoutThread()
 {
     if (timeout_thread) {
         waitTask->stop();
-        while (waitTask->isRunning()) {
-            std::this_thread::sleep_for(std::chrono::milliseconds(uint64(1)));
+        if (timeout_thread->joinable()) {
+            timeout_thread->join();
         }
         delete timeout_thread;
         delete waitTask;

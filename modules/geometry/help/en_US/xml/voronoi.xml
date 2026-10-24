@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>voronoi</keyword>
+  <short_description>Voronoi diagram of planar points</short_description>
+  <syntax>
+    <syntax_item>[vx, vy] = voronoi(P)</syntax_item>
+    <syntax_item>[vx, vy] = voronoi(x, y)</syntax_item>
+    <syntax_item>[vx, vy] = voronoi(x, y, T)</syntax_item>
+    <syntax_item>h = voronoi(...)</syntax_item>
+    <syntax_item>voronoi(P)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>voronoi</b> computes Voronoi line segments for planar points.</p>
+    <p>When called without output, it plots the diagram.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Plot a Voronoi diagram.</example_item_description>
+      <example_item_data runnable="gui"><![CDATA[P = [0 0; 1 0; 1 1; 0 1; 0.4 0.6];
+voronoi(P)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${geometry}voronoin">voronoin</link></see_also_item>
+    <see_also_item><link linkend="${geometry}delaunay">delaunay</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item><history_version>2.0.0</history_version><history_description>Initial version.</history_description></history_item>
+  </history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

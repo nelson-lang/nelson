@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "file": "workspace_basics.m",
+      "title": "Workspace basics",
+      "description": "Create an array, transform it and display a concise result.",
+      "tags": [
+        "beginner",
+        "workspace"
+      ],
+      "requirements": []
+    }
+  ]
+}

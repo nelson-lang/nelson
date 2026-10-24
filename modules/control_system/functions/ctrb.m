@@ -14,7 +14,7 @@ function varargout = ctrb(varargin)
   % Co = ctrb(sys)
   narginchk(1, 2);
   nargoutchk(0, 1);
-  
+
   if nargin == 1
     sys = varargin{1};
     sys = ss(sys);
@@ -26,19 +26,19 @@ function varargout = ctrb(varargin)
     [mA, nA] = size(A);
     [mB, nB] = size(B);
     if (mA ~= nA)
-      error('Nelson:control_system:AMustBeSquare', _('Matrix A must be square.'));
+      error('Nelson:expectedSquare', '%s must be square.', 'Matrix A');
     end
-    
+
     if (mB ~= mA)
-      error('Nelson:control_system:AAndBNumRowsMismatch', _('The number of rows in matrices A and B must be equal.'));
+      error('Nelson:control_system:AAndBNumRowsMismatch', 'The number of rows in matrices %s and %s must be equal.', 'A', 'B');
     end
-  end        
-  
+  end
+
   n = size(A, 1); % We only check the dimension of A
   % Compute the controllability matrix now!
   Cs = [];
-  for i = 0:(n-1)
-    Cs = [Cs, A^i*B];
+  for i = 0:(n - 1)
+    Cs = [Cs, A ^ i * B];
   end
   varargout{1} = Cs;
 end

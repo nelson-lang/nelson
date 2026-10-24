@@ -14,12 +14,15 @@
 #endif
 #include <hdf5.h>
 #include "ArrayOf.hpp"
+#include "nlsHdf5_exports.h"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-bool
-h5LoadVariable(hid_t fid, const std::string& location, const std::string& variableName,
-    ArrayOf& VariableValue);
+class Evaluator;
 //=============================================================================
-};
+NLSHDF5_IMPEXP bool
+h5LoadVariable(Evaluator* eval, hid_t fid, const std::string& location,
+    const std::string& variableName, ArrayOf& VariableValue);
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

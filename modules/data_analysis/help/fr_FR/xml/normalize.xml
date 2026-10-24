@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>normalize</keyword>
+  <short_description>Normalise les données</short_description>
+  <syntax>
+    <syntax_item>N = normalize(A)</syntax_item>
+    <syntax_item>N = normalize(A, method)</syntax_item>
+    <syntax_item>N = normalize(A, method, methodtype)</syntax_item>
+    <syntax_item>N = normalize(A, dim, ___)</syntax_item>
+    <syntax_item>[N, C, S] = normalize(___)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>tableau numérique ou logique.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>method</param_name>
+      <param_description>'zscore', 'norm', 'range', 'center', 'scale' ou 'medianiqr'.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>methodtype</param_name>
+      <param_description>option de la méthode choisie (par ex. 'std' ou 'robust' pour 'zscore', un ordre de norme pour 'norm', un intervalle à deux éléments pour 'range').</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>dim</param_name>
+      <param_description>dimension le long de laquelle opérer.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>N</param_name>
+      <param_description>données normalisées.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>C</param_name>
+      <param_description>valeur de centrage utilisée.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>S</param_name>
+      <param_description>valeur d'échelle utilisée.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>normalize</b> retourne le score-z par vecteur des données de A (centrage par la moyenne et mise à l'échelle par l'écart-type). Une méthode et un type de méthode permettent de choisir d'autres normalisations. Par défaut, normalize opère le long de la première dimension du tableau dont la taille n'est pas égale à 1.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description></example_item_description>
+      <example_item_data runnable="cli"><![CDATA[normalize([1 2 3 4 5])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${statistics}zscore">zscore</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}std">std</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

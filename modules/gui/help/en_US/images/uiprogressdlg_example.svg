@@ -1,0 +1,11 @@
+<svg width="420.48" height="258.56" viewBox="0 0 657 404" xmlns="http://www.w3.org/2000/svg">
+<rect x="0" y="0" width="657" height="404" fill="#ffffff"/>
+<rect x="0" y="0" width="656.25" height="403.125" fill="rgba(255,255,255,1.000000)"/>
+<polygon points="114.844,318.438 561.719,318.438 561.719,69.0625 114.844,69.0625 " fill="rgba(247,249,252,1.000000)" stroke="rgba(158,165,173,1.000000)" stroke-width="1"/>
+<text x="165.625" y="117.976" fill="rgba(33,33,33,1.000000)" font-size="25" font-family="sans-serif" font-weight="bold" text-anchor="start">Working</text>
+<text x="195.313" y="174.206" fill="rgba(33,33,33,1.000000)" font-size="22.9167" font-family="sans-serif" text-anchor="start">Please wait</text>
+<polygon points="196.094,216.719 480.469,216.719 480.469,193.75 196.094,193.75 " fill="rgba(255,255,255,1.000000)" stroke="rgba(140,140,140,1.000000)" stroke-width="1"/>
+<polygon points="196.094,216.719 348.438,216.719 348.438,193.75 196.094,193.75 " fill="rgba(0,114,188,1.000000)" stroke="rgba(0,114,188,1.000000)" stroke-width="1"/>
+<polygon points="297.656,279.062 378.906,279.062 378.906,242.969 297.656,242.969 " fill="rgba(242,242,242,1.000000)" stroke="rgba(140,140,140,1.000000)" stroke-width="1"/>
+<text x="305.075" y="269.023" fill="rgba(33,33,33,1.000000)" font-size="20.8333" font-family="sans-serif" text-anchor="start">Cancel</text>
+</svg>

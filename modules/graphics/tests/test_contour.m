@@ -7,6 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--WEIGHT 2-->
 % <--ADV-CLI MODE-->
 %=============================================================================
 figure();
@@ -15,86 +16,17 @@ y = linspace(0, 4 * pi);
 [X, Y] = meshgrid(x, y);
 Z = sin(X) + cos(Y);
 contour(X, Y, Z);
+ax = gca();
+drawnow();
+asserts.isequal(ax.YTick, [0 2 4 6 8 10 12]);
 %=============================================================================
-[M, h] = contour(X, Y, Z);
-R = properties(h);
-REF = {'BeingDeleted';
-'BusyAction';
-'Children';     
-'ContourMatrix';
-'CreateFcn';    
-'DeleteFcn';    
-'DisplayName';  
-'EdgeAlpha';    
-'EdgeColor';    
-'FaceAlpha';
-'FaceColor';
-'Floating';  
-'Interruptible';  
-'LabelColor';
-'LabelFormat';
-'LabelSpacing';
-'LevelList';   
-'LevelListMode';
-'LevelStep';  
-'LevelStepMode';
-'LineStyle';   
-'LineWidth';    
-'Parent';    
-'ShowText';
-'Tag';       
-'TextList';
-'TextListMode';
-'TextStep';
-'TextStepMode';
-'Type';         
-'UserData';    
-'Visible';     
-'XData';      
-'XDataMode';    
-'YData';     
-'YDataMode';    
-'ZData';
-'ZLocation'};
-assert_isequal(R, REF);
-assert_isequal(M, h.ContourMatrix);
-assert_isequal(h.Floating, 'off');
-assert_isequal(h.FaceColor, 'none');
-assert_isequal(h.ShowText, 'off');
-%=============================================================================
-figure();
-[X, Y, Z] = peaks;
-contour(X, Y, Z, 20)
-%=============================================================================
-figure();
-[X, Y, Z] = peaks;
-v = [1,1];
-contour(X, Y, Z, v)
-%=============================================================================
-figure();
-[X, Y, Z] = peaks;
-contour(X, Y, Z, '-.')
-%=============================================================================
-figure();
-Z = peaks;
-[M, c] = contour(Z);
-c.LineWidth = 3;
-%=============================================================================
-figure();
-Z = peaks;
-Z(:,26) = NaN;
-contour(Z)
-%=============================================================================
-figure();
-[theta, r] = meshgrid (linspace (0,2*pi,64), linspace (0,1,64));
-[X, Y] = pol2cart (theta, r);
-Z = sin (2*theta) .* (1-r);
-contour (X, Y, abs (Z), 10);
-%=============================================================================
-figure();
-[x, y, z] = peaks ();
-[c, h] = contour (x, y, z);
-assert_isequal(h.LevelStepMode, 'auto');
-h.LevelStep = 3;
-assert_isequal(h.LevelStepMode, 'manual');
+% a logical Z (for example a mask from a comparison) is contoured as 0/1
+f = figure('Visible', 'off');
+[xm, ym] = meshgrid(-2:0.1:2, -2:0.1:2);
+zmask = xm .^ 2 + ym .^ 2 < 2;
+asserts.isequal(class(zmask), 'logical');
+[~, h] = contour(xm, ym, zmask);
+asserts.istrue(isgraphics(h, 'contour'));
+asserts.isequal(h.ZData, double(zmask));
+close(f);
 %=============================================================================

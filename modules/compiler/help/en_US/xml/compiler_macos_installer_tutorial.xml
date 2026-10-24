@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>compiler_macos_installer_tutorial</keyword>
+  <keyword_alias>compiler_macos_installer_tutorial</keyword_alias>
+  <short_description>Build and package a native macOS application.</short_description>
+  <syntax><syntax_item>compiler.package.installer(result, 'Options', options)</syntax_item></syntax>
+  <description>
+    <p>This tutorial runs on macOS with the Apple command-line developer tools installed. It builds a graphical application, creates a native product .pkg containing its private minimal runtime, and verifies the package payload. Execute the blocks in one Nelson session.</p>
+    <p>Open the generated .pkg with Finder for a normal installation. The default target is /Applications/MacGraphDemo and may request administrator authorization. For automated testing, set DefaultInstallationDir to an isolated absolute path and invoke /usr/sbin/installer with an appropriate target.</p>
+    <p>The installed graphical application is a .app bundle. Its private runtime contains the selected dylibs, framework bundles, Qt platform/image/icon plugins and Nelson resources. The application does not need its .m sources or the compiler module at runtime.</p>
+    <p>The package produced here is unsigned. Local ad-hoc signatures applied to rewritten binaries do not replace a Developer ID Application or Developer ID Installer signature. Distribution outside the local machine requires the appropriate Apple signing and notarization workflow; this tutorial does not claim Gatekeeper validation.</p>
+    <p>Use RuntimeDelivery='none' when a compatible runtime is installed separately. compiler.runtime.customInstaller creates its native shared-runtime .pkg. Automatic web delivery is unavailable.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item><example_item_type>nelson</example_item_type><example_item_description>Build the application</example_item_description><example_item_data><![CDATA[ncc('--help');
+previousUserPath = userpath();
+restoreUserPath = onCleanup(@() userpath(previousUserPath));
+userpath('clear');
+work = fullfile(nelsonroot(), 'temp', 'compiler macOS tutorial');
+if ~isfolder(work); mkdir(work); end
+entry = fullfile(work, 'mac_graph_demo.m');
+filewrite(entry,[ ...
+'function mac_graph_demo()', newline(), ...
+'f = figure(''Name'',''Packaged Nelson graph'',''NumberTitle'',''off'');', newline(), ...
+'ax = axes(''Parent'',f); x = 0:0.1:2*pi;', newline(), ...
+'line(''Parent'',ax,''XData'',x,''YData'',sin(x));', newline(), ...
+'uicontrol(f,''Style'',''pushbutton'',''String'',''Close'',''Callback'',{@close_demo,f});', newline(), ...
+'end', newline(), ...
+'function close_demo(source,event,f); delete(f); end', newline()]);
+result = compiler.build.standaloneApplication(entry, ...
+  'OutputDir', fullfile(work, 'build'));]]></example_item_data></example_item>
+    <example_item><example_item_type>nelson</example_item_type><example_item_description>Create and inspect the package</example_item_description><example_item_data><![CDATA[options = compiler.package.InstallerOptions(result, ...
+  'ApplicationName', 'Mac Graph Demo', ...
+  'InstallerName', 'Mac Graph Demo', ...
+  'DefaultInstallationDir', '/Applications/MacGraphDemo', ...
+  'RuntimeDelivery', 'installer', ...
+  'OutputDir', fullfile(work, 'distribution'));
+compiler.package.installer(result, 'Options', options);
+package = fullfile(options.OutputDir, 'Mac Graph Demo.pkg');
+[status, listing] = system(['/usr/sbin/pkgutil --payload-files "', package, '"']);
+if status ~= 0 || ~contains(listing, '.app/Contents/MacOS')
+  error('The macOS application bundle is missing from the package.');
+end
+disp(package);]]></example_item_data></example_item>
+    <example_item><example_item_type>nelson</example_item_type><example_item_description>Create the shared runtime package</example_item_description><example_item_data><![CDATA[compiler.runtime.customInstaller('Mac Graph Runtime', result, ...
+  'RuntimeDelivery', 'installer', ...
+  'OutputDir', fullfile(work, 'runtime distribution'));
+runtimePackage = fullfile(work, 'runtime distribution', 'Mac Graph Runtime.pkg');
+asserts.istrue(isfile(runtimePackage));]]></example_item_data></example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${compiler}compiler.build.standaloneApplication">compiler.build.standaloneApplication</link></see_also_item>
+    <see_also_item><link linkend="${compiler}compiler.package.installer">compiler.package.installer</link></see_also_item>
+    <see_also_item><link linkend="${compiler}compiler.runtime.customInstaller">compiler.runtime.customInstaller</link></see_also_item>
+  </see_also>
+  <history />
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

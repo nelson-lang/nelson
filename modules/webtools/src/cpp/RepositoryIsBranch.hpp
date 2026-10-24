@@ -22,5 +22,5 @@ RepositoryIsLocalBranch(const std::wstring& localPath, const std::wstring& branc
 bool
 RepositoryIsRemoteBranch(const std::wstring& localPath, const std::wstring& branch);
 //=============================================================================
-};
+} // namespace Nelson
 //=============================================================================

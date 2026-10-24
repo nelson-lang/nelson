@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>dashboardSlider</keyword>
+  <keyword_alias>block:dashboardSlider</keyword_alias>
+  <short_description>Sets a bound parameter by dragging a linear slider.</short_description>
+  <syntax>
+    <syntax_item>Block type: dashboardSlider</syntax_item>
+  </syntax>
+  <description>
+    <p>Sets a bound parameter by dragging a linear slider.</p>
+    <table border="1">
+      <tbody>
+        <tr>
+          <td>Module</td>
+          <td>
+            <code>nflow_blocks</code>
+          </td>
+        </tr>
+        <tr>
+          <td>Library</td>
+          <td>Dashboard blocks</td>
+        </tr>
+        <tr>
+          <td>Type</td>
+          <td>
+            <code>dashboardSlider</code>
+          </td>
+        </tr>
+        <tr>
+          <td>Label</td>
+          <td>Slider</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <img src="../../../../libraries/dashboard/exports/dashboardSlider.svg" align="middle"/>
+    </p>
+    <p>
+      <b>Description</b>
+    </p>
+    <p>The Slider block lets you set the bound parameter by dragging a handle along a linear track between the configured limits.</p>
+    <p>
+      <b>Ports</b>
+    </p>
+    <p>
+      <b>Input(s)</b>
+    </p>
+    <p>This block declares no input ports.</p>
+    <p>
+      <b>Output(s)</b>
+    </p>
+    <p>This block declares no output ports.</p>
+    <p>
+      <b>Parameters</b>
+    </p>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+          <th>Default value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <code>LabelPosition</code>
+          </td>
+          <td>Top</td>
+        </tr>
+        <tr>
+          <td>
+            <code>Binding</code>
+          </td>
+          <td/>
+        </tr>
+        <tr>
+          <td>
+            <code>ShowInitialText</code>
+          </td>
+          <td>on</td>
+        </tr>
+        <tr>
+          <td>
+            <code>ScaleType</code>
+          </td>
+          <td>Linear</td>
+        </tr>
+        <tr>
+          <td>
+            <code>Limits</code>
+          </td>
+          <td>[0, -1, 100]</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Inspector Keys</b>
+    </p>
+    <p>These serialized keys are exposed by the block inspector.</p>
+    <ul>
+      <li>
+        <code>LabelPosition</code>
+      </li>
+      <li>
+        <code>Binding</code>
+      </li>
+      <li>
+        <code>ShowInitialText</code>
+      </li>
+      <li>
+        <code>ScaleType</code>
+      </li>
+      <li>
+        <code>Limits</code>
+      </li>
+    </ul>
+    <p>
+      <b>Block Characteristics</b>
+    </p>
+    <table border="1">
+      <tbody>
+        <tr>
+          <td>Block type</td>
+          <td>dashboardSlider</td>
+        </tr>
+        <tr>
+          <td>Family</td>
+          <td>Dashboard blocks</td>
+        </tr>
+        <tr>
+          <td>Rendered size</td>
+          <td>200 x 90</td>
+        </tr>
+        <tr>
+          <td>Phases</td>
+          <td>none</td>
+        </tr>
+        <tr>
+          <td>Direct feedthrough</td>
+          <td>see Algorithms</td>
+        </tr>
+        <tr>
+          <td>Internal state or history</td>
+          <td>no</td>
+        </tr>
+        <tr>
+          <td>Signal data type</td>
+          <td>double numeric values</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Algorithms</b>
+    </p>
+    <ul>
+      <li>The block declares no simulation phases; it is driven by the dashboard, not by the solver.</li>
+      <li>User interaction writes the selected value to the bound parameter before or during the run.</li>
+      <li>The block declares no input or output signal ports.</li>
+    </ul>
+    <p>
+      <b>Extended Capabilities</b>
+    </p>
+    <p>This page describes the native runtime behavior observed in the module C++ sources. Declared phases indicate when the simulation engine calls the block.</p>
+    <p>Code generation: supported for C and Rust.</p>
+    <p>
+      <b>Implementation Sources</b>
+    </p>
+    <source_code label="Manifest" path="modules/nflow_blocks/libraries/dashboard/library.json" language="json"/>
+    <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/DashboardHandlers.cpp" language="cpp"/>
+  </description>
+  <used_function/>
+  <bibliography/>
+  <see_also>
+    <see_also_item>
+      <link linkend="${nflow_blocks}dashboard/dashboardSliderSwitch">dashboardSliderSwitch</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${nflow_blocks}dashboard/dashboardToggleSwitch">dashboardToggleSwitch</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${nflow_blocks}dashboard/dashboardCallbackButton">dashboardCallbackButton</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${nflow_blocks}dashboard/dashboardCheckBox">dashboardCheckBox</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

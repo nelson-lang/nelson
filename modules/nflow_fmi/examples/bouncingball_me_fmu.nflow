@@ -1,0 +1,117 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Allan CORNET",
+    "created": "2026-08-02",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "comments": "BouncingBall reference FMU (FMI 3.0 Model Exchange) demo. Nelson's ode4 solver integrates the two continuous states; the floor-contact state event is located by the shared zero-crossing detection and handled by the FMU's discrete update (velocity reflected).",
+  "name": "BouncingBall FMU (Model Exchange)",
+  "blocks": [
+    {
+      "id": "fmu1",
+      "type": "fmuMe",
+      "x": 120,
+      "y": 228,
+      "rotation": 0,
+      "inputs": 0,
+      "outputs": 2,
+      "params": {
+        "path": "BouncingBall.fmu",
+        "numInputs": 0,
+        "numOutputs": 2,
+        "numContinuousStates": 2,
+        "numEventIndicators": 1,
+        "inputNames": [],
+        "outputNames": [
+          "h",
+          "v"
+        ]
+      },
+      "_dy": 0,
+      "_bary": 0
+    },
+    {
+      "id": "scope1",
+      "type": "scope",
+      "x": 336,
+      "y": 120,
+      "rotation": 0,
+      "inputs": 1,
+      "outputs": 0,
+      "params": {
+        "TMin": "",
+        "TMax": "",
+        "YMin": "",
+        "YMax": "",
+        "width": 220,
+        "height": 160,
+        "ShowTickLabels": false
+      },
+      "_dy": -8,
+      "_bary": -108
+    },
+    {
+      "id": "scope2",
+      "type": "scope",
+      "x": 336,
+      "y": 320,
+      "rotation": 0,
+      "inputs": 1,
+      "outputs": 0,
+      "params": {
+        "TMin": "",
+        "TMax": "",
+        "YMin": "",
+        "YMax": "",
+        "width": 220,
+        "height": 160,
+        "ShowTickLabels": false
+      },
+      "_dy": -8,
+      "_bary": 92
+    }
+  ],
+  "connections": [
+    {
+      "from": "fmu1",
+      "fromIndex": 0,
+      "to": "scope1",
+      "toIndex": 0,
+      "points": [
+        [
+          2136,
+          1920
+        ],
+        [
+          2360,
+          1840
+        ]
+      ]
+    },
+    {
+      "from": "fmu1",
+      "fromIndex": 1,
+      "to": "scope2",
+      "toIndex": 0,
+      "points": [
+        [
+          2136,
+          1920
+        ],
+        [
+          2360,
+          2020
+        ]
+      ]
+    }
+  ],
+  "variables": {},
+  "solver": "ode4",
+  "runtime": "3",
+  "sampleTime": 0.005,
+  "autoRoute": true,
+  "locked": false
+}

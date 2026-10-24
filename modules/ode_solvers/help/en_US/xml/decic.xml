@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>decic</keyword>
+  <short_description>Compute consistent initial conditions for implicit ODEs.</short_description>
+  <syntax>
+    <syntax_item>[y0new, yp0new] = decic(odefun, t0, y0, fixed_y0, yp0, fixed_yp0)</syntax_item>
+    <syntax_item>[y0new, yp0new, resnrm] = decic(odefun, t0, y0, fixed_y0, yp0, fixed_yp0, options)</syntax_item>
+  </syntax>
+  <description>
+    <p>
+      <b>decic</b> adjusts the free components of <b>y0</b> and <b>yp0</b> so that the residual <b>odefun(t0,y0,yp0)</b> is small. Components marked by <b>fixed_y0</b> and <b>fixed_yp0</b> are kept fixed.</p>
+    <table style="width:100%">
+  <tr><th>Item</th><th>Details</th></tr>
+  <tr><td>Problem form</td><td>Fully implicit residual <b>F(t,y,yp) = 0</b>.</td></tr>
+  <tr><td>Fixed components</td><td><b>fixed_y0</b> and <b>fixed_yp0</b> mark values that must not change.</td></tr>
+  <tr><td>Outputs</td><td>Consistent initial values <b>y0mod</b> and <b>yp0mod</b>.</td></tr>
+  <tr><td>Used with</td><td><b>ode15i</b> or an <b>ode</b> object with a fully implicit equation type.</td></tr>
+</table>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_data runnable="cli"><![CDATA[f = @(t,y,yp) yp + y;
+[y0, yp0] = decic(f, 0, 1, 1, 0, 0);
+[t, y] = ode15i(f, [0 1], y0, yp0)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ode_solvers}ode15i">ode15i</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}odeset">odeset</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

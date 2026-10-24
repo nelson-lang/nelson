@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>gpuArray</keyword>
+  <short_description>Copie un tableau vers le périphérique GPU.</short_description>
+  <syntax>
+    <syntax_item>G = gpuArray(A)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>un tableau numérique réel, logique, complexe ou entier de petite taille.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>G</param_name>
+      <param_description>un gpuArray stocké sur le périphérique.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>G = gpuArray(A)</b> copie le tableau <b>A</b> vers le GPU et renvoie un objet <b>gpuArray</b>. Les opérations sur <b>G</b> s'exécutent sur le périphérique ; utilisez <b>gather</b> pour ramener le résultat vers l'hôte.</p>
+    <p>Le périphérique stocke les données en simple précision : une entrée <b>double</b> est convertie en <b>single</b>. Les entrées réelles, <b>logical</b> et complexes sont prises en charge ; les entrées creuses ne le sont pas.</p>
+    <p>Les petites classes entières <b>int8</b>, <b>uint8</b>, <b>int16</b> et <b>uint16</b> sont préservées : leurs valeurs sont exactes en simple précision, l'arithmétique sature à l'intervalle de la classe et <b>gather</b> renvoie la classe d'origine.</p>
+    <p><b>int32</b> et <b>uint32</b> sont également préservées (stockées sous forme de bits entiers 32 bits bruts) : l'aller-retour, les opérations saturantes <b>+</b>, <b>-</b>, <b>.*</b>, <b>./</b>, <b>.\</b>, le moins unaire, <b>abs</b>, <b>max</b>/<b>min</b> (élément par élément et réductions), <b>sum</b>, <b>prod</b>, <b>mean</b>, <b>cumsum</b>, <b>cumprod</b>, <b>sort</b>, <b>find</b>, la puissance entière (<b>.^</b> avec un exposant non négatif), les opérateurs relationnels et les opérations de remise en forme / d'indexation sont pris en charge. Les opérations sans signification entière (les fonctions mathématiques transcendantes élément par élément) déclenchent une erreur claire. Les classes entières 64 bits ne sont pas prises en charge.</p>
+    <p>Un GPU compatible est requis (voir <b>canUseGPU</b>).</p>
+    <p>Un tableau du périphérique peut aussi être créé directement avec <b>zeros(sz, 'gpuArray')</b> / <b>ones(sz, 'gpuArray')</b>, ou avec la forme <b>'like'</b> <b>zeros(sz, 'like', G)</b> où <b>G</b> est un gpuArray.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[A = single(rand(1000));
+G = gpuArray(A);
+R = gather(G .* G + sqrt(G));
+class(G)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${gpu_engine}gather">gather</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${gpu_engine}isgpuarray">isgpuarray</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${gpu_engine}canUseGPU">canUseGPU</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

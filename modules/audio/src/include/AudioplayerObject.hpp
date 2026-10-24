@@ -9,10 +9,12 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <atomic>
 #include <portaudio.h>
 #include "ArrayOf.hpp"
 #include "Evaluator.hpp"
 #include "HandleGenericObject.hpp"
+#include "AudioStream.hpp"
 #include "nlsAudio_exports.h"
 //=============================================================================
 namespace Nelson {
@@ -23,21 +25,22 @@ public:
     AudioplayerObject(bool withEventLoop);
     ~AudioplayerObject() override;
     bool
-    isWriteableProperty(const std::wstring& propertyName);
+    isWritableProperty(const std::wstring& propertyName);
 
-    // getter
     bool
     get(const std::wstring& propertyName, ArrayOf& res);
     int
     getTotalSamples();
+    int
+    getSampleRate();
     bool
     getRunning();
+    bool
+    isStreamFinishing();
 
-    // setter
     bool
     set(const std::wstring& propertyName, const ArrayOf& propertyValue, std::wstring& errorMessage);
 
-    // disp
     bool
     disp(Interface* eval);
     wstringVector
@@ -47,9 +50,9 @@ public:
     bool
     isMethod(const std::wstring& methodName) override;
     wstringVector
-    getProperties() override;
+    properties() override;
     wstringVector
-    getMethods() override;
+    methods() override;
 
     bool
     setSamples(const ArrayOf& data, int SampleRate, std::wstring& errorMessage);
@@ -59,11 +62,12 @@ public:
     setSamples(const ArrayOf& data, int SampleRate, int BitsPerSample, int deviceID,
         std::wstring& errorMessage);
 
-    bool
+    // returns the PortAudio error when the stream cannot be started
+    PaError
     play(int start = 0, int end = 0);
     bool
     pause();
-    bool
+    PaError
     resume();
     bool
     stop();
@@ -76,13 +80,16 @@ private:
     int _BitsPerSample;
     int _NumberOfChannels;
     int _DeviceID;
-    int _CurrentSample;
+    // written by the audio thread
+    std::atomic<int> _CurrentSample;
+    std::atomic<bool> _Running;
+    // StopFcn is due once per play, on natural end or on stop
+    std::atomic<bool> stopFcnPending { false };
     int _TotalSamples;
-    bool _Running;
     std::wstring _Tag;
     ArrayOf _UserData;
     std::string _Type;
-    PaStream* paStream;
+    AudioStream stream;
     uint32 firstSample;
     uint32 lastSample;
 
@@ -93,19 +100,13 @@ private:
 
     bool mainEvaluatorHasEventsLoop = false;
 
-    // setter
     bool
     setSampleRate(int sr);
-    bool
-    setRunning(bool on);
     bool
     setTag(const std::wstring& tag);
     bool
     setUserData(const Nelson::ArrayOf& userData);
 
-    // getter
-    int
-    getSampleRate();
     int
     getBitsPerSample();
     int
@@ -120,8 +121,6 @@ private:
     getUserData();
     std::string
     getType();
-    PaStream*
-    getStream();
 
     ArrayOf
     getStartFcn();
@@ -132,17 +131,16 @@ private:
 
     PaStreamParameters outputStreamParameters;
 
-    // callback
     static int
     paPlayCallback(const void* inputBuffer, void* outputBuffer, unsigned long framesPerBuffer,
         const PaStreamCallbackTimeInfo* timeInfo, PaStreamCallbackFlags statusFlags,
         void* userData);
 
     void
-    enqueueCallback(const ArrayOf& callbackArrayOf);
-
-    bool
-    isFunctionHandleCallbackValid(const ArrayOf& callbackArrayOf);
+    enqueueStopFcnOnce();
+    // closes the stream of a natural end (main thread)
+    void
+    releaseFinishedStream();
 };
 //=============================================================================
 } // namespace Nelson

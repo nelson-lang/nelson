@@ -11,7 +11,7 @@ function varargout = types(varargin)
   narginchk(1, 1);
   nargoutchk(0, 2);
   obj = varargin{1};
-  if (~isConfigured (obj))
+  if (~isConfigured(obj))
     keyType = string(NaN);
     valueType = string(NaN);
   else

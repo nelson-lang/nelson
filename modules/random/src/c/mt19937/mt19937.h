@@ -26,7 +26,7 @@ mt19937_seed(mt19937_state* state, uint32_t seed);
 extern void
 mt19937_gen(mt19937_state* state);
 
-/* Slightly optimized reference implementation of the Mersenne Twister */
+/* Slightly optimized expected behavior of the Mersenne Twister */
 static inline uint32_t
 mt19937_next(mt19937_state* state)
 {

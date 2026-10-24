@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nflow_dashboard</keyword>
+  <keyword_alias>block:dashboardScope</keyword_alias>
+  <keyword_alias>block:dashboardDisplay</keyword_alias>
+  <keyword_alias>block:dashboardEdit</keyword_alias>
+  <keyword_alias>block:dashboardGauge</keyword_alias>
+  <keyword_alias>block:dashboardHalfGauge</keyword_alias>
+  <keyword_alias>block:dashboardKnob</keyword_alias>
+  <keyword_alias>block:dashboardLamp</keyword_alias>
+  <keyword_alias>block:dashboardLinearGauge</keyword_alias>
+  <keyword_alias>block:dashboardMultiStateImage</keyword_alias>
+  <keyword_alias>block:dashboardPushButton</keyword_alias>
+  <keyword_alias>block:dashboardQuarterGauge</keyword_alias>
+  <keyword_alias>block:dashboardRadioButton</keyword_alias>
+  <keyword_alias>block:dashboardRockerSwitch</keyword_alias>
+  <keyword_alias>block:dashboardRotarySwitch</keyword_alias>
+  <keyword_alias>block:dashboardSlider</keyword_alias>
+  <keyword_alias>block:dashboardSliderSwitch</keyword_alias>
+  <keyword_alias>block:dashboardToggleSwitch</keyword_alias>
+  <keyword_alias>block:dashboardCallbackButton</keyword_alias>
+  <keyword_alias>block:dashboardCheckBox</keyword_alias>
+  <keyword_alias>block:dashboardComboBox</keyword_alias>
+  <short_description>Monitor and adjust NFlow simulations with interactive Dashboard blocks.</short_description>
+  <syntax>
+    <syntax_item>Dashboard library: displays, controls, bindings, and callback actions</syntax_item>
+  </syntax>
+  <description>
+    <p>Dashboard blocks provide controls and displays directly on an NFlow diagram. They have no regular input or output ports: each block reads or writes a target selected in the <b>Binding</b> section of the inspector.</p>
+    <p><b>Available blocks</b></p>
+    <table>
+      <tr><th>Family</th><th>Blocks</th><th>Purpose</th></tr>
+      <tr><td>Signal displays</td><td>Dashboard Scope, Display</td><td>Plot timestamped samples or show the latest typed value.</td></tr>
+      <tr><td>Gauges</td><td>Gauge, Half Gauge, Quarter Gauge, Linear Gauge</td><td>Show a scalar value against limits and optional colored ranges.</td></tr>
+      <tr><td>State displays</td><td>Lamp, MultiStateImage</td><td>Map signal values to colors or images.</td></tr>
+      <tr><td>Continuous controls</td><td>Edit, Knob, Slider</td><td>Set a scalar parameter or variable to an entered or pointer-selected value.</td></tr>
+      <tr><td>State controls</td><td>Push Button, Rotary Switch, Radio Button, Combo Box, Check Box, Rocker Switch, Slider Switch, Toggle Switch</td><td>Select one of the configured numeric states.</td></tr>
+      <tr><td>Action</td><td>Callback Button</td><td>Evaluate Nelson code on click or press without a binding.</td></tr>
+    </table>
+    <p><img src="../images/nflow_dashboard_library.png" align="middle" /></p>
+    <p><b>Creating a binding</b></p>
+    <p>Select a Dashboard block, then choose the target in the inspector. The status below the selector reports <b>Valid binding</b>, <b>Not connected</b>, or a precise error. Bindings use stable block identifiers, so saving, reopening, renaming, copying, and nested subsystems do not depend on displayed labels.</p>
+    <table>
+      <tr><th>Target</th><th>Used by</th><th>Configuration and timing</th></tr>
+      <tr><td>Signal</td><td>All display blocks</td><td>Select a block output, its one-based port, and Sample or Frame processing. Values are read after each major simulation step.</td></tr>
+      <tr><td>Parameter</td><td>All controls except Callback Button</td><td>Select a block, a numeric adjustable parameter, and optionally one scalar element. A validated change is visible at the next major step.</td></tr>
+      <tr><td>Variable</td><td>All controls except Callback Button</td><td>Select the Diagram, Base, or Global workspace, a numeric variable, and optionally one scalar element.</td></tr>
+    </table>
+    <p>Use one-based element notation such as <b>(2)</b> or <b>(2,3)</b>. Empty element text selects the complete target and is valid only when that target is scalar. Missing blocks, ports, variables, elements, nonnumeric values, and non-adjustable targets are rejected before simulation.</p>
+    <p><img src="../images/nflow_dashboard_binding.png" align="middle" /></p>
+    <p><b>Interacting with controls</b></p>
+    <p>Controls remain usable while a simulation is running, paused, or stopped. A pointer gesture that starts on a control belongs to that control until release, even if the simulation finishes during the gesture. Drag the block body outside the control to move the block. Slider and Knob support pointer dragging, arrow keys for incremental changes, and Home or End for their limits. Native Edit and Combo Box controls release focus when the diagram background is selected.</p>
+    <p><b>Appearance and behavior</b></p>
+    <table>
+      <tr><th>Blocks</th><th>Main properties</th></tr>
+      <tr><td>All applicable blocks</td><td><b>LabelPosition</b>, <b>ShowInitialText</b>, <b>Opacity</b>, and <b>Binding</b>.</td></tr>
+      <tr><td>Dashboard Scope</td><td><b>TimeSpan</b>, <b>UpdateMode</b>, <b>YLimits</b>, <b>NormalizeYAxis</b>, <b>ScaleAtStop</b>, legend, grid, ticks, markers, border, and colors.</td></tr>
+      <tr><td>Gauges, Slider, Knob</td><td><b>Limits</b>; gauges also support <b>ScaleColors</b> and <b>ScaleDirection</b>. Slider and Knob support a Linear or Log <b>ScaleType</b>.</td></tr>
+      <tr><td>Display and Edit</td><td>Alignment and opacity. Display additionally supports <b>Format</b>, <b>FormatString</b>, layout, grid visibility, and grid color.</td></tr>
+      <tr><td>State controls</td><td><b>States</b> or <b>Values</b>, labels, optional enumerated data type, button type, text, and icon properties where applicable.</td></tr>
+      <tr><td>Lamp and MultiStateImage</td><td>Default and state colors, or state images with <b>ScaleMode</b>.</td></tr>
+    </table>
+    <p>Limits and states are validated by the inspector. Log scales require positive usable limits. Opacity is between 0 and 1. Dashboard Scope clips its plot to the block interior and to the configured Y limits.</p>
+    <p><b>Callback Button</b></p>
+    <p>A short click evaluates <b>ClickFcn</b>. Holding the pointer for <b>PressDelay</b> milliseconds evaluates <b>PressFcn</b>; a positive <b>RepeatInterval</b> repeats that action while held. The default press delay is 500 ms. Callback errors are reported in the Console and do not stop the simulation.</p>
+    <p><b>C and Rust code generation</b></p>
+    <table>
+      <tr><th>Capability</th><th>Dashboard behavior</th></tr>
+      <tr><td>Instrumentation</td><td>Display blocks are validated, then removed from generated code without changing numerical results.</td></tr>
+      <tr><td>Tunable</td><td>A supported scalar control target becomes a typed field of <b>ModelState</b> with a stable setter. A change between two step calls applies to the next step.</td></tr>
+      <tr><td>Unsupported</td><td>Callback Button code is never generated. Structural, composite, and unsupported targets are rejected before files are written.</td></tr>
+    </table>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Open a runnable signal-display and Slider binding example.</example_item_description>
+      <example_item_data><![CDATA[open_system([modulepath('nflow_blocks'), '/examples/Dashboard_Runtime_Demo.nflow']);]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Open the gallery containing all 20 Dashboard blocks.</example_item_description>
+      <example_item_data><![CDATA[open_system([modulepath('nflow_blocks'), '/examples/Dashboard_Gallery_Demo.nflow']);]]></example_item_data>
+    </example_item>
+  </examples>
+  <used_function />
+  <bibliography />
+  <see_also>
+    <see_also_item><link linkend="${nflow_gui}nflow_workspace">nflow_workspace</link></see_also_item>
+    <see_also_item><link linkend="${nflow_gui}nflow_solvers">nflow_solvers</link></see_also_item>
+    <see_also_item><link linkend="${nflow_gui}open_system">open_system</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item><history_version>2.0.0</history_version><history_description>initial version</history_description></history_item>
+  </history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

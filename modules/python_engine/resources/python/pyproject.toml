@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nelson"
+version = "2.0.0"
+description = "Nelson Engine API for Python"
+readme = "README.md"
+requires-python = ">=3.9"
+license = "LGPL-3.0-or-later"
+authors = [
+  { name = "Allan CORNET" }
+]
+keywords = [
+  "nelson",
+  "engine",
+  "scientific-computing",
+  "numerical-computing",
+  "array"
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: GNU Lesser General Public License v3 or later (LGPLv3+)",
+  "Operating System :: MacOS",
+  "Operating System :: Microsoft :: Windows",
+  "Operating System :: POSIX :: Linux",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Topic :: Scientific/Engineering",
+  "Topic :: Software Development :: Libraries :: Python Modules"
+]
+
+[project.optional-dependencies]
+numpy = ["numpy"]
+pandas = ["pandas"]
+all = ["numpy", "pandas"]
+
+[project.urls]
+Homepage = "https://nelson-lang.github.io/nelson-website/"
+Source = "https://github.com/nelson-lang/nelson"
+Issues = "https://github.com/nelson-lang/nelson/issues"
+
+[tool.setuptools]
+packages = ["nelson", "nelson.engine"]

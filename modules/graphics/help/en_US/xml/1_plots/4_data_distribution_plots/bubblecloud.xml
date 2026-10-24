@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>bubblecloud</keyword>
+  <short_description>Display labeled bubbles packed in a cloud layout.</short_description>
+  <syntax>
+    <syntax_item>bubblecloud(sizes)</syntax_item>
+    <syntax_item>bubblecloud(sizes, labels)</syntax_item>
+    <syntax_item>bubblecloud(sizes, labels, groups)</syntax_item>
+    <syntax_item>bubblecloud(tbl, sizeVariable)</syntax_item>
+    <syntax_item>bubblecloud(tbl, sizeVariable, labelVariable, groupVariable)</syntax_item>
+    <syntax_item>bubblecloud(..., propertyName, propertyValue)</syntax_item>
+    <syntax_item>h = bubblecloud(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>bubblecloud</b> creates a <b>bubblecloud</b> chart object from numeric bubble sizes. Labels and groups can be supplied as vectors with the same number of elements as the size data.</p>
+    <p>Table input can be used by naming the size, label, and group variables.</p>
+    <p>The returned object exposes the chart data through <b>SizeData</b>, <b>LabelData</b>, and <b>GroupData</b>. Supported appearance properties include <b>Title</b>, <b>LegendTitle</b>, <b>FaceColor</b>, and <b>EdgeColor</b>.</p>
+    <p>The <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.bubblecloud.properties">bubblecloud properties</link> page lists the supported object properties.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Display labeled bubbles.</example_item_description>
+      <example_item_data><![CDATA[bubblecloud([10 20 30], {'A','B','C'}, {'G1','G1','G2'}, 'Title', 'Cloud');]]></example_item_data>
+      <example_item_img src="../../../../images/bubblecloud_1.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Create a bubble cloud from table variables.</example_item_description>
+      <example_item_data><![CDATA[t = table([5; 10; 20], {'A'; 'B'; 'C'}, {'G1'; 'G1'; 'G2'}, ...
+  'VariableNames', {'Size', 'Label', 'Group'});
+bubblecloud(t, 'Size', 'Label', 'Group');]]></example_item_data>
+      <example_item_img src="../../../../images/bubblecloud_2.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/4_data_distribution_plots/bubblechart">bubblechart</link></see_also_item>
+    <see_also_item><link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.bubblecloud.properties">bubblecloud properties</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/4_data_distribution_plots/wordcloud">wordcloud</link></see_also_item>
+  </see_also>
+</xmldoc>

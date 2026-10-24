@@ -24,9 +24,9 @@ Source: {#RootPath}bin\{#BinPath}\vorbisfile.dll; DestDir: {app}\bin\{#BinPath}\
 Source: {#RootPath}bin\{#BinPath}\portaudio.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_AUDIO};
 ;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\tag.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_AUDIO};
-#if defined(NELSON_WOA64)
+; tag.dll (TagLib) links zlib (z.dll) at load on every arch, so ship z.dll
+; with AUDIO unconditionally (not only on WoA64).
 Source: {#RootPath}bin\{#BinPath}\z.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_AUDIO};
-#endif
 ;==============================================================================
 Source: {#RootPath}bin\{#BinPath}\libnlsAudio.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_AUDIO};
 Source: {#RootPath}bin\{#BinPath}\libnlsAudio_builtin.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_AUDIO};
@@ -35,13 +35,9 @@ Source: {#RootPath}modules\{#MODULE_NAME}\loader.m; DestDir: {app}\modules\{#MOD
 Source: {#RootPath}modules\{#MODULE_NAME}\etc\startup.m; DestDir: {app}\modules\{#MODULE_NAME}\etc\;Components: {#COMPONENT_AUDIO};
 Source: {#RootPath}modules\{#MODULE_NAME}\etc\finish.m; DestDir: {app}\modules\{#MODULE_NAME}\etc\;Components: {#COMPONENT_AUDIO};
 ;==============================================================================
-Source: {#RootPath}modules\{#MODULE_NAME}\functions\*.m; DestDir: {app}\modules\{#MODULE_NAME}\functions\;Components: {#COMPONENT_AUDIO};
+Source: {#RootPath}modules\{#MODULE_NAME}\functions\*; DestDir: {app}\modules\{#MODULE_NAME}\functions\; Flags: recursesubdirs;Components: {#COMPONENT_AUDIO};
 ;==============================================================================
-Source: {#RootPath}modules\{#MODULE_NAME}\examples\*.wav; DestDir: {app}\modules\{#MODULE_NAME}\examples\;Components: {#COMPONENT_AUDIO};
-Source: {#RootPath}modules\{#MODULE_NAME}\examples\*.flac; DestDir: {app}\modules\{#MODULE_NAME}\examples\;Components: {#COMPONENT_AUDIO};
-Source: {#RootPath}modules\{#MODULE_NAME}\examples\*.ogg; DestDir: {app}\modules\{#MODULE_NAME}\examples\;Components: {#COMPONENT_AUDIO};
-Source: {#RootPath}modules\{#MODULE_NAME}\examples\*.mp3; DestDir: {app}\modules\{#MODULE_NAME}\examples\;Components: {#COMPONENT_AUDIO};
-Source: {#RootPath}modules\{#MODULE_NAME}\examples\*.m; DestDir: {app}\modules\{#MODULE_NAME}\examples\;Components: {#COMPONENT_AUDIO};
+Source: {#RootPath}modules\{#MODULE_NAME}\examples\*; DestDir: {app}\modules\{#MODULE_NAME}\examples\; Flags: recursesubdirs;Components: {#COMPONENT_AUDIO};
 ;==============================================================================
 Source: {#RootPath}modules\{#MODULE_NAME}\help\*.nhz; DestDir: {app}\modules\{#MODULE_NAME}\help\; Flags: recursesubdirs;Components: {#COMPONENT_AUDIO} and {#COMPONENT_HELP_FILES};
 ;==============================================================================

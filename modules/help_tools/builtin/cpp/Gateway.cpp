@@ -24,7 +24,7 @@ const std::wstring gatewayName = L"help_tools";
 static const nlsGateway gateway[] = {
     { "htmltopdf", (ptrBuiltin)Nelson::HelpToolsGateway::htmltopdfBuiltin, 0, 2, CPP_BUILTIN },
     { "markdown", (ptrBuiltin)Nelson::HelpToolsGateway::markdownBuiltin, 1, -2 },
-    { "xmldocbuild", (ptrBuiltin)Nelson::HelpToolsGateway::xmldocbuildBuiltin, -1, 5 },
+    { "xmldocbuild", (ptrBuiltin)Nelson::HelpToolsGateway::xmldocbuildBuiltin, -1, -1 },
     { "docroot", (ptrBuiltin)Nelson::HelpToolsGateway::docrootBuiltin, 1, 1 },
     { "xmldocmergesummary", (ptrBuiltin)Nelson::HelpToolsGateway::xmldocmergesummaryBuiltin, -1,
         2 },
@@ -36,11 +36,7 @@ static const nlsGateway gateway[] = {
         (ptrBuiltin)Nelson::HelpToolsGateway::__xmlgenerateimages__Builtin, 3, 2, CPP_BUILTIN }
 };
 //=============================================================================
-NLSGATEWAYFUNC(gateway)
+NLS_GATEWAY_FUNC(gateway)
 //=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+NLS_GATEWAY_REMOVE(gateway)
 //=============================================================================

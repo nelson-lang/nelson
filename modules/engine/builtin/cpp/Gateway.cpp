@@ -10,6 +10,8 @@
 #include "NelsonGateway.hpp"
 #include "argvBuiltin.hpp"
 #include "getnelsonmodeBuiltin.hpp"
+#include "getwebmodeBuiltin.hpp"
+#include "getweburlBuiltin.hpp"
 #include "isquietmodeBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -18,16 +20,14 @@ const std::wstring gatewayName = L"engine";
 //=============================================================================
 static const nlsGateway gateway[] = {
     { "getnelsonmode", (ptrBuiltin)Nelson::EngineGateway::getnelsonmodeBuiltin, 1, 0 },
-    { "argv", (ptrBuiltin)Nelson::EngineGateway::argvBuiltin, 1, 0, CPP_BUILTIN_WITH_EVALUATOR },
+    { "getwebmode", (ptrBuiltin)Nelson::EngineGateway::getwebmodeBuiltin, 1, 0 },
+    { "getweburl", (ptrBuiltin)Nelson::EngineGateway::getweburlBuiltin, 2, 0 },
+    { "argv", (ptrBuiltin)Nelson::EngineGateway::argvBuiltin, 1, -1, CPP_BUILTIN_WITH_EVALUATOR },
     { "isquietmode", (ptrBuiltin)Nelson::EngineGateway::isquietmodeBuiltin, 1, 0,
         CPP_BUILTIN_WITH_EVALUATOR }
 };
 //=============================================================================
-NLSGATEWAYFUNC(gateway)
+NLS_GATEWAY_FUNC(gateway)
 //=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+NLS_GATEWAY_REMOVE(gateway)
 //=============================================================================

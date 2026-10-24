@@ -12,7 +12,7 @@
 namespace Nelson {
 //=============================================================================
 std::wstring
-summarizeCellLogicalEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth,
+summarizeCellLogicalEntry(const ArrayOf& A, size_t beginningLineLength, size_t termWidth,
     NumericFormatDisplay currentNumericFormat, bool asStructElement)
 {
     std::wstring msg;
@@ -24,7 +24,7 @@ summarizeCellLogicalEntry(const ArrayOf& A, size_t beginingLineLength, size_t te
         }
     } else {
         if (A.isRowVector() || A.isScalar()) {
-            const logical* values = (static_cast<const logical*>(A.getDataPointer()));
+            const logical* values = (static_cast<const logical*>(A.dataPointer()));
             if (asStructElement) {
                 if (!A.isScalar()) {
                     msg.append(L"[");
@@ -32,7 +32,7 @@ summarizeCellLogicalEntry(const ArrayOf& A, size_t beginingLineLength, size_t te
             } else {
                 msg.append(L"[");
             }
-            for (indexType k = 0; k < A.getElementCount(); ++k) {
+            for (indexType k = 0; k < A.elementCount(); ++k) {
                 std::wstring logicalAsStr;
                 if (currentNumericFormat == NLS_NUMERIC_FORMAT_PLUS) {
                     if (values[k]) {
@@ -41,20 +41,12 @@ summarizeCellLogicalEntry(const ArrayOf& A, size_t beginingLineLength, size_t te
                         logicalAsStr = L" ";
                     }
                 } else {
-                    if (values[k]) {
-                        logicalAsStr = L"true";
-                    } else {
-                        logicalAsStr = L"false";
-                    }
+                    logicalAsStr = values[k] ? L"1" : L"0";
                 }
 
                 msg.append(logicalAsStr);
-                if (k < A.getElementCount() - 1) {
-                    if (currentNumericFormat == NLS_NUMERIC_FORMAT_PLUS) {
-                        msg.append(L" ");
-                    } else {
-                        msg.append(L"  ");
-                    }
+                if (k < A.elementCount() - 1) {
+                    msg.append(L" ");
                 }
                 if (msg.size() + 1 > termWidth) {
                     if (asStructElement) {
@@ -82,7 +74,7 @@ summarizeCellLogicalEntry(const ArrayOf& A, size_t beginingLineLength, size_t te
 }
 //=============================================================================
 std::wstring
-summarizeCellMissingEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth,
+summarizeCellMissingEntry(const ArrayOf& A, size_t beginningLineLength, size_t termWidth,
     NumericFormatDisplay currentNumericFormat, bool asStructElement)
 {
     std::wstring msg;
@@ -94,9 +86,9 @@ summarizeCellMissingEntry(const ArrayOf& A, size_t beginingLineLength, size_t te
         } else {
             msg.append(L"[");
         }
-        for (indexType k = 0; k < A.getElementCount(); ++k) {
+        for (indexType k = 0; k < A.elementCount(); ++k) {
             msg.append(L"<missing>");
-            if (k < A.getElementCount() - 1) {
+            if (k < A.elementCount() - 1) {
                 msg.append(L"    ");
             }
         }
@@ -107,7 +99,7 @@ summarizeCellMissingEntry(const ArrayOf& A, size_t beginingLineLength, size_t te
         } else {
             msg.append(L"]");
         }
-        if (msg.length() >= termWidth - beginingLineLength) {
+        if (msg.length() >= termWidth - beginningLineLength) {
             if (asStructElement) {
                 msg = lightDescription(A, L"[", L"]");
             } else {
@@ -125,12 +117,12 @@ summarizeCellMissingEntry(const ArrayOf& A, size_t beginingLineLength, size_t te
 }
 //=============================================================================
 std::wstring
-summarizeCellStringEntry(const ArrayOf& A, size_t beginingLineLength, size_t termWidth,
+summarizeCellStringEntry(const ArrayOf& A, size_t beginningLineLength, size_t termWidth,
     NumericFormatDisplay currentNumericFormat, bool asStructElement)
 {
     std::wstring msg;
     if (A.isRowVector() || A.isScalar()) {
-        ArrayOf* elements = (ArrayOf*)A.getDataPointer();
+        ArrayOf* elements = (ArrayOf*)A.dataPointer();
         if (asStructElement) {
             if (!A.isScalar()) {
                 msg.append(L"[");
@@ -138,13 +130,13 @@ summarizeCellStringEntry(const ArrayOf& A, size_t beginingLineLength, size_t ter
         } else {
             msg.append(L"[");
         }
-        for (indexType k = 0; k < A.getElementCount(); ++k) {
+        for (indexType k = 0; k < A.elementCount(); ++k) {
             if (elements[k].isCharacterArray()) {
-                msg.append(L"\"" + elements[k].getContentAsWideString() + L"\"");
+                msg.append(L"\"" + elements[k].asWideString() + L"\"");
             } else {
                 msg.append(L"<missing>");
             }
-            if (k < A.getElementCount() - 1) {
+            if (k < A.elementCount() - 1) {
                 msg.append(L"    ");
             }
         }
@@ -155,7 +147,7 @@ summarizeCellStringEntry(const ArrayOf& A, size_t beginingLineLength, size_t ter
         } else {
             msg.append(L"]");
         }
-        if (msg.length() >= termWidth - beginingLineLength) {
+        if (msg.length() >= termWidth - beginningLineLength) {
             if (asStructElement) {
                 msg = lightDescription(A, L"[", L"]");
             } else {
@@ -172,5 +164,40 @@ summarizeCellStringEntry(const ArrayOf& A, size_t beginingLineLength, size_t ter
     return msg;
 }
 //=============================================================================
+/**
+ * An object in a cell or a struct field: its compact representation when its class
+ * provides one, the texts of its elements when it is a row of a class defining
+ * compactElementText ([1 sec    2 sec]), its size summary otherwise.
+ */
+std::wstring
+summarizeCellObjectEntry(
+    const ArrayOf& A, size_t beginningLineLength, size_t termWidth, bool asStructElement)
+{
+    std::wstring msg;
+    if (A.isScalar() && callObjectCompactDisplayHook(A, msg)) {
+        return msg;
+    }
+    Dimensions dims = displayDimensions(A);
+    wstringVector texts;
+    bool isRow = dims.length() == 2 && dims.rows() == 1 && dims.columns() > 0;
+    if (isRow && callObjectElementTextsHook(A, texts) && texts.size() == dims.columns()) {
+        bool withBrackets = !asStructElement || texts.size() > 1;
+        msg = withBrackets ? L"[" : L"";
+        for (size_t k = 0; k < texts.size(); ++k) {
+            if (k > 0) {
+                msg.append(L"    ");
+            }
+            msg.append(texts[k]);
+        }
+        if (withBrackets) {
+            msg.append(L"]");
+        }
+        if (msg.length() < termWidth - beginningLineLength) {
+            return msg;
+        }
+    }
+    return asStructElement ? lightDescription(A, L"[", L"]") : lightDescription(A, L"", L"");
 }
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

@@ -12,11 +12,11 @@ B = 2;
 R1 = (A >= B);
 R2 = (B >= A);
 R3 = (A >= A);
-assert_isfalse(R1);
-assert_istrue(R2);
-assert_istrue(R3);
+asserts.isfalse(R1);
+asserts.istrue(R2);
+asserts.istrue(R3);
 %=============================================================================
-R =  [1 2 3] >= 3
+R = [1 2 3] >= 3
 REF = [false, false, true];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================

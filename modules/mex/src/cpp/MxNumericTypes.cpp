@@ -131,7 +131,7 @@ mxCreateUninitNumericArrayInterleavedComplex(
         return mxAllocateRealArray(
             (mwSize)ndim, (const mwSize*)dims, sizeFromClass(classid), classid, false);
     }
-    return mxAllocateSeparatedComplexArray(
+    return mxAllocateInterleavedComplexArray(
         (mwSize)ndim, (const mwSize*)dims, sizeFromClass(classid), classid, false);
 }
 //=============================================================================

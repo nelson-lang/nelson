@@ -7,23 +7,14 @@
 ; SPDX-License-Identifier: LGPL-3.0-or-later
 ; LICENCE_BLOCK_END
 ;==============================================================================
-; Boost 1.89
-;==============================================================================
-Source: {#RootPath}bin\{#BinPath}\boost_thread-{#BOOST_TARGET}.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_NELSON};
-Source: {#RootPath}bin\{#BinPath}\boost_serialization-{#BOOST_TARGET}.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_NELSON};
-;==============================================================================
 ; VC runtime
 ;==============================================================================
 #if defined(NELSON_WOA64)
 Source: {#RootPath}bin\{#BinPath}\vc_redist.arm64.exe; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_NELSON};
-#elif defined(NELSON_X64)
-Source: {#RootPath}bin\{#BinPath}\vc_redist.x64.exe; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_NELSON};
 #else
-Source: {#RootPath}bin\{#BinPath}\vc_redist.x86.exe; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_NELSON};
+Source: {#RootPath}bin\{#BinPath}\vc_redist.x64.exe; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_NELSON};
 #endif
-#if defined(NELSON_WOA64) || defined(NELSON_X64)
 Source: {#RootPath}bin\{#BinPath}\vcruntime140_1.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_NELSON};
-#endif
 Source: {#RootPath}bin\{#BinPath}\msvcp140.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_NELSON};
 Source: {#RootPath}bin\{#BinPath}\vcruntime140.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_NELSON};
 Source: {#RootPath}bin\{#BinPath}\concrt140.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_NELSON};
@@ -38,14 +29,22 @@ Source: {#RootPath}bin\{#BinPath}\vcruntime140_threads.dll; DestDir: {app}\bin\{
 ;==============================================================================
 ; Intel runtime
 ;==============================================================================
-#ifndef NELSON_WOA64
+#if !defined(NELSON_WOA64) && (defined(ICC_COMPILER) || defined(ICX_COMPILER))
 Source: {#RootPath}bin\{#BinPath}\libmmd.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_NELSON};
 #endif
 #if defined(ICC_COMPILER) || defined(ICX_COMPILER)
 Source: {#RootPath}bin\{#BinPath}\svml_dispmd.dll; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_NELSON};
 #endif
 ;==============================================================================
-Source: {#RootPath}bin\{#BinPath}\LICENSE_1_0.txt; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_NELSON};
+; Nelson executables
+;==============================================================================
+Source: {#RootPath}bin\{#BinPath}\{#APPLICATION_EXE_LINT_NAME}; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_NELSON};
+Source: {#RootPath}bin\{#BinPath}\{#APPLICATION_EXE_LSP_NAME}; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_NELSON};
+Source: {#RootPath}bin\{#BinPath}\{#APPLICATION_EXE_FORMAT_NAME}; DestDir: {app}\bin\{#BinPath}\;Components: {#COMPONENT_NELSON};
+;==============================================================================
+; Application icon, referenced by the Windows Terminal profile as
+; %NELSON_RUNTIME_PATH%\nelson.ico (see AddWindowsTerminalProfile in code.iss).
+Source: {#RootPath}resources\fibonacci.ico; DestDir: {app}\bin\{#BinPath}\; DestName: nelson.ico;Components: {#COMPONENT_NELSON};
 ;==============================================================================
 ; BLAS/LAPACK libraries (used by linear_algebra and slicot modules)
 ;==============================================================================

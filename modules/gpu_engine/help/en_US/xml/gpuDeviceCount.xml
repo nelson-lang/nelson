@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>gpuDeviceCount</keyword>
+  <short_description>Number of compatible GPU devices.</short_description>
+  <syntax>
+    <syntax_item>n = gpuDeviceCount()</syntax_item>
+  </syntax>
+  <param_output>
+    <param_output_item>
+      <param_name>n</param_name>
+      <param_description>double: the number of compatible GPU devices detected (0 when none).</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>n = gpuDeviceCount()</b> returns the number of compatible GPU devices available on the system. A value of <b>0</b> means no supported device was found.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[gpuDeviceCount()]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${gpu_engine}gpuDevice">gpuDevice</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${gpu_engine}canUseGPU">canUseGPU</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

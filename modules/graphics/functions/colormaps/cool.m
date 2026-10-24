@@ -20,7 +20,7 @@ function map = cool(varargin)
   else
     m = varargin{1};
   end
-  r = (0:m-1)' / max(m - 1, 1);
-  map = [r, (1 - r), ones(m, 1)]; 
+  r = (0:m - 1)' / max(m - 1, 1);
+  map = [r, (1 - r), ones(m, 1)];
 end
 %=============================================================================

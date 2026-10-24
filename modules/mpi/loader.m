@@ -11,7 +11,7 @@ if ~strcmp(getenv('NELSON_WITHOUT_MPI'), 'TRUE')
   try
     addmodule([nelsonroot() '/modules/' 'mpi'], 'mpi');
   catch
-    warning('MPI not loaded');
+    warning('Nelson:mpi:notLoaded', 'MPI not loaded');
   end
 end
 %=============================================================================

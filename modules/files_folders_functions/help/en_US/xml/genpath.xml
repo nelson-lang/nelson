@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>genpath</keyword>
+  <short_description>Generate a recursive path string.</short_description>
+  <syntax>
+    <syntax_item>p = genpath(folder)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>genpath</b> returns a path string containing <b>folder</b> and its included subfolders separated by <b>pathsep</b>.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[p = genpath(tempdir())]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${files_folders_functions}pathsep">pathsep</link></see_also_item>
+    <see_also_item><link linkend="${files_folders_functions}fullfile">fullfile</link></see_also_item>
+  </see_also>
+</xmldoc>

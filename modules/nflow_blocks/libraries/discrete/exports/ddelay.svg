@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 72 72"
+   width="72"
+   height="72"
+   version="1.1"
+   id="svg3"
+   sodipodi:docname="ddelay.svg"
+   inkscape:version="1.4.3 (0d15f75, 2025-12-25)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs3" />
+  <sodipodi:namedview
+     id="namedview3"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="10.736111"
+     inkscape:cx="36.046572"
+     inkscape:cy="36"
+     inkscape:window-width="1920"
+     inkscape:window-height="991"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg3" />
+  <rect
+     width="72"
+     height="72"
+     rx="14"
+     fill="#E6F1FB"
+     stroke="#B5D4F4"
+     stroke-width="1"
+     stroke-dasharray="5,3"
+     id="rect1" />
+  <text
+     x="36"
+     y="28"
+     text-anchor="middle"
+     dominant-baseline="middle"
+     font-family="Georgia,serif"
+     font-size="13"
+     font-style="italic"
+     fill="#0C447C"
+     id="text1">z</text>
+  <line
+     x1="14"
+     y1="38"
+     x2="58"
+     y2="38"
+     stroke="#0C447C"
+     stroke-width="1"
+     id="line1" />
+  <text
+     x="36"
+     y="50"
+     text-anchor="middle"
+     dominant-baseline="middle"
+     font-family="Georgia,serif"
+     font-size="12"
+     fill="#0C447C"
+     id="text2">T</text>
+</svg>

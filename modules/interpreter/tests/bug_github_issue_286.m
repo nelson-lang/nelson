@@ -7,15 +7,17 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
+%=============================================================================
 % <-- Issue URL -->
 % https://github.com/nelson-lang/nelson/issues/286
 % <-- Short Description -->
 % fix [end] = sin(3)
 %=============================================================================
-assert_checkerror('[end] = sin(3)', _('Syntax error.'));
-assert_checkerror('[1, end] = sin(3)', _('Syntax error.'));
-msg = sprintf(_('Expecting %s'), _('statement list or function definition'));
-assert_checkerror('end = sin(3)', msg);
+asserts.checkerror('[end] = sin(3)', _('Syntax error.'));
+asserts.checkerror('[1, end] = sin(3)', _('Syntax error.'));
+msg = strrep(_('Expecting %s'), '%s', _('statement list or function definition'));
+asserts.checkerror('end = sin(3)', msg);
 %=============================================================================
-assert_isequal(parsestring('– = 3'), 'error');
+asserts.isequal(parsestring('â€“ = 3'), 'error');
 %=============================================================================

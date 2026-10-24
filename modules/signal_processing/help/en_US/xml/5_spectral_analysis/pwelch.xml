@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>pwelch</keyword>
+  <short_description>Welch power spectral density estimate.</short_description>
+  <syntax>
+    <syntax_item>[Pxx, F] = pwelch(X)</syntax_item>
+    <syntax_item>[Pxx, F] = pwelch(X, window, noverlap, NFFT, Fs)</syntax_item>
+    <syntax_item>[Pxx, F] = pwelch(..., FREQRANGE)</syntax_item>
+    <syntax_item>[Pxx, F] = pwelch(..., SPECTRUMTYPE)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>X</param_name><param_description>input signal.</param_description></param_input_item>
+    <param_input_item><param_name>window</param_name><param_description>window vector or length.</param_description></param_input_item>
+    <param_input_item><param_name>noverlap</param_name><param_description>number of overlapping samples.</param_description></param_input_item>
+    <param_input_item><param_name>NFFT</param_name><param_description>FFT length.</param_description></param_input_item>
+    <param_input_item><param_name>Fs</param_name><param_description>sample rate.</param_description></param_input_item>
+    <param_input_item><param_name>FREQRANGE</param_name><param_description><code>'onesided'</code>, <code>'twosided'</code>, <code>'centered'</code>, <code>'half'</code>, or <code>'whole'</code>.</param_description></param_input_item>
+    <param_input_item><param_name>SPECTRUMTYPE</param_name><param_description><code>'psd'</code> or <code>'power'</code>.</param_description></param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>Pxx</param_name><param_description>averaged spectral estimate.</param_description></param_output_item>
+    <param_output_item><param_name>F</param_name><param_description>frequency vector.</param_description></param_output_item>
+  </param_output>
+  <description><p><b>pwelch</b> estimates a spectrum by averaging periodograms of overlapped segments.</p></description>
+  <examples><example_item><example_item_type>nelson</example_item_type><example_item_description /><example_item_data runnable="cli"><![CDATA[
+[pxx, f] = pwelch(rand(256, 1), hamming(64), 32, 128, 1, 'centered');
+]]></example_item_data></example_item></examples>
+  <see_also><see_also_item><link linkend="${signal_processing}periodogram">periodogram</link></see_also_item><see_also_item><link linkend="${signal_processing}cpsd">cpsd</link></see_also_item></see_also>
+  <history><history_item><history_version>2.0.0</history_version><history_description>initial version</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

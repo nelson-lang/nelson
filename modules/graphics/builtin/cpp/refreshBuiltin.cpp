@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "refreshBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "RefreshFigure.hpp"
 #include "GOFigure.hpp"
@@ -36,21 +37,21 @@ refreshBuiltin(int nLhs, const ArrayOfVector& argIn)
     case 1: {
         bool isScalarGraphicsObject = argIn[0].isGraphicsObject() && argIn[0].isScalar();
         if (!isScalarGraphicsObject) {
-            Error(_("figure graphics object expected."));
+            Error("Nelson:figure:expectedFigure", "figure graphics object expected.");
             return retval;
         }
-        handle = argIn[0].getContentAsGraphicsObjectScalar();
+        handle = argIn[0].asGraphicsObjectScalar();
     } break;
     default: {
         handle = NO_FIGURE;
     } break;
     }
     if (handle == HANDLE_ROOT_OBJECT || handle >= HANDLE_OFFSET_OBJECT || handle == NO_FIGURE) {
-        Error(_("figure graphics object expected."));
+        Error("Nelson:figure:expectedFigure", "figure graphics object expected.");
     }
     refreshFigure(handle);
     return retval;
 }
 //=============================================================================
-}
+} // namespace Nelson::GraphicsGateway
 //=============================================================================

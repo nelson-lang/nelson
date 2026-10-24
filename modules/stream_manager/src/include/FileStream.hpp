@@ -25,12 +25,9 @@ private:
 public:
     FileStream(const std::wstring& filename, const std::wstring& accessmode);
     FileStream(FILE* afp);
-    // Close the file
     ~FileStream();
-    // Write a sequence of bytes to the file
     void
     writeBytes(const void* data, int len) override;
-    // Read a sequence of bytes from the file
     void
     readBytes(void* data, int len) override;
 };

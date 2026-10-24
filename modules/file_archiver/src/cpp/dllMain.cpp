@@ -9,7 +9,7 @@
 //=============================================================================
 #include <Windows.h>
 //=============================================================================
-#pragma comment(lib, "zlib.lib")
+#pragma comment(lib, "z.lib")
 //=============================================================================
 int WINAPI
 DllMain(HINSTANCE hInstance, DWORD reason, PVOID pvReserved)

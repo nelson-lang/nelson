@@ -12,28 +12,21 @@ function d = configureDictionary(keyType, valueType)
   mustBeTextScalar(valueType, 2);
   keyType = convertCharsToStrings(keyType);
   if (~checkIsType(keyType))
-    msg = sprintf(_("Unknown type '%s'. Dictionary could not be created."), keyType);
-    error(msg);
+    msg = sprintf("Unknown type '%s'. Dictionary could not be created.", keyType);
+    error('Nelson:configureDictionary:unknownType', msg);
   end
   valueType = convertCharsToStrings(valueType);
   if (~checkIsType(valueType))
-    msg = sprintf(_("Unknown type '%s'. Dictionary could not be created."), valueType);
-    error(msg);
+    msg = sprintf("Unknown type '%s'. Dictionary could not be created.", valueType);
+    error('Nelson:configureDictionary:unknownType', msg);
   end
-  map = struct ();
-  allKeys = {};
-  st = struct();
-  st.map = map;
-  st.allKeys = allKeys;
-  st.keyType = keyType;
-  st.valueType = valueType;
-  d = class(st, 'dictionary');
+  d = dictionary.fromState(struct(), {}, keyType, valueType, {});
 end
 %=============================================================================
 function tf = checkIsType(nameType)
   tf = false;
-  numericTypes = [ "int8"; "uint8"; "int16"; "uint16"; "int32"; "uint32"; ...
-  "int64"; "uint64"; "single"; "double" ];
+  numericTypes = ["int8"; "uint8"; "int16"; "uint16"; "int32"; "uint32"; ...
+    "int64"; "uint64"; "single"; "double"];
   if ismember(nameType, numericTypes)
     tf = true;
     return
@@ -43,29 +36,29 @@ function tf = checkIsType(nameType)
     tf = true;
     return
   end
-  specializedTypes = ["logical", "function_handle"]; 
+  specializedTypes = ["logical", "function_handle"];
   if ismember(nameType, specializedTypes)
     tf = true;
     return
   end
-  structuredTypes = ["struct"; "cell"]; 
+  structuredTypes = ["struct"; "cell"];
   if ismember(nameType, structuredTypes)
     tf = true;
     return
   end
-  
+
   [list_builtin, list_macro] = what();
   all_elements = [list_macro; list_builtin];
   all_elements = string(all_elements);
   all_elements(~startsWith(all_elements, '@')) = [];
-  
+
   slashIndex = strfind(all_elements, "/");
-  
+
   for k = 1:numel(slashIndex)
     element = convertStringsToChars(all_elements(k));
     idx = slashIndex{k};
     if ~isempty(idx)
-      element = element(2:idx(1)-1);
+      element = element(2:idx(1) - 1);
     else
       element = element(2:end);
     end
@@ -74,6 +67,6 @@ function tf = checkIsType(nameType)
       tf = true;
       return
     end
-  end 
+  end
 end
 %=============================================================================

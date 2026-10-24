@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -18,7 +18,7 @@ Nelson::Julia_engineGateway::jl_classBuiltin(int nLhs, const ArrayOfVector& argI
     ArrayOfVector retval;
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
-    retval << ArrayOf::characterArrayConstructor(argIn[0].getHandleClassName());
+    retval << ArrayOf::characterArray(argIn[0].handleClassName());
     return retval;
 }
 //=============================================================================

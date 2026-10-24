@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>graphics</module_name>
+  <chapter>2-D and 3-D Plots</chapter>
+  <chapter_description>
+    <p>Functions grouped by visualization type, including lines, distributions, discrete data, polar plots, contours, vector fields, surfaces, volumes, polygons, and animation.</p>
+  </chapter_description>
+</xmldoc>

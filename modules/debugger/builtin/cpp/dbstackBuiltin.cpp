@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -12,11 +12,11 @@
 #include "dbstackBuiltin.hpp"
 #include "DebugStack.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "PositionScript.hpp"
 #include "CallStack.hpp"
 #include "characters_encoding.hpp"
-#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -25,9 +25,9 @@ checkArgument(Evaluator* eval, const ArrayOf& arg, bool& withCompleteNames, int&
     bool& isCompleteNames, bool& isNbOmits)
 {
     if (arg.isRowVectorCharacterArray()) {
-        std::wstring str = arg.getContentAsWideString();
+        std::wstring str = arg.asWideString();
         if (str != L"-completenames") {
-            Error(_W("'-completenames' expected."));
+            Error(L"Nelson:dbstack:completenamesExpected", L"'%s' expected.", L"-completenames");
         }
         withCompleteNames = true;
         isCompleteNames = true;
@@ -37,25 +37,26 @@ checkArgument(Evaluator* eval, const ArrayOf& arg, bool& withCompleteNames, int&
         if (param1.isIntegerType()) {
             param1.promoteType(NLS_DOUBLE);
         }
-        switch (param1.getDataClass()) {
+        switch (param1.dataClass()) {
         case NLS_DOUBLE: {
-            value = param1.getContentAsDoubleScalar();
+            value = param1.asDoubleScalar();
         } break;
         case NLS_SINGLE: {
-            value = static_cast<double>(param1.getContentAsSingleScalar());
+            value = static_cast<double>(param1.asSingleScalar());
         } break;
         default: {
-            Error(ERROR_WRONG_ARGUMENT_1_SCALAR_INTEGER_VALUE_EXPECTED);
+            Error(L"Nelson:expectedInteger", L"%s must be an integer.", L"Argument #1");
         } break;
         }
         int intValue = static_cast<int>(value);
         if (static_cast<double>(intValue) != value) {
-            Error(ERROR_WRONG_ARGUMENT_1_SCALAR_INTEGER_VALUE_EXPECTED);
+            Error(L"Nelson:expectedInteger", L"%s must be an integer.", L"Argument #1");
         }
         nbOmits = intValue + 1;
         isNbOmits = true;
     } else {
-        Error(_W("'-completenames' expected or scalar integer value required."));
+        Error(L"Nelson:dbstack:invalidOption",
+            L"'-completenames' expected or scalar integer value required.");
     }
 }
 //=============================================================================
@@ -79,10 +80,10 @@ dbstackAsStruct(stackTrace positions, bool withCompleteNames)
     dims[0] = positions.size();
     dims[1] = 1;
     if (positions.empty()) {
-        st = ArrayOf::emptyStructConstructor(fieldnames, dims);
+        st = ArrayOf::emptyStruct(fieldnames, dims);
     } else {
         auto* elements = static_cast<ArrayOf*>(
-            ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, dims.getElementCount(), fieldnames, false));
+            ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, dims.elementCount(), fieldnames, false));
         st = ArrayOf(NLS_STRUCT_ARRAY, dims, elements, false, fieldnames);
         ArrayOfVector file;
         ArrayOfVector name;
@@ -95,13 +96,13 @@ dbstackAsStruct(stackTrace positions, bool withCompleteNames)
             if (!withCompleteNames) {
                 filename = shortName(position.getFilename());
             }
-            file.push_back(ArrayOf::characterArrayConstructor(filename));
+            file.push_back(ArrayOf::characterArray(filename));
             std::wstring functionName = position.getFunctionName();
-            name.push_back(ArrayOf::characterArrayConstructor(functionName));
+            name.push_back(ArrayOf::characterArray(functionName));
             if (position.getLine() == 0) {
-                line.push_back(ArrayOf::emptyConstructor(0, 1));
+                line.push_back(ArrayOf::empty(0, 1));
             } else {
-                line.push_back(ArrayOf::doubleConstructor((double)position.getLine()));
+                line.push_back(ArrayOf::doubleScalar((double)position.getLine()));
             }
         }
         st.setFieldAsList("file", file);
@@ -185,7 +186,7 @@ Nelson::DebuggerGateway::dbstackBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         }
     } break;
     default: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(L"Nelson:tooManyInputs", L"Too many input arguments.");
     } break;
     }
 
@@ -213,10 +214,10 @@ Nelson::DebuggerGateway::dbstackBuiltin(Evaluator* eval, int nLhs, const ArrayOf
         if (indexWorkspace <= 0) {
             indexWorkspace = 1;
         }
-        retval << ArrayOf::doubleConstructor(indexWorkspace);
+        retval << ArrayOf::doubleScalar(indexWorkspace);
     } break;
     default: {
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(L"Nelson:tooManyOutputs", L"Too many output arguments.");
     } break;
     }
     return retval;

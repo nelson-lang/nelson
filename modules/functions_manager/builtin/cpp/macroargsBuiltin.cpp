@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,10 +9,10 @@
 //=============================================================================
 #include "macroargsBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "MacroArguments.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -24,20 +24,20 @@ Nelson::FunctionsGateway::macroargsBuiltin(Evaluator* eval, int nLhs, const Arra
     nargincheck(argIn, 1, 1);
     std::wstring wfunctionname;
     if (argIn[0].isRowVectorCharacterArray()) {
-        wfunctionname = argIn[0].getContentAsWideString();
+        wfunctionname = argIn[0].asWideString();
     } else {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+        Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1), L"string");
     }
     wstringVector Inputs;
     wstringVector Outputs;
     bool bOK = MacroArguments(eval, wfunctionname, Inputs, Outputs);
     if (bOK) {
-        retval << ArrayOf::toCellArrayOfCharacterColumnVectors(Inputs);
+        retval << ArrayOf::cellArrayFromArrayOfCharacterColumnVectors(Inputs);
         if (nLhs > 1) {
-            retval << ArrayOf::toCellArrayOfCharacterColumnVectors(Outputs);
+            retval << ArrayOf::cellArrayFromArrayOfCharacterColumnVectors(Outputs);
         }
     } else {
-        Error(_W("function macro name not found."));
+        Error(L"Nelson:macroargs:functionNotFound", L"function macro name not found.");
     }
     return retval;
 }

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>renamecats</keyword>
+  <short_description>Rename categories in a categorical array.</short_description>
+  <syntax>
+    <syntax_item>B = renamecats(A, newNames)</syntax_item>
+    <syntax_item>B = renamecats(A, oldNames, newNames)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>Input categorical array.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>oldNames</param_name>
+      <param_description>Existing category names to rename.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>newNames</param_name>
+      <param_description>Replacement names. With two inputs, this must provide one name for every category.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>B</param_name>
+      <param_description>Categorical array whose category names have been changed without changing category codes.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>renamecats</b> changes category labels while preserving which elements belong to each category.</p>
+    <p>New names must be valid and unique after the rename operation.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Rename one category.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = categorical({'red','blue'}); B = renamecats(A, 'red', 'rouge'); categories(B)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Rename all categories.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = categorical({'red','blue'}); B = renamecats(A, {'bleu','rouge'}); categories(B)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${categorical}categories">categories</link></see_also_item>
+    <see_also_item><link linkend="${categorical}reordercats">reordercats</link></see_also_item>
+    <see_also_item><link linkend="${categorical}mergecats">mergecats</link></see_also_item>
+    <see_also_item><link linkend="${categorical}setcats">setcats</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

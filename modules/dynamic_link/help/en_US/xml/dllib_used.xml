@@ -4,7 +4,7 @@
   <language>en_US</language>
   <keyword>dllib_used</keyword>
   <short_description
-  >Returns list of current used dllib handle.</short_description>
+  >Returns the current valid dllib handles.</short_description>
   <syntax>
     <syntax_item>r = dllib_used()</syntax_item>
   </syntax>
@@ -15,7 +15,7 @@
     </param_output_item>
   </param_output>
   <description>
-    <p>Returns list of current used dllib handle.</p>
+    <p>Returns the current valid dllib handles.</p>
   </description>
   <used_function />
   <bibliography />
@@ -25,7 +25,7 @@
       <example_item_description />
       <example_item_data
         runnable="cli"
-      ><![CDATA[dllib_used(),delete(dllib_used())]]></example_item_data>
+      ><![CDATA[used = dllib_used()]]></example_item_data>
     </example_item>
   </examples>
   <see_also>

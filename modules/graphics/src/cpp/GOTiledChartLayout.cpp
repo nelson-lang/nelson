@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -11,6 +11,7 @@
 #include <algorithm>
 #include <limits>
 #include "GOTiledChartLayout.hpp"
+#include "GOChartDecorators.hpp"
 #include "GOPropertyNames.hpp"
 #include "GOPropertyValues.hpp"
 #include "GOGObjectsProperty.hpp"
@@ -22,9 +23,12 @@
 #include "GORestrictedStringProperty.hpp"
 #include "GOVectorTwoDoubleProperty.hpp"
 #include "GOVectorFourDoubleProperty.hpp"
+#include "GOSubplotText.hpp"
 #include "GOText.hpp"
 #include "GOHelpers.hpp"
+#include "GOCommonProperties.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
@@ -39,7 +43,6 @@ GOTiledChartLayout::GOTiledChartLayout()
 {
     registerProperties();
 
-    // Initialise defaults
     setRestrictedStringDefault(GO_BEING_DELETED_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR);
     setStringDefault(GO_TYPE_PROPERTY_NAME_STR, getType());
     setTwoVectorDefault(GO_GRID_SIZE_PROPERTY_NAME_STR, 1.0, 1.0);
@@ -57,8 +60,9 @@ GOTiledChartLayout::GOTiledChartLayout()
     setRestrictedStringDefault(GO_HANDLE_VISIBILITY_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
     setRestrictedStringDefault(GO_INTERRUPTIBLE_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_ON_STR);
     setRestrictedStringDefault(GO_BUSY_ACTION_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_QUEUE_STR);
+    initializeCommonProperties(this);
 
-    m_tileOccupancy.assign(1, -1); // 1×1 grid initially
+    m_tileOccupancy.assign(1, -1);
     m_nextTileIndex = 1;
 }
 //=============================================================================
@@ -85,12 +89,10 @@ GOTiledChartLayout::~GOTiledChartLayout()
 void
 GOTiledChartLayout::registerProperties()
 {
-    // Identification
     registerProperty(new GOStringProperty, GO_TYPE_PROPERTY_NAME_STR, false);
     registerProperty(new GOStringProperty, GO_TAG_PROPERTY_NAME_STR);
     registerProperty(new GOArrayOfProperty, GO_USER_DATA_PROPERTY_NAME_STR);
 
-    // Callback / deletion
     registerProperty(new GOOnOffProperty, GO_BEING_DELETED_PROPERTY_NAME_STR, false);
     registerProperty(new GOCallbackProperty, GO_CREATE_FCN_PROPERTY_NAME_STR);
     registerProperty(new GOCallbackProperty, GO_DELETE_FCN_PROPERTY_NAME_STR);
@@ -98,7 +100,6 @@ GOTiledChartLayout::registerProperties()
     registerProperty(new GOBusyActionProperty, GO_BUSY_ACTION_PROPERTY_NAME_STR);
     registerProperty(new GOOnOffProperty, GO_INTERRUPTIBLE_PROPERTY_NAME_STR);
 
-    // Layout
     {
         static const wchar_t* tileArrangeVals[]
             = { L"fixed", L"flow", L"vertical", L"horizontal", nullptr };
@@ -121,13 +122,11 @@ GOTiledChartLayout::registerProperties()
             new GORestrictedStringProperty(indexingVals), GO_TILE_INDEXING_PROPERTY_NAME_STR);
     }
 
-    // Label / title sub-objects
     registerProperty(new GOGObjectsProperty, GO_TITLE_PROPERTY_NAME_STR);
     registerProperty(new GOGObjectsProperty, GO_SUBTITLE_PROPERTY_NAME_STR);
     registerProperty(new GOGObjectsProperty, GO_X_LABEL_PROPERTY_NAME_STR);
     registerProperty(new GOGObjectsProperty, GO_Y_LABEL_PROPERTY_NAME_STR);
 
-    // Position
     registerProperty(new GOFourVectorProperty, GO_OUTER_POSITION_PROPERTY_NAME_STR);
     registerProperty(new GOFourVectorProperty, GO_INNER_POSITION_PROPERTY_NAME_STR);
     registerProperty(new GOFourVectorProperty, GO_POSITION_PROPERTY_NAME_STR);
@@ -142,7 +141,6 @@ GOTiledChartLayout::registerProperties()
         registerProperty(new GORestrictedStringProperty(unitsVals), GO_UNITS_PROPERTY_NAME_STR);
     }
 
-    // Parent / child
     registerProperty(new GOGObjectsProperty, GO_PARENT_PROPERTY_NAME_STR, false);
     registerProperty(new GOGObjectsProperty, GO_CHILDREN_PROPERTY_NAME_STR);
     {
@@ -151,11 +149,11 @@ GOTiledChartLayout::registerProperties()
             new GORestrictedStringProperty(hvVals), GO_HANDLE_VISIBILITY_PROPERTY_NAME_STR);
     }
 
-    // Misc
     registerProperty(new GOOnOffProperty, GO_VISIBLE_PROPERTY_NAME_STR);
-    registerProperty(new GOGObjectsProperty, GO_LAYOUT_PROPERTY_NAME_STR);
+    registerProperty(new GOLayoutOptionsProperty, GO_LAYOUT_PROPERTY_NAME_STR);
     registerProperty(new GOGObjectsProperty, GO_TOOL_BAR_PROPERTY_NAME_STR);
 
+    registerCommonProperties(this);
     sortProperties();
 }
 //=============================================================================
@@ -194,7 +192,7 @@ GOTiledChartLayout::paintMe(RenderInterface& gc)
             continue;
         }
         GraphicsObject* child = findGraphicsObject(handle, false);
-        if (child && child->getType() == GO_PROPERTY_VALUE_TILED_LAYOUT_STR) {
+        if (child) {
             child->paintMe(gc);
         }
     }
@@ -282,7 +280,8 @@ void
 GOTiledChartLayout::setGridSizeFromUser(int rows, int cols)
 {
     if (hasTileChildren()) {
-        Error(_W("GridSize can only be set when all tiles in the layout are empty."));
+        Error(L"Nelson:tiledlayout:gridSizeLocked",
+            L"GridSize can only be set when all tiles in the layout are empty.");
     }
     setTileArrangementInternal(GO_PROPERTY_VALUE_FIXED_STR);
     setGridSizeInternal(rows, cols);
@@ -292,23 +291,29 @@ GOTiledChartLayout::setGridSizeFromUser(int rows, int cols)
 static go_handle
 createLayoutTextObject(go_handle layoutHandle, const std::wstring& propertyName)
 {
-    GOText* text = new GOText;
+    GOText* text = new GOSubplotText;
     go_handle textHandle = assignGraphicsObject(text);
     text->setGoProperty(GO_PARENT_PROPERTY_NAME_STR, layoutHandle);
     text->setRestrictedStringDefault(GO_UNITS_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_NORMALIZED_STR);
     text->setRestrictedStringDefault(
         GO_HORIZONTAL_ALIGNMENT_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_CENTER_STR);
+    text->setRestrictedStringDefault(
+        GO_HANDLE_VISIBILITY_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_OFF_STR);
+    text->setThreeVectorDefault(
+        GO_COLOR_PROPERTY_NAME_STR, 0.129411764705882, 0.129411764705882, 0.129411764705882);
     text->setScalarDoubleDefault(GO_MARGIN_PROPERTY_NAME_STR, 3.0);
     if (propertyName == GO_TITLE_PROPERTY_NAME_STR) {
-        text->setThreeVectorDefault(GO_POSITION_PROPERTY_NAME_STR, 0.5, 1.0, 0.0);
+        text->setThreeVectorDefault(GO_POSITION_PROPERTY_NAME_STR, 0.5, 0.895, 0.0);
         text->setRestrictedStringDefault(
             GO_VERTICAL_ALIGNMENT_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_BOTTOM_STR);
         text->setRestrictedStringDefault(
-            GO_FONT_WEIGHT_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_BOLD_STR);
+            GO_FONT_WEIGHT_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_NORMAL_STR);
+        text->setScalarDoubleDefault(GO_FONT_SIZE_PROPERTY_NAME_STR, 13.0);
     } else if (propertyName == GO_SUBTITLE_PROPERTY_NAME_STR) {
-        text->setThreeVectorDefault(GO_POSITION_PROPERTY_NAME_STR, 0.5, 0.96, 0.0);
+        text->setThreeVectorDefault(GO_POSITION_PROPERTY_NAME_STR, 0.5, 0.857, 0.0);
         text->setRestrictedStringDefault(
             GO_VERTICAL_ALIGNMENT_PROPERTY_NAME_STR, GO_PROPERTY_VALUE_BOTTOM_STR);
+        text->setScalarDoubleDefault(GO_FONT_SIZE_PROPERTY_NAME_STR, 12.0);
     } else if (propertyName == GO_X_LABEL_PROPERTY_NAME_STR) {
         text->setThreeVectorDefault(GO_POSITION_PROPERTY_NAME_STR, 0.5, 0.0, 0.0);
         text->setRestrictedStringDefault(
@@ -337,33 +342,6 @@ GOTiledChartLayout::initializeTextObjects(go_handle layoutHandle)
     }
 }
 //=============================================================================
-// Spacing helpers
-double
-GOTiledChartLayout::getSpacingFraction()
-{
-    std::wstring ts = findStringProperty(GO_TILE_SPACING_PROPERTY_NAME_STR);
-    if (ts == GO_PROPERTY_VALUE_COMPACT_STR) {
-        return SPACING_COMPACT;
-    }
-    if (ts == GO_PROPERTY_VALUE_TIGHT_STR || ts == L"none") {
-        return SPACING_TIGHT;
-    }
-    return SPACING_LOOSE;
-}
-//=============================================================================
-double
-GOTiledChartLayout::getPaddingFraction()
-{
-    std::wstring pd = findStringProperty(GO_PADDING_PROPERTY_NAME_STR);
-    if (pd == GO_PROPERTY_VALUE_COMPACT_STR) {
-        return PADDING_COMPACT;
-    }
-    if (pd == GO_PROPERTY_VALUE_TIGHT_STR) {
-        return PADDING_TIGHT;
-    }
-    return PADDING_LOOSE;
-}
-//=============================================================================
 static bool
 layoutTextHasString(GOTiledChartLayout* layout, const std::wstring& propertyName)
 {
@@ -380,10 +358,122 @@ layoutTextHasString(GOTiledChartLayout* layout, const std::wstring& propertyName
         return false;
     }
     GraphicsObject* text = findGraphicsObject(handle, false);
-    if (!text || text->getType() != GO_PROPERTY_VALUE_TEXT_STR) {
+    if (!text
+        || (text->getType() != GO_PROPERTY_VALUE_TEXT_STR
+            && text->getType() != GO_PROPERTY_VALUE_SUBPLOT_TEXT_STR)) {
         return false;
     }
     return !text->findStringProperty(GO_STRING_PROPERTY_NAME_STR).empty();
+}
+//=============================================================================
+// Padding margins, as a fraction of the layout outer box. The 'loose' values equal the
+// default axes inset [left bottom right top] = [0.13 0.11 0.095 0.075], so the tiles fill
+// the region a lone axes would. 'compact' and 'tight' shrink the band down to the
+// tick-label allowance.
+static void
+tiledPaddingMargins(
+    const std::wstring& paddingMode, double& left, double& right, double& bottom, double& top)
+{
+    if (paddingMode == GO_PROPERTY_VALUE_COMPACT_STR) {
+        left = 0.065;
+        right = 0.055;
+        bottom = 0.0475;
+        top = 0.0375;
+    } else if (paddingMode == GO_PROPERTY_VALUE_TIGHT_STR || paddingMode == L"none") {
+        left = 0.030417;
+        right = 0.005;
+        bottom = 0.033889;
+        top = 0.0125;
+    } else {
+        // loose (default)
+        left = 0.13;
+        right = 0.095;
+        bottom = 0.11;
+        top = 0.075;
+    }
+}
+//=============================================================================
+// Normalised gap between two adjacent inner tile plot boxes. It combines the fixed
+// inter-tile spacing with the tick-label band, which shrinks as tiles get smaller, so it
+// depends on the tile count along the axis. Horizontal gaps (y-tick labels) are wider than
+// vertical gaps (x-tick labels). Values plateau once count >= 5.
+static double
+tiledTileGap(const std::wstring& spacingMode, int count, bool horizontal)
+{
+    if (count <= 1) {
+        return 0.0;
+    }
+    int idx = (count > 5) ? 5 : count;
+    if (spacingMode == GO_PROPERTY_VALUE_COMPACT_STR) {
+        if (horizontal) {
+            switch (idx) {
+            case 2:
+                return 0.070000;
+            case 3:
+                return 0.038208;
+            case 4:
+                return 0.034708;
+            default:
+                return 0.031833;
+            }
+        }
+        switch (idx) {
+        case 2:
+            return 0.070000;
+        case 3:
+            return 0.050111;
+        case 4:
+            return 0.043778;
+        default:
+            return 0.042444;
+        }
+    } else if (spacingMode == GO_PROPERTY_VALUE_TIGHT_STR || spacingMode == L"none") {
+        if (horizontal) {
+            switch (idx) {
+            case 2:
+                return 0.035417;
+            case 3:
+                return 0.031542;
+            case 4:
+                return 0.028042;
+            default:
+                return 0.025167;
+            }
+        }
+        switch (idx) {
+        case 2:
+            return 0.046389;
+        case 3:
+            return 0.041222;
+        case 4:
+            return 0.034889;
+        default:
+            return 0.033556;
+        }
+    }
+    // loose (default)
+    if (horizontal) {
+        switch (idx) {
+        case 2:
+            return 0.140000;
+        case 3:
+            return 0.070000;
+        case 4:
+            return 0.046667;
+        default:
+            return 0.038500;
+        }
+    }
+    switch (idx) {
+    case 2:
+        return 0.140000;
+    case 3:
+        return 0.070000;
+    case 4:
+        return 0.052667;
+    default:
+        return 0.051333;
+    }
 }
 //=============================================================================
 std::pair<int, int>
@@ -393,7 +483,7 @@ GOTiledChartLayout::tileIndexToRowCol(int tileIndex)
     int n = getGridCols();
 
     std::wstring indexing = findStringProperty(GO_TILE_INDEXING_PROPERTY_NAME_STR);
-    int idx = tileIndex - 1; // 0-based
+    int idx = tileIndex - 1;
     if (idx < 0 || idx >= m * n) {
         return { -1, -1 };
     }
@@ -437,7 +527,6 @@ GOTiledChartLayout::findNextEmptyTile(int spanRows, int spanCols)
         if (row < 1 || col < 1) {
             continue;
         }
-        // Check that all tiles in the spanRows×spanCols block are free
         bool allFree = true;
         for (int dr = 0; dr < spanRows && allFree; ++dr) {
             for (int dc = 0; dc < spanCols && allFree; ++dc) {
@@ -453,7 +542,7 @@ GOTiledChartLayout::findNextEmptyTile(int spanRows, int spanCols)
             return t;
         }
     }
-    return total + 1; // Overflow — caller should extend grid or wrap
+    return total + 1; // Overflow; caller should extend grid or wrap
 }
 //=============================================================================
 void
@@ -728,41 +817,24 @@ GOTiledChartLayout::updateChildPositions()
 
     double topReserve = 0.0;
     if (hasTitleText && hasSubtitleText) {
-        topReserve = 0.10 * h;
-    } else if (hasTitleText || hasSubtitleText) {
-        topReserve = 0.06 * h;
+        topReserve = 0.0757936507936508 * h;
+    } else if (hasTitleText) {
+        topReserve = 0.025 * h;
+    } else if (hasSubtitleText) {
+        topReserve = 0.0178571428571429 * h;
     }
     double bottomReserve = hasXLabelText ? 0.08 * h : 0.0;
     double leftReserve = hasYLabelText ? 0.08 * w : 0.0;
     double rightReserve = 0.0;
 
-    double contentX0 = x0 + leftReserve;
-    double contentY0 = y0 + bottomReserve;
-    double contentW = w - leftReserve - rightReserve;
-    double contentH = h - topReserve - bottomReserve;
-    if (contentW <= 0.0 || contentH <= 0.0) {
-        return;
-    }
-
-    double spacing = getSpacingFraction();
-    double padding = getPaddingFraction();
-
     std::wstring spacingMode = findStringProperty(GO_TILE_SPACING_PROPERTY_NAME_STR);
-    double insetLeft = 0.13;
-    double insetBottom = 0.11;
-    double insetWidth = 0.775;
-    double insetHeight = 0.815;
-    if (spacingMode == GO_PROPERTY_VALUE_COMPACT_STR) {
-        insetLeft = 0.075;
-        insetBottom = 0.085;
-        insetWidth = 0.90;
-        insetHeight = 0.89;
-    } else if (spacingMode == GO_PROPERTY_VALUE_TIGHT_STR || spacingMode == L"none") {
-        insetLeft = 0.08;
-        insetBottom = 0.09;
-        insetWidth = 0.89;
-        insetHeight = 0.88;
-    }
+    std::wstring paddingMode = findStringProperty(GO_PADDING_PROPERTY_NAME_STR);
+
+    double marginLeft = 0.0;
+    double marginRight = 0.0;
+    double marginBottom = 0.0;
+    double marginTop = 0.0;
+    tiledPaddingMargins(paddingMode, marginLeft, marginRight, marginBottom, marginTop);
 
     bool hasNorth = getEdgeTile(L"north") != -1 && !isDeletedGraphicsObject(getEdgeTile(L"north"));
     bool hasSouth = getEdgeTile(L"south") != -1 && !isDeletedGraphicsObject(getEdgeTile(L"south"));
@@ -772,21 +844,37 @@ GOTiledChartLayout::updateChildPositions()
     int totalRows = m + (hasNorth ? 1 : 0) + (hasSouth ? 1 : 0);
     int totalCols = n + (hasEast ? 1 : 0) + (hasWest ? 1 : 0);
 
-    double tileW = (contentW - 2.0 * padding - (totalCols - 1) * spacing) / totalCols;
-    double tileH = (contentH - 2.0 * padding - (totalRows - 1) * spacing) / totalRows;
+    // Content box = outer box minus the padding margins and the title/label reserves.
+    double contentX0 = x0 + marginLeft * w + leftReserve;
+    double contentY0 = y0 + marginBottom * h + bottomReserve;
+    double contentW = w - (marginLeft + marginRight) * w - leftReserve - rightReserve;
+    double contentH = h - (marginBottom + marginTop) * h - topReserve - bottomReserve;
+    if (contentW <= 0.0 || contentH <= 0.0) {
+        return;
+    }
 
+    double gapH = tiledTileGap(spacingMode, totalCols, true) * w;
+    double gapV = tiledTileGap(spacingMode, totalRows, false) * h;
+
+    double tileW = (contentW - (totalCols - 1) * gapH) / totalCols;
+    double tileH = (contentH - (totalRows - 1) * gapV) / totalRows;
     if (tileW <= 0.0 || tileH <= 0.0) {
         return;
     }
 
     int westOffset = hasWest ? 1 : 0;
     int southOffset = hasSouth ? 1 : 0;
+    int northOffset = hasNorth ? 1 : 0;
 
-    double centerLeft = contentX0 + padding + westOffset * (tileW + spacing);
-    double centerBottom = contentY0 + padding + southOffset * (tileH + spacing);
+    double centerLeft = contentX0 + westOffset * (tileW + gapH);
+    double centerBottom = contentY0 + southOffset * (tileH + gapV);
+
+    // Equal division of the content box, used for the OuterPosition cell.
+    double cellW = contentW / totalCols;
+    double cellH = contentH / totalRows;
 
     auto setChildPosition = [&](go_handle childHandle, double left, double bottom, double width,
-                                double height) {
+                                double height, int absCol, int absRow, int spanC, int spanR) {
         if (isDeletedGraphicsObject(childHandle)) {
             return;
         }
@@ -795,33 +883,33 @@ GOTiledChartLayout::updateChildPositions()
             return;
         }
 
-        double innerLeft = left + width * insetLeft;
-        double innerBottom = bottom + height * insetBottom;
-        double innerWidth = width * insetWidth;
-        double innerHeight = height * insetHeight;
+        double outerLeft = contentX0 + (absCol - 1) * cellW;
+        double outerBottom = contentY0 + (totalRows - absRow - spanR + 1) * cellH;
+        double outerWidth = spanC * cellW;
+        double outerHeight = spanR * cellH;
 
         GOFourVectorProperty* outerPosProp = dynamic_cast<GOFourVectorProperty*>(
             child->findProperty(GO_OUTER_POSITION_PROPERTY_NAME_STR, false));
         if (outerPosProp) {
-            outerPosProp->value(left, bottom, width, height);
+            outerPosProp->value(outerLeft, outerBottom, outerWidth, outerHeight);
         }
 
         GOFourVectorProperty* innerPosProp = dynamic_cast<GOFourVectorProperty*>(
             child->findProperty(GO_INNER_POSITION_PROPERTY_NAME_STR, false));
         if (innerPosProp) {
-            innerPosProp->value(innerLeft, innerBottom, innerWidth, innerHeight);
+            innerPosProp->value(left, bottom, width, height);
         }
 
         GOFourVectorProperty* posProp = dynamic_cast<GOFourVectorProperty*>(
             child->findProperty(GO_POSITION_PROPERTY_NAME_STR, false));
         if (posProp) {
-            posProp->value(innerLeft, innerBottom, innerWidth, innerHeight);
+            posProp->value(left, bottom, width, height);
         }
 
         GOGenericProperty* posModeProp
             = child->findProperty(GO_POSITION_MODE_PROPERTY_NAME_STR, false);
         if (posModeProp) {
-            posModeProp->set(ArrayOf::characterArrayConstructor(GO_PROPERTY_VALUE_MANUAL_STR));
+            posModeProp->set(ArrayOf::characterArray(GO_PROPERTY_VALUE_MANUAL_STR));
         }
     };
 
@@ -838,32 +926,33 @@ GOTiledChartLayout::updateChildPositions()
             continue;
         }
 
-        double left = centerLeft + (col - 1) * (tileW + spacing);
-        double bottom = centerBottom + (m - row - info.spanRows + 1) * (tileH + spacing);
-        double width = info.spanCols * tileW + (info.spanCols - 1) * spacing;
-        double height = info.spanRows * tileH + (info.spanRows - 1) * spacing;
+        double left = centerLeft + (col - 1) * (tileW + gapH);
+        double bottom = centerBottom + (m - row - info.spanRows + 1) * (tileH + gapV);
+        double width = info.spanCols * tileW + (info.spanCols - 1) * gapH;
+        double height = info.spanRows * tileH + (info.spanRows - 1) * gapV;
 
-        setChildPosition(childHandle, left, bottom, width, height);
+        setChildPosition(childHandle, left, bottom, width, height, westOffset + col,
+            northOffset + row, info.spanCols, info.spanRows);
     }
 
-    double centerWidth = n * tileW + (n - 1) * spacing;
-    double centerHeight = m * tileH + (m - 1) * spacing;
+    double centerWidth = n * tileW + (n - 1) * gapH;
+    double centerHeight = m * tileH + (m - 1) * gapV;
 
     if (hasNorth) {
-        setChildPosition(getEdgeTile(L"north"), centerLeft, centerBottom + centerHeight + spacing,
-            centerWidth, tileH);
+        setChildPosition(getEdgeTile(L"north"), centerLeft, centerBottom + centerHeight + gapV,
+            centerWidth, tileH, westOffset + 1, 1, n, 1);
     }
     if (hasSouth) {
-        setChildPosition(
-            getEdgeTile(L"south"), centerLeft, contentY0 + padding, centerWidth, tileH);
+        setChildPosition(getEdgeTile(L"south"), centerLeft, contentY0, centerWidth, tileH,
+            westOffset + 1, totalRows, n, 1);
     }
     if (hasEast) {
-        setChildPosition(getEdgeTile(L"east"), centerLeft + centerWidth + spacing, centerBottom,
-            tileW, centerHeight);
+        setChildPosition(getEdgeTile(L"east"), centerLeft + centerWidth + gapH, centerBottom, tileW,
+            centerHeight, totalCols, northOffset + 1, 1, m);
     }
     if (hasWest) {
-        setChildPosition(
-            getEdgeTile(L"west"), contentX0 + padding, centerBottom, tileW, centerHeight);
+        setChildPosition(getEdgeTile(L"west"), contentX0, centerBottom, tileW, centerHeight, 1,
+            northOffset + 1, 1, m);
     }
 }
 //=============================================================================
@@ -898,14 +987,14 @@ GOTiledChartLayout::reflowTiles()
         contentWidth = outerPos[2];
         contentHeight = outerPos[3];
     }
-    double targetRowsPerColumn = (4.0 / 3.0) * (contentHeight / contentWidth);
+    double tarrowsPerColumn = (4.0 / 3.0) * (contentHeight / contentWidth);
     int limit = std::max(nChildren + minRows + minCols + 2, minRows * minCols + nChildren + 2);
     for (int rows = minRows; rows <= limit; ++rows) {
         for (int cols = minCols; cols <= limit; ++cols) {
             if (rows * cols < nChildren || rows * cols < minCapacity) {
                 continue;
             }
-            double aspectScore = std::abs(((double)rows / (double)cols) - targetRowsPerColumn);
+            double aspectScore = std::abs(((double)rows / (double)cols) - tarrowsPerColumn);
             double areaScore = 0.001 * (double)(rows * cols);
             double score = aspectScore + areaScore;
             if (score < bestScore) {

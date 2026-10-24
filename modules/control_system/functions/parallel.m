@@ -13,22 +13,18 @@ function varargout = parallel(varargin)
   % sys = parallel(sys1, sys2)
   narginchk(2, 2);
   nargoutchk(0, 1);
-  
+
   sys1 = varargin{1};
   sys2 = varargin{2};
   if ~islti(sys1) || ~islti(sys2)
-    error(_('LTI model expected.'));
+    error('Nelson:control_system:invalidType', '%s expected.', 'LTI model');
   end
-  Ts1 = sys1.Ts;
-  Ts2 = sys2.Ts;
-  if (Ts1 ~= Ts2)
-    error(_('Sampling times must agree.'));
-  end
-  
+  ltiCheckSampleTimeCompatibility(sys1, sys2);
+
   if isa(sys1, 'ss') || isa(sys2, 'ss')
     sys1 = ss(sys1);
     sys2 = ss(sys2);
   end
-  
+
   varargout{1} = sys1 + sys2;
 end

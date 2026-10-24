@@ -7,47 +7,50 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('nextpow2'), -1)
-assert_isequal(nargout('nextpow2'), -1)
+% <--WEIGHT 2-->
+asserts.isequal(nargin('nextpow2'), -1)
+asserts.isequal(nargout('nextpow2'), -1)
 %=============================================================================
 R = nextpow2(ones(0, 1));
 REF = ones(0, 1);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-R = nextpow2 (Inf);
+R = nextpow2(Inf);
 REF = Inf;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = nextpow2(-Inf);
 REF = Inf;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = nextpow2(NaN);
 REF = NaN;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = nextpow2(0);
 REF = 0;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = nextpow2(1);
 REF = 0;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = nextpow2([10, Inf, 30, -Inf, 90, NaN]);
-REF =  [4   Inf     5   Inf     7   NaN];
-assert_isequal(R, REF);
+REF = [4 Inf 5 Inf 7 NaN];
+asserts.isequal(R, REF);
 %=============================================================================
 R = nextpow2(0:20)
-REF = [ 0   0   1   2   2   3   3   3   3   4   4   4   4   4   4   4   4   5   5   5  5];
-assert_isequal(R, REF);
+REF = [0 0 1 2 2 3 3 3 3 4 4 4 4 4 4 4 4 5 5 5 5];
+asserts.isequal(R, REF);
 %=============================================================================
 R = nextpow2([2 i 4]);
 REF = [1 0 2];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 M = uint32([1020 4000 32700]);
 R = nextpow2(M);
-REF = uint32([ 10   12   15]);
-assert_isequal(R, REF);
+REF = uint32([10 12 15]);
+asserts.isequal(R, REF);
+%=============================================================================
+asserts.isequal(nextpow2([0 1 2 3 4]), [0 0 1 2 2]);
 %=============================================================================

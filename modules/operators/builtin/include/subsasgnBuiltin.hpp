@@ -10,11 +10,12 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson::OperatorsGateway {
 //=============================================================================
 ArrayOfVector
-subsasgnBuiltin(int nLhs, const ArrayOfVector& argIn);
+subsasgnBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

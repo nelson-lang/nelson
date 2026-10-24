@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -45,83 +45,18 @@ struct
     }
 } comparisonRealLess;
 //=============================================================================
-struct
-{
-    template <class T>
-    bool
-    operator()(const SortRealEntry<T>& a, const SortRealEntry<T>& b)
-    {
-        return comparisonRealGreater(a.x, b.x);
-    }
-} comparisonRealGreaterRealEntry;
-//=============================================================================
-struct
-{
-    template <class T>
-    bool
-    operator()(const SortRealEntry<T>& a, const SortRealEntry<T>& b)
-    {
-        return comparisonRealLess(a.x, b.x);
-    }
-} comparisonRealLessRealEntry;
-//=============================================================================
 template <class T>
 void
 RealEntrySortByPlacement(
     std::vector<SortRealEntry<T>>& buf, bool ascend, MISSING_PLACEMENT placement)
 {
-    switch (placement) {
-    case MISSING_PLACEMENT::AUTO_PLACEMENT: {
-        if (ascend) {
-            parallelSort(buf.begin(), buf.end(), comparisonRealLessRealEntry);
-        } else {
-            auto it = std::partition(
-                buf.begin(), buf.end(), [](const SortRealEntry<T>& i) { return std::isnan(i.x); });
-
-            parallelSort(
-                buf.begin(), buf.end(), [](const SortRealEntry<T>& a, const SortRealEntry<T>& b) {
-                    if (std::isnan(a.x) && std::isnan(b.x)) {
-                        return a.n < b.n;
-                    }
-                    return a.n != a.n;
-                });
-
-            parallelSort(it, buf.end(), comparisonRealGreaterRealEntry);
-        }
-    } break;
-    case MISSING_PLACEMENT::FIRST_PLACEMENT: {
-        auto it = std::partition(
-            buf.begin(), buf.end(), [](const SortRealEntry<T>& i) { return std::isnan(i.x); });
-        parallelSort(
-            buf.begin(), buf.end(), [](const SortRealEntry<T>& a, const SortRealEntry<T>& b) {
-                if (std::isnan(a.x) && std::isnan(b.x)) {
-                    return a.n < b.n;
-                }
-                return a.n != a.n;
-            });
-        if (ascend) {
-            parallelSort(it, buf.end(), comparisonRealLessRealEntry);
-        } else {
-            parallelSort(it, buf.end(), comparisonRealGreaterRealEntry);
-        }
-    } break;
-    case MISSING_PLACEMENT::LAST_PLACEMENT: {
-        auto it = std::partition(
-            buf.begin(), buf.end(), [](const SortRealEntry<T>& i) { return !std::isnan(i.x); });
-        parallelSort(
-            buf.begin(), buf.end(), [](const SortRealEntry<T>& a, const SortRealEntry<T>& b) {
-                if (std::isnan(a.x) && std::isnan(b.x)) {
-                    return a.n < b.n;
-                }
-                return a.n != a.n;
-            });
-        if (ascend) {
-            parallelSort(buf.begin(), it, comparisonRealLessRealEntry);
-        } else {
-            parallelSort(buf.begin(), it, comparisonRealGreaterRealEntry);
-        }
-    } break;
-    }
+    const bool missingFirst = placement == MISSING_PLACEMENT::FIRST_PLACEMENT
+        || (placement == MISSING_PLACEMENT::AUTO_PLACEMENT && !ascend);
+    sortIndexedEntries(
+        buf, missingFirst, [](const SortRealEntry<T>& entry) { return std::isnan(entry.x); },
+        [ascend](const SortRealEntry<T>& a, const SortRealEntry<T>& b) {
+            return ascend ? a.x < b.x : a.x > b.x;
+        });
 }
 //=============================================================================
 template <class T>
@@ -232,9 +167,9 @@ RealSortWithoutIndex(const T* sp, T* dp, indexType planes, indexType planesize, 
                     auto it = std::partition(
                         buf.begin(), buf.end(), [](const T& i) { return !std::isnan(i); });
                     if (ascend) {
-                        parallelSort(it, buf.end(), comparisonRealLess);
+                        parallelSort(buf.begin(), it, comparisonRealLess);
                     } else {
-                        parallelSort(it, buf.end(), comparisonRealGreater);
+                        parallelSort(buf.begin(), it, comparisonRealGreater);
                     }
                 } break;
                 }
@@ -260,23 +195,23 @@ sortReal(const ArrayOf& arrayIn, NelsonType dataClass, bool withIndex, indexType
         if (isVector) {
             sortedValues = ArrayOf(arrayIn);
             sortedValues.ensureSingleOwner();
-            ptrValue = (T*)sortedValues.getDataPointer();
+            ptrValue = (T*)sortedValues.dataPointer();
         } else {
             ptrValue = (T*)ArrayOf::allocateArrayOf(
-                dataClass, outDim.getElementCount(), stringVector(), false);
+                dataClass, outDim.elementCount(), stringVector(), false);
             sortedValues = ArrayOf(dataClass, outDim, ptrValue);
         }
         double* ptrIndex = (double*)ArrayOf::allocateArrayOf(
-            NLS_DOUBLE, outDim.getElementCount(), stringVector(), false);
+            NLS_DOUBLE, outDim.elementCount(), stringVector(), false);
         if (isVector) {
-            ompIndexType elementCount = (ompIndexType)outDim.getElementCount();
+            ompIndexType elementCount = (ompIndexType)outDim.elementCount();
             OMP_PARALLEL_FOR_LOOP(elementCount)
             for (ompIndexType k = 0; k < elementCount; ++k) {
                 ptrIndex[k] = (double)1;
             }
         }
         indexValues = ArrayOf(NLS_DOUBLE, outDim, ptrIndex);
-        RealSortWithIndex<T>((const T*)arrayIn.getDataPointer(), (T*)ptrValue, (double*)ptrIndex,
+        RealSortWithIndex<T>((const T*)arrayIn.dataPointer(), (T*)ptrValue, (double*)ptrIndex,
             planecount, planesize, linesize, isVector, ascend, placement);
         res.push_back(sortedValues);
         res.push_back(indexValues);
@@ -285,18 +220,18 @@ sortReal(const ArrayOf& arrayIn, NelsonType dataClass, bool withIndex, indexType
         if (isVector) {
             sortedValues = ArrayOf(arrayIn);
             sortedValues.ensureSingleOwner();
-            ptrValue = (T*)sortedValues.getDataPointer();
+            ptrValue = (T*)sortedValues.dataPointer();
         } else {
             ptrValue = (T*)ArrayOf::allocateArrayOf(
-                dataClass, outDim.getElementCount(), stringVector(), false);
+                dataClass, outDim.elementCount(), stringVector(), false);
             sortedValues = ArrayOf(dataClass, outDim, ptrValue);
         }
-        RealSortWithoutIndex<T>((const T*)arrayIn.getDataPointer(), (T*)ptrValue, planecount,
+        RealSortWithoutIndex<T>((const T*)arrayIn.dataPointer(), (T*)ptrValue, planecount,
             planesize, linesize, isVector, ascend, placement);
         res.push_back(sortedValues);
     }
     return res;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

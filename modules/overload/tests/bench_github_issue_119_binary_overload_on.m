@@ -9,7 +9,7 @@
 %=============================================================================
 addpath([modulepath('overload', 'tests'), '/overload']);
 M = 1:1e5;
-tic;for i=M
+tic; for i = M
   3 == 3;
 end
 toc()

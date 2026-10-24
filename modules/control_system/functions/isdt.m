@@ -13,10 +13,13 @@
 % Ts = -1: Discrete-time model with unspecified sampling time.
 % Ts = -2: Static gain model.
 function res = isdt(sys)
-  if ~islti(sys) 
-    msg = sprintf(_('Ensure that the data type of the argument is correct in the function call to ''%s''.'), 'isdt');
-    error(msg);
+  if ~islti(sys)
+    error('Nelson:control_system:incorrectDataType', 'Ensure that the data type of the argument is correct in the function call to ''%s''.', 'isdt');
   end
-  res  = (sys.Ts > 0) || (sys.Ts == -1) || (sys.Ts == -2);
+  if isstatic(sys)
+    res = true;
+    return
+  end
+  res = (sys.Ts > 0) || (sys.Ts == -1) || (sys.Ts == -2);
 end
 %=============================================================================

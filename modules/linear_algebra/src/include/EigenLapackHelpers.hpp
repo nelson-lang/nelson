@@ -30,12 +30,12 @@ doubleComplexEigenDecompositionSymmetric(
     int n, std::complex<double>* v, double* d, std::complex<double>* a, bool eigenvectors);
 //=============================================================================
 NLSLINEAR_ALGEBRA_IMPEXP void
-singleEigenDecomposition(int n, std::complex<float>* v, std::complex<float>* d, float* a,
-    bool eigenvectors, bool balance);
+singleEigenDecomposition(
+    int n, float* v, std::complex<float>* d, float* a, bool eigenvectors, bool balance);
 //=============================================================================
 NLSLINEAR_ALGEBRA_IMPEXP void
-doubleEigenDecomposition(int n, std::complex<double>* v, std::complex<double>* d, double* a,
-    bool eigenvectors, bool balance);
+doubleEigenDecomposition(
+    int n, double* v, std::complex<double>* d, double* a, bool eigenvectors, bool balance);
 //=============================================================================
 NLSLINEAR_ALGEBRA_IMPEXP void
 singleComplexEigenDecomposition(int n, std::complex<float>* v, std::complex<float>* d,
@@ -45,5 +45,5 @@ NLSLINEAR_ALGEBRA_IMPEXP void
 doubleComplexEigenDecomposition(int n, std::complex<double>* v, std::complex<double>* d,
     std::complex<double>* a, bool eigenvectors, bool balance);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -24,8 +24,8 @@ IsMatioFile(const wstringVector& filenames, ArrayOf& results, ArrayOf& versions,
     results = ArrayOf(NLS_LOGICAL, dims, res);
 
     if (filenames.size() == 0) {
-        versions = ArrayOf::stringArrayConstructor(filenames, dims);
-        headers = ArrayOf::stringArrayConstructor(filenames, dims);
+        versions = ArrayOf::stringArray(filenames, dims);
+        headers = ArrayOf::stringArray(filenames, dims);
         return;
     }
     ArrayOf* elementVersions = (ArrayOf*)ArrayOf::allocateArrayOf(
@@ -42,10 +42,10 @@ IsMatioFile(const wstringVector& filenames, ArrayOf& results, ArrayOf& versions,
         bool fileExistPreviously = FileSystemWrapper::Path::is_regular_file(mat_filename);
         if (!fileExistPreviously) {
             res[k] = false;
-            ArrayOf empty = ArrayOf::emptyConstructor(0, 1);
+            ArrayOf empty = ArrayOf::empty(0, 1);
             empty.promoteType(NLS_CHAR);
-            elementVersions[k] = ArrayOf::characterArrayConstructor("");
-            elementHeaders[k] = ArrayOf::characterArrayConstructor("");
+            elementVersions[k] = ArrayOf::characterArray("");
+            elementHeaders[k] = ArrayOf::characterArray("");
         } else {
             std::string utf8filename = wstring_to_utf8(filename);
             mat_t* matfile = Mat_Open(utf8filename.c_str(), MAT_ACC_RDONLY);
@@ -58,34 +58,34 @@ IsMatioFile(const wstringVector& filenames, ArrayOf& results, ArrayOf& versions,
                 if (headermat) {
                     std::string headertrimleft = std::string(headermat);
                     StringHelpers::trim_right(headertrimleft);
-                    elementHeaders[k] = ArrayOf::characterArrayConstructor(headertrimleft);
+                    elementHeaders[k] = ArrayOf::characterArray(headertrimleft);
                 } else {
-                    elementHeaders[k] = ArrayOf::characterArrayConstructor("");
+                    elementHeaders[k] = ArrayOf::characterArray("");
                 }
                 mat_ft matVer = Mat_GetVersion(matfile);
                 switch (matVer) {
                 case MAT_FT_MAT73: {
                     res[k] = true;
-                    elementVersions[k] = ArrayOf::characterArrayConstructor("-v7.3");
+                    elementVersions[k] = ArrayOf::characterArray("-v7.3");
                 } break;
                 case MAT_FT_MAT5: {
                     res[k] = true;
-                    elementVersions[k] = ArrayOf::characterArrayConstructor("-v7");
+                    elementVersions[k] = ArrayOf::characterArray("-v7");
                 } break;
                 case MAT_FT_MAT4: {
                     res[k] = true;
-                    elementVersions[k] = ArrayOf::characterArrayConstructor("-v6");
+                    elementVersions[k] = ArrayOf::characterArray("-v6");
                 } break;
                 default: {
                     res[k] = false;
-                    elementVersions[k] = ArrayOf::characterArrayConstructor("");
+                    elementVersions[k] = ArrayOf::characterArray("");
                 } break;
                 }
                 Mat_Close(matfile);
             } else {
                 res[k] = false;
-                elementVersions[k] = ArrayOf::characterArrayConstructor("");
-                elementHeaders[k] = ArrayOf::characterArrayConstructor("");
+                elementVersions[k] = ArrayOf::characterArray("");
+                elementHeaders[k] = ArrayOf::characterArray("");
             }
         }
     }

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,9 +9,11 @@
 //=============================================================================
 #include "handle_invokeBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
+#include "HandleState.hpp"
 #include "characters_encoding.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "OverloadName.hpp"
@@ -26,16 +28,15 @@ Nelson::HandleGateway::handle_invokeBuiltin(Evaluator* eval, int nLhs, const Arr
     nargoutcheck(nLhs, 0, 1);
     ArrayOf param1 = argIn[0];
     if (!param1.isEmpty()) {
-        auto* qp = (nelson_handle*)param1.getDataPointer();
+        auto* qp = (HandleRef*)param1.dataPointer();
         if (qp) {
             std::string handleTypeName = NLS_HANDLE_STR;
-            Dimensions dimsParam1 = param1.getDimensions();
-            indexType elementCount = dimsParam1.getElementCount();
+            Dimensions dimsParam1 = param1.dimensions();
+            indexType elementCount = dimsParam1.elementCount();
             for (indexType k = 0; k < elementCount; k++) {
-                nelson_handle hl = qp[k];
-                HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
+                HandleGenericObject* hlObj = qp[k] ? qp[k]->object() : nullptr;
                 if (hlObj) {
-                    std::string currentType = hlObj->getCategory();
+                    std::string currentType = hlObj->category();
                     if (!currentType.empty() || currentType != NLS_HANDLE_STR) {
                         handleTypeName.assign(currentType);
                         break;
@@ -58,19 +59,20 @@ Nelson::HandleGateway::handle_invokeBuiltin(Evaluator* eval, int nLhs, const Arr
                     }
                 }
                 if (!doOverload) {
-                    std::string msg = functionNameGetHandle + " " + _("not defined.");
-                    Error(msg);
+                    std::string msg = functionNameGetHandle + " "
+                        + resolveMessageTemplate("Nelson:handle:defined", "not defined.");
+                    Error("Nelson:handle:invokeFailed", msg);
                 }
             } else {
-                Error(_W("Invalid handle."));
+                Error(L"Nelson:handle:invalidHandle", L"Invalid handle.");
             }
         } else {
-            Error(_W("Invalid handle."));
+            Error(L"Nelson:handle:invalidHandle", L"Invalid handle.");
         }
     } else {
         if (nLhs > 0) {
             Dimensions dims(0, 0);
-            retval << ArrayOf::emptyConstructor(dims);
+            retval << ArrayOf::empty(dims);
         }
     }
     return retval;

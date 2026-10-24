@@ -27,6 +27,9 @@ NLSVALIDATORS_IMPEXP void
 mustBeNonempty(const ArrayOfVector& args, int argPosition);
 //=============================================================================
 NLSVALIDATORS_IMPEXP void
+mustBeScalar(const ArrayOfVector& args, int argPosition);
+//=============================================================================
+NLSVALIDATORS_IMPEXP void
 mustBeScalarOrEmpty(const ArrayOfVector& args, int argPosition);
 //=============================================================================
 NLSVALIDATORS_IMPEXP void
@@ -46,6 +49,9 @@ mustBeFile(const ArrayOfVector& args, int argPosition);
 //=============================================================================
 NLSVALIDATORS_IMPEXP void
 mustBeVector(const ArrayOfVector& args, bool allowsAllEmpties, int argPosition);
+//=============================================================================
+NLSVALIDATORS_IMPEXP void
+mustBeVectorOrEmpty(const ArrayOfVector& args, int argPosition);
 //=============================================================================
 NLSVALIDATORS_IMPEXP void
 mustBeFloat(const ArrayOfVector& args, int argPosition);
@@ -114,5 +120,5 @@ mustBeInRange(const ArrayOfVector& args, const ArrayOf& upper, const ArrayOf& lo
 NLSVALIDATORS_IMPEXP void
 mustBeBetween(const ArrayOfVector& args, int argPosition);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -1,0 +1,252 @@
+%=============================================================================
+% Copyright (c) 2016-present Allan CORNET (Nelson)
+%=============================================================================
+% This file is part of Nelson.
+%=============================================================================
+% LICENCE_BLOCK_BEGIN
+% SPDX-License-Identifier: LGPL-3.0-or-later
+% LICENCE_BLOCK_END
+%=============================================================================
+% <--WEIGHT 32-->
+path_test = [modulepath('interpreter', 'tests'), '/classdef'];
+addpath(path_test);
+%=============================================================================
+dynamicObj = ClassdefDynamicProps();
+asserts.istrue(isa(dynamicObj, 'handle'));
+asserts.istrue(isa(dynamicObj, 'dynamicprops'));
+dynamicEvents = events(dynamicObj);
+asserts.istrue(any(strcmp(dynamicEvents, 'PropertyAdded')));
+asserts.istrue(any(strcmp(dynamicEvents, 'PropertyRemoved')));
+dynamicMeta = metaclass(dynamicObj);
+dynamicEventNames = {dynamicMeta.EventDetails.Name};
+asserts.istrue(any(strcmp(dynamicEventNames, 'PropertyAdded')));
+asserts.istrue(any(strcmp(dynamicEventNames, 'PropertyRemoved')));
+asserts.isfalse(isprop(dynamicObj, 'Extra'));
+addedListener = addlistener(dynamicObj, 'PropertyAdded', ...
+  @(src, eventData) src.recordDynamicPropertyEvent(eventData));
+propertyToken = addprop(dynamicObj, 'Extra');
+asserts.isequal(dynamicObj.LastEvent, 'PropertyAdded');
+asserts.isequal(dynamicObj.LastProperty, 'Extra');
+delete(addedListener);
+asserts.isequal(class(propertyToken), 'meta.DynamicProperty');
+asserts.istrue(isvalid(propertyToken));
+asserts.isequal(propertyToken.Name, 'Extra');
+asserts.isequal(propertyToken.DefiningClass, 'ClassdefDynamicProps');
+asserts.istrue(propertyToken.Dynamic);
+asserts.isfalse(propertyToken.Dependent);
+asserts.isfalse(propertyToken.AbortSet);
+asserts.isequal(propertyToken.GetMethod, []);
+asserts.isfalse(propertyToken.GetObservable);
+asserts.isfalse(propertyToken.Hidden);
+asserts.isfalse(propertyToken.NonCopyable);
+asserts.isequal(propertyToken.SetMethod, []);
+asserts.isfalse(propertyToken.SetObservable);
+asserts.isfalse(propertyToken.Transient);
+asserts.isequal(propertyToken.GetAccess, 'public');
+asserts.isequal(propertyToken.SetAccess, 'public');
+asserts.isequal(propertyToken.ValidationExpression, '');
+asserts.istrue(isprop(dynamicObj, 'Extra'));
+dynamicObj.Extra = 42;
+asserts.isequal(dynamicObj.Extra, 42);
+asserts.checkerror('addlistener(dynamicObj, ''Extra'', ''PostSet'', @(src, eventData) src.recordDynamicPropertyEvent(eventData));', ...
+  'No such property event: Extra.PostSet');
+propertyToken.SetObservable = true;
+asserts.istrue(propertyToken.SetObservable);
+dynamicSetListener = addlistener(dynamicObj, 'Extra', 'PostSet', ...
+  @(src, eventData) src.recordDynamicPropertyEvent(eventData));
+dynamicObj.LastEvent = '';
+dynamicObj.LastProperty = '';
+dynamicObj.Extra = 43;
+asserts.isequal(dynamicObj.Extra, 43);
+asserts.isequal(dynamicObj.LastEvent, 'PostSet');
+asserts.isequal(dynamicObj.LastProperty, 'Extra');
+propertyToken.AbortSet = true;
+asserts.istrue(propertyToken.AbortSet);
+dynamicObj.LastEvent = '';
+dynamicObj.Extra = 43;
+asserts.isequal(dynamicObj.LastEvent, '');
+dynamicObj.Extra = 44;
+asserts.isequal(dynamicObj.LastEvent, 'PostSet');
+delete(dynamicSetListener);
+propertyToken.GetObservable = true;
+asserts.istrue(propertyToken.GetObservable);
+dynamicGetListener = addlistener(dynamicObj, 'Extra', 'PostGet', ...
+  @(src, eventData) src.recordDynamicPropertyEvent(eventData));
+dynamicObj.LastEvent = '';
+dynamicObj.LastProperty = '';
+extraValue = dynamicObj.Extra;
+asserts.isequal(extraValue, 44);
+asserts.isequal(dynamicObj.LastEvent, 'PostGet');
+asserts.isequal(dynamicObj.LastProperty, 'Extra');
+delete(dynamicGetListener);
+propertyToken.GetMethod = @(obj) obj.readDynamicExtra();
+propertyToken.SetMethod = @(obj, value) obj.writeDynamicExtra(value);
+asserts.istrue(isa(propertyToken.GetMethod, 'function_handle'));
+asserts.istrue(isa(propertyToken.SetMethod, 'function_handle'));
+dynamicObj.Extra = 23;
+asserts.isequal(dynamicObj.StoredExtra, 46);
+asserts.isequal(dynamicObj.Extra, 146);
+propertyToken.Dependent = true;
+asserts.istrue(propertyToken.Dependent);
+dynamicObj.Extra = 24;
+asserts.isequal(dynamicObj.StoredExtra, 48);
+asserts.isequal(dynamicObj.Extra, 148);
+dynamicMeta = metaclass(dynamicObj);
+dynamicMetaNames = {dynamicMeta.PropertyDetails.Name};
+extraDetail = dynamicMeta.PropertyDetails(find(strcmp(dynamicMetaNames, 'Extra')));
+asserts.istrue(extraDetail.Dependent);
+asserts.istrue(any(strcmp(extraDetail.Attributes, 'Dependent')));
+propertyToken.GetMethod = [];
+asserts.checkerror('dynamicObj.Extra;', 'Cannot get property: Extra');
+propertyToken.SetMethod = [];
+asserts.checkerror('dynamicObj.Extra = 25;', 'Cannot set property: Extra');
+propertyToken.Dependent = false;
+asserts.isfalse(propertyToken.Dependent);
+asserts.isequal(propertyToken.GetMethod, []);
+asserts.isequal(propertyToken.SetMethod, []);
+dynamicObj.Extra = 45;
+asserts.isequal(dynamicObj.Extra, 45);
+asserts.checkerror('propertyToken.GetMethod = 1;', ...
+  'Dynamic property descriptor method must be a function handle or empty.');
+asserts.checkerror('propertyToken.SetMethod = 1;', ...
+  'Dynamic property descriptor method must be a function handle or empty.');
+propertyToken.GetAccess = 'private';
+asserts.isequal(propertyToken.GetAccess, 'private');
+asserts.checkerror('dynamicObj.Extra;', 'Cannot get property: Extra');
+asserts.isequal(dynamicObj.readDynamicExtraField(), 45);
+propertyToken.SetAccess = 'private';
+asserts.isequal(propertyToken.SetAccess, 'private');
+asserts.checkerror('dynamicObj.Extra = 46;', 'Cannot set property: Extra');
+dynamicObj.writeDynamicExtraField(46);
+asserts.isequal(dynamicObj.readDynamicExtraField(), 46);
+propertyToken.GetAccess = 'protected';
+propertyToken.SetAccess = 'protected';
+asserts.isequal(propertyToken.GetAccess, 'protected');
+asserts.isequal(propertyToken.SetAccess, 'protected');
+asserts.checkerror('dynamicObj.Extra;', 'Cannot get property: Extra');
+asserts.checkerror('dynamicObj.Extra = 47;', 'Cannot set property: Extra');
+dynamicAccessChild = ClassdefDynamicPropsChild();
+asserts.isequal(dynamicAccessChild.readOtherDynamic(dynamicObj), 46);
+dynamicAccessChild.writeOtherDynamic(dynamicObj, 47);
+asserts.isequal(dynamicAccessChild.readOtherDynamic(dynamicObj), 47);
+asserts.checkerror('propertyToken.GetAccess = ''package'';', ...
+  'Dynamic property descriptor access must be public, private, or protected.');
+asserts.checkerror('propertyToken.SetAccess = 1;', ...
+  'Dynamic property descriptor access must be public, private, or protected.');
+propertyToken.GetAccess = 'public';
+propertyToken.SetAccess = 'public';
+asserts.isequal(dynamicObj.Extra, 47);
+propertyToken.ValidationExpression = '(1, 1) double {mustBeInteger, mustBePositive}';
+asserts.isequal(propertyToken.ValidationExpression, '(1, 1) double {mustBeInteger, mustBePositive}');
+dynamicObj.Extra = 48;
+asserts.isequal(dynamicObj.Extra, 48);
+asserts.checkerror('dynamicObj.Extra = 0;', _('Value must be positive.'));
+asserts.checkerror('propertyToken.ValidationExpression = ''(1, 1) double trailing'';', ...
+  'Invalid dynamic property validation expression: (1, 1) double trailing');
+asserts.checkerror('propertyToken.ValidationExpression = 1;', ...
+  'Dynamic property validation expression must be a character vector or empty.');
+propertyToken.ValidationExpression = '';
+asserts.isequal(propertyToken.ValidationExpression, '');
+propertyToken.NonCopyable = true;
+asserts.istrue(propertyToken.NonCopyable);
+dynamicObjCopy = copy(dynamicObj);
+asserts.istrue(isa(dynamicObjCopy, 'ClassdefDynamicProps'));
+asserts.isfalse(isprop(dynamicObjCopy, 'Extra'));
+propertyToken.Hidden = true;
+asserts.istrue(propertyToken.Hidden);
+dynamicProps = properties(dynamicObj);
+asserts.isfalse(any(strcmp(dynamicProps, 'Extra')));
+asserts.istrue(isprop(dynamicObj, 'Extra'));
+propertyToken.Hidden = false;
+asserts.isfalse(propertyToken.Hidden);
+dynamicProps = properties(dynamicObj);
+asserts.istrue(any(strcmp(dynamicProps, 'Base')));
+asserts.istrue(any(strcmp(dynamicProps, 'Extra')));
+propertyToken.Transient = true;
+asserts.istrue(propertyToken.Transient);
+dynamicStruct = struct(dynamicObj);
+asserts.isequal(dynamicStruct.Base, 1);
+asserts.isfalse(isfield(dynamicStruct, 'Extra'));
+propertyToken.Transient = false;
+asserts.isfalse(propertyToken.Transient);
+dynamicStruct = struct(dynamicObj);
+asserts.isequal(dynamicStruct.Base, 1);
+asserts.isequal(dynamicStruct.Extra, 48);
+dynamicMeta = metaclass(dynamicObj);
+asserts.istrue(any(strcmp({dynamicMeta.PropertyList.Name}, 'Extra')));
+dynamicMetaNames = {dynamicMeta.PropertyDetails.Name};
+extraDetail = dynamicMeta.PropertyDetails(find(strcmp(dynamicMetaNames, 'Extra')));
+asserts.isequal(extraDetail.DefiningClass, 'ClassdefDynamicProps');
+asserts.istrue(extraDetail.Dynamic);
+asserts.isfalse(extraDetail.Dependent);
+asserts.istrue(extraDetail.AbortSet);
+asserts.isequal(extraDetail.GetMethod, []);
+asserts.istrue(extraDetail.GetObservable);
+asserts.isfalse(extraDetail.Hidden);
+asserts.istrue(extraDetail.NonCopyable);
+asserts.isequal(extraDetail.SetMethod, []);
+asserts.istrue(extraDetail.SetObservable);
+asserts.isfalse(extraDetail.Transient);
+asserts.isequal(extraDetail.GetAccess, 'public');
+asserts.isequal(extraDetail.SetAccess, 'public');
+asserts.isequal(extraDetail.ValidationExpression, '');
+propertyToken.Hidden = true;
+propertyToken.Transient = true;
+dynamicMeta = metaclass(dynamicObj);
+dynamicMetaNames = {dynamicMeta.PropertyDetails.Name};
+extraDetail = dynamicMeta.PropertyDetails(find(strcmp(dynamicMetaNames, 'Extra')));
+asserts.istrue(extraDetail.Hidden);
+asserts.istrue(extraDetail.Transient);
+asserts.istrue(extraDetail.AbortSet);
+asserts.istrue(extraDetail.GetObservable);
+asserts.istrue(extraDetail.NonCopyable);
+asserts.istrue(extraDetail.SetObservable);
+asserts.istrue(any(strcmp(extraDetail.Attributes, 'AbortSet')));
+asserts.istrue(any(strcmp(extraDetail.Attributes, 'GetObservable')));
+asserts.istrue(any(strcmp(extraDetail.Attributes, 'Hidden')));
+asserts.istrue(any(strcmp(extraDetail.Attributes, 'NonCopyable')));
+asserts.istrue(any(strcmp(extraDetail.Attributes, 'SetObservable')));
+asserts.istrue(any(strcmp(extraDetail.Attributes, 'Transient')));
+propertyToken.Hidden = false;
+propertyToken.Transient = false;
+dynamicClassMeta = metaclass('ClassdefDynamicProps');
+asserts.isfalse(any(strcmp({dynamicClassMeta.PropertyList.Name}, 'Extra')));
+asserts.checkerror('addprop(dynamicObj, ''Extra'');', 'Dynamic property already exists: Extra');
+asserts.checkerror('addprop(dynamicObj, ''1Extra'');', 'Invalid dynamic property name: 1Extra');
+removedListener = addlistener(dynamicObj, 'PropertyRemoved', ...
+  @(src, eventData) src.recordDynamicPropertyEvent(eventData));
+sameDynamicObj = rmprop(dynamicObj, 'Extra');
+asserts.istrue(sameDynamicObj == dynamicObj);
+asserts.isequal(dynamicObj.LastEvent, 'PropertyRemoved');
+asserts.isequal(dynamicObj.LastProperty, 'Extra');
+asserts.isfalse(isprop(dynamicObj, 'Extra'));
+dynamicMeta = metaclass(dynamicObj);
+asserts.isfalse(any(strcmp({dynamicMeta.PropertyList.Name}, 'Extra')));
+dynamicProps = properties(dynamicObj);
+asserts.isfalse(any(strcmp(dynamicProps, 'Extra')));
+dynamicStruct = struct(dynamicObj);
+asserts.isfalse(isfield(dynamicStruct, 'Extra'));
+asserts.checkerror('dynamicObj.Extra;', 'No such property: Extra');
+asserts.checkerror('rmprop(dynamicObj, ''Extra'');', 'Not a dynamic property: Extra');
+asserts.checkerror('rmprop(dynamicObj, ''Base'');', 'Not a dynamic property: Base');
+propertyToken = addprop(dynamicObj, 'Extra');
+dynamicObj.Extra = 99;
+delete(propertyToken);
+asserts.isequal(dynamicObj.LastEvent, 'PropertyRemoved');
+asserts.isequal(dynamicObj.LastProperty, 'Extra');
+delete(removedListener);
+asserts.isfalse(isvalid(propertyToken));
+asserts.isfalse(isprop(dynamicObj, 'Extra'));
+asserts.checkerror('dynamicObj.Extra;', 'No such property: Extra');
+counterObj = ClassdefCounter();
+asserts.checkerror('addprop(counterObj, ''Extra'');', 'Object must inherit from dynamicprops.');
+asserts.checkerror('rmprop(counterObj, ''Count'');', 'Object must inherit from dynamicprops.');
+methodPropertyToken = dynamicObj.addprop('ViaMethod');
+asserts.isequal(class(methodPropertyToken), 'meta.DynamicProperty');
+asserts.istrue(isprop(dynamicObj, 'ViaMethod'));
+delete(methodPropertyToken);
+asserts.isfalse(isprop(dynamicObj, 'ViaMethod'));
+clear dynamicObj dynamicObjCopy dynamicAccessChild propertyToken methodPropertyToken addedListener removedListener dynamicSetListener dynamicGetListener;
+%=============================================================================
+rmpath(path_test);
+%=============================================================================

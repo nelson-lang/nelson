@@ -19,15 +19,13 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-// Constants
 namespace {
     const stringVector DELIMITERS = { ",", "\t", ";", "|", " " };
     const stringVector LINE_ENDINGS = { "\r\n", "\n", "\r" };
     const stringVector COMMENT_STYLES = { "%", "#", "//", "--" };
     const size_t MIN_HEADER_SAMPLE = 5;
-}
-//=============================================================================
-// Helper Functions
+    //=============================================================================
+} // namespace
 //=============================================================================
 static std::string
 escapeSpecialCharacters(const std::string& input)
@@ -61,16 +59,14 @@ unescapeSpecialCharacters(const std::string& input)
 
     while (i < input.length()) {
         if (input[i] == '\\' && i + 1 < input.length()) {
-            // Check the next two characters
             std::string potentialEscape = input.substr(i, 2);
             auto it = unescapeMap.find(potentialEscape);
             if (it != unescapeMap.end()) {
-                unescaped += it->second; // Add unescaped character
-                i += 2; // Move past the escape sequence
+                unescaped += it->second;
+                i += 2;
                 continue;
             }
         }
-        // Add the current character if not an escape sequence
         unescaped += input[i];
         ++i;
     }
@@ -97,12 +93,26 @@ readFileContent(const std::wstring& filename, size_t sampleSize, std::string& er
     file.read(&wcontent[0], sampleSize);
     size_t actualSize = file.gcount();
     wcontent.resize(actualSize);
+    // Read on to the end of the current line so detection never sees a truncated
+    // line (the detected column count would disagree with the data and throw).
+    if (actualSize == sampleSize) {
+        std::wstring rest;
+        if (std::getline(file, rest)) {
+            wcontent += rest;
+        }
+    }
     return wstring_to_utf8(wcontent);
 #else
     std::string content(sampleSize, '\0');
     file.read(&content[0], sampleSize);
     size_t actualSize = file.gcount();
     content.resize(actualSize);
+    if (actualSize == sampleSize) {
+        std::string rest;
+        if (std::getline(file, rest)) {
+            content += rest;
+        }
+    }
     return content;
 #endif
 }
@@ -115,15 +125,11 @@ splitIntoLines(const std::string& content, const std::string& lineEnding)
     size_t end = content.find(lineEnding);
 
     while (end != std::string::npos) {
-        // Add the substring between start and end as a line
         lines.push_back(content.substr(start, end - start));
-        // Move the start position past the current line ending
         start = end + lineEnding.length();
-        // Find the next occurrence of the line ending
         end = content.find(lineEnding, start);
     }
 
-    // Add the last line (including an empty one if `lineEnding` is at the end)
     lines.push_back(content.substr(start));
 
     return lines;
@@ -146,8 +152,6 @@ splitLine(const std::string& line, const std::string& delimiter)
     tokens.push_back(line.substr(start));
     return tokens;
 }
-//=============================================================================
-// Analysis Functions
 //=============================================================================
 struct DelimiterStats
 {
@@ -182,7 +186,6 @@ detectDelimiter(const std::vector<std::string>& lines, detectImportOptions& opti
 {
     std::map<std::string, std::vector<size_t>> delimiterCounts;
 
-    // Count delimiters in each non-empty line
     size_t validLines = 0;
     for (const auto& line : lines) {
         if (line.empty()) {
@@ -201,7 +204,6 @@ detectDelimiter(const std::vector<std::string>& lines, detectImportOptions& opti
         }
     }
 
-    // Calculate statistics for each delimiter
     std::vector<DelimiterStats> delimiterStats;
     for (const auto& [delimiter, counts] : delimiterCounts) {
         if (counts.empty()) {
@@ -210,14 +212,12 @@ detectDelimiter(const std::vector<std::string>& lines, detectImportOptions& opti
 
         DelimiterStats stats { delimiter, 0.0, 0, 0 };
 
-        // Calculate total and mean
         size_t total = 0;
         for (size_t count : counts) {
             total += count;
         }
         double mean = static_cast<double>(total) / counts.size();
 
-        // Count lines with consistent delimiter count (within �1 of mean)
         size_t consistentLines = 0;
         for (size_t count : counts) {
             if (std::abs(count - mean) <= 1.0) {
@@ -232,23 +232,19 @@ detectDelimiter(const std::vector<std::string>& lines, detectImportOptions& opti
         delimiterStats.push_back(stats);
     }
 
-    // Select the best delimiter based on consistency and frequency
     auto bestDelimiter = std::max_element(delimiterStats.begin(), delimiterStats.end(),
         [validLines](const DelimiterStats& a, const DelimiterStats& b) {
-            // First prioritize consistency across lines
             double aConsistency = static_cast<double>(a.consistentLines) / validLines;
             double bConsistency = static_cast<double>(b.consistentLines) / validLines;
 
-            if (std::abs(aConsistency - bConsistency) > 0.1) { // 10% threshold
+            if (std::abs(aConsistency - bConsistency) > 0.1) {
                 return aConsistency < bConsistency;
             }
 
-            // If consistency is similar, look at average count
-            if (std::abs(a.averageCount - b.averageCount) > 0.5) { // 0.5 threshold
+            if (std::abs(a.averageCount - b.averageCount) > 0.5) {
                 return a.averageCount < b.averageCount;
             }
 
-            // If all else is similar, prefer simpler delimiters
             return a.delimiter.length() > b.delimiter.length();
         });
 
@@ -262,7 +258,6 @@ detectDelimiter(const std::vector<std::string>& lines, detectImportOptions& opti
         }
         options.VariableNames = defaultVariableNames;
     } else {
-        // Default to comma if no clear delimiter is found
         options.Delimiter = { "," };
     }
 }
@@ -384,12 +379,10 @@ isPotentialHeader(const std::string& str)
         return false;
     }
 
-    // Check if it's not purely numeric
     if (isNumeric(str)) {
         return false;
     }
 
-    // Check for presence of letters or special characters
     bool hasLetters = false;
     for (char c : str) {
         if (std::isalpha(c)) {
@@ -409,7 +402,6 @@ detectColumnsAndRowNames(std::vector<std::string>& lines, const std::string& del
     size_t maxColumns = 0;
     size_t headerLineIndex = -1;
 
-    // Parse first few lines
     size_t sampleSize = std::min(lines.size(), MIN_HEADER_SAMPLE);
     for (size_t i = 0; i < sampleSize; i++) {
         if (lines[i].size() >= lineEnding.size()
@@ -434,7 +426,6 @@ detectColumnsAndRowNames(std::vector<std::string>& lines, const std::string& del
     }
 
     std::vector<std::string> columnNames;
-    // Detect column headers
     bool hasColumnHeaders = false;
     if (!parsedLines.empty()) {
         size_t headerCandidates = 0;
@@ -461,19 +452,16 @@ detectDataLines(std::vector<std::string>& lines, detectImportOptions& options)
 {
     size_t dataLineStart = options.VariableNamesLine;
 
-    // Loop through lines to find the first valid data line
     while (dataLineStart < lines.size()) {
         std::string trimmedLine = lines[dataLineStart];
-        trimmedLine.erase(0, trimmedLine.find_first_not_of(" \t\r\n")); // Trim leading spaces
-        trimmedLine.erase(trimmedLine.find_last_not_of(" \t\r\n") + 1); // Trim trailing spaces
+        trimmedLine.erase(0, trimmedLine.find_first_not_of(" \t\r\n"));
+        trimmedLine.erase(trimmedLine.find_last_not_of(" \t\r\n") + 1);
 
-        // Skip empty lines if EmptyLineRule is "skip"
         if (options.EmptyLineRule == "skip" && trimmedLine.empty()) {
             dataLineStart++;
             continue;
         }
 
-        // Skip lines starting with any comment style
         bool isCommentLine = false;
         for (const auto& comment : options.CommentStyle) {
             if (trimmedLine.find(comment) == 0) {
@@ -490,12 +478,9 @@ detectDataLines(std::vector<std::string>& lines, detectImportOptions& options)
     options.DataLines[0] = (double)(dataLineStart + 1);
 }
 //=============================================================================
-// Public Interface
-//=============================================================================
 void
 initializeDetectImportOptions(detectImportOptions& options)
 {
-    // Initialize default values if needed
     options.Delimiter.clear();
     options.LineEnding.clear();
     options.CommentStyle.clear();
@@ -506,6 +491,9 @@ initializeDetectImportOptions(detectImportOptions& options)
     options.RowNamesColumn = 0;
     options.DataLines.push_back(1);
     options.DataLines.push_back(std::numeric_limits<double>::infinity());
+    options.VariableTypes.clear();
+    options.VariableInputFormats.clear();
+    options.VariableWhitespaceRules.clear();
 }
 //=============================================================================
 void
@@ -513,13 +501,11 @@ analyzeFileFormatImportOptions(std::wstring filename, size_t sampleSize,
     detectImportOptions& options, std::string& errorMessage)
 {
 
-    // Read file content
     std::string content = readFileContent(filename, sampleSize, errorMessage);
     if (content.empty() && !errorMessage.empty()) {
         return;
     }
 
-    // Perform various detections
     detectLineEndings(content, options);
     std::string lineEnding
         = options.LineEnding.empty() ? "\n" : unescapeSpecialCharacters(options.LineEnding[0]);

@@ -22,7 +22,7 @@ namespace Nelson {
 //=============================================================================
 #define BLANKS_INTEGER_AT_BOL L"   "
 #define LENGTH_BLANKS_INTEGER_AT_BOL 3
-//============================================================================
+//=============================================================================
 static void
 DisplayEmptyDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp);
@@ -81,7 +81,7 @@ DisplayScalarDouble(Interface* io, const ArrayOf& A, const std::wstring& name,
     std::wstring msg;
     FormatDisplayInformation formatInfo = computeFormatInfo(A, currentNumericFormat);
     formatInfo.trim = false;
-    const double* ptrValue = (const double*)A.getDataPointer();
+    const double* ptrValue = (const double*)A.dataPointer();
     msg.append(formatScalarNumber(ptrValue[0], false, formatInfo));
     msg.append(L"\n");
     io->outputMessage(msg);
@@ -94,10 +94,10 @@ void
 Display2dDouble(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
-    Dimensions dims = A.getDimensions();
-    const double* pValues = (const double*)A.getDataPointer();
-    indexType rows = dims.getRows();
-    indexType columns = dims.getColumns();
+    Dimensions dims = A.dimensions();
+    const double* pValues = (const double*)A.dataPointer();
+    indexType rows = dims.rows();
+    indexType columns = dims.columns();
 
     FormatDisplayInformation formatInfo = computeFormatInfo(A, currentNumericFormat);
 
@@ -118,7 +118,7 @@ Display2dDouble(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::
     indexType pageCount = (colsPerPage > 0)
         ? static_cast<indexType>(ceil(columns / (static_cast<single>(colsPerPage))))
         : 1;
-    bool withColumsHeader = (rows * columns > 1) && pageCount > 1;
+    bool withColumnsHeader = (rows * columns > 1) && pageCount > 1;
     bool continueDisplay = true;
     indexType block_page = 0;
     std::wstring buffer;
@@ -142,7 +142,7 @@ Display2dDouble(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::
                 buffer.append(L"\n");
             }
         }
-        if (withColumsHeader) {
+        if (withColumnsHeader) {
             buffer.append(columnsHeader(k * colsPerPage + 1, k * colsPerPage + colsInThisPage));
             buffer.append(isLoose ? L"\n\n" : L"\n");
         }
@@ -181,11 +181,11 @@ DisplayNdDouble(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
     sizeType termWidth = io->getTerminalWidth();
-    Dimensions dims = A.getDimensions();
+    Dimensions dims = A.dimensions();
 
-    Dimensions wdims(dims.getLength());
-    indexType rows(A.getRows());
-    indexType columns(A.getColumns());
+    Dimensions wdims(dims.length());
+    indexType rows(A.rows());
+    indexType columns(A.columns());
     indexType offset = 0;
 
     FormatDisplayInformation formatInfo = computeFormatInfo(A, currentNumericFormat);
@@ -203,7 +203,7 @@ DisplayNdDouble(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::
     std::wstring buffer;
 
     indexType nominalWidth = getNominalWidth(formatInfo);
-    const double* pValues = (const double*)A.getDataPointer();
+    const double* pValues = (const double*)A.dataPointer();
     bool isLoose = (currentLineSpacing == NLS_LINE_SPACING_LOOSE);
     if (name.empty() && isLoose) {
         buffer.append(L"\n");
@@ -220,7 +220,7 @@ DisplayNdDouble(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::
             }
         }
         buffer.append(name + L"(:,:");
-        for (indexType m = 2; m < dims.getLength(); m++) {
+        for (indexType m = 2; m < dims.length(); m++) {
             buffer.append(fmt::format(L",{0:d}", static_cast<int>(wdims[m]) + 1));
         }
         buffer.append(L") =\n");
@@ -230,7 +230,7 @@ DisplayNdDouble(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::
         indexType colsPerPage
             = static_cast<indexType>(floor((termWidth - 1) / (static_cast<single>(nominalWidth))));
         int pageCount = static_cast<int>(ceil(columns / (static_cast<single>(colsPerPage))));
-        bool withColumsHeader = (rows * columns > 1) && pageCount > 1;
+        bool withColumnsHeader = (rows * columns > 1) && pageCount > 1;
         for (int k = 0; k < pageCount && continueDisplay; k++) {
             if (config->getInterruptPending(evaluatorID)) {
                 continueDisplay = false;
@@ -238,7 +238,7 @@ DisplayNdDouble(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::
             }
             indexType colsInThisPage = columns - colsPerPage * k;
             colsInThisPage = (colsInThisPage > colsPerPage) ? colsPerPage : colsInThisPage;
-            if (withColumsHeader) {
+            if (withColumnsHeader) {
                 std::wstring msg
                     = columnsHeader(k * colsPerPage + 1, k * colsPerPage + colsInThisPage);
                 if (isLoose) {

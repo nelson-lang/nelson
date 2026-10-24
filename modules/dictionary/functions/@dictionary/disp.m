@@ -12,30 +12,29 @@ function disp(varargin)
   fmt = format();
   LineSpacing = fmt.LineSpacing;
   obj = varargin{1};
-  if (~isConfigured (obj))
-    fprintf(_('\n  dictionary object not configured.\n\n'));
+  if (~isConfigured(obj))
+    fprintf(['\n  ', _('dictionary object not configured.'), '\n\n']);
     return
   end
   if (numEntries(obj) == 0)
     fprintf('\n  dictionary (%s ⟼ %s) with no entries.\n\n', obj.keyType, obj.valueType);
     return
   end
-  if (numEntries (obj) == 1)
-    entry_str =  'entry';
+  if (numEntries(obj) == 1)
+    entry_str = 'entry';
   else
     entry_str = 'entries';
   end
   if strcmp(LineSpacing, 'loose')
-    msgfmt = '\n  dictionary (%s ⟼ %s) with %d %s:\n\n'; 
+    msgfmt = '\n  dictionary (%s ⟼ %s) with %d %s:\n\n';
   else
-    msgfmt = '  dictionary (%s ⟼ %s) with %d %s:\n'; 
+    msgfmt = '  dictionary (%s ⟼ %s) with %d %s:\n';
   end
-  fprintf(msgfmt, obj.keyType, obj.valueType, numEntries (obj), entry_str);
+  fprintf(msgfmt, obj.keyType, obj.valueType, numEntries(obj), entry_str);
   allKeys = obj.allKeys;
   for i = 1:numEntries(obj)
     key = allKeys{i};
-    h = dec2hex (keyHash(key));
-    val = obj.map.(h);
+    val = dictionary.valueAt(obj, i);
     key = strtrim(evalc('disp(key)'));
     if strcmp(obj.keyType, 'string')
       key = ['"', key, '"'];

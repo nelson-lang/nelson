@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "StringJoin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "nlsBuildConfig.h"
 #include "omp_for_loop.hpp"
@@ -54,12 +55,12 @@ StringJoin(const ArrayOf& A, const ArrayOf& delimiters, size_t dimension)
 {
     if ((dimension > 2 || dimension < 1)
         || !validateDelimiterDimensions(A, delimiters, dimension)) {
-        Error(_W("Invalid delimiter dimensions."));
+        Error(L"Nelson:string:invalidDelimiterDimensions", L"Invalid delimiter dimensions.");
     }
     if (!delimiters.isStringArray()) {
-        Error(_W("Invalid delimiter type."));
+        Error(L"Nelson:string:invalidDelimiterType", L"Invalid delimiter type.");
     }
-    switch (A.getDataClass()) {
+    switch (A.dataClass()) {
     case NLS_CHAR: {
         return StringJoinCharacters(A, delimiters, dimension);
     } break;
@@ -70,7 +71,7 @@ StringJoin(const ArrayOf& A, const ArrayOf& delimiters, size_t dimension)
         return StringJoinStringArray(A, delimiters, dimension);
     } break;
     default: {
-        Error(_W("Type not supported."));
+        Error(L"Nelson:string:typeSupported", L"Type not supported.");
     } break;
     }
     return {};
@@ -79,41 +80,38 @@ StringJoin(const ArrayOf& A, const ArrayOf& delimiters, size_t dimension)
 bool
 validateDelimiterDimensions(const ArrayOf& input, const ArrayOf& delimiters, size_t dimension)
 {
-    Dimensions inputDims = input.getDimensions();
-    Dimensions delimDims = delimiters.getDimensions();
+    Dimensions inputDims = input.dimensions();
+    Dimensions delimDims = delimiters.dimensions();
 
-    // Case 1: Scalar delimiter
     if (delimiters.isScalar()) {
         return true;
     }
 
-    // Case 2: Vector delimiter
     if (delimiters.isRowVector()) {
         if (dimension == 1) {
-            return (delimDims.getColumns() == inputDims.getRows() - 1);
+            return (delimDims.columns() == inputDims.rows() - 1);
         }
         if (dimension == 2) {
-            return (delimDims.getColumns() == inputDims.getColumns() - 1);
+            return (delimDims.columns() == inputDims.columns() - 1);
         }
     }
     if (delimiters.isColumnVector()) {
         if (dimension == 1) {
-            return (delimDims.getRows() == inputDims.getRows() - 1);
+            return (delimDims.rows() == inputDims.rows() - 1);
         }
         if (dimension == 2) {
-            return delimDims.getColumns() == inputDims.getColumns() - 1;
+            return delimDims.columns() == inputDims.columns() - 1;
         }
     }
 
-    // Case 3: Matrix delimiter
     if (!delimiters.isVector()) {
         if (dimension == 1) {
-            return (delimDims.getRows() == inputDims.getRows() - 1
-                && delimDims.getColumns() == inputDims.getColumns());
+            return (delimDims.rows() == inputDims.rows() - 1
+                && delimDims.columns() == inputDims.columns());
         }
         if (dimension == 2) {
-            return (delimDims.getRows() == inputDims.getRows()
-                && delimDims.getColumns() == inputDims.getColumns() - 1);
+            return (delimDims.rows() == inputDims.rows()
+                && delimDims.columns() == inputDims.columns() - 1);
         }
     }
 
@@ -124,14 +122,14 @@ ArrayOf
 StringJoinCharacters(const ArrayOf& A, const ArrayOf& delimiters, size_t dimension)
 {
     if (A.isEmpty()) {
-        return ArrayOf::characterArrayConstructor("");
+        return ArrayOf::characterArray("");
     }
     std::wstring strdelimiter;
     if ((delimiters.isCellArrayOfCharacterVectors() && delimiters.isScalar())
         || delimiters.isScalarStringArray() || delimiters.isRowVectorCharacterArray()) {
-        strdelimiter = delimiters.getContentAsWideString();
+        strdelimiter = delimiters.asWideString();
     } else {
-        Error(_W("Invalid delimiter dimensions."));
+        Error(L"Nelson:string:invalidDelimiterDimensions", L"Invalid delimiter dimensions.");
     }
     return A;
 }
@@ -158,67 +156,61 @@ StringJoinCellCharacters(const ArrayOf& A, const ArrayOf& delimiters, size_t dim
 ArrayOf
 StringJoinStringArrayScalarDelimiter(const ArrayOf& A, const ArrayOf& delimiter, size_t dimension)
 {
-    ArrayOf* strs = (ArrayOf*)A.getDataPointer();
-    ArrayOf* delim = (ArrayOf*)delimiter.getDataPointer();
-    size_t nbRows = A.getRows();
-    size_t nbCols = A.getColumns();
+    ArrayOf* strs = (ArrayOf*)A.dataPointer();
+    ArrayOf* delim = (ArrayOf*)delimiter.dataPointer();
+    size_t nbRows = A.rows();
+    size_t nbCols = A.columns();
 
     if (dimension == 1) {
-        // Join by rows - output will have nbCols columns
         Dimensions dims(1, nbCols);
         ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_STRING_ARRAY, nbCols);
         ArrayOf strArray = ArrayOf(NLS_STRING_ARRAY, dims, elements);
 
-        // Process each column
         OMP_PARALLEL_FOR_LOOP(nbCols)
         for (ompIndexType c = 0; c < (ompIndexType)nbCols; c++) {
             std::wstring joined;
             bool isMissing = false;
-            // Join rows within this column
             for (size_t r = 0; r < nbRows && !isMissing; r++) {
                 if (r > 0) {
                     if (delim[0].isRowVectorCharacterArray()) {
-                        joined += delim[0].getContentAsWideString();
+                        joined += delim[0].asWideString();
                     } else {
                         isMissing = true;
                     }
                 }
                 isMissing = isMissing || !strs[r + c * nbRows].isRowVectorCharacterArray();
                 if (!isMissing) {
-                    joined += strs[r + c * nbRows].getContentAsWideString();
+                    joined += strs[r + c * nbRows].asWideString();
                 }
             }
-            elements[c] = isMissing ? ArrayOf::doubleConstructor(std::nan(""))
-                                    : ArrayOf::characterArrayConstructor(joined);
+            elements[c]
+                = isMissing ? ArrayOf::doubleScalar(std::nan("")) : ArrayOf::characterArray(joined);
         }
         return strArray;
     } else {
-        // Join by columns - output will have nbRows rows
         Dimensions dims(nbRows, 1);
         ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_STRING_ARRAY, nbRows);
         ArrayOf strArray = ArrayOf(NLS_STRING_ARRAY, dims, elements);
 
-        // Process each row
         OMP_PARALLEL_FOR_LOOP(nbRows)
         for (ompIndexType r = 0; r < (ompIndexType)nbRows; r++) {
             std::wstring joined;
             bool isMissing = false;
-            // Join columns within this row
             for (size_t c = 0; c < nbCols && !isMissing; c++) {
                 if (c > 0) {
                     if (delim[0].isRowVectorCharacterArray()) {
-                        joined += delim[0].getContentAsWideString();
+                        joined += delim[0].asWideString();
                     } else {
                         isMissing = true;
                     }
                 }
                 isMissing = isMissing || !strs[r + c * nbRows].isRowVectorCharacterArray();
                 if (!isMissing) {
-                    joined += strs[r + c * nbRows].getContentAsWideString();
+                    joined += strs[r + c * nbRows].asWideString();
                 }
             }
-            elements[r] = isMissing ? ArrayOf::doubleConstructor(std::nan(""))
-                                    : ArrayOf::characterArrayConstructor(joined);
+            elements[r]
+                = isMissing ? ArrayOf::doubleScalar(std::nan("")) : ArrayOf::characterArray(joined);
         }
         return strArray;
     }
@@ -228,67 +220,61 @@ ArrayOf
 StringJoinStringArrayRowVectorDelimiter(
     const ArrayOf& A, const ArrayOf& delimiters, size_t dimension)
 {
-    ArrayOf* strs = (ArrayOf*)A.getDataPointer();
-    ArrayOf* delim = (ArrayOf*)delimiters.getDataPointer();
-    size_t nbRows = A.getRows();
-    size_t nbCols = A.getColumns();
+    ArrayOf* strs = (ArrayOf*)A.dataPointer();
+    ArrayOf* delim = (ArrayOf*)delimiters.dataPointer();
+    size_t nbRows = A.rows();
+    size_t nbCols = A.columns();
 
     if (dimension == 1) {
-        // Join by rows - output will have nbCols columns
         Dimensions dims(1, nbCols);
         ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_STRING_ARRAY, nbCols);
         ArrayOf strArray = ArrayOf(NLS_STRING_ARRAY, dims, elements);
 
-        // Process each column
         OMP_PARALLEL_FOR_LOOP(nbCols)
         for (ompIndexType c = 0; c < (ompIndexType)nbCols; c++) {
             std::wstring joined;
             bool isMissing = false;
-            // Join rows within this column
             for (size_t r = 0; r < nbRows && !isMissing; r++) {
                 if (r > 0) {
                     if (delim[r - 1].isRowVectorCharacterArray()) {
-                        joined += delim[r - 1].getContentAsWideString();
+                        joined += delim[r - 1].asWideString();
                     } else {
                         isMissing = true;
                     }
                 }
                 isMissing = isMissing || !strs[r + c * nbRows].isRowVectorCharacterArray();
                 if (!isMissing) {
-                    joined += strs[r + c * nbRows].getContentAsWideString();
+                    joined += strs[r + c * nbRows].asWideString();
                 }
             }
-            elements[c] = isMissing ? ArrayOf::doubleConstructor(std::nan(""))
-                                    : ArrayOf::characterArrayConstructor(joined);
+            elements[c]
+                = isMissing ? ArrayOf::doubleScalar(std::nan("")) : ArrayOf::characterArray(joined);
         }
         return strArray;
     } else /* dimension == 2 */ {
-        // Join by columns - output will have nbRows rows
         Dimensions dims(nbRows, 1);
         ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_STRING_ARRAY, nbRows);
         ArrayOf strArray = ArrayOf(NLS_STRING_ARRAY, dims, elements);
 
-        // Process each row
         OMP_PARALLEL_FOR_LOOP(nbRows)
         for (ompIndexType r = 0; r < (ompIndexType)nbRows; r++) {
             std::wstring joined;
             bool isMissing = false;
-            // Join columns within this row
             for (size_t c = 0; c < nbCols && !isMissing; c++) {
                 if (c > 0) {
                     if (delim[c - 1].isRowVectorCharacterArray()) {
-                        joined += delim[c - 1].getContentAsWideString();
+                        joined += delim[c - 1].asWideString();
                     } else {
                         isMissing = true;
                     }
                 }
                 isMissing = isMissing || !strs[r + c * nbRows].isRowVectorCharacterArray();
                 if (!isMissing) {
-                    joined += strs[r + c * nbRows].getContentAsWideString();
+                    joined += strs[r + c * nbRows].asWideString();
                 }
             }
-            elements[r] = isMissing ? ArrayOf::doubleConstructor(std::nan(""))
-                                    : ArrayOf::characterArrayConstructor(joined);
+            elements[r]
+                = isMissing ? ArrayOf::doubleScalar(std::nan("")) : ArrayOf::characterArray(joined);
         }
         return strArray;
     }
@@ -299,13 +285,12 @@ ArrayOf
 StringJoinStringArrayColumnVectorDelimiter(
     const ArrayOf& A, const ArrayOf& delimiters, size_t dimension)
 {
-    ArrayOf* strs = (ArrayOf*)A.getDataPointer();
-    ArrayOf* delim = (ArrayOf*)delimiters.getDataPointer();
-    size_t nbRows = A.getRows();
-    size_t nbCols = A.getColumns();
+    ArrayOf* strs = (ArrayOf*)A.dataPointer();
+    ArrayOf* delim = (ArrayOf*)delimiters.dataPointer();
+    size_t nbRows = A.rows();
+    size_t nbCols = A.columns();
 
     if (dimension == 1) {
-        // Join by rows - output will have nbCols columns
         Dimensions dims(1, nbCols);
         ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_STRING_ARRAY, nbCols);
         ArrayOf strArray = ArrayOf(NLS_STRING_ARRAY, dims, elements);
@@ -316,23 +301,22 @@ StringJoinStringArrayColumnVectorDelimiter(
             for (size_t r = 0; r < nbRows && !isMissing; r++) {
                 if (r > 0) {
                     if (delim[r - 1].isRowVectorCharacterArray()) {
-                        joined += delim[r - 1].getContentAsWideString();
+                        joined += delim[r - 1].asWideString();
                     } else {
                         isMissing = true;
                     }
                 }
                 isMissing = isMissing || !strs[r + c * nbRows].isRowVectorCharacterArray();
                 if (!isMissing) {
-                    joined += strs[r + c * nbRows].getContentAsWideString();
+                    joined += strs[r + c * nbRows].asWideString();
                 }
             }
-            elements[c] = isMissing ? ArrayOf::doubleConstructor(std::nan(""))
-                                    : ArrayOf::characterArrayConstructor(joined);
+            elements[c]
+                = isMissing ? ArrayOf::doubleScalar(std::nan("")) : ArrayOf::characterArray(joined);
         }
         return strArray;
 
     } else /* dimension == 2 */ {
-        // Join by columns - output will have nbRows rows
         Dimensions dims(nbRows, 1);
         ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_STRING_ARRAY, nbRows);
         ArrayOf strArray = ArrayOf(NLS_STRING_ARRAY, dims, elements);
@@ -343,18 +327,18 @@ StringJoinStringArrayColumnVectorDelimiter(
             for (size_t c = 0; c < nbCols && !isMissing; c++) {
                 if (c > 0) {
                     if (delim[c - 1].isRowVectorCharacterArray()) {
-                        joined += delim[c - 1].getContentAsWideString();
+                        joined += delim[c - 1].asWideString();
                     } else {
                         isMissing = true;
                     }
                 }
                 isMissing = isMissing || !strs[r + c * nbRows].isRowVectorCharacterArray();
                 if (!isMissing) {
-                    joined += strs[r + c * nbRows].getContentAsWideString();
+                    joined += strs[r + c * nbRows].asWideString();
                 }
             }
-            elements[r] = isMissing ? ArrayOf::doubleConstructor(std::nan(""))
-                                    : ArrayOf::characterArrayConstructor(joined);
+            elements[r]
+                = isMissing ? ArrayOf::doubleScalar(std::nan("")) : ArrayOf::characterArray(joined);
         }
         return strArray;
     }
@@ -363,13 +347,12 @@ StringJoinStringArrayColumnVectorDelimiter(
 ArrayOf
 StringJoinStringArrayMatrixDelimiter(const ArrayOf& A, const ArrayOf& delimiters, size_t dimension)
 {
-    ArrayOf* strs = (ArrayOf*)A.getDataPointer();
-    ArrayOf* delims = (ArrayOf*)delimiters.getDataPointer();
-    size_t nbRows = A.getRows();
-    size_t nbCols = A.getColumns();
+    ArrayOf* strs = (ArrayOf*)A.dataPointer();
+    ArrayOf* delims = (ArrayOf*)delimiters.dataPointer();
+    size_t nbRows = A.rows();
+    size_t nbCols = A.columns();
 
     if (dimension == 1) {
-        // Join by rows - output will have nbCols columns
         Dimensions dims(1, nbCols);
         ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_STRING_ARRAY, nbCols);
         ArrayOf strArray = ArrayOf(NLS_STRING_ARRAY, dims, elements);
@@ -380,23 +363,22 @@ StringJoinStringArrayMatrixDelimiter(const ArrayOf& A, const ArrayOf& delimiters
             for (size_t r = 0; r < nbRows && !isMissing; r++) {
                 if (r > 0) {
                     if (delims[(r - 1) + c * (nbRows - 1)].isRowVectorCharacterArray()) {
-                        joined += delims[(r - 1) + c * (nbRows - 1)].getContentAsWideString();
+                        joined += delims[(r - 1) + c * (nbRows - 1)].asWideString();
                     } else {
                         isMissing = true;
                     }
                 }
                 isMissing = isMissing || !strs[r + c * nbRows].isRowVectorCharacterArray();
                 if (!isMissing) {
-                    joined += strs[r + c * nbRows].getContentAsWideString();
+                    joined += strs[r + c * nbRows].asWideString();
                 }
             }
-            elements[c] = isMissing ? ArrayOf::doubleConstructor(std::nan(""))
-                                    : ArrayOf::characterArrayConstructor(joined);
+            elements[c]
+                = isMissing ? ArrayOf::doubleScalar(std::nan("")) : ArrayOf::characterArray(joined);
         }
         return strArray;
 
     } else /* dimension == 2 */ {
-        // Join by columns - output will have nbRows rows
         Dimensions dims(nbRows, 1);
         ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_STRING_ARRAY, nbRows);
         ArrayOf strArray = ArrayOf(NLS_STRING_ARRAY, dims, elements);
@@ -407,7 +389,7 @@ StringJoinStringArrayMatrixDelimiter(const ArrayOf& A, const ArrayOf& delimiters
             for (size_t c = 0; c < nbCols && !isMissing; c++) {
                 if (c > 0) {
                     if (delims[r + (c - 1) * nbRows].isRowVectorCharacterArray()) {
-                        joined += delims[r + (c - 1) * nbRows].getContentAsWideString();
+                        joined += delims[r + (c - 1) * nbRows].asWideString();
 
                     } else {
                         isMissing = true;
@@ -415,11 +397,11 @@ StringJoinStringArrayMatrixDelimiter(const ArrayOf& A, const ArrayOf& delimiters
                 }
                 isMissing = !isMissing && !strs[r + c * nbRows].isRowVectorCharacterArray();
                 if (!isMissing) {
-                    joined += strs[r + c * nbRows].getContentAsWideString();
+                    joined += strs[r + c * nbRows].asWideString();
                 }
             }
-            elements[r] = isMissing ? ArrayOf::doubleConstructor(std::nan(""))
-                                    : ArrayOf::characterArrayConstructor(joined);
+            elements[r]
+                = isMissing ? ArrayOf::doubleScalar(std::nan("")) : ArrayOf::characterArray(joined);
         }
         return strArray;
     }
@@ -430,7 +412,7 @@ StringJoinStringArray(const ArrayOf& A, const ArrayOf& delimiters, size_t dimens
 {
     if (A.isEmpty()) {
         Dimensions dims(0, 1);
-        return ArrayOf::stringArrayConstructor(wstringVector(), dims);
+        return ArrayOf::stringArray(wstringVector(), dims);
     }
     if (delimiters.isScalar()) {
         return StringJoinStringArrayScalarDelimiter(A, delimiters, dimension);
@@ -448,27 +430,24 @@ ArrayOf
 StringJoinCellCharactersScalarDelimiter(
     const ArrayOf& A, const ArrayOf& delimiter, size_t dimension)
 {
-    ArrayOf* strs = (ArrayOf*)A.getDataPointer();
-    ArrayOf* delim = (ArrayOf*)delimiter.getDataPointer();
-    size_t nbRows = A.getRows();
-    size_t nbCols = A.getColumns();
+    ArrayOf* strs = (ArrayOf*)A.dataPointer();
+    ArrayOf* delim = (ArrayOf*)delimiter.dataPointer();
+    size_t nbRows = A.rows();
+    size_t nbCols = A.columns();
 
     if (dimension == 1) {
-        // Join by rows - output will have nbCols columns
         Dimensions dims(1, nbCols);
         ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, nbCols);
         ArrayOf strArray = ArrayOf(NLS_CELL_ARRAY, dims, elements);
 
-        // Process each column
         OMP_PARALLEL_FOR_LOOP(nbCols)
         for (ompIndexType c = 0; c < (ompIndexType)nbCols; c++) {
             std::wstring joined;
             bool isMissing = false;
-            // Join rows within this column
             for (size_t r = 0; r < nbRows && !isMissing; r++) {
                 if (r > 0) {
                     if (delim[0].isRowVectorCharacterArray()) {
-                        joined += delim[0].getContentAsWideString();
+                        joined += delim[0].asWideString();
                     } else {
                         isMissing = true;
                         joined = L"";
@@ -477,39 +456,36 @@ StringJoinCellCharactersScalarDelimiter(
                 if (isMissing) {
                     joined = L"";
                 } else {
-                    joined += strs[r + c * nbRows].getContentAsWideString();
+                    joined += strs[r + c * nbRows].asWideString();
                 }
             }
-            elements[c] = ArrayOf::characterArrayConstructor(joined);
+            elements[c] = ArrayOf::characterArray(joined);
         }
         return strArray;
     } else {
-        // Join by columns - output will have nbRows rows
         Dimensions dims(nbRows, 1);
         ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, nbRows);
         ArrayOf strArray = ArrayOf(NLS_CELL_ARRAY, dims, elements);
 
-        // Process each row
         OMP_PARALLEL_FOR_LOOP(nbRows)
         for (ompIndexType r = 0; r < (ompIndexType)nbRows; r++) {
             std::wstring joined;
             bool isMissing = false;
-            // Join columns within this row
             for (size_t c = 0; c < nbCols && !isMissing; c++) {
                 if (c > 0) {
                     if (delim[0].isRowVectorCharacterArray()) {
-                        joined += delim[0].getContentAsWideString();
+                        joined += delim[0].asWideString();
                     } else {
                         isMissing = true;
                     }
                 }
                 if (!isMissing) {
-                    joined += strs[r + c * nbRows].getContentAsWideString();
+                    joined += strs[r + c * nbRows].asWideString();
                 } else {
                     joined = L"";
                 }
             }
-            elements[r] = ArrayOf::characterArrayConstructor(joined);
+            elements[r] = ArrayOf::characterArray(joined);
         }
         return strArray;
     }
@@ -519,68 +495,62 @@ ArrayOf
 StringJoinCellCharactersRowVectorDelimiter(
     const ArrayOf& A, const ArrayOf& delimiters, size_t dimension)
 {
-    ArrayOf* strs = (ArrayOf*)A.getDataPointer();
-    ArrayOf* delim = (ArrayOf*)delimiters.getDataPointer();
-    size_t nbRows = A.getRows();
-    size_t nbCols = A.getColumns();
+    ArrayOf* strs = (ArrayOf*)A.dataPointer();
+    ArrayOf* delim = (ArrayOf*)delimiters.dataPointer();
+    size_t nbRows = A.rows();
+    size_t nbCols = A.columns();
 
     if (dimension == 1) {
-        // Join by rows - output will have nbCols columns
         Dimensions dims(1, nbCols);
         ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, nbCols);
         ArrayOf strArray = ArrayOf(NLS_CELL_ARRAY, dims, elements);
 
-        // Process each column
         OMP_PARALLEL_FOR_LOOP(nbCols)
         for (ompIndexType c = 0; c < (ompIndexType)nbCols; c++) {
             std::wstring joined;
             bool isMissing = false;
-            // Join rows within this column
             for (size_t r = 0; r < nbRows && !isMissing; r++) {
                 if (r > 0) {
                     if (delim[r - 1].isRowVectorCharacterArray()) {
-                        joined += delim[r - 1].getContentAsWideString();
+                        joined += delim[r - 1].asWideString();
                     } else {
                         joined = L"";
                         isMissing = true;
                     }
                 }
                 if (!isMissing) {
-                    joined += strs[r + c * nbRows].getContentAsWideString();
+                    joined += strs[r + c * nbRows].asWideString();
                 } else {
                     joined = L"";
                 }
             }
-            elements[c] = ArrayOf::characterArrayConstructor(joined);
+            elements[c] = ArrayOf::characterArray(joined);
         }
         return strArray;
     } else /* dimension == 2 */ {
-        // Join by columns - output will have nbRows rows
         Dimensions dims(nbRows, 1);
         ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, nbRows);
         ArrayOf strArray = ArrayOf(NLS_CELL_ARRAY, dims, elements);
 
-        // Process each row
         OMP_PARALLEL_FOR_LOOP(nbRows)
         for (ompIndexType r = 0; r < (ompIndexType)nbRows; r++) {
             std::wstring joined;
             bool isMissing = false;
-            // Join columns within this row
             for (size_t c = 0; c < nbCols && !isMissing; c++) {
                 if (c > 0) {
                     if (delim[c - 1].isRowVectorCharacterArray()) {
-                        joined += delim[c - 1].getContentAsWideString();
+                        joined += delim[c - 1].asWideString();
                     } else {
                         joined = L"";
                     }
                 }
                 if (!isMissing) {
-                    joined += strs[r + c * nbRows].getContentAsWideString();
+                    joined += strs[r + c * nbRows].asWideString();
                 } else {
                     joined = L"";
                 }
             }
-            elements[r] = ArrayOf::characterArrayConstructor(joined);
+            elements[r] = ArrayOf::characterArray(joined);
         }
         return strArray;
     }
@@ -591,13 +561,12 @@ ArrayOf
 StringJoinCellCharactersColumnVectorDelimiter(
     const ArrayOf& A, const ArrayOf& delimiters, size_t dimension)
 {
-    ArrayOf* strs = (ArrayOf*)A.getDataPointer();
-    ArrayOf* delim = (ArrayOf*)delimiters.getDataPointer();
-    size_t nbRows = A.getRows();
-    size_t nbCols = A.getColumns();
+    ArrayOf* strs = (ArrayOf*)A.dataPointer();
+    ArrayOf* delim = (ArrayOf*)delimiters.dataPointer();
+    size_t nbRows = A.rows();
+    size_t nbCols = A.columns();
 
     if (dimension == 1) {
-        // Join by rows - output will have nbCols columns
         Dimensions dims(1, nbCols);
         ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, nbCols);
         ArrayOf strArray = ArrayOf(NLS_CELL_ARRAY, dims, elements);
@@ -609,23 +578,22 @@ StringJoinCellCharactersColumnVectorDelimiter(
             for (size_t r = 0; r < nbRows && !isMissing; r++) {
                 if (r > 0) {
                     if (delim[r - 1].isRowVectorCharacterArray()) {
-                        joined += delim[r - 1].getContentAsWideString();
+                        joined += delim[r - 1].asWideString();
                     } else {
                         isMissing = true;
                         joined = L"";
                     }
                 }
                 if (!isMissing) {
-                    joined += strs[r + c * nbRows].getContentAsWideString();
+                    joined += strs[r + c * nbRows].asWideString();
                 } else {
                     joined = L"";
                 }
             }
-            elements[c] = ArrayOf::characterArrayConstructor(joined);
+            elements[c] = ArrayOf::characterArray(joined);
         }
         return strArray;
     } else /* dimension == 2 */ {
-        // Join by columns - output will have nbRows rows
         Dimensions dims(nbRows, 1);
         ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, nbRows);
         ArrayOf strArray = ArrayOf(NLS_CELL_ARRAY, dims, elements);
@@ -636,19 +604,19 @@ StringJoinCellCharactersColumnVectorDelimiter(
             for (size_t c = 0; c < nbCols && !isMissing; c++) {
                 if (c > 0) {
                     if (delim[c - 1].isRowVectorCharacterArray()) {
-                        joined += delim[c - 1].getContentAsWideString();
+                        joined += delim[c - 1].asWideString();
                         isMissing = true;
                     } else {
                         joined = L"";
                     }
                 }
                 if (!isMissing) {
-                    joined += strs[r + c * nbRows].getContentAsWideString();
+                    joined += strs[r + c * nbRows].asWideString();
                 } else {
                     joined = L"";
                 }
             }
-            elements[r] = ArrayOf::characterArrayConstructor(joined);
+            elements[r] = ArrayOf::characterArray(joined);
         }
         return strArray;
     }
@@ -658,13 +626,12 @@ ArrayOf
 StringJoinCellCharactersMatrixDelimiter(
     const ArrayOf& A, const ArrayOf& delimiters, size_t dimension)
 {
-    ArrayOf* strs = (ArrayOf*)A.getDataPointer();
-    ArrayOf* delims = (ArrayOf*)delimiters.getDataPointer();
-    size_t nbRows = A.getRows();
-    size_t nbCols = A.getColumns();
+    ArrayOf* strs = (ArrayOf*)A.dataPointer();
+    ArrayOf* delims = (ArrayOf*)delimiters.dataPointer();
+    size_t nbRows = A.rows();
+    size_t nbCols = A.columns();
 
     if (dimension == 1) {
-        // Join by rows - output will have nbCols columns
         Dimensions dims(1, nbCols);
         ArrayOf* elements = (ArrayOf*)ArrayOf::allocateArrayOf(NLS_CELL_ARRAY, nbCols);
         ArrayOf strArray = ArrayOf(NLS_CELL_ARRAY, dims, elements);
@@ -675,19 +642,19 @@ StringJoinCellCharactersMatrixDelimiter(
             for (size_t r = 0; r < nbRows && !isMissing; r++) {
                 if (r > 0) {
                     if (delims[(r - 1) + c * (nbRows - 1)].isRowVectorCharacterArray()) {
-                        joined += delims[(r - 1) + c * (nbRows - 1)].getContentAsWideString();
+                        joined += delims[(r - 1) + c * (nbRows - 1)].asWideString();
                     } else {
                         isMissing = true;
                         joined = L"";
                     }
                 }
                 if (!isMissing) {
-                    joined += strs[r + c * nbRows].getContentAsWideString();
+                    joined += strs[r + c * nbRows].asWideString();
                 } else {
                     joined = L"";
                 }
             }
-            elements[c] = ArrayOf::characterArrayConstructor(joined);
+            elements[c] = ArrayOf::characterArray(joined);
         }
         return strArray;
 
@@ -702,19 +669,19 @@ StringJoinCellCharactersMatrixDelimiter(
             for (size_t c = 0; c < nbCols && !isMissing; c++) {
                 if (c > 0) {
                     if (delims[r + (c - 1) * nbRows].isRowVectorCharacterArray()) {
-                        joined += delims[r + (c - 1) * nbRows].getContentAsWideString();
+                        joined += delims[r + (c - 1) * nbRows].asWideString();
                     } else {
                         isMissing = true;
                         joined = L"";
                     }
                 }
                 if (!isMissing) {
-                    joined += strs[r + c * nbRows].getContentAsWideString();
+                    joined += strs[r + c * nbRows].asWideString();
                 } else {
                     joined = L"";
                 }
             }
-            elements[r] = ArrayOf::characterArrayConstructor(joined);
+            elements[r] = ArrayOf::characterArray(joined);
         }
         return strArray;
     }

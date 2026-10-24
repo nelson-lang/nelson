@@ -8,11 +8,11 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 names = ["Allan", "Yann", "Jack"];
-ages = [50, 35, 68]; 
-gym = dictionary(names, ages) ;
+ages = [50, 35, 68];
+gym = dictionary(names, ages);
 R = keys(gym);
 REF = ["Allan"; "Yann"; "Jack"];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 R = keys(gym, 'cell');
-assert_isequal(R, {"Allan"; "Yann"; "Jack"});
+asserts.isequal(R, {"Allan"; "Yann"; "Jack"});
 %=============================================================================

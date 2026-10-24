@@ -10,6 +10,6 @@
 function x = asech(varargin)
   narginchk(1, 1);
   nargoutchk(0, 1);
-  x = acosh (1 ./ varargin{1});
+  x = acosh(1 ./ varargin{1});
 end
 %=============================================================================

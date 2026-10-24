@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>rms</keyword>
+  <short_description>Valeur quadratique moyenne.</short_description>
+  <syntax>
+    <syntax_item>Y = rms(X)</syntax_item>
+    <syntax_item>Y = rms(X, DIM)</syntax_item>
+    <syntax_item>Y = rms(X, VECDIM)</syntax_item>
+    <syntax_item>Y = rms(X, "all")</syntax_item>
+    <syntax_item>Y = rms(..., TYPE)</syntax_item>
+    <syntax_item>Y = rms(..., NANFLAG)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description>données d'entrée : single, double, logique ou entier.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>DIM</param_name>
+      <param_description>dimension sur laquelle calculer la valeur.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>VECDIM</param_name>
+      <param_description>vecteur de dimensions sur lesquelles calculer la valeur.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>"all"</param_name>
+      <param_description>opérer sur tous les éléments de X.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>TYPE</param_name>
+      <param_description>classe du résultat : "default", "double" ou "native".</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>NANFLAG</param_name>
+      <param_description>"includenan" ou "omitnan". "includemissing" et "omitmissing" sont aussi acceptés.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>Y</param_name>
+      <param_description>valeurs quadratiques moyennes.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>rms</b> calcule sqrt(mean(abs(X) .^ 2)) sur la dimension choisie :</p>
+    <latex>\mathrm{RMS}(X) = \sqrt{ \frac{1}{N} \sum_{n=1}^{N} |x_n|^2 }</latex>
+    <p>où N est le nombre d'éléments sur cette dimension.</p>
+    <p>
+      <ul>
+        <li>Si <b>X</b> est un vecteur, <b>Y</b> est un scalaire.</li>
+        <li>Si <b>X</b> est une matrice, <b>Y</b> est un vecteur ligne contenant la valeur de chaque colonne.</li>
+        <li>Si <b>X</b> est un tableau multidimensionnel, <b>Y</b> est calculé sur la première dimension dont la taille n'est pas 1, sauf si une dimension est indiquée.</li>
+      </ul>
+    </p>
+    <p><b>Classe du résultat :</b> le carré et la moyenne sont toujours calculés en double, donc une entrée entière ne sature jamais. <b>"native"</b> renvoie la classe de l'entrée, <b>"double"</b> renvoie un double, et <b>"default"</b> renvoie un double pour une entrée entière et la classe de l'entrée sinon. Une entrée logique n'est pas une classe entière et renvoie un double.</p>
+    <p><b>Valeurs manquantes :</b> les NaN sont pris en compte par défaut. Utiliser <b>"omitnan"</b> ou <b>"omitmissing"</b> pour les écarter.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>valeur quadratique moyenne d'un vecteur</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[
+t = 0:0.001:1-0.001;
+x = cos(2*pi*100*t);
+y = rms(x)
+% y = 0.7071
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>une valeur par colonne</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[
+x = [4 -5 1; 2 3 5; -9 1 7];
+y = rms(x)
+% y = [5.8023 3.4157 5.0000]
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>une valeur par ligne</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[
+x = [6 4 23 -3; 9 -10 4 11; 2 8 -5 1];
+y = rms(x, 2)
+% y = [12.1450; 8.9163; 4.8477]
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>en écartant les valeurs manquantes</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[
+x = [1.77 -0.005 nan -2.95; nan 0.34 nan 0.19];
+y = rms(x, "omitnan")
+% y = [1.7700 0.2404 nan 2.0903]
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>entrée entière avec un résultat natif</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[
+M = uint8([10:30:70; 20:30:80; 30:30:90]);
+R = rms(M, 'native')
+% R = uint8([22 51 80])
+D = rms(M)
+% D = [21.6025 50.6623 80.4156]
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${signal_processing}peak2peak">peak2peak</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${data_analysis}max">max</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${data_analysis}min">min</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.16.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

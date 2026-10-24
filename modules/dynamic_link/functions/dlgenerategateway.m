@@ -9,14 +9,14 @@
 %=============================================================================
 function dlgenerategateway(destinationdir, module_name, builtin_table)
   if ~isdir(destinationdir)
-    error(_('Invalid directory.'));
+    error('Nelson:dynamic_link:invalidDirectory', 'Invalid directory.');
   end
   if ~ischar(module_name)
-    error(_('Wrong type for argument #2: string expected.'));
+    error('Nelson:types:wrongArgumentTypeExpected', 'Wrong type for argument #%d: %s expected.', 2, 'string');
   end
   [status, builtin_table] = checkAndPrepareBuiltinTable(builtin_table);
   if ~status
-    error(_('Invalid builtin list.'));
+    error('Nelson:dlgenerategateway:invalidBuiltinList', 'Invalid builtin list.');
   end
   txt = template(module_name, builtin_table);
   filewrite([destinationdir, '/Gateway.cpp'], txt);
@@ -37,7 +37,16 @@ function [status, builtin_table_modified] = checkAndPrepareBuiltinTable(builtin_
         status = false;
         return;
       end
-      element_to_add = { k{1}{1}, double(k{1}{2}), double(k{1}{3}), builtin_type };
+      overload_mode = '';
+      if length(k{1}) >= 5
+        overload_mode = k{1}{5};
+        is_supported = strcmp(overload_mode, 'NLS_OVERLOAD_AUTO_ON') == true || strcmp(overload_mode, 'NLS_OVERLOAD_AUTO_OFF') == true;
+        if ~is_supported
+          status = false;
+          return;
+        end
+      end
+      element_to_add = {k{1}{1}, double(k{1}{2}), double(k{1}{3}), builtin_type, overload_mode};
       builtin_table_modified{end + 1} = element_to_add;
     end
   else
@@ -97,19 +106,20 @@ function txt = template(module_name, builtin_table)
     nboutputs = k{1}{2};
     nbinputs = k{1}{3};
     builtintype = k{1}{4};
-    line = ['    { "', name, '", (void*)', name, 'Builtin, ', int2str(nboutputs), ', ', int2str(nbinputs), ', ', builtintype ,' },'];
+    overloadMode = k{1}{5};
+    if isempty(overloadMode)
+      line = ['    { "', name, '", (ptrBuiltin)', name, 'Builtin, ', int2str(nboutputs), ', ', int2str(nbinputs), ', ', builtintype, ' },'];
+    else
+      line = ['    { "', name, '", (ptrBuiltin)', name, 'Builtin, ', int2str(nboutputs), ', ', int2str(nbinputs), ', ', builtintype, ', ', overloadMode, ' },'];
+    end
     txt = [txt; line];
   end
   txt = [txt; '};'];
   txt = [txt; '//============================================================================='];
-  txt = [txt; 'NLSGATEWAYFUNC(gateway)'];
+  txt = [txt; 'NLS_GATEWAY_FUNC(gateway)'];
   txt = [txt; '//============================================================================='];
-  txt = [txt; 'NLSGATEWAYINFO(gateway)'];
+  txt = [txt; 'NLS_GATEWAY_REMOVE(gateway)'];
   txt = [txt; '//============================================================================='];
-  txt = [txt; 'NLSGATEWAYREMOVE(gateway)'];
-  txt = [txt; '//============================================================================='];
-  txt = [txt; 'NLSGATEWAYNAME()'];
-  txt = [txt; '//============================================================================='];
-  
+
 end
 %=============================================================================

@@ -18,5 +18,5 @@ namespace Nelson {
 NLSCORE_IMPEXP bool
 EvaluateScriptFile(Evaluator* eval, const std::wstring& filename, bool bChangeDirectory = false);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

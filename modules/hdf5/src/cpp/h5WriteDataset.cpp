@@ -14,22 +14,48 @@
 #include "FileSystemWrapper.hpp"
 #include "HDF5_helpers.hpp"
 #include "h5WriteDataset.hpp"
-#include "Exception.hpp"
+#include "NelsonException.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "characters_encoding.hpp"
+#include "h5SaveVariable.hpp"
 #include "h5WriteHelpers.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+static bool
+isNelsonObjectDataset(const ArrayOf& data)
+{
+    return data.isClassType() || data.isHandle();
+}
+//=============================================================================
+static bool
+splitH5Location(const std::wstring& location, std::string& parentLocation, std::string& name)
+{
+    std::string h5path = wstring_to_utf8(location);
+    if (h5path.empty() || h5path == "/" || h5path.back() == '/') {
+        return false;
+    }
+    size_t separator = h5path.find_last_of('/');
+    if (separator == std::string::npos) {
+        parentLocation = "/";
+        name = h5path;
+    } else {
+        parentLocation = separator == 0 ? "/" : h5path.substr(0, separator);
+        name = h5path.substr(separator + 1);
+    }
+    return !name.empty();
+}
 //=============================================================================
 void
 h5WriteDataset(const std::wstring& filename, const std::wstring& location, ArrayOf& data)
 {
     if (filename.empty()) {
-        Error(_W("Valid filename expected."));
+        Error(L"Nelson:hdf5:invalidFilename", L"Valid %s expected.", L"filename");
     }
     if (location.empty()) {
-        Error(_W("Valid location expected."));
+        Error(L"Nelson:hdf5:invalidLocation", L"Valid %s expected.", L"location");
     }
     FileSystemWrapper::Path hdf5_filename(filename);
     bool permissionDenied;
@@ -37,7 +63,7 @@ h5WriteDataset(const std::wstring& filename, const std::wstring& location, Array
         = FileSystemWrapper::Path::is_regular_file(hdf5_filename, permissionDenied);
     if (!fileExistPreviously) {
         if (permissionDenied) {
-            Error(_W("Permission denied."));
+            Error(L"Nelson:hdf5:permissionDenied", L"Permission denied.");
         }
     }
     hid_t h5obj = H5I_INVALID_HID;
@@ -46,17 +72,31 @@ h5WriteDataset(const std::wstring& filename, const std::wstring& location, Array
             = H5Fcreate(wstring_to_utf8(filename).c_str(), H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
     } else {
         if (!H5Fis_hdf5(wstring_to_utf8(hdf5_filename.wstring()).c_str())) {
-            Error(_W("HDF5 format file expected."));
+            Error(L"Nelson:hdf5:notHdf5File", L"HDF5 format file expected.");
         }
         h5obj = H5Fopen(wstring_to_utf8(filename).c_str(), H5F_ACC_RDWR, H5P_DEFAULT);
     }
     if (h5obj < 0) {
-        Error(_W("Cannot open HDF5 file expected."));
+        Error(L"Nelson:hdf5:openFailed", L"Open file failed.");
     }
     htri_t exists = H5Lexists(h5obj, wstring_to_utf8(location).c_str(), H5P_DEFAULT);
     herr_t status;
     if (exists) {
         status = H5Ldelete(h5obj, wstring_to_utf8(location).c_str(), H5P_DEFAULT);
+    }
+    if (isNelsonObjectDataset(data)) {
+        std::string parentLocation;
+        std::string name;
+        if (!splitH5Location(location, parentLocation, name)) {
+            H5Fclose(h5obj);
+            Error(L"Nelson:hdf5:invalidLocation", L"Valid %s expected.", L"location");
+        }
+        if (!h5SaveVariable(nullptr, h5obj, parentLocation, name, data, true)) {
+            H5Fclose(h5obj);
+            Error(L"Nelson:h5write:cannotWriteDataset", L"Cannot write data set.");
+        }
+        H5Fclose(h5obj);
+        return;
     }
     hid_t dspace_id = H5I_INVALID_HID;
     hid_t type_id = H5I_INVALID_HID;
@@ -64,21 +104,21 @@ h5WriteDataset(const std::wstring& filename, const std::wstring& location, Array
     void* buffer = h5WriteNelsonToHdf5(data, type_id, dspace_id, error);
     if (!error.empty()) {
         status = H5Fclose(h5obj);
-        Error(error);
+        Error(L"Nelson:hdf5:writeDatasetFailed", error);
     }
     hid_t dataset_id = H5Dcreate(h5obj, wstring_to_utf8(location).c_str(), type_id, dspace_id,
         H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
     if (dataset_id < 0) {
         H5Sclose(dspace_id);
         H5Fclose(h5obj);
-        Error(_W("Cannot create data set."));
+        Error(L"Nelson:h5write:cannotCreateDataset", L"Cannot create data set.");
     }
     status = H5Dwrite(dataset_id, type_id, H5S_ALL, H5S_ALL, H5P_DEFAULT, buffer);
     H5Dclose(dataset_id);
     H5Sclose(dspace_id);
     H5Fclose(h5obj);
     if (status < 0) {
-        Error(_W("Cannot write data set."));
+        Error(L"Nelson:h5write:cannotWriteDataset", L"Cannot write data set.");
     }
 }
 //=============================================================================

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -25,7 +25,7 @@ Nelson::ElementaryFunctionsGateway::flipudBuiltin(
     ArrayOf res = Flipud(argIn[0], needToOverload);
     if (needToOverload) {
         ArrayOfVector args = argIn;
-        args.push_back(ArrayOf::doubleConstructor(1.));
+        args.push_back(ArrayOf::doubleScalar(1.));
         Context* context = eval->getContext();
         if (context != nullptr) {
             FunctionDef* funcDef = nullptr;

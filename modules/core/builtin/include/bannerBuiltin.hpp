@@ -14,5 +14,6 @@
 namespace Nelson::CoreGateway {
 ArrayOfVector
 bannerBuiltin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

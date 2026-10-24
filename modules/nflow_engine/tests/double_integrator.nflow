@@ -1,0 +1,82 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Allan CORNET",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "comments": "Double integrator of a constant 0.5: y = 0.25 t^2.",
+  "name": "double_integrator",
+  "blocks": [
+    {
+      "id": "c1",
+      "type": "constant",
+      "x": 40,
+      "y": 180,
+      "rotation": 0,
+      "params": {
+        "Value": 0.5
+      }
+    },
+    {
+      "id": "i1",
+      "type": "integrator",
+      "x": 220,
+      "y": 180,
+      "rotation": 0,
+      "params": {
+        "InitialCondition": 0
+      }
+    },
+    {
+      "id": "i2",
+      "type": "integrator",
+      "x": 400,
+      "y": 180,
+      "rotation": 0,
+      "params": {
+        "InitialCondition": 0
+      }
+    },
+    {
+      "id": "tw",
+      "type": "toWorkspace",
+      "x": 580,
+      "y": 180,
+      "rotation": 0,
+      "params": {
+        "VariableName": "double_integrator_out",
+        "MaxDataPoints": "inf",
+        "Decimation": 1,
+        "SaveFormat": "Array",
+        "SampleTime": "-1"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "c1",
+      "to": "i1",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "i1",
+      "to": "i2",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "i2",
+      "to": "tw",
+      "fromIndex": 0,
+      "toIndex": 0
+    }
+  ],
+  "variables": "",
+  "runtime": 10,
+  "sampleTime": 0.05,
+  "autoRoute": true,
+  "solver": "ode45"
+}

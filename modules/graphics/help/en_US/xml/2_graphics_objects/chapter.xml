@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>graphics</module_name>
+  <chapter>Graphics Objects</chapter>
+  <chapter_description>
+    <p>Functions and reference pages for graphics object management, layout objects, user interface objects, and object properties.</p>
+  </chapter_description>
+</xmldoc>

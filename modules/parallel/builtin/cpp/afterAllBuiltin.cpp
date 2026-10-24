@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,14 +10,15 @@
 #include <thread>
 #include "afterAllBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "characters_encoding.hpp"
 #include "FutureObjectHelpers.hpp"
 #include "FevalFutureObject.hpp"
 #include "AfterEachFutureObject.hpp"
 #include "AfterAllFutureObject.hpp"
+#include "HandleState.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#include "PredefinedErrorMessages.hpp"
 #//=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -29,21 +30,22 @@ Nelson::ParallelGateway::afterAllBuiltin(int nLhs, const ArrayOfVector& argIn)
 
     ArrayOf param1 = argIn[0];
     if (!param1.isHandle()) {
-        Error(_W("Future handle expected."));
+        Error(L"Nelson:future:handleExpected", L"Future handle expected.");
     }
-    bool isSupportedType = (param1.getHandleCategory() == NLS_HANDLE_FEVALFUTURE_CATEGORY_STR)
-        || (param1.getHandleCategory() == NLS_HANDLE_AFTERALLFUTURE_CATEGORY_STR)
-        || (param1.getHandleCategory() == NLS_HANDLE_AFTEREACHFUTURE_CATEGORY_STR);
+    bool isSupportedType = (param1.handleCategory() == NLS_HANDLE_FEVALFUTURE_CATEGORY_STR)
+        || (param1.handleCategory() == NLS_HANDLE_AFTERALLFUTURE_CATEGORY_STR)
+        || (param1.handleCategory() == NLS_HANDLE_AFTEREACHFUTURE_CATEGORY_STR);
     if (!isSupportedType) {
-        Error(_W("FevalFuture handle expected."));
+        Error(L"Nelson:parallel:fevalFutureExpected", L"FevalFuture handle expected.");
     }
     ArrayOf param2 = argIn[1];
     if (!param2.isFunctionHandle()) {
-        Error(_W("function handle handle expected."));
+        Error(L"Nelson:parallel:invalidFunctionHandle", L"function handle handle expected.");
     }
-    function_handle fh = param2.getContentAsFunctionHandle();
+    function_handle fh = param2.asFunctionHandle();
     if (fh.anonymousHandle == nullptr) {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_FUNCTION_HANDLE_EXPECTED);
+        Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1),
+            L"function handle");
     }
     FunctionDef* funcDef = nullptr;
     ArrayOfVector args;
@@ -54,29 +56,37 @@ Nelson::ParallelGateway::afterAllBuiltin(int nLhs, const ArrayOfVector& argIn)
         funcDef = (FunctionDef*)fh.anonymousHandle;
     }
     if (!funcDef) {
-        Error(_W("Invalid anonymous function."));
+        Error(L"Nelson:parallel:invalidAnonymousFunction", L"Invalid anonymous function.");
     }
     ArrayOf param3 = argIn[2];
-    bool isReal = param3.getDataClass() == NLS_DOUBLE || param3.getDataClass() == NLS_SINGLE;
+    bool isReal = param3.dataClass() == NLS_DOUBLE || param3.dataClass() == NLS_SINGLE;
     if (!isReal) {
-        Error(_W("integer value expected."));
+        Error(L"Nelson:validators:mustBeInteger", L"%s must be an integer.", L"Value");
     }
-    double value = param3.getContentAsDoubleScalar();
+    double value = param3.asDoubleScalar();
     int ivalue = (int)(value);
     if (value != (double)ivalue) {
-        Error(_W("integer value expected."));
+        Error(L"Nelson:validators:mustBeInteger", L"%s must be an integer.", L"Value");
     }
     if (ivalue < 0) {
-        Error(_W("non negative value expected."));
+        Error(L"Nelson:parallel:nonNegativeValueExpected", L"non negative value expected.");
     }
 
     std::vector<FutureObject*> futures = ArrayOfToFutures(param1);
 
     AfterAllFutureObject* afterAllFuture
         = new AfterAllFutureObject(utf8_to_wstring(funcDef->getName()), futures);
-    std::thread _thread
-        = std::thread(&AfterAllFutureObject::afterAll, afterAllFuture, funcDef, ivalue, false);
+    ArrayOf result = ArrayOf::handle(afterAllFuture);
+    HandleRef* qp = (HandleRef*)(result.dataPointer());
+    HandleRef futureRef = qp[0];
+    afterAllFuture->asNelsonHandle = futureRef ? futureRef->id() : 0;
+    // The thread keeps a copy of the function handle value so the definition
+    // behind funcDef outlives the caller's variables.
+    ArrayOf functionHandle = param2;
+    std::thread _thread([afterAllFuture, funcDef, ivalue, functionHandle]() {
+        afterAllFuture->afterAll(funcDef, ivalue, false);
+    });
     _thread.detach();
-    return ArrayOf::handleConstructor(afterAllFuture);
+    return result;
 }
 //=============================================================================

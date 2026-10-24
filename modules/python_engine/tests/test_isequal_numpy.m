@@ -15,16 +15,16 @@ env = pyenv();
 try
   pyrun('import numpy as np');
 catch
-    skip_testsuite(true, 'Numpy not available')
+  skip_testsuite(true, 'Numpy not available')
 end
 %=============================================================================
 N_A = [1, 2, 3; 4, 5, 6; 7, 8, 9];
 N_B = [9, 8, 7; 6, 5, 4; 3, 2, 1];
 N_C = [1, 2, 3; 4, 5, 6; 7, 8, 9];
-A = pyrun('A = np.asarray(A)','A', 'A', N_A);
-B = pyrun('B = np.asarray(B)','B', 'B', N_B);
-C = pyrun('C = np.asarray(C)','C', 'C', N_C);
+A = pyrun('A = np.asarray(A)', 'A', 'A', N_A);
+B = pyrun('B = np.asarray(B)', 'B', 'B', N_B);
+C = pyrun('C = np.asarray(C)', 'C', 'C', N_C);
 %=============================================================================
-assert_istrue(isequal(A, A))
-assert_isfalse(isequal(A, B))
-assert_istrue(isequal(A, C))
+asserts.istrue(isequal(A, A))
+asserts.isfalse(isequal(A, B))
+asserts.istrue(isequal(A, C))

@@ -16,5 +16,5 @@ function pint = polyint(varargin)
   else
     k = varargin{2};
   end
-  pint = [(p(:).')./(length(p):-1:1),k];
+  pint = [(p(:).') ./ (length(p):-1:1), k];
 end

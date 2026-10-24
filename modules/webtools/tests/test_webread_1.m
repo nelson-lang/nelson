@@ -7,8 +7,8 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('webread'), -1);
-assert_isequal(nargout('webread'), -1);
+asserts.isequal(nargin('webread'), -1);
+asserts.isequal(nargout('webread'), -1);
 %=============================================================================
 o = weboptions('RequestMethod', 'get');
 o.Timeout = 50;
@@ -39,6 +39,6 @@ end
 if isempty(R)
   skip_testsuite(true, 'webread failed after retries or returned empty result');
 end
-assert_istrue(isstruct(R));
-assert_isequal(R(1).email, 'Eliseo@gardner.biz');
+asserts.istrue(isstruct(R));
+asserts.isequal(R(1).email, 'Eliseo@gardner.biz');
 %=============================================================================

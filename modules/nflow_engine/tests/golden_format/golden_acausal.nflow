@@ -1,0 +1,126 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Allan CORNET",
+    "created": "2026-08-05",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "comments": "Frozen retro-read golden: acausal model with physical wires and DAE solver.",
+  "name": "golden_acausal",
+  "blocks": [
+    {
+      "id": "M1",
+      "type": "Mass",
+      "params": {
+        "m": 1,
+        "s0": 1,
+        "v0": 0
+      },
+      "x": 1500,
+      "y": 1500,
+      "rotation": 0
+    },
+    {
+      "id": "K1",
+      "type": "Spring",
+      "params": {
+        "k": 4
+      },
+      "x": 1670,
+      "y": 1500,
+      "rotation": 0
+    },
+    {
+      "id": "D1",
+      "type": "Damper",
+      "params": {
+        "d": 1
+      },
+      "x": 1840,
+      "y": 1500,
+      "rotation": 0
+    },
+    {
+      "id": "W",
+      "type": "Fixed",
+      "params": {
+        "s0": 0
+      },
+      "x": 2010,
+      "y": 1500,
+      "rotation": 0
+    },
+    {
+      "id": "PS",
+      "type": "PositionSensor",
+      "params": {},
+      "x": 2180,
+      "y": 1500,
+      "rotation": 0
+    },
+    {
+      "id": "tw",
+      "type": "toWorkspace",
+      "params": {
+        "VariableName": "s"
+      },
+      "inputs": 1,
+      "outputs": 0,
+      "x": 2350,
+      "y": 1660,
+      "rotation": 0
+    },
+    {
+      "id": "sc",
+      "type": "scope",
+      "params": {
+        "TMin": "",
+        "TMax": "",
+        "YMin": "",
+        "YMax": "",
+        "width": 320,
+        "height": 220,
+        "ShowTickLabels": true
+      },
+      "x": 2520,
+      "y": 1460,
+      "rotation": 0
+    }
+  ],
+  "connections": [
+    {
+      "from": "PS",
+      "to": "tw",
+      "fromIndex": 0,
+      "toIndex": 0
+    },
+    {
+      "from": "PS",
+      "to": "sc",
+      "fromIndex": 0,
+      "toIndex": 0
+    }
+  ],
+  "solver": "dae",
+  "runtime": 10,
+  "sampleTime": 0.02,
+  "physicalWires": [
+    {
+      "pins": [
+        "M1.flange",
+        "K1.a",
+        "D1.a",
+        "PS.flange"
+      ]
+    },
+    {
+      "pins": [
+        "K1.b",
+        "D1.b",
+        "W.flange"
+      ]
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -13,6 +13,7 @@
 #include "GORoot.hpp"
 #include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -24,7 +25,7 @@ Nelson::GraphicsGateway::graphics_object_propertiesBuiltin(
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
 
-    int64 handle = argIn[0].getContentAsGraphicsObjectScalar();
+    int64 handle = argIn[0].asGraphicsObjectScalar();
     GraphicsObject* fp = nullptr;
     if (handle == HANDLE_ROOT_OBJECT) {
         fp = getGraphicsRootObject();
@@ -35,7 +36,7 @@ Nelson::GraphicsGateway::graphics_object_propertiesBuiltin(
         fp = (GraphicsObject*)findGOFigure(handle);
     }
     if (!fp) {
-        Error(_W("Invalid handle."));
+        Error(L"Nelson:graphics:invalidHandle", L"Invalid handle.");
     }
     std::vector<std::wstring> propertyNames = fp->getVisibleFieldnames();
     if (nLhs == 0) {
@@ -43,9 +44,19 @@ Nelson::GraphicsGateway::graphics_object_propertiesBuiltin(
         if (io) {
             std::wstring msg;
             if (propertyNames.size() == 0) {
-                msg = L"\n" + _W("No property for class") + L" " + fp->getType() + L":\n";
+                msg = L"\n"
+                    + formatI18nMessage(
+                        Nelson::resolveMessageTemplate(
+                            L"Nelson:graphics:propertyClass", L"No property for class %s:"),
+                        fp->getType())
+                    + L"\n";
             } else {
-                msg = L"\n" + _W("Properties for class") + L" " + fp->getType() + L":\n\n";
+                msg = L"\n"
+                    + formatI18nMessage(
+                        Nelson::resolveMessageTemplate(
+                            L"Nelson:graphics:propertiesClass", L"Properties for class %s:"),
+                        fp->getType())
+                    + L"\n\n";
                 for (auto& propertyName : propertyNames) {
                     msg = msg + std::wstring(L"\t") + propertyName + std::wstring(L"\n");
                 }
@@ -54,7 +65,7 @@ Nelson::GraphicsGateway::graphics_object_propertiesBuiltin(
             io->outputMessage(msg);
         }
     } else {
-        retval.push_back(ArrayOf::toCellArrayOfCharacterColumnVectors(propertyNames));
+        retval.push_back(ArrayOf::cellArrayFromArrayOfCharacterColumnVectors(propertyNames));
     }
     return retval;
 }

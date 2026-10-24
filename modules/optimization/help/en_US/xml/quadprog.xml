@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>quadprog</keyword>
+  <short_description>Quadratic programming.</short_description>
+  <syntax>
+    <syntax_item>x = quadprog(H, f)</syntax_item>
+    <syntax_item>[x, fval, exitflag, output, lambda] = quadprog(H, f, A, b, Aeq, beq, lb, ub, x0, options)</syntax_item>
+    <syntax_item>x = quadprog(problem)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>H, f</param_name>
+      <param_description>quadratic and linear objective terms.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>A, b, Aeq, beq</param_name>
+      <param_description>linear inequality and equality constraints.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>lb, ub</param_name>
+      <param_description>lower and upper bounds.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>x</param_name>
+      <param_description>estimated solution.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>fval</param_name>
+      <param_description>objective value.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>lambda</param_name>
+      <param_description>constraint multiplier structure.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>quadprog</b> solves dense convex quadratic programs with linear constraints and bounds using an active-set strategy.</p>
+    <p>The problem-structure form accepts <b>H</b>, <b>f</b>, <b>Aineq</b> or <b>A</b>, <b>bineq</b> or <b>b</b>, <b>Aeq</b>, <b>beq</b>, <b>lb</b>, <b>ub</b>, <b>x0</b> and <b>options</b>. Problem-based quadratic expressions compiled by <b>prob2struct</b> are routed to <b>quadprog</b>.</p>
+  </description>
+  <used_function>
+    <used_function_item>optimoptions</used_function_item>
+    <used_function_item>prob2struct</used_function_item>
+  </used_function>
+  <bibliography>P. E. Gill, W. Murray and M. H. Wright, Practical Optimization, Academic Press, 1981.
+J. Nocedal and S. J. Wright, Numerical Optimization, Springer, 2006.</bibliography>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[H = [2 0; 0 2];
+f = [-2; -4];
+lb = [0; 0];
+[x, fval] = quadprog(H, f, [], [], [], [], lb, [])
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[y = optimvar('y', 2, 1);
+prob = optimproblem('Objective', (y(1) - 1)^2 + (y(2) + 3)^2);
+[sol, fval] = solve(prob, struct('y', [0; 0]));
+sol.y
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${optimization}lsqnonneg">lsqnonneg</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${optimization}optimoptions">optimoptions</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

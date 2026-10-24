@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72" width="72" height="72">
+  <rect width="72" height="72" rx="14" fill="#EEEDFE" stroke="#AFA9EC" stroke-width="1.5"/>
+  <text x="24" y="37" text-anchor="middle" dominant-baseline="middle" font-family="Georgia,serif" font-size="14" font-weight="400" font-style="italic" fill="#3C3489">u</text>
+  <text x="36" y="37" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-size="14" font-weight="500" font-style="normal" fill="#3C3489">+</text>
+  <text x="48" y="37" text-anchor="middle" dominant-baseline="middle" font-family="Georgia,serif" font-size="14" font-weight="400" font-style="italic" fill="#3C3489">b</text>
+  <polygon points="-1,32 -1,40 5,36" fill="#3C3489" opacity="0.7"/>
+  <polygon points="67,32 67,40 73,36" fill="#3C3489" opacity="0.7"/>
+</svg>

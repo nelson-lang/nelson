@@ -4,9 +4,10 @@
   <language>en_US</language>
   <keyword>setenv</keyword>
   <short_description
-  >Set the value of an environment variable.</short_description>
+  >Set or remove an environment variable.</short_description>
   <syntax>
-    <syntax_item>getenv(env_name, env_value)</syntax_item>
+    <syntax_item>setenv(env_name, env_value)</syntax_item>
+    <syntax_item>setenv(env_name)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -22,7 +23,11 @@
   </param_input>
   <description>
     <p>
-      <b>setenv</b> set the value of an environment variable.</p>
+      <b>setenv</b> sets the value of an environment variable.</p>
+    <p>
+      <b>setenv(env_name)</b> removes the variable from the current process environment.</p>
+    <p>
+      <b>setenv(env_name, '')</b> keeps the variable defined with an empty value.</p>
   </description>
   <used_function />
   <bibliography />
@@ -35,6 +40,8 @@
       ><![CDATA[setenv('MY_ENV_VAR', 'funvalue')
 getenv('MY_ENV_VAR')
 setenv('MY_ENV_VAR', '')
+getenv('MY_ENV_VAR')
+setenv('MY_ENV_VAR')
 getenv('MY_ENV_VAR')]]></example_item_data>
     </example_item>
   </examples>
@@ -50,6 +57,10 @@ getenv('MY_ENV_VAR')]]></example_item_data>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>environment variable removal added</history_description>
     </history_item>
   </history>
   <authors>

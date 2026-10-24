@@ -17,5 +17,5 @@ namespace Nelson {
 NLSLINEAR_ALGEBRA_IMPEXP ArrayOfVector
 Balance(const ArrayOf& A, bool noperm, int nLhs, bool& needToOverload);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

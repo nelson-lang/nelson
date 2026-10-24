@@ -12,7 +12,7 @@ function varargout = datestr(varargin)
   nargoutchk(0, 1);
   dateStringIn = varargin{1};
   if ~iscellstr(dateStringIn)
-    error(_('First argument must be a cell array of row characters.'));
+    error('Nelson:time:firstArgumentCellArrayRow', 'First argument must be a cell array of row characters.');
   end
   vars = varargin;
   vars{1} = string(dateStringIn);

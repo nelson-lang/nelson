@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>markdowndisp</keyword>
+  <short_description>Display rendered Markdown text.</short_description>
+  <syntax>
+    <syntax_item>markdowndisp(textToRender)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>textToRender</param_name>
+      <param_description>a string scalar or row character vector: Markdown text to render.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b>markdowndisp</b> renders Markdown text and LaTeX equations in the GUI Command Window.</p>
+    <p>When Nelson is not running with the GUI Command Window, <b>markdowndisp</b> displays the input text with <b>disp</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="gui"
+      ><![CDATA[markdowndisp('**bold text** and $E=mc^2$')]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="gui"
+      ><![CDATA[mdText = sprintf([ ...
+    '## LaTeX Rendering Test\n\n', ...
+    '**Fraction and exponent:**\n\n', ...
+    '$x = \\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}$\n\n', ...
+    '**Sum:**\n\n', ...
+    '$\\sum_{i=1}^{n} i = \\frac{n(n+1)}{2}$\n\n', ...
+    '**Integral:**\n\n', ...
+    '$\\int_{0}^{\\infty} e^{-x^2}\\,dx = \\frac{\\sqrt{\\pi}}{2}$\n\n', ...
+    '**Matrix:**\n\n', ...
+    '$A = \\begin{bmatrix} a_{11} & a_{12} \\\\ a_{21} & a_{22} \\end{bmatrix}$\n\n', ...
+    '**Limit and Greek letters:**\n\n', ...
+    '$\\lim_{\\theta \\to 0} \\frac{\\sin\\theta}{\\theta} = 1, \\quad \\alpha + \\beta = \\gamma$\n\n', ...
+    '**Inline equation:** energy $E = mc^2$ and Euler identity $e^{i\\pi} + 1 = 0$.\n' ...
+]);
+
+markdowndisp(mdText)]]></example_item_data>
+    </example_item>  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${help_tools}markdown">markdown</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${display_format}disp">disp</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

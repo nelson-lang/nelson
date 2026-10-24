@@ -17,5 +17,5 @@ static const wchar_t* MAP_MODE_DICT[4]
 //=============================================================================
 GOMappingModeProperty::GOMappingModeProperty() : GORestrictedStringProperty(MAP_MODE_DICT) { }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

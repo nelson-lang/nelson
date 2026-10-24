@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>violinplot properties</keyword>
+  <short_description>Proprietes de l'objet graphique violinplot.</short_description>
+  <description>
+    <p>Cette page documente les proprietes visibles retournees par <b>properties</b> pour un objet graphique <b>violinplot</b>.</p>
+    <table>
+      <tr>
+        <th>Propriete</th>
+        <th>Action</th>
+        <th>Type et valeurs prises en charge</th>
+      </tr>
+      <tr>
+        <td><b>Annotation</b></td>
+        <td>met a jour les metadonnees d'annotation utilisees par les outils interactifs.</td>
+        <td>Type: objet d'annotation graphique ou handle vide. Valeurs prises en charge: objet annotation associe ou handle graphique vide.</td>
+      </tr>
+      <tr>
+        <td><b>BeingDeleted</b></td>
+        <td>Nelson calcule cette valeur pendant les operations graphiques.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'off', 'on'.</td>
+      </tr>
+      <tr>
+        <td><b>BusyAction</b></td>
+        <td>controle si un callback interrompant est mis en file ou annule.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'queue', 'cancel'.</td>
+      </tr>
+      <tr>
+        <td><b>ButtonDownFcn</b></td>
+        <td>s'execute quand l'objet recoit un evenement souris.</td>
+        <td>Type: valeur de callback. Valeurs prises en charge: [], function handle, vecteur de caracteres, string scalaire ou tableau de callback.</td>
+      </tr>
+      <tr>
+        <td><b>Children</b></td>
+        <td>les operations de parentage mettent a jour ce vecteur.</td>
+        <td>Type: vecteur de handles graphiques. Valeurs prises en charge: vecteur vide.</td>
+      </tr>
+      <tr>
+        <td><b>Clipping</b></td>
+        <td>met a jour le rognage au prochain rafraichissement graphique.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>ColorGroupLayout</b></td>
+        <td>controle comment les groupes de couleur partagent la largeur disponible.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'grouped', 'overlaid'.</td>
+      </tr>
+      <tr>
+        <td><b>ColorGroupWidth</b></td>
+        <td>definit la largeur normalisee utilisee pour les groupes de couleur.</td>
+        <td>Type: scalaire numerique. Valeurs prises en charge: valeurs dans [0,1].</td>
+      </tr>
+      <tr>
+        <td><b>ColorGroupWidthMode</b></td>
+        <td>'auto' laisse Nelson recalculer la propriete associee; 'manual' conserve la valeur affectee.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>ContextMenu</b></td>
+        <td>associe le menu utilise par les actions de clic contextuel.</td>
+        <td>Type: handle graphique scalaire. Valeurs prises en charge: [] ou handle uicontextmenu.</td>
+      </tr>
+      <tr>
+        <td><b>CreateFcn</b></td>
+        <td>s'execute quand l'objet est cree.</td>
+        <td>Type: valeur de callback. Valeurs prises en charge: [], function handle, vecteur de caracteres, string scalaire ou tableau de callback.</td>
+      </tr>
+      <tr>
+        <td><b>DataTipTemplate</b></td>
+        <td>met a jour le contenu utilise par les data tips interactifs.</td>
+        <td>Type: objet data tip template ou handle vide. Valeurs prises en charge: objet data tip template de l'objet graphique ou handle graphique vide.</td>
+      </tr>
+      <tr>
+        <td><b>DeleteFcn</b></td>
+        <td>s'execute quand l'objet est supprime.</td>
+        <td>Type: valeur de callback. Valeurs prises en charge: [], function handle, vecteur de caracteres, string scalaire ou tableau de callback.</td>
+      </tr>
+      <tr>
+        <td><b>DensityDirection</b></td>
+        <td>selectionne le cote de la position de groupe qui affiche la densite.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'both', 'positive', 'negative'.</td>
+      </tr>
+      <tr>
+        <td><b>DensityScale</b></td>
+        <td>selectionne la regle de normalisation de densite.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'area', 'count', 'width'.</td>
+      </tr>
+      <tr>
+        <td><b>DensityValues</b></td>
+        <td>densite de chaque violon aux <b>EvaluationPoints</b>, une colonne par violon. L'affecter passe <b>DensityValuesMode</b> a 'manual'; les valeurs sont alors tracees telles quelles.</td>
+        <td>Type: matrice reelle a virgule flottante. Valeurs prises en charge: meme taille que <b>EvaluationPoints</b>.</td>
+      </tr>
+      <tr>
+        <td><b>DensityValuesMode</b></td>
+        <td>'auto' calcule <b>DensityValues</b> a partir des donnees; 'manual' conserve la valeur affectee.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>DensityWidth</b></td>
+        <td>definit la largeur maximale du violon en unites de donnees.</td>
+        <td>Type: scalaire numerique fini. Valeurs prises en charge: scalaire fini positif.</td>
+      </tr>
+      <tr>
+        <td><b>DensityWidthMode</b></td>
+        <td>'auto' laisse Nelson recalculer la propriete associee; 'manual' conserve la valeur affectee.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>DisplayName</b></td>
+        <td>met a jour le libelle utilise par les legendes et l'identification.</td>
+        <td>Type: texte. Valeurs prises en charge: vecteur de caracteres ou string scalaire.</td>
+      </tr>
+      <tr>
+        <td><b>EdgeColor</b></td>
+        <td>definit la couleur du contour et de la marque de mediane.</td>
+        <td>Type: valeur de couleur ou mot-cle de mode couleur. Valeurs prises en charge: noms courts de couleur, triplet RGB dans [0,1], couleur hexadecimale, 'none', 'flat' ou 'interp'.</td>
+      </tr>
+      <tr>
+        <td><b>EdgeColorMode</b></td>
+        <td>'auto' laisse Nelson recalculer la propriete associee; 'manual' conserve la valeur affectee.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>EvaluationPoints</b></td>
+        <td>valeurs ou la densite par noyau est evaluee, une colonne par violon. Par defaut, 100 points de min(y) - 3h a max(y) + 3h (h: largeur de bande). L'affecter passe <b>EvaluationPointsMode</b> a 'manual'.</td>
+        <td>Type: matrice reelle a virgule flottante. Valeurs prises en charge: valeurs finies; un vecteur ligne est stocke en colonne.</td>
+      </tr>
+      <tr>
+        <td><b>EvaluationPointsMode</b></td>
+        <td>'auto' calcule <b>EvaluationPoints</b> a partir des donnees; 'manual' conserve la valeur affectee.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>FaceAlpha</b></td>
+        <td>definit la transparence du corps rempli.</td>
+        <td>Type: scalaire numerique. Valeurs prises en charge: valeurs dans [0,1].</td>
+      </tr>
+      <tr>
+        <td><b>FaceColor</b></td>
+        <td>definit la couleur du corps rempli.</td>
+        <td>Type: valeur de couleur ou mot-cle de mode couleur. Valeurs prises en charge: noms courts de couleur, triplet RGB dans [0,1], couleur hexadecimale, 'none', 'flat' ou 'interp'.</td>
+      </tr>
+      <tr>
+        <td><b>FaceColorMode</b></td>
+        <td>'auto' laisse Nelson recalculer la propriete associee; 'manual' conserve la valeur affectee.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>HandleVisibility</b></td>
+        <td>controle si les fonctions de recherche de handles peuvent trouver l'objet.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'on', 'off', 'callback'.</td>
+      </tr>
+      <tr>
+        <td><b>HitTest</b></td>
+        <td>inclut ou exclut l'objet du test de clic souris.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>Interruptible</b></td>
+        <td>controle si un callback en cours peut etre interrompu.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>LineStyle</b></td>
+        <td>definit le style de ligne du contour et de la marque de mediane.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: '-', '--', ':', '-.' ou 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>LineWidth</b></td>
+        <td>definit la largeur de ligne du contour et de la marque de mediane.</td>
+        <td>Type: scalaire numerique fini. Valeurs prises en charge: scalaire fini positif.</td>
+      </tr>
+      <tr>
+        <td><b>Orientation</b></td>
+        <td>choisit si les valeurs sont affichees verticalement ou horizontalement.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'vertical', 'horizontal'.</td>
+      </tr>
+      <tr>
+        <td><b>Parent</b></td>
+        <td>definit les axes qui possedent l'objet.</td>
+        <td>Type: handle graphique scalaire. Valeurs prises en charge: handle axes ou hggroup.</td>
+      </tr>
+      <tr>
+        <td><b>PickableParts</b></td>
+        <td>controle si les parties visibles ou toutes les parties peuvent etre selectionnees.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'visible', 'all', 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>Selected</b></td>
+        <td>marque l'objet comme selectionne ou non.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>SelectionHighlight</b></td>
+        <td>controle l'affichage des poignees de selection.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>SeriesIndex</b></td>
+        <td>stocke l'indice de serie dans l'ordre des couleurs.</td>
+        <td>Type: scalaire numerique positif. Valeurs prises en charge: scalaire fini positif.</td>
+      </tr>
+      <tr>
+        <td><b>SourceTable</b></td>
+        <td>stocke la table utilisee pour creer le graphique.</td>
+        <td>Type: table ou valeur vide. Valeurs prises en charge: [] ou table fournie a violinplot.</td>
+      </tr>
+      <tr>
+        <td><b>Tag</b></td>
+        <td>stocke un texte utilisateur pour identifier l'objet.</td>
+        <td>Type: texte. Valeurs prises en charge: vecteur de caracteres ou string scalaire.</td>
+      </tr>
+      <tr>
+        <td><b>Type</b></td>
+        <td>identifie le type de l'objet graphique.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'violinplot'.</td>
+      </tr>
+      <tr>
+        <td><b>UserData</b></td>
+        <td>stocke des donnees utilisateur sur l'objet.</td>
+        <td>Type: valeur Nelson quelconque. Valeurs prises en charge: toute valeur.</td>
+      </tr>
+      <tr>
+        <td><b>Visible</b></td>
+        <td>affiche ou masque l'objet.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>XData</b></td>
+        <td>definit les positions de groupe utilisees pour placer les violons.</td>
+        <td>Type: vecteur numerique reel. Valeurs prises en charge: valeurs numeriques finies; les valeurs non finies sont ignorees pour le dessin.</td>
+      </tr>
+      <tr>
+        <td><b>XDataMode</b></td>
+        <td>'auto' laisse Nelson recalculer la propriete associee; 'manual' conserve la valeur affectee.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>XVariable</b></td>
+        <td>stocke le nom de variable de table utilise pour les donnees x.</td>
+        <td>Type: texte. Valeurs prises en charge: vecteur de caracteres ou string scalaire.</td>
+      </tr>
+      <tr>
+        <td><b>YData</b></td>
+        <td>definit les valeurs utilisees pour calculer la distribution.</td>
+        <td>Type: vecteur numerique reel. Valeurs prises en charge: valeurs numeriques finies; les valeurs non finies sont ignorees pour le dessin.</td>
+      </tr>
+      <tr>
+        <td><b>YDataMode</b></td>
+        <td>'auto' laisse Nelson recalculer la propriete associee; 'manual' conserve la valeur affectee.</td>
+        <td>Type: texte scalaire ou vecteur de caracteres. Valeurs prises en charge: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>YVariable</b></td>
+        <td>stocke le nom de variable de table utilise pour les donnees y.</td>
+        <td>Type: texte. Valeurs prises en charge: vecteur de caracteres ou string scalaire.</td>
+      </tr>
+    </table>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Inspecter les proprietes de violinplot.</example_item_description>
+      <example_item_data><![CDATA[h = violinplot([1 2 2 3]);
+props = properties(h)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/4_data_distribution_plots/violinplot">violinplot</link></see_also_item>
+    <see_also_item><link linkend="${handle}properties">properties</link></see_also_item>
+  </see_also>
+</xmldoc>

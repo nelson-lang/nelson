@@ -64,13 +64,19 @@ public:
     std::wstring
     getLanguage();
     std::wstring
-    getSocketIoUri();
+    getWebUrl();
+    uint64
+    getWebPort();
     uint64
     getTimeout();
     wstringVector
     getFilesToOpen();
     wstringVector
     getFilesToLoad();
+    wstringVector
+    getAssociatedFiles();
+    wstringVector
+    getUserArguments();
     bool
     haveOptionsMinimize();
     bool
@@ -100,21 +106,27 @@ public:
     bool
     haveLoadFiles();
     bool
-    haveSocketIoUri();
+    haveAssociatedFiles();
+    bool
+    haveWebUrl();
+    bool
+    haveWebPort();
+    bool
+    haveWebServerMode();
     bool
     haveNoIpc();
     bool
     haveWithoutFileWatcher();
+    // `--webview` on the advanced terminal: terminal REPL, figures rendered by
+    // the headless RenderWeb host instead of Qt.
+    bool
+    haveWebGraphics();
 
 private:
     bool
     parse();
-    bool
-    parseOption(Option& op, bool& bFind);
-    bool
-    parseOptionWithValue(Option& op, bool& bFind, std::wstring& value);
-    bool
-    parseOptionWithValues(Option& op, wstringVector& values);
+    void
+    resetParsedState();
     bool _isvalid;
     bool _ishelp;
     bool _isversion;
@@ -125,17 +137,22 @@ private:
     bool _ipc;
     bool _minimize;
     bool _withoutFileWatcher;
+    bool _webServerMode;
+    bool _webGraphics;
     std::wstring _error;
     std::wstring _file;
     std::wstring _fileIPC;
     std::wstring _command;
     std::wstring _options;
     std::wstring _lang;
-    std::wstring _socketioUri;
+    std::wstring _webUrl;
+    uint64 _webPort;
     uint64 _timeout;
     wstringVector _args;
     wstringVector _filesToOpen;
     wstringVector _filesToLoad;
+    wstringVector _associatedFiles;
+    wstringVector _userArguments;
     NELSON_ENGINE_MODE _mode;
 };
 //=============================================================================

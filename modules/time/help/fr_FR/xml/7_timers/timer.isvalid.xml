@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>timer.isvalid</keyword>
+  <keyword_alias>isvalid timer</keyword_alias>
+  <short_description>Determiner quels handles de timer sont valides.</short_description>
+  <syntax>
+    <syntax_item>tf = isvalid(t)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>t</param_name>
+      <param_description>Objet timer ou tableau d&apos;objets timer.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>tf</param_name>
+      <param_description>Tableau logique de meme taille que <b>t</b>. Les valeurs valent true pour les handles de timer valides et false pour les handles de timer supprimes.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>isvalid</b> verifie si des handles de timer referencent encore des objets timer vivants. L&apos;appel de <b>delete</b> sur un timer invalide le handle.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Verifier un handle de timer avant et apres suppression.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[t = timer('TimerFcn', @(src, event) disp('timer'));
+beforeDelete = isvalid(t)
+delete(t);
+afterDelete = isvalid(t)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${time}timer">timer</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${time}timer.delete">delete</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

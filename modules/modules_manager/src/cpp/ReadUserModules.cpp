@@ -26,37 +26,42 @@ ReadUserModules(
 #else
     std::ifstream jsonFile(wstring_to_utf8(modulesJsonPath));
 #endif
-    if (jsonFile.is_open()) {
-        nlohmann::json data;
-        bool parsed = false;
-        if (jsonFile.is_open()) {
-            try {
-                data = nlohmann::json::parse(jsonFile);
-                parsed = true;
-            } catch (const nlohmann::json::exception&) {
-                parsed = false;
-            }
-            jsonFile.close();
+    if (!jsonFile.is_open()) {
+        return true;
+    }
+    nlohmann::json data;
+    try {
+        data = nlohmann::json::parse(jsonFile);
+    } catch (const nlohmann::json::exception&) {
+        return false;
+    }
+    jsonFile.close();
+    if (data.is_array() && data.empty()) {
+        return true;
+    }
+    if (!data.is_object()) {
+        return false;
+    }
+    for (auto it = data.begin(); it != data.end(); ++it) {
+        const auto& moduleData = it.value();
+        if (!moduleData.is_object() || !moduleData.contains("path")
+            || !moduleData["path"].is_string() || !moduleData.contains("load")
+            || !moduleData["load"].is_boolean() || !moduleData.contains("version")
+            || !moduleData["version"].is_string()) {
+            return false;
         }
-        if (parsed) {
-            for (auto it = data.begin(); it != data.end(); ++it) {
-                std::string module_name = it.key();
-                std::string module_path = data[module_name]["path"];
-                bool module_load = data[module_name]["load"];
-                std::string module_version = data[module_name]["version"];
-                std::tuple<std::wstring, std::wstring, bool> module = std::make_tuple(
-                    utf8_to_wstring(module_name), utf8_to_wstring(module_path), module_load);
-                userModules.push_back(module);
-            }
-        }
-        if (reverse) {
-            if (!userModules.empty()) {
-                std::reverse(userModules.begin(), userModules.end());
-            }
+        std::tuple<std::wstring, std::wstring, bool> module = std::make_tuple(
+            utf8_to_wstring(it.key()), utf8_to_wstring(moduleData["path"].get<std::string>()),
+            moduleData["load"].get<bool>());
+        userModules.push_back(module);
+    }
+    if (reverse) {
+        if (!userModules.empty()) {
+            std::reverse(userModules.begin(), userModules.end());
         }
     }
-    return !userModules.empty();
+    return true;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

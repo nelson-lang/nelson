@@ -18,5 +18,6 @@ NLSCONSTRUCTORS_FUNCTIONS_IMPEXP ArrayOf
 Zeros(NelsonType cl);
 NLSCONSTRUCTORS_FUNCTIONS_IMPEXP ArrayOf
 Zeros(Dimensions& dims, NelsonType cl);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

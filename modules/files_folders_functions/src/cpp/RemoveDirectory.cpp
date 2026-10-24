@@ -11,6 +11,7 @@
 #include "RemoveDirectory.hpp"
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -38,14 +39,12 @@ RemoveDirectory(const std::wstring& folderName, bool bSubfolder, std::wstring& m
         }
     } else {
         if (permissionDenied) {
-            message = _W("Permission denied.");
+            message = Nelson::resolveMessageTemplate(
+                L"Nelson:files_folders_functions:permissionDenied", L"Permission denied.");
             res = false;
         } else {
-            // If the path exists but is not a directory (e.g. a file named 'main'),
-            // attempt to remove it as a file as a best-effort fallback when
-            // rmdir(..., 's') was requested. This helps recover from cases where
-            // unzipping or path normalization produced a file where a directory
-            // was expected.
+            // Best effort: a file where a directory was expected (left by unzip
+            // or path normalization) is removed as a file.
             if (FileSystemWrapper::Path::is_regular_file(folderName)) {
                 FileSystemWrapper::Path::updateFilePermissionsToWrite(folderName);
                 FileSystemWrapper::Path p(folderName);

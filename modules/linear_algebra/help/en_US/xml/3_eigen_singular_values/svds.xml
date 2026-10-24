@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>svds</keyword>
+  <short_description>Selected singular values and singular vectors of a sparse matrix.</short_description>
+  <syntax>
+    <syntax_item>s = svds(A)</syntax_item>
+    <syntax_item>s = svds(A, k)</syntax_item>
+    <syntax_item>s = svds(A, k, which)</syntax_item>
+    <syntax_item>[U, S, V] = svds(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>a sparse double, single, complex double, or complex single matrix.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>k</param_name>
+      <param_description>a positive integer smaller than the smaller matrix dimension. Default is 6.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>which</param_name>
+      <param_description
+      >a string: &apos;largest&apos; or &apos;lm&apos; for largest singular values, &apos;smallest&apos; or &apos;sm&apos; for smallest singular values.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>s</param_name>
+      <param_description>selected singular values returned as a dense column vector in decreasing order.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>U</param_name>
+      <param_description>dense matrix whose columns are the selected left singular vectors.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>S</param_name>
+      <param_description>dense diagonal matrix containing the selected singular values.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>V</param_name>
+      <param_description>dense matrix whose columns are the selected right singular vectors.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>svds</b> computes selected singular values and, optionally, the corresponding singular vectors of a sparse floating-point matrix.</p>
+    <p>For a matrix <b>A</b>, the returned factors satisfy:</p>
+    <latex>A V = U S</latex>
+    <p>
+      Tall matrices use the smaller normal problem when possible, and wide matrices use the corresponding transposed normal problem.</p>
+    <p>
+      When the optional ARPACK backend is not available, <b>svds</b> uses a dense fallback for small sparse matrices. Larger sparse matrices still require ARPACK to avoid excessive memory use.</p>
+    <p>
+      Sparse single and sparse single-complex inputs are accepted. The selected singular-value problem is computed through the double-precision sparse backend, and dense outputs are converted back to single or single-complex when applicable.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[A = sparse([1 0 0; 0 2 0; 3 0 0; 0 4 0; 0 0 5]);
+s = svds(A, 2)
+[U, S, V] = svds(A, 2, 'smallest')
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[A = sparse([1 + 1i 0 0; 0 2i 0; 3 0 0; 0 4 0; 0 0 5i]);
+s = svds(A, 2)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[A = sparse(single([1 + 1i 0 0; 0 2i 0; 3 0 0; 0 4 0; 0 0 5i]));
+s = svds(A, 2)
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${linear_algebra}svd">svd</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${linear_algebra}eigs">eigs</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>dense fallback added for small sparse matrices when ARPACK is unavailable.</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>sparse single and sparse single-complex inputs supported through the sparse double-precision backend.</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -93,15 +93,20 @@ XMLWriter::writeToFile(std::wstring& errorMessage)
     }
 
     file << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-    file << "     <" << rootElement << ">\n";
 
     size_t rowCount = columns.empty() ? 0 : columns[0].size();
+    // A table without rows or without variables is an empty root element.
+    if (rowCount == 0) {
+        file << "<" << rootElement << "/>\n";
+        file.close();
+        return true;
+    }
+    file << "     <" << rootElement << ">\n";
 
     for (size_t row = 0; row < rowCount; ++row) {
         if (withWriteRowNames) {
             file << "         <" << rowElement << " Row=\"" << escapeXML(columns[0][row]) << "\"";
 
-            // Add attributes
             for (size_t col = 0; col < columns.size(); ++col) {
                 std::string header = headers[col];
                 std::string prefix = getPrefix(header, attributeSuffix);
@@ -123,7 +128,6 @@ XMLWriter::writeToFile(std::wstring& errorMessage)
             }
         } else {
             file << "         <" << rowElement;
-            // Add attributes
             for (size_t col = 0; col < columns.size(); ++col) {
                 std::string header = headers[col];
                 std::string prefix = getPrefix(header, attributeSuffix);
@@ -135,7 +139,6 @@ XMLWriter::writeToFile(std::wstring& errorMessage)
             }
             file << ">\n";
 
-            // Add regular elements
             for (size_t col = 0; col < columns.size(); ++col) {
                 std::string header = headers[col];
                 if (getPrefix(header, attributeSuffix).empty()) {
@@ -156,5 +159,5 @@ XMLWriter::writeToFile(std::wstring& errorMessage)
     return true;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

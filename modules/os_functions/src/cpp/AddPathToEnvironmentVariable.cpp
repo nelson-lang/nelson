@@ -98,7 +98,6 @@ AddPathToEnvironmentVariable(const std::wstring& envVar, const std::wstring& pat
     it = localfind(pathVector.begin(), pathVector.end(), pathToAdd);
 #endif
     if (it != pathVector.end()) {
-        // nothing to do
         return true;
     } else {
         pathVector.insert(pathVector.begin(), pathToAdd);
@@ -112,6 +111,5 @@ AddPathToEnvironmentVariable(const std::wstring& envVar, const std::wstring& pat
     return false;
 }
 //=============================================================================
-
 } // namespace Nelson
 //=============================================================================

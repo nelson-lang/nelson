@@ -10,8 +10,8 @@
 % <--ADV-CLI MODE-->
 % <--WITH DISPLAY-->
 %=============================================================================
-assert_isequal(nargin('qml_collectgarbage'), 0);
-assert_isequal(nargout('qml_collectgarbage'), 0);
+asserts.isequal(nargin('qml_collectgarbage'), 0);
+asserts.isequal(nargout('qml_collectgarbage'), 0);
 %=============================================================================
 qml_collectgarbage();
 %=============================================================================

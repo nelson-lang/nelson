@@ -13,38 +13,29 @@ function sysOut = horzcat(varargin)
   for k = 2:1:nargin
     sysA = sys;
     sysB = tf(varargin{k});
-    
+
     sys = tf();
-    
-    [pA, mA] = size (sysA.Numerator);
-    [pB, mB] = size (sysB.Numerator);
-    
+
+    [pA, mA] = size(sysA.Numerator);
+    [pB, mB] = size(sysB.Numerator);
+
     if (pA ~= pB)
-      msg = _('dimensions of systems output is incompatible.');
-      error(msg)
+      error('Nelson:control_system:systemsOutputIncompatible', 'dimensions of systems output is incompatible.')
     end
-    
+
     sys.Numerator = [sysA.Numerator, sysB.Numerator];
     sys.Denominator = [sysA.Denominator, sysB.Denominator];
-    
-    if (strcmp (sysA.Variable, sysB.Variable))
-      sys.Variable = sysB.Variable;
-    else
-      sys.Variable = sysA.Variable;
-    end
-    UserData = [];
-    if ~isempty(sysA.UserData) && ~isempty(sysB.UserData)
-      UserData = sysB.UserData;
-    else
-      if ~isempty(sysA.UserData)
-        UserData = sysA.UserData;
-      end
-      if ~isempty(sysA.UserData)
-        UserData = sysA.UserData;
-      end
-    end
-    if ~isempty(UserData)
-      sys.UserData = UserData;
+
+    sys.Ts = ltiResolveSampleTime(sysA, sysB);
+    sys.Variable = ltiMergeTfVariable(sysA, sysB, 'left');
+    sys.TimeUnit = ltiMergeTimeUnit(sysA, sysB);
+    sys.InputName = ltiMergeCellMetadata(sysA.InputName, mA, sysB.InputName, mB, 'concat');
+    sys.InputUnit = ltiMergeCellMetadata(sysA.InputUnit, mA, sysB.InputUnit, mB, 'concat');
+    sys.OutputName = ltiMergeCellMetadata(sysA.OutputName, pA, sysB.OutputName, pB, 'match');
+    sys.OutputUnit = ltiMergeCellMetadata(sysA.OutputUnit, pA, sysB.OutputUnit, pB, 'match');
+    userData = ltiMergeUserData(sysA, sysB);
+    if ~isempty(userData)
+      sys.UserData = userData;
     end
   end
   sysOut = sys;

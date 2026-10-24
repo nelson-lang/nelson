@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -34,8 +34,10 @@ public:
     void
     display(Interface* io);
 
+    // functionHandle is the value fptr was read from: the queued task keeps a
+    // copy so the definition outlives the caller's variables.
     ArrayOf
-    feval(FunctionDef* fptr, int nLhs, const ArrayOfVector& argIn);
+    feval(const ArrayOf& functionHandle, FunctionDef* fptr, int nLhs, const ArrayOfVector& argIn);
 
     size_t
     getTasksQueued();
@@ -48,12 +50,24 @@ public:
     fieldnames();
 
     wstringVector
-    getProperties() override;
+    properties() override;
     wstringVector
-    getMethods() override;
+    methods() override;
+
+    bool
+    useSharedHandleOwnership() const override
+    {
+        return false;
+    }
 
     void
     resetThreadPool();
+
+    void
+    purgeQueuedTasks();
+
+    void
+    waitForTasksDone();
 
     static bool
     isInitialized();

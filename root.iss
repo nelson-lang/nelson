@@ -7,12 +7,18 @@
 ; SPDX-License-Identifier: LGPL-3.0-or-later
 ; LICENCE_BLOCK_END
 ;==============================================================================
+Source: {#RootPath}LICENSE; DestDir: {app}\
 Source: {#RootPath}gpl-3.0.md; DestDir: {app}\
 Source: {#RootPath}lgpl-3.0.md; DestDir: {app}\
 Source: {#RootPath}CONTRIBUTORS.md; DestDir: {app}\
 Source: {#RootPath}README.md; DestDir: {app}\
 Source: {#RootPath}THIRDPARTY.md; DestDir: {app}\
+Source: {#RootPath}TRADEMARKS.md; DestDir: {app}\
 Source: {#RootPath}CHANGELOG.md; DestDir: {app}\
+Source: {#RootPath}nelson-lint.json; DestDir: {app}\
+Source: {#RootPath}nelson-format.json; DestDir: {app}\
+Source: {#RootPath}nelson-format-ignore.json; DestDir: {app}\
+Source: {#RootPath}CHANGELOG-1.x.x.md; DestDir: {app}\
 Source: {#RootPath}CHANGELOG-0.7.x.md; DestDir: {app}\
 Source: {#RootPath}CHANGELOG-0.6.x.md; DestDir: {app}\
 Source: {#RootPath}CHANGELOG-0.5.x.md; DestDir: {app}\

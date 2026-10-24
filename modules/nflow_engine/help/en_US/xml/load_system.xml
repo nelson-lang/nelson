@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>load_system</keyword>
+  <short_description>Load an nflow model from a .nflow file without opening the editor.</short_description>
+  <syntax>
+    <syntax_item>h = load_system(fileOrName)</syntax_item>
+  </syntax>
+  <param_input><param_input_item><param_name>args</param_name><param_description>see the syntaxes above.</param_description></param_input_item></param_input>
+  <param_output><param_output_item><param_name>varargout</param_name><param_description>see the syntaxes above.</param_description></param_output_item></param_output>
+  <description><p><b>load_system</b> loads an nflow model from a .nflow file without opening the editor.</p></description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data><![CDATA[new_system('demo');
+add_block('nflow/source/sine', 'demo/Sine');
+add_block('nflow/math/gain', 'demo/Gain', 'gain', 2);
+add_line('demo', 'Sine/1', 'Gain/1');
+bdclose('demo');]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${nflow_engine}new_system">new_system</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}add_block">add_block</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}add_line">add_line</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}set_param">set_param</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}get_param">get_param</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}save_system">save_system</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}close_system">close_system</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>1.0.0</history_version><history_description>initial version</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>bodeoptions</keyword>
+  <short_description>Options d'un diagramme de Bode.</short_description>
+  <syntax>
+    <syntax_item>opt = bodeoptions()</syntax_item>
+  </syntax>
+  <param_output>
+    <param_output_item>
+      <param_name>opt</param_name>
+      <param_description
+      >une structure contenant les options du diagramme de Bode.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>opt = bodeoptions()</b> renvoie une structure contenant les options du diagramme de Bode avec leurs valeurs par défaut.</p>
+    <p>La structure renvoyée peut être passée à <b>bodeplot</b> pour personnaliser le rendu. Les champs pris en compte sont :</p>
+    <p><b>PhaseUnits</b> : <b>'deg'</b> (par défaut) ou <b>'rad'</b>.</p>
+    <p><b>Grid</b> : <b>'off'</b> (par défaut) ou <b>'on'</b>.</p>
+    <p>Des champs supplémentaires (<b>FreqUnits</b>, <b>MagUnits</b>, <b>Title</b>, <b>XLabel</b>, <b>YLabel</b>) sont fournis avec des valeurs par défaut afin que l'affectation ne provoque pas d'erreur.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[opt = bodeoptions();
+opt.PhaseUnits = 'rad';
+opt.Grid = 'on'
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${control_system}bodeplot">bodeplot</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${control_system}bode">bode</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

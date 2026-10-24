@@ -42,7 +42,7 @@ QtBreakpointArea::QtBreakpointArea(QtTextEdit* textEditor, Evaluator* eval)
 void
 QtBreakpointArea::setFilename(const QString& filename)
 {
-    // Ensure we store absolute path for consistent breakpoint matching
+    // absolute path, so breakpoints match however the file was opened
     QFileInfo fileInfo(filename);
     currentFilename = fileInfo.absoluteFilePath();
     refreshBreakpoints();
@@ -71,7 +71,6 @@ QtBreakpointArea::refreshBreakpoints()
 bool
 QtBreakpointArea::isValidBreakpointLine(int lineNumber)
 {
-    // Check if line is valid for breakpoint placement (not empty, not commented)
     QTextDocument* doc = tEditor->document();
     if (!doc) {
         return false;
@@ -84,19 +83,11 @@ QtBreakpointArea::isValidBreakpointLine(int lineNumber)
 
     QString text = block.text().trimmed();
 
-    // Empty lines cannot have breakpoints
     if (text.isEmpty()) {
         return false;
     }
 
-    // Check if line is commented (starts with %)
-    if (text.startsWith('%')) {
-        return false;
-    }
-
-    // Check for inline comments that make the whole line a comment
-    int commentPos = text.indexOf('%');
-    if (commentPos != -1 && commentPos == 0) {
+    if (isCommentOnlyLine(lineNumber)) {
         return false;
     }
 
@@ -106,8 +97,7 @@ QtBreakpointArea::isValidBreakpointLine(int lineNumber)
 int
 QtBreakpointArea::findNextValidBreakpointLine(int lineNumber)
 {
-    // Search forward for the next valid breakpoint line
-    // Use evaluator to find the proper executable line (handles multi-line statements)
+    // the evaluator maps a line to its executable line (multi-line statements)
     QTextDocument* doc = tEditor->document();
     if (!doc) {
         return -1;
@@ -118,22 +108,19 @@ QtBreakpointArea::findNextValidBreakpointLine(int lineNumber)
 
     for (int i = lineNumber; i <= totalLines; ++i) {
         if (isValidBreakpointLine(i)) {
-            // Try to adjust the line to get the actual executable line
             if (nlsEvaluator) {
                 size_t adjustedLine = static_cast<size_t>(i);
                 std::wstring errorMessage;
                 if (nlsEvaluator->adjustBreakpointLine(
                         wfilename, static_cast<size_t>(i), adjustedLine, errorMessage)) {
-                    // Return the adjusted line number
                     return static_cast<int>(adjustedLine);
                 }
             }
-            // If no evaluator or adjustment fails, return the line as-is
             return i;
         }
     }
 
-    return -1; // No valid line found
+    return -1;
 }
 //=============================================================================
 void
@@ -145,27 +132,39 @@ QtBreakpointArea::toggleBreakpoint(int line)
 
     std::wstring wfilename = Nelson::QStringTowstring(currentFilename);
 
-    // First, try to use the evaluator to adjust the line (handles multi-line statements)
+    if (breakpointLines.contains(line)) {
+        if (nlsEvaluator) {
+            nlsEvaluator->removeBreakpoint(wfilename, static_cast<size_t>(line));
+        }
+        breakpointLines.remove(line);
+        emit breakpointToggled(line, false);
+        update();
+        return;
+    }
+
+    if (isCommentOnlyLine(line)) {
+        return;
+    }
+
+    // the evaluator maps a line to its executable line (multi-line statements)
     if (nlsEvaluator) {
         size_t adjustedLine = static_cast<size_t>(line);
         std::wstring errorMessage;
         if (nlsEvaluator->adjustBreakpointLine(
                 wfilename, static_cast<size_t>(line), adjustedLine, errorMessage)) {
-            // Successfully adjusted - use this line
             line = static_cast<int>(adjustedLine);
-        } else {
-            // Adjustment failed - check if line is at least textually valid
             if (!isValidBreakpointLine(line)) {
-                // Try to find the next valid line
+                return;
+            }
+        } else {
+            if (!isValidBreakpointLine(line)) {
                 line = findNextValidBreakpointLine(line);
                 if (line <= 0) {
-                    // No valid line found
                     return;
                 }
             }
         }
     } else {
-        // No evaluator - fall back to text-based validation
         if (!isValidBreakpointLine(line)) {
             line = findNextValidBreakpointLine(line);
             if (line <= 0) {
@@ -175,21 +174,18 @@ QtBreakpointArea::toggleBreakpoint(int line)
     }
 
     if (breakpointLines.contains(line)) {
-        // Remove breakpoint
         if (nlsEvaluator) {
             nlsEvaluator->removeBreakpoint(wfilename, static_cast<size_t>(line));
         }
         breakpointLines.remove(line);
         emit breakpointToggled(line, false);
     } else {
-        // Add breakpoint - line is already adjusted above
         if (nlsEvaluator) {
             Breakpoint bp;
             bp.filename = wfilename;
             bp.line = static_cast<size_t>(line);
             bp.enabled = true;
             bp.stepMode = false;
-            // Try to extract function name from the file
             bp.functionName = extractFunctionNameAtLine(currentFilename, line);
             nlsEvaluator->addBreakpoint(bp);
 
@@ -260,6 +256,34 @@ QtBreakpointArea::lineNumberAtPosition(int y) const
     return -1;
 }
 //=============================================================================
+bool
+QtBreakpointArea::isCommentOnlyLine(int lineNumber) const
+{
+    QTextDocument* doc = tEditor->document();
+    if (!doc) {
+        return false;
+    }
+
+    bool inBlockComment = false;
+    int currentLine = 1;
+    for (QTextBlock block = doc->begin(); block.isValid(); block = block.next(), ++currentLine) {
+        const QString text = block.text().trimmed();
+        const bool lineIsComment = inBlockComment || text.startsWith('%');
+
+        if (currentLine == lineNumber) {
+            return lineIsComment;
+        }
+
+        if (text.startsWith("%{")) {
+            inBlockComment = true;
+        }
+        if (text.startsWith("%}")) {
+            inBlockComment = false;
+        }
+    }
+    return false;
+}
+//=============================================================================
 void
 QtBreakpointArea::paintEvent(QPaintEvent* paintEvent)
 {
@@ -297,18 +321,15 @@ QtBreakpointArea::paintEvent(QPaintEvent* paintEvent)
         int centerX = width() / 2;
         int centerY = yPos + lineHeight / 2;
 
-        // Draw execution arrow (yellow, takes priority)
         if (lineNumber == currentExecutionLine) {
             p.setRenderHint(QPainter::Antialiasing, true);
             QPolygon arrow;
             arrow << QPoint(2, centerY - 5) << QPoint(width() - 2, centerY)
                   << QPoint(2, centerY + 5);
-            p.setBrush(QBrush(QColor(255, 220, 0))); // Gold/yellow
+            p.setBrush(QBrush(QColor(255, 220, 0)));
             p.setPen(QColor(200, 160, 0));
             p.drawPolygon(arrow);
-        }
-        // Draw breakpoint circle (red, behind arrow if both present)
-        else if (breakpointLines.contains(lineNumber)) {
+        } else if (breakpointLines.contains(lineNumber)) {
             p.setRenderHint(QPainter::Antialiasing, true);
             p.setBrush(QBrush(Qt::red));
             p.setPen(Qt::darkRed);
@@ -330,7 +351,6 @@ QtBreakpointArea::mousePressEvent(QMouseEvent* event)
     QWidget::mousePressEvent(event);
 }
 //=============================================================================
-// Helper function to extract function name from file at a given line
 std::string
 extractFunctionNameAtLine(const QString& filename, int lineNumber)
 {
@@ -350,7 +370,6 @@ extractFunctionNameAtLine(const QString& filename, int lineNumber)
         return "";
     }
 
-    // Look backwards from the target line to find the nearest function definition
     QRegularExpression funcPattern("^\\s*function\\s+(?:\\[.*?\\]\\s*=\\s*|\\w+\\s*=\\s*)?(\\w+)");
 
     for (int i = lineNumber - 1; i >= 0; i--) {

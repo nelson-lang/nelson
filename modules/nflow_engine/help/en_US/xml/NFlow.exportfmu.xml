@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>NFlow.exportfmu</keyword>
+  <short_description>Export an nflow model as an FMI 3.0 Co-Simulation source FMU.</short_description>
+  <syntax>
+    <syntax_item>fmuPath = NFlow.exportfmu(modelFile)</syntax_item>
+    <syntax_item>fmuPath = NFlow.exportfmu(modelFile, destinationDirectory)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>modelFile</param_name><param_description>a string: path of the .nflow model file.</param_description></param_input_item>
+    <param_input_item><param_name>destinationDirectory</param_name><param_description>a string: destination directory. Default: the model's directory.</param_description></param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>fmuPath</param_name><param_description>a string: full path of the generated .fmu archive.</param_description></param_output_item>
+  </param_output>
+  <description>
+    <p><b>NFlow.exportfmu</b> generates the model to C through the shared code-generation pipeline (same gates and diagnostics as <b>nflow_codegenerate</b>, interpreter passes included, so linear acausal islands export too), wraps it with an FMI 3.0 Co-Simulation interface, and packages <code>modelDescription.xml</code> plus the C sources into a <code>&lt;model&gt;.fmu</code> source FMU.</p>
+    <p>External label sources become FMU inputs and external label sinks become FMU outputs. Only Float64 signals are supported at the FMU boundary; conditional-execution constructs beyond the lowered gates and FMU / nelsonFunction blocks are rejected with a typed message.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Export a model and read back the archive path.</example_item_description>
+      <example_item_data><![CDATA[% fmu = NFlow.exportfmu('C:/models/lowpass.nflow', tempdir());]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${nflow_engine}nflow_codegenerate">nflow_codegenerate</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>1.0.0</history_version><history_description>initial version</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

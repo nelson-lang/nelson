@@ -1,0 +1,16 @@
+%=============================================================================
+% Copyright (c) 2016-present Allan CORNET (Nelson)
+%=============================================================================
+% This file is part of Nelson.
+%=============================================================================
+% LICENCE_BLOCK_BEGIN
+% SPDX-License-Identifier: LGPL-3.0-or-later
+% LICENCE_BLOCK_END
+%=============================================================================
+function v = bytecode_persistent_builtin_after_global_same_scope()
+  global bytecodeSharedBuiltinDeclarationName
+  bytecodeSharedBuiltinDeclarationName = 5;
+  persistent('bytecodeSharedBuiltinDeclarationName');
+  v = 1;
+end
+%=============================================================================

@@ -10,6 +10,7 @@
 #include "matrix.h"
 #include "MxHelpers.hpp"
 #include "i18n.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 mxDouble*
 mxGetPiSeparatedComplex(const mxArray* pm)
@@ -26,14 +27,18 @@ mxSetPiSeparatedComplex(mxArray* pm, double* pr)
 mxDouble*
 mxGetPiInterleavedComplex(const mxArray* pm)
 {
-    mexErrMsgTxt(_("mxGetPi not allowed with interleaved complex.").c_str());
+    mexErrMsgTxt(Nelson::resolveMessageTemplate("Nelson:mex:mxgetpiAllowedInterleavedComplex",
+        "mxGetPi not allowed with interleaved complex.")
+            .c_str());
     return nullptr;
 }
 //=============================================================================
 void
 mxSetPiInterleavedComplex(mxArray* pm, double* pr)
 {
-    mexErrMsgTxt(_("mxGetPi not allowed with interleaved complex.").c_str());
+    mexErrMsgTxt(Nelson::resolveMessageTemplate("Nelson:mex:mxgetpiAllowedInterleavedComplex",
+        "mxGetPi not allowed with interleaved complex.")
+            .c_str());
 }
 //=============================================================================
 void*

@@ -1,0 +1,223 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "",
+    "created": "2026-08-09",
+    "tool": "Nelson nflow"
+  },
+  "license": "",
+  "comments": "Demonstrates four signal-routing niche blocks: width (element count of a vector), signalConversion (identity pass-through), enumeratedConstant (a fixed enumeration value) and assignment (write elements of a base vector at given indices).",
+  "name": "Signal Utilities Demo",
+  "blocks": [
+    {
+      "id": "vec",
+      "type": "constant",
+      "x": 60,
+      "y": 340,
+      "rotation": 0,
+      "params": {
+        "Value": [10, 20, 30]
+      }
+    },
+    {
+      "id": "wd",
+      "type": "width",
+      "x": 220,
+      "y": 355,
+      "rotation": 0,
+      "params": {}
+    },
+    {
+      "id": "disp_w",
+      "type": "display",
+      "x": 380,
+      "y": 350,
+      "rotation": 0,
+      "params": {
+        "Label": "width"
+      }
+    },
+    {
+      "id": "sig",
+      "type": "constant",
+      "x": 60,
+      "y": 500,
+      "rotation": 0,
+      "params": {
+        "Value": 5
+      }
+    },
+    {
+      "id": "conv",
+      "type": "signalConversion",
+      "x": 220,
+      "y": 515,
+      "rotation": 0,
+      "params": {}
+    },
+    {
+      "id": "disp_c",
+      "type": "display",
+      "x": 390,
+      "y": 510,
+      "rotation": 0,
+      "params": {
+        "Label": "passthrough"
+      }
+    },
+    {
+      "id": "enum",
+      "type": "enumeratedConstant",
+      "x": 60,
+      "y": 665,
+      "rotation": 0,
+      "params": {
+        "EnumClass": "Color",
+        "Value": 7
+      }
+    },
+    {
+      "id": "disp_e",
+      "type": "display",
+      "x": 230,
+      "y": 660,
+      "rotation": 0,
+      "params": {
+        "Label": "enum"
+      }
+    },
+    {
+      "id": "base",
+      "type": "constant",
+      "x": 60,
+      "y": 60,
+      "rotation": 0,
+      "params": {
+        "Value": [1, 2, 3, 4]
+      }
+    },
+    {
+      "id": "vals",
+      "type": "constant",
+      "x": 60,
+      "y": 180,
+      "rotation": 0,
+      "params": {
+        "Value": [90, 70]
+      }
+    },
+    {
+      "id": "asg",
+      "type": "assignment",
+      "x": 220,
+      "y": 130,
+      "rotation": 0,
+      "params": {
+        "Indices": [2, 4]
+      },
+      "inputs": 2
+    },
+    {
+      "id": "disp_a",
+      "type": "display",
+      "x": 390,
+      "y": 130,
+      "rotation": 0,
+      "params": {
+        "Label": "assigned"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "vec",
+      "to": "wd",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [140, 380],
+        [220, 380]
+      ]
+    },
+    {
+      "from": "wd",
+      "to": "disp_w",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [300, 380],
+        [380, 380]
+      ]
+    },
+    {
+      "from": "sig",
+      "to": "conv",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [140, 540],
+        [220, 540]
+      ]
+    },
+    {
+      "from": "conv",
+      "to": "disp_c",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [310, 540],
+        [390, 540]
+      ]
+    },
+    {
+      "from": "enum",
+      "to": "disp_e",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [150, 690],
+        [230, 690]
+      ]
+    },
+    {
+      "from": "base",
+      "to": "asg",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [140, 100],
+        [200, 100],
+        [200, 150],
+        [220, 150]
+      ]
+    },
+    {
+      "from": "vals",
+      "to": "asg",
+      "fromIndex": 0,
+      "toIndex": 1,
+      "points": [
+        [140, 220],
+        [200, 220],
+        [200, 170],
+        [220, 170]
+      ]
+    },
+    {
+      "from": "asg",
+      "to": "disp_a",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [310, 160],
+        [390, 160]
+      ]
+    }
+  ],
+  "variables": "",
+  "runtime": "10",
+  "sampleTime": 0.01,
+  "autoRoute": true,
+  "locked": false
+}

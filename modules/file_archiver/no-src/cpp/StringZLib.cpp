@@ -10,7 +10,6 @@
 #include <iostream>
 #include <iomanip>
 #include <sstream>
-#include <zlib.h>
 #include <cstring>
 #include "StringZLib.hpp"
 //=============================================================================

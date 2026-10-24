@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>streamparticles</keyword>
+  <short_description>Display particle markers along stream paths.</short_description>
+  <syntax>
+    <syntax_item>streamparticles(vertices)</syntax_item>
+    <syntax_item>streamparticles(vertices, n)</syntax_item>
+    <syntax_item>streamparticles(parent, vertices, n)</syntax_item>
+    <syntax_item>streamparticles(lineHandle, vertices, n)</syntax_item>
+    <syntax_item>streamparticles(..., name, value)</syntax_item>
+    <syntax_item>h = streamparticles(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>vertices</param_name>
+      <param_description>Cell array of streamline coordinate arrays with two or three columns.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>lineHandle</param_name>
+      <param_description>Existing line object to reuse for the particle markers.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>n</param_name>
+      <param_description>Number of particle markers to sample on each streamline.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>name, value</param_name>
+      <param_description>Supported properties include Marker, MarkerEdgeColor, MarkerFaceColor, Animate, FrameRate, and ParticleAlignment.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b>streamparticles</b> draws markers at sampled positions from precomputed streamline vertices.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Display stream particles.</example_item_description>
+      <example_item_data><![CDATA[vertices = {[0 0; 0.5 0.2; 1 0.5; 1.5 0.8]};
+streamparticles(vertices);]]></example_item_data>
+      <example_item_img src="../../../../images/streamparticles_1.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Display particles from precomputed streamline vertices.</example_item_description>
+      <example_item_data><![CDATA[vertices = {[0 0; 0.5 0.2; 1 0.5; 1.5 0.8]};
+streamparticles(vertices, 4, 'MarkerFaceColor', 'red');]]></example_item_data>
+      <example_item_img src="../../../../images/streamparticles_2.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/5_vector_fields/streamline">streamline</link></see_also_item>
+  </see_also>
+</xmldoc>

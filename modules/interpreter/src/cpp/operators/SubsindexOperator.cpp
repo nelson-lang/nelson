@@ -12,9 +12,15 @@
 #include "Evaluator.hpp"
 #include "Operators.hpp"
 #include "OverloadHelpers.hpp"
+#include "BinaryOperatorHelpers.hpp"
 #include "OverloadRequired.hpp"
+#include "Error.hpp"
+#include "BytecodeVMInternal.hpp"
 //=============================================================================
 namespace Nelson {
+//=============================================================================
+static ArrayOf
+zeroBasedToOrdinal(ArrayOf res);
 //=============================================================================
 ArrayOfVector
 Evaluator::subsindexOperator(const ArrayOfVector& m)
@@ -23,22 +29,8 @@ Evaluator::subsindexOperator(const ArrayOfVector& m)
     n.reserve(m.size());
     for (const auto& k : m) {
         bool wasFound = false;
-        ArrayOf res = callOverloadedFunction(this,
-            NelsonConfiguration::getInstance()->getOverloadLevelCompatibility(), k,
-            SUBSINDEX_OPERATOR_STR, ClassName(k), k.getDataClass(), wasFound);
+        ArrayOf res = callOperatorOverload(this, k, SUBSINDEX_OPERATOR_STR, wasFound);
         if (wasFound) {
-            ompIndexType len = (ompIndexType)res.getElementCount();
-#ifdef NLS_INDEX_TYPE_64
-            res.promoteType(NLS_UINT64);
-            uint64* dp = static_cast<uint64*>(res.getReadWriteDataPointer());
-#else
-            res.promoteType(NLS_UINT32);
-            uint32* dp = static_cast<uint32*>(res.getReadWriteDataPointer());
-#endif
-            OMP_PARALLEL_FOR_LOOP(len)
-            for (ompIndexType k = 0; k < len; ++k) {
-                dp[k]++;
-            }
             n.push_back(res);
         } else {
             OverloadRequired(SUBSINDEX_OPERATOR_STR);
@@ -47,5 +39,43 @@ Evaluator::subsindexOperator(const ArrayOfVector& m)
     return n;
 }
 //=============================================================================
+// A class object or handle used to index a built-in value is replaced by the
+// result of its subsindex method. Without such a method the index is kept and
+// the indexing reports its usual error. Other index types are never looked up.
+void
+bcvm_detail::resolveObjectIndices(Evaluator* eval, ArrayOfVector& indices)
+{
+    for (auto& index : indices) {
+        const NelsonType type = index.dataClass();
+        if (type != NLS_CLASS_ARRAY && type != NLS_CLASSDEF_ARRAY && type != NLS_HANDLE) {
+            continue;
+        }
+        bool wasFound = false;
+        ArrayOf res = callOperatorOverload(eval, index, SUBSINDEX_OPERATOR_STR, wasFound);
+        if (wasFound) {
+            index = zeroBasedToOrdinal(res);
+        }
+    }
 }
+//=============================================================================
+// The values stay exact: a negative, fractional or NaN zero-based value then
+// fails as an invalid index instead of being rounded to a valid position.
+ArrayOf
+zeroBasedToOrdinal(ArrayOf res)
+{
+    if (!(res.isNumeric() || res.isLogical()) || res.isComplex() || res.isSparse()) {
+        Error(L"Nelson:types:invalidIndex:indexEitherRealPositiveIntegersLogicals",
+            L"index must either be real positive integers or logicals.");
+    }
+    res.promoteType(NLS_DOUBLE);
+    ompIndexType len = (ompIndexType)res.elementCount();
+    double* dp = static_cast<double*>(res.readWriteDataPointer());
+    OMP_PARALLEL_FOR_LOOP(len)
+    for (ompIndexType k = 0; k < len; ++k) {
+        dp[k]++;
+    }
+    return res;
+}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

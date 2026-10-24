@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>imbinarize</keyword>
+  <short_description>Binarise une image avec un seuil.</short_description>
+  <syntax>
+    <syntax_item>BW = imbinarize(I)</syntax_item>
+    <syntax_item>BW = imbinarize(I, T)</syntax_item>
+    <syntax_item>BW = imbinarize(I, 'global')</syntax_item>
+    <syntax_item>BW = imbinarize(I, 'adaptive')</syntax_item>
+    <syntax_item>BW = imbinarize(__, 'Sensitivity', value)</syntax_item>
+    <syntax_item>BW = imbinarize(__, 'ForegroundPolarity', polarity)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>I</param_name>
+      <param_description>Image d'entree.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>T</param_name>
+      <param_description>Seuil numerique. Il peut etre scalaire ou de meme taille que I.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>method</param_name>
+      <param_description>Methode de binarisation : 'global' ou 'adaptive'.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'Sensitivity'</param_name>
+      <param_description>Sensibilite transmise au seuillage adaptatif.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'ForegroundPolarity'</param_name>
+      <param_description>Polarite du premier plan pour le seuillage adaptatif : 'bright' ou 'dark'.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>BW</param_name>
+      <param_description>Image binaire logique.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Binarise une image avec un seuil. La methode globale utilise graythresh quand aucun seuil n est fourni. Un seuil numerique peut etre scalaire ou de meme taille que l entree. La methode adaptive utilise adaptthresh et prend en charge une polarite de premier plan bright ou dark.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Binariser une image en niveaux de gris avec un seuil global</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[I=[0 0.25 0.75 1; 0.1 0.4 0.6 0.9];
+BW=imbinarize(I,0.5);
+figure; subplot(1,2,1); imagesc(I); g=linspace(0,1,64)'; colormap([g g g]); title('Input');
+subplot(1,2,2); imagesc(BW); g=linspace(0,1,64)'; colormap([g g g]); title('Binary');]]></example_item_data>
+      <example_item_img
+        src="../../../images/imbinarize_1.png"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Binariser avec un seuil adaptatif</example_item_description>
+      <example_item_data><![CDATA[I=[0.1 0.1 0.1; 0.1 0.9 0.1; 0.1 0.1 0.1];
+BW=imbinarize(I,'adaptive','Sensitivity',0.4)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}graythresh">graythresh</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}adaptthresh">adaptthresh</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}imcomplement">imcomplement</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

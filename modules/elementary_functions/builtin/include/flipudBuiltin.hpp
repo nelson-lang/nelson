@@ -15,5 +15,6 @@
 namespace Nelson::ElementaryFunctionsGateway {
 ArrayOfVector
 flipudBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

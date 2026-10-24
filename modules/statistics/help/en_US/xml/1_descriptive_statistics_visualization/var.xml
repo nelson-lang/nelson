@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>var</keyword>
+  <short_description>Variance</short_description>
+  <syntax>
+    <syntax_item>V = var(A)</syntax_item>
+    <syntax_item>V = var(A, w)</syntax_item>
+    <syntax_item>V = var(A, w, dim)</syntax_item>
+    <syntax_item>V = var(A, w, vecdim)</syntax_item>
+    <syntax_item>V = var(A, w, 'all')</syntax_item>
+    <syntax_item>V = var(..., nanflag)</syntax_item>
+    <syntax_item>[V, M] = var(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>a vector, matrix or multidimensional array: single, double, int8, int16, int32, int64, uint8, uint16, uint32 or uint64.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>w</param_name>
+      <param_description>weight: 0 (normalization by N-1, default), 1 (normalization by N) or a vector of nonnegative weights whose length is the size of the operating dimension.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>dim</param_name>
+      <param_description>a positive integer scalar: dimension to operate along.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>vecdim</param_name>
+      <param_description>a vector of positive integers: dimensions to operate along.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>nanflag</param_name>
+      <param_description>'includenan' (default) or 'omitnan'.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>V</param_name>
+      <param_description>Variance of A.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>M</param_name>
+      <param_description>Mean of A used to compute the variance, same size as V. It is the weighted mean when w is a weight vector.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>V = var(A)</b> returns the variance of the elements of A along the first array dimension whose size does not equal 1.</p>
+    <p><b>[V, M] = var(...)</b> also returns the mean <b>M</b> computed with the same weights, dimensions and nanflag as the variance.</p>
+    <p>For integer input data (int8, int16, int32, int64, uint8, uint16, uint32, uint64), the variance is computed in double precision and <b>V</b> and <b>M</b> are double.</p>
+  </description>
+  <used_function>
+    <link linkend="${statistics}std">std</link>
+    <link linkend="${statistics}mean">mean</link>
+    <link linkend="${statistics}cov">cov</link>
+  </used_function>
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[M = [4 -7 3; 1 4 -2; 10 7 9];
+V = var(M)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Integer input data</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[V = var(int8([-128 127 0]))]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Weighted variance and weighted mean</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[A = [4 -7 3; 1 4 -2; 10 7 9];
+[V, M] = var(A, [1 2 3])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${statistics}cov">cov</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}mean">mean</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>Integer input data supported.</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>Second output M: mean used to compute the variance.</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

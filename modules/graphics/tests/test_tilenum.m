@@ -12,12 +12,12 @@
 t = tiledlayout(2, 3);
 % tilenum(t, row, col)
 n = tilenum(t, 1, 1);
-assert_isequal(n, 1);
+asserts.isequal(n, 1);
 n2 = tilenum(t, 2, 3);
-assert_isequal(n2, 6);
+asserts.isequal(n2, 6);
 % out-of-range returns NaN
 n3 = tilenum(t, 3, 1);
-assert_istrue(isnan(n3));
+asserts.istrue(isnan(n3));
 close all;
 %=============================================================================
 t = tiledlayout(2, 2);
@@ -25,7 +25,7 @@ ax1 = nexttile;
 ax2 = nexttile;
 n1 = tilenum(ax1);
 n2 = tilenum(ax2);
-assert_isequal(n1, 1);
-assert_isequal(n2, 2);
+asserts.isequal(n1, 1);
+asserts.isequal(n2, 2);
 close all;
 %=============================================================================

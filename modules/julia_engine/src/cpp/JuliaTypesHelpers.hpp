@@ -34,5 +34,5 @@ namespace Nelson {
 #define JL_COMPLEX_FLOAT64_TYPE_LONG_STR "Complex{Float64}"
 #define JL_COMPLEX_INT64_TYPE_LONG_STR "Complex{Int64}"
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

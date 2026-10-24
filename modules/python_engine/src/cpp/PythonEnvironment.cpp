@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -200,13 +200,13 @@ PythonEnvironment::setExecutionMode(int mode)
 }
 //=============================================================================
 wstringVector
-PythonEnvironment::getProperties()
+PythonEnvironment::properties()
 {
     return propertiesNames;
 }
 //=============================================================================
 wstringVector
-PythonEnvironment::getMethods()
+PythonEnvironment::methods()
 {
     return {};
 }
@@ -250,27 +250,27 @@ bool
 PythonEnvironment::get(const std::wstring& propertyName, ArrayOf& result)
 {
     if (propertyName == L"Version") {
-        result = ArrayOf::stringArrayConstructor(getVersion());
+        result = ArrayOf::stringArray(getVersion());
         return true;
     }
     if (propertyName == L"Executable") {
-        result = ArrayOf::stringArrayConstructor(getExecutable());
+        result = ArrayOf::stringArray(getExecutable());
         return true;
     }
     if (propertyName == L"Library") {
-        result = ArrayOf::stringArrayConstructor(getLibrary());
+        result = ArrayOf::stringArray(getLibrary());
         return true;
     }
     if (propertyName == L"Home") {
-        result = ArrayOf::stringArrayConstructor(getHome());
+        result = ArrayOf::stringArray(getHome());
         return true;
     }
     if (propertyName == L"Status") {
-        result = ArrayOf::stringArrayConstructor(getStatusString());
+        result = ArrayOf::stringArray(getStatusString());
         return true;
     }
     if (propertyName == L"ExecutionMode") {
-        result = ArrayOf::stringArrayConstructor(getExecutionModeString());
+        result = ArrayOf::stringArray(getExecutionModeString());
         return true;
     }
     return false;
@@ -306,5 +306,5 @@ configurePythonEnvironment(const std::wstring& executablePath)
 {
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

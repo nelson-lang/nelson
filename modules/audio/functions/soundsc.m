@@ -11,7 +11,7 @@ function soundsc(varargin)
   narginchk(1, 4);
   y = varargin{1};
   if (~isreal(y) || issparse(y) || ~isfloat(y))
-    error(_('Audio data must be real and floating point.'));
+    error('Nelson:sound:invalidAudioData', 'Audio data must be real and floating point.');
   else
     y = double(y);
   end
@@ -22,7 +22,7 @@ function soundsc(varargin)
   end
   if nargin > 2
     nbits = varargin{3};
-  else 
+  else
     nbits = 16;
   end
   if nargin > 3
@@ -30,20 +30,20 @@ function soundsc(varargin)
   else
     yrange = [-max(abs(y)), max(abs(y))];
   end
-  
-  if (~(isscalar (fs) && (fs > 0)))
-    error (_('Sample rate FS must be a positive number.'));
+
+  if (~(isscalar(fs) && (fs > 0)))
+    error('Nelson:sound:invalidSampleRate', 'Sample rate FS must be a positive number.');
   end
   isSupportedBits = isscalar(nbits) && ((nbits == 8) || (nbits == 16) || (nbits == 24));
   if (~isSupportedBits)
-    error (_('NBITS must be 8, 16, or 24.'));
+    error('Nelson:sound:invalidNBits', 'NBITS must be 8, 16, or 24.');
   end
-  if (isempty (yrange))
-    yrange = [-max(abs(y)), max(abs(y))] ;
-  end 
+  if (isempty(yrange))
+    yrange = [-max(abs(y)), max(abs(y))];
+  end
   isMinMaxVector = isreal(yrange) && (numel(yrange) == 2) && (yrange(1) <= yrange(2));
   if ~isMinMaxVector
-    error (_('RANGE must be a 2-element [YMIN, YMAX] vector.'));        
+    error('Nelson:soundsc:invalidRange', 'RANGE must be a 2-element [YMIN, YMAX] vector.');
   end
   ymin = double(yrange(1));
   ymax = double(yrange(2));

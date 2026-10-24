@@ -10,9 +10,9 @@
 % <--ADV-CLI MODE-->
 % <--WITH DISPLAY-->
 %=============================================================================
-assert_isequal(nargin('qml_offlinestoragepath'), 0);
-assert_isequal(nargout('qml_offlinestoragepath'), 1);
+asserts.isequal(nargin('qml_offlinestoragepath'), 0);
+asserts.isequal(nargout('qml_offlinestoragepath'), 1);
 %=============================================================================
 r = qml_offlinestoragepath();
-assert_isequal(class(r), 'char');
+asserts.isequal(class(r), 'char');
 %=============================================================================

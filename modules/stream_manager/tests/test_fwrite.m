@@ -7,22 +7,25 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('fwrite'), 3);
-assert_isequal(nargout('fwrite'), -1);
+asserts.isequal(nargin('fwrite'), 3);
+asserts.isequal(nargout('fwrite'), -1);
 %=============================================================================
 TEXT_REF = 'Виртуальная';
-filename = [tempdir(), 'fwrite_Windows-1251.txt'];
+skip_testsuite(iswasm(), ...
+  'WebAssembly reduced characters_encoding backend does not provide Windows-1251 conversion.');
+filename = [tempname(), '.txt'];
 F = fopen(filename, 'wt', 'n', 'windows-1251');
 W = fwrite(F, TEXT_REF, 'char');
 fclose(F);
-assert_isequal(W, 11);
+asserts.isequal(W, 11);
 %=============================================================================
 F = fopen(filename, 'rt', 'n', 'windows-1251');
 [R, S] = fread(F, '*char');
 fclose(F);
-assert_isequal(R, TEXT_REF);
+asserts.isequal(R, TEXT_REF);
+rmfile(filename);
 %=============================================================================
 [R1, R2] = fwrite(stdout(), '和製漢字');
-assert_isequal(R1, 4);
-assert_isequal(R2, 12);
+asserts.isequal(R1, 4);
+asserts.isequal(R2, 12);
 %=============================================================================

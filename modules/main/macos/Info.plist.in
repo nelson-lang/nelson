@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>CFBundleDevelopmentRegion</key>
+  <string>en</string>
+  <key>CFBundleDisplayName</key>
+  <string>@NELSON_BUNDLE_DISPLAY_NAME@</string>
+  <key>CFBundleExecutable</key>
+  <string>@NELSON_BUNDLE_EXECUTABLE@</string>
+  <key>CFBundleIconFile</key>
+  <string>Nelson.icns</string>
+  <key>CFBundleIdentifier</key>
+  <string>@NELSON_BUNDLE_IDENTIFIER@</string>
+  <key>CFBundleInfoDictionaryVersion</key>
+  <string>6.0</string>
+  <key>CFBundleName</key>
+  <string>@NELSON_BUNDLE_DISPLAY_NAME@</string>
+  <key>CFBundlePackageType</key>
+  <string>APPL</string>
+  <key>CFBundleShortVersionString</key>
+  <string>@Nelson_VERSION@</string>
+  <key>CFBundleVersion</key>
+  <string>@Nelson_VERSION_MAJOR@.@Nelson_VERSION_MINOR@.@Nelson_VERSION_MAINTENANCE@.@Nelson_VERSION_BUILD@</string>
+  <key>LSApplicationCategoryType</key>
+  <string>public.app-category.education</string>
+  <key>LSMinimumSystemVersion</key>
+  <string>11.0</string>
+  <key>NSAppTransportSecurity</key>
+  <dict>
+    <key>NSAllowsLocalNetworking</key>
+    <true/>
+  </dict>
+  <key>NSHighResolutionCapable</key>
+  <true/>
+  <key>NSPrincipalClass</key>
+  <string>NSApplication</string>
+@NELSON_FILE_ASSOCIATIONS@
+</dict>
+</plist>

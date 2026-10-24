@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>PlanarDamper</keyword>
+  <keyword_alias>block:PlanarDamper</keyword_alias>
+  <short_description>Amortisseur lineaire 2D entre les points aux reperes a et b : F = -d dv.</short_description>
+  <syntax>
+    <syntax_item>Type de bloc : PlanarDamper</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>broches physiques</param_name>
+      <param_description>2 broche(s) physique(s) non orientee(s) ; 0 entree(s) de signal.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>ports de signal</param_name>
+      <param_description>0 sortie(s) de signal (lectures de capteur).</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Composant acausal (Planaire (acausal)). Amortisseur lineaire 2D entre les points aux reperes a et b : F = -d dv.</p>
+    <table border="1">
+      <tbody>
+        <tr><td>Module</td><td><code>nflow_blocks</code></td></tr>
+        <tr><td>Bibliotheque</td><td>Planaire (acausal)</td></tr>
+        <tr><td>Type</td><td><code>PlanarDamper</code></td></tr>
+        <tr><td>Libelle</td><td>PlanarDamper</td></tr>
+        <tr><td>Solveur</td><td>Abaisse vers <code>planarMechanicalIsland</code>. Solveur de reference <code>dae</code> (algebro-differentiel) ; la boucle a pas fixe et les solveurs explicites natifs (<code>ode1</code>/<code>ode4</code>/<code>ode45</code>) sont egalement pris en charge (un ilot multicorps articule necessite <code>dae</code>).</td></tr>
+      </tbody>
+    </table>
+    <p>
+      <img src="../../../../libraries/acausal_planar/exports/PlanarDamper.svg" align="middle"/>
+    </p>
+    <p><b>Sources d implementation</b></p>
+    <source_code label="Manifest" path="modules/nflow_blocks/libraries/acausal_planar/library.json" language="json"/>
+    <source_code label="Catalog" path="modules/nflow_blocks/functions/+NFlow/+internal/planarCatalog.m" language="matlab" start="entry('PlanarDamper'" end="');"/>
+  </description>
+  <used_function/>
+  <bibliography/>
+  <see_also>
+    <see_also_item><link linkend="${nflow_blocks}acausal_planar/PlanarWorld">PlanarWorld</link></see_also_item>
+    <see_also_item><link linkend="${nflow_blocks}acausal_planar/PlanarFixed">PlanarFixed</link></see_also_item>
+    <see_also_item><link linkend="${nflow_blocks}acausal_planar/PlanarBody">PlanarBody</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

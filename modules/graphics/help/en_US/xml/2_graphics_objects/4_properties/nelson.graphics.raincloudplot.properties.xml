@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>raincloudplot properties</keyword>
+  <short_description>raincloudplot graphics object properties.</short_description>
+  <description>
+    <p>This page documents the visible properties returned by <b>properties</b> for a <b>raincloudplot</b> graphics object.</p>
+    <table>
+      <tr>
+        <th>Property</th>
+        <th>Action</th>
+        <th>Type and supported values</th>
+      </tr>
+      <tr>
+        <td><b>Annotation</b></td>
+        <td>updates the annotation metadata used by interactive tools and object inspection.</td>
+        <td>Type: graphics annotation object or empty handle value. Supported values: an annotation object associated with the graphics item, or an empty graphics handle when no annotation is attached.</td>
+      </tr>
+      <tr>
+        <td><b>BeingDeleted</b></td>
+        <td>Nelson computes this value; graphics operations update it.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'off', 'on'.</td>
+      </tr>
+      <tr>
+        <td><b>BusyAction</b></td>
+        <td>controls whether an interrupting callback is queued or canceled.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'queue', 'cancel'.</td>
+      </tr>
+      <tr>
+        <td><b>ButtonDownFcn</b></td>
+        <td>runs when the object receives a mouse-button event.</td>
+        <td>Type: callback value. Supported values: [], function handle, character vector, string scalar, or callback cell array.</td>
+      </tr>
+      <tr>
+        <td><b>Children</b></td>
+        <td>parenting operations update the vector.</td>
+        <td>Type: graphics object handle vector. Supported values: empty vector.</td>
+      </tr>
+      <tr>
+        <td><b>Clipping</b></td>
+        <td>updates clipping during the next graphics refresh.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>ContextMenu</b></td>
+        <td>attaches the menu used for context-click actions.</td>
+        <td>Type: graphics object handle scalar. Supported values: [] or a uicontextmenu handle.</td>
+      </tr>
+      <tr>
+        <td><b>CreateFcn</b></td>
+        <td>runs when the object is created.</td>
+        <td>Type: callback value. Supported values: [], function handle, character vector, string scalar, or callback cell array.</td>
+      </tr>
+      <tr>
+        <td><b>DataTipTemplate</b></td>
+        <td>updates the content used for interactive data tips.</td>
+        <td>Type: data tip template object or empty handle value. Supported values: a data tip template object owned by the graphics item, or an empty graphics handle when data tips are not configured.</td>
+      </tr>
+      <tr>
+        <td><b>DeleteFcn</b></td>
+        <td>runs when the object is deleted.</td>
+        <td>Type: callback value. Supported values: [], function handle, character vector, string scalar, or callback cell array.</td>
+      </tr>
+      <tr>
+        <td><b>DensityWidth</b></td>
+        <td>sets the maximum rain cloud plot width in units of the positional grouping data.</td>
+        <td>Type: finite numeric scalar. Supported values: positive finite scalar value.</td>
+      </tr>
+      <tr>
+        <td><b>DisplayName</b></td>
+        <td>updates the label used by legend entries and object identification.</td>
+        <td>Type: text value. Supported values: character row vector or string scalar.</td>
+      </tr>
+      <tr>
+        <td><b>EdgeColor</b></td>
+        <td>sets the cloud outline color; follows FaceColor while EdgeColorMode is 'auto'.</td>
+        <td>Type: color value. Supported values: short color names, RGB triplet with values in [0,1], hexadecimal color, or 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>EdgeColorMode</b></td>
+        <td>'auto' makes EdgeColor follow FaceColor; 'manual' preserves the assigned value.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>FaceAlpha</b></td>
+        <td>sets the transparency of the cloud and of the marker faces.</td>
+        <td>Type: numeric scalar. Supported values: values in [0,1].</td>
+      </tr>
+      <tr>
+        <td><b>FaceColor</b></td>
+        <td>sets the cloud fill color; the default comes from the axes ColorOrder and SeriesIndex.</td>
+        <td>Type: color value. Supported values: short color names, RGB triplet with values in [0,1], hexadecimal color, or 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>FaceColorMode</b></td>
+        <td>'auto' takes FaceColor from the axes ColorOrder; 'manual' preserves the assigned value.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>HandleVisibility</b></td>
+        <td>controls whether handle-search functions can find the object.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'on', 'off', 'callback'.</td>
+      </tr>
+      <tr>
+        <td><b>HitTest</b></td>
+        <td>includes or excludes the object from mouse hit testing.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>Interruptible</b></td>
+        <td>controls whether a running callback can be interrupted.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>LineWidth</b></td>
+        <td>sets the cloud outline width and the marker edge width in points.</td>
+        <td>Type: finite numeric scalar. Supported values: positive finite scalar value.</td>
+      </tr>
+      <tr>
+        <td><b>Marker</b></td>
+        <td>sets the marker symbol of the rain.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'o', '+', '*', '.', 'x', 'square', 'diamond', '^', 'v', '&gt;', '&lt;', 'pentagram', 'hexagram', 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>MarkerEdgeColor</b></td>
+        <td>sets the marker outline color; follows EdgeColor while MarkerEdgeColorMode is 'auto'.</td>
+        <td>Type: color value. Supported values: short color names, RGB triplet with values in [0,1], hexadecimal color, or 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>MarkerEdgeColorMode</b></td>
+        <td>'auto' makes MarkerEdgeColor follow EdgeColor; 'manual' preserves the assigned value.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>MarkerFaceColor</b></td>
+        <td>sets the marker fill color; follows FaceColor while MarkerFaceColorMode is 'auto'.</td>
+        <td>Type: color value. Supported values: short color names, RGB triplet with values in [0,1], hexadecimal color, or 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>MarkerFaceColorMode</b></td>
+        <td>'auto' makes MarkerFaceColor follow FaceColor; 'manual' preserves the assigned value.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>MarkerSize</b></td>
+        <td>sets the marker area in points squared.</td>
+        <td>Type: finite numeric scalar. Supported values: positive finite scalar value.</td>
+      </tr>
+      <tr>
+        <td><b>Orientation</b></td>
+        <td>chooses the plot alignment: with 'horizontal' the sample values are along the x-axis.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'horizontal', 'vertical'.</td>
+      </tr>
+      <tr>
+        <td><b>Parent</b></td>
+        <td>sets the axes that owns the object.</td>
+        <td>Type: graphics object handle scalar. Supported values: axes or hggroup handle.</td>
+      </tr>
+      <tr>
+        <td><b>PickableParts</b></td>
+        <td>controls whether visible or all object parts can be picked.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'visible', 'all', 'none'.</td>
+      </tr>
+      <tr>
+        <td><b>Selected</b></td>
+        <td>marks the object as selected or not selected.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>SelectionHighlight</b></td>
+        <td>controls display of selection handles.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>SeriesIndex</b></td>
+        <td>selects the axes ColorOrder row used by the automatic colors.</td>
+        <td>Type: positive numeric scalar. Supported values: positive whole number.</td>
+      </tr>
+      <tr>
+        <td><b>SourceTable</b></td>
+        <td>stores the table used to create the chart.</td>
+        <td>Type: table or empty value. Supported values: [] or a table supplied to raincloudplot.</td>
+      </tr>
+      <tr>
+        <td><b>Tag</b></td>
+        <td>stores user-defined text for identifying the object.</td>
+        <td>Type: text value. Supported values: character row vector or string scalar.</td>
+      </tr>
+      <tr>
+        <td><b>Type</b></td>
+        <td>identifies the graphics object type.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'raincloudplot'.</td>
+      </tr>
+      <tr>
+        <td><b>UserData</b></td>
+        <td>stores user-defined data on the object.</td>
+        <td>Type: any Nelson value. Supported values: any value.</td>
+      </tr>
+      <tr>
+        <td><b>Visible</b></td>
+        <td>shows or hides the object.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'on', 'off'.</td>
+      </tr>
+      <tr>
+        <td><b>XData</b></td>
+        <td>sets the positional grouping data used to place the rain clouds.</td>
+        <td>Type: real numeric vector. Supported values: finite numeric values; nonfinite values are ignored for drawing.</td>
+      </tr>
+      <tr>
+        <td><b>XDataMode</b></td>
+        <td>'auto' when the positions come from a table or from the defaults; 'manual' when XData is assigned.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>XVariable</b></td>
+        <td>stores the table variable name used for x data.</td>
+        <td>Type: text value. Supported values: character row vector or string scalar.</td>
+      </tr>
+      <tr>
+        <td><b>YData</b></td>
+        <td>sets the sample data.</td>
+        <td>Type: real numeric vector. Supported values: finite numeric values; nonfinite values are ignored for drawing.</td>
+      </tr>
+      <tr>
+        <td><b>YDataMode</b></td>
+        <td>'auto' when the samples come from a table; 'manual' when YData is assigned.</td>
+        <td>Type: text scalar or character row vector. Supported values: 'auto', 'manual'.</td>
+      </tr>
+      <tr>
+        <td><b>YVariable</b></td>
+        <td>stores the table variable name used for the sample data.</td>
+        <td>Type: text value. Supported values: character row vector or string scalar.</td>
+      </tr>
+    </table>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Inspect raincloudplot properties.</example_item_description>
+      <example_item_data><![CDATA[r = raincloudplot(randn(50, 1));
+props = properties(r)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/4_data_distribution_plots/raincloudplot">raincloudplot</link></see_also_item>
+    <see_also_item><link linkend="${handle}properties">properties</link></see_also_item>
+  </see_also>
+</xmldoc>

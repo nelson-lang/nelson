@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>cordexch</keyword>
+  <short_description>D-optimal design using coordinate-style interface.</short_description>
+  <syntax>
+    <syntax_item>dCE = cordexch(nfactors, nruns)</syntax_item>
+    <syntax_item>[dCE, X] = cordexch(nfactors, nruns, modelspec)</syntax_item>
+  </syntax>
+  <description><p><b>cordexch</b> provides a coordinate-exchange compatible interface backed by the row-exchange implementation.</p></description>
+  <used_function>
+    <link linkend="${statistics}rowexch">rowexch</link>
+    <link linkend="${statistics}candgen">candgen</link>
+    <link linkend="${statistics}candexch">candexch</link>
+    <link linkend="${random}rng">rng</link>
+  </used_function>
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Create a three-run linear design for two factors.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[rng(7);
+[dCE, X] = cordexch(2, 3, 'linear', 'Display', 'off', 'AvoidDuplicates', true);
+dCE
+X]]></example_item_data>
+    </example_item>
+  </examples>
+</xmldoc>

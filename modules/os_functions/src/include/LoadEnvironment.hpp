@@ -20,5 +20,5 @@ NLSOS_FUNCTIONS_IMPEXP
 std::vector<std::pair<std::wstring, std::wstring>>
 LoadEnvironment(const std::wstring& filename, bool applyToEnv, std::wstring& errorMessage);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

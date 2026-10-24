@@ -7,6 +7,9 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
+% <--WEIGHT 4-->
+%=============================================================================
 % <--RELEASE ONLY-->
 %=============================================================================
 % Bench: measure reduction fast-path vs fallback
@@ -20,7 +23,7 @@ for i = 1:N
   s = s + i;
 end
 t1 = toc();
-assert_isequal(s, (N*(N+1))/2);
+asserts.isequal(s, (N * (N + 1)) / 2);
 fprintf('  simple acc loop: %0.4f s\n', t1);
 %=============================================================================
 % Fallback: function-call in body
@@ -31,7 +34,7 @@ for i = 1:N
   s = s + identity(i);
 end
 t2 = toc();
-assert_isequal(s, (N*(N+1))/2);
+asserts.isequal(s, (N * (N + 1)) / 2);
 fprintf('  function-call loop: %0.4f s\n', t2);
 fprintf('  ratio (func/simple) = %0.2f\n', t2 / t1);
 %=============================================================================

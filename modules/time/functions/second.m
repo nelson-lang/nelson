@@ -12,7 +12,7 @@ function varargout = second(varargin)
   %
   % Usage:
   %   s = second(d)
-  %   s = second(d, formatDate) 
+  %   s = second(d, formatDate)
   %
   % Input:
   %   d - Date/time input (can be a string, char, or numeric).
@@ -20,18 +20,27 @@ function varargout = second(varargin)
   %
   % Output:
   %   s - Second component of the input date/time.
-  
+
   narginchk(1, 2);
   nargoutchk(0, 1);
-  
+
   inputDate = varargin{1};
+  if isa(inputDate, 'datetime')
+    varargout{1} = inputDate.Second;
+    return
+  end
+  if isa(inputDate, 'duration')
+    [~, ~, secondValues] = hms(inputDate);
+    varargout{1} = secondValues;
+    return
+  end
   inputDate = convertStringsToChars(inputDate);
-  
+
   dateFormat = '';
   if nargin == 2
     dateFormat = convertStringsToChars(varargin{2});
   end
-  
+
   if ischar(inputDate)
     inputDate = datenum(inputDate, dateFormat);
     inputSize = size(inputDate);
@@ -41,12 +50,12 @@ function varargout = second(varargin)
   elseif isnumeric(inputDate)
     inputSize = size(inputDate);
   else
-    error(_('Invalid date/time format. Input must be a string, char, or numeric.'));
+    error('Nelson:time:invalidDateTimeFormatInput', 'Invalid date/time format. Input must be a string, char, or numeric.');
   end
-  
+
   dateVector = datevec(inputDate(:));
   secondValues = dateVector(:, 6);
-  
+
   secondValues = round(1000 .* secondValues) ./ 1000;
   varargout{1} = reshape(secondValues, inputSize);
 end

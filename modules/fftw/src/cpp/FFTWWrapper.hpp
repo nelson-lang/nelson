@@ -61,5 +61,5 @@ dyn_fftwf_forget_wisdom();
 fftwf_plan
 dyn_fftwf_plan_dft_1d(int n, fftwf_complex* in, fftwf_complex* out, int sign, unsigned flags);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

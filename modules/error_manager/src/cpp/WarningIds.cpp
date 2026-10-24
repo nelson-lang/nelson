@@ -19,13 +19,16 @@ warningCheckState(const std::wstring& id)
 {
     WARNING_STATE state = WARNING_STATE::NOT_FOUND;
     std::map<std::wstring, WARNING_STATE>::iterator iter;
-    if (id.empty()) {
-        iter = warningsMap.find(L"all");
+    if (!id.empty()) {
+        iter = warningsMap.find(id);
         if (iter != warningsMap.end()) {
             state = iter->second;
         }
-    } else if (warningsMap.count(id) > 0) {
-        iter = warningsMap.find(id);
+    }
+    // Fall back to the global 'all' state so that warning('off', 'all') also
+    // covers ids never configured individually.
+    if (state == WARNING_STATE::NOT_FOUND) {
+        iter = warningsMap.find(L"all");
         if (iter != warningsMap.end()) {
             state = iter->second;
         }
@@ -37,7 +40,6 @@ void
 initializeDefaultWarningIdsList()
 {
     setWarningId(L"all", WARNING_STATE::ENABLED, false);
-    setWarningId(WARNING_COLON_ARRAY_AS_SCALAR, WARNING_STATE::ENABLED, false);
     setWarningId(WARNING_MATIO_TYPE_NOT_SUPPORTED, WARNING_STATE::ENABLED, false);
     setWarningId(WARNING_RANK_DEFICIENT_MATRIX, WARNING_STATE::ENABLED, false);
     setWarningId(WARNING_NEARLY_SINGULAR_MATRIX, WARNING_STATE::ENABLED, false);

@@ -9,6 +9,7 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <cstdint>
 #include <list>
 #include <vector>
 #include "nlsGraphics_exports.h"
@@ -22,8 +23,13 @@ class NLSGRAPHICS_IMPEXP GOPatch : public GraphicsObject
     //=============================================================================
 private:
     FaceList m_faces;
+    uint64_t m_geometryToken { 0 };
     virtual void
     buildPolygons(FaceList& faces);
+    void
+    paintMarkers(RenderInterface& gc, double lineWidth);
+    bool
+    synchronizeDataProperties();
     //=============================================================================
     std::vector<double> limits;
     mutable bool limitsDirty = true;
@@ -35,6 +41,12 @@ public:
     //=============================================================================
     std::wstring
     getType() override;
+    //=============================================================================
+    std::string
+    getClassName() override
+    {
+        return GO_CLASS_NAME_PATCH_STR;
+    }
     //=============================================================================
     virtual void
     constructProperties();
@@ -53,5 +65,5 @@ public:
     //=============================================================================
 };
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

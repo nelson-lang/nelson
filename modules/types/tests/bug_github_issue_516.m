@@ -15,22 +15,22 @@
 ind = 2;
 R = ind(true);
 REF = 2;
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = ind(false);
 REF = [];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-R = ind(logical([0 0 0 ]'));
+R = ind(logical([0 0 0]'));
 REF = zeros(0, 1);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-R =ind(logical([0 0 0 ]));
-REF = zeros(0, 1);
-assert_isequal(R, REF);
+R = ind(logical([0 0 0]));
+REF = zeros(1, 0);
+asserts.isequal(R, REF);
 %=============================================================================
 A = eye(3, 3);
-R = A(logical(ones(3,3)));
-REF = [  1;     0;     0;     0;     1;     0;     0;     0;     1];
-assert_isequal(R, REF);
+R = A(logical(ones(3, 3)));
+REF = [1; 0; 0; 0; 1; 0; 0; 0; 1];
+asserts.isequal(R, REF);
 %=============================================================================

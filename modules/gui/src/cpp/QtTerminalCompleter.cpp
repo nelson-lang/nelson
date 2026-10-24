@@ -15,8 +15,19 @@
 #include <QtWidgets/QAbstractItemView>
 #include <QtWidgets/QScrollBar>
 #include <QtCore/QStringListModel>
+#include <QtGui/QStandardItem>
+#include <QtGui/QStandardItemModel>
+#include <unordered_set>
 //=============================================================================
-QtTerminalCompleter::QtTerminalCompleter(QtTerminal* owner) : m_owner(owner), m_qCompleter(nullptr)
+// Roles used to carry the undecorated candidate name next to the displayed
+// "name (type)" string, so that insertion never relies on text surgery.
+constexpr int COMPLETION_RAW_NAME_ROLE = Qt::UserRole + 1;
+constexpr int COMPLETION_IS_PATH_ROLE = Qt::UserRole + 2;
+//=============================================================================
+constexpr int COMPLETION_MAX_VISIBLE_ITEMS = 12;
+//=============================================================================
+QtTerminalCompleter::QtTerminalCompleter(QtTerminal* owner)
+    : m_owner(owner), m_qCompleter(nullptr), m_model(nullptr)
 {
 }
 //=============================================================================
@@ -25,6 +36,7 @@ QtTerminalCompleter::~QtTerminalCompleter()
     if (m_qCompleter) {
         delete m_qCompleter;
         m_qCompleter = nullptr;
+        m_model = nullptr;
     }
 }
 //=============================================================================
@@ -36,24 +48,36 @@ QtTerminalCompleter::createIfNeeded()
         m_qCompleter->setWidget(m_owner);
         m_qCompleter->setModelSorting(QCompleter::UnsortedModel);
         m_qCompleter->setCompletionMode(QCompleter::UnfilteredPopupCompletion);
-        m_qCompleter->setCaseSensitivity(Qt::CaseSensitive);
+        m_qCompleter->setCaseSensitivity(Qt::CaseInsensitive);
         m_qCompleter->setWrapAround(false);
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
-        // QCompleter::activated is overloaded in Qt6; use a lambda and QMetaObject::invokeMethod
-        // to call the owner's slot by name, avoiding pointer-to-member access issues.
+        m_qCompleter->setMaxVisibleItems(COMPLETION_MAX_VISIBLE_ITEMS);
+        m_model = new QStandardItemModel(m_qCompleter);
+        m_qCompleter->setModel(m_model);
+        // QCompleter::activated is overloaded: the QModelIndex flavour is used so the raw
+        // (undecorated) candidate name can be read back from the item roles.
         QObject::connect(m_qCompleter,
-            static_cast<void (QCompleter::*)(const QString&)>(&QCompleter::activated), m_owner,
-            [this](const QString& completion) {
-                if (m_owner) {
-                    QMetaObject::invokeMethod(m_owner, "insertCompletion", Qt::DirectConnection,
-                        Q_ARG(QString, completion));
-                }
-            });
-#else
-        QObject::connect(
-            m_qCompleter, SIGNAL(activated(QString)), m_owner, SLOT(insertCompletion(QString)));
-#endif
+            static_cast<void (QCompleter::*)(const QModelIndex&)>(&QCompleter::activated), m_owner,
+            [this](const QModelIndex& index) { activateIndex(index); });
     }
+}
+//=============================================================================
+void
+QtTerminalCompleter::activateIndex(const QModelIndex& index)
+{
+    if (!m_owner) {
+        return;
+    }
+    if (!index.isValid()) {
+        return;
+    }
+    const QVariant rawName = index.data(COMPLETION_RAW_NAME_ROLE);
+    if (rawName.isValid() && !rawName.toString().isEmpty()) {
+        m_owner->insertCompletionItem(
+            rawName.toString(), index.data(COMPLETION_IS_PATH_ROLE).toBool());
+        return;
+    }
+    // Fallback to the decorated display string when the role is missing.
+    m_owner->insertCompletion(index.data(Qt::DisplayRole).toString());
 }
 //=============================================================================
 void
@@ -63,10 +87,9 @@ QtTerminalCompleter::complete(const QString& prefix)
         return;
     }
 
-    // ensure completer exists before any dereference
     createIfNeeded();
     if (!m_qCompleter) {
-        return; // defensive: if creation failed for some reason
+        return;
     }
 
     std::wstring line = QStringTowstring(prefix);
@@ -83,9 +106,8 @@ QtTerminalCompleter::complete(const QString& prefix)
         line, completionPrefix, files, builtin, macros, variables, fields, properties, methods);
 
     if (showpopup) {
-        std::wstring replacementPrefix = files.empty() ? completionPrefix : std::wstring();
         updateModel(
-            replacementPrefix, files, builtin, macros, variables, fields, properties, methods);
+            completionPrefix, files, builtin, macros, variables, fields, properties, methods);
 
         QAbstractItemView* popup = m_qCompleter->popup();
         QAbstractItemModel* model = m_qCompleter->completionModel();
@@ -95,13 +117,19 @@ QtTerminalCompleter::complete(const QString& prefix)
             QRect cr = m_owner->cursorRect();
             cr.setWidth(
                 popup->sizeHintForColumn(0) + popup->verticalScrollBar()->sizeHint().width());
-            cr.setHeight(20);
+            // Anchor height must follow the text line, not an arbitrary constant.
+            int rowHeight = popup->sizeHintForRow(0);
+            if (rowHeight <= 0) {
+                rowHeight = popup->fontMetrics().height();
+            }
+            if (cr.height() <= 0) {
+                cr.setHeight(rowHeight);
+            }
             m_qCompleter->complete(cr);
             m_qCompleter->setCurrentRow(0);
             m_qCompleter->popup()->setCurrentIndex(m_qCompleter->completionModel()->index(0, 0));
             popup->setVisible(true);
         } else {
-            // Nothing to show: ensure popup closed
             if (popup && popup->isVisible()) {
                 popup->close();
             }
@@ -120,9 +148,10 @@ QtTerminalCompleter::updateModel(const std::wstring& prefix, const wstringVector
     const wstringVector& variableList, const wstringVector& fieldList,
     const wstringVector& propertyList, const wstringVector& methodList)
 {
-    if (m_qCompleter != nullptr) {
-        m_qCompleter->setModel(modelFromNelson(
-            filesList, builtinList, macroList, variableList, fieldList, propertyList, methodList));
+    if (m_qCompleter != nullptr && m_model != nullptr) {
+        m_model->clear();
+        populateModel(m_model, filesList, builtinList, macroList, variableList, fieldList,
+            propertyList, methodList);
         m_qCompleter->setCompletionPrefix(wstringToQString(prefix));
     }
 }
@@ -133,30 +162,47 @@ QtTerminalCompleter::modelFromNelson(const wstringVector& filesList,
     const wstringVector& variableList, const wstringVector& fieldList,
     const wstringVector& propertyList, const wstringVector& methodList)
 {
-    QStringList words;
+    auto* model = new QStandardItemModel(m_qCompleter);
+    populateModel(model, filesList, builtinList, macroList, variableList, fieldList, propertyList,
+        methodList);
+    return model;
+}
+//=============================================================================
+void
+QtTerminalCompleter::populateModel(QStandardItemModel* model, const wstringVector& filesList,
+    const wstringVector& builtinList, const wstringVector& macroList,
+    const wstringVector& variableList, const wstringVector& fieldList,
+    const wstringVector& propertyList, const wstringVector& methodList)
+{
+    std::unordered_set<std::wstring> uniqueNames;
 
-    auto appendItemsWithPostfix = [&](const wstringVector& list, const std::wstring& postfix) {
-        for (const auto& k : list) {
-            words.append(
-                wstringToQString(k) + QString(" (") + wstringToQString(postfix) + QString(")"));
-        }
-    };
+    auto appendItemsWithPostfix
+        = [&](const wstringVector& list, const std::wstring& postfix, bool isPath) {
+              for (const auto& k : list) {
+                  if (uniqueNames.insert(k).second) {
+                      const QString rawName = wstringToQString(k);
+                      auto* item = new QStandardItem(
+                          rawName + QString(" (") + wstringToQString(postfix) + QString(")"));
+                      item->setData(rawName, COMPLETION_RAW_NAME_ROLE);
+                      item->setData(isPath, COMPLETION_IS_PATH_ROLE);
+                      item->setEditable(false);
+                      model->appendRow(item);
+                  }
+              }
+          };
 
-    appendItemsWithPostfix(filesList, POSTFIX_FILES);
-    appendItemsWithPostfix(builtinList, POSTFIX_BUILTIN);
-    appendItemsWithPostfix(macroList, POSTFIX_MACRO);
-    appendItemsWithPostfix(variableList, POSTFIX_VARIABLE);
-    appendItemsWithPostfix(fieldList, POSTFIX_FIELD);
-    appendItemsWithPostfix(methodList, POSTFIX_METHOD);
-    appendItemsWithPostfix(propertyList, POSTFIX_PROPERTY);
-    words.sort();
-    return new QStringListModel(words, m_qCompleter);
+    appendItemsWithPostfix(variableList, POSTFIX_VARIABLE, false);
+    appendItemsWithPostfix(fieldList, POSTFIX_FIELD, false);
+    appendItemsWithPostfix(propertyList, POSTFIX_PROPERTY, false);
+    appendItemsWithPostfix(methodList, POSTFIX_METHOD, false);
+    appendItemsWithPostfix(macroList, POSTFIX_MACRO, false);
+    appendItemsWithPostfix(builtinList, POSTFIX_BUILTIN, false);
+    appendItemsWithPostfix(filesList, POSTFIX_FILES, true);
 }
 //=============================================================================
 void
 QtTerminalCompleter::insertCompletion(const QString& completion)
 {
-    // forward to owner implementation
     if (m_owner) {
         m_owner->insertCompletion(completion);
     }

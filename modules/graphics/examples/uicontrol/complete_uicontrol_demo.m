@@ -1,0 +1,103 @@
+%=============================================================================
+% Copyright (c) 2026-present Allan CORNET (Nelson)
+%=============================================================================
+% This file is part of Nelson.
+%=============================================================================
+% LICENCE_BLOCK_BEGIN
+% SPDX-License-Identifier: LGPL-3.0-or-later
+% LICENCE_BLOCK_END
+%=============================================================================
+% Demonstrate the main classic UI controls in one coordinated interface.
+addpath([modulepath('graphics', 'root'), '/examples/uicontrol']);
+
+figureHandle = figure('Name', 'Complete UI controls', 'NumberTitle', 'off', ...
+  'Position', [180 120 920 580], 'Tag', 'completeUiControlFigure');
+axesHandle = axes('Parent', figureHandle, 'Position', [0.38 0.22 0.57 0.70]);
+x = linspace(0, 2 * pi, 240);
+plotHandle = plot(axesHandle, x, sin(x), 'LineWidth', 2);
+xlabel(axesHandle, 'x');
+ylabel(axesHandle, 'signal');
+grid(axesHandle, 'on');
+
+uicontrol('Parent', figureHandle, 'Style', 'text', 'String', 'Amplitude', ...
+  'Position', [18 472 100 22], 'HorizontalAlignment', 'left');
+amplitudeEdit = uicontrol('Parent', figureHandle, 'Style', 'edit', ...
+  'String', '1.0', 'Position', [145 470 110 28], ...
+  'Tag', 'completeUiAmplitude');
+
+uicontrol('Parent', figureHandle, 'Style', 'text', 'String', 'Frequency', ...
+  'Position', [18 425 100 22], 'HorizontalAlignment', 'left');
+frequencySlider = uicontrol('Parent', figureHandle, 'Style', 'slider', ...
+  'Min', 0.5, 'Max', 6, 'Value', 1, 'SliderStep', [0.02 0.10], ...
+  'Position', [18 397 185 25], 'Tag', 'completeUiFrequency');
+frequencyText = uicontrol('Parent', figureHandle, 'Style', 'text', ...
+  'String', '1.00', 'Position', [210 397 50 24]);
+
+uicontrol('Parent', figureHandle, 'Style', 'text', 'String', 'Phase', ...
+  'Position', [18 360 100 22], 'HorizontalAlignment', 'left');
+phaseMenu = uicontrol('Parent', figureHandle, 'Style', 'popupmenu', ...
+  'String', {'0'; 'pi / 4'; 'pi / 2'; 'pi'}, 'Value', 1, ...
+  'Position', [145 357 110 28], 'Tag', 'completeUiPhase');
+
+gridCheckbox = uicontrol('Parent', figureHandle, 'Style', 'checkbox', ...
+  'String', 'Show grid', 'Value', 1, 'Position', [18 315 115 26], ...
+  'Tag', 'completeUiGrid');
+markerCheckbox = uicontrol('Parent', figureHandle, 'Style', 'checkbox', ...
+  'String', 'Show markers', 'Value', 0, 'Position', [145 315 120 26], ...
+  'Tag', 'completeUiMarkers');
+
+uicontrol('Parent', figureHandle, 'Style', 'text', 'String', 'Waveform', ...
+  'Position', [18 278 100 22], 'HorizontalAlignment', 'left');
+sineRadio = uicontrol('Parent', figureHandle, 'Style', 'radiobutton', ...
+  'String', 'Sine', 'Value', 1, 'Position', [18 250 105 26], ...
+  'Tag', 'completeUiSine');
+cosineRadio = uicontrol('Parent', figureHandle, 'Style', 'radiobutton', ...
+  'String', 'Cosine', 'Value', 0, 'Position', [145 250 110 26], ...
+  'Tag', 'completeUiCosine');
+
+uicontrol('Parent', figureHandle, 'Style', 'text', 'String', 'Line color', ...
+  'Position', [18 215 100 22], 'HorizontalAlignment', 'left');
+colorList = uicontrol('Parent', figureHandle, 'Style', 'listbox', ...
+  'String', {'Blue'; 'Red'; 'Green'; 'Purple'}, 'Value', 1, ...
+  'Position', [18 130 237 82], 'Tag', 'completeUiColor');
+
+thickToggle = uicontrol('Parent', figureHandle, 'Style', 'togglebutton', ...
+  'String', 'Thick line', 'Value', 0, 'Position', [18 88 110 30], ...
+  'Tag', 'completeUiThick');
+resetButton = uicontrol('Parent', figureHandle, 'Style', 'pushbutton', ...
+  'String', 'Reset', 'Position', [145 88 110 30], ...
+  'Tag', 'completeUiReset');
+statusText = uicontrol('Parent', figureHandle, 'Style', 'text', ...
+  'String', 'Ready', 'Position', [345 35 520 32], ...
+  'HorizontalAlignment', 'left', 'Tag', 'completeUiStatus');
+
+state = struct();
+state.axes = axesHandle;
+state.plot = plotHandle;
+state.x = x;
+state.amplitudeEdit = amplitudeEdit;
+state.frequencySlider = frequencySlider;
+state.frequencyText = frequencyText;
+state.phaseMenu = phaseMenu;
+state.gridCheckbox = gridCheckbox;
+state.markerCheckbox = markerCheckbox;
+state.sineRadio = sineRadio;
+state.cosineRadio = cosineRadio;
+state.colorList = colorList;
+state.thickToggle = thickToggle;
+state.resetButton = resetButton;
+state.statusText = statusText;
+state.colors = [0.10 0.35 0.85; 0.85 0.20 0.20; ...
+  0.15 0.65 0.30; 0.55 0.25 0.75];
+figureHandle.UserData = state;
+figureHandle.SizeChangedFcn = @completeUiControlLayout;
+completeUiControlLayout(figureHandle, []);
+
+controls = [amplitudeEdit frequencySlider phaseMenu gridCheckbox ...
+  markerCheckbox sineRadio cosineRadio colorList thickToggle];
+for controlIndex = 1:numel(controls)
+  controls(controlIndex).Callback = @completeUiControlUpdate;
+end
+resetButton.Callback = @completeUiControlReset;
+completeUiControlUpdate(amplitudeEdit, []);
+%=============================================================================

@@ -9,8 +9,8 @@
 %=============================================================================
 % http://slicot.org/objects/software/shared/doc/SB03MD.html
 % [U_OUT, C_OUT, SCALE, SEP, FERR, WR, WI, INFO] = slicot_sb03md(DICO, JOB, FACT, TRANA, A, U_IN, C_IN)
-assert_isequal(nargin('slicot_sb03md'), 7);
-assert_isequal(nargout('slicot_sb03md'), 8);
+asserts.isequal(nargin('slicot_sb03md'), 7);
+asserts.isequal(nargout('slicot_sb03md'), 8);
 %=============================================================================
 N = 3;
 DICO = 'D';
@@ -18,43 +18,43 @@ FACT = 'N';
 JOB = 'X';
 TRANA = 'N';
 
-A = [3.0   1.0   1.0;
-1.0   3.0   0.0;
-0.0   0.0   3.0];
+A = [3.0 1.0 1.0;
+  1.0 3.0 0.0;
+  0.0 0.0 3.0];
 
 U_IN = zeros(N, N);
 
-C_IN = [25.0  24.0  15.0;
-24.0  32.0   8.0;
-15.0   8.0  40.0];
+C_IN = [25.0 24.0 15.0;
+  24.0 32.0 8.0;
+  15.0 8.0 40.0];
 
 [U_OUT, C_OUT, SCALE, SEP, FERR, WR, WI, INFO] = slicot_sb03md(DICO, JOB, FACT, TRANA, A, U_IN, C_IN);
 %=============================================================================
-U_OUT_REF = [0.7071     -0.7071      0.0000;
-0.7071      0.7071      0.0000;
-0.0000      0.0000      1.0000];
-assert_isapprox(U_OUT, U_OUT_REF, 1e-4);
+U_OUT_REF = [0.7071 -0.7071 0.0000;
+  0.7071 0.7071 0.0000;
+  0.0000 0.0000 1.0000];
+asserts.isapprox(U_OUT, U_OUT_REF, 1e-4);
 %=============================================================================
-C_OUT_REF = [2.0000      1.0000      1.0000;
-1.0000      3.0000     -0.0000;
-1.0000     -0.0000      4.0000];
-assert_isapprox(C_OUT, C_OUT_REF, 1e-4);
+C_OUT_REF = [2.0000 1.0000 1.0000;
+  1.0000 3.0000 -0.0000;
+  1.0000 -0.0000 4.0000];
+asserts.isapprox(C_OUT, C_OUT_REF, 1e-4);
 %=============================================================================
 SCALE_REF = 1;
-assert_isequal(SCALE, SCALE_REF);
+asserts.isequal(SCALE, SCALE_REF);
 %=============================================================================
 SEP_REF = 0;
-assert_isequal(SEP, SEP_REF);
+asserts.isequal(SEP, SEP_REF);
 %=============================================================================
 FERR_REF = 0;
-assert_isequal(FERR, FERR_REF);
+asserts.isequal(FERR, FERR_REF);
 %=============================================================================
-WR_REF = [4     2     3];
-assert_isequal(WR, WR_REF);
+WR_REF = [4 2 3];
+asserts.isequal(WR, WR_REF);
 %=============================================================================
-WI_REF = [0     0     0];
-assert_isequal(WI, WI_REF);
+WI_REF = [0 0 0];
+asserts.isequal(WI, WI_REF);
 %=============================================================================
 INFO_REF = int32(0);
-assert_isequal(INFO, INFO_REF);
+asserts.isequal(INFO, INFO_REF);
 %=============================================================================

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>optim.problemdef.OptimizationExpression</keyword>
+  <short_description>Optimization expression.</short_description>
+  <syntax>
+    <syntax_item>expr = optimexpr(...)</syntax_item>
+    <syntax_item>expr = fcn2optimexpr(f, ...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>value</param_name>
+      <param_description>numeric value, optimization variable, or expression used to create an expression.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>dimensions</param_name>
+      <param_description>dimensions used to create an array of zero expressions.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>expr</param_name>
+      <param_description>optimization expression object.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>optim.problemdef.OptimizationExpression represents arithmetic expressions built from optimization variables.</p>
+    <p>Expressions can be used as objectives or as parts of constraints in a problem-based model.</p>
+  </description>
+  <used_function>
+    <used_function_item>optimexpr</used_function_item>
+    <used_function_item>optimvar</used_function_item>
+  </used_function>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Create a scalar expression from optimization variables.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[x = optimvar('x', 2, 1);
+expr = (x(1) - 1)^2 + (x(2) - 2)^2]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${optimization}optimexpr">optimexpr</link></see_also_item>
+    <see_also_item><link linkend="${optimization}fcn2optimexpr">fcn2optimexpr</link></see_also_item>
+    <see_also_item><link linkend="${optimization}optimvar">optimvar</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

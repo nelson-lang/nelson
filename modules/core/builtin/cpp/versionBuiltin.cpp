@@ -9,6 +9,7 @@
 //=============================================================================
 #include "versionBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "Nelson_VERSION.h"
@@ -27,34 +28,34 @@ Nelson::CoreGateway::versionBuiltin(int nLhs, const ArrayOfVector& argIn)
         version.append(" (");
         version.append(NELSON_RELEASE_NAME);
         version.append(")");
-        retval << ArrayOf::characterArrayConstructor(version);
+        retval << ArrayOf::characterArray(version);
         if (nLhs > 1) {
-            retval << ArrayOf::characterArrayConstructor(__DATE__);
+            retval << ArrayOf::characterArray(__DATE__);
         }
     } else if (argIn.size() == 1) {
         nargoutcheck(nLhs, 0, 1);
         std::wstring option;
         if (argIn[0].isRowVectorCharacterArray()) {
-            option = argIn[0].getContentAsWideString();
+            option = argIn[0].asWideString();
         } else {
-            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1),
+                L"string");
         }
         if (option == L"-semantic") {
-            retval << ArrayOf::characterArrayConstructor(NELSON_SEMANTIC_VERSION_STRING);
+            retval << ArrayOf::characterArray(NELSON_SEMANTIC_VERSION_STRING);
         } else if (option == L"-date") {
-            retval << ArrayOf::characterArrayConstructor(
-                std::string(__DATE__) + " " + std::string(__TIME__));
+            retval << ArrayOf::characterArray(std::string(__DATE__) + " " + std::string(__TIME__));
         } else if (option == L"-description") {
-            retval << ArrayOf::characterArrayConstructor(L"");
+            retval << ArrayOf::characterArray(L"");
         } else if (option == L"-release") {
-            retval << ArrayOf::characterArrayConstructor(NELSON_RELEASE_NAME);
+            retval << ArrayOf::characterArray(NELSON_RELEASE_NAME);
         } else if (option == L"-compiler") {
-            retval << ArrayOf::toCellArrayOfCharacterRowVectors(VersionCompilerFlags());
+            retval << ArrayOf::cellArrayFromArrayOfCharacterRowVectors(VersionCompilerFlags());
         } else if (option == L"-commit_hash") {
-            retval << ArrayOf::characterArrayConstructor(NELSON_VERSION_COMMIT_HASH);
+            retval << ArrayOf::characterArray(NELSON_VERSION_COMMIT_HASH);
         } else if (option == L"-number") {
-            ArrayOf vectRes = ArrayOf::doubleRowVectorConstructor(4);
-            auto* vectAsDouble = static_cast<double*>(vectRes.getReadWriteDataPointer());
+            ArrayOf vectRes = ArrayOf::doubleRowVector(4);
+            auto* vectAsDouble = static_cast<double*>(vectRes.readWriteDataPointer());
             if (vectAsDouble != nullptr) {
                 vectAsDouble[0] = NELSON_VERSION_MAJOR;
                 vectAsDouble[1] = NELSON_VERSION_MINOR;
@@ -63,10 +64,10 @@ Nelson::CoreGateway::versionBuiltin(int nLhs, const ArrayOfVector& argIn)
             }
             retval << vectRes;
         } else {
-            Error(_W("Unknow option."));
+            Error(L"Nelson:version:invalidOption", L"Unknown option.");
         }
     } else {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(L"Nelson:tooManyInputs", L"Too many input arguments.");
     }
     return retval;
 }

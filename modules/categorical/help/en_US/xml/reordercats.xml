@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>reordercats</keyword>
+  <short_description>Reorder categories in a categorical array.</short_description>
+  <syntax>
+    <syntax_item>B = reordercats(A)</syntax_item>
+    <syntax_item>B = reordercats(A, newOrder)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>Input categorical array.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>newOrder</param_name>
+      <param_description>New category order, specified by category names or numeric positions.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>B</param_name>
+      <param_description>Categorical array with the same displayed values as <b>A</b> and a reordered category list.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>reordercats</b> changes the order of categories. If <b>newOrder</b> is omitted, categories are sorted by name.</p>
+    <p>For ordinal arrays, the new category order changes relational comparisons and sorting order.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Specify a new order.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = categorical({'red','blue'}, {'red','blue'}); B = reordercats(A, {'blue','red'}); categories(B)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Sort categories by name.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = categorical({'plane','car','train'}); B = reordercats(A); categories(B)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${categorical}categories">categories</link></see_also_item>
+    <see_also_item><link linkend="${categorical}renamecats">renamecats</link></see_also_item>
+    <see_also_item><link linkend="${categorical}isordinal">isordinal</link></see_also_item>
+    <see_also_item><link linkend="${data_analysis}sort">sort</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

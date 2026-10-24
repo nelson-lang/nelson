@@ -15,5 +15,6 @@
 namespace Nelson {
 NLSJSON_IMPEXP ArrayOf
 jsonEncode(const ArrayOf& ValueToEncode, bool convertNanInf, std::wstring& errorMessage);
-};
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

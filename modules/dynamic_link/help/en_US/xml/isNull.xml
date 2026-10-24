@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>isNull</keyword>
+  <short_description>Determine whether a library pointer is null.</short_description>
+  <syntax>
+    <syntax_item>tf = isNull(ptr)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>ptr</param_name>
+      <param_description>libpointer handle or object that implements null-pointer testing.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>tf</param_name>
+      <param_description>logical value: true when the pointer address is null.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>isNull returns a logical value indicating whether a dynamic-link pointer object represents a null address.</p>
+    <p>The function is intended for pointer objects returned by the dynamic link module.</p>
+  </description>
+  <used_function>
+    <used_function_item>libpointer</used_function_item>
+  </used_function>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Create a null pointer and test it.</example_item_description>
+      <example_item_data><![CDATA[p = libpointer();
+tf = isNull(p)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${dynamic_link}libpointer">libpointer</link></see_also_item>
+    <see_also_item><link linkend="${dynamic_link}dlopen">dlopen</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

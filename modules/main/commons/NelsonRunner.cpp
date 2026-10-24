@@ -16,10 +16,24 @@
 #include "StartNelson.h"
 #endif
 #include "NelsonRunner.h"
+#ifdef NELSON_PORTABLE_CLI
+#include "PortableRunner.hpp"
+#endif
 //=============================================================================
 int
 runNelson(int argc, char* argv[], NELSON_ENGINE_MODE mode)
 {
+#ifdef NELSON_PORTABLE_CLI
+#ifdef _MSC_VER
+    int argCount = 0;
+    LPWSTR* argumentList = CommandLineToArgvW(GetCommandLineW(), &argCount);
+    const int status = runPortableNelson(argCount, argumentList);
+    LocalFree(argumentList);
+    return status;
+#else
+    return runPortableNelson(argc, argv);
+#endif
+#else
 #ifdef _MSC_VER
     int argCount = 0;
     LPWSTR* szArgList = CommandLineToArgvW(GetCommandLineW(), &argCount);
@@ -34,5 +48,6 @@ runNelson(int argc, char* argv[], NELSON_ENGINE_MODE mode)
     int ierr = StartNelsonA(argc, argv, mode);
 #endif
     return ierr;
+#endif
 }
 //=============================================================================

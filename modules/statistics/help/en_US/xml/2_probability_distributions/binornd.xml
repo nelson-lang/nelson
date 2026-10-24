@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>binornd</keyword>
+  <short_description>Binomial random numbers</short_description>
+  <syntax>
+    <syntax_item>r = binornd(n, p)</syntax_item>
+    <syntax_item>r = binornd(n, p, sz)</syntax_item>
+    <syntax_item>r = binornd(n, p, sz1, ..., szN)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>n</param_name><param_description>nonnegative integer scalar or array: number of trials.</param_description></param_input_item>
+    <param_input_item><param_name>p</param_name><param_description>scalar or array in the range [0, 1]: event probability.</param_description></param_input_item>
+    <param_input_item><param_name>sz</param_name><param_description>scalar, vector, or comma-separated dimensions: output size.</param_description></param_input_item>
+  </param_input>
+  <param_output><param_output_item><param_name>r</param_name><param_description>array: random values.</param_description></param_output_item></param_output>
+  <description><p><b>binornd</b> generates binomial distributed random values. Scalar parameters are expanded to match array inputs or the requested output size.</p></description>
+  <examples><example_item><example_item_type>nelson</example_item_type><example_item_description /><example_item_data runnable="cli"><![CDATA[rng(0);
+r = binornd(10, 0.3, 2, 3);]]></example_item_data></example_item></examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}binopdf">binopdf</link></see_also_item>
+    <see_also_item><link linkend="${statistics}binocdf">binocdf</link></see_also_item>
+    <see_also_item><link linkend="${statistics}binoinv">binoinv</link></see_also_item>
+    <see_also_item><link linkend="${statistics}binostat">binostat</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>2.0.0</history_version><history_description>initial version</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

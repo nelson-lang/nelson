@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>subtitle</keyword>
+  <short_description>Add subtitle.</short_description>
+  <syntax>
+    <syntax_item>subtitle(text)</syntax_item>
+    <syntax_item>subtitle(target, text)</syntax_item>
+    <syntax_item>subtitle(..., propertyName, propertyValue)</syntax_item>
+    <syntax_item>go = subtitle(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>text</param_name>
+      <param_description>Text to display: character vector, string scalar, string array, or cell array of character vectors.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>target</param_name>
+      <param_description>An axes or tiled layout graphics object, or an array of objects of the same supported class.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName</param_name>
+      <param_description>Subtitle object property name.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyValue</param_name>
+      <param_description>Subtitle object property value.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>go</param_name>
+      <param_description>A subtitle graphics object, or an array of subtitle graphics objects.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>subtitle</b> adds the subtitle to the current axes or to the specified target.</p>
+    <p>When the target already has a subtitle text object, <b>subtitle</b> updates and returns that object.</p>
+    <p>For axes targets, the subtitle text uses data units and follows the axes title horizontal alignment.</p>
+    <p>For tiled layout targets, the returned object exposes the tiled layout text properties.</p>
+    <p>String arrays and cell arrays of character vectors are stored as multiple subtitle lines.</p>
+    <p>Property name and value pairs are applied to the subtitle object.</p>
+    <p>The <b>Visible</b> property is inherited from the parent axes when a new subtitle text object is created.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Add a subtitle to a plot.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = figure();
+plot([0 2], [1 5]);
+title('Straight Line');
+subtitle('Slope = 2, y-Intercept = 1');]]></example_item_data>
+      <example_item_img src="../../../images/subtitle.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Set subtitle properties.</example_item_description>
+      <example_item_data runnable="adv-cli"><![CDATA[f = figure();
+plot([0 2], [1 5]);
+title('Straight Line');
+subtitle('Slope = 2, y-Intercept = 1', 'Color', 'red');]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}3_labels_styling/4_labels_annotations/title">title</link></see_also_item>
+    <see_also_item><link linkend="${graphics}3_labels_styling/4_labels_annotations/text">text</link></see_also_item>
+    <see_also_item><link linkend="${graphics}2_graphics_objects/2_layout_objects/tiledlayout">tiledlayout</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

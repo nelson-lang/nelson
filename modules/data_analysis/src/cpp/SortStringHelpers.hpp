@@ -18,5 +18,5 @@ sortString(const ArrayOf& arrayIn, bool withIndex, indexType linesize, indexType
     indexType planesize, Dimensions& outDim, indexType dim, MISSING_PLACEMENT placement,
     bool ascend);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

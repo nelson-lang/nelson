@@ -11,7 +11,7 @@ If you consistently encounter a test failure, check the [Nelson issue tracker](h
 To compile Nelson, you will need:
 
 - **C++17-compatible compiler**
-- **Qt 5.15 or later** (required for the GUI and various components)
+- **Qt 6.2 or later** (required for the GUI and various components)
 
 Platform-specific build instructions are available here:
 
@@ -40,7 +40,7 @@ Make sure **[Rust](https://rust-lang.org/)** is installed on your system before 
 
 ## 🔒 Code Quality, Security, and Maintainability
 
-To ensure high code quality, security, and maintainability, Nelson leverages the following tools:
+To ensure code quality, security, and maintainability, Nelson uses the following tools:
 
 ### ✅ **Static Code Analysis**
 
@@ -57,7 +57,7 @@ To ensure high code quality, security, and maintainability, Nelson leverages the
 ### 🔄 **Continuous Integration (CI)**
 
 - **[GitHub Actions](https://github.com/features/actions)** – Automates build and test pipelines to detect issues early.
-- **[Automated Test Suite](https://github.com/nelson-lang/nelson/actions)** – Runs extensive tests on every commit and pull request.
+- **[Automated Test Suite](https://github.com/nelson-lang/nelson/actions)** – Runs broad test coverage on every commit and pull request.
 
 ### 🔒 **Security Best Practices**
 

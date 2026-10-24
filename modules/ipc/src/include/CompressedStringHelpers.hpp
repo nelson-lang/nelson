@@ -24,5 +24,5 @@ NLSIPC_IMPEXP
 std::string
 ArrayOfToCompressedString(const ArrayOf& data, bool& fullySerialized);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

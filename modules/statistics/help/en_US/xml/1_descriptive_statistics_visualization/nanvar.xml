@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nanvar</keyword>
+  <short_description>Variance, ignoring NaN values.</short_description>
+  <syntax>
+    <syntax_item>v = nanvar(X)</syntax_item>
+    <syntax_item>v = nanvar(X, w)</syntax_item>
+    <syntax_item>v = nanvar(X, w, dim)</syntax_item>
+    <syntax_item>v = nanvar(X, w, vecdim)</syntax_item>
+    <syntax_item>v = nanvar(X, w, 'all')</syntax_item>
+  </syntax>
+  <description>
+    <p><b>nanvar</b> computes the variance after removing <b>NaN</b> values from each operated slice.</p>
+    <p><b>w</b> can be <b>0</b>, <b>1</b>, empty for the default behavior, or a nonnegative vector of weights for a scalar operating dimension.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[X = magic(3);
+X([1 6:9]) = NaN;
+v = nanvar(X)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}var">var</link></see_also_item>
+    <see_also_item><link linkend="${statistics}nanmean">nanmean</link></see_also_item>
+    <see_also_item><link linkend="${statistics}nanmedian">nanmedian</link></see_also_item>
+    <see_also_item><link linkend="${statistics}nanstd">nanstd</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>stlwrite</keyword>
+  <short_description>Create STL file from triangulation</short_description>
+  <syntax>
+    <syntax_item>stlwrite(TR, filename)</syntax_item>
+    <syntax_item>stlwrite(TR, filename, fileformat)</syntax_item>
+    <syntax_item>stlwrite(TR, filename, ..., Name, Value)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>stlwrite</b> writes a <b>triangulation</b> object to a binary STL file by default.</p>
+    <p><b>fileformat</b> can be <b>'binary'</b> or <b>'text'</b>. Use <b>'Attribute'</b> with binary files to write one <b>uint16</b> value per triangle. Use <b>'SolidIndex'</b> with text files to group triangles into solid sections.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Write a text STL file.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[P = [0 0; 1 0; 0 1];
+T = [1 2 3];
+TR = triangulation(T, P);
+filename = [tempdir(), 'simple_text.stl'];
+stlwrite(TR, filename, 'text')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${geometry}stlread">stlread</link></see_also_item>
+    <see_also_item><link linkend="${geometry}triangulation">triangulation</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item><history_version>2.0.0</history_version><history_description>Initial version.</history_description></history_item>
+  </history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

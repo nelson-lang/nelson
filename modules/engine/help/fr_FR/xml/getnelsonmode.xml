@@ -26,11 +26,11 @@
     <p>
       <b>ADVANCED_TERMINAL</b> : Nelson lancé en terminal avec graphisme/GUI.</p>
     <p>
-      <b>BASIC_SIO_CLIENT</b> : Nelson lancé comme client socket IO.</p>
-    <p>
-      <b>ADVANCED_SIO_CLIENT</b> : Nelson lancé comme client socket IO avec graphisme/GUI.</p>
-    <p>
       <b>GUI</b> : Nelson lancé comme application graphique (par défaut).</p>
+    <p>
+      <b>WEB_GUI</b> : Nelson lancé comme application web.</p>
+    <p>
+      <b>WASM_TERMINAL</b> : Nelson exécuté dans un worker WebAssembly avec une interface de bureau dans le navigateur. L&apos;évaluateur reste un terminal portable et utilise un traitement coopératif des événements.</p>
   </description>
   <used_function />
   <bibliography />

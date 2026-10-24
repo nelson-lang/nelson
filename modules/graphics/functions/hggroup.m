@@ -11,14 +11,14 @@ function varargout = hggroup(varargin)
   narginchk(0, 1000);
   nargoutchk(0, 1);
   inputArguments = convertStringToCharArgs(varargin);
-  
+
   if (length(inputArguments) > 0)
     if isgraphics(inputArguments{1})
       if (isgraphics(inputArguments{1}, 'axes') || isgraphics(inputArguments{1}, 'hggroup'))
         ax = inputArguments{1};
         inputArguments = inputArguments(2:end);
       else
-        error(_('Group can be only a child of axes or hggroup.'));
+        error('Nelson:hggroup:groupCanBeOnly', 'Group can be only a child of axes or hggroup.');
       end
     else
       ax = gca();
@@ -26,16 +26,16 @@ function varargout = hggroup(varargin)
   else
     ax = gca();
   end
-  
+
   inputAsStruct = struct(inputArguments{:});
   if isfield(inputAsStruct, 'Parent')
     ax = inputAsStruct.Parent;
     rmfield(inputAsStruct, 'Parent');
   end
   inputArguments = reshape([fieldnames(inputAsStruct)'; struct2cell(inputAsStruct)'], 1, []);
-  
+
   h = __hggroup__('Parent', ax, inputArguments{:});
-  
+
   if nargout > 0
     varargout{1} = h;
   end

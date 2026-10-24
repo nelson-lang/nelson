@@ -8,14 +8,15 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #pragma once
-//===================================================================================
+//=============================================================================
 #if _MSC_VER
 #pragma warning(disable : 4190)
 #endif
 //=============================================================================
 #include "NelSon_engine_mode.h"
 #include "nlsGui_exports.h"
-//===================================================================================
+#include <string>
+//=============================================================================
 extern "C"
 {
     NLSGUI_IMPEXP void
@@ -30,13 +31,14 @@ extern "C"
     QtMessageVerbose(bool bVerbose);
     NLSGUI_IMPEXP bool
     IsQtMessageVerbose();
-    NLSGUI_IMPEXP bool
-    QtSetLookAndFeel(const std::wstring& lf);
-    NLSGUI_IMPEXP std::wstring
-    QtGetLookAndFeel();
-    NLSGUI_IMPEXP std::wstring
-    QtGetStyleSheet();
-    NLSGUI_IMPEXP void
-    QtSetStyleSheet(const std::wstring& styleSheet);
 };
-//===================================================================================
+//=============================================================================
+NLSGUI_IMPEXP bool
+QtSetLookAndFeel(const std::wstring& lf);
+NLSGUI_IMPEXP std::wstring
+QtGetLookAndFeel();
+NLSGUI_IMPEXP std::wstring
+QtGetStyleSheet();
+NLSGUI_IMPEXP void
+QtSetStyleSheet(const std::wstring& styleSheet);
+//=============================================================================

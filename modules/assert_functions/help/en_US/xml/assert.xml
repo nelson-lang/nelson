@@ -3,114 +3,47 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>en_US</language>
   <keyword>assert</keyword>
-  <short_description>Check that condition is true.</short_description>
+  <short_description>Check that a condition is true.</short_description>
   <syntax>
-    <syntax_item>assert(x)</syntax_item>
-    <syntax_item>r = assert(x)</syntax_item>
-    <syntax_item>[r, msg] = assert(x)</syntax_item>
-    <syntax_item>assert(x, err_msg)</syntax_item>
-    <syntax_item>r = assert(x, err_msg)</syntax_item>
-    <syntax_item>[r, msg] = assert(x, err_msg)</syntax_item>
+    <syntax_item>assert(condition)</syntax_item>
+    <syntax_item>assert(condition, message)</syntax_item>
+    <syntax_item>assert(condition, message, value)</syntax_item>
+    <syntax_item>assert(condition, identifier, message)</syntax_item>
+    <syntax_item>assert(condition, identifier, message, value)</syntax_item>
+    <syntax_item>[res, msg] = assert(...)</syntax_item>
   </syntax>
   <param_input>
-    <param_input_item>
-      <param_name>x</param_name>
-      <param_description
-      >a logical value to be tested for truthfulness.</param_description>
-    </param_input_item>
-    <param_input_item>
-      <param_name>err_msg</param_name>
-      <param_description
-      >a string containing the custom error message to display in case of assertion failure (optional).</param_description>
-    </param_input_item>
+    <param_input_item><param_name>condition</param_name><param_description>Logical or real numeric scalar or array to test. Every entry must be nonzero.</param_description></param_input_item>
+    <param_input_item><param_name>message</param_name><param_description>Optional custom failure message. Format replacements are supported with following values.</param_description></param_input_item>
+    <param_input_item><param_name>identifier</param_name><param_description>Optional error identifier used when the assertion raises an error.</param_description></param_input_item>
+    <param_input_item><param_name>value</param_name><param_description>Optional value inserted in the message format.</param_description></param_input_item>
   </param_input>
   <param_output>
-    <param_output_item>
-      <param_name>r</param_name>
-      <param_description
-      >a logical value: true if the assertion passes, false otherwise.</param_description>
-    </param_output_item>
-    <param_output_item>
-      <param_name>msg</param_name>
-      <param_description
-      >a string containing the error message. If x == true, then msg == &apos;
-        &apos;. If x == false, then msg contains the assertion failure message.</param_description>
-    </param_output_item>
+    <param_output_item><param_name>res</param_name><param_description>true if the assertion passes, false otherwise.</param_description></param_output_item>
+    <param_output_item><param_name>msg</param_name><param_description>Assertion failure message, empty on success.</param_description></param_output_item>
   </param_output>
   <description>
-    <p>
-      <b>assert</b> raises an error if the input value is false.</p>
-    <p
-    >This function also raises an error if the input is not a logical value, ensuring type safety.</p>
-    <p>When the optional <b>err_msg</b> parameter is provided, it will be used as the error message instead of the default message when the assertion fails.</p>
-    <p
-    >This is the fundamental assertion function that forms the basis for testing conditions in programs and unit tests.</p>
+    <p><b>assert</b> raises an error when condition is false and no output is requested.</p>
+    <p>With outputs, assertion failures are returned as <b>res</b> and <b>msg</b> instead of being raised.</p>
+    <p>Use the <b>asserts</b> package for qualified assertion helpers, for example <b>asserts.isequal(...)</b>.</p>
   </description>
   <used_function />
   <bibliography />
   <examples>
-    <example_item>
-      <example_item_type>nelson</example_item_type>
-      <example_item_description>Test assertion failure with custom error message:</example_item_description>
-      <example_item_data
-        runnable="cli"
-      ><![CDATA[try
-    assert(4 == 3, _('error for comparison.'))
-catch ME
-    disp(['Error: ' ME.message])
-end]]></example_item_data>
-    </example_item>
-    <example_item>
-      <example_item_type>nelson</example_item_type>
-      <example_item_description>Test successful assertion:</example_item_description>
-      <example_item_data
-        runnable="cli"
-      ><![CDATA[assert(5 > 3);
-disp('Assertion passed: 5 is greater than 3')]]></example_item_data>
-    </example_item>
-    <example_item>
-      <example_item_type>nelson</example_item_type>
-      <example_item_description>Using return values to handle assertion results:</example_item_description>
-      <example_item_data
-        runnable="cli"
-      ><![CDATA[[r, msg] = assert(false, 'This condition is false');
-if ~r
-    disp(['Assertion failed: ' msg])
-end]]></example_item_data>
-    </example_item>
-    <example_item>
-      <example_item_type>nelson</example_item_type>
-      <example_item_description>Basic assertion without custom message:</example_item_description>
-      <example_item_data
-        runnable="cli"
-      ><![CDATA[x = 10;
-assert(x > 0)  % Will pass
-assert(x < 0)  % Will fail with default message]]></example_item_data>
-    </example_item>
+    <example_item><example_item_type>nelson</example_item_type><example_item_description>Passing condition</example_item_description><example_item_data runnable="cli"><![CDATA[assert(5 > 3);]]></example_item_data></example_item>
+    <example_item><example_item_type>nelson</example_item_type><example_item_description>Custom message</example_item_description><example_item_data runnable="cli"><![CDATA[[res, msg] = assert(false, 'condition failed');]]></example_item_data></example_item>
+    <example_item><example_item_type>nelson</example_item_type><example_item_description>Formatted message</example_item_description><example_item_data runnable="cli"><![CDATA[[res, msg] = assert(false, 'value %.2f', 1.234);]]></example_item_data></example_item>
+    <example_item><example_item_type>nelson</example_item_type><example_item_description>Error identifier</example_item_description><example_item_data runnable="cli"><![CDATA[[res, msg] = assert(false, 'Nelson:asserts:example', 'condition failed');]]></example_item_data></example_item>
   </examples>
   <see_also>
-    <see_also_item>
-      <link linkend="${assert_functions}assert_istrue">assert_istrue</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${assert_functions}assert_isfalse">assert_isfalse</link>
-    </see_also_item>
-    <see_also_item>
-      <link linkend="${assert_functions}assert_isequal">assert_isequal</link>
-    </see_also_item>
-    <see_also_item>
-      <link
-        linkend="${assert_functions}assert_checkerror"
-      >assert_checkerror</link>
-    </see_also_item>
+    <see_also_item><link linkend="${assert_functions}asserts.istrue">asserts.istrue</link></see_also_item>
+    <see_also_item><link linkend="${assert_functions}asserts.isfalse">asserts.isfalse</link></see_also_item>
+    <see_also_item><link linkend="${assert_functions}asserts.isequal">asserts.isequal</link></see_also_item>
+    <see_also_item><link linkend="${assert_functions}asserts.isapprox">asserts.isapprox</link></see_also_item>
   </see_also>
   <history>
-    <history_item>
-      <history_version>1.0.0</history_version>
-      <history_description>initial version</history_description>
-    </history_item>
+    <history_item><history_version>1.0.0</history_version><history_description>initial version</history_description></history_item>
+    <history_item><history_version>2.0.0</history_version><history_description>added formatted messages, error identifiers and output mode</history_description></history_item>
   </history>
-  <authors>
-    <author_item>Allan CORNET</author_item>
-  </authors>
+  <authors><author_item>Allan CORNET</author_item></authors>
 </xmldoc>

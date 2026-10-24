@@ -21,5 +21,5 @@ JuliaRunFile(Interface* io, bool haveEventsLoop, const std::wstring& filename,
     const wstringVector& arguments, const wstringVector& outputs, const wstringVector& names,
     const ArrayOfVector& values);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

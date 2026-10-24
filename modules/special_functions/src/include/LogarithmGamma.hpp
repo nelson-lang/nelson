@@ -17,5 +17,5 @@ namespace Nelson {
 NLSSPECIAL_FUNCTIONS_IMPEXP ArrayOf
 LogarithmGamma(const ArrayOf& arrayIn);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "file": "run_parallel_sum.m",
+      "title": "Parallel reduction with MPI",
+      "description": "Launch four local workers and combine their partial sums.",
+      "tags": [
+        "parallel",
+        "reduction"
+      ],
+      "requirements": [
+        "mpi"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "file": "html_viewer.m",
+      "title": "Open an HTML viewer",
+      "description": "Display a self-contained HTML page in a dedicated viewer window.",
+      "tags": [
+        "webview",
+        "html"
+      ],
+      "requirements": [
+        "gui"
+      ]
+    }
+  ]
+}

@@ -91,6 +91,10 @@ public:
     set_cursor_visible(bool);
     bool
     is_at_beginning_of_the_line(void);
+#ifdef _WIN32
+    int
+    read_pending_characters(UnicodeString&);
+#endif
 #ifndef _WIN32
     int
     read_verbatim(char32_t*, int);

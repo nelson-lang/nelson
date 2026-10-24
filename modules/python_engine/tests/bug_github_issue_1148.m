@@ -14,7 +14,7 @@
 %=============================================================================
 % <--PYTHON ENVIRONMENT REQUIRED-->
 %=============================================================================
-R = pyrun('print(A)','A','A',string(NaN));
-assert_isequal(class(R), 'py.NoneType')
-assert_isequal(R.char, 'None')
+R = pyrun('print(A)', 'A', 'A', string(NaN));
+asserts.isequal(class(R), 'py.NoneType')
+asserts.isequal(R.char, 'None')
 %=============================================================================

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -18,34 +18,45 @@
 #include "h5SaveHandle.hpp"
 #include "h5SaveFunctionHandle.hpp"
 #include "h5SaveMissing.hpp"
+#include "ClassdefSerialization.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 bool
-h5SaveVariable(hid_t fid, const std::string& location, const std::string& variableName,
-    const ArrayOf& VariableValue, bool useCompression)
+h5SaveVariable(Evaluator* eval, hid_t fid, const std::string& location,
+    const std::string& variableName, const ArrayOf& VariableValue, bool useCompression)
 {
     bool bSuccess = false;
-    switch (VariableValue.getDataClass()) {
+    ArrayOf savedObject;
+    if (classdefPrepareSaveObject(eval, VariableValue, savedObject)) {
+        return h5SaveStruct(eval, fid, location, variableName, savedObject, useCompression);
+    }
+    if (classdefPreparePersistentObject(VariableValue, savedObject)) {
+        return h5SaveStruct(eval, fid, location, variableName, savedObject, useCompression);
+    }
+    switch (VariableValue.dataClass()) {
     case NLS_GO_HANDLE: {
         bSuccess = false;
     } break;
 
     case NLS_HANDLE: {
-        bSuccess = h5SaveHandle(fid, location, variableName, VariableValue, useCompression);
+        bSuccess = h5SaveHandle(eval, fid, location, variableName, VariableValue, useCompression);
     } break;
     case NLS_CELL_ARRAY: {
-        bSuccess = h5SaveCell(fid, location, variableName, VariableValue, useCompression);
+        bSuccess = h5SaveCell(eval, fid, location, variableName, VariableValue, useCompression);
     } break;
     case NLS_FUNCTION_HANDLE: {
-        bSuccess = h5SaveFunctionHandle(fid, location, variableName, VariableValue, useCompression);
+        bSuccess = h5SaveFunctionHandle(
+            eval, fid, location, variableName, VariableValue, useCompression);
     } break;
     case NLS_CLASS_ARRAY:
+    case NLS_CLASSDEF_ARRAY:
     case NLS_STRUCT_ARRAY: {
-        bSuccess = h5SaveStruct(fid, location, variableName, VariableValue, useCompression);
+        bSuccess = h5SaveStruct(eval, fid, location, variableName, VariableValue, useCompression);
     } break;
     case NLS_STRING_ARRAY: {
-        bSuccess = h5SaveStringArray(fid, location, variableName, VariableValue, useCompression);
+        bSuccess
+            = h5SaveStringArray(eval, fid, location, variableName, VariableValue, useCompression);
     } break;
     case NLS_LOGICAL: {
         bSuccess = h5SaveLogical(fid, location, variableName, VariableValue, useCompression);

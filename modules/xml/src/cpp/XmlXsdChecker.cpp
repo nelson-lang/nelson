@@ -16,6 +16,7 @@
 #include "XmlXsdChecker.hpp"
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -56,11 +57,8 @@ xmlDocXsdChecker(const std::wstring& xmlFilename, const std::wstring& xsdFilenam
     XmlErrorAccumulator errorAccumulator;
     xmlSetStructuredErrorFunc(&errorAccumulator, xmlStructuredErrorHandler);
 
-    // Convert filenames to UTF-8
     std::string xmlFileUtf8 = wstring_to_utf8(xmlFilename);
     std::string xsdFileUtf8 = wstring_to_utf8(xsdFilename);
-
-    // Read XML file into string
 
 #ifdef _MSC_VER
     std::ifstream xmlFileStream(xmlFilename, std::ios::binary);
@@ -68,7 +66,9 @@ xmlDocXsdChecker(const std::wstring& xmlFilename, const std::wstring& xsdFilenam
     std::ifstream xmlFileStream(xmlFileUtf8, std::ios::binary);
 #endif
     if (!xmlFileStream) {
-        errorMessage.push_back(_W("Failed to open XML file: ") + xmlFilename);
+        errorMessage.push_back(formatI18nMessage(
+            resolveMessageTemplate(L"Nelson:xml:failedOpenXmlFile", L"Failed to open XML file: %s"),
+            xmlFilename));
         xmlSetStructuredErrorFunc(NULL, NULL);
         return false;
     }
@@ -76,11 +76,13 @@ xmlDocXsdChecker(const std::wstring& xmlFilename, const std::wstring& xsdFilenam
     buffer << xmlFileStream.rdbuf();
     std::string xmlContent = buffer.str();
 
-    // Parse the XML document from memory
     xmlDocPtr doc = xmlReadMemory(
         xmlContent.c_str(), static_cast<int>(xmlContent.size()), xmlFileUtf8.c_str(), NULL, 0);
     if (!doc) {
-        errorMessage.push_back(_W("Failed to parse XML file: ") + xmlFilename);
+        errorMessage.push_back(
+            formatI18nMessage(resolveMessageTemplate(L"Nelson:xml:failedParseXmlFile",
+                                  L"Failed to parse XML file: %s"),
+                xmlFilename));
         for (const auto& msg : errorAccumulator.errors) {
             errorMessage.push_back(msg);
         }
@@ -88,10 +90,12 @@ xmlDocXsdChecker(const std::wstring& xmlFilename, const std::wstring& xsdFilenam
         return false;
     }
 
-    // Load the XSD schema
     xmlSchemaParserCtxtPtr parserCtxt = xmlSchemaNewParserCtxt(xsdFileUtf8.c_str());
     if (!parserCtxt) {
-        errorMessage.push_back(_W("Failed to create XSD schema parser context: ") + xsdFilename);
+        errorMessage.push_back(
+            formatI18nMessage(resolveMessageTemplate(L"Nelson:xml:failedCreateXsdSchema",
+                                  L"Failed to create XSD schema parser context: %s"),
+                xsdFilename));
         xmlFreeDoc(doc);
         xmlSetStructuredErrorFunc(NULL, NULL);
         return false;
@@ -99,7 +103,10 @@ xmlDocXsdChecker(const std::wstring& xmlFilename, const std::wstring& xsdFilenam
 
     xmlSchemaPtr schema = xmlSchemaParse(parserCtxt);
     if (!schema) {
-        errorMessage.push_back(_W("Failed to parse XSD schema: ") + xsdFilename);
+        errorMessage.push_back(
+            formatI18nMessage(resolveMessageTemplate(L"Nelson:xml:failedParseXsdSchema",
+                                  L"Failed to parse XSD schema: %s"),
+                xsdFilename));
         xmlSchemaFreeParserCtxt(parserCtxt);
         xmlFreeDoc(doc);
         xmlSetStructuredErrorFunc(NULL, NULL);
@@ -108,7 +115,8 @@ xmlDocXsdChecker(const std::wstring& xmlFilename, const std::wstring& xsdFilenam
 
     xmlSchemaValidCtxtPtr validCtxt = xmlSchemaNewValidCtxt(schema);
     if (!validCtxt) {
-        errorMessage.push_back(_W("Failed to create XSD schema validation context."));
+        errorMessage.push_back(resolveMessageTemplate(L"Nelson:xml:failedCreateXsdSchema2",
+            L"Failed to create XSD schema validation context."));
         xmlSchemaFree(schema);
         xmlSchemaFreeParserCtxt(parserCtxt);
         xmlFreeDoc(doc);
@@ -116,10 +124,8 @@ xmlDocXsdChecker(const std::wstring& xmlFilename, const std::wstring& xsdFilenam
         return false;
     }
 
-    // Validate the XML document against the schema
     bool valid = (xmlSchemaValidateDoc(validCtxt, doc) == 0);
 
-    // Gather errors and warnings
     for (const auto& msg : errorAccumulator.errors) {
         errorMessage.push_back(msg);
     }

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "echoBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -24,28 +25,29 @@ Nelson::DisplayFormatGateway::echoBuiltin(Evaluator* eval, int nLhs, const Array
             eval->setEchoMode(!toggle);
         } else {
             if (toggle) {
-                retval << ArrayOf::characterArrayConstructor("on");
+                retval << ArrayOf::characterArray("on");
             } else {
-                retval << ArrayOf::characterArrayConstructor("off");
+                retval << ArrayOf::characterArray("off");
             }
         }
     } else if (argIn.size() == 1) {
         if (argIn[0].isRowVectorCharacterArray()) {
             bool bMode = false;
-            std::wstring arg = argIn[0].getContentAsWideString();
+            std::wstring arg = argIn[0].asWideString();
             if (arg == L"on") {
                 bMode = true;
             } else if (arg == L"off") {
                 bMode = false;
             } else {
-                Error(ERROR_WRONG_ARGUMENT_1_VALUE);
+                Error(L"Nelson:invalidValue", L"Wrong value for #%d argument.", (1));
             }
             eval->setEchoMode(bMode);
         } else {
-            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1),
+                L"string");
         }
     } else {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        Error(L"Nelson:tooManyInputs", L"Too many input arguments.");
     }
     return retval;
 }

@@ -17,6 +17,7 @@
 #include "mustBeLogicalBuiltin.hpp"
 #include "mustBeFiniteBuiltin.hpp"
 #include "mustBeNonemptyBuiltin.hpp"
+#include "mustBeScalarBuiltin.hpp"
 #include "mustBeScalarOrEmptyBuiltin.hpp"
 #include "mustBeValidVariableNameBuiltin.hpp"
 #include "mustBeTextScalarBuiltin.hpp"
@@ -24,6 +25,7 @@
 #include "mustBeFolderBuiltin.hpp"
 #include "mustBeFileBuiltin.hpp"
 #include "mustBeVectorBuiltin.hpp"
+#include "mustBeVectorOrEmptyBuiltin.hpp"
 #include "mustBeFloatBuiltin.hpp"
 #include "mustBeNumericBuiltin.hpp"
 #include "mustBeABuiltin.hpp"
@@ -50,6 +52,9 @@
 #include "mustBeRowBuiltin.hpp"
 #include "mustBeColumnBuiltin.hpp"
 #include "mustBeSparseBuiltin.hpp"
+#include "mustBeSortedBuiltin.hpp"
+#include "validateattributesBuiltin.hpp"
+#include "validatestringBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -57,6 +62,9 @@ const std::wstring gatewayName = L"validators";
 //=============================================================================
 static const nlsGateway gateway[] = {
     //=============================================================================
+    { "validateattributes", (ptrBuiltin)Nelson::ValidatorsGateway::validateattributesBuiltin, 0,
+        -3 },
+    { "validatestring", (ptrBuiltin)Nelson::ValidatorsGateway::validatestringBuiltin, 1, -2 },
     { "mustBeFile", (ptrBuiltin)Nelson::ValidatorsGateway::mustBeFileBuiltin, 0, -1 },
     { "mustBeNumericOrLogical",
         (ptrBuiltin)Nelson::ValidatorsGateway::mustBeNumericOrLogicalBuiltin, 0, -1 },
@@ -64,6 +72,7 @@ static const nlsGateway gateway[] = {
     { "mustBeLogicalScalar", (ptrBuiltin)Nelson::ValidatorsGateway::mustBeLogicalScalarBuiltin, 0,
         -1 },
     { "mustBeFinite", (ptrBuiltin)Nelson::ValidatorsGateway::mustBeFiniteBuiltin, 0, -1 },
+    { "mustBeScalar", (ptrBuiltin)Nelson::ValidatorsGateway::mustBeScalarBuiltin, 0, -1 },
     { "mustBeScalarOrEmpty", (ptrBuiltin)Nelson::ValidatorsGateway::mustBeScalarOrEmptyBuiltin, 0,
         -1 },
     { "mustBeValidVariableName",
@@ -74,6 +83,8 @@ static const nlsGateway gateway[] = {
         (ptrBuiltin)Nelson::ValidatorsGateway::mustBeNonzeroLengthTextBuiltin, 0, -1 },
     { "mustBeFolder", (ptrBuiltin)Nelson::ValidatorsGateway::mustBeFolderBuiltin, 0, -1 },
     { "mustBeVector", (ptrBuiltin)Nelson::ValidatorsGateway::mustBeVectorBuiltin, 0, -1 },
+    { "mustBeVectorOrEmpty", (ptrBuiltin)Nelson::ValidatorsGateway::mustBeVectorOrEmptyBuiltin, 0,
+        -1 },
     { "mustBeFloat", (ptrBuiltin)Nelson::ValidatorsGateway::mustBeFloatBuiltin, 0, -1 },
     { "mustBeNumeric", (ptrBuiltin)Nelson::ValidatorsGateway::mustBeNumericBuiltin, 0, -1 },
     { "mustBeNonempty", (ptrBuiltin)Nelson::ValidatorsGateway::mustBeNonemptyBuiltin, 0, -1 },
@@ -84,7 +95,9 @@ static const nlsGateway gateway[] = {
     { "mustBeNonpositive", (ptrBuiltin)Nelson::ValidatorsGateway::mustBeNonpositiveBuiltin, 0, -1 },
     { "mustBeNonNan", (ptrBuiltin)Nelson::ValidatorsGateway::mustBeNonNanBuiltin, 0, -1 },
     { "mustBeNonZero", (ptrBuiltin)Nelson::ValidatorsGateway::mustBeNonZeroBuiltin, 0, -1 },
+    { "mustBeNonzero", (ptrBuiltin)Nelson::ValidatorsGateway::mustBeNonZeroBuiltin, 0, -1 },
     { "mustBeNonSparse", (ptrBuiltin)Nelson::ValidatorsGateway::mustBeNonSparseBuiltin, 0, -1 },
+    { "mustBeNonsparse", (ptrBuiltin)Nelson::ValidatorsGateway::mustBeNonSparseBuiltin, 0, -1 },
     { "mustBeReal", (ptrBuiltin)Nelson::ValidatorsGateway::mustBeRealBuiltin, 0, -1 },
     { "mustBeInteger", (ptrBuiltin)Nelson::ValidatorsGateway::mustBeIntegerBuiltin, 0, -1 },
     { "mustBeNonmissing", (ptrBuiltin)Nelson::ValidatorsGateway::mustBeNonmissingBuiltin, 0, -1 },
@@ -101,6 +114,7 @@ static const nlsGateway gateway[] = {
     { "mustBeRow", (ptrBuiltin)Nelson::ValidatorsGateway::mustBeRowBuiltin, 0, -1 },
     { "mustBeColumn", (ptrBuiltin)Nelson::ValidatorsGateway::mustBeColumnBuiltin, 0, -1 },
     { "mustBeSparse", (ptrBuiltin)Nelson::ValidatorsGateway::mustBeSparseBuiltin, 0, -1 },
+    { "mustBeSorted", (ptrBuiltin)Nelson::ValidatorsGateway::mustBeSortedBuiltin, 0, -2 },
 };
 //=============================================================================
 static bool
@@ -115,11 +129,7 @@ finishValidatorsModule(Nelson::Evaluator* eval)
     return true;
 }
 //=============================================================================
-NLSGATEWAYFUNCEXTENDED(gateway, (void*)initializeValidatorsModule)
+NLS_GATEWAY_FUNC_EXTENDED_LAZY(gateway, (void*)initializeValidatorsModule)
 //=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVEEXTENDED(gateway, (void*)finishValidatorsModule)
-//=============================================================================
-NLSGATEWAYNAME()
+NLS_GATEWAY_REMOVE_EXTENDED(gateway, (void*)finishValidatorsModule)
 //=============================================================================

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>xlsread</keyword>
+  <short_description>Read data from an Open XML spreadsheet file.</short_description>
+  <syntax>
+    <syntax_item>num = xlsread(filename)</syntax_item>
+    <syntax_item>num = xlsread(filename, sheet)</syntax_item>
+    <syntax_item>num = xlsread(filename, sheet, range)</syntax_item>
+    <syntax_item>[num, txt, raw] = xlsread(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>a string: .xlsx file name.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>sheet</param_name>
+      <param_description>a string sheet name or a positive sheet index.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>range</param_name>
+      <param_description>a string range in A1 notation, such as &apos;A1&apos; or &apos;A1:C4&apos;.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>num</param_name>
+      <param_description>numeric matrix. Text cells are returned as NaN.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>txt</param_name>
+      <param_description>cell array containing text values.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>raw</param_name>
+      <param_description>cell array containing imported cell values.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>xlsread</b> imports data from .xlsx files using the Open XML backend.</p>
+    <p>Other workbook formats, remote URLs, and interactive application automation are not supported by this backend.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Read numeric data from a named sheet and range.</example_item_description>
+      <example_item_data runnable="cli">filename = [tempdir(), &apos;xlsread_example.xlsx&apos;]; xlswrite(filename, [1 2; 3 4], &apos;Data&apos;, &apos;B2&apos;); [num, txt, raw] = xlsread(filename, &apos;Data&apos;, &apos;B2:C3&apos;)</example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${spreadsheet}xlswrite">xlswrite</link></see_also_item>
+    <see_also_item><link linkend="${spreadsheet}xlsfinfo">xlsfinfo</link></see_also_item>
+    <see_also_item><link linkend="${spreadsheet}readmatrix">readmatrix</link></see_also_item>
+    <see_also_item><link linkend="${spreadsheet}readcell">readcell</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>Open XML .xlsx support added.</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

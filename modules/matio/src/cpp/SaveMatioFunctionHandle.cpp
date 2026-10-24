@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -12,24 +12,25 @@
 #include "matioHelpers.hpp"
 #include "AnonymousMacroFunctionDef.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 matvar_t*
-SaveMatioFunctionHandle(
-    const std::string& variableName, const ArrayOf& variableValue, mat_ft matVersion)
+SaveMatioFunctionHandle(Evaluator* eval, const std::string& variableName,
+    const ArrayOf& variableValue, mat_ft matVersion)
 {
-    Dimensions variableDims = variableValue.getDimensions();
+    Dimensions variableDims = variableValue.dimensions();
     indexType rank;
     size_t* dims = convertDimensionsForMatVar(variableDims, rank);
     if (dims == nullptr) {
         return nullptr;
     }
 
-    function_handle fh = variableValue.getContentAsFunctionHandle();
+    function_handle fh = variableValue.asFunctionHandle();
     if (!fh.anonymousHandle) {
-        Error(_("invalid function handle."));
+        Error("Nelson:matio:invalidFunctionHandle", "Invalid function handle.");
     }
     AnonymousMacroFunctionDef* anonymousFunction
         = reinterpret_cast<AnonymousMacroFunctionDef*>(fh.anonymousHandle);
@@ -38,9 +39,9 @@ SaveMatioFunctionHandle(
     std::vector<ArrayOf> variables = anonymousFunction->getVariables();
 
     fieldnames.push_back("function_handle");
-    variables.push_back(ArrayOf::characterArrayConstructor(content));
+    variables.push_back(ArrayOf::characterArray(content));
     size_t nbFielnames = fieldnames.size();
-    indexType nbStructElements = nbFielnames * variableDims.getElementCount() + 1;
+    indexType nbStructElements = nbFielnames * variableDims.elementCount() + 1;
     matvar_t** structElements = nullptr;
     try {
         structElements = new matvar_t*[nbStructElements];
@@ -50,12 +51,12 @@ SaveMatioFunctionHandle(
     for (indexType i = 0; i < nbStructElements; ++i) {
         structElements[i] = nullptr;
     }
-    indexType elementCount = variableDims.getElementCount();
+    indexType elementCount = variableDims.elementCount();
     for (indexType i = 0; i < elementCount; ++i) {
         for (indexType j = 0; j < static_cast<indexType>(nbFielnames); ++j) {
             ArrayOf element = variables[i * nbFielnames + j];
             structElements[i * nbFielnames + j]
-                = SaveMatioVariable(fieldnames[j], element, matVersion);
+                = SaveMatioVariable(eval, fieldnames[j], element, matVersion);
         }
     }
     matvar_t* matVariable = Mat_VarCreate(

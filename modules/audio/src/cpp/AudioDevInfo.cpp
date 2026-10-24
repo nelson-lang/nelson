@@ -11,6 +11,7 @@
 #include "AudioDevInfo.hpp"
 #include "i18n.hpp"
 #include "characters_encoding.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -118,9 +119,9 @@ getDevicesInfo(
     } else {
         dimsInOrOutputs[0] = nbOutputs;
     }
-    ArrayOf structInOrOuputs;
+    ArrayOf structInOrOutputs;
     if (dimsInOrOutputs[0] == 0) {
-        structInOrOuputs = ArrayOf::emptyConstructor();
+        structInOrOutputs = ArrayOf::empty();
     } else {
         stringVector structnames;
         structnames.push_back("Name");
@@ -132,8 +133,8 @@ getDevicesInfo(
         structnames.push_back("ID");
         dimsInOrOutputs[1] = 1;
         ArrayOf* InOrOutputs = (ArrayOf*)ArrayOf::allocateArrayOf(
-            NLS_STRUCT_ARRAY, dimsInOrOutputs.getElementCount(), structnames, false);
-        structInOrOuputs
+            NLS_STRUCT_ARRAY, dimsInOrOutputs.elementCount(), structnames, false);
+        structInOrOutputs
             = ArrayOf(NLS_STRUCT_ARRAY, dimsInOrOutputs, InOrOutputs, false, structnames);
         ArrayOfVector name;
         ArrayOfVector driverversion;
@@ -142,13 +143,13 @@ getDevicesInfo(
         ArrayOfVector defaultlowlatency;
         ArrayOfVector defaulthighlatency;
         ArrayOfVector id;
-        name.reserve(dimsInOrOutputs.getElementCount());
-        driverversion.reserve(dimsInOrOutputs.getElementCount());
-        maxchannels.reserve(dimsInOrOutputs.getElementCount());
-        defaultsamplerate.reserve(dimsInOrOutputs.getElementCount());
-        defaultlowlatency.reserve(dimsInOrOutputs.getElementCount());
-        defaulthighlatency.reserve(dimsInOrOutputs.getElementCount());
-        id.reserve(dimsInOrOutputs.getElementCount());
+        name.reserve(dimsInOrOutputs.elementCount());
+        driverversion.reserve(dimsInOrOutputs.elementCount());
+        maxchannels.reserve(dimsInOrOutputs.elementCount());
+        defaultsamplerate.reserve(dimsInOrOutputs.elementCount());
+        defaultlowlatency.reserve(dimsInOrOutputs.elementCount());
+        defaulthighlatency.reserve(dimsInOrOutputs.elementCount());
+        id.reserve(dimsInOrOutputs.elementCount());
         for (AudioDeviceInfo info : infos) {
             bool isInput = (info.padeviceInfo->maxInputChannels != 0);
             bool isOutput = (info.padeviceInfo->maxOutputChannels != 0);
@@ -162,13 +163,13 @@ getDevicesInfo(
                     double defaultLowLatency = (double)info.padeviceInfo->defaultLowInputLatency;
                     double defaultHighLatency = (double)info.padeviceInfo->defaultHighInputLatency;
                     double defaultSampleRate = (double)info.padeviceInfo->defaultSampleRate;
-                    name << ArrayOf::characterArrayConstructor(deviceName);
-                    driverversion << ArrayOf::characterArrayConstructor(deviceDriverVersion);
-                    maxchannels << ArrayOf::doubleConstructor(maxChannels);
-                    defaultsamplerate << ArrayOf::doubleConstructor(defaultSampleRate);
-                    defaultlowlatency << ArrayOf::doubleConstructor(defaultLowLatency);
-                    defaulthighlatency << ArrayOf::doubleConstructor(defaultHighLatency);
-                    id << ArrayOf::doubleConstructor((double)info.Id);
+                    name << ArrayOf::characterArray(deviceName);
+                    driverversion << ArrayOf::characterArray(deviceDriverVersion);
+                    maxchannels << ArrayOf::doubleScalar(maxChannels);
+                    defaultsamplerate << ArrayOf::doubleScalar(defaultSampleRate);
+                    defaultlowlatency << ArrayOf::doubleScalar(defaultLowLatency);
+                    defaulthighlatency << ArrayOf::doubleScalar(defaultHighLatency);
+                    id << ArrayOf::doubleScalar((double)info.Id);
                 }
             } else {
                 if (isOutput) {
@@ -176,25 +177,25 @@ getDevicesInfo(
                     double defaultLowLatency = (double)info.padeviceInfo->defaultLowOutputLatency;
                     double defaultHighLatency = (double)info.padeviceInfo->defaultHighOutputLatency;
                     double defaultSampleRate = (double)info.padeviceInfo->defaultSampleRate;
-                    name << ArrayOf::characterArrayConstructor(deviceName);
-                    driverversion << ArrayOf::characterArrayConstructor(deviceDriverVersion);
-                    defaultsamplerate << ArrayOf::doubleConstructor(defaultSampleRate);
-                    maxchannels << ArrayOf::doubleConstructor(maxChannels);
-                    defaultlowlatency << ArrayOf::doubleConstructor(defaultLowLatency);
-                    defaulthighlatency << ArrayOf::doubleConstructor(defaultHighLatency);
-                    id << ArrayOf::doubleConstructor((double)info.Id);
+                    name << ArrayOf::characterArray(deviceName);
+                    driverversion << ArrayOf::characterArray(deviceDriverVersion);
+                    defaultsamplerate << ArrayOf::doubleScalar(defaultSampleRate);
+                    maxchannels << ArrayOf::doubleScalar(maxChannels);
+                    defaultlowlatency << ArrayOf::doubleScalar(defaultLowLatency);
+                    defaulthighlatency << ArrayOf::doubleScalar(defaultHighLatency);
+                    id << ArrayOf::doubleScalar((double)info.Id);
                 }
             }
         }
-        structInOrOuputs.setFieldAsList("Name", name);
-        structInOrOuputs.setFieldAsList("DriverVersion", driverversion);
-        structInOrOuputs.setFieldAsList("MaxChannels", maxchannels);
-        structInOrOuputs.setFieldAsList("DefaultSampleRate", defaultsamplerate);
-        structInOrOuputs.setFieldAsList("DefaultLowLatency", defaultlowlatency);
-        structInOrOuputs.setFieldAsList("DefaultHighLatency", defaulthighlatency);
-        structInOrOuputs.setFieldAsList("ID", id);
+        structInOrOutputs.setFieldAsList("Name", name);
+        structInOrOutputs.setFieldAsList("DriverVersion", driverversion);
+        structInOrOutputs.setFieldAsList("MaxChannels", maxchannels);
+        structInOrOutputs.setFieldAsList("DefaultSampleRate", defaultsamplerate);
+        structInOrOutputs.setFieldAsList("DefaultLowLatency", defaultlowlatency);
+        structInOrOutputs.setFieldAsList("DefaultHighLatency", defaulthighlatency);
+        structInOrOutputs.setFieldAsList("ID", id);
     }
-    return structInOrOuputs;
+    return structInOrOutputs;
 }
 //=============================================================================
 ArrayOf
@@ -219,7 +220,7 @@ AudioDevInfo(std::wstring& errorMessage)
     fieldnames.push_back("output");
     fieldvalues << structInputs;
     fieldvalues << structOutputs;
-    return ArrayOf::structConstructor(fieldnames, fieldvalues);
+    return ArrayOf::structArray(fieldnames, fieldvalues);
 }
 //=============================================================================
 ArrayOf
@@ -266,7 +267,7 @@ AudioDevInfoDefault(std::wstring& errorMessage)
     fieldnames.push_back("output");
     fieldvalues << structInputs;
     fieldvalues << structOutputs;
-    return ArrayOf::structConstructor(fieldnames, fieldvalues);
+    return ArrayOf::structArray(fieldnames, fieldvalues);
 }
 //=============================================================================
 ArrayOf
@@ -276,23 +277,24 @@ AudioDevInfo(int io, std::wstring& errorMessage)
     if (io == 0 || io == 1) {
         int res = 0;
         for (AudioDeviceInfo info : audioDevices) {
-            if (io == 0) // output
-            {
+            if (io == 0) {
                 if (info.padeviceInfo->maxInputChannels == 0) {
                     res++;
                 }
-            } else // input
-            {
+            } else {
                 if (info.padeviceInfo->maxInputChannels != 0) {
                     res++;
                 }
             }
         }
-        return ArrayOf::doubleConstructor((double)res);
+        return ArrayOf::doubleScalar((double)res);
     }
-    errorMessage = _W("Wrong value for #1 argument.");
+    errorMessage
+        = formatI18nMessage(Nelson::resolveMessageTemplate(L"Nelson:audio:wrongValueForArgument",
+                                L"Wrong value for #%d argument."),
+            1);
 
-    return ArrayOf::emptyConstructor();
+    return ArrayOf::empty();
 }
 //=============================================================================
 static bool
@@ -316,22 +318,33 @@ AudioDevInfo(int io, int id, std::wstring& errorMessage)
         if (getDeviceInfoById(audioDevices, id, infoFound)) {
             if (io == 1) {
                 if (infoFound.padeviceInfo->maxInputChannels == 0) {
-                    errorMessage = _W("Wrong value for #1 argument.");
+                    errorMessage = formatI18nMessage(
+                        Nelson::resolveMessageTemplate(L"Nelson:audio:wrongValueForArgument",
+                            L"Wrong value for #%d argument."),
+                        1);
                 }
             } else {
                 if (infoFound.padeviceInfo->maxOutputChannels == 0) {
-                    errorMessage = _W("Wrong value for #1 argument.");
+                    errorMessage = formatI18nMessage(
+                        Nelson::resolveMessageTemplate(L"Nelson:audio:wrongValueForArgument",
+                            L"Wrong value for #%d argument."),
+                        1);
                 }
             }
-            return ArrayOf::characterArrayConstructor(
-                utf8_to_wstring(infoFound.padeviceInfo->name));
+            return ArrayOf::characterArray(utf8_to_wstring(infoFound.padeviceInfo->name));
         }
-        errorMessage = _W("Wrong value for #2 argument.");
+        errorMessage = formatI18nMessage(
+            Nelson::resolveMessageTemplate(
+                L"Nelson:audio:wrongValueForArgument", L"Wrong value for #%d argument."),
+            2);
 
     } else {
-        errorMessage = _W("Wrong value for #1 argument.");
+        errorMessage = formatI18nMessage(
+            Nelson::resolveMessageTemplate(
+                L"Nelson:audio:wrongValueForArgument", L"Wrong value for #%d argument."),
+            1);
     }
-    return ArrayOf::emptyConstructor();
+    return ArrayOf::empty();
 }
 //=============================================================================
 static bool
@@ -367,14 +380,20 @@ AudioDevInfo(int io, const std::wstring& name, std::wstring& errorMessage)
     if (io == 0 || io == 1) {
         AudioDeviceInfo infoFound;
         if (!getDeviceInfoByName(audioDevices, io, name, infoFound)) {
-            errorMessage = _W("Wrong value for #1 or #2 argument.");
+            errorMessage
+                = formatI18nMessage(Nelson::resolveMessageTemplate(L"Nelson:audio:wrongValueForOr",
+                                        L"Wrong value for #%d or #%d argument."),
+                    1, 2);
         } else {
-            return ArrayOf::doubleConstructor((double)infoFound.Id);
+            return ArrayOf::doubleScalar((double)infoFound.Id);
         }
     } else {
-        errorMessage = _W("Wrong value for #1 argument.");
+        errorMessage = formatI18nMessage(
+            Nelson::resolveMessageTemplate(
+                L"Nelson:audio:wrongValueForArgument", L"Wrong value for #%d argument."),
+            1);
     }
-    return ArrayOf::emptyConstructor();
+    return ArrayOf::empty();
 }
 //=============================================================================
 ArrayOf
@@ -386,23 +405,35 @@ AudioDevInfoDriverVersion(int io, int id, std::wstring& errorMessage)
         if (getDeviceInfoById(audioDevices, id, infoFound)) {
             if (io == 1) {
                 if (infoFound.padeviceInfo->maxInputChannels == 0) {
-                    errorMessage = _W("Wrong value for #1 argument.");
+                    errorMessage = formatI18nMessage(
+                        Nelson::resolveMessageTemplate(L"Nelson:audio:wrongValueForArgument",
+                            L"Wrong value for #%d argument."),
+                        1);
                 }
             } else {
                 if (infoFound.padeviceInfo->maxOutputChannels == 0) {
-                    errorMessage = _W("Wrong value for #1 argument.");
+                    errorMessage = formatI18nMessage(
+                        Nelson::resolveMessageTemplate(L"Nelson:audio:wrongValueForArgument",
+                            L"Wrong value for #%d argument."),
+                        1);
                 }
             }
             const PaHostApiInfo* apiInfo = Pa_GetHostApiInfo(infoFound.padeviceInfo->hostApi);
             const char* driverVersion = apiInfo ? apiInfo->name : "";
-            return ArrayOf::characterArrayConstructor(utf8_to_wstring(driverVersion));
+            return ArrayOf::characterArray(utf8_to_wstring(driverVersion));
         }
-        errorMessage = _W("Wrong value for #2 argument.");
+        errorMessage = formatI18nMessage(
+            Nelson::resolveMessageTemplate(
+                L"Nelson:audio:wrongValueForArgument", L"Wrong value for #%d argument."),
+            2);
 
     } else {
-        errorMessage = _W("Wrong value for #1 argument.");
+        errorMessage = formatI18nMessage(
+            Nelson::resolveMessageTemplate(
+                L"Nelson:audio:wrongValueForArgument", L"Wrong value for #%d argument."),
+            1);
     }
-    return ArrayOf::emptyConstructor();
+    return ArrayOf::empty();
 }
 //=============================================================================
 static PaSampleFormat
@@ -477,13 +508,16 @@ AudioDevInfo(int io, int rate, int bits, int chans, std::wstring& errorMessage)
     if (io == 0 || io == 1) {
         AudioDeviceInfo deviceFound;
         if (searchAudioDevice(audioDevices, io, rate, bits, chans, deviceFound)) {
-            return ArrayOf::doubleConstructor((double)deviceFound.Id);
+            return ArrayOf::doubleScalar((double)deviceFound.Id);
         }
-        return ArrayOf::doubleConstructor(-1);
+        return ArrayOf::doubleScalar(-1);
     }
-    errorMessage = _W("Wrong value for #1 argument.");
+    errorMessage
+        = formatI18nMessage(Nelson::resolveMessageTemplate(L"Nelson:audio:wrongValueForArgument",
+                                L"Wrong value for #%d argument."),
+            1);
 
-    return ArrayOf::emptyConstructor();
+    return ArrayOf::empty();
 }
 //=============================================================================
 static bool
@@ -531,20 +565,29 @@ AudioDevInfo(int io, int id, int rate, int bits, int chans, std::wstring& errorM
             }
         }
         if (padeviceInfo == nullptr) {
-            errorMessage = _W("Wrong value for #2 argument.");
+            errorMessage = formatI18nMessage(
+                Nelson::resolveMessageTemplate(
+                    L"Nelson:audio:wrongValueForArgument", L"Wrong value for #%d argument."),
+                2);
         } else {
             if (format != 0) {
                 if (supportAudioDevice(padeviceInfo, io, id, rate, format, chans)) {
-                    return ArrayOf::logicalConstructor(true);
+                    return ArrayOf::logicalScalar(true);
                 }
-                return ArrayOf::logicalConstructor(false);
+                return ArrayOf::logicalScalar(false);
             }
-            errorMessage = _W("Wrong value for #4 argument.");
+            errorMessage = formatI18nMessage(
+                Nelson::resolveMessageTemplate(
+                    L"Nelson:audio:wrongValueForArgument", L"Wrong value for #%d argument."),
+                4);
         }
     } else {
-        errorMessage = _W("Wrong value for #1 argument.");
+        errorMessage = formatI18nMessage(
+            Nelson::resolveMessageTemplate(
+                L"Nelson:audio:wrongValueForArgument", L"Wrong value for #%d argument."),
+            1);
     }
-    return ArrayOf::emptyConstructor();
+    return ArrayOf::empty();
 }
 //=============================================================================
 } // namespace Nelson

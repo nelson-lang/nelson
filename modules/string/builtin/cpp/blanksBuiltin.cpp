@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "blanksBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "Blanks.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -22,12 +23,12 @@ Nelson::StringGateway::blanksBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 1, 1);
     ArrayOf param1 = argIn[0];
-    double nbSpacesAsDouble = param1.getContentAsDoubleScalar();
+    double nbSpacesAsDouble = param1.asDoubleScalar();
     if (!std::isfinite(nbSpacesAsDouble)) {
-        Error(_W("NaN and Inf not allowed."));
+        Error(L"Nelson:string:nanInfNotAllowed", L"NaN and Inf not allowed.");
     }
     if (floor(nbSpacesAsDouble) != nbSpacesAsDouble) {
-        Error(_W("Expected a integer value."));
+        Error(L"Nelson:validators:mustBeInteger", L"%s must be an integer.", L"Value");
     }
     if (nbSpacesAsDouble < 0) {
         nbSpacesAsDouble = 0;

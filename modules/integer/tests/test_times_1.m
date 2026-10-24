@@ -12,13 +12,13 @@ R = intmax('int8') .* -2;
 %=============================================================================
 R = intmax('int8') .* intmax('int8');
 REF = intmax('int8');
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = intmax('int8') .* intmin('int8');
 REF = intmin('int8');
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = intmin('int8') .* intmax('int8');
 REF = intmin('int8');
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================

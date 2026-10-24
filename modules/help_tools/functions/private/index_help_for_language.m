@@ -33,7 +33,7 @@ function index_help_for_language(destination_dir, lang, modules_help_list, with_
       list_summary_files =[main_summary_file; list_summary_files];
   end
 
-  
+
   xmldocmergesummary([destination_dir],list_summary_files);
 
   nelson_summary2html = [modulepath('help_tools'), '/resources/nelson_summary2html.xslt'];

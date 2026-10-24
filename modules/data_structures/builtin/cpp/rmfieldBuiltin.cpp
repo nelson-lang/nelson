@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -14,6 +14,7 @@
 #include <fmt/xchar.h>
 #include "rmfieldBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "characters_encoding.hpp"
 #include "OverloadRequired.hpp"
@@ -48,8 +49,8 @@ Nelson::DataStructuresGateway::rmfieldBuiltin(int nLhs, const ArrayOfVector& arg
         OverloadRequired("rmfield");
     }
     if (param1.isStruct()) {
-        stringVector namesToRemove = param2.getContentAsCStringVector();
-        stringVector currentNames = param1.getFieldNames();
+        stringVector namesToRemove = param2.asUtf8StringVector();
+        stringVector currentNames = param1.fieldNames();
         stringVector common;
 
         unsortedRemoveDuplicates(namesToRemove);
@@ -62,7 +63,7 @@ Nelson::DataStructuresGateway::rmfieldBuiltin(int nLhs, const ArrayOfVector& arg
                 }
             }
             if (!have) {
-                Error(fmt::format(_("A field named '{0}' doesn't exist."), n));
+                Error("Nelson:rmfield:fieldNotFound", "A field named '%s' doesn't exist.", n);
             }
         }
         common = currentNames;
@@ -72,23 +73,27 @@ Nelson::DataStructuresGateway::rmfieldBuiltin(int nLhs, const ArrayOfVector& arg
         if (param1.isScalar()) {
             ArrayOfVector values;
             for (const std::string& c : common) {
-                values.push_back(param1.getField(c));
+                values.push_back(param1.field(c));
             }
-            retval << ArrayOf::structScalarConstructor(common, values);
+            retval << ArrayOf::structScalar(common, values);
+        } else if (param1.isEmpty()) {
+            Dimensions dims = param1.dimensions();
+            retval << ArrayOf::emptyStruct(common, dims);
         } else {
-            Dimensions dims = param1.getDimensions();
+            Dimensions dims = param1.dimensions();
             auto* qp = static_cast<ArrayOf*>(
-                ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, dims.getElementCount(), common, false));
+                ArrayOf::allocateArrayOf(NLS_STRUCT_ARRAY, dims.elementCount(), common, false));
 
             ArrayOf st = ArrayOf(NLS_STRUCT_ARRAY, dims, qp, false, common);
             for (const std::string& c : common) {
-                ArrayOfVector data = param1.getFieldAsList(c);
+                ArrayOfVector data = param1.fieldAsList(c);
                 st.setFieldAsList(c, data);
             }
             retval << st;
         }
     } else {
-        Error(_W("Wrong type for argument #1. struct expected."));
+        Error(L"Nelson:data_structures:wrongTypeArgument1Struct",
+            L"Wrong type for argument #%d: %s expected.", 1, L"struct");
     }
     return retval;
 }

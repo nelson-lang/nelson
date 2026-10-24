@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -11,6 +11,7 @@
 #include "ConsoleBox.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "Warning.hpp"
+#include "ErrorID.hpp"
 #ifdef _MSC_VER
 #include "NelsonConfiguration.hpp"
 #include "NelSon_engine_mode.h"
@@ -26,51 +27,51 @@ Nelson::ConsoleGateway::consoleboxBuiltin(int nLhs, const ArrayOfVector& argIn)
     ArrayOfVector retval;
 #ifdef _MSC_VER
     if (NelsonConfiguration::getInstance()->getNelsonEngineMode() != GUI) {
-        Warning(_W("consolebox builtin is only available in GUI mode on Windows."));
-        retval << ArrayOf::logicalConstructor(false);
+        Warning(L"Nelson:consolebox:guiModeOnly",
+            L"consolebox builtin is only available in GUI mode on Windows.");
+        retval << ArrayOf::logicalScalar(false);
         return retval;
     }
     if (argIn.size() == 0) {
-        // status
         bool res = ConsoleBoxToggle();
-        retval << ArrayOf::logicalConstructor(res);
+        retval << ArrayOf::logicalScalar(res);
     } else {
-        // show/hide/toggle/status
         if (argIn[0].isRowVectorCharacterArray() || argIn[0].isScalarStringArray()) {
-            std::wstring str = argIn[0].getContentAsWideString();
+            std::wstring str = argIn[0].asWideString();
             if (str == L"on" || str == L"show") {
                 bool res = ConsoleBoxShow(true);
-                retval << ArrayOf::logicalConstructor(res);
+                retval << ArrayOf::logicalScalar(res);
                 return retval;
             }
             if (str == L"off" || str == L"hide") {
                 bool res = ConsoleBoxShow(false);
-                retval << ArrayOf::logicalConstructor(res);
+                retval << ArrayOf::logicalScalar(res);
                 return retval;
             }
             if (str == L"status") {
                 bool res = ConsoleBoxIsVisible();
-                retval << ArrayOf::logicalConstructor(res);
+                retval << ArrayOf::logicalScalar(res);
                 return retval;
             }
             if (str == L"toggle") {
                 bool res = ConsoleBoxToggle();
-                retval << ArrayOf::logicalConstructor(res);
+                retval << ArrayOf::logicalScalar(res);
                 return retval;
             }
-            Error(_W("Wrong value for #1 argument."));
+            Error(L"Nelson:consolebox:invalidValue", L"Wrong value for #%d argument.", 1);
         }
         if (argIn[0].isLogical() && argIn[0].isScalar()) {
-            bool show = argIn[0].getContentAsLogicalScalar();
+            bool show = argIn[0].asLogicalScalar();
             bool res = ConsoleBoxShow(show);
-            retval << ArrayOf::logicalConstructor(res);
+            retval << ArrayOf::logicalScalar(res);
             return retval;
         }
-        Error(_W("Wrong type for #1 argument."));
+        Error(L"Nelson:types:wrongArgumentType", L"Wrong type for #%d argument.", 1);
     }
 #else
-    Warning(_W("consolebox builtin is not implemented for this platform."));
-    retval << ArrayOf::logicalConstructor(false);
+    Warning(L"Nelson:consolebox:notImplemented",
+        L"consolebox builtin is not implemented for this platform.");
+    retval << ArrayOf::logicalScalar(false);
 #endif
     return retval;
 }

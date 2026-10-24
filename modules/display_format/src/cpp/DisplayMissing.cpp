@@ -87,16 +87,16 @@ Display2dMissing(size_t evaluatorID, Interface* io, const ArrayOf& A, const std:
                 io->outputMessage(L"\n");
             }
         }
-        for (indexType k = 0; k < A.getElementCount()
+        for (indexType k = 0; k < A.elementCount()
             && !NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID);
             ++k) {
             std::wstring msg = L"<missing>";
             io->outputMessage(BLANKS_AT_BOL + msg + L"\n");
         }
     } else {
-        indexType rows = A.getRows();
-        indexType columns = A.getColumns();
-        indexType nbElements = A.getElementCount();
+        indexType rows = A.rows();
+        indexType columns = A.columns();
+        indexType nbElements = A.elementCount();
 
         std::vector<size_t> vSize(columns, (size_t)0);
         wstringVector cellSummarize(nbElements, std::wstring(L""));
@@ -115,7 +115,7 @@ Display2dMissing(size_t evaluatorID, Interface* io, const ArrayOf& A, const std:
 
         indexType pageCount
             = static_cast<indexType>(ceil(columns / (static_cast<single>(colsPerPage))));
-        bool withColumsHeader = (rows * columns > 1) && pageCount > 1;
+        bool withColumnsHeader = (rows * columns > 1) && pageCount > 1;
 
         for (indexType k = 0;
             k < pageCount && !NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID);
@@ -129,7 +129,7 @@ Display2dMissing(size_t evaluatorID, Interface* io, const ArrayOf& A, const std:
                     io->outputMessage(L"\n");
                 }
             }
-            if (withColumsHeader) {
+            if (withColumnsHeader) {
                 std::wstring msg
                     = columnsHeader(k * colsPerPage + 1, k * colsPerPage + colsInThisPage);
                 if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
@@ -163,11 +163,11 @@ DisplayNdMissing(size_t evaluatorID, Interface* io, const ArrayOf& A, const std:
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
     sizeType termWidth = io->getTerminalWidth();
-    Dimensions dims = A.getDimensions();
+    Dimensions dims = A.dimensions();
 
-    Dimensions wdims(dims.getLength());
-    indexType rows(A.getRows());
-    indexType columns(A.getColumns());
+    Dimensions wdims(dims.length());
+    indexType rows(A.rows());
+    indexType columns(A.columns());
     indexType offset = 0;
 
     while (wdims.inside(dims)) {
@@ -181,10 +181,10 @@ DisplayNdMissing(size_t evaluatorID, Interface* io, const ArrayOf& A, const std:
         }
 
         io->outputMessage(name + L"(:,:");
-        for (indexType m = 2; m < dims.getLength(); m++) {
+        for (indexType m = 2; m < dims.length(); m++) {
             io->outputMessage(fmt::format(",{0:d}", static_cast<int>(wdims[m]) + 1));
         }
-        io->outputMessage(L") =\n");
+        io->outputMessage(L")" + displayHeaderEqualSign(A, true) + L"\n");
         if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
             io->outputMessage(L"\n");
         }
@@ -198,13 +198,13 @@ DisplayNdMissing(size_t evaluatorID, Interface* io, const ArrayOf& A, const std:
         }
         indexType colsPerPage = getColsPerPage(vSize, termWidth);
         int pageCount = static_cast<int>(ceil(columns / (static_cast<single>(colsPerPage))));
-        bool withColumsHeader = (rows * columns > 1) && pageCount > 1;
+        bool withColumnsHeader = (rows * columns > 1) && pageCount > 1;
         for (int k = 0;
             k < pageCount && !NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID);
             k++) {
             indexType colsInThisPage = columns - colsPerPage * k;
             colsInThisPage = (colsInThisPage > colsPerPage) ? colsPerPage : colsInThisPage;
-            if (withColumsHeader) {
+            if (withColumnsHeader) {
                 std::wstring msg
                     = columnsHeader(k * colsPerPage + 1, k * colsPerPage + colsInThisPage);
                 if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {

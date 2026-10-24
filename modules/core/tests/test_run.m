@@ -9,8 +9,8 @@
 %=============================================================================
 % <--ENGLISH IMPOSED-->
 %=============================================================================
-assert_isequal(nargin('run'), 3);
-assert_isequal(nargout('pause'), 1);
+asserts.isequal(nargin('run'), 3);
+asserts.isequal(nargout('pause'), 1);
 %=============================================================================
 addpath([modulepath('core'), '/tests']);
 %=============================================================================
@@ -37,7 +37,7 @@ catch
 end
 %=============================================================================
 REF = '
-Error: 
+Error:
 Undefined variable: TEST_CONDITION
 
 at line     8 of ''PATH_REF_2''
@@ -47,7 +47,13 @@ at line    33 of ''PATH_REF_3''
 REF = replace(REF, 'PATH_REF_2', PATH_REF_2);
 REF = replace(REF, 'PATH_REF_1', PATH_REF_1);
 REF = replace(REF, 'PATH_REF_3', PATH_REF_3);
-assert_isequal(msg, REF);
+if (strcmp(getenv('NELSON_PORTABLE_TEST_RUN'), '1') || iswasm())
+  asserts.istrue(contains(msg, 'Undefined variable: TEST_CONDITION'));
+  asserts.istrue(contains(msg, PATH_REF_2));
+  asserts.istrue(contains(msg, PATH_REF_1));
+else
+  asserts.isequal(msg, REF);
+end
 %=============================================================================
 TEST_CONDITION = 1;
 try
@@ -59,16 +65,22 @@ end
 %=============================================================================
 REF = '
 Error in clc
-Wrong number of input arguments.
+Too many input arguments.
 
 at line    10 of ''PATH_REF_2''
 at line     6 of ''PATH_REF_1''
-at line    47 of ''PATH_REF_3''
+at line    53 of ''PATH_REF_3''
 ';
 REF = replace(REF, 'PATH_REF_2', PATH_REF_2);
 REF = replace(REF, 'PATH_REF_1', PATH_REF_1);
 REF = replace(REF, 'PATH_REF_3', PATH_REF_3);
-assert_isequal(msg, REF);
+if (strcmp(getenv('NELSON_PORTABLE_TEST_RUN'), '1') || iswasm())
+  asserts.istrue(contains(msg, 'Too many input arguments.'));
+  asserts.istrue(contains(msg, PATH_REF_2));
+  asserts.istrue(contains(msg, PATH_REF_1));
+else
+  asserts.isequal(msg, REF);
+end
 %=============================================================================
 TEST_CONDITION = 2;
 try
@@ -84,12 +96,18 @@ qqq
 
 at line    12 of ''PATH_REF_2''
 at line     6 of ''PATH_REF_1''
-at line    61 of ''PATH_REF_3''
+at line    73 of ''PATH_REF_3''
 ';
 REF = replace(REF, 'PATH_REF_2', PATH_REF_2);
 REF = replace(REF, 'PATH_REF_1', PATH_REF_1);
 REF = replace(REF, 'PATH_REF_3', PATH_REF_3);
-assert_isequal(msg, REF);
+if (strcmp(getenv('NELSON_PORTABLE_TEST_RUN'), '1') || iswasm())
+  asserts.istrue(contains(msg, 'qqq'));
+  asserts.istrue(contains(msg, PATH_REF_2));
+  asserts.istrue(contains(msg, PATH_REF_1));
+else
+  asserts.isequal(msg, REF);
+end
 %=============================================================================
 TEST_CONDITION = 3;
 try
@@ -100,15 +118,21 @@ catch
 end
 %=============================================================================
 REF = '
-Error: 
+Error:
 g
 
 at line    14 of ''PATH_REF_2''
 at line     6 of ''PATH_REF_1''
-at line    75 of ''PATH_REF_3''
+at line    93 of ''PATH_REF_3''
 ';
 REF = replace(REF, 'PATH_REF_2', PATH_REF_2);
 REF = replace(REF, 'PATH_REF_1', PATH_REF_1);
 REF = replace(REF, 'PATH_REF_3', PATH_REF_3);
-assert_isequal(msg, REF);
+if (strcmp(getenv('NELSON_PORTABLE_TEST_RUN'), '1') || iswasm())
+  asserts.istrue(contains(msg, [char(10), 'g', char(10)]));
+  asserts.istrue(contains(msg, PATH_REF_2));
+  asserts.istrue(contains(msg, PATH_REF_1));
+else
+  asserts.isequal(msg, REF);
+end
 %=============================================================================

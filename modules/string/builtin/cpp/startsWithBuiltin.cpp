@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -11,10 +11,12 @@
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 #include "startsWithBuiltin.hpp"
-#include "StringStartsWith.hpp"
+#include "StringTextMatch.hpp"
+#include "StringHelpers.hpp"
+#include "StringPattern.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -23,8 +25,9 @@ Nelson::StringGateway::startsWithBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
-    if (argIn.size() != 2 && argIn.size() != 4) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    nargincheck(argIn, 2, 4);
+    if (argIn.size() == 3) {
+        Error(L"Nelson:wrongNumberOfInputs", L"Wrong number of input arguments.");
     }
     bool bCaseSensitive = true;
     ArrayOf A = argIn[0];
@@ -32,17 +35,31 @@ Nelson::StringGateway::startsWithBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (A.isCharacterArray() || A.isStringArray() || A.isCellArrayOfCharacterVectors()) {
         if (argIn.size() == 4) {
             ArrayOf param3 = argIn[2];
-            std::wstring fieldname = param3.getContentAsWideString();
-            if (fieldname != L"IgnoreCase") {
-                Error(fmt::format(ERROR_WRONG_ARGUMENT_X_VALUE, 3));
+            std::wstring fieldname = StringHelpers::to_lower_copy(param3.asWideString());
+            if (fieldname != L"ignorecase") {
+                Error(L"Nelson:invalidValue", L"Wrong value for #%d argument.", (3));
             }
             ArrayOf param4 = argIn[3];
-            logical fieldvalue = param4.getContentAsLogicalScalar();
-            bCaseSensitive = (fieldvalue == 0);
+            if (!param4.isScalar() || !(param4.isLogical() || param4.isNumeric())) {
+                Error(L"Nelson:invalidValue", L"Wrong value for #%d argument.", (4));
+            }
+            bCaseSensitive = param4.isLogical() ? (param4.asLogicalScalar() == 0)
+                                                : (param4.asDoubleScalar() == 0);
+        }
+        if (IsPatternObject(B)) {
+            bool needToOverload = false;
+            retval << PatternLogical(A, PatternExpression(B), !bCaseSensitive,
+                PatternLogicalMode::StartsWith, needToOverload);
+            if (needToOverload) {
+                Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1),
+                    L"string or cell");
+            }
+            return retval;
         }
         retval << StringStartsWith(A, B, bCaseSensitive);
     } else {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_OR_CELL_EXPECTED);
+        Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1),
+            L"string or cell");
     }
     return retval;
 }

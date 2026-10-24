@@ -19,9 +19,6 @@
 #include <QtCore/QUuid>
 #include <QtGui/QColor>
 #include <QtGui/QMatrix4x4>
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-#include <QtGui/QMatrix>
-#endif
 #if QT_VERSION >= QT_VERSION_CHECK(6, 8, 0)
 #include <QtCore/QTimeZone>
 #endif
@@ -32,13 +29,13 @@
 #include <QtQml/QQmlListProperty>
 #include "QVariantArrayOf.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "GetQObjectHandleObject.hpp"
 #include "HandleManager.hpp"
 #include "QStringConverter.hpp"
 #include "QObjectHandleObject.hpp"
 #include "characters_encoding.hpp"
-#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -46,12 +43,8 @@ bool
 canBeConvertedToArrayOf(QVariant Q)
 {
     bool res = false;
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     QMetaType metaType = Q.metaType();
     int id = metaType.id();
-#else
-    int id = QMetaType::type(Q.typeName());
-#endif
     switch (id) {
     case QMetaType::Type::Bool:
     case QMetaType::Type::Int:
@@ -78,9 +71,6 @@ canBeConvertedToArrayOf(QVariant Q)
     case QMetaType::Type::QPointF:
     case QMetaType::Type::QUuid:
     case QMetaType::Type::QColor:
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    case QMetaType::Type::QMatrix:
-#endif
     case QMetaType::Type::QTransform:
     case QMetaType::Type::QMatrix4x4:
     case QMetaType::Type::QVector2D:
@@ -109,15 +99,9 @@ canBeConvertedToArrayOf(QVariant Q)
         return true;
     } break;
     default: {
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
         if (Q.metaType().id() == QMetaType::QObjectStar || Q.canConvert<QObject*>()) {
             return true;
         }
-#else
-        if (Q.type() == (int)QMetaType::QObjectStar || Q.canConvert<QObject*>()) {
-            return true;
-        }
-#endif
         QQmlListReference ref = Q.value<QQmlListReference>();
         if (ref.isValid() && ref.canCount() && ref.canAt()) {
             int len = ref.count();
@@ -129,11 +113,11 @@ canBeConvertedToArrayOf(QVariant Q)
         if (strncmp(name, "QQmlListProperty<", 17) == 0) {
             QQmlListProperty<QObject>* list
                 = reinterpret_cast<QQmlListProperty<QObject>*>(Q.data());
-            int nbChilds = 0;
+            int nbChildren = 0;
             if (list->count && list->at) {
-                nbChilds = list->count(list);
+                nbChildren = list->count(list);
             }
-            if (nbChilds > 0) {
+            if (nbChildren > 0) {
                 res = true;
             } else {
                 res = false;
@@ -156,40 +140,36 @@ QVariantToArrayOf(QVariant Q)
 {
     ArrayOf res;
     if (!Q.isValid()) {
-        Error(_W("QVariant invalid."));
+        Error(L"Nelson:qml:invalidQVariant", L"QVariant invalid.");
     }
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     QMetaType metaType = Q.metaType();
     int id = metaType.id();
-#else
-    int id = QMetaType::type(Q.typeName());
-#endif
     switch (id) {
     case QMetaType::Type::Bool: {
-        return ArrayOf::logicalConstructor(Q.toBool());
+        return ArrayOf::logicalScalar(Q.toBool());
     } break;
     case QMetaType::Type::Int: {
-        return ArrayOf::int32Constructor(Q.toInt());
+        return ArrayOf::int32Scalar(Q.toInt());
     } break;
     case QMetaType::Type::UInt: {
-        return ArrayOf::uint32Constructor(Q.toUInt());
+        return ArrayOf::uint32Scalar(Q.toUInt());
     } break;
     case QMetaType::Type::LongLong: {
-        return ArrayOf::int64Constructor(Q.toLongLong());
+        return ArrayOf::int64Scalar(Q.toLongLong());
     } break;
     case QMetaType::Type::ULongLong: {
-        return ArrayOf::uint64Constructor(Q.toULongLong());
+        return ArrayOf::uint64Scalar(Q.toULongLong());
     } break;
     case QMetaType::Type::Double: {
-        return ArrayOf::doubleConstructor(Q.toDouble());
+        return ArrayOf::doubleScalar(Q.toDouble());
     } break;
     case QMetaType::Type::Char: {
         char c = qvariant_cast<char>(Q);
         int8 i8 = (int8)c;
-        return ArrayOf::int8Constructor(i8);
+        return ArrayOf::int8Scalar(i8);
     } break;
     case QMetaType::Type::QString: {
-        return ArrayOf::characterArrayConstructor(QStringTowstring(Q.toString()));
+        return ArrayOf::characterArray(QStringTowstring(Q.toString()));
     } break;
     case QMetaType::Type::QStringList: {
         QStringList stringlist = qvariant_cast<QStringList>(Q);
@@ -197,7 +177,7 @@ QVariantToArrayOf(QVariant Q)
         for (auto& k : stringlist) {
             wvector.push_back(QStringTowstring(k));
         }
-        return ArrayOf::toCellArrayOfCharacterRowVectors(wvector);
+        return ArrayOf::cellArrayFromArrayOfCharacterRowVectors(wvector);
     } break;
     case QMetaType::Type::QByteArray: {
         QByteArray qbytearray = Q.toByteArray();
@@ -245,7 +225,7 @@ QVariantToArrayOf(QVariant Q)
 #if (QT_VERSION >= QT_VERSION_CHECK(6, 8, 0))
         qdatetime.setTimeZone(QTimeZone::UTC);
 #else
-        qdatetime.setTimeSpec(Qt::UTC); // FORCE UTC
+        qdatetime.setTimeSpec(Qt::UTC);
 #endif
         QDate qdate = qdatetime.date();
         QTime qtime = qdatetime.time();
@@ -262,7 +242,7 @@ QVariantToArrayOf(QVariant Q)
     } break;
     case QMetaType::Type::QUrl: {
         QUrl qurl = qvariant_cast<QUrl>(Q);
-        res = ArrayOf::characterArrayConstructor(QStringTowstring(qurl.toString()));
+        res = ArrayOf::characterArray(QStringTowstring(qurl.toString()));
     } break;
     case QMetaType::Type::QRect: {
         QRect qrect = Q.toRect();
@@ -342,7 +322,7 @@ QVariantToArrayOf(QVariant Q)
     } break;
     case QMetaType::Type::QUuid: {
         QUuid quuid = Q.toUuid();
-        return ArrayOf::characterArrayConstructor(QStringTowstring(quuid.toString()));
+        return ArrayOf::characterArray(QStringTowstring(quuid.toString()));
     } break;
     case QMetaType::Type::QColor: {
         QColor qcolor = qvariant_cast<QColor>(Q);
@@ -354,21 +334,6 @@ QVariantToArrayOf(QVariant Q)
         Dimensions dims(1, 4);
         return ArrayOf(NLS_INT32, dims, (void*)arrayInt32);
     } break;
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    case QMetaType::Type::QMatrix: {
-        QMatrix qmatrix = qvariant_cast<QMatrix>(Q);
-        double* arrayDouble
-            = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, 6, stringVector(), false);
-        arrayDouble[0] = (double)qmatrix.m11();
-        arrayDouble[1] = (double)qmatrix.m12();
-        arrayDouble[2] = (double)qmatrix.m21();
-        arrayDouble[3] = (double)qmatrix.m22();
-        arrayDouble[4] = (double)qmatrix.dx();
-        arrayDouble[5] = (double)qmatrix.dy();
-        Dimensions dims(1, 6);
-        return ArrayOf(NLS_DOUBLE, dims, (void*)arrayDouble);
-    } break;
-#endif
     case QMetaType::Type::QTransform: {
         QTransform qtransform = qvariant_cast<QTransform>(Q);
         double* arrayDouble
@@ -441,7 +406,7 @@ QVariantToArrayOf(QVariant Q)
         QVariantList qlistVariant = qvariant_cast<QVariantList>(Q);
         Dimensions dimsCellArray(1, qlistVariant.size());
         ArrayOf* cellArray = (ArrayOf*)ArrayOf::allocateArrayOf(
-            NLS_CELL_ARRAY, dimsCellArray.getElementCount(), stringVector(), false);
+            NLS_CELL_ARRAY, dimsCellArray.elementCount(), stringVector(), false);
         for (int k = 0; k < qlistVariant.size(); k++) {
             cellArray[k] = QVariantToArrayOf(qlistVariant[k]);
         }
@@ -456,65 +421,63 @@ QVariantToArrayOf(QVariant Q)
             fieldnames.push_back(QStringTowstring(iter.key()));
             fieldvalues.push_back(QVariantToArrayOf(iter.value()));
         }
-        ArrayOf structArray = ArrayOf::emptyConstructor(0, 0);
+        ArrayOf structArray = ArrayOf::empty(0, 0);
         for (size_t k = 0; k < fieldnames.size(); k++) {
             structArray.setField(wstring_to_utf8(fieldnames[k]), fieldvalues[k]);
         }
         return structArray;
     } break;
     default: {
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
         if (Q.metaType().id() == (int)QMetaType::QObjectStar || Q.canConvert<QObject*>()) {
-#else
-        if (Q.type() == (int)QMetaType::QObjectStar || Q.canConvert<QObject*>()) {
-#endif
             QObject* qobject = Q.value<QObject*>();
             if (qobject) {
                 Dimensions dims(1, 1);
-                nelson_handle* nh = (nelson_handle*)ArrayOf::allocateArrayOf(
-                    NLS_HANDLE, 1, stringVector(), false);
+                HandleRef* nh
+                    = (HandleRef*)ArrayOf::allocateArrayOf(NLS_HANDLE, 1, stringVector(), false);
                 nelson_handle nh_found = HandleManager::getInstance()->findByPointerValue(qobject);
                 if (nh_found != -1) {
-                    nh[0] = nh_found;
+                    nh[0] = HandleManager::getInstance()->getHandleRef(nh_found);
                 } else {
                     QObjectHandleObject* qmlHandle = nullptr;
                     try {
                         qmlHandle = new QObjectHandleObject(qobject);
                     } catch (const std::bad_alloc&) {
                         qmlHandle = nullptr;
-                        Error(ERROR_MEMORY_ALLOCATION);
+                        Error(L"Nelson:outOfMemory",
+                            L"Memory allocation error... You may have run out of memory!");
                     }
-                    nh[0] = HandleManager::getInstance()->addHandle(qmlHandle);
+                    nh[0] = HandleManager::getInstance()->addHandleRef(qmlHandle);
                 }
                 return ArrayOf(NLS_HANDLE, dims, (void*)nh);
             }
         }
         QQmlListReference ref = Q.value<QQmlListReference>();
         if (ref.isValid() && ref.canCount() && ref.canAt()) {
-            int nbChilds = ref.count();
-            if (nbChilds == 0) {
+            int nbChildren = ref.count();
+            if (nbChildren == 0) {
                 Dimensions dims(0, 0);
-                res = ArrayOf::emptyConstructor(dims);
+                res = ArrayOf::empty(dims);
                 res.promoteType(NLS_HANDLE);
                 return res;
             }
-            Dimensions dims(1, nbChilds);
-            nelson_handle* nh = (nelson_handle*)ArrayOf::allocateArrayOf(
-                NLS_HANDLE, nbChilds, stringVector(), false);
-            for (int k = 0; k < nbChilds; k++) {
+            Dimensions dims(1, nbChildren);
+            HandleRef* nh = (HandleRef*)ArrayOf::allocateArrayOf(
+                NLS_HANDLE, nbChildren, stringVector(), false);
+            for (int k = 0; k < nbChildren; k++) {
                 QObject* qobj = ref.at(k);
                 nelson_handle nh_found = HandleManager::getInstance()->findByPointerValue(qobj);
                 if (nh_found != -1) {
-                    nh[k] = nh_found;
+                    nh[k] = HandleManager::getInstance()->getHandleRef(nh_found);
                 } else {
                     QObjectHandleObject* qmlHandle = nullptr;
                     try {
                         qmlHandle = new QObjectHandleObject(qobj);
                     } catch (const std::bad_alloc&) {
                         qmlHandle = nullptr;
-                        Error(ERROR_MEMORY_ALLOCATION);
+                        Error(L"Nelson:outOfMemory",
+                            L"Memory allocation error... You may have run out of memory!");
                     }
-                    nh[k] = HandleManager::getInstance()->addHandle(qmlHandle);
+                    nh[k] = HandleManager::getInstance()->addHandleRef(qmlHandle);
                 }
             }
             return ArrayOf(NLS_HANDLE, dims, (void*)nh);
@@ -523,33 +486,34 @@ QVariantToArrayOf(QVariant Q)
         if (strncmp(name, "QQmlListProperty<", 17) == 0) {
             QQmlListProperty<QObject>* list
                 = reinterpret_cast<QQmlListProperty<QObject>*>(Q.data());
-            int nbChilds = 0;
+            int nbChildren = 0;
             if (list->count && list->at) {
-                nbChilds = list->count(list);
+                nbChildren = list->count(list);
             }
-            if (nbChilds == 0) {
+            if (nbChildren == 0) {
                 Dimensions dims(0, 0);
-                res = ArrayOf::emptyConstructor(dims);
+                res = ArrayOf::empty(dims);
                 res.promoteType(NLS_HANDLE);
                 return res;
             }
-            Dimensions dims(1, nbChilds);
-            nelson_handle* nh = (nelson_handle*)ArrayOf::allocateArrayOf(
-                NLS_HANDLE, nbChilds, stringVector(), false);
-            for (int k = 0; k < nbChilds; k++) {
+            Dimensions dims(1, nbChildren);
+            HandleRef* nh = (HandleRef*)ArrayOf::allocateArrayOf(
+                NLS_HANDLE, nbChildren, stringVector(), false);
+            for (int k = 0; k < nbChildren; k++) {
                 QObject* qobj = list->at(list, k);
                 nelson_handle nh_found = HandleManager::getInstance()->findByPointerValue(qobj);
                 if (nh_found != -1) {
-                    nh[k] = nh_found;
+                    nh[k] = HandleManager::getInstance()->getHandleRef(nh_found);
                 } else {
                     QObjectHandleObject* qmlHandle = nullptr;
                     try {
                         qmlHandle = new QObjectHandleObject(qobj);
                     } catch (const std::bad_alloc&) {
                         qmlHandle = nullptr;
-                        Error(ERROR_MEMORY_ALLOCATION);
+                        Error(L"Nelson:outOfMemory",
+                            L"Memory allocation error... You may have run out of memory!");
                     }
-                    nh[k] = HandleManager::getInstance()->addHandle(qmlHandle);
+                    nh[k] = HandleManager::getInstance()->addHandleRef(qmlHandle);
                 }
             }
             return ArrayOf(NLS_HANDLE, dims, (void*)nh);
@@ -564,7 +528,7 @@ QVariantToArrayOf(QVariant Q)
         }
         QObject* obj = qvariant_cast<QObject*>(Q);
         if (obj == nullptr) {
-            Error(_W("property type not managed."));
+            Error(L"Nelson:qml:typeNotSupported", L"Type not supported.");
         }
         QObjectHandleObject* qmlHandle = nullptr;
         try {
@@ -572,9 +536,10 @@ QVariantToArrayOf(QVariant Q)
             qmlHandle = new QObjectHandleObject(obj);
         } catch (const std::bad_alloc&) {
             qmlHandle = nullptr;
-            Error(ERROR_MEMORY_ALLOCATION);
+            Error(L"Nelson:outOfMemory",
+                L"Memory allocation error... You may have run out of memory!");
         }
-        return ArrayOf::handleConstructor(qmlHandle);
+        return ArrayOf::handle(qmlHandle);
     } break;
     }
     return res;
@@ -586,42 +551,42 @@ ArrayOfToQVariant(ArrayOf A, int id)
     QVariant res;
     switch (id) {
     case QMetaType::Type::Bool: {
-        if (A.getContentAsLogicalScalar() == 1) {
+        if (A.asLogicalScalar() == 1) {
             res = true;
         } else {
             res = false;
         }
     } break;
     case QMetaType::Type::Int: {
-        int32 v = A.getContentAsInteger32Scalar();
+        int32 v = A.asInt32Scalar();
         res = v;
     } break;
     case QMetaType::Type::UInt: {
-        uint32 v = A.getContentAsUnsignedInteger32Scalar();
+        uint32 v = A.asUint32Scalar();
         res = v;
     } break;
     case QMetaType::Type::LongLong: {
-        int64 v = A.getContentAsInteger64Scalar();
+        int64 v = A.asInt64Scalar();
         res = QVariant((long long)v);
     } break;
     case QMetaType::Type::ULongLong: {
-        uint64 v = A.getContentAsUnsignedInteger64Scalar();
+        uint64 v = A.asUint64Scalar();
         res = QVariant((unsigned long long)v);
     } break;
     case QMetaType::Type::Double: {
-        double v = A.getContentAsDoubleScalar();
+        double v = A.asDoubleScalar();
         res = v;
     } break;
     case QMetaType::Type::Char: {
-        int8 v = A.getContentAsInteger8Scalar();
+        int8 v = A.asInt8Scalar();
         res = v;
     } break;
     case QMetaType::Type::QString: {
-        std::wstring wstr = A.getContentAsWideString();
+        std::wstring wstr = A.asWideString();
         res = wstringToQString(wstr);
     } break;
     case QMetaType::Type::QStringList: {
-        wstringVector v = A.getContentAsWideStringVector(true);
+        wstringVector v = A.asWideStringVector(true);
         QStringList stringlist;
         for (auto& k : v) {
             stringlist << wstringToQString(k);
@@ -629,13 +594,13 @@ ArrayOfToQVariant(ArrayOf A, int id)
         res = stringlist;
     } break;
     case QMetaType::Type::QByteArray: {
-        Dimensions dimsA = A.getDimensions();
+        Dimensions dimsA = A.dimensions();
         if (!A.isVector()) {
-            Error(_W("vector expected."));
+            Error(L"Nelson:qml:invalidConversion:vectorExpected", L"Vector expected.");
         }
         A.promoteType(NLS_INT8);
-        int8* arrayInt8 = (int8*)A.getDataPointer();
-        QByteArray qbytearray((int)dimsA.getElementCount(), ' ');
+        int8* arrayInt8 = (int8*)A.dataPointer();
+        QByteArray qbytearray((int)dimsA.elementCount(), ' ');
         int count = qbytearray.length();
         char* data = qbytearray.data();
         for (int k = 0; k < count; k++) {
@@ -644,13 +609,13 @@ ArrayOfToQVariant(ArrayOf A, int id)
         res = qbytearray;
     } break;
     case QMetaType::Type::QBitArray: {
-        Dimensions dimsA = A.getDimensions();
+        Dimensions dimsA = A.dimensions();
         if (!A.isVector()) {
-            Error(_W("vector expected."));
+            Error(L"Nelson:qml:invalidConversion:vectorExpected", L"Vector expected.");
         }
         A.promoteType(NLS_LOGICAL);
-        logical* arrayLogical = (logical*)A.getDataPointer();
-        QBitArray qbitarray((int)dimsA.getElementCount());
+        logical* arrayLogical = (logical*)A.dataPointer();
+        QBitArray qbitarray((int)dimsA.elementCount());
         int count = qbitarray.count();
         for (int k = 0; k < count; k++) {
             qbitarray[k] = (bool)arrayLogical[k];
@@ -658,35 +623,38 @@ ArrayOfToQVariant(ArrayOf A, int id)
         res = qbitarray;
     } break;
     case QMetaType::Type::QDate: {
-        Dimensions dimsA = A.getDimensions();
+        Dimensions dimsA = A.dimensions();
         Dimensions dimsExpected(1, 3);
         if (!dimsA.equals(dimsExpected)) {
-            Error(_W("vector 1x3 expected."));
+            Error(
+                L"Nelson:qml:invalidConversion:vectorNXNExpected", L"vector %dx%d expected.", 1, 3);
         }
         A.promoteType(NLS_INT32);
-        int* arrayInt = (int*)A.getDataPointer();
+        int* arrayInt = (int*)A.dataPointer();
         QDate date(arrayInt[0], arrayInt[1], arrayInt[2]);
         res = date;
     } break;
     case QMetaType::Type::QTime: {
-        Dimensions dimsA = A.getDimensions();
+        Dimensions dimsA = A.dimensions();
         Dimensions dimsExpected(1, 4);
         if (!dimsA.equals(dimsExpected)) {
-            Error(_W("vector 1x4 expected."));
+            Error(
+                L"Nelson:qml:invalidConversion:vectorNXNExpected", L"vector %dx%d expected.", 1, 4);
         }
         A.promoteType(NLS_INT32);
-        int* arrayInt = (int*)A.getDataPointer();
+        int* arrayInt = (int*)A.dataPointer();
         QTime time(arrayInt[0], arrayInt[1], arrayInt[2], arrayInt[3]);
         res = time;
     } break;
     case QMetaType::Type::QDateTime: {
-        Dimensions dimsA = A.getDimensions();
+        Dimensions dimsA = A.dimensions();
         Dimensions dimsExpected(1, 7);
         if (!dimsA.equals(dimsExpected)) {
-            Error(_W("vector 1x7 expected."));
+            Error(
+                L"Nelson:qml:invalidConversion:vectorNXNExpected", L"vector %dx%d expected.", 1, 7);
         }
         A.promoteType(NLS_INT32);
-        int* arrayInt = (int*)A.getDataPointer();
+        int* arrayInt = (int*)A.dataPointer();
         QDate date(arrayInt[0], arrayInt[1], arrayInt[2]);
         QTime time(arrayInt[3], arrayInt[4], arrayInt[5], arrayInt[6]);
         QDateTime datetime(date, time);
@@ -694,155 +662,151 @@ ArrayOfToQVariant(ArrayOf A, int id)
 #if (QT_VERSION >= QT_VERSION_CHECK(6, 8, 0))
         datetime.setTimeZone(QTimeZone::UTC);
 #else
-        datetime.setTimeSpec(Qt::UTC); // FORCE UTC
+        datetime.setTimeSpec(Qt::UTC);
 #endif
         res = datetime;
     } break;
     case QMetaType::Type::QUrl: {
-        std::wstring wstr = A.getContentAsWideString();
+        std::wstring wstr = A.asWideString();
         QUrl qurl(wstringToQString(wstr));
         res = qurl;
     } break;
     case QMetaType::Type::QRect: {
-        Dimensions dimsA = A.getDimensions();
+        Dimensions dimsA = A.dimensions();
         Dimensions dimsExpected(1, 4);
         if (!dimsA.equals(dimsExpected)) {
-            Error(_W("vector 1x4 expected."));
+            Error(
+                L"Nelson:qml:invalidConversion:vectorNXNExpected", L"vector %dx%d expected.", 1, 4);
         }
         A.promoteType(NLS_INT32);
-        int* arrayInt = (int*)A.getDataPointer();
+        int* arrayInt = (int*)A.dataPointer();
         QRect qrect(arrayInt[0], arrayInt[1], arrayInt[2], arrayInt[3]);
         res = qrect;
     } break;
     case QMetaType::Type::QRectF: {
-        Dimensions dimsA = A.getDimensions();
+        Dimensions dimsA = A.dimensions();
         Dimensions dimsExpected(1, 4);
         if (!dimsA.equals(dimsExpected)) {
-            Error(_W("vector 1x4 expected."));
+            Error(
+                L"Nelson:qml:invalidConversion:vectorNXNExpected", L"vector %dx%d expected.", 1, 4);
         }
         A.promoteType(NLS_DOUBLE);
-        double* arrayDouble = (double*)A.getDataPointer();
+        double* arrayDouble = (double*)A.dataPointer();
         QRectF qrectf(arrayDouble[0], arrayDouble[1], arrayDouble[2], arrayDouble[3]);
         res = qrectf;
     } break;
     case QMetaType::Type::QSize: {
-        Dimensions dimsA = A.getDimensions();
+        Dimensions dimsA = A.dimensions();
         Dimensions dimsExpected(1, 2);
         if (!dimsA.equals(dimsExpected)) {
-            Error(_W("vector 1x2 expected."));
+            Error(
+                L"Nelson:qml:invalidConversion:vectorNXNExpected", L"vector %dx%d expected.", 1, 2);
         }
         A.promoteType(NLS_INT32);
-        int* arrayInt = (int*)A.getDataPointer();
+        int* arrayInt = (int*)A.dataPointer();
         QSize qsize(arrayInt[0], arrayInt[1]);
         res = qsize;
     } break;
     case QMetaType::Type::QSizeF: {
-        Dimensions dimsA = A.getDimensions();
+        Dimensions dimsA = A.dimensions();
         Dimensions dimsExpected(1, 2);
         if (!dimsA.equals(dimsExpected)) {
-            Error(_W("vector 1x2 expected."));
+            Error(
+                L"Nelson:qml:invalidConversion:vectorNXNExpected", L"vector %dx%d expected.", 1, 2);
         }
         A.promoteType(NLS_DOUBLE);
-        double* arrayDouble = (double*)A.getDataPointer();
+        double* arrayDouble = (double*)A.dataPointer();
         QSizeF qsizef(arrayDouble[0], arrayDouble[1]);
         res = qsizef;
     } break;
     case QMetaType::Type::QLine: {
-        Dimensions dimsA = A.getDimensions();
+        Dimensions dimsA = A.dimensions();
         Dimensions dimsExpected(1, 4);
         if (!dimsA.equals(dimsExpected)) {
-            Error(_W("vector 1x4 expected."));
+            Error(
+                L"Nelson:qml:invalidConversion:vectorNXNExpected", L"vector %dx%d expected.", 1, 4);
         }
         A.promoteType(NLS_INT32);
-        int* arrayInt = (int*)A.getDataPointer();
+        int* arrayInt = (int*)A.dataPointer();
         QLine qline(arrayInt[0], arrayInt[1], arrayInt[2], arrayInt[3]);
         res = qline;
     } break;
     case QMetaType::Type::QLineF: {
-        Dimensions dimsA = A.getDimensions();
+        Dimensions dimsA = A.dimensions();
         Dimensions dimsExpected(1, 4);
         if (!dimsA.equals(dimsExpected)) {
-            Error(_W("vector 1x4 expected."));
+            Error(
+                L"Nelson:qml:invalidConversion:vectorNXNExpected", L"vector %dx%d expected.", 1, 4);
         }
         A.promoteType(NLS_DOUBLE);
-        double* arrayDouble = (double*)A.getDataPointer();
+        double* arrayDouble = (double*)A.dataPointer();
         QLineF qlinef(arrayDouble[0], arrayDouble[1], arrayDouble[2], arrayDouble[3]);
         res = qlinef;
     } break;
     case QMetaType::Type::QPoint: {
-        Dimensions dimsA = A.getDimensions();
+        Dimensions dimsA = A.dimensions();
         Dimensions dimsExpected(1, 2);
         if (!dimsA.equals(dimsExpected)) {
-            Error(_W("vector 1x2 expected."));
+            Error(
+                L"Nelson:qml:invalidConversion:vectorNXNExpected", L"vector %dx%d expected.", 1, 2);
         }
         A.promoteType(NLS_INT32);
-        int* arrayInt = (int*)A.getDataPointer();
+        int* arrayInt = (int*)A.dataPointer();
         QPoint point(arrayInt[0], arrayInt[1]);
         res = point;
     } break;
     case QMetaType::Type::QPointF: {
-        Dimensions dimsA = A.getDimensions();
+        Dimensions dimsA = A.dimensions();
         Dimensions dimsExpected(1, 2);
         if (!dimsA.equals(dimsExpected)) {
-            Error(_W("vector 1x2 expected."));
+            Error(
+                L"Nelson:qml:invalidConversion:vectorNXNExpected", L"vector %dx%d expected.", 1, 2);
         }
         A.promoteType(NLS_DOUBLE);
-        double* arrayDouble = (double*)A.getDataPointer();
+        double* arrayDouble = (double*)A.dataPointer();
         QPointF pointf(arrayDouble[0], arrayDouble[1]);
         res = pointf;
     } break;
     case QMetaType::Type::QUuid: {
-        std::wstring wstr = A.getContentAsWideString();
+        std::wstring wstr = A.asWideString();
         QUuid quuid(wstringToQString(wstr));
         res = quuid;
     } break;
     case QMetaType::Type::QColor: {
-        Dimensions dimsA = A.getDimensions();
+        Dimensions dimsA = A.dimensions();
         Dimensions dimsExpected(1, 4);
         if (!dimsA.equals(dimsExpected)) {
-            Error(_W("vector 1x4 expected."));
+            Error(
+                L"Nelson:qml:invalidConversion:vectorNXNExpected", L"vector %dx%d expected.", 1, 4);
         }
         A.promoteType(NLS_INT32);
-        int* arrayInt = (int*)A.getDataPointer();
+        int* arrayInt = (int*)A.dataPointer();
         QColor color(arrayInt[0], arrayInt[1], arrayInt[2], arrayInt[3]);
         res = color;
     } break;
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    case QMetaType::Type::QMatrix: {
-        QMatrix qmatrix;
-        Dimensions dimsA = A.getDimensions();
-        Dimensions dimsExpected(1, 6);
-        if (!dimsA.equals(dimsExpected)) {
-            Error(_W("vector 1x6 expected."));
-        }
-        A.promoteType(NLS_DOUBLE);
-        double* arrayDouble = (double*)A.getDataPointer();
-        qmatrix.setMatrix(arrayDouble[0], arrayDouble[1], arrayDouble[2], arrayDouble[3],
-            arrayDouble[4], arrayDouble[5]);
-        res = qmatrix;
-    } break;
-#endif
     case QMetaType::Type::QTransform: {
         QTransform qtransform;
-        Dimensions dimsA = A.getDimensions();
+        Dimensions dimsA = A.dimensions();
         Dimensions dimsExpected(3, 3);
         if (!dimsA.equals(dimsExpected)) {
-            Error(_W("matrix 3x3 expected."));
+            Error(
+                L"Nelson:qml:invalidConversion:matrixNXNExpected", L"matrix %dx%d expected.", 3, 3);
         }
         A.promoteType(NLS_DOUBLE);
-        double* arrayDouble = (double*)A.getDataPointer();
+        double* arrayDouble = (double*)A.dataPointer();
         qtransform.setMatrix(arrayDouble[0], arrayDouble[1], arrayDouble[2], arrayDouble[3],
             arrayDouble[4], arrayDouble[5], arrayDouble[6], arrayDouble[7], arrayDouble[8]);
         res = qtransform;
     } break;
     case QMetaType::Type::QMatrix4x4: {
-        Dimensions dimsA = A.getDimensions();
+        Dimensions dimsA = A.dimensions();
         Dimensions dimsExpected(4, 4);
         if (!dimsA.equals(dimsExpected)) {
-            Error(_W("matrix 4x4 expected."));
+            Error(
+                L"Nelson:qml:invalidConversion:matrixNXNExpected", L"matrix %dx%d expected.", 4, 4);
         }
         A.promoteType(NLS_SINGLE);
-        single* arraySingle = (single*)A.getDataPointer();
+        single* arraySingle = (single*)A.dataPointer();
         QMatrix4x4 qmatrix4x4;
         single* data = qmatrix4x4.data();
         for (int k = 0; k < 16; k++) {
@@ -851,63 +815,67 @@ ArrayOfToQVariant(ArrayOf A, int id)
         res = qmatrix4x4;
     } break;
     case QMetaType::Type::QVector2D: {
-        Dimensions dimsA = A.getDimensions();
+        Dimensions dimsA = A.dimensions();
         Dimensions dimsExpected(1, 2);
         if (!dimsA.equals(dimsExpected)) {
-            Error(_W("vector 1x2 expected."));
+            Error(
+                L"Nelson:qml:invalidConversion:vectorNXNExpected", L"vector %dx%d expected.", 1, 2);
         }
         A.promoteType(NLS_SINGLE);
-        single* arraySingle = (single*)A.getDataPointer();
+        single* arraySingle = (single*)A.dataPointer();
         QVector2D qvector2d(arraySingle[0], arraySingle[1]);
         res = qvector2d;
     } break;
     case QMetaType::Type::QVector3D: {
-        Dimensions dimsA = A.getDimensions();
+        Dimensions dimsA = A.dimensions();
         Dimensions dimsExpected(1, 3);
         if (!dimsA.equals(dimsExpected)) {
-            Error(_W("vector 1x3 expected."));
+            Error(
+                L"Nelson:qml:invalidConversion:vectorNXNExpected", L"vector %dx%d expected.", 1, 3);
         }
         A.promoteType(NLS_SINGLE);
-        single* arraySingle = (single*)A.getDataPointer();
+        single* arraySingle = (single*)A.dataPointer();
         QVector3D qvector3d(arraySingle[0], arraySingle[1], arraySingle[2]);
         res = qvector3d;
     } break;
     case QMetaType::Type::QVector4D: {
-        Dimensions dimsA = A.getDimensions();
+        Dimensions dimsA = A.dimensions();
         Dimensions dimsExpected(1, 4);
         if (!dimsA.equals(dimsExpected)) {
-            Error(_W("vector 1x4 expected."));
+            Error(
+                L"Nelson:qml:invalidConversion:vectorNXNExpected", L"vector %dx%d expected.", 1, 4);
         }
         A.promoteType(NLS_SINGLE);
-        single* arraySingle = (single*)A.getDataPointer();
+        single* arraySingle = (single*)A.dataPointer();
         QVector4D qvector4d(arraySingle[0], arraySingle[1], arraySingle[2], arraySingle[3]);
         res = qvector4d;
     } break;
     case QMetaType::Type::QQuaternion: {
-        Dimensions dimsA = A.getDimensions();
+        Dimensions dimsA = A.dimensions();
         Dimensions dimsExpected(1, 4);
         if (!dimsA.equals(dimsExpected)) {
-            Error(_W("vector 1x4 expected."));
+            Error(
+                L"Nelson:qml:invalidConversion:vectorNXNExpected", L"vector %dx%d expected.", 1, 4);
         }
         A.promoteType(NLS_SINGLE);
-        single* arraySingle = (single*)A.getDataPointer();
+        single* arraySingle = (single*)A.dataPointer();
         QQuaternion qq(arraySingle[0], arraySingle[1], arraySingle[2], arraySingle[3]);
         res = qq;
     } break;
     case QMetaType::Type::QVariantList: {
         if (!A.isCell()) {
-            Error(_W("cell expected."));
+            Error(L"Nelson:qml:invalidConversion", L"cell expected.");
         }
         res = ArrayOfToQVariant(A);
     } break;
     case QMetaType::Type::QVariantMap: {
         if (!A.isStruct()) {
-            Error(_W("structs expected."));
+            Error(L"Nelson:qml:invalidConversion:structsExpected", L"structs expected.");
         }
         res = ArrayOfToQVariant(A);
     } break;
     default: {
-        Error(_W("QVariant type not managed."));
+        Error(L"Nelson:qml:typeNotSupported", L"Type not supported.");
     } break;
     }
     return res;
@@ -920,9 +888,9 @@ NelsonTypeToQVariant(const ArrayOf& A)
     QVariant res;
     if (A.isVector()) {
         QVariantList qlistVariant;
-        Dimensions dimsA = A.getDimensions();
-        T* nlsArray = (T*)A.getDataPointer();
-        indexType elementCount = dimsA.getElementCount();
+        Dimensions dimsA = A.dimensions();
+        T* nlsArray = (T*)A.dataPointer();
+        indexType elementCount = dimsA.elementCount();
         for (indexType k = 0; k < elementCount; k++) {
             QVariant element = QVariant(nlsArray[k]);
             qlistVariant.push_back(element);
@@ -931,10 +899,10 @@ NelsonTypeToQVariant(const ArrayOf& A)
         return res;
     } else {
         QVariantList qlistVariantRows;
-        Dimensions dimsA = A.getDimensions();
-        T* nlsArray = (T*)A.getDataPointer();
-        indexType rows = dimsA.getRows();
-        indexType columns = dimsA.getColumns();
+        Dimensions dimsA = A.dimensions();
+        T* nlsArray = (T*)A.dataPointer();
+        indexType rows = dimsA.rows();
+        indexType columns = dimsA.columns();
         for (indexType i = 0; i < rows; i++) {
             QVariantList qlistVariantColumns;
             for (indexType j = 0; j < columns; j++) {
@@ -948,17 +916,50 @@ NelsonTypeToQVariant(const ArrayOf& A)
     return res;
 }
 //=============================================================================
+static QVariant
+tableToQVariant(ArrayOf A)
+{
+    QVariantMap qvariantTable;
+    QVariantMap qvariantData;
+    stringVector variableNames = A.tableVariableNames();
+    for (const auto& variableName : variableNames) {
+        qvariantData[QString::fromStdString(variableName)]
+            = ArrayOfToQVariant(A.tableColumn(variableName));
+    }
+    QVariantMap qvariantProperties;
+    QStringList variableNameList;
+    for (const auto& variableName : variableNames) {
+        variableNameList.push_back(QString::fromStdString(variableName));
+    }
+    qvariantProperties["VariableNames"] = variableNameList;
+    stringVector variableTypes = A.tableVariableTypes();
+    QStringList variableTypeList;
+    for (const auto& variableType : variableTypes) {
+        variableTypeList.push_back(QString::fromStdString(variableType));
+    }
+    qvariantProperties["VariableTypes"] = variableTypeList;
+    stringVector rowNames = A.tableRowNames();
+    QStringList rowNameList;
+    for (const auto& rowName : rowNames) {
+        rowNameList.push_back(QString::fromStdString(rowName));
+    }
+    qvariantProperties["RowNames"] = rowNameList;
+    qvariantTable["data"] = qvariantData;
+    qvariantTable["Properties"] = qvariantProperties;
+    return qvariantTable;
+}
+//=============================================================================
 QVariant
 ArrayOfToQVariant(ArrayOf A)
 {
     QVariant res;
     if (A.isSparse() || !A.is2D()) {
-        Error(_W("Type conversion to QVariant not managed."));
+        Error(L"Nelson:qml:typeNotSupported", L"Type not supported.");
     }
     if (A.isEmpty()) {
-        Error(_W("Empty matrix not managed."));
+        Error(L"Nelson:qml:typeNotSupported", L"Type not supported.");
     }
-    NelsonType ClassA = A.getDataClass();
+    NelsonType ClassA = A.dataClass();
     switch (ClassA) {
     case NLS_LOGICAL: {
         if (A.isScalar()) {
@@ -1026,12 +1027,12 @@ ArrayOfToQVariant(ArrayOf A)
         if (A.isRowVectorCharacterArray()) {
             res = ArrayOfToQVariant(A, QMetaType::Type::QString);
         } else {
-            Error(_W("Type conversion to QVariant not managed."));
+            Error(L"Nelson:qml:typeNotSupported", L"Type not supported.");
         }
     } break;
     case NLS_STRING_ARRAY: {
         if (A.isVector()) {
-            wstringVector vstr = A.getContentAsWideStringVector();
+            wstringVector vstr = A.asWideStringVector();
             QStringList stringlist;
             for (auto& k : vstr) {
                 stringlist.push_back(wstringToQString(k));
@@ -1040,10 +1041,10 @@ ArrayOfToQVariant(ArrayOf A)
             return res;
         }
         QVariantList qlistVariantRows;
-        Dimensions dimsA = A.getDimensions();
-        ArrayOf* cellArray = (ArrayOf*)A.getDataPointer();
-        indexType rows = dimsA.getRows();
-        indexType columns = dimsA.getColumns();
+        Dimensions dimsA = A.dimensions();
+        ArrayOf* cellArray = (ArrayOf*)A.dataPointer();
+        indexType rows = dimsA.rows();
+        indexType columns = dimsA.columns();
         for (indexType i = 0; i < rows; i++) {
             QVariantList qlistVariantColumns;
             for (indexType j = 0; j < columns; j++) {
@@ -1059,7 +1060,7 @@ ArrayOfToQVariant(ArrayOf A)
     case NLS_CELL_ARRAY: {
         if (A.isVector()) {
             if (A.isCellArrayOfCharacterVectors()) {
-                wstringVector vstr = A.getContentAsWideStringVector();
+                wstringVector vstr = A.asWideStringVector();
                 QStringList stringlist;
                 for (auto& k : vstr) {
                     stringlist.push_back(wstringToQString(k));
@@ -1067,10 +1068,10 @@ ArrayOfToQVariant(ArrayOf A)
                 QVariant res = stringlist;
                 return res;
             }
-            Dimensions dimsA = A.getDimensions();
-            ArrayOf* cellArray = (ArrayOf*)A.getDataPointer();
+            Dimensions dimsA = A.dimensions();
+            ArrayOf* cellArray = (ArrayOf*)A.dataPointer();
             QVariantList qvariantList;
-            indexType elementCount = dimsA.getElementCount();
+            indexType elementCount = dimsA.elementCount();
             for (indexType k = 0; k < elementCount; k++) {
                 qvariantList.push_back(ArrayOfToQVariant(cellArray[k]));
             }
@@ -1078,10 +1079,10 @@ ArrayOfToQVariant(ArrayOf A)
 
         } else {
             QVariantList qlistVariantRows;
-            Dimensions dimsA = A.getDimensions();
-            ArrayOf* cellArray = (ArrayOf*)A.getDataPointer();
-            indexType rows = dimsA.getRows();
-            indexType columns = dimsA.getColumns();
+            Dimensions dimsA = A.dimensions();
+            ArrayOf* cellArray = (ArrayOf*)A.dataPointer();
+            indexType rows = dimsA.rows();
+            indexType columns = dimsA.columns();
             for (indexType i = 0; i < rows; i++) {
                 QVariantList qlistVariantColumns;
                 for (indexType j = 0; j < columns; j++) {
@@ -1096,9 +1097,9 @@ ArrayOfToQVariant(ArrayOf A)
     } break;
     case NLS_STRUCT_ARRAY: {
         QVariantMap qvariantMap;
-        stringVector fieldnames = A.getFieldNames();
+        stringVector fieldnames = A.fieldNames();
         for (auto& fieldname : fieldnames) {
-            qvariantMap[fieldname.c_str()] = ArrayOfToQVariant(A.getField(fieldname));
+            qvariantMap[fieldname.c_str()] = ArrayOfToQVariant(A.field(fieldname));
         }
         res = qvariantMap;
     } break;
@@ -1106,14 +1107,25 @@ ArrayOfToQVariant(ArrayOf A)
     case NLS_HANDLE:
     case NLS_SCOMPLEX:
     case NLS_DCOMPLEX:
-    case NLS_CLASS_ARRAY:
     case NLS_FUNCTION_HANDLE:
     default: {
-        Error(_W("Type conversion to QVariant not managed."));
+        Error(L"Nelson:qml:typeNotSupported", L"Type not supported.");
+    } break;
+    case NLS_CLASS_ARRAY: {
+        if (!A.isTable()) {
+            Error(L"Nelson:qml:typeNotSupported", L"Type not supported.");
+        }
+        res = tableToQVariant(A);
+    } break;
+    case NLS_CLASSDEF_ARRAY: {
+        if (!A.isTable()) {
+            Error(L"Nelson:qml:typeNotSupported", L"Type not supported.");
+        }
+        res = tableToQVariant(A);
     } break;
     }
     return res;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>camproj</keyword>
+  <short_description>Set or query the camera projection type.</short_description>
+  <syntax>
+    <syntax_item>camproj</syntax_item>
+    <syntax_item>p = camproj</syntax_item>
+    <syntax_item>camproj('orthographic')</syntax_item>
+    <syntax_item>camproj('perspective')</syntax_item>
+    <syntax_item>camproj(ax, ...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description>a scalar graphics object value: an axes.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>type</param_name>
+      <param_description>the projection type: 'orthographic' or 'perspective'.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>p</param_name>
+      <param_description>the current projection type.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>camproj</b> sets or queries the <b>Projection</b> property of an axes.</p>
+    <p>An <b>orthographic</b> projection keeps parallel lines parallel and the
+    apparent size independent of distance. A <b>perspective</b> projection adds
+    foreshortening, so objects farther from the camera appear smaller.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
+surf(peaks(40), 'EdgeColor', 'none');
+camproj('perspective');
+p = camproj()]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}3_labels_styling/3_interactions_camera_lighting/camva">camva</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}3_labels_styling/3_interactions_camera_lighting/campos">campos</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

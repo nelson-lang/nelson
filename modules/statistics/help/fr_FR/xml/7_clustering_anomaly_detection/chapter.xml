@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>statistics</module_name>
+  <chapter>Regroupement et detection d anomalies</chapter>
+  <chapter_description>
+    <p>Fonctions d apprentissage non supervise, recherche de plus proches voisins, gestion des valeurs aberrantes et modeles de sequences.</p>
+  </chapter_description>
+</xmldoc>

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "issymmetricBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "OverloadRequired.hpp"
 #include "IsSymmetric.hpp"
@@ -29,7 +30,7 @@ Nelson::LinearAlgebraGateway::issymmetricBuiltin(int nLhs, const ArrayOfVector& 
         ArrayOf param2 = argIn[1];
         if (param2.isRowVectorCharacterArray()) {
             withTol = false;
-            std::wstring str = param2.getContentAsWideString();
+            std::wstring str = param2.asWideString();
             if (str == L"skew" || str == L"nonskew") {
                 if (str == L"skew") {
                     skew = true;
@@ -37,13 +38,15 @@ Nelson::LinearAlgebraGateway::issymmetricBuiltin(int nLhs, const ArrayOfVector& 
                     skew = false;
                 }
             } else {
-                Error(_W("Second input must be 'skew' or 'nonskew'."));
+                Error(L"Nelson:ishermitian:invalidOption",
+                    L"Second input must be 'skew' or 'nonskew'.");
             }
         } else {
             withTol = true;
-            tol = param2.getContentAsDoubleScalar();
+            tol = param2.asDoubleScalar();
             if (!std::isfinite(tol) || tol < 0.) {
-                Error(_W("Second input must be finite and >= 0."));
+                Error(L"Nelson:issymmetric:invalidTolerance",
+                    L"Second input must be finite and >= 0.");
             }
         }
     }
@@ -51,9 +54,9 @@ Nelson::LinearAlgebraGateway::issymmetricBuiltin(int nLhs, const ArrayOfVector& 
         OverloadRequired("issymmetric");
     }
     if (withTol) {
-        retval << ArrayOf::logicalConstructor(IsSymmetric(argIn[0], tol, "issymmetric"));
+        retval << ArrayOf::logicalScalar(IsSymmetric(argIn[0], tol, "issymmetric"));
     } else {
-        retval << ArrayOf::logicalConstructor(IsSymmetric(argIn[0], skew, "issymmetric"));
+        retval << ArrayOf::logicalScalar(IsSymmetric(argIn[0], skew, "issymmetric"));
     }
     return retval;
 }

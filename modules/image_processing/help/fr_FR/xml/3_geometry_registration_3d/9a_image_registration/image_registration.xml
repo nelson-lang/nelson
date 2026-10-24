@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>image_registration</keyword>
+  <short_description>Vue d'ensemble du recalage d'images.</short_description>
+  <description>
+    <p>Le recalage d'images aligne une image mobile sur une image fixe en estimant une transformation geometrique puis en reechantillonnant l'image mobile sur la grille cible.</p>
+    <p>Utilisez <b>imregconfig</b> pour creer les reglages de recalage, <b>imregcorr</b> pour les estimations par correlation de phase, <b>imregtform</b> pour estimer une transformation, <b>imregister</b> pour le recalage direct et <b>imwarp</b> pour appliquer explicitement les transformations.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Recaler une image translatee.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[I = zeros(32, 32);
+I(10:18, 12:20) = 1;
+J = imtranslate(I, [3 -2]);
+[optimizer, metric] = imregconfig('monomodal');
+K = imregister(I, J, 'translation', optimizer, metric, 'Interpolation', 'nearest');]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}3_geometry_registration_3d/6_geometric_transforms/imregconfig">imregconfig</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}3_geometry_registration_3d/6_geometric_transforms/imregcorr">imregcorr</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}3_geometry_registration_3d/6_geometric_transforms/imregtform">imregtform</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}3_geometry_registration_3d/6_geometric_transforms/imregister">imregister</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}3_geometry_registration_3d/6_geometric_transforms/imwarp">imwarp</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -10,7 +10,7 @@
 sys = tf(2);
 R = inv(sys);
 REF = tf(0.5);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 num = [3 4];
 den = [3 1 5];
@@ -21,6 +21,6 @@ den_REF = [3 4];
 num_REF = [3 1 5];
 Ts = 0.2;
 REF = tf(num_REF, den_REF, Ts);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 

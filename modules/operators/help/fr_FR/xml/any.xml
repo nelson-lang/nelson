@@ -36,6 +36,9 @@
   <description>
     <p>
       <b>any</b> renvoie vrai si au moins un élément d&apos;une matrice satisfait une condition.</p>
+    <p>
+      Les matrices sparse single et sparse single complexes sont prises en charge. Les zeros
+      implicites du sparse participent au test logique comme des valeurs nulles.</p>
   </description>
   <used_function />
   <bibliography />
@@ -47,6 +50,12 @@
         runnable="cli"
       ><![CDATA[any([33, 22; 11, 0])
 any([33, 22; 11, 0], 2)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Test logique sur une matrice sparse single.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[S = sparse(single([0 0; 2 0]));
+R = any(S, 2)]]></example_item_data>
     </example_item>
   </examples>
   <see_also>
@@ -63,6 +72,10 @@ any([33, 22; 11, 0], 2)]]></example_item_data>
       <history_version>1.6.0</history_version>
       <history_description>gère l&apos;argument d&apos;entrée &apos;all&apos;
       </history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>prise en charge des matrices sparse single et sparse single complexes.</history_description>
     </history_item>
   </history>
   <authors>

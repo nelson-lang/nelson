@@ -22,6 +22,6 @@ setAudioFileMetaData(const std::wstring& filename, wstringVector fieldnames,
 NLSAUDIO_IMPEXP bool
 deleteAudioFileMetaData(
     const std::wstring& filename, const std::wstring& fieldname, std::wstring& errorMessage);
-
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

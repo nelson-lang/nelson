@@ -15,6 +15,8 @@ namespace Nelson::TimeGateway {
 //=============================================================================
 ArrayOfVector
 timeBuiltin(int nLhs, const ArrayOfVector& argIn);
+ArrayOfVector
+datetime_serial_add_secondsBuiltin(int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

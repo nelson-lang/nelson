@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nelson.compiler.BuildOptions</keyword>
+  <keyword_alias>nelson.compiler.BuildOptions</keyword_alias>
+  <short_description>Configure a native application build.</short_description>
+  <syntax>
+    <syntax_item>options = nelson.compiler.BuildOptions(AppFile)</syntax_item>
+    <syntax_item>options = nelson.compiler.BuildOptions(AppFile, Name, Value, ...)</syntax_item>
+    <syntax_item>options = nelson.compiler.BuildOptions(AppFile, settings)</syntax_item>
+    <syntax_item>values = struct(options)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>AppFile</param_name><param_description>Existing .m entry file: character row vector or scalar string.</param_description></param_input_item>
+    <param_input_item><param_name>settings</param_name><param_description>Scalar structure of supported option names and values.</param_description></param_input_item>
+  </param_input>
+  <param_output><param_output_item><param_name>options</param_name><param_description>Scalar value object with validated, writable properties.</param_description></param_output_item></param_output>
+  <description>
+    <p>Load the optional compiler module first, for example with <b>ncc('--help')</b>. <b>ncc('options', AppFile, ...)</b> loads it and constructs this same object. Construction validates options but does not build an executable.</p>
+    <p>Names are case-insensitive and must be complete. Unknown names and an AppFile override in settings are rejected. Setters also validate subsequent assignments. Text accepts character row vectors or scalar strings; logical options accept true, false, numeric zero or one, and on or off text.</p>
+    <p><b>AppFile</b>: existing entry script or function. Relative paths are anchored to the current directory when assigned. AdditionalFiles patterns are expanded during analysis/build, not frozen at construction.</p>
+    <p><b>ExecutableName</b>: defaults to the entry file stem. It must be an identifier. Windows device names are rejected on Windows. Do not include .exe.</p>
+    <p><b>ExecutableVersion</b>: default <b>1.0.0.0</b>. One to four decimal components in 0..65535, with omitted trailing components set to zero; for example 2.0 becomes 2.0.0.0. On Windows it sets native file and product versions. Other platforms validate the value but do not write Windows resources.</p>
+    <p>Version text is limited to 23 characters, including separators.</p>
+    <p><b>OutputDir</b>: defaults to ExecutableName followed by <b>standaloneApplication</b>, relative to the construction directory. Changing ExecutableName later does not change OutputDir. An existing directory may be used, but the output executable and bundled runtime destination must not already exist.</p>
+    <p><b>AdditionalFiles</b>: default empty cell. A file, recursive directory, wildcard pattern, string array or cell of text paths. Use it for resources and dynamically resolved code that static analysis cannot infer.</p>
+    <p><b>AutoDetectDataFiles</b>: default true. Include supported, statically resolvable data-file references. False disables this discovery; explicit AdditionalFiles remain included.</p>
+    <p><b>CustomHelpTextFile</b>: default empty. Optional existing text file displayed by the deployed application's --help option.</p>
+    <p><b>Mode</b>: <b>auto</b> (default), <b>cli</b> or <b>gui</b>. Selects runtime capabilities; gui includes graphics support. <b>NoConsole</b>: default false; true selects a Windows application without a console and is rejected on other platforms. It is independent of Mode and does not enable graphics or redirect output to a log.</p>
+    <p><b>RuntimeMode</b>: <b>bundled</b> (default) copies the selected runtime next to the executable; <b>installed</b> reuses a compatible installation and copies no runtime. <b>Verbose</b>: default false; print build details.</p>
+    <p>Options have value semantics. Copying and modifying an object does not change the original. <b>struct(options)</b> returns all properties. To reconstruct, pass values.AppFile as the first argument and remove AppFile from the settings structure.</p>
+    <p><b>RuntimeLogFile</b>: empty by default (disabled). A nonempty filename enables an append-only UTF-8 log containing runtime initialization, standard output and standard error, without suppressing console output. Relative paths are resolved beside the executable, not against the calling directory. The parent directory must already exist and be writable; environment variables are not expanded. Failure to open or finish the log returns exit code 2 unless the application already failed. Concurrent streams and processes may interleave chunks; complete lines and global ordering are not guaranteed. Capture retains incomplete UTF-8 characters until the next read before appending them. Malformed or truncated output is preserved as raw bytes. Shared append behavior on network filesystems depends on the filesystem. Logging adds file I/O only when enabled and requires a runtime with the output capture interface on Windows.</p>
+    <p><b>ExecutableIcon</b> is empty by default. On Windows, select an existing image to replace the native application icon at build time. See <link linkend="${compiler}compiler.build.StandaloneApplicationOptions">compiler.build.StandaloneApplicationOptions</link> for formats, transparency, sizing and platform limits. The command form is <b>--executable-icon image</b>.</p>
+    <p><b>EmbedArchive</b> defaults to true. False maps to <b>-C</b> or <b>--external-archive</b> and produces an adjacent .nca to distribute with the executable in either runtime mode. See <link linkend="${compiler}compiler.build.StandaloneApplicationOptions">compiler.build.StandaloneApplicationOptions</link> for integrity checks, renaming and limitations.</p>
+    <p><b>TreatInputsAsNumeric</b> (false by default) enables one-time built-in str2double conversion of function arguments. The command forms are <b>-n</b> and <b>--numeric-inputs</b>. Invalid text becomes NaN, arguments are never evaluated as code, and argv('user') retains the original text. See <link linkend="${compiler}compiler.build.StandaloneApplicationOptions">compiler.build.StandaloneApplicationOptions</link> for supported values and runtime requirements.</p>
+    <p><b>SupportPackages</b> defaults to {'autodetect'}. Use 'none' or registered nmm package names to filter dependencies at build time. The repeatable command option is <b>--support-package name</b>. See <link linkend="${compiler}compiler.build.StandaloneApplicationOptions">compiler.build.StandaloneApplicationOptions</link> for exclusions, explicit-input conflicts and limitations.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Configure without building</example_item_description>
+      <example_item_data runnable="false"><![CDATA[ncc('--help');
+entry = fullfile(modulepath('compiler'), 'examples', 'standalone', 'app_entry.m');
+options = nelson.compiler.BuildOptions(entry, 'RuntimeMode', 'installed');
+options.ExecutableVersion = '2.0';
+values = struct(options);
+copy = nelson.compiler.BuildOptions(values.AppFile, rmfield(values, 'AppFile'));]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${modules_manager}ncc">ncc</link></see_also_item>
+    <see_also_item><link linkend="${compiler}nelson.compiler.build">nelson.compiler.build</link></see_also_item>
+    <see_also_item><link linkend="${compiler}nelson.compiler.analyze">nelson.compiler.analyze</link></see_also_item>
+    <see_also_item><link linkend="${compiler}compiler_standalone_tutorial">compiler_standalone_tutorial</link></see_also_item>
+  </see_also>
+  <history />
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

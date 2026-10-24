@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <module_name>control_system</module_name>
+  <chapter>Conception et reglage de commande</chapter>
+  <chapter_description>
+    <p>Fonctions pour conception de controleurs, estimateurs et calculs de regulateurs.</p>
+  </chapter_description>
+</xmldoc>

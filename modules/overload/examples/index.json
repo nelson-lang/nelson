@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "file": "complex/example_complex.m",
+      "title": "Define an overloaded class",
+      "description": "Use a class folder to customize display, indexing and addition.",
+      "tags": [
+        "objects",
+        "operators"
+      ],
+      "requirements": []
+    }
+  ]
+}

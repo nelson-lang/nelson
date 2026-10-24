@@ -12,21 +12,21 @@
 imformats()
 %=============================================================================
 st = imformats();
-assert_istrue(isstruct(st));
-assert_istrue(length(st) > 5);
+asserts.istrue(isstruct(st));
+asserts.istrue(length(st) > 5);
 %=============================================================================
 imfmt = imformats('png');
 names = fieldnames(imfmt);
-assert_istrue(length(names) > 0);
-assert_istrue(ismember('ext', names));
-assert_istrue(ismember('isa', names));
-assert_istrue(ismember('info', names));
-assert_istrue(ismember('read', names));
-assert_istrue(ismember('write', names));
-assert_istrue(ismember('alpha', names));
-assert_istrue(ismember('description', names));
-assert_istrue(ismember('multipage', names));
+asserts.istrue(length(names) > 0);
+asserts.istrue(ismember('ext', names));
+asserts.istrue(ismember('isa', names));
+asserts.istrue(ismember('info', names));
+asserts.istrue(ismember('read', names));
+asserts.istrue(ismember('write', names));
+asserts.istrue(ismember('alpha', names));
+asserts.istrue(ismember('description', names));
+asserts.istrue(ismember('multipage', names));
 %=============================================================================
 imfmt = imformats('png44');
-assert_istrue(isempty(imfmt));
+asserts.istrue(isempty(imfmt));
 %=============================================================================

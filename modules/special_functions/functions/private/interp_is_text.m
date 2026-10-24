@@ -8,6 +8,6 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function tf = interp_is_text(value)
-  tf = ischar(value) || isStringScalar(value);
+  tf = ischar(value) || (isstring(value) && isscalar(value));
 end
 %=============================================================================

@@ -29,7 +29,7 @@
       ><![CDATA[try
 error('an error')
 catch
-  disp('error catched')
+  disp('error caught')
 end]]></example_item_data>
     </example_item>
     <example_item>

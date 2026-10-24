@@ -8,48 +8,45 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 TMPDIR = tempdir();
-if ismac()
-  TMPDIR = ['/private', TMPDIR];
-end
 %=============================================================================
 cd(nelsonroot())
 eval(['cd(''', eval('TMPDIR'), ''')']);
 R = pwd();
 REF = TMPDIR;
-assert_isequal([R, '/'], REF);
+asserts.isequal([R, '/'], REF);
 %=============================================================================
 cd(nelsonroot())
 eval(['cd            (''', eval('TMPDIR'), ''')']);
 R = pwd();
 REF = TMPDIR;
-assert_isequal([R, '/'], REF);
+asserts.isequal([R, '/'], REF);
 %=============================================================================
 cd(nelsonroot())
 eval(['cd         (      ''', eval('TMPDIR'), ''')']);
 R = pwd();
 REF = TMPDIR;
-assert_isequal([R, '/'], REF);
+asserts.isequal([R, '/'], REF);
 %=============================================================================
 cd(nelsonroot())
 cd(TMPDIR)
 R = pwd();
 REF = TMPDIR;
-assert_isequal([R, '/'], REF);
+asserts.isequal([R, '/'], REF);
 %=============================================================================
 cd(nelsonroot())
 currentDirectory = pwd();
 cd .
 newDirectory = pwd();
-assert_isequal(currentDirectory, newDirectory);
+asserts.isequal(currentDirectory, newDirectory);
 %=============================================================================
 cd(nelsonroot())
 currentDirectory = pwd();
-cd     .
+cd .
 newDirectory = pwd();
-assert_isequal(currentDirectory, newDirectory);
+asserts.isequal(currentDirectory, newDirectory);
 %=============================================================================
 currentDirectory = pwd();
 cd('.')
 newDirectory = pwd();
-assert_isequal(currentDirectory, newDirectory);
+asserts.isequal(currentDirectory, newDirectory);
 %=============================================================================

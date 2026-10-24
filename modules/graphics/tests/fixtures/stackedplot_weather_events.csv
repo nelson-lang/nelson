@@ -1,0 +1,5 @@
+Time,EventType,EventLengthHours,Precipitation
+2022-11-03,Hail,1.2,12.7
+2022-11-05,Rain,36,114.3
+2022-11-10,Snow,18,25.4
+2022-11-14,Rain,20,177.8

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nchoosek</keyword>
+  <short_description>Binomial coefficient or combinations.</short_description>
+  <syntax>
+    <syntax_item>c = nchoosek(n, k)</syntax_item>
+    <syntax_item>C = nchoosek(v, k)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>n</param_name>
+      <param_description>nonnegative integer scalar: number of available choices.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>v</param_name>
+      <param_description>vector containing the available elements.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>k</param_name>
+      <param_description>nonnegative integer scalar: number of selected elements.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>c</param_name>
+      <param_description>binomial coefficient when the first input is a scalar.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>C</param_name>
+      <param_description>matrix whose rows contain the k-element combinations of v.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>nchoosek(n, k) returns the binomial coefficient for nonnegative integer scalar n.</p>
+    <p>nchoosek(v, k) returns a matrix containing all k-element combinations of the elements of vector v.</p>
+  </description>
+  <used_function>
+    <used_function_item>factorial</used_function_item>
+  </used_function>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Compute a binomial coefficient and all two-element combinations of a vector.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[b = nchoosek(5, 2)
+C = nchoosek([10 20 30 40], 2)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${elementary_functions}factorial">factorial</link></see_also_item>
+    <see_also_item><link linkend="${data_analysis}prod">prod</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

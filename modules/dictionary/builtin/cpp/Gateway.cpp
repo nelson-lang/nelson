@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "NelsonGateway.hpp"
+#include "containersMapBuiltin.hpp"
 #include "keyHashBuiltin.hpp"
 #include "keyMatchBuiltin.hpp"
 //=============================================================================
@@ -16,6 +17,8 @@ using namespace Nelson;
 const std::wstring gatewayName = L"dictionary";
 //=============================================================================
 static const nlsGateway gateway[] = {
+    { "__containers_map__", (ptrBuiltin)Nelson::DictionaryGateway::containersMapBuiltin, 1, 5,
+        CPP_BUILTIN_WITH_EVALUATOR, NLS_OVERLOAD_AUTO_OFF },
     { "keyHash", (ptrBuiltin)Nelson::DictionaryGateway::keyHashBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR, NLS_OVERLOAD_AUTO_OFF },
     { "keyMatch", (ptrBuiltin)Nelson::DictionaryGateway::keyMatchBuiltin, 1, 2,
@@ -23,11 +26,7 @@ static const nlsGateway gateway[] = {
 
 };
 //=============================================================================
-NLSGATEWAYFUNC(gateway)
+NLS_GATEWAY_FUNC(gateway)
 //=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+NLS_GATEWAY_REMOVE(gateway)
 //=============================================================================

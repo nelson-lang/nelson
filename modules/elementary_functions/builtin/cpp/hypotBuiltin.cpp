@@ -9,11 +9,12 @@
 //=============================================================================
 #include "hypotBuiltin.hpp"
 #include "Error.hpp"
-#include "Hypothenus.hpp"
+#include "Hypotenuse.hpp"
 #include "FindCommonType.hpp"
 #include "OverloadHelpers.hpp"
 #include "OverloadRequired.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -42,20 +43,22 @@ Nelson::ElementaryFunctionsGateway::hypotBuiltin(
     bool needToOverload = false;
     ArrayOf A(argIn[0]);
     ArrayOf B(argIn[1]);
-    if (A.getDataClass() != B.getDataClass()) {
+    if (A.dataClass() != B.dataClass()) {
         if (A.isIntegerType()) {
-            bool isCompatible = (B.getDataClass() == NLS_DOUBLE) && B.isScalar();
+            bool isCompatible = (B.dataClass() == NLS_DOUBLE) && B.isScalar();
             if (!isCompatible) {
-                Error(_W("Integers can only be combined with integers of the same class, or scalar "
-                         "doubles."));
+                Error(L"Nelson:hypot:integerCombination",
+                    L"Integers can only be combined with integers of the same class, or scalar "
+                    L"doubles.");
             }
             A.promoteType(commonType);
             B.promoteType(commonType);
         } else if (B.isIntegerType()) {
-            bool isCompatible = (A.getDataClass() == NLS_DOUBLE) && A.isScalar();
+            bool isCompatible = (A.dataClass() == NLS_DOUBLE) && A.isScalar();
             if (!isCompatible) {
-                Error(_W("Integers can only be combined with integers of the same class, or scalar "
-                         "doubles."));
+                Error(L"Nelson:hypot:integerCombination",
+                    L"Integers can only be combined with integers of the same class, or scalar "
+                    L"doubles.");
             }
             A.promoteType(commonType);
             B.promoteType(commonType);
@@ -76,7 +79,7 @@ Nelson::ElementaryFunctionsGateway::hypotBuiltin(
             }
         }
     }
-    res = Hypothenuse(A, B, needToOverload);
+    res = Hypotenuse(A, B, needToOverload);
 
     if (needToOverload) {
         bool overloadWasFound = false;

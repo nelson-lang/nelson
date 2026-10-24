@@ -9,12 +9,13 @@
 %=============================================================================
 % <--NO USER MODULES-->
 %=============================================================================
+skip_testsuite(isempty(which('havecompiler')), 'Compiler helper is not available.');
 if ispc() && ~havecompiler()
   configuremsvc()
 end
 skip_testsuite(~havecompiler())
 %=============================================================================
-builderFile = [nelsonroot(),'/module_skeleton/builder.m'];
+builderFile = [nelsonroot(), '/module_skeleton/builder.m'];
 if ~isfile(builderFile)
   return
 end
@@ -23,7 +24,6 @@ cd([nelsonroot(), '/module_skeleton/']);
 run('builder.m');
 run('loader.m');
 [modules_loaded, modules_path, modules_version, modules_protected] = getmodules();
-assert_isequal(strcmp(modules_loaded(end), 'module_skeleton'), true);
-assert_isequal(modules_protected(end), false);
+asserts.isequal(strcmp(modules_loaded(end), 'module_skeleton'), true);
+asserts.isequal(modules_protected(end), false);
 %=============================================================================
-

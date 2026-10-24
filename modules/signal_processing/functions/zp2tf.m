@@ -14,12 +14,12 @@ function varargout = zp2tf(varargin)
   polesArray = varargin{2};
   gain = varargin{3};
   if ~isvector(gain)
-    error(_('Third argument must be a vector.'));
+    error('Nelson:validators:mustBeVector', '%s must be a vector.', 'Third argument');
   end
-  
+
   denominator = findDenominator(polesArray);
   varargout{1} = findNumerator(zerosArray, gain, denominator);
-  
+
   if (nargout > 1)
     varargout{2} = denominator;
   end
@@ -44,9 +44,9 @@ function numerator = findNumerator(zerosArray, gain, denominator)
     [zeros_rows, zeros_cols] = size(zerosArray);
     if (gain_rows ~= zeros_cols)
       if ((zeros_rows - 1) ~= 0)
-        error(_('Input argument #1 and #3 should have the same column size.'));
+        error('Nelson:dimagree:inputArgumentNNShouldColumn', 'Input argument #%d and #%d should have the same column size.', 1, 3);
       else
-        error(_('First argument must be a column vector.'));
+        error('Nelson:validators:mustBeColumn', '%s must be a column vector.', 'First argument');
       end
     else
       numerator = findNumeratorStandardImpl(zerosArray, zeros_cols, gain, denominator_cols);

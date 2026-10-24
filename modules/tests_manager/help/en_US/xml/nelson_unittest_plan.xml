@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nelson.unittest.plan</keyword>
+  <short_description>Create an execution plan for a test suite.</short_description>
+  <syntax>
+    <syntax_item>plan = nelson.unittest.plan(suite)</syntax_item>
+    <syntax_item>plan = nelson.unittest.plan(suite, Name, Value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>suite</param_name>
+      <param_description>TestSuite returned by nelson.unittest.discover or
+        nelson.unittest.select.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Name, Value</param_name>
+      <param_description>planning options: Workers, ShardIndex, ShardCount, Shuffle, Seed, and resource
+        policy options.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>plan</param_name>
+      <param_description>TestPlan structure containing cases, workers, shard, order, and resource
+        groups.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>nelson.unittest.plan</b> prepares selected cases for execution.</p>
+    <p>Benchmarks and tests that require sequential execution are separated from tests that can run in
+      parallel.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data><![CDATA[
+plan = nelson.unittest.plan(suite, 'Workers', 4, 'ShardIndex', 1, 'ShardCount', 2);
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${tests_manager}nelson.unittest.select">nelson.unittest.select</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${tests_manager}nelson.unittest.run">nelson.unittest.run</link>
+    </see_also_item>
+  </see_also>
+</xmldoc>

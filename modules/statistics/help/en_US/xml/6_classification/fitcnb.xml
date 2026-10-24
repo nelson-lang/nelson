@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>fitcnb</keyword>
+  <short_description>Fit a naive Bayes classifier.</short_description>
+  <syntax>
+    <syntax_item>mdl = fitcnb(X, Y)</syntax_item>
+    <syntax_item>mdl = fitcnb(X, Y, Name, Value)</syntax_item>
+    <syntax_item>label = predict(mdl, Xnew)</syntax_item>
+    <syntax_item>[label, score, cost] = predict(mdl, Xnew)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>fitcnb</b> creates a <b>ClassificationNaiveBayes</b> object from numeric predictors <b>X</b> and class labels <b>Y</b>.</p>
+    <p>The current implementation fits normal predictor distributions. Name-value arguments include <b>ClassNames</b>, <b>Prior</b>, <b>DistributionNames</b>, and <b>Weights</b>. Prediction returns posterior class scores.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[X = [0 0; 0 1; 1 0; 5 5; 5 6; 6 5];
+Y = [1; 1; 1; 2; 2; 2];
+mdl = fitcnb(X, Y);
+[label, score] = predict(mdl, [0.2 0.1; 5.2 5.1])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}fitcknn">fitcknn</link></see_also_item>
+    <see_also_item><link linkend="${statistics}grp2idx">grp2idx</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

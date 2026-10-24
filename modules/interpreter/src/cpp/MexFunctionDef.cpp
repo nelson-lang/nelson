@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -122,20 +122,19 @@ MexFunctionDef::~MexFunctionDef()
 ArrayOfVector
 MexFunctionDef::evaluateFunction(Evaluator* eval, const ArrayOfVector& inputs, int nargout)
 {
-    lock();
     if (eval->withOverload && inputs.size() > 0 && !this->isOverload()
         && this->overloadAutoMode == NLS_OVERLOAD_AUTO_ON) {
         bool wasFound = false;
         ArrayOfVector res = callOverloadedFunction(eval,
             NelsonConfiguration::getInstance()->getOverloadLevelCompatibility(), nargout, inputs,
-            getName(), ClassName(inputs[0]), inputs[0].getDataClass(), wasFound);
+            getName(), ClassName(inputs[0]), inputs[0].dataClass(), wasFound);
         if (wasFound) {
             return res;
         }
     }
 
     ArrayOfVector outputs;
-    eval->callstack.pushDebug(this->getName(), std::string("built-in ") + this->getName());
+    eval->callstack.pushDebug(this->getName(), this->getDebugDetail());
     size_t stackDepth = eval->callstack.size();
     uint64 tic = 0;
     try {
@@ -151,7 +150,7 @@ MexFunctionDef::evaluateFunction(Evaluator* eval, const ArrayOfVector& inputs, i
         }
         eval->callstack.popDebug();
         return outputs;
-    } catch (const Exception&) {
+    } catch (const NelsonException&) {
         if (tic != 0) {
             internalProfileFunction stack
                 = computeProfileStack(eval, this->getName(), this->getFilename());

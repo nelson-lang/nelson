@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -8,10 +8,11 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "h5WriteHelpers.hpp"
-#include "Exception.hpp"
+#include "NelsonException.hpp"
 #include "NewWithException.hpp"
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -32,14 +33,15 @@ h5WriteNelsonToHdf5(ArrayOf& data, hid_t& type_id, hid_t& dspace_id, std::wstrin
 {
     string_utf8.clear();
     void* buffer = nullptr;
-    switch (data.getDataClass()) {
+    switch (data.dataClass()) {
     case NLS_CHAR: {
         if (data.isEmpty() || data.isRowVector()) {
             type_id = H5Tcopy(H5T_C_S1);
         } else {
             type_id = H5I_INVALID_HID;
             dspace_id = H5I_INVALID_HID;
-            error = _W("row vector characters expected.");
+            error = resolveMessageTemplate(
+                L"Nelson:hdf5:rowVectorCharacters", L"row vector characters expected.");
             return nullptr;
         }
     } break;
@@ -53,7 +55,8 @@ h5WriteNelsonToHdf5(ArrayOf& data, hid_t& type_id, hid_t& dspace_id, std::wstrin
         if (!data.isEmpty()) {
             type_id = H5I_INVALID_HID;
             dspace_id = H5I_INVALID_HID;
-            error = _W("Complex number not supported.");
+            error = resolveMessageTemplate(
+                L"Nelson:hdf5:complexNumberSupported", L"Complex number not supported.");
             return nullptr;
         }
         type_id = H5Tcopy(H5T_NATIVE_FLOAT);
@@ -62,7 +65,8 @@ h5WriteNelsonToHdf5(ArrayOf& data, hid_t& type_id, hid_t& dspace_id, std::wstrin
         if (!data.isEmpty()) {
             type_id = H5I_INVALID_HID;
             dspace_id = H5I_INVALID_HID;
-            error = _W("Complex number not supported.");
+            error = resolveMessageTemplate(
+                L"Nelson:hdf5:complexNumberSupported", L"Complex number not supported.");
             return nullptr;
         }
         type_id = H5Tcopy(H5T_NATIVE_DOUBLE);
@@ -70,7 +74,8 @@ h5WriteNelsonToHdf5(ArrayOf& data, hid_t& type_id, hid_t& dspace_id, std::wstrin
     case NLS_STRING_ARRAY: {
         type_id = H5I_INVALID_HID;
         dspace_id = H5I_INVALID_HID;
-        error = _W("String class not supported.");
+        error = resolveMessageTemplate(
+            L"Nelson:hdf5:stringClassSupported", L"String class not supported.");
         return nullptr;
     } break;
     case NLS_INT8: {
@@ -100,7 +105,7 @@ h5WriteNelsonToHdf5(ArrayOf& data, hid_t& type_id, hid_t& dspace_id, std::wstrin
     default: {
         type_id = H5I_INVALID_HID;
         dspace_id = H5I_INVALID_HID;
-        error = _W("Type not managed.");
+        error = _W("Type not supported.");
         return nullptr;
     } break;
     }
@@ -109,7 +114,7 @@ h5WriteNelsonToHdf5(ArrayOf& data, hid_t& type_id, hid_t& dspace_id, std::wstrin
     }
     if (data.isEmpty()) {
         dspace_id = H5Screate(H5S_NULL);
-        switch (data.getDataClass()) {
+        switch (data.dataClass()) {
         case NLS_CHAR: {
             H5Tset_strpad(type_id, H5T_STR_NULLTERM);
             buffer = (void*)string_utf8.c_str();
@@ -155,21 +160,21 @@ h5WriteNelsonToHdf5(ArrayOf& data, hid_t& type_id, hid_t& dspace_id, std::wstrin
         }
     } else {
         if (data.isCharacterArray()) {
-            std::wstring value = data.getContentAsWideString();
+            std::wstring value = data.asWideString();
             string_utf8 = wstring_to_utf8(value);
             dspace_id = H5Screate(H5S_SCALAR);
             H5Tset_size(type_id, string_utf8.length());
             H5Tset_strpad(type_id, H5T_STR_NULLTERM);
             buffer = (void*)string_utf8.c_str();
         } else {
-            Dimensions dimsValue = data.getDimensions();
+            Dimensions dimsValue = data.dimensions();
             hsize_t* dimsAsHsize_t = nullptr;
             indexType nbElementsSizeData;
             if (dimsValue.isScalar()) {
                 try {
                     dimsAsHsize_t = new_with_exception<hsize_t>(1, true);
-                } catch (Exception& e) {
-                    error = e.getMessage();
+                } catch (NelsonException& e) {
+                    error = e.message();
                     dspace_id = H5I_INVALID_HID;
                     return nullptr;
                 }
@@ -178,21 +183,20 @@ h5WriteNelsonToHdf5(ArrayOf& data, hid_t& type_id, hid_t& dspace_id, std::wstrin
                 dspace_id = H5Screate_simple((int)1, dimsAsHsize_t, dimsAsHsize_t);
             } else {
                 try {
-                    dimsAsHsize_t = new_with_exception<hsize_t>(dimsValue.getLength(), true);
-                } catch (Exception& e) {
-                    error = e.getMessage();
+                    dimsAsHsize_t = new_with_exception<hsize_t>(dimsValue.length(), true);
+                } catch (NelsonException& e) {
+                    error = e.message();
                     dspace_id = H5I_INVALID_HID;
                     return nullptr;
                 }
-                nbElementsSizeData = dimsValue.getLength();
+                nbElementsSizeData = dimsValue.length();
                 for (indexType k = 1; k <= nbElementsSizeData; k++) {
                     dimsAsHsize_t[k - 1] = (hsize_t)dimsValue[nbElementsSizeData - k];
                 }
-                dspace_id
-                    = H5Screate_simple((int)dimsValue.getLength(), dimsAsHsize_t, dimsAsHsize_t);
+                dspace_id = H5Screate_simple((int)dimsValue.length(), dimsAsHsize_t, dimsAsHsize_t);
             }
             delete[] dimsAsHsize_t;
-            buffer = const_cast<void*>(data.getDataPointer());
+            buffer = const_cast<void*>(data.dataPointer());
         }
     }
     return buffer;

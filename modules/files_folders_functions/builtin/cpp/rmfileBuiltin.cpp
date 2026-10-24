@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,9 +9,9 @@
 //=============================================================================
 #include "rmfileBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "RemoveFile.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -22,27 +22,27 @@ Nelson::FilesFoldersGateway::rmfileBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 2);
     ArrayOf param1 = argIn[0];
-    std::wstring filenameToDelete = param1.getContentAsWideString();
+    std::wstring filenameToDelete = param1.asWideString();
     std::wstring msg;
     bool bRes = false;
     switch (nLhs) {
     case 0: {
         bRes = RemoveFile(filenameToDelete, msg);
         if (static_cast<int>(bRes) == false) {
-            Error(msg);
+            Error(L"Nelson:delete:removeFailed", msg);
         }
     } break;
     case 1:
         bRes = RemoveFile(filenameToDelete, msg);
-        retval << ArrayOf::logicalConstructor(bRes);
+        retval << ArrayOf::logicalScalar(bRes);
         break;
     case 2:
         bRes = RemoveFile(filenameToDelete, msg);
-        retval << ArrayOf::logicalConstructor(bRes);
-        retval << ArrayOf::characterArrayConstructor(msg);
+        retval << ArrayOf::logicalScalar(bRes);
+        retval << ArrayOf::characterArray(msg);
         break;
     default:
-        Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
+        Error(L"Nelson:tooManyOutputs", L"Too many output arguments.");
         break;
     }
     return retval;

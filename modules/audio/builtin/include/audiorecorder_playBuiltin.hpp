@@ -19,7 +19,7 @@ namespace AudioGateway {
     ArrayOfVector
     audiorecorder_playBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
     //=============================================================================
-}
+} // namespace AudioGateway
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

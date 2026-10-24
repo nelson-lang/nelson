@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -40,7 +40,7 @@ Nelson::FunctionHandleGateway::function_handle_displayBuiltin(
     ArrayOf param1 = argIn[0];
     std::wstring wname = param1.wname();
     if (argIn.size() == 2) {
-        wname = argIn[1].getContentAsWideString();
+        wname = argIn[1].asWideString();
     }
     Interface* io = nullptr;
     if (eval) {

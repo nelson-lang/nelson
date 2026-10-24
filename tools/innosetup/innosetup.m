@@ -15,13 +15,12 @@ if fp ~= -1
   compiler = version('-compiler');
   vernumber = version('-number');
   arch = computer('arch');
-  isQt5 = isfile([modulepath('nelson', 'builtin'), '/', 'Qt5Core.dll']);
   isQt6 = isfile([modulepath('nelson','builtin'), '/', 'Qt6Core.dll']);
-  if isQt5
-    fprintf(fp, ['#define QT5_USED', char(10)]);
-  end
   if isQt6
     fprintf(fp, ['#define QT6_USED', char(10)]);
+  else
+    fclose(fp);
+    error('Qt6 is required: Qt6Core.dll not found.');
   end
   if strcmp(compiler{1}, 'icx') == true
     fprintf(fp, ['#define ICX_COMPILER', char(10)]);
@@ -39,6 +38,10 @@ if fp ~= -1
       fprintf(fp, ['#define NELSON_X64', char(10)]);
     end
     fprintf(fp, ['#define WITH_JULIA_ENGINE', char(10)]);
+    isGpuEngine = isfile([modulepath('nelson','builtin'), '/', 'libnlsGpu_engine.dll']);
+    if isGpuEngine
+      fprintf(fp, ['#define WITH_GPU_ENGINE', char(10)]);
+    end
   end
   if strcmp(compiler{2}, 'debug') == true
     fprintf(fp, ['#define NELSON_DEBUG', char(10)]);

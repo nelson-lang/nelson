@@ -9,6 +9,8 @@
 //=============================================================================
 #pragma once
 //=============================================================================
+#include <vector>
+#include <string>
 #include "nlsGraphics_exports.h"
 #include "ArrayOf.hpp"
 //=============================================================================
@@ -39,6 +41,15 @@ public:
         modified = true;
     }
     //=============================================================================
+    // Enumerated choices accepted by set(), used by the one-argument set(h)
+    // introspection form. Free-form properties return an empty list. Declared
+    // last so the vtable slot is appended and existing slots keep their offsets.
+    virtual std::vector<std::wstring>
+    getDictionary()
+    {
+        return {};
+    }
+    //=============================================================================
     void
     clearModified()
     {
@@ -65,5 +76,5 @@ public:
     //=============================================================================
 };
 //=============================================================================
-};
+} // namespace Nelson
 //=============================================================================

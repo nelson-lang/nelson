@@ -1,2 +1,1 @@
-mat files used from
-https://github.com/scipy/scipy/tree/master/scipy/io/matlab/tests/data
+MAT-file fixtures used by the matio tests.

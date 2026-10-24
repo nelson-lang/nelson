@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>candexch</keyword>
+  <short_description>D-optimal row selection from a candidate set.</short_description>
+  <syntax>
+    <syntax_item>rlist = candexch(C, nrows)</syntax_item>
+    <syntax_item>rlist = candexch(C, nrows, &apos;Name&apos;, value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>C</param_name>
+      <param_description>candidate matrix. Each row is one candidate run.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>nrows</param_name>
+      <param_description>positive integer number of rows to select.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>rlist</param_name>
+      <param_description>indices of the selected rows in C.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>candexch</b> selects rows from a candidate matrix using a row-exchange search that improves the determinant of X&apos; * X.</p>
+    <p>Supported name-value options are &apos;AvoidDuplicates&apos;, &apos;Display&apos;, &apos;InitialDesign&apos;, &apos;MaxIterations&apos;, &apos;Options&apos;, &apos;FixedRows&apos;, and &apos;NumTries&apos;. Parallel option fields are accepted and execution remains serial.</p>
+  </description>
+  <used_function>
+    <link linkend="${statistics}candgen">candgen</link>
+    <link linkend="${statistics}rowexch">rowexch</link>
+    <link linkend="${statistics}cordexch">cordexch</link>
+    <link linkend="${statistics}daugment">daugment</link>
+  </used_function>
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Select two rows from a candidate set.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[C = [ones(4, 1) (0:3)'];
+rlist = candexch(C, 2, 'Display', 'off', 'AvoidDuplicates', true)]]></example_item_data>
+    </example_item>
+  </examples>
+</xmldoc>

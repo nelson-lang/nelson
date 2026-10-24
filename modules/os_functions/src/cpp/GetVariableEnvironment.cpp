@@ -30,18 +30,15 @@ GetVariableEnvironment(const std::wstring& envVarName, const std::wstring& defau
 
     DWORD dwRet = ::GetEnvironmentVariableW(envVarName.c_str(), buf.get(), DEFAULT_SIZE_ENV);
     if (dwRet == 0) {
-        // error
         return str;
     }
     if (dwRet > DEFAULT_SIZE_ENV) {
-        // we resize the buffer
         buf.reset(new (std::nothrow) wchar_t[dwRet + 1]);
         if (!buf) {
             return str;
         }
         dwRet = ::GetEnvironmentVariableW(envVarName.c_str(), buf.get(), dwRet + 1);
         if (dwRet == 0) {
-            // error
             return str;
         }
     }
@@ -55,6 +52,16 @@ GetVariableEnvironment(const std::wstring& envVarName, const std::wstring& defau
     }
 #endif
     return str;
+}
+//=============================================================================
+bool
+IsVariableEnvironment(const std::wstring& envVarName)
+{
+#ifdef _MSC_VER
+    return ::GetEnvironmentVariableW(envVarName.c_str(), nullptr, 0) != 0;
+#else
+    return std::getenv(wstring_to_utf8(envVarName).c_str()) != nullptr;
+#endif
 }
 //=============================================================================
 } // namespace Nelson

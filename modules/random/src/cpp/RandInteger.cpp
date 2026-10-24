@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,31 +9,31 @@
 //=============================================================================
 #include "RandInteger.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "RandomInterface.hpp"
 #include "NelsonConfiguration.hpp"
-#include "PredefinedErrorMessages.hpp"
 #include <limits>
 //=============================================================================
 namespace Nelson {
 //=============================================================================
 ArrayOf
-RandInteger(indexType imin, indexType imax, Dimensions& dims, NelsonType cl)
+RandInteger(int64 imin, int64 imax, Dimensions& dims, NelsonType cl)
 {
     dims.simplify();
     if (dims.isEmpty(false)) {
-        ArrayOf res = ArrayOf::emptyConstructor(dims);
+        ArrayOf res = ArrayOf::empty(dims);
         res.promoteType(cl);
         return res;
     }
     auto* randEngine
         = static_cast<RandomInterface*>(NelsonConfiguration::getInstance()->getRandomEngine());
     if (randEngine == nullptr) {
-        Error(_W("random engine not initialized."));
+        Error(L"Nelson:rng:engineNotInitialized", L"random engine not initialized.");
     }
 
-    indexType nbElements = dims.getElementCount();
-    randEngine->setMinMaxUniformIntDistribution((int)imin, (int)imax);
+    indexType nbElements = dims.elementCount();
+    randEngine->setMinMaxUniformIntDistribution(imin, imax);
 
     switch (cl) {
     case NLS_SINGLE: {
@@ -58,7 +58,7 @@ RandInteger(indexType imin, indexType imax, Dimensions& dims, NelsonType cl)
         return res;
     } break;
     default:
-        Error(ERROR_TYPE_NOT_SUPPORTED);
+        Error(L"Nelson:random:typeNotSupported", L"Type not supported.");
     }
     return {};
 }

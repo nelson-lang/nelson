@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>axes</keyword>
+  <short_description>Créer des axes cartésiens.</short_description>
+  <syntax>
+    <syntax_item>ax = axes()</syntax_item>
+    <syntax_item>ax = axes(parent)</syntax_item>
+    <syntax_item>ax = axes(propertyName, propertyValue)</syntax_item>
+    <syntax_item>ax = axes(parent, propertyName, propertyValue)</syntax_item>
+    <syntax_item>axes(cax)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>parent</param_name>
+      <param_description
+      >une valeur scalaire d&apos;objet graphique : conteneur parent, spécifié comme une figure.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>cax</param_name>
+      <param_description>axes à rendre courant.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName</param_name>
+      <param_description
+      >une chaîne scalaire ou un vecteur ligne de caractères.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyValue</param_name>
+      <param_description>une valeur.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>ax</param_name>
+      <param_description>un objet graphique : type axes.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>axes</b> crée des axes dans la figure courante et les définit comme axes courants.</p>
+    <p>
+      <b>axes(cax)</b> rend les axes courants.</p>
+    <p>Un clic sur un axe le rend automatiquement courant.</p>
+    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.axes.properties">proprietes de axes</link> pour la liste complete des proprietes.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
+ax1 = axes('Position', [0.1 0.1 0.7 0.7]);
+ax2 = axes('Position', [0.65 0.65 0.28 0.28]);
+x = linspace(0,10);
+y1 = sin(x);
+y2 = cos(x);
+plot(ax1, x, y1);
+plot(ax2, x, y2);]]></example_item_data>
+      <example_item_img
+        src="../../../../images/axes.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.axes.properties">proprietes de axes</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/1_object_management/gcf">gcf</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/1_object_management/close">close</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>1.2.0</history_version>
+      <history_description
+      >Un clic sur un axe le rend automatiquement courant.</history_description>
+    </history_item>
+    <history_item>
+      <history_version>--</history_version>
+      <history_description
+      >Propriétés GridAlpha, GridColor pour Axes.</history_description>
+    </history_item>
+    <history_item>
+      <history_version>1.7.0</history_version>
+      <history_description
+      >Ajout des callbacks CreateFcn, DeleteFcn.</history_description>
+    </history_item>
+    <history_item>
+      <history_version>--</history_version>
+      <history_description
+      >Ajout de la propriété BeingDeleted.</history_description>
+    </history_item>
+    <history_item>
+      <history_version>--</history_version>
+      <history_description
+      >Mise a jour de la documentation des proprietes d&apos;axes.</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

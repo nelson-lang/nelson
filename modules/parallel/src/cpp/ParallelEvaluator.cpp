@@ -9,8 +9,8 @@
 //=============================================================================
 #include "ParallelEvaluator.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
-#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -31,10 +31,13 @@ ParallelEvaluator::create(EvaluateInterface* evaluatorInterface, size_t ID)
                 }
             });
     } catch (const std::bad_alloc&) {
-        Error(ERROR_MEMORY_ALLOCATION);
+        Error(L"Nelson:outOfMemory", L"Memory allocation error... You may have run out of memory!");
         return nullptr;
     } catch (const std::exception& e) {
-        Error(_("Failed to create evaluator: ") + e.what());
+        RaiseError(resolveMessageTemplate(
+                       "Nelson:parallel:failedCreateEvaluator", "Failed to create evaluator:")
+                + " " + e.what(),
+            "Nelson:parallel:evaluatorCreationFailed");
         return nullptr;
     }
 }
@@ -59,5 +62,5 @@ ParallelEvaluator::destroy(std::shared_ptr<Evaluator>& evaluator, bool evaluator
     }
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

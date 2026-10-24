@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>stackedplot</keyword>
+  <short_description>Trace des variables dans des axes empiles.</short_description>
+  <syntax>
+    <syntax_item>s = stackedplot(tbl)</syntax_item>
+    <syntax_item>s = stackedplot(tbl1, ..., tblN)</syntax_item>
+    <syntax_item>s = stackedplot({tbl1, ..., tblN})</syntax_item>
+    <syntax_item>s = stackedplot(tt)</syntax_item>
+    <syntax_item>s = stackedplot(tbl, vars)</syntax_item>
+    <syntax_item>s = stackedplot(X, Y)</syntax_item>
+    <syntax_item>s = stackedplot(..., LineSpec)</syntax_item>
+    <syntax_item>s = stackedplot(parent, ...)</syntax_item>
+    <syntax_item>s = stackedplot(..., Name, Value)</syntax_item>
+    <syntax_item>s = stackedplot(..., Name=Value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>tbl</param_name>
+      <param_description>une table.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>tt</param_name>
+      <param_description>une timetable.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>vars</param_name>
+      <param_description>variables a afficher : noms, indices numeriques, selecteur logique ou cellule de groupes.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>X, Y</param_name>
+      <param_description>tableaux numeriques, logiques, datetime ou duration.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>s</param_name>
+      <param_description>un objet graphique StackedLineChart.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>stackedplot</b> cree un axe par variable selectionnee et retourne un objet <b>StackedLineChart</b>.</p>
+    <p>Pour les timetables, les temps de ligne sont utilises comme valeurs x. Pour les tables, les numeros de ligne sont utilises sauf si <b>XVariable</b> est fourni.</p>
+    <p>Plusieurs tables ou timetables peuvent etre fournies. Les variables de meme nom sont combinees dans le meme axe y par defaut. Utiliser <b>CombineMatchingNames</b> avec la valeur <b>false</b> pour placer les variables de meme nom dans des axes separes.</p>
+    <p><b>LineSpec</b> definit le style de ligne, le marqueur et la couleur pour toutes les lignes tracees. Une figure parent peut etre fournie comme premier argument.</p>
+    <p>Utiliser des groupes de variables comme <b>{{'A','B'}, 'C'}</b> pour tracer plusieurs variables dans un meme axe empile.</p>
+    <p>Les variables de table non prises en charge sont ignorees. Une erreur est emise s'il ne reste aucune variable tracable. Jusqu'a 25 variables peuvent etre affichees.</p>
+    <p>Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.stackedplot.properties">proprietes de stackedplot</link> pour la liste complete des proprietes.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Tracer des variables selectionnees depuis une table et modifier les proprietes du graphique.</example_item_description>
+      <example_item_data runnable="gui"><![CDATA[
+close all
+Temperature = [19.4; 20.1; 21.7; 23.2; 22.6; 20.9];
+Pressure = [1012; 1011; 1009; 1008; 1010; 1013];
+Rain = [0; 0.2; 0; 1.1; 0.4; 0];
+T = table(Temperature, Pressure, Rain);
+s = stackedplot(T, {'Temperature', 'Rain'}, ...
+  'DisplayLabels', {'Temperature', 'Rainfall'}, ...
+  'GridVisible', 'on', ...
+  'Title', 'Weather sample', ...
+  'XLabel', 'Sample');
+s.LineProperties(1).LineWidth = 2;
+s.LineProperties(1).Marker = 'o';
+s.AxesProperties(2).YLimits = [0 1.2];
+]]></example_item_data>
+      <example_item_img src="../../../../images/stackedplot_1.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Utiliser une variable de table comme axe x.</example_item_description>
+      <example_item_data runnable="gui"><![CDATA[
+close all
+Time = datetime(2026, 1, 1) + hours(0:5)';
+Temperature = [19.4; 20.1; 21.7; 23.2; 22.6; 20.9];
+Pressure = [1012; 1011; 1009; 1008; 1010; 1013];
+Rain = [0; 0.2; 0; 1.1; 0.4; 0];
+T = table(Time, Temperature, Pressure, Rain);
+s = stackedplot(T, {'Temperature', 'Pressure', 'Rain'}, 'XVariable', 'Time');
+s.Title = 'Weather over time';
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Tracer des variables groupees dans un meme axe.</example_item_description>
+      <example_item_data runnable="gui"><![CDATA[
+close all
+Time = (1:6)';
+Temperature = [19.4; 20.1; 21.7; 23.2; 22.6; 20.9];
+Pressure = [1012; 1011; 1009; 1008; 1010; 1013];
+Rain = [0; 0.2; 0; 1.1; 0.4; 0];
+T = table(Time, Temperature, Pressure, Rain);
+s = stackedplot(T, {{'Temperature', 'Rain'}, 'Pressure'}, ...
+  'XVariable', 'Time', ...
+  'LegendVisible', 'on');
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Tracer les variables d'une timetable avec les temps de ligne.</example_item_description>
+      <example_item_data runnable="gui"><![CDATA[
+close all
+Time = datetime(2026, 1, 1) + hours(0:5)';
+Temperature = [19.4; 20.1; 21.7; 23.2; 22.6; 20.9];
+Pressure = [1012; 1011; 1009; 1008; 1010; 1013];
+Rain = [0; 0.2; 0; 1.1; 0.4; 0];
+TT = timetable(Time, Temperature, Pressure, Rain, ...
+  'VariableNames', {'Temperature', 'Pressure', 'Rain'});
+s = stackedplot(TT);
+s.GridVisible = 'on';
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Tracer des tableaux numeriques.</example_item_description>
+      <example_item_data runnable="gui"><![CDATA[
+close all
+X = (0:0.5:5)';
+Y = [sin(X), cos(X), sin(X) .* cos(X)];
+s = stackedplot(X, Y, 'DisplayLabels', {'sin', 'cos', 'product'});
+s.AxesProperties(1).YScale = 'linear';
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Definir des proprietes de haut niveau du graphique.</example_item_description>
+      <example_item_data runnable="gui"><![CDATA[
+close all
+Temperature = [19.4; 20.1; 21.7; 23.2; 22.6; 20.9];
+Rain = [0; 0.2; 0; 1.1; 0.4; 0];
+T = table(Temperature, Rain);
+s = stackedplot(T, {'Temperature', 'Rain'}, ...
+  XLimits=[1 4], ...
+  GridVisible="on", ...
+  LegendVisible="on", ...
+  LegendLabels={'Temperature', 'Rain'}, ...
+  FontSize=13, ...
+  MarkerFaceColor=[0 1 0]);
+s.Color = [0 0 1];
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Tracer des variables correspondantes depuis deux tables dans les memes axes.</example_item_description>
+      <example_item_data runnable="gui"><![CDATA[
+close all
+Time = (1:6)';
+T1 = table(Time, [19.4; 20.1; 21.7; 23.2; 22.6; 20.9], ...
+  [0; 0.2; 0; 1.1; 0.4; 0], ...
+  'VariableNames', {'Time', 'Temperature', 'Rain'});
+T2 = table(Time, [18.9; 19.7; 21.0; 22.8; 22.0; 20.1], ...
+  [0.1; 0.0; 0.1; 0.9; 0.5; 0.2], ...
+  'VariableNames', {'Time', 'Temperature', 'Rain'});
+s = stackedplot(T1, T2, {'Temperature', 'Rain'}, '--o', ...
+  'XVariable', 'Time', ...
+  'Title', 'Two stations');
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Placer les variables correspondantes dans des axes separes.</example_item_description>
+      <example_item_data runnable="gui"><![CDATA[
+close all
+Time = (1:4)';
+T1 = table(Time, [10; 11; 12; 13], 'VariableNames', {'Time', 'Value'});
+T2 = table(Time, [20; 21; 22; 23], 'VariableNames', {'Time', 'Value'});
+s = stackedplot({T1, T2}, {'Value'}, ...
+  'XVariable', 'Time', ...
+  'CombineMatchingNames', false);
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Creer un graphique empile dans une figure indiquee.</example_item_description>
+      <example_item_data runnable="gui"><![CDATA[
+close all
+f = figure();
+Temperature = [19.4; 20.1; 21.7; 23.2];
+Rain = [0; 0.2; 0; 1.1];
+T = table(Temperature, Rain);
+s = stackedplot(f, T, 'LineWidth', 2);
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.stackedplot.properties">proprietes de stackedplot</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}1_plots/1_line_plots/plot">plot</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${table}table">table</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${table}timetable">timetable</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

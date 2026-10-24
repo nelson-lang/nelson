@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "file": "parquet_roundtrip.m",
+      "title": "Parquet table round trip",
+      "description": "Write a typed table to a temporary Parquet file and read it back.",
+      "tags": [
+        "parquet",
+        "table"
+      ],
+      "requirements": []
+    }
+  ]
+}

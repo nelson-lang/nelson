@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="306.5" height="306.5" viewBox="-153.25 -153.25 306.5 306.5">
+  <rect x="-153.25" y="-153.25" width="306.5" height="306.5" rx="58.235" fill="#FAEEDA" stroke="#FAC775" stroke-width="3.25"/>
+  <g transform="matrix(1 0 0 -1 0 0)">
+    <rect x="-100" y="-100" width="200" height="200" fill="#FFFFFF" stroke="#633806" stroke-width="3.25"/>
+    <g transform="translate(0,130) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32" fill="#633806">File</text></g>
+    <polygon points="-80,90 -88,68 -72,68 -80,90" fill="#FAC775" stroke="#FAC775" stroke-width="3.25" stroke-linejoin="round"/>
+    <polyline points="-80,68 -80,-80" fill="none" stroke="#FAC775" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-90,-70 82,-70" fill="none" stroke="#FAC775" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="90,-70 68,-62 68,-78 90,-70" fill="#FAC775" stroke="#FAC775" stroke-width="3.25" stroke-linejoin="round"/>
+    <rect x="-48" y="-50" width="50" height="120" fill="#FAC775" stroke="#FAC775" stroke-width="3.25"/>
+    <polyline points="-48,-50 -48,70 52,70 52,-50 -48,-50 -48,-20 52,-20 52,10 -48,10 -48,40 52,40 52,70 2,70 2,-51" fill="none" stroke="#633806" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <g transform="translate(0,-130) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32" fill="#633806">tableOnFile=false</text></g>
+  </g>
+</svg>

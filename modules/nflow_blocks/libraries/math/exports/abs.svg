@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="306.5" height="256.5" viewBox="-153.25 -153.25 306.5 256.5">
+  <rect x="-153.25" y="-153.25" width="306.5" height="256.5" rx="48.735" fill="#EEEDFE" stroke="#AFA9EC" stroke-width="3.25"/>
+  <g transform="matrix(1 0 0 -1 0 0)">
+    <rect x="-100" y="-100" width="200" height="200" fill="#FFFFFF" stroke="#3C3489" stroke-width="3.25"/>
+    <g transform="translate(0,130) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32" fill="#3C3489">Abs</text></g>
+    <polygon points="92,0 70,8 70,-8 92,0" fill="#AFA9EC" stroke="#AFA9EC" stroke-width="3.25" stroke-linejoin="round"/>
+    <polyline points="-80,80 0,0 80,80" fill="none" stroke="#3C3489" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="0,-14 0,68" fill="none" stroke="#AFA9EC" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="0,90 -8,68 8,68 0,90" fill="#AFA9EC" stroke="#AFA9EC" stroke-width="3.25" stroke-linejoin="round"/>
+    <g transform="translate(2,-52) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="38.4" fill="#3C3489">abs</text></g>
+    <polyline points="-88,0 76,0" fill="none" stroke="#AFA9EC" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

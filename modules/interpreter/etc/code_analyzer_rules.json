@@ -1,0 +1,344 @@
+[
+  {
+    "id": "NLS0001",
+    "name": "syntax-or-input-error",
+    "defaultSeverity": "error",
+    "category": "Syntax",
+    "fixability": "none",
+    "description": "Syntax, lexical, input, or read error.",
+    "helpUri": "https://nelson-lang.github.io/nelson-gitbook/releases/en_US/latest/index.html"
+  },
+  {
+    "id": "NLS0002",
+    "name": "main-symbol-name-mismatch",
+    "defaultSeverity": "warning",
+    "category": "Naming",
+    "fixability": "safe",
+    "description": "Main function or class name differs from file name.",
+    "helpUri": "https://nelson-lang.github.io/nelson-gitbook/releases/en_US/latest/index.html"
+  },
+  {
+    "id": "NLS0003",
+    "name": "unreachable-code",
+    "defaultSeverity": "warning",
+    "category": "Flow",
+    "fixability": "safe",
+    "description": "Code after an exit statement is unreachable.",
+    "helpUri": "https://nelson-lang.github.io/nelson-gitbook/releases/en_US/latest/index.html"
+  },
+  {
+    "id": "NLS0004",
+    "name": "assigned-variable-unused",
+    "defaultSeverity": "info",
+    "category": "Dataflow",
+    "fixability": "none",
+    "description": "A local variable is assigned but never used.",
+    "helpUri": "https://nelson-lang.github.io/nelson-gitbook/releases/en_US/latest/index.html"
+  },
+  {
+    "id": "NLS0005",
+    "name": "used-before-local-assignment",
+    "defaultSeverity": "warning",
+    "category": "Dataflow",
+    "fixability": "none",
+    "description": "A local variable is used before its first local assignment.",
+    "helpUri": "https://nelson-lang.github.io/nelson-gitbook/releases/en_US/latest/index.html"
+  },
+  {
+    "id": "NLS0006",
+    "name": "declared-output-unassigned",
+    "defaultSeverity": "warning",
+    "category": "Dataflow",
+    "fixability": "none",
+    "description": "A declared output argument is not assigned.",
+    "helpUri": "https://nelson-lang.github.io/nelson-gitbook/releases/en_US/latest/index.html"
+  },
+  {
+    "id": "NLS0007",
+    "name": "input-argument-unused",
+    "defaultSeverity": "info",
+    "category": "Dataflow",
+    "fixability": "none",
+    "description": "An input argument is never used.",
+    "helpUri": "https://nelson-lang.github.io/nelson-gitbook/releases/en_US/latest/index.html"
+  },
+  {
+    "id": "NLS0008",
+    "name": "empty-block",
+    "defaultSeverity": "warning",
+    "category": "Flow",
+    "fixability": "none",
+    "description": "A block is empty in a way that is likely accidental.",
+    "helpUri": "https://nelson-lang.github.io/nelson-gitbook/releases/en_US/latest/index.html"
+  },
+  {
+    "id": "NLS0009",
+    "name": "constant-condition",
+    "defaultSeverity": "warning",
+    "category": "Flow",
+    "fixability": "none",
+    "description": "A condition is a trivial constant value.",
+    "helpUri": "https://nelson-lang.github.io/nelson-gitbook/releases/en_US/latest/index.html"
+  },
+  {
+    "id": "NLS0010",
+    "name": "trailing-whitespace",
+    "defaultSeverity": "warning",
+    "category": "Style",
+    "fixability": "trivial",
+    "description": "A line ends with trailing whitespace.",
+    "helpUri": "https://nelson-lang.github.io/nelson-gitbook/releases/en_US/latest/index.html"
+  },
+  {
+    "id": "NLS0011",
+    "name": "missing-final-newline",
+    "defaultSeverity": "warning",
+    "category": "Style",
+    "fixability": "trivial",
+    "description": "The file does not end with a newline.",
+    "helpUri": "https://nelson-lang.github.io/nelson-gitbook/releases/en_US/latest/index.html"
+  },
+  {
+    "id": "NLS0012",
+    "name": "line-too-long",
+    "defaultSeverity": "warning",
+    "category": "Style",
+    "fixability": "none",
+    "description": "A line is longer than the configured maximum length.",
+    "helpUri": "https://nelson-lang.github.io/nelson-gitbook/releases/en_US/latest/index.html"
+  },
+  {
+    "id": "NLS0013",
+    "name": "forbidden-project-term",
+    "defaultSeverity": "error",
+    "category": "Repository",
+    "fixability": "none",
+    "description": "A forbidden project term appears in source or help text.",
+    "helpUri": "https://nelson-lang.github.io/nelson-gitbook/releases/en_US/latest/index.html"
+  },
+  {
+    "id": "NLS0014",
+    "name": "cyclomatic-complexity",
+    "defaultSeverity": "warning",
+    "category": "Metrics",
+    "fixability": "none",
+    "description": "Cyclomatic complexity is above the configured threshold.",
+    "helpUri": "https://nelson-lang.github.io/nelson-gitbook/releases/en_US/latest/index.html"
+  },
+  {
+    "id": "NLS0015",
+    "name": "modified-cyclomatic-complexity",
+    "defaultSeverity": "warning",
+    "category": "Metrics",
+    "fixability": "none",
+    "description": "Modified cyclomatic complexity is above the configured threshold.",
+    "helpUri": "https://nelson-lang.github.io/nelson-gitbook/releases/en_US/latest/index.html"
+  },
+  {
+    "id": "NLS0016",
+    "name": "directional-formatting-character",
+    "defaultSeverity": "error",
+    "category": "Security",
+    "fixability": "safe",
+    "description": "The source line contains an invisible directional formatting character.",
+    "helpUri": "https://nelson-lang.github.io/nelson-gitbook/releases/en_US/latest/index.html"
+  },
+  {
+    "id": "NLS0017",
+    "name": "display-sprintf",
+    "defaultSeverity": "info",
+    "category": "Readability",
+    "fixability": "none",
+    "description": "An output display call wraps sprintf.",
+    "helpUri": "https://nelson-lang.github.io/nelson-gitbook/releases/en_US/latest/index.html"
+  },
+  {
+    "id": "NLS0018",
+    "name": "diagnostic-sprintf",
+    "defaultSeverity": "info",
+    "category": "Readability",
+    "fixability": "none",
+    "description": "A diagnostic call wraps sprintf.",
+    "helpUri": "https://nelson-lang.github.io/nelson-gitbook/releases/en_US/latest/index.html"
+  },
+  {
+    "id": "NLS0019",
+    "name": "invalid-code-analyzer-configuration",
+    "defaultSeverity": "error",
+    "category": "Config",
+    "fixability": "none",
+    "description": "The code analyzer configuration is invalid.",
+    "helpUri": "https://nelson-lang.github.io/nelson-gitbook/releases/en_US/latest/index.html"
+  },
+  {
+    "id": "NLS0020",
+    "name": "file-too-long",
+    "defaultSeverity": "warning",
+    "category": "Metrics",
+    "fixability": "none",
+    "description": "A file is longer than the configured maximum number of lines.",
+    "helpUri": "https://nelson-lang.github.io/nelson-gitbook/releases/en_US/latest/index.html"
+  },
+  {
+    "id": "NLS0021",
+    "name": "function-too-long",
+    "defaultSeverity": "warning",
+    "category": "Metrics",
+    "fixability": "none",
+    "description": "A function is longer than the configured maximum number of lines.",
+    "helpUri": "https://nelson-lang.github.io/nelson-gitbook/releases/en_US/latest/index.html"
+  },
+  {
+    "id": "NLS0022",
+    "name": "dynamic-code-call",
+    "defaultSeverity": "warning",
+    "category": "Security",
+    "fixability": "none",
+    "description": "A dynamic code call or unsafe workspace mutation call is used.",
+    "helpUri": "https://nelson-lang.github.io/nelson-gitbook/releases/en_US/latest/index.html"
+  },
+  {
+    "id": "NLS0023",
+    "name": "unused-local-function",
+    "defaultSeverity": "info",
+    "category": "Dataflow",
+    "fixability": "safe",
+    "description": "A local function is never called inside its file.",
+    "helpUri": "https://nelson-lang.github.io/nelson-gitbook/releases/en_US/latest/index.html"
+  },
+  {
+    "id": "NLS0024",
+    "name": "variable-shadows-local-function",
+    "defaultSeverity": "warning",
+    "category": "Dataflow",
+    "fixability": "none",
+    "description": "A local variable shadows a local function in the same file.",
+    "helpUri": "https://nelson-lang.github.io/nelson-gitbook/releases/en_US/latest/index.html"
+  },
+  {
+    "id": "NLS0025",
+    "name": "floating-point-exact-comparison",
+    "defaultSeverity": "warning",
+    "category": "Numeric",
+    "fixability": "none",
+    "description": "A floating-point literal is compared with exact equality.",
+    "helpUri": "https://nelson-lang.github.io/nelson-gitbook/releases/en_US/latest/index.html"
+  },
+  {
+    "id": "NLS0026",
+    "name": "cognitive-complexity",
+    "defaultSeverity": "warning",
+    "category": "Metrics",
+    "fixability": "none",
+    "description": "Cognitive complexity is above the configured threshold.",
+    "helpUri": "https://nelson-lang.github.io/nelson-gitbook/releases/en_US/latest/index.html"
+  },
+  {
+    "id": "NLS0027",
+    "name": "missing-help-comment",
+    "defaultSeverity": "allow",
+    "category": "Documentation",
+    "fixability": "safe",
+    "description": "A public function or class has no help comment.",
+    "helpUri": "https://nelson-lang.github.io/nelson-gitbook/releases/en_US/latest/index.html"
+  },
+  {
+    "id": "NLS0028",
+    "name": "variable-shadows-parent-scope",
+    "defaultSeverity": "warning",
+    "category": "Dataflow",
+    "fixability": "none",
+    "description": "A nested function variable shadows a symbol from a parent scope.",
+    "helpUri": "https://nelson-lang.github.io/nelson-gitbook/releases/en_US/latest/index.html"
+  },
+  {
+    "id": "NLS0029",
+    "name": "variable-shadows-import",
+    "defaultSeverity": "warning",
+    "category": "Dataflow",
+    "fixability": "none",
+    "description": "A local variable shadows an imported symbol.",
+    "helpUri": "https://nelson-lang.github.io/nelson-gitbook/releases/en_US/latest/index.html"
+  },
+  {
+    "id": "NLS0030",
+    "name": "unused-import",
+    "defaultSeverity": "info",
+    "category": "Dataflow",
+    "fixability": "none",
+    "description": "An imported symbol is never used.",
+    "helpUri": "https://nelson-lang.github.io/nelson-gitbook/releases/en_US/latest/index.html"
+  },
+  {
+    "id": "NLS0031",
+    "name": "duplicate-classdef-property",
+    "defaultSeverity": "warning",
+    "category": "Classdef",
+    "fixability": "none",
+    "description": "A classdef property is declared more than once in the same class.",
+    "helpUri": "https://nelson-lang.github.io/nelson-gitbook/releases/en_US/latest/index.html"
+  },
+  {
+    "id": "NLS0032",
+    "name": "duplicate-classdef-method",
+    "defaultSeverity": "warning",
+    "category": "Classdef",
+    "fixability": "none",
+    "description": "A classdef method is declared more than once in the same class.",
+    "helpUri": "https://nelson-lang.github.io/nelson-gitbook/releases/en_US/latest/index.html"
+  },
+  {
+    "id": "NLS0033",
+    "name": "duplicate-classdef-event",
+    "defaultSeverity": "warning",
+    "category": "Classdef",
+    "fixability": "none",
+    "description": "A classdef event is declared more than once in the same class.",
+    "helpUri": "https://nelson-lang.github.io/nelson-gitbook/releases/en_US/latest/index.html"
+  },
+  {
+    "id": "NLS0034",
+    "name": "variable-shadows-builtin",
+    "defaultSeverity": "warning",
+    "category": "Dataflow",
+    "fixability": "none",
+    "description": "A local variable or argument shadows a builtin function name.",
+    "helpUri": "https://nelson-lang.github.io/nelson-gitbook/releases/en_US/latest/index.html"
+  },
+  {
+    "id": "NLS0035",
+    "name": "variable-shadows-class-property",
+    "defaultSeverity": "warning",
+    "category": "Classdef",
+    "fixability": "none",
+    "description": "A method variable or argument shadows a class property name.",
+    "helpUri": "https://nelson-lang.github.io/nelson-gitbook/releases/en_US/latest/index.html"
+  },
+  {
+    "id": "NLS0036",
+    "name": "local-assignment-shadows-input",
+    "defaultSeverity": "info",
+    "category": "Dataflow",
+    "fixability": "none",
+    "description": "A local assignment shadows an input argument name.",
+    "helpUri": "https://nelson-lang.github.io/nelson-gitbook/releases/en_US/latest/index.html"
+  },
+  {
+    "id": "NLS0037",
+    "name": "duplicate-classdef-superclass",
+    "defaultSeverity": "warning",
+    "category": "Classdef",
+    "fixability": "safe",
+    "description": "A classdef superclass is listed more than once in the same class.",
+    "helpUri": "https://nelson-lang.github.io/nelson-gitbook/releases/en_US/latest/index.html"
+  },
+  {
+    "id": "NLS0038",
+    "name": "duplicate-classdef-attribute",
+    "defaultSeverity": "warning",
+    "category": "Classdef",
+    "fixability": "safe",
+    "description": "A classdef attribute is listed more than once in the same class.",
+    "helpUri": "https://nelson-lang.github.io/nelson-gitbook/releases/en_US/latest/index.html"
+  }
+]

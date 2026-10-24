@@ -9,11 +9,11 @@
 %=============================================================================
 R = ["nel" "son"];
 REF = [string('nel') string('son')];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R1 = ["nel" "son"];
 R2 = ["nel", "son"];
-assert_isequal(R1, R2);
+asserts.isequal(R1, R2);
 %=============================================================================
 R = ["Nelson" "manages"; "string" "array"];
 REF = strings(2, 2);
@@ -21,9 +21,9 @@ REF(1, 1) = 'Nelson';
 REF(1, 2) = 'manages';
 REF(2, 1) = 'string';
 REF(2, 2) = 'array';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-R = { "nel" "son"};
+R = {"nel" "son"};
 REF = {string('nel') string('son')};
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================

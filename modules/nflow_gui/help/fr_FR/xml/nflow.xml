@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nflow</keyword>
+  <short_description>Lance l'editeur nflow, eventuellement sur un fichier modele.</short_description>
+  <syntax>
+    <syntax_item>nflow()</syntax_item>
+    <syntax_item>nflow(file)</syntax_item>
+    <syntax_item>h = nflow(file)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>file</param_name>
+      <param_description>un vecteur de caracteres : le chemin d'un fichier modele <b>.nflow</b> a ouvrir dans l'editeur. Omis, l'editeur s'ouvre sur un modele vide.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>h</param_name>
+      <param_description>un handle vers la fenetre d'editeur ouverte.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>nflow</b> ouvre l'editeur nflow, un editeur de diagrammes base navigateur pour construire et simuler des modeles. Appele sans argument, il s'ouvre sur un modele vide ; appele avec un fichier <b>.nflow</b>, il ouvre ce modele.</p>
+    <p><b>nflow</b> est le lanceur bas niveau. Pour ouvrir un modele deja charge en memoire (par nom ou par handle), ou une archive <b>.ssp</b>, utilisez <b>open_system</b>, qui resout ces entrees puis ouvre l'editeur.</p>
+    <p>L'editeur travaille sur le modele avec lequel il a ete ouvert ; les modifications faites cote script pendant que la fenetre est ouverte ne lui sont pas transmises en direct.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Ouvrir un editeur vide, puis un fichier modele</example_item_description>
+      <example_item_data><![CDATA[nflow();
+model = [modulepath('nflow_blocks', 'root'), '/examples/acausal/Acausal_EMF_DC_Motor_Demo.nflow'];
+nflow(model);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${nflow_gui}open_system">open_system</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}new_system">new_system</link></see_also_item>
+    <see_also_item><link linkend="${nflow_engine}sim">sim</link></see_also_item>
+  </see_also>
+  <history><history_item><history_version>1.0.0</history_version><history_description>version initiale</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

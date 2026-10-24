@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,11 +9,13 @@
 //=============================================================================
 #include "FutureObjectHelpers.hpp"
 #include "HandleManager.hpp"
+#include "HandleState.hpp"
 #include "FutureObject.hpp"
 #include "AfterAllFutureObject.hpp"
 #include "AfterEachFutureObject.hpp"
 #include "FevalFutureObject.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "ParallelEvaluator.hpp"
 //=============================================================================
@@ -23,10 +25,10 @@ ArrayOf
 FuturesToArrayOf(const std::vector<FutureObject*>& futures)
 {
     Dimensions dims(1, futures.size());
-    nelson_handle* ptrObject = static_cast<nelson_handle*>(
-        ArrayOf::allocateArrayOf(NLS_HANDLE, dims.getElementCount(), stringVector(), false));
+    HandleRef* ptrObject = static_cast<HandleRef*>(
+        ArrayOf::allocateArrayOf(NLS_HANDLE, dims.elementCount(), stringVector(), false));
     for (size_t k = 0; k < futures.size(); ++k) {
-        ptrObject[k] = futures[k]->asNelsonHandle;
+        ptrObject[k] = HandleManager::getInstance()->getHandleRef(futures[k]->asNelsonHandle);
     }
     return ArrayOf(NLS_HANDLE, dims, (void*)ptrObject);
 }
@@ -35,17 +37,16 @@ std::vector<FutureObject*>
 ArrayOfToFutures(const ArrayOf& _param)
 {
     std::vector<FutureObject*> futures;
-    nelson_handle* qp = (nelson_handle*)(_param.getDataPointer());
+    HandleRef* qp = (HandleRef*)(_param.dataPointer());
 
-    for (size_t k = 0; k < _param.getElementCount(); ++k) {
-        nelson_handle hl = qp[k];
-        HandleGenericObject* hlObj = HandleManager::getInstance()->getPointer(hl);
+    for (size_t k = 0; k < _param.elementCount(); ++k) {
+        HandleGenericObject* hlObj = qp[k] ? qp[k]->object() : nullptr;
         if (hlObj) {
-            if (_param.getHandleCategory() == NLS_HANDLE_FEVALFUTURE_CATEGORY_STR) {
+            if (_param.handleCategory() == NLS_HANDLE_FEVALFUTURE_CATEGORY_STR) {
                 futures.push_back((FevalFutureObject*)hlObj);
-            } else if (_param.getHandleCategory() == NLS_HANDLE_AFTERALLFUTURE_CATEGORY_STR) {
+            } else if (_param.handleCategory() == NLS_HANDLE_AFTERALLFUTURE_CATEGORY_STR) {
                 futures.push_back((AfterAllFutureObject*)hlObj);
-            } else if (_param.getHandleCategory() == NLS_HANDLE_AFTEREACHFUTURE_CATEGORY_STR) {
+            } else if (_param.handleCategory() == NLS_HANDLE_AFTEREACHFUTURE_CATEGORY_STR) {
                 futures.push_back((AfterEachFutureObject*)hlObj);
             } else {
                 futures.push_back(nullptr);
@@ -58,10 +59,10 @@ ArrayOfToFutures(const ArrayOf& _param)
 }
 //=============================================================================
 ArrayOfVector
-vertCatArrayOfVector(const ArrayOfVector& args1, const ArrayOfVector& args2, Exception& e)
+vertCatArrayOfVector(const ArrayOfVector& args1, const ArrayOfVector& args2, NelsonException& e)
 {
     if (args1.size() != args2.size()) {
-        Error(_("Same size"));
+        Error("Nelson:parallel:sameSizeExpected", "Same size");
     }
     size_t nbElements = args1.size();
     ArrayOfVector result;
@@ -73,7 +74,7 @@ vertCatArrayOfVector(const ArrayOfVector& args1, const ArrayOfVector& args2, Exc
         args << args2[k];
         try {
             result[k] = localEvaluator->vertcatOperator(args);
-        } catch (Exception& ex) {
+        } catch (NelsonException& ex) {
             e = ex;
             if (localEvaluator) {
                 ParallelEvaluator::destroy(localEvaluator, false);
@@ -89,5 +90,5 @@ vertCatArrayOfVector(const ArrayOfVector& args1, const ArrayOfVector& args2, Exc
     return result;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

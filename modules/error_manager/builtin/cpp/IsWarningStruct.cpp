@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -8,7 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "IsWarningStruct.hpp"
-#include "Exception.hpp"
+#include "NelsonException.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -21,7 +21,7 @@ IsWarningStruct(const ArrayOf& arg, wstringVector& identifiers, wstringVector& s
     if (!arg.isStruct()) {
         return false;
     }
-    stringVector fs = arg.getFieldNames();
+    stringVector fs = arg.fieldNames();
     if (fs.size() != 2) {
         return false;
     }
@@ -31,20 +31,20 @@ IsWarningStruct(const ArrayOf& arg, wstringVector& identifiers, wstringVector& s
     if (fs[1] != "state") {
         return false;
     }
-    ArrayOfVector idArray = arg.getFieldAsList("identifier");
-    ArrayOfVector stateArray = arg.getFieldAsList("state");
+    ArrayOfVector idArray = arg.fieldAsList("identifier");
+    ArrayOfVector stateArray = arg.fieldAsList("state");
 
     for (auto& k : idArray) {
         try {
-            identifiers.push_back(k.getContentAsWideString());
-        } catch (const Exception&) {
+            identifiers.push_back(k.asWideString());
+        } catch (const NelsonException&) {
             return false;
         }
     }
     for (auto& k : stateArray) {
         try {
-            states.push_back(k.getContentAsWideString());
-        } catch (const Exception&) {
+            states.push_back(k.asWideString());
+        } catch (const NelsonException&) {
             return false;
         }
     }

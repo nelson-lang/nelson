@@ -11,27 +11,27 @@
 %=============================================================================
 R = evalc('A = missing');
 REF =  '
-A =
+A = 
 
   missing
 
     <missing>
 
 ';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = evalc('A = repmat(missing, 0, 3)');
 REF = '
-A =
+A = 
 
   0×3 empty missing array
 
 ';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = evalc('A = repmat(missing, 3, 2)');
 REF =  '
-A =
+A = 
 
   3×2 missing array
 
@@ -40,29 +40,29 @@ A =
     <missing>    <missing>
 
 ';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = evalc('A = repmat(missing, 3, 2, 2)');
 REF =  '
   3×2×2 missing array
 
-A(:,:,1) =
+A(:,:,1) = 
 
     <missing>    <missing>
     <missing>    <missing>
     <missing>    <missing>
 
 
-A(:,:,2) =
+A(:,:,2) = 
 
     <missing>    <missing>
     <missing>    <missing>
     <missing>    <missing>
 
 ';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-R =  evalc('A = {missing}');
+R = evalc('A = {missing}');
 REF =  '
 A =
 
@@ -71,9 +71,9 @@ A =
     {[<missing>]}
 
 ';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-R =  evalc('A = {1,repmat(missing,3,2)}');
+R = evalc('A = {1,repmat(missing,3,2)}');
 REF = '
 A =
 
@@ -82,11 +82,11 @@ A =
     {[1]}    {3×2 missing}
 
 ';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-R =  evalc('B = {}; B.a = missing; B.b = {missing}; B.c = repmat(missing,3,2); B.d = {repmat(missing,3,2)}');
+R = evalc('B = {}; B.a = missing; B.b = {missing}; B.c = repmat(missing,3,2); B.d = {repmat(missing,3,2)}');
 REF = '
-B =
+B = 
 
   struct with fields:
 
@@ -96,5 +96,5 @@ B =
     d: {[3×2 missing]}
 
 ';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================

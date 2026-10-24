@@ -8,7 +8,7 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 GIT_REPOSITORY = 'https://github.com/nelson-lang/repo_builtin_tests.git';
-LOCAL_DIRECTORY = [tempdir(), 'test_repo_export', '_', createGUID()];
+LOCAL_DIRECTORY = tempname();
 if isdir(LOCAL_DIRECTORY)
   rmdir(LOCAL_DIRECTORY, 's');
 end
@@ -20,10 +20,10 @@ catch ex
 end
 
 R = dir(LOCAL_DIRECTORY);
-assert_isequal(length(R), 5);
+asserts.isequal(length(R), 5);
 REF_NAMES = {'.', '..', 'LICENSE', 'README.md', 'repo_test.nlf'};
 for k = 1:length(R)
-  assert_isequal(R(k).name, REF_NAMES{k});
+  asserts.isequal(R(k).name, REF_NAMES{k});
 end
 %=============================================================================
 if isdir(LOCAL_DIRECTORY)

@@ -14,5 +14,6 @@
 namespace Nelson::HelpToolsGateway {
 ArrayOfVector
 __xmldoclinkchecker__Builtin(int nLhs, const ArrayOfVector& argIn);
+//=============================================================================
 } // namespace Nelson::HelpToolsGateway
 //=============================================================================

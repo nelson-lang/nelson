@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>imnoise</keyword>
+  <short_description>Ajoute du bruit à une image.</short_description>
+  <syntax>
+    <syntax_item>B = imnoise(A, 'gaussian')</syntax_item>
+    <syntax_item>B = imnoise(A, 'gaussian', m, v)</syntax_item>
+    <syntax_item>B = imnoise(A, 'salt &amp; pepper', d)</syntax_item>
+    <syntax_item>B = imnoise(A, 'speckle', v)</syntax_item>
+    <syntax_item>B = imnoise(A, 'poisson')</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>Image d'entrée (double, single, uint8, uint16 ou int16).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>type</param_name>
+      <param_description>Type de bruit : 'gaussian', 'salt &amp; pepper', 'speckle' ou 'poisson'.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>m, v, d</param_name>
+      <param_description>Moyenne/variance (gaussian), variance (speckle) ou densité (salt &amp; pepper).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>B</param_name>
+      <param_description>Image bruitée, de même classe que A.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>imnoise</b> ajoute un bruit du type choisi à une image. L'image est
+    traitée en double précision sur l'intervalle [0, 1] puis renvoyée dans la
+    classe de <b>A</b>. Le bruit gaussien a pour moyenne <b>m</b> (défaut 0) et
+    variance <b>v</b> (défaut 0.01) ; 'salt &amp; pepper' affecte une fraction
+    <b>d</b> (défaut 0.05) des pixels ; 'speckle' est un bruit multiplicatif
+    <b>B = A + A.*n</b> de variance <b>v</b> (défaut 0.04) ; 'poisson' tire des
+    valeurs de loi de Poisson à partir des intensités de l'image.</p>
+  </description>
+  <used_function>randn, poissrnd</used_function>
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+      ><![CDATA[A = 0.5 * ones(100, 100);
+B = imnoise(A, 'gaussian', 0, 0.02);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}imresize">imresize</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

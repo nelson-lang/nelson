@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "file": "descriptive_statistics.m",
+      "title": "Descriptive statistics",
+      "description": "Summarize measurements with central tendency, spread and a robust range.",
+      "tags": [
+        "statistics",
+        "beginner"
+      ],
+      "requirements": []
+    },
+    {
+      "file": "correlation_analysis.m",
+      "title": "Correlation analysis",
+      "description": "Quantify the linear association between paired observations.",
+      "tags": [
+        "statistics",
+        "correlation"
+      ],
+      "requirements": []
+    },
+    {
+      "file": "weibull_sampling.m",
+      "title": {
+        "en_US": "Weibull inverse sampling",
+        "fr_FR": "Échantillonnage inverse de Weibull"
+      },
+      "description": {
+        "en_US": "Generate a Weibull population from uniform random values and compare bin probabilities.",
+        "fr_FR": "Générer une population de Weibull à partir de valeurs uniformes et comparer les probabilités par classe."
+      },
+      "tags": [
+        "distribution",
+        "sampling",
+        "weibull"
+      ],
+      "requirements": [
+        "plots"
+      ]
+    },
+    {
+      "file": "kmeans_clustering.m",
+      "title": {
+        "en_US": "K-means clustering",
+        "fr_FR": "Partitionnement par k-moyennes"
+      },
+      "description": {
+        "en_US": "Partition a two-dimensional dataset and visualize observations with their estimated centers.",
+        "fr_FR": "Partitionner un jeu de données bidimensionnel et afficher les observations avec leurs centres estimés."
+      },
+      "tags": [
+        "statistics",
+        "clustering",
+        "kmeans"
+      ],
+      "requirements": [
+        "plots"
+      ]
+    }
+  ]
+}

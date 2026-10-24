@@ -7,6 +7,8 @@
   <syntax>
     <syntax_item>T = readtable(filename)</syntax_item>
     <syntax_item>T = readtable(filename, opts)</syntax_item>
+    <syntax_item>T = readtable(filename, &apos;TextType&apos;, type)</syntax_item>
+    <syntax_item>T = readtable(filename, Name, Value)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
@@ -15,7 +17,16 @@
     </param_input_item>
     <param_input_item>
       <param_name>opts</param_name>
-      <param_description>DelimitedTextImportOptions object</param_description>
+      <param_description>nelson.io.text.DelimitedTextImportOptions object</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>type</param_name>
+      <param_description
+      >a string: <b>&apos;char&apos;</b> (default, text columns as a cell array of character vectors) or <b>&apos;string&apos;</b> (text columns as a string array).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Name, Value</param_name>
+      <param_description>optional name-value arguments. For a JSON file: FileType, TableSelector, TableNodeName, VariableSelectors, RowNamesSelector, VariableUnitsSelector, VariableDescriptionsSelector, RepeatedNodeRule, ParsingMode, AllowComments, AllowInfAndNaN, AllowTrailingCommas, MissingRule, ImportErrorRule and TextType.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -29,6 +40,30 @@
       <b>T = readtable(filename)</b> creates a table by importing column-oriented data from a text or spreadsheet file.</p>
     <p>
       <b>T = readtable(filename, opts)</b> creates a table using the settings defined in the <b>opts</b> import options object. The import<b>options</b> object allows you to customize how<b>readtable</b> interprets the file, offering greater control, improved performance, and the ability to reuse the configuration compared to the default syntax.</p>
+    <p>
+      <b>T = readtable(filename, &apos;Range&apos;, range)</b> reads only the rectangular block of the file selected by <b>range</b>. For a delimited text file, <b>range</b> can be given as corner cells (<b>&apos;A1:B5&apos;</b> or a single corner <b>&apos;A2&apos;</b>), a column span (<b>&apos;A:B&apos;</b>), a row span (<b>&apos;2:4&apos;</b>), or a numeric vector <b>[firstRow firstCol lastRow lastCol]</b>. When the first row of the range is made only of non-numeric text it is used for the variable names, otherwise the columns are named <b>Var1</b>, <b>Var2</b>, and so on.</p>
+    <p>The <b>&apos;Sheet&apos;</b> name-value option applies to spreadsheet files only and is not supported for a delimited text file.</p>
+    <p><b>JSON files</b>: a file with the <b>.json</b> extension, or any file read with <b>&apos;FileType&apos;, &apos;json&apos;</b>, is decoded with <b>jsondecode</b> and converted into a table.</p>
+    <ul>
+      <li>An array of objects gives one row per object and object keys become variables. Nested objects are flattened: each leaf value becomes a variable named after its key.</li>
+      <li>An object whose values are all objects gives one row per key. Use <b>"Keys"</b> in <b>VariableSelectors</b> to read the keys.</li>
+      <li>When the root of the file is an object, the first array of objects found is read.</li>
+      <li>Numbers give double, true and false give logical, text gives string (char with <b>&apos;TextType&apos;, &apos;char&apos;</b>), date and time text gives datetime or duration.</li>
+      <li>null values and absent keys are missing values: NaN, &lt;missing&gt; or false for a logical variable.</li>
+      <li>A JSON array value (repeated node) gives a matrix variable with one column per element.</li>
+    </ul>
+    <p>JSON name-value arguments:</p>
+    <ul>
+      <li><b>TableSelector</b>: RFC 6901 JSON Pointer of the table. <b>""</b> refers to the whole file.</li>
+      <li><b>TableNodeName</b>: key name of the table data.</li>
+      <li><b>VariableSelectors</b>: JSON Pointers of the variables, relative to a row object. <b>"Keys"</b> reads the object keys.</li>
+      <li><b>RowNamesSelector</b>: JSON Pointer of the row names.</li>
+      <li><b>VariableUnitsSelector</b>, <b>VariableDescriptionsSelector</b>: JSON Pointers, from the root of the file, of an object that maps variable names to units or descriptions.</li>
+      <li><b>RepeatedNodeRule</b>: <b>&apos;addcol&apos;</b> (default), <b>&apos;ignore&apos;</b> (first element only) or <b>&apos;error&apos;</b>.</li>
+      <li><b>ParsingMode</b>: <b>&apos;lenient&apos;</b> (default) or <b>&apos;strict&apos;</b>. It sets <b>AllowComments</b> (<b>//</b> and <b>/* */</b> comments), <b>AllowInfAndNaN</b> (Inf, -Inf, Infinity, NaN) and <b>AllowTrailingCommas</b>, which can also be given one by one.</li>
+      <li><b>MissingRule</b>, <b>ImportErrorRule</b>: <b>&apos;fill&apos;</b> (default), <b>&apos;error&apos;</b>, <b>&apos;omitrow&apos;</b> or <b>&apos;omitvar&apos;</b>.</li>
+    </ul>
+    <p>With a JSON file, <b>opts</b> is a <b>nelson.io.json.JSONImportOptions</b> object (see <b>jsonImportOptions</b>).</p>
   </description>
   <used_function />
   <bibliography />
@@ -47,8 +82,18 @@
         runnable="cli"
       >Names = {&apos;John&apos;; &apos;Alice&apos;; &apos;Bob&apos;; &apos;Diana&apos;}; Age = [28; 34; 22; 30]; Height = [175; 160; 180; 165]; Weight = [70; 55; 80; 60]; T = table(Names, Age, Height, Weight); writetable(T, [tempdir,&apos;readtable_1.csv&apos;]) options = detectImportOptions([tempdir,&apos;readtable_1.csv&apos;]); T1 = readtable([tempdir,&apos;readtable_1.csv&apos;], options) options.DataLines = [1 Inf] T2 = readtable([tempdir,&apos;readtable_1.csv&apos;], options)</example_item_data>
     </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Read a JSON file:</example_item_description>
+      <example_item_data runnable="cli">T = table([1; 2; NaN], ["a"; "b"; missing], &apos;VariableNames&apos;, {&apos;x&apos;, &apos;name&apos;}); f = [tempdir, &apos;readtable_json.json&apos;]; writetable(T, f); T2 = readtable(f) opts = detectImportOptions(f, &apos;VariableSelectors&apos;, &apos;/name&apos;); T3 = readtable(f, opts)</example_item_data>
+    </example_item>
   </examples>
   <see_also>
+    <see_also_item>
+      <link
+        linkend="${spreadsheet}delimitedTextImportOptions"
+      >delimitedTextImportOptions</link>
+    </see_also_item>
     <see_also_item>
       <link linkend="${spreadsheet}writetable">writetable</link>
     </see_also_item>
@@ -63,11 +108,18 @@
     <see_also_item>
       <link linkend="${stream_manager}fileread">fileread</link>
     </see_also_item>
+    <see_also_item>
+      <link linkend="${spreadsheet}jsonImportOptions">jsonImportOptions</link>
+    </see_also_item>
   </see_also>
   <history>
     <history_item>
       <history_version>1.10.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>JSON files: read JSON data as a table.</history_description>
     </history_item>
   </history>
   <authors>

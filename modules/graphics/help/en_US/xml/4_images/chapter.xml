@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>graphics</module_name>
+  <chapter>Images</chapter>
+  <chapter_description>
+    <p>Functions for displaying images, converting frames, and playing recorded frames.</p>
+  </chapter_description>
+</xmldoc>

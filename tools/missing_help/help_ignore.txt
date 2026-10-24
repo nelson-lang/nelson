@@ -26,7 +26,6 @@
 @FevalQueue/disp
 @FevalQueue/display
 @FevalQueue/get
-@MException/fieldnames
 @PythonEnvironment/disp
 @PythonEnvironment/display
 @PythonEnvironment/get
@@ -137,14 +136,6 @@
 @py/invoke
 @py/isequal
 @py/isequalto
-@sparsedouble/horzcat
-@sparsedouble/imag
-@sparsedouble/real
-@sparsedouble/vertcat
-@sparselogical/horzcat
-@sparselogical/imag
-@sparselogical/real
-@sparselogical/vertcat
 AfterAllFuture_used
 AfterEachFuture_used
 FevalFuture_used
@@ -168,8 +159,6 @@ COM_xlsformat
 nig_header_license
 nig_version
 test_parsetags
-qhelpgenerator
-qcollectiongenerator
 nmm_build_dependencies
 case
 catch

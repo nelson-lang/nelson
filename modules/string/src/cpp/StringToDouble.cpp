@@ -15,9 +15,10 @@
 #include <limits>
 #include <cwctype>
 #include <fast_float/fast_float.h>
-
+#include <cstdlib>
 #include "StringToDouble.hpp"
 #include "StringHelpers.hpp"
+#include "StringTrim.hpp"
 #include "characters_encoding.hpp"
 //=============================================================================
 namespace Nelson {
@@ -51,7 +52,20 @@ stringToDouble(const std::wstring& str, bool& wasConverted)
         wasConverted = true;
         return res;
     }
-    std::wstring STR = ToUpper(str);
+    // surrounding blanks (line breaks included, Unicode spaces only after the number)
+    size_t first = 0;
+    size_t last = str.size();
+    while (first < last && IsNumberLeadingBlank(str[first])) {
+        ++first;
+    }
+    while (
+        last > first && (IsNumberLeadingBlank(str[last - 1]) || IsTextWhitespace(str[last - 1]))) {
+        --last;
+    }
+    std::wstring STR = ToUpper(str.substr(first, last - first));
+    if (STR.find(L'\0') != std::wstring::npos) {
+        return res;
+    }
     if (STR == ToUpper(NanString) || STR == ToUpper(NegNanString) || STR == ToUpper(PosNanString)) {
         res = nan("");
         wasConverted = true;
@@ -62,12 +76,13 @@ stringToDouble(const std::wstring& str, bool& wasConverted)
         res = returnInfinity(true);
         wasConverted = true;
     } else {
-        if (StringHelpers::contains(str, L",")) {
+        if (StringHelpers::contains(STR, L",")) {
             StringHelpers::replace_all(STR, L",", L"");
         }
-        if (StringHelpers::contains(STR, L" ")) {
-            StringHelpers::trim_left(STR);
-            StringHelpers::trim_right(STR);
+        // only the exact Inf / NaN spellings above are numbers
+        size_t body = (!STR.empty() && (STR[0] == L'-' || STR[0] == L'+')) ? 1 : 0;
+        if (STR.compare(body, 3, L"INF") == 0 || STR.compare(body, 3, L"NAN") == 0) {
+            return res;
         }
         bool isnegative = false;
         if (STR[0] == L'-') {
@@ -76,13 +91,35 @@ stringToDouble(const std::wstring& str, bool& wasConverted)
         } else if (STR[0] == L'+') {
             STR.erase(0, 1);
         }
+        // A second leading sign (e.g. "--5" or "+-5") is not a valid number.
+        if (!STR.empty() && (STR[0] == L'-' || STR[0] == L'+')) {
+            return res;
+        }
 
         std::string utf8str = wstring_to_utf8(STR);
-        fast_float::parse_options options { fast_float::chars_format::fortran };
+        // Hexadecimal notation ("0x1A"), only when the whole string is a valid
+        // hex literal.
+        if (utf8str.size() > 2 && utf8str[0] == '0' && (utf8str[1] == 'x' || utf8str[1] == 'X')) {
+            char* end = nullptr;
+            double hexValue = strtod(utf8str.c_str(), &end);
+            if (end != nullptr && *end == 0 && end != utf8str.c_str()) {
+                res = isnegative ? -hexValue : hexValue;
+                wasConverted = true;
+            }
+            return res;
+        }
+        // an internal sign is only valid right after the exponent marker
+        const auto sign = utf8str.find_first_of("+-");
+        if (sign != std::string::npos && (sign == 0 || utf8str[sign - 1] != 'E')) {
+            return res;
+        }
+        fast_float::parse_options options { fast_float::chars_format::general };
         auto answer = fast_float::from_chars_advanced(
             utf8str.data(), utf8str.data() + utf8str.size(), res, options);
         size_t len = strlen(answer.ptr);
-        if (answer.ec == std::errc() && len == 0) {
+        // fast_float reports a result out of range (e.g. "1e400") with res already set to
+        // +/-infinity (overflow) or 0 (underflow). Treat it as a successful conversion.
+        if ((answer.ec == std::errc() || answer.ec == std::errc::result_out_of_range) && len == 0) {
             if (isnegative) {
                 res = -res;
             }

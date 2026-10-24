@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -12,7 +12,7 @@
 #include <Eigen/Dense>
 #include <Eigen/Sparse>
 #include "Error.hpp"
-#include "PredefinedErrorMessages.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -21,18 +21,19 @@ TransposeSparseLogical(const ArrayOf& A)
 {
     ArrayOf C;
     if (A.isEmpty()) {
-        Dimensions dimsC(A.getColumns(), A.getRows());
+        Dimensions dimsC(A.columns(), A.rows());
         C = ArrayOf(NLS_LOGICAL, dimsC, (void*)nullptr, true);
     } else {
         Eigen::SparseMatrix<logical, 0, signedIndexType>* spMatA
-            = (Eigen::SparseMatrix<logical, 0, signedIndexType>*)A.getSparseDataPointer();
+            = (Eigen::SparseMatrix<logical, 0, signedIndexType>*)A.sparseDataPointer();
         Eigen::SparseMatrix<logical, 0, signedIndexType>* spMatC;
         try {
             spMatC = new Eigen::SparseMatrix<logical, 0, signedIndexType>(
                 spMatA->cols(), spMatA->rows());
         } catch (const std::bad_alloc&) {
             spMatC = nullptr;
-            Error(ERROR_MEMORY_ALLOCATION);
+            Error(L"Nelson:outOfMemory",
+                L"Memory allocation error... You may have run out of memory!");
         }
         *spMatC = spMatA->transpose();
         Dimensions dimsC = Dimensions(spMatC->rows(), spMatC->cols());

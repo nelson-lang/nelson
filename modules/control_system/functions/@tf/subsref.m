@@ -10,44 +10,38 @@
 function varargout = subsref(varargin)
   obj = varargin{1};
   s = varargin{2};
-  switch s(1).type
-    case '.'
-      if length(s) == 1
-        name = s(1).subs;
-        if ~isprop(obj, name)
-          msg = _('No property of the class ''%s'' matches the identifier ''%s''.');
-          error(sprintf(msg, 'tf', name));
-        end
-        st = struct(obj);
-        varargout{1} = st.(name);
-      elseif length(s) == 2
-        % obj.name(), {}, .
-        if strcmp(s(2).type, '()')
-          st = struct(obj);
-          indices = s(2).subs;
-          varargout{1} = obj.(name)(indices{:});
-        elseif strcmp(s(2).type, '{}')
-          st = struct(obj);
-          name = s(1).subs;
-          indices = s(2).subs;
-          varargout{1} = st.(name){indices{:}};
-        else
-          error(_('Not a valid indexing expression'));
-        end
-      else
-        error(_('Not a valid indexing expression'));
-      end
-    case '()'
-      indices = s(1).subs;
-      st = struct(obj);
-      N = st.Numerator(indices{:});
-      D = st.Denominator(indices{:});
-      Ts = st.Ts;
-      varargout{1} = tf(N, D, Ts);
-    case '{}'
-      error(_('Illegal indexing structure argument: type ''.'' or ''()'' expected.'));
-    otherwise
-      error(_('Not a valid indexing expression'));
+  if strcmp(s(1).type, '()')
+    if length(s) > 1
+      partial = subsref(obj, s(1));
+      [varargout{1:nargout}] = subsref(partial, s(2:end));
+      return
+    end
+    indices = s(1).subs;
+    numerator = ltiSubscriptGet(obj, 'Numerator');
+    denominator = ltiSubscriptGet(obj, 'Denominator');
+    sampleTime = ltiSubscriptGet(obj, 'Ts');
+    sys = tf(numerator(indices{:}), denominator(indices{:}), sampleTime);
+    sys.Variable = ltiSubscriptGet(obj, 'Variable');
+    sys.TimeUnit = ltiSubscriptGet(obj, 'TimeUnit');
+    sys.UserData = ltiSubscriptGet(obj, 'UserData');
+    sys.InputName = ltiSelectIOProperty(ltiSubscriptGet(obj, 'InputName'), indices, 2);
+    sys.InputUnit = ltiSelectIOProperty(ltiSubscriptGet(obj, 'InputUnit'), indices, 2);
+    sys.OutputName = ltiSelectIOProperty(ltiSubscriptGet(obj, 'OutputName'), indices, 1);
+    sys.OutputUnit = ltiSelectIOProperty(ltiSubscriptGet(obj, 'OutputUnit'), indices, 1);
+    varargout{1} = sys;
+    return
+  end
+  if strcmp(s(1).type, '{}')
+    error('Nelson:control_system:invalidSubscript:illegalIndexingStructureArgumentTypeValue', 'Illegal indexing structure argument: type %s expected.', "'.' or '()'");
+  end
+  if ~strcmp(s(1).type, '.')
+    error('Nelson:control_system:invalidSubscript:notAValidIndexingExpression', 'Not a valid indexing expression');
+  end
+  value = ltiSubscriptGet(obj, s(1).subs);
+  if length(s) > 1
+    [varargout{1:nargout}] = subsref(value, s(2:end));
+  else
+    varargout{1} = value;
   end
 end
 %=============================================================================

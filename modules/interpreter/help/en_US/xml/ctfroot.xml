@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>ctfroot</keyword>
+  <short_description>Root of the extracted application archive.</short_description>
+  <syntax><syntax_item>directory = ctfroot()</syntax_item></syntax>
+  <param_output><param_output_item><param_name>directory</param_name><param_description>Absolute path as a character vector.</param_description></param_output_item></param_output>
+  <description>
+    <p><b>ctfroot</b> returns the private temporary directory into which the launcher extracted the application archive. It remains available in graphical callbacks and does not depend on a mutable environment variable.</p>
+    <p>The function raises an error outside deployment. Use <b>isdeployed</b> to choose between development and application paths. The compiler module is not required at runtime.</p>
+    <p>The current format stores application files under <b>roots/N</b>, according to the manifest search roots. No executable-name folder is added. For a resource beside a function, prefer <b>fullfile(fileparts(mfilename('fullpath')), 'data.txt')</b>. Explicitly include computed resources with <b>-a</b>.</p>
+    <p>This directory is removed after normal application shutdown. Do not use it for persistent output.</p>
+  </description>
+  <used_function>isdeployed</used_function>
+  <bibliography />
+  <examples><example_item><example_item_type>nelson</example_item_type><example_item_description /><example_item_data runnable="false"><![CDATA[if isdeployed()
+  directory = ctfroot()
+end]]></example_item_data></example_item></examples>
+  <history />
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

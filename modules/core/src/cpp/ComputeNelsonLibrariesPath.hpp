@@ -16,5 +16,5 @@ namespace Nelson {
 bool
 ComputeNelsonLibrariesPath(std::wstring& errorMessage);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

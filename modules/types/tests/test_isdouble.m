@@ -7,22 +7,22 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('isdouble'), 1);
-assert_isequal(nargout('isdouble'), 1);
+asserts.isequal(nargin('isdouble'), 1);
+asserts.isequal(nargout('isdouble'), 1);
 %=============================================================================
 A = 3;
 res = isdouble(A);
-assert_istrue(res);
+asserts.istrue(res);
 %=============================================================================
 A = single(3);
 res = isdouble(A);
-assert_isfalse(res);
+asserts.isfalse(res);
 %=============================================================================
 A = single([3, i]);
 res = isdouble(A);
-assert_isfalse(res);
+asserts.isfalse(res);
 %=============================================================================
 A = [3, i];
 res = isdouble(A);
-assert_istrue(res);
+asserts.istrue(res);
 %=============================================================================

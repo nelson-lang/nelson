@@ -15,12 +15,12 @@
     <param_input_item>
       <param_name>var</param_name>
       <param_description
-      >une variable : tableau logique ou numérique.</param_description>
+      >une variable : tableau de tout type supportant l&apos;opérateur de comparaison (numérique, logique, char, string, ...). Une valeur vide est toujours acceptée.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>c</param_name>
       <param_description
-      >une variable : valeur numérique scalaire.</param_description>
+      >une variable : scalaire ou tableau de taille compatible avec var (expansion implicite).</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>argPosition</param_name>
@@ -43,6 +43,16 @@
       ><![CDATA[mustBeGreaterThan(1, 0)
 mustBeGreaterThan([2 3 4],2)]]></example_item_data>
     </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description
+      >Comparaison avec un tableau de taille compatible</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[upper = [5 10 15];
+mustBeGreaterThan([6 11 16], upper - 1)
+mustBeGreaterThan([6 11 16], upper)]]></example_item_data>
+    </example_item>
   </examples>
   <see_also>
     <see_also_item>
@@ -53,6 +63,11 @@ mustBeGreaterThan([2 3 4],2)]]></example_item_data>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description
+      >c peut être un tableau de taille compatible avec var ; les entrées ne sont plus limitées aux valeurs numériques réelles ou logiques.</history_description>
     </history_item>
   </history>
   <authors>

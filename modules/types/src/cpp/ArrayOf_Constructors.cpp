@@ -11,32 +11,33 @@
 #include "Types.hpp"
 #include "Data.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "omp_for_loop.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-// Constructors
-//=============================================================================
 ArrayOf::ArrayOf(const ArrayOf& copy) { copyObject(copy); }
 //=============================================================================
 ArrayOf
-ArrayOf::getDiagonal(int64 diagonalOrder)
+ArrayOf::diagonal(int64 diagonalOrder)
 {
+    materializeScalar();
     if (!is2D()) {
-        Error(_W("Input must be 2-D"));
+        Error(L"Nelson:types:invalidDimensions:input2D", L"Input must be 2-D.");
     }
     if (isSparse()) {
-        Error(_W("Sparse matrix not managed."));
+        Error(L"Nelson:types:sparseNotSupported:sparseMatrixNotSupported",
+            L"Sparse matrix not supported.");
     }
     if (isEmpty(true)) {
         Dimensions dims(0, 0);
-        ArrayOf res = ArrayOf::emptyConstructor(dims);
+        ArrayOf res = ArrayOf::empty(dims);
         res.promoteType(dp->dataClass);
         return res;
     }
-    indexType rows = dp->getRows();
-    indexType cols = dp->getColumns();
+    indexType rows = dp->rows();
+    indexType cols = dp->columns();
     int64 outLen;
     Dimensions outDims;
     int64 srcIndex;
@@ -50,13 +51,13 @@ ArrayOf::getDiagonal(int64 diagonalOrder)
         outLen = (outLen < 0) ? 0 : outLen;
         if (outLen == 0) {
             Dimensions dims(0, 1);
-            ArrayOf res = ArrayOf::emptyConstructor(dims);
+            ArrayOf res = ArrayOf::empty(dims);
             res.promoteType(dp->dataClass);
             return res;
         }
         outDims[0] = outLen;
         outDims[1] = 1;
-        qp = allocateArrayOf(dp->dataClass, outLen, dp->fieldNames);
+        qp = allocateArrayOf(dp->dataClass, outLen, dp->fieldNames());
         for (int64 i = 0; i < outLen; i++) {
             srcIndex = -diagonalOrder + i * (rows + 1);
             copyElements(srcIndex, qp, i, 1);
@@ -69,32 +70,34 @@ ArrayOf::getDiagonal(int64 diagonalOrder)
         outLen = (outLen < 0) ? 0 : outLen;
         if (outLen == 0) {
             Dimensions dims(0, 1);
-            ArrayOf res = ArrayOf::emptyConstructor(dims);
+            ArrayOf res = ArrayOf::empty(dims);
             res.promoteType(dp->dataClass);
             return res;
         }
         outDims[0] = outLen;
         outDims[1] = 1;
-        qp = allocateArrayOf(dp->dataClass, outLen, dp->fieldNames);
+        qp = allocateArrayOf(dp->dataClass, outLen, dp->fieldNames());
         for (int64 i = 0; i < outLen; i++) {
             srcIndex = diagonalOrder * rows + i * (rows + 1);
             copyElements(srcIndex, qp, i, 1);
         }
     }
-    return ArrayOf(dp->dataClass, outDims, qp, dp->sparse, dp->fieldNames);
+    return ArrayOf(dp->dataClass, outDims, qp, dp->sparse, dp->fieldNames());
 }
 //=============================================================================
 ArrayOf
-ArrayOf::diagonalConstructor(ArrayOf src, int64 diagonalOrder)
+ArrayOf::diagonalMatrix(ArrayOf src, int64 diagonalOrder)
 {
+    src.materializeScalar();
     ArrayOf retval;
     if (!src.isVector() && !src.isEmpty()) {
-        Error(_W("Argument to diagonal constructor must by a vector!"));
+        Error(L"Nelson:types:invalidDimensions:argumentDiagonalConstructorByAVector",
+            L"Argument to diagonal constructor must by a vector!");
     }
-    indexType length = src.getElementCount();
+    indexType length = src.elementCount();
     indexType M = length + abs(diagonalOrder);
     Dimensions dims(M, M);
-    void* rp = allocateArrayOf(src.dp->dataClass, dims.getElementCount(), src.dp->fieldNames, true);
+    void* rp = allocateArrayOf(src.dp->dataClass, dims.elementCount(), src.dp->fieldNames(), true);
     if (diagonalOrder < 0) {
         OMP_PARALLEL_FOR_LOOP(length)
         for (ompIndexType i = 0; i < (ompIndexType)length; i++) {
@@ -108,38 +111,38 @@ ArrayOf::diagonalConstructor(ArrayOf src, int64 diagonalOrder)
             src.copyElements(i, rp, dstIndex, 1);
         }
     }
-    return ArrayOf(src.dp->dataClass, dims, rp, false, src.dp->fieldNames);
+    return ArrayOf(src.dp->dataClass, dims, rp, false, src.dp->fieldNames());
 }
 //=============================================================================
 ArrayOf
 ArrayOf::emptyCell(const Dimensions& dim)
 {
-    if (dim.getElementCount() == 0) {
+    if (dim.elementCount() == 0) {
         return ArrayOf(NLS_CELL_ARRAY, dim, (void*)nullptr, false);
     }
-    Error(_W("Invalid dimensions."));
+    Error(L"Nelson:types:invalidDimensions:invalidDimensions", L"Invalid dimensions.");
     return {};
 }
 //=============================================================================
 ArrayOf
-ArrayOf::emptyConstructor(const Dimensions& dim, bool bIsSparse)
+ArrayOf::empty(const Dimensions& dim, bool bIsSparse)
 {
-    if (dim.getElementCount() == 0) {
+    if (dim.elementCount() == 0) {
         return ArrayOf(NLS_DOUBLE, dim, (void*)nullptr, bIsSparse);
     }
-    Error(_W("Invalid dimensions."));
+    Error(L"Nelson:types:invalidDimensions:invalidDimensions", L"Invalid dimensions.");
 
     return {};
 }
 //=============================================================================
 ArrayOf
-ArrayOf::emptyConstructor(indexType m, indexType n, bool bIsSparse)
+ArrayOf::empty(indexType m, indexType n, bool bIsSparse)
 {
     if (((m == 0) && (n == 0)) || ((m == 0) && (n != 0)) || ((m != 0) && (n == 0))) {
         Dimensions dim(m, n);
         return ArrayOf(NLS_DOUBLE, dim, (void*)nullptr, bIsSparse);
     }
-    Error(_W("Invalid dimensions."));
+    Error(L"Nelson:types:invalidDimensions:invalidDimensions", L"Invalid dimensions.");
 
     return {};
 }

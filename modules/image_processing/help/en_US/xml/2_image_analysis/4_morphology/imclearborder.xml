@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>imclearborder</keyword>
+  <short_description>Remove binary image components connected to the image border.</short_description>
+  <syntax>
+    <syntax_item>BW2 = imclearborder(BW)</syntax_item>
+    <syntax_item>BW2 = imclearborder(BW, conn)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>BW</param_name>
+      <param_description>Input 2-D binary image.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>conn</param_name>
+      <param_description>Connectivity, either 4, 8, or an equivalent 3-by-3 matrix.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>BW2</param_name>
+      <param_description>Logical image after border-connected components are removed.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>imclearborder removes foreground components that touch the first or last row or column. It is useful after thresholding or segmentation when partial border objects should be discarded.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Remove border components</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[BW=false(64,64);
+BW(1:18,8:28)=true; BW(28:48,34:54)=true;
+BW2=imclearborder(BW);
+figure; subplot(1,2,1); imagesc(BW); title('Input');
+subplot(1,2,2); imagesc(BW2); title('Cleared');]]></example_item_data>
+      <example_item_img
+        src="../../../images/imclearborder_1.png"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}bwconncomp">bwconncomp</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}bwareaopen">bwareaopen</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}imfill">imfill</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

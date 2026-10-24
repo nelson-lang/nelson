@@ -10,8 +10,8 @@
 % <--INTERACTIVE TEST-->
 % <--ADV-CLI MODE-->
 %=============================================================================
-addpath([nelsonroot(),'/modules/graphics/tests/test_callback']);
+addpath([nelsonroot(), '/modules/graphics/tests/test_callback']);
 f = figure('Position', [300, 300, 300, 200]);
-f.KeyReleaseFcn=@uiinspect;
-f.KeyPressFcn=@uiinspect;
-f.ButtonDownFcn=@uiinspect;
+f.KeyReleaseFcn = @uiinspect;
+f.KeyPressFcn = @uiinspect;
+f.ButtonDownFcn = @uiinspect;

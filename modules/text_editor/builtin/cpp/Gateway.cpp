@@ -10,7 +10,6 @@
 #include "NelsonGateway.hpp"
 #include "TextEditor.hpp"
 #include "editorBuiltin.hpp"
-#include "smartindentBuiltin.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -19,12 +18,9 @@ const std::wstring gatewayName = L"text_editor";
 static const nlsGateway gateway[] = {
     { "editor", (ptrBuiltin)Nelson::TextEditorGateway::editorBuiltin, 0, 0,
         CPP_BUILTIN_WITH_EVALUATOR },
-    { "smartindent", (ptrBuiltin)Nelson::TextEditorGateway::smartindentBuiltin, 0, -1 },
 };
 //=============================================================================
-NLSGATEWAYFUNC(gateway)
-//=============================================================================
-NLSGATEWAYINFO(gateway)
+NLS_GATEWAY_FUNC(gateway)
 //=============================================================================
 static bool
 finishTextEditorModule(Nelson::Evaluator* eval)
@@ -33,7 +29,5 @@ finishTextEditorModule(Nelson::Evaluator* eval)
     return true;
 }
 //=============================================================================
-NLSGATEWAYREMOVEEXTENDED(gateway, (void*)finishTextEditorModule)
-//=============================================================================
-NLSGATEWAYNAME()
+NLS_GATEWAY_REMOVE_EXTENDED(gateway, (void*)finishTextEditorModule)
 //=============================================================================

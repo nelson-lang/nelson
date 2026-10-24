@@ -3,36 +3,43 @@
   <copyright>SAME AS NELSON SOFTWARE</copyright>
   <language>fr_FR</language>
   <keyword>gatewayinfo</keyword>
-  <short_description
-  >Retourne des informations sur une gateway.</short_description>
+  <short_description>Retourne des informations sur une gateway.</short_description>
   <syntax>
     <syntax_item
     >[gateway_name, builtin_list] = gatewayinfo(dyn_lib_path)</syntax_item>
+    <syntax_item
+    >[gateway_name, builtin_list, state] = gatewayinfo(dyn_lib_path)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>dyn_lib_path</param_name>
       <param_description
-      >chaîne : chemin d&apos;une bibliothèque dynamique préparée pour Nelson.</param_description>
+      >chaine : chemin d&apos;une bibliotheque dynamique preparee pour Nelson.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>gateway_name</param_name>
-      <param_description>chaîne : nom de la gateway</param_description>
+      <param_description>chaine : nom de la gateway</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>builtin_list</param_name>
       <param_description
-      >cellule de chaînes : liste des builtin présents dans cette gateway</param_description>
+      >cellule de chaines : liste des builtin presents dans cette gateway</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>state</param_name>
+      <param_description
+      >chaine : etat courant de la gateway, <b>loaded</b>, <b>lazy</b> ou <b>not_loaded</b></param_description>
     </param_output_item>
   </param_output>
   <description>
     <p>
-      <b>[gateway_name, builtin_list] = gatewayinfo(dyn_lib_path)</b> récupère des informations sur une gateway.</p>
-    <p
-    >La bibliothèque dynamique doit fournir au minimum un point d&apos;entrée C nommé<b>GetGatewayInfo</b>.</p>
-    <p>Si le fichier n&apos;existe pas, une erreur est levée.</p>
+      <b>[gateway_name, builtin_list] = gatewayinfo(dyn_lib_path)</b> recupere des informations sur une gateway.</p>
+    <p>La bibliotheque dynamique doit fournir un point d&apos;entree C nomme <b>GetGatewayDescriptor</b>.</p>
+    <p>La troisieme sortie optionnelle indique si la gateway est chargee, enregistree en lazy-loading ou non enregistree.</p>
+    <p>Les metadonnees de descriptor peuvent etre reutilisees depuis le cache unique <b>prefdir()/gateway_cache.json</b>; l&apos;entree du cache est reconstruite automatiquement quand la bibliotheque dynamique est modifiee.</p>
+    <p>Si le fichier n&apos;existe pas, une erreur est levee.</p>
   </description>
   <used_function />
   <bibliography />
@@ -42,7 +49,7 @@
       <example_item_description />
       <example_item_data
         runnable="cli"
-      ><![CDATA[[gateway_name, builtin_list] = gatewayinfo(modulepath('time', 'builtin'))
+      ><![CDATA[[gateway_name, builtin_list, state] = gatewayinfo(modulepath('time', 'builtin'))
 ]]></example_item_data>
     </example_item>
   </examples>

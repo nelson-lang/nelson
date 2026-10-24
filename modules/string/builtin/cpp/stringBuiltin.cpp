@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -21,7 +21,7 @@ Nelson::StringGateway::stringBuiltin(int nLhs, const ArrayOfVector& argIn)
     nargoutcheck(nLhs, 0, 1);
     nargincheck(argIn, 0, 1);
     if (argIn.empty()) {
-        retval << ArrayOf::stringArrayConstructor(std::string());
+        retval << ArrayOf::stringArray(std::string());
     } else {
         bool needToOverload = false;
         ArrayOf res = ArrayOf::toStringArray(argIn[0], needToOverload);

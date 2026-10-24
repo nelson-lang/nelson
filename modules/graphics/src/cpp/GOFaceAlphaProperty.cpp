@@ -18,5 +18,5 @@ static const wchar_t* FACE_ALPHA_DICT[5]
 //=============================================================================
 GOFaceAlphaProperty::GOFaceAlphaProperty() : GORestrictedStringScalarProperty(FACE_ALPHA_DICT) { }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

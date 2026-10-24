@@ -14,11 +14,7 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 #define getPathLocation QLibraryInfo::path
-#else
-#define getPathLocation QLibraryInfo::location
-#endif
 //=============================================================================
 std::wstring
 GetQtPath(const std::wstring& libraryLocation)
@@ -46,11 +42,6 @@ GetQtPath(const std::wstring& libraryLocation)
     if (libraryLocation == L"PluginsPath") {
         path = getPathLocation(QLibraryInfo::PluginsPath);
     }
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    if (libraryLocation == L"ImportsPath") {
-        path = getPathLocation(QLibraryInfo::ImportsPath);
-    }
-#endif
     if (libraryLocation == L"Qml2ImportsPath") {
         path = getPathLocation(QLibraryInfo::Qml2ImportsPath);
     }

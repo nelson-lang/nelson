@@ -1,6 +1,6 @@
-# 📌 Connecting Nelson with Ollama: A Basic Guide
+# Connecting Nelson with Ollama
 
-## 🚀 Step 1: Set Up Ollama Server
+## Step 1: Set Up the Ollama Server
 
 First, visit [Ollama's website](https://ollama.com/) and follow the download instructions.
 
@@ -10,7 +10,7 @@ To use local models with Ollama, install and start an Ollama server. Then, pull 
 ollama pull llama3
 ```
 
-## 📂 Step 2: Set Up Nelson
+## Step 2: Set Up Nelson
 
 Ensure the `webtools/examples/ollama` module is accessible by adding its path in Nelson:
 
@@ -18,7 +18,7 @@ Ensure the `webtools/examples/ollama` module is accessible by adding its path in
 addpath([modulepath('webtools'), '/examples/ollama'])
 ```
 
-## 🤖 Step 3: Query Ollama from Nelson
+## Step 3: Query Ollama from Nelson
 
 You can now interact with Ollama directly from Nelson. For example, to get a short answer to "How to calculate covariance?", use:
 
@@ -34,4 +34,4 @@ ollamaPrompt('How to calculate covariance ?')
 
 ---
 
-🔹 _This guide provides a simple way to integrate Nelson with Ollama for AI-powered queries!_ 🚀
+This example shows how to send local model requests from Nelson through an Ollama server.

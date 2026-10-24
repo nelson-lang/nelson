@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nelson.compiler.BuildResult</keyword>
+  <keyword_alias>nelson.compiler.BuildResult</keyword_alias>
+  <short_description>Inspect a completed application build.</short_description>
+  <syntax>
+    <syntax_item>result = nelson.compiler.build(options)</syntax_item>
+    <syntax_item>result = ncc(options)</syntax_item>
+    <syntax_item>result = nelson.compiler.BuildResult(report, options)</syntax_item>
+    <syntax_item>values = struct(result)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>report</param_name><param_description>Scalar structure containing Executable, RuntimeDirectory, DependencyPlan, RuntimePlan, Manifest and SHA256.</param_description></param_input_item>
+    <param_input_item><param_name>options</param_name><param_description>Scalar nelson.compiler.BuildOptions object.</param_description></param_input_item>
+  </param_input>
+  <param_output><param_output_item><param_name>result</param_name><param_description>Scalar build result with read-only properties.</param_description></param_output_item></param_output>
+  <description>
+    <p>Normally obtain a result from <b>ncc(options)</b> or <b>nelson.compiler.build(options)</b>. The constructor wraps an existing report: it does not build, check the files or authenticate their contents.</p>
+    <p><b>BuildType</b>: standaloneApplication, or standaloneWindowsApplication when options.NoConsole is true.</p>
+    <p><b>Files</b>: cell of paths to distribute, containing Executable and, for bundled builds, RuntimeDirectory. It is not a recursive file inventory or an installer.</p>
+    <p><b>Executable</b>: absolute path to the native executable. <b>RuntimeDirectory</b>: adjacent runtime directory, or empty for installed mode. Move a bundled executable and its runtime directory together without renaming them.</p>
+    <p><b>Options</b>: value copy of the build configuration. Later changes to the caller's options do not change the result.</p>
+    <p><b>DependencyPlan</b>: resolved application dependency analysis. <b>RuntimePlan</b>: runtime requirements and the selected runtime file inventory for bundled mode. Use these to inspect why modules and files were included.</p>
+    <p><b>Manifest</b>: embedded application manifest, describing archive entries and runtime requirements. <b>SHA256</b>: digest of the generated executable, not a publisher signature.</p>
+    <p><b>struct(result)</b> converts the result to a scalar structure, including Options as a structure. Reports can contain absolute build-machine paths; review them before publishing. These results describe the current packager, not an application installer.</p>
+    <p>When Options.EmbedArchive is false, Files also contains the .nca archive between the executable and any runtime directory. SHA256 remains the executable digest; archive integrity is checked at startup.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Inspect a build</example_item_description>
+      <example_item_data runnable="false"><![CDATA[options = ncc('options', 'app_entry.m', 'OutputDir', 'application-build');
+result = ncc(options);
+disp(result.Files);
+disp(result.RuntimePlan);
+text = jsonencode(struct(result));]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${compiler}nelson.compiler.BuildOptions">nelson.compiler.BuildOptions</link></see_also_item>
+    <see_also_item><link linkend="${compiler}nelson.compiler.build">nelson.compiler.build</link></see_also_item>
+    <see_also_item><link linkend="${compiler}compiler_standalone_tutorial">compiler_standalone_tutorial</link></see_also_item>
+  </see_also>
+  <history />
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

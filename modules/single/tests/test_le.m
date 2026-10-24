@@ -7,8 +7,8 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_istrue(3 <= single(4));
-assert_istrue(single(3) <= 3.3);
+asserts.istrue(3 <= single(4));
+asserts.istrue(single(3) <= 3.3);
 %=============================================================================
-assert_istrue(single(3) <= single(4));
+asserts.istrue(single(3) <= single(4));
 %=============================================================================

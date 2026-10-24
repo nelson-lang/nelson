@@ -7,417 +7,409 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-R = [11 21 31;31 41 51;41 51 61];
+R = [11 21 31; 31 41 51; 41 51 61];
 R(:, [1:3]) = [];
-assert_isequal(size(R), [3 0]);
-assert_istrue(isempty(R));
+asserts.isequal(size(R), [3 0]);
+asserts.istrue(isempty(R));
 %=============================================================================
-R = [11 21 31;31 41 51;41 51 61];
-R(:,[1:end]) = [];
-assert_isequal(size(R), [3 0]);
-assert_istrue(isempty(R));
+R = [11 21 31; 31 41 51; 41 51 61];
+R(:, [1:end]) = [];
+asserts.isequal(size(R), [3 0]);
+asserts.istrue(isempty(R));
 %=============================================================================
-R = [11 21 31;31 41 51;41 51 61];
+R = [11 21 31; 31 41 51; 41 51 61];
 R([1:2], :) = [];
 REF = [41 51 61];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-R = [11 21 31;31 41 51;41 51 61];
-assert_checkerror('R(:,[1:4]) = [];', _('Matrix index is out of range.'));
+R = [11 21 31; 31 41 51; 41 51 61];
+asserts.checkerror('R(:,[1:4]) = [];', _('Index exceeds array bounds.'));
 %=============================================================================
 R = [11 21 31 41];
 %=============================================================================
 R([]) = [];
 REF = [11 21 31 41];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R([]) = 14;
 REF = [11 21 31 41];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R([], []) = 69;
 REF = [11 21 31 41];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R([]) = 141i;
 REF = [11 21 31 41];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R([], []) = 619i;
 REF = [11 21 31 41];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R([]) = 1 + 141i;
 REF = [11 21 31 41];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R([], []) = 1 + 619i;
 REF = [11 21 31 41];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R([]) = [141];
 REF = [11 21 31 41];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R([], 1) = [619];
 REF = [11 21 31 41];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R([], []) = [619];
 REF = [11 21 31 41];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R([], 1) = [619];
 REF = [11 21 31 41];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R(1, []) = [619];
 REF = [11 21 31 41];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R(1, []) = 619i;
 REF = [11 21 31 41];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R([], 1) = 619i;
 REF = [11 21 31 41];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R(1, []) = 1 + 619i;
 REF = [11 21 31 41];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R([], 1) = 1 + 619i;
 REF = [11 21 31 41];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-R(1, []) = [];
-REF = [11 21 31 41];
-assert_isequal(R, REF);
+asserts.checkerror('R(1, []) = [];', _('Statement A(...) = [] can only contain one non-colon index.'));
 %=============================================================================
-assert_checkerror('R([], 1) = [];', _('Statement A(...) = [] can only contain one non-colon index.'));
+asserts.checkerror('R([], 1) = [];', _('Statement A(...) = [] can only contain one non-colon index.'));
 %=============================================================================
-assert_checkerror('R([], []) = [];', _('Statement A(...) = [] can only contain one non-colon index.'));
+asserts.checkerror('R([], []) = [];', _('Statement A(...) = [] can only contain one non-colon index.'));
 %=============================================================================
 R(1, []) = 619;
 REF = [11 21 31 41];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R([], 1) = 619;
 REF = [11 21 31 41];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-R([], [1 :181]) = 13;
+R([], [1:181]) = 13;
 REF = [11 21 31 41];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 R = [11 21; 31 41];
 %=============================================================================
 R(1, []) = 11;
 REF = [11 21; 31 41];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R([], 1) = 1;
 REF = [11 21; 31 41];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R([], [1:2]) = 11;
 REF = [11 21; 31 41];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R([1:2], []) = 11;
 REF = [11 21; 31 41];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R([], []) = 1;
 REF = [11 21; 31 41];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R(1, []) = 11i;
 REF = [11 21; 31 41];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R([], 1) = 11i;
 REF = [11 21; 31 41];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R([], [1:2]) = 11i;
 REF = [11 21; 31 41];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R([1:2], []) = 11i;
 REF = [11 21; 31 41];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R([], []) = 11i;
 REF = [11 21; 31 41];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R(1, []) = 11 + 11i;
 REF = [11 21; 31 41];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R([], 1) = 11 + 11i;
 REF = [11 21; 31 41]
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R([], [1:2]) = 11 + 11i;
 REF = [11 21; 31 41];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R([1:2], []) = 11 + 11i;
 REF = [11 21; 31 41];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R([], []) = 11 + 11i;
 REF = [11 21; 31 41];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
-assert_checkerror('R(1, []) = [];', _('Statement A(...) = [] can only contain one non-colon index.'));
+asserts.checkerror('R(1, []) = [];', _('Statement A(...) = [] can only contain one non-colon index.'));
 %=============================================================================
-assert_checkerror('R([], 1) = [];', _('Statement A(...) = [] can only contain one non-colon index.'));
+asserts.checkerror('R([], 1) = [];', _('Statement A(...) = [] can only contain one non-colon index.'));
 %=============================================================================
-R([], [1:2]) = [];
-REF = [11 21; 31 41];
-assert_isequal(R, REF);
+asserts.checkerror('R([], [1:2]) = [];', _('Statement A(...) = [] can only contain one non-colon index.'));
 %=============================================================================
-R([1:2], []) = [];
-REF = [11 21; 31 41];
-assert_isequal(R, REF);
+asserts.checkerror('R([1:2], []) = [];', _('Statement A(...) = [] can only contain one non-colon index.'));
 %=============================================================================
-assert_checkerror('R([], []) = [];', _('Statement A(...) = [] can only contain one non-colon index.'));
+asserts.checkerror('R([], []) = [];', _('Statement A(...) = [] can only contain one non-colon index.'));
 %=============================================================================
 R(1, []) = [313];
 REF = [11 21; 31 41];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R([], 1) = [313];
 REF = [11 21; 31 41];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R([], [1:2]) = [313];
 REF = [11 21; 31 41];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R([1:2], []) = [313];
 REF = [11 21; 31 41];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R([], []) = [313];
 REF = [11 21; 31 41];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 R = [11 21 31 41];
 %=============================================================================
 R = [11 21 31 41];
 %=============================================================================
 R = R([], 1);
 REF = zeros(0, 1);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = [11 21 31 41];
 R = R(1, []);
 REF = zeros(1, 0);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = [11 21 31 41];
 R = R([], []);
 REF = [];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = [11 21; 31 41];
 %=============================================================================
 R = R([], 1);
 REF = zeros(0, 1);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = [11 21 31 41];
 R = R(1, []);
 REF = zeros(1, 0);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = [11 21 31 41];
 R = R([], []);
 REF = [];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = [11 21 31 41];
 R = R([], [1 2]);
 REF = zeros(0, 2);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = [11 21 31 41];
 R = R([], [1 2]);
 REF = zeros(0, 2);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = [11 21 31 41];
-R = R([1 2], []);
-REF = zeros(2, 0);
-assert_isequal(R, REF);
+asserts.checkerror('R = R([1 2], []);', _('Index exceeds array bounds.'));
 %=============================================================================
 M = [11 21; 31 41];
 R = M([], []);
 REF = [];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 M = [11 21; 31 41];
 R = M([1 2], []);
 REF = zeros(2, 0);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 M = [11 21; 31 41];
 R = M([], [1 2]);
 REF = zeros(0, 2);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = [11 21 31 41];
 R = R([], []);
-assert_isequal(R, zeros(0, 0));
+asserts.isequal(R, zeros(0, 0));
 %=============================================================================
 R = [11 21 31 41];
 R = R([], [], []);
-assert_isequal(R, zeros(0, 0, 0));
+asserts.isequal(R, zeros(0, 0, 0));
 %=============================================================================
 R = [11 21 31 41];
 R = R([], 1, []);
-assert_isequal(R, zeros(0, 1, 0));
+asserts.isequal(R, zeros(0, 1, 0));
 %=============================================================================
 R = [11 21 31 41];
-R([1:end],:) = [];
-assert_isequal(R, eye(0, 4));
+R([1:end], :) = [];
+asserts.isequal(R, eye(0, 4));
 %=============================================================================
 M = [];
 N = [];
 R = M + N;
-assert_istrue(isempty(R));
+asserts.istrue(isempty(R));
 %=============================================================================
 M = complex([]);
 N = M;
 R = M + N;
-assert_istrue(isempty(R));
+asserts.istrue(isempty(R));
 %=============================================================================
 R = zeros(333, 0) + zeros(333, 0);
-assert_istrue(isempty(R));
-assert_isequal(size(R), [333 0]);
+asserts.istrue(isempty(R));
+asserts.isequal(size(R), [333 0]);
 %=============================================================================
 R = M + 2;
-assert_istrue(isempty(R));
-assert_isequal(size(R), [0 0]);
+asserts.istrue(isempty(R));
+asserts.isequal(size(R), [0 0]);
 %=============================================================================
 M = [];
 N = M;
-R = M + (3+2i);
+R = M + (3 + 2i);
 assert(isempty(R));
 %=============================================================================
 R = 2 + M;
-assert_istrue(isempty(R));
-assert_isequal(size(R), [0 0]);
+asserts.istrue(isempty(R));
+asserts.isequal(size(R), [0 0]);
 %=============================================================================
-R = (3+2i) + M;
-assert_istrue(isempty(R));
-assert_isequal(size(R), [0 0]);
+R = (3 + 2i) + M;
+asserts.istrue(isempty(R));
+asserts.isequal(size(R), [0 0]);
 %=============================================================================
 R = M + [11];
-assert_istrue(isempty(R));
-assert_isequal(size(R), [0 0]);
+asserts.istrue(isempty(R));
+asserts.isequal(size(R), [0 0]);
 %=============================================================================
 R = [111] + M;
-assert_istrue(isempty(R));
-assert_isequal(size(R), [0 0]);
+asserts.istrue(isempty(R));
+asserts.isequal(size(R), [0 0]);
 %=============================================================================
 R = M - N;
-assert_istrue(isempty(R));
-assert_isequal(size(R), [0 0]);
+asserts.istrue(isempty(R));
+asserts.isequal(size(R), [0 0]);
 %=============================================================================
 R = M - 21;
-assert_istrue(isempty(R));
-assert_isequal(size(R), [0 0]);
+asserts.istrue(isempty(R));
+asserts.isequal(size(R), [0 0]);
 %=============================================================================
-R = M - (3+2i);
-assert_istrue(isempty(R));
-assert_isequal(size(R), [0 0]);
+R = M - (3 + 2i);
+asserts.istrue(isempty(R));
+asserts.isequal(size(R), [0 0]);
 %=============================================================================
 R = 2 - M;
-assert_istrue(isempty(R));
-assert_isequal(size(R), [0 0]);
+asserts.istrue(isempty(R));
+asserts.isequal(size(R), [0 0]);
 %=============================================================================
-R = (3+2i) - M;
-assert_istrue(isempty(R));
-assert_isequal(size(R), [0 0]);
+R = (3 + 2i) - M;
+asserts.istrue(isempty(R));
+asserts.isequal(size(R), [0 0]);
 %=============================================================================
 R = M - [111];
-assert_istrue(isempty(R));
-assert_isequal(size(R), [0 0]);
+asserts.istrue(isempty(R));
+asserts.isequal(size(R), [0 0]);
 %=============================================================================
 R = [111] - M;
-assert_istrue(isempty(R));
-assert_isequal(size(R), [0 0]);
+asserts.istrue(isempty(R));
+asserts.isequal(size(R), [0 0]);
 %=============================================================================
 R = M * N;
-assert_istrue(isempty(R));
-assert_isequal(size(R), [0 0]);
+asserts.istrue(isempty(R));
+asserts.isequal(size(R), [0 0]);
 %=============================================================================
 R = M * 21;
-assert_istrue(isempty(R));
-assert_isequal(size(R), [0 0]);
+asserts.istrue(isempty(R));
+asserts.isequal(size(R), [0 0]);
 %=============================================================================
-R = M * (3+2i);
-assert_istrue(isempty(R));
-assert_isequal(size(R), [0 0]);
+R = M * (3 + 2i);
+asserts.istrue(isempty(R));
+asserts.isequal(size(R), [0 0]);
 %=============================================================================
 R = 21 * M;
-assert_istrue(isempty(R));
-assert_isequal(size(R), [0 0]);
+asserts.istrue(isempty(R));
+asserts.isequal(size(R), [0 0]);
 %=============================================================================
 R = (31 + 21i) * M;
-assert_istrue(isempty(R));
-assert_isequal(size(R), [0 0]);
+asserts.istrue(isempty(R));
+asserts.isequal(size(R), [0 0]);
 %=============================================================================
 R = M * [11];
-assert_istrue(isempty(R));
-assert_isequal(size(R), [0 0]);
+asserts.istrue(isempty(R));
+asserts.isequal(size(R), [0 0]);
 %=============================================================================
 R = [11] * M;
-assert_istrue(isempty(R));
-assert_isequal(size(R), [0 0]);
+asserts.istrue(isempty(R));
+asserts.isequal(size(R), [0 0]);
 %=============================================================================
 R = M .* N;
-assert_istrue(isempty(R));
-assert_isequal(size(R), [0 0]);
+asserts.istrue(isempty(R));
+asserts.isequal(size(R), [0 0]);
 %=============================================================================
 R = M .* [111];
-assert_istrue(isempty(R));
-assert_isequal(size(R), [0 0]);
+asserts.istrue(isempty(R));
+asserts.isequal(size(R), [0 0]);
 %=============================================================================
 R = [1] .* M;
-assert_istrue(isempty(R));
-assert_isequal(size(R), [0 0]);
+asserts.istrue(isempty(R));
+asserts.isequal(size(R), [0 0]);
 %=============================================================================
 % An Empty Exercise, SIGNUM, Volume 25, pages 2-6, 1990 and C. N. Nett and W. M. Haddad,
 % in A System-Theoretic Appropriate Realization of the Empty Matrix Concept,
 % IEEE Transactions on Automatic Control, Volume 38, Number 5, May 1993
 %=============================================================================
 % s * [](mxn) = [](mxn) * s = [](mxn)
-assert_isequal(444 * zeros(333, 0), zeros(333, 0));
-assert_isequal(zeros(333, 0) * 444, zeros(333, 0));
+asserts.isequal(444 * zeros(333, 0), zeros(333, 0));
+asserts.isequal(zeros(333, 0) * 444, zeros(333, 0));
 %=============================================================================
 % [](mxn) + [](mxn) = [](mxn)tes
-assert_isequal(zeros(333, 0) + zeros(333, 0), zeros(333, 0));
+asserts.isequal(zeros(333, 0) + zeros(333, 0), zeros(333, 0));
 %=============================================================================
 % [](0xm) * M(mxn) = [](0xn)
-assert_isequal(zeros(0, 333) * eye(333, 444), zeros(0, 444));
+asserts.isequal(zeros(0, 333) * eye(333, 444), zeros(0, 444));
 %=============================================================================
-assert_isequal(eye(333, 444) * zeros(444, 0), zeros(333, 0));
+asserts.isequal(eye(333, 444) * zeros(444, 0), zeros(333, 0));
 %=============================================================================
 % [](mx0) * [](0xn) = 0(mxn)
 R1 = ones(999, 0);
 R2 = ones(0, 999);
-assert_isequal(R1 * R2, zeros(999, 999));
+asserts.isequal(R1 * R2, zeros(999, 999));
 %=============================================================================
 R = zeros(4, 0, 1) * zeros(0, 4);
-assert_isequal(R, zeros(4, 4));
+asserts.isequal(R, zeros(4, 4));
 %=============================================================================
 R = zeros(0, 4) * zeros(4, 0, 1);
-assert_isequal(R, zeros(0, 0));
+asserts.isequal(R, zeros(0, 0));
 %=============================================================================
-assert_checkerror('zeros(4, 0, 1) * zeros(0, 4, 2)', _('Wrong size for input arguments: 2D matrix expected.'));
+asserts.checkerror('zeros(4, 0, 1) * zeros(0, 4, 2)', sprintf(_('%s must be 2-D.'), 'Input arguments'));
 %=============================================================================

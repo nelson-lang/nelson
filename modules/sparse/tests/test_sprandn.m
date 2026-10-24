@@ -10,17 +10,17 @@
 rng('default');
 S = sprandn(3, 4, 0.5);
 R = full(S);
-REF = [0         0         0   -0.0191;
-    0.5965         0         0         0;
-      0   -0.3983    0.3339    0.8036];
-assert_isapprox(R, REF, 1e-4);
+REF = [0 0 0 0.7254;
+   -0.0631 0 0 0;
+      0 0.7147 -0.2050 -0.1241];
+asserts.isapprox(R, REF, 1e-4);
 %=============================================================================
 rng('default');
-S = sprandn([5,10]);
+S = sprandn([5, 10]);
 R = full(S);
-REF = [ -0.7733    0.2543];
-assert_isapprox(R, REF, 1e-4);
+REF = [0.5377 1.8339];
+asserts.isapprox(R, REF, 1e-4);
 %=============================================================================
 msg = _('Invalid number of input arguments.');
-assert_checkerror('S = sprandn(3, 4)', msg);
+asserts.checkerror('S = sprandn(3, 4)', msg);
 %=============================================================================

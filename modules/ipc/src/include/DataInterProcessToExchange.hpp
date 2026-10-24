@@ -10,9 +10,14 @@
 #pragma once
 //=============================================================================
 #include <string>
-#include <boost/serialization/string.hpp>
-#include <boost/serialization/vector.hpp>
+#include <vector>
 #include <utility>
+//=============================================================================
+namespace Nelson {
+class BinaryWriter;
+class BinaryReader;
+//=============================================================================
+} // namespace Nelson
 //=============================================================================
 typedef enum
 {
@@ -30,6 +35,7 @@ typedef enum
     IS_MINIMIZED,
     IS_MINIMIZED_ANSWER,
     SET_MINIMIZE,
+    OPEN_NFLOW_FILES,
     UNKNOWN
 } NELSON_INTERPROCESS_COMMAND;
 //=============================================================================
@@ -94,60 +100,11 @@ public:
     void
     clear();
     //=============================================================================
-private:
-    //=============================================================================
-    friend class boost::serialization::access;
-    //=============================================================================
-    template <class Archive>
     void
-    serialize(Archive& ar, const unsigned int version)
-    {
-        ar & commandType;
-        switch (commandType) {
-        case OPEN_FILES:
-        case LOAD_FILES:
-        case RUN_FILES: {
-            ar & filenames;
-        } break;
-        case EVAL: {
-            ar & pid;
-            ar & content;
-        } break;
-        case POST_COMMAND: {
-            ar & content;
-            ar & scope;
-        } break;
-        case EVAL_ANSWER: {
-            ar & content;
-        } break;
-        case PUT: {
-            ar & serializedCompressedVariable;
-            ar & fullySerialized;
-            ar & variableName;
-            ar & scope;
-        } break;
-        case GET_ANSWER: {
-            ar & serializedCompressedVariable;
-            ar & fullySerialized;
-        } break;
-        case GET:
-        case IS_VAR: {
-            ar & pid;
-            ar & variableName;
-            ar & scope;
-        } break;
-        case IS_MINIMIZED: {
-            ar & pid;
-        } break;
-        case IS_MINIMIZED_ANSWER:
-        case SET_MINIMIZE:
-        case IS_VAR_ANSWER: {
-            ar & valueAnswer;
-        } break;
-        default: {
-        } break;
-        }
-    }
+    write(Nelson::BinaryWriter& writer) const;
+    //=============================================================================
+    bool
+    read(Nelson::BinaryReader& reader);
     //=============================================================================
 };
 //=============================================================================

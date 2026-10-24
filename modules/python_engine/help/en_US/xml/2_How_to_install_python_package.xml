@@ -5,11 +5,11 @@
   <keyword>How to install python package</keyword>
   <description>
     <p
-    >Nelson allows users to seamlessly integrate Python packages into their workflows.</p>
+    >Nelson can use Python packages from Nelson workflows.</p>
     <p
-    >Installing Python packages within Nelson expands its functionality and enables users to leverage a wide array of libraries for data analysis, machine learning, scientific computing, and more.</p>
+    >Installing Python packages makes libraries for data analysis, machine learning, and scientific computing available from Nelson.</p>
     <p
-    >This help file provides a comprehensive guide on installing Python packages from within Nelson.</p>
+    >This help page describes how to install Python packages from Nelson.</p>
     <p />
     <p>Tips and Considerations:</p>
     <p />

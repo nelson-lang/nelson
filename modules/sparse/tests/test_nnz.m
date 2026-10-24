@@ -7,32 +7,69 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-S = sparse(eye(3,4));
-assert_isequal(nnz(S), 3);
+S = sparse(eye(3, 4));
+asserts.isequal(nnz(S), 3);
 %=============================================================================
 S = sparse([]);
-assert_isequal(nnz(S), 0);
+asserts.isequal(nnz(S), 0);
 %=============================================================================
 S = sparse(complex([]));
 S = sparse(complex([]));
-assert_isequal(nnz(S), 0);
+asserts.isequal(nnz(S), 0);
 %=============================================================================
-A = [    0     1     2     3;
-1     0     0     0;
-5     0     1     0];
+A = [0 1 2 3;
+  1 0 0 0;
+  5 0 1 0];
 S = sparse(A);
-assert_isequal(nnz(S), 6);
+asserts.isequal(nnz(S), 6);
 %=============================================================================
 A = [1 1 1 1 1 1 0 0 1 0];
 S = sparse(A);
-assert_isequal(nnz(S), 7);
+asserts.isequal(nnz(S), 7);
 %=============================================================================
-i = [  1,  1,  1,  2,  2,  3,  3,  3,  3 ];
-j = [  1,  2,  5,  2,  3,  1,  3,  4,  5 ];
-s = [ 11, 12, 15, 22, 23, 31, 33, 34, 35 ];
+i = [1, 1, 1, 2, 2, 3, 3, 3, 3];
+j = [1, 2, 5, 2, 3, 1, 3, 4, 5];
+s = [11, 12, 15, 22, 23, 31, 33, 34, 35];
 m = 3;
 n = 5;
 nz_max = 9;
-S = sparse ( i, j, s, m, n, nz_max );
-assert_isequal(nnz(S), 9);
+S = sparse(i, j, s, m, n, nz_max);
+asserts.isequal(nnz(S), 9);
+%=============================================================================
+S = sparse([1 0; 0 2]);
+asserts.isequal(nnz(S), 2);
+%=============================================================================
+S(1, 2) = 5;
+S(1, 2) = 0;
+asserts.isequal(nnz(S), 2);
+%=============================================================================
+C = sparse([0 2 + 3i; 4 0; 0 5]);
+asserts.isequal(nnz(C), 3);
+%=============================================================================
+S = sparse(single([1 0; 0 2]));
+asserts.isequal(nnz(S), 2);
+%=============================================================================
+C = sparse(single([1 + 2i 0; 0 0]));
+asserts.isequal(nnz(C), 1);
+%=============================================================================
+ZC = sparse([1 2 1 2], [1 1 2 2], [0 -0 complex(0, 0) complex(0, 2)], 2, 2, 4);
+asserts.isequal(nnz(ZC), 1);
+%=============================================================================
+ZCS = sparse([1 2 1 2], [1 1 2 2], single([0 -0 complex(0, 0) complex(0, 2)]), 2, 2, 4);
+asserts.isequal(nnz(ZCS), 1);
+%=============================================================================
+L = sparse(logical([true false; false true]));
+asserts.isequal(nnz(L), 2);
+%=============================================================================
+asserts.isequal(nnz(reshape([0 1 2 0], [1 2 2])), 2);
+asserts.isequal(nnz([0 1 + 2i; 0 0]), 1);
+asserts.isequal(nnz(logical([true false; false true])), 2);
+asserts.isequal(nnz(uint8([1 0; 0 2])), 2);
+asserts.isequal(nnz(int16([0 -3; 4 0])), 2);
+asserts.isequal(nnz(single([0 NaN; Inf 0])), 2);
+asserts.isequal(nnz('a b'), 3);
+asserts.isequal(nnz(char([0 65; 66 0])), 2);
+%=============================================================================
+msg = sprintf(_('Check for incorrect argument data type or missing argument in call to function ''%s''.'), 'nnz');
+asserts.checkerror('nnz({1})', msg);
 %=============================================================================

@@ -12,7 +12,7 @@
 //=============================================================================
 #include <cstring>
 #include "Error.hpp"
-#include "PredefinedErrorMessages.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -29,7 +29,8 @@ new_with_exception(size_t len, bool initializeToZero = true)
             }
         } catch (const std::bad_alloc&) {
             ptr = nullptr;
-            Error(ERROR_MEMORY_ALLOCATION);
+            Error(L"Nelson:outOfMemory",
+                L"Memory allocation error... You may have run out of memory!");
         }
     }
     return ptr;

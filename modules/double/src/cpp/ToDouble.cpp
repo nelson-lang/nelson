@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -11,7 +11,7 @@
 #include "omp_for_loop.hpp"
 #include "ToDouble.hpp"
 #include "StringToDoubleComplex.hpp"
-#include "SparseDynamicFunctions.hpp"
+#include "Decomplexify.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -20,10 +20,10 @@ ArrayOf
 ToDouble(const ArrayOf& A)
 {
     double* pDouble
-        = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, A.getElementCount(), stringVector(), false);
-    ArrayOf r = ArrayOf(NLS_DOUBLE, A.getDimensions(), pDouble, A.isSparse());
-    T* ptrA = (T*)A.getDataPointer();
-    ompIndexType N = (ompIndexType)A.getElementCount();
+        = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, A.elementCount(), stringVector(), false);
+    ArrayOf r = ArrayOf(NLS_DOUBLE, A.dimensions(), pDouble, A.isSparse());
+    T* ptrA = (T*)A.dataPointer();
+    ompIndexType N = (ompIndexType)A.elementCount();
     OMP_PARALLEL_FOR_LOOP(N)
     for (ompIndexType i = 0; i < N; ++i) {
         pDouble[i] = (double)ptrA[i];
@@ -35,10 +35,21 @@ ArrayOf
 ToDouble(const ArrayOf& A, bool& needToOverload)
 {
     needToOverload = false;
-    switch (A.getDataClass()) {
+    if (A.isComplex() && A.isEmpty()) {
+        // an empty complex array converts to an empty real array
+        ArrayOf r = decomplexify(A);
+        r.promoteType(NLS_DOUBLE);
+        return r;
+    }
+    if (A.isSparse()) {
+        ArrayOf r(A);
+        r.promoteType(A.isComplex() ? NLS_DCOMPLEX : NLS_DOUBLE);
+        return r;
+    }
+    switch (A.dataClass()) {
     case NLS_MISSING_ARRAY: {
-        Dimensions dimsA = A.getDimensions();
-        indexType nbElements = dimsA.getElementCount();
+        Dimensions dimsA = A.dimensions();
+        indexType nbElements = dimsA.elementCount();
         double* ptr
             = (double*)ArrayOf::allocateArrayOf(NLS_DOUBLE, nbElements, stringVector(), false);
         ArrayOf R = ArrayOf(NLS_DOUBLE, dimsA, ptr);
@@ -53,16 +64,16 @@ ToDouble(const ArrayOf& A, bool& needToOverload)
         return {};
     } break;
     case NLS_STRING_ARRAY: {
-        Dimensions dimsA = A.getDimensions();
-        indexType nbElements = dimsA.getElementCount();
+        Dimensions dimsA = A.dimensions();
+        indexType nbElements = dimsA.elementCount();
         double* ptrComplex
             = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, nbElements, stringVector(), false);
-        auto* strElements = (ArrayOf*)A.getDataPointer();
+        auto* strElements = (ArrayOf*)A.dataPointer();
         indexType q = 0;
         for (indexType k = 0; k < nbElements; k = k + 1) {
             ArrayOf element = strElements[k];
-            if (element.getDataClass() == NLS_CHAR) {
-                std::wstring str = element.getContentAsWideString();
+            if (element.dataClass() == NLS_CHAR) {
+                std::wstring str = element.asWideString();
                 bool wasConverted = false;
                 doublecomplex asComplex = stringToDoubleComplex(str, wasConverted);
                 if (wasConverted) {
@@ -73,8 +84,8 @@ ToDouble(const ArrayOf& A, bool& needToOverload)
                     ptrComplex[q + 1] = 0;
                 }
             } else {
-                ptrComplex[k] = std::nan("");
-                ptrComplex[k + 1] = 0;
+                ptrComplex[q] = std::nan("");
+                ptrComplex[q + 1] = 0;
             }
             q = q + 2;
         }
@@ -86,17 +97,13 @@ ToDouble(const ArrayOf& A, bool& needToOverload)
     } break;
     case NLS_CELL_ARRAY:
     case NLS_CLASS_ARRAY:
+    case NLS_CLASSDEF_ARRAY:
     case NLS_FUNCTION_HANDLE:
     case NLS_STRUCT_ARRAY: {
         needToOverload = true;
         return {};
     } break;
     case NLS_LOGICAL: {
-        if (A.isSparse()) {
-            void* pDouble = TypeConvertSparseDynamicFunction(
-                NLS_DOUBLE, A.getRows(), A.getColumns(), A.getSparseDataPointer(), NLS_LOGICAL);
-            return ArrayOf(NLS_DOUBLE, A.getDimensions(), pDouble, true);
-        }
         return ToDouble<logical>(A);
     } break;
     case NLS_UINT8: {
@@ -130,16 +137,12 @@ ToDouble(const ArrayOf& A, bool& needToOverload)
         return r;
     } break;
     case NLS_SCOMPLEX: {
-        if (A.isSparse()) {
-            needToOverload = true;
-            return {};
-        }
-        ompIndexType nbElements = A.getElementCount();
+        ompIndexType nbElements = A.elementCount();
         double* pDouble
             = (double*)ArrayOf::allocateArrayOf(NLS_DCOMPLEX, nbElements, stringVector(), false);
-        ArrayOf r = ArrayOf(NLS_DCOMPLEX, A.getDimensions(), pDouble, false);
+        ArrayOf r = ArrayOf(NLS_DCOMPLEX, A.dimensions(), pDouble, false);
         auto* pSingle
-            = static_cast<single*>(const_cast<void*>(static_cast<const void*>(A.getDataPointer())));
+            = static_cast<single*>(const_cast<void*>(static_cast<const void*>(A.dataPointer())));
         OMP_PARALLEL_FOR_LOOP(nbElements)
         for (ompIndexType k = 0; k < (ompIndexType)(nbElements * 2); k++) {
             pDouble[k] = static_cast<double>(pSingle[k]);
@@ -147,10 +150,6 @@ ToDouble(const ArrayOf& A, bool& needToOverload)
         return r;
     } break;
     case NLS_SINGLE: {
-        if (A.isSparse()) {
-            needToOverload = true;
-            return {};
-        }
         return ToDouble<single>(A);
     } break;
     case NLS_CHAR: {

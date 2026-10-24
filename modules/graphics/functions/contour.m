@@ -17,17 +17,17 @@ function varargout = contour(varargin)
   % [M, c] = contour(...)
   [ax, contourProperties] = parseContourArguments(varargin, false);
   if isempty(ax)
-    ax = newplot();
+    ax = graphicsParentProperty(contourProperties);
   end
-  axes(ax);
+  ax = newplotTarget(ax);
+  nextPlot = ax.NextPlot;
 
-  h = __contour__(contourProperties{:});
-  axes(ax);
+  h = __contour__('Parent', ax, contourProperties{:});
   if (strcmp(ax.XLimMode, 'auto') && strcmp(ax.YLimMode, 'auto'))
-    limits = [min(h.XData(:)), max(h.XData(:)), min(h.YData(:)), max(h.YData(:))];
-    if ~isempty(limits)
-      axis(limits);
-    end
+    applyContourAxesState(ax, h);
+  end
+  if any(strcmp(nextPlot, {'replace', 'replaceall'}))
+    ax.Box = 'on';
   end
   if nargout > 0
     varargout{1} = h.ContourMatrix;

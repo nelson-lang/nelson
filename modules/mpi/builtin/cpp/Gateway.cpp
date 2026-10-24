@@ -76,11 +76,7 @@ static const nlsGateway gateway[] = {
     { "MPI_Comm_split", (ptrBuiltin)Nelson::MpiGateway::MPI_Comm_splitBuiltin, 1, 3 },
 };
 //=============================================================================
-NLSGATEWAYFUNC(gateway)
+NLS_GATEWAY_FUNC(gateway)
 //=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+NLS_GATEWAY_REMOVE(gateway)
 //=============================================================================

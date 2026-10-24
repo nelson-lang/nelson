@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,7 +10,7 @@
 #include "h5SaveSingle.hpp"
 #include "h5SaveHelpers.hpp"
 #include "h5SaveLoadHelpers.hpp"
-#include "Exception.hpp"
+#include "NelsonException.hpp"
 #include "NewWithException.hpp"
 //=============================================================================
 namespace Nelson {
@@ -80,7 +80,7 @@ h5SaveSingleEmptyMatrix(hid_t fid, const std::string& location, const std::strin
             bSuccess = h5SaveComplexAttribute(fid, h5path);
         }
         if (bSuccess) {
-            bSuccess = h5SaveDimensionsAttribute(fid, h5path, VariableValue.getDimensions());
+            bSuccess = h5SaveDimensionsAttribute(fid, h5path, VariableValue.dimensions());
         }
     }
     return bSuccess;
@@ -102,14 +102,14 @@ h5SaveSingleMatrix(hid_t fid, const std::string& location, const std::string& va
 
     hid_t dspace_id = H5I_INVALID_HID;
     hid_t type_id = H5Tcopy(H5T_NATIVE_FLOAT);
-    Dimensions dimsValue = VariableValue.getDimensions();
+    Dimensions dimsValue = VariableValue.dimensions();
 
     hsize_t* dimsAsHsize_t = nullptr;
     indexType nbElementsSizeData;
     if (dimsValue.isScalar()) {
         try {
             dimsAsHsize_t = new_with_exception<hsize_t>(1, true);
-        } catch (Exception&) {
+        } catch (NelsonException&) {
             return false;
         }
         nbElementsSizeData = 1;
@@ -117,19 +117,19 @@ h5SaveSingleMatrix(hid_t fid, const std::string& location, const std::string& va
         dspace_id = H5Screate_simple((int)1, dimsAsHsize_t, dimsAsHsize_t);
     } else {
         try {
-            dimsAsHsize_t = new_with_exception<hsize_t>(dimsValue.getLength(), true);
-        } catch (Exception&) {
+            dimsAsHsize_t = new_with_exception<hsize_t>(dimsValue.length(), true);
+        } catch (NelsonException&) {
             return false;
         }
-        nbElementsSizeData = dimsValue.getLength();
+        nbElementsSizeData = dimsValue.length();
         for (indexType k = 1; k <= nbElementsSizeData; k++) {
             dimsAsHsize_t[k - 1] = (hsize_t)dimsValue[nbElementsSizeData - k];
         }
-        dspace_id = H5Screate_simple((int)dimsValue.getLength(), dimsAsHsize_t, dimsAsHsize_t);
+        dspace_id = H5Screate_simple((int)dimsValue.length(), dimsAsHsize_t, dimsAsHsize_t);
     }
     delete[] dimsAsHsize_t;
     hid_t plist = setCompression(dimsValue, useCompression);
-    void* buffer = const_cast<void*>(VariableValue.getDataPointer());
+    void* buffer = const_cast<void*>(VariableValue.dataPointer());
     if (VariableValue.isComplex()) {
         using complex_type = struct complex_type
         {

@@ -42,5 +42,5 @@ parallelSort(IteratorType valuesBegin, IteratorType valuesEnd, Compare comp = Co
 #endif
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

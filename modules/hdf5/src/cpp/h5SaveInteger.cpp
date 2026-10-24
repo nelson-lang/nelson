@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,7 +10,7 @@
 #include "h5SaveInteger.hpp"
 #include "h5SaveLoadHelpers.hpp"
 #include "h5SaveHelpers.hpp"
-#include "Exception.hpp"
+#include "NelsonException.hpp"
 #include "NewWithException.hpp"
 //=============================================================================
 namespace Nelson {
@@ -39,7 +39,7 @@ h5SaveInteger(hid_t fid, const std::string& location, const std::string& variabl
     hid_t type_id = H5I_INVALID_HID;
     void* buffer = nullptr;
 
-    switch (VariableValue.getDataClass()) {
+    switch (VariableValue.dataClass()) {
     case NLS_INT8: {
         type_id = H5Tcopy(H5T_NATIVE_INT8);
     } break;
@@ -67,13 +67,13 @@ h5SaveInteger(hid_t fid, const std::string& location, const std::string& variabl
     default: {
     } break;
     }
-    Dimensions dimsValue = VariableValue.getDimensions();
+    Dimensions dimsValue = VariableValue.dimensions();
     hsize_t* dimsAsHsize_t = nullptr;
     indexType nbElementsSizeData;
     if (dimsValue.isScalar()) {
         try {
             dimsAsHsize_t = new_with_exception<hsize_t>(1, true);
-        } catch (Exception&) {
+        } catch (NelsonException&) {
             return false;
         }
         nbElementsSizeData = 1;
@@ -81,19 +81,19 @@ h5SaveInteger(hid_t fid, const std::string& location, const std::string& variabl
         dspace_id = H5Screate_simple((int)1, dimsAsHsize_t, dimsAsHsize_t);
     } else {
         try {
-            dimsAsHsize_t = new_with_exception<hsize_t>(dimsValue.getLength(), true);
-        } catch (Exception&) {
+            dimsAsHsize_t = new_with_exception<hsize_t>(dimsValue.length(), true);
+        } catch (NelsonException&) {
             return false;
         }
-        nbElementsSizeData = dimsValue.getLength();
+        nbElementsSizeData = dimsValue.length();
         for (indexType k = 1; k <= nbElementsSizeData; k++) {
             dimsAsHsize_t[k - 1] = (hsize_t)dimsValue[nbElementsSizeData - k];
         }
-        dspace_id = H5Screate_simple((int)dimsValue.getLength(), dimsAsHsize_t, dimsAsHsize_t);
+        dspace_id = H5Screate_simple((int)dimsValue.length(), dimsAsHsize_t, dimsAsHsize_t);
     }
     delete[] dimsAsHsize_t;
     hid_t plist = setCompression(dimsValue, useCompression);
-    buffer = const_cast<void*>(VariableValue.getDataPointer());
+    buffer = const_cast<void*>(VariableValue.dataPointer());
     hid_t dataset_id
         = H5Dcreate(fid, h5path.c_str(), type_id, dspace_id, H5P_DEFAULT, plist, H5P_DEFAULT);
     herr_t status = H5Dwrite(dataset_id, type_id, H5S_ALL, H5S_ALL, H5P_DEFAULT, buffer);
@@ -134,7 +134,7 @@ h5SaveIntegerEmptyMatrix(hid_t fid, const std::string& location, const std::stri
     auto ui64value = static_cast<uint64>(0);
     void* ptr;
     hid_t type_id;
-    switch (VariableValue.getDataClass()) {
+    switch (VariableValue.dataClass()) {
     case NLS_INT8: {
         ptr = &i8value;
         type_id = H5Tcopy(H5T_NATIVE_INT8);
@@ -198,7 +198,7 @@ h5SaveIntegerEmptyMatrix(hid_t fid, const std::string& location, const std::stri
             bSuccess = h5SaveComplexAttribute(fid, h5path);
         }
         if (bSuccess) {
-            bSuccess = h5SaveDimensionsAttribute(fid, h5path, VariableValue.getDimensions());
+            bSuccess = h5SaveDimensionsAttribute(fid, h5path, VariableValue.dimensions());
             if (bSuccess && VariableValue.isSparse()) {
                 h5SaveSparseAttribute(fid, h5path);
             }

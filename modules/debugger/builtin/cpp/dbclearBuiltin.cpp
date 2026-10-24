@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "dbclearBuiltin.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -25,18 +26,18 @@ Nelson::DebuggerGateway::dbclearBuiltin(Evaluator* eval, int nLhs, const ArrayOf
     nargoutcheck(nLhs, 0, 0);
 
     if (argIn.size() == 3) {
-        Error("Wrong number of input arguments.");
+        Error("Nelson:wrongNumberOfInputs", "Wrong number of input arguments.");
     }
 
-    if (argIn.size() == 1 && argIn[0].getContentAsWideString() == L"all") {
+    if (argIn.size() == 1 && argIn[0].asWideString() == L"all") {
         eval->clearBreakpoints();
         return {};
     }
     size_t position = parsePositionArgument(argIn);
-    std::wstring target = argIn[1].getContentAsWideString();
+    std::wstring target = argIn[1].asWideString();
 
     if (!eval->removeBreakpoint(target, position)) {
-        Error(_W("No breakpoint found at specified location."));
+        Error(L"Nelson:dbclear:breakpointNotFound", L"No breakpoint found at specified location.");
     }
 
     return {};
@@ -49,21 +50,21 @@ parsePositionArgument(const ArrayOfVector& argIn)
         return 1;
     }
 
-    if (argIn[2].getContentAsWideString() != L"at") {
-        Error(_W("Third argument must be 'at'."));
+    if (argIn[2].asWideString() != L"at") {
+        Error(L"Nelson:debugger:expectedAt", L"Third argument must be 'at'.");
     }
 
-    std::wstring posArg = argIn[3].getContentAsWideString();
+    std::wstring posArg = argIn[3].asWideString();
     size_t idx = 0;
 
     try {
         size_t pos = std::stoul(posArg, &idx);
         if (idx != posArg.size()) {
-            Error(_W("Invalid position argument."));
+            Error(L"Nelson:debugger:invalidPosition", L"Invalid position argument.");
         }
         return pos;
     } catch (...) {
-        Error(_W("Invalid position argument."));
+        Error(L"Nelson:debugger:invalidPosition", L"Invalid position argument.");
     }
 
     return 1; // unreachable

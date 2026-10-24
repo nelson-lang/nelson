@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>readvars</keyword>
+  <short_description>Create variables by reading column-oriented data from a file.</short_description>
+  <syntax>
+    <syntax_item>[Var1, Var2, ..., VarN] = readvars(filename)</syntax_item>
+    <syntax_item>[Var1, Var2, ..., VarN] = readvars(filename, opts)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description
+      >a string: an existing filename source.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>opts</param_name>
+      <param_description>nelson.io.text.DelimitedTextImportOptions object</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>Var1, Var2, ..., VarN</param_name>
+      <param_description
+      >the columns of the file, each returned as a separate variable.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>[Var1, Var2, ..., VarN] = readvars(filename)</b> creates variables by importing column-oriented data from a text or spreadsheet file.</p>
+    <p
+    >Each column of the file is returned as a separate output variable. Text columns are returned as a cell array of character vectors and numeric columns as a column vector of type <b>double</b>, following the same conventions as <b
+      >readtable</b>. Pass the <b>&apos;TextType&apos;</b> name-value option with the value <b>&apos;string&apos;</b> to return text columns as a <b>string</b> array instead.</p>
+    <p
+    >Name-value options accepted by <b>readtable</b>, such as <b>&apos;Range&apos;</b>, are forwarded. Using <b>&apos;Range&apos;</b> restricts the columns and rows returned as variables.</p>
+    <p
+    >When fewer output variables are requested than the number of columns in the file, only the first columns are returned. Requesting more output variables than there are columns raises an error.</p>
+    <p>
+      <b>[Var1, Var2, ..., VarN] = readvars(filename, opts)</b> uses the settings defined in the <b>opts</b> import options object. Any additional arguments are forwarded to <b>readtable</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      >filename = [tempdir, &apos;readvars_1.csv&apos;]; Names = {&apos;John&apos;; &apos;Alice&apos;; &apos;Bob&apos;; &apos;Diana&apos;}; Age = [28; 34; 22; 30]; Height = [175; 160; 180; 165]; T = table(Names, Age, Height); writetable(T, filename) [N, A, H] = readvars(filename)</example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${spreadsheet}readtable">readtable</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${spreadsheet}readmatrix">readmatrix</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${spreadsheet}readcell">readcell</link>
+    </see_also_item>
+    <see_also_item>
+      <link
+        linkend="${spreadsheet}detectImportOptions"
+      >detectImportOptions</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

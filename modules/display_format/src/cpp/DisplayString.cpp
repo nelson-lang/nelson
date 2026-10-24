@@ -17,8 +17,10 @@
 namespace Nelson {
 //=============================================================================
 static std::wstring
-getAsFormattedString(ArrayOf* elements, indexType idx, NumericFormatDisplay currentNumericFormat,
-    indexType termWidth);
+getAsFormattedString(ArrayOf* elements, indexType idx, size_t maxLength);
+//=============================================================================
+static size_t
+getMaxElementLength(indexType columns, indexType termWidth);
 //=============================================================================
 static indexType
 getColsPerPage(const std::vector<size_t>& vSize, indexType termWidth);
@@ -71,16 +73,20 @@ void
 DisplayScalarString(Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
-    ArrayOf* elements = (ArrayOf*)A.getDataPointer();
+    ArrayOf* elements = (ArrayOf*)A.dataPointer();
     std::wstring msg;
     if (elements[0].isCharacterArray()) {
         if (asDisp) {
-            msg.append(elements[0].getContentAsWideString());
+            if (elements[0].isEmpty()) {
+                // disp("") prints nothing, like disp('')
+                return;
+            }
+            msg.append(elements[0].asWideString());
             msg.append(L"\n");
         } else {
             msg.append(BLANKS_AT_BOL);
             msg.append(L"\"");
-            msg.append(elements[0].getContentAsWideString());
+            msg.append(elements[0].asWideString());
             msg.append(L"\"");
             msg.append(L"\n");
         }
@@ -94,39 +100,36 @@ void
 Display2dString(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::wstring& name,
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
-    ArrayOf* elements = (ArrayOf*)A.getDataPointer();
+    ArrayOf* elements = (ArrayOf*)A.dataPointer();
     if (A.isColumnVector()) {
         if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
             if (!name.empty()) {
                 io->outputMessage(L"\n");
             }
         }
-        for (indexType k = 0; k < A.getElementCount()
+        for (indexType k = 0; k < A.elementCount()
             && !NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID);
             ++k) {
             std::wstring msg;
             if (elements[k].isCharacterArray()) {
-                msg = L"\"" + elements[k].getContentAsWideString() + L"\"";
+                msg = L"\"" + elements[k].asWideString() + L"\"";
             } else {
                 msg = L"<missing>";
             }
             io->outputMessage(BLANKS_AT_BOL + msg + L"\n");
         }
     } else {
-        indexType rows = A.getRows();
-        indexType columns = A.getColumns();
-        indexType nbElements = A.getElementCount();
+        indexType rows = A.rows();
+        indexType columns = A.columns();
+        indexType nbElements = A.elementCount();
 
         std::vector<size_t> vSize(columns, (size_t)0);
         wstringVector cellSummarize(nbElements, std::wstring(L""));
         sizeType termWidth = io->getTerminalWidth();
+        size_t maxLength = getMaxElementLength(columns, termWidth);
 
-        indexType v = 0;
         for (indexType k = 0; k < nbElements; ++k) {
-            if (v >= columns) {
-                v = 0;
-            }
-            cellSummarize[k] = getAsFormattedString(elements, k, currentNumericFormat, termWidth);
+            cellSummarize[k] = getAsFormattedString(elements, k, maxLength);
             vSize[k / rows] = std::max(vSize[k / rows], cellSummarize[k].length());
         }
 
@@ -134,7 +137,7 @@ Display2dString(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::
 
         indexType pageCount
             = static_cast<indexType>(ceil(columns / (static_cast<single>(colsPerPage))));
-        bool withColumsHeader = (rows * columns > 1) && pageCount > 1;
+        bool withColumnsHeader = (rows * columns > 1) && pageCount > 1;
 
         for (indexType k = 0;
             k < pageCount && !NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID);
@@ -148,7 +151,7 @@ Display2dString(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::
                     io->outputMessage(L"\n");
                 }
             }
-            if (withColumsHeader) {
+            if (withColumnsHeader) {
                 std::wstring msg
                     = columnsHeader(k * colsPerPage + 1, k * colsPerPage + colsInThisPage);
                 if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
@@ -165,7 +168,7 @@ Display2dString(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::
                     indexType colsPos = k * colsPerPage + j;
                     indexType idx = i + (k * colsPerPage + j) * rows;
                     indexType len = vSize[colsPos];
-                    std::wstring msg = completeWithBlanksAtBeginning(cellSummarize[idx], len);
+                    std::wstring msg = completeWithBlanksAtTheEnd(cellSummarize[idx], len);
                     io->outputMessage(BLANKS_AT_BOL + msg);
                 }
                 io->outputMessage(L"\n");
@@ -182,14 +185,15 @@ DisplayNdString(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::
     NumericFormatDisplay currentNumericFormat, LineSpacingDisplay currentLineSpacing, bool asDisp)
 {
     sizeType termWidth = io->getTerminalWidth();
-    Dimensions dims = A.getDimensions();
+    Dimensions dims = A.dimensions();
 
-    Dimensions wdims(dims.getLength());
-    indexType rows(A.getRows());
-    indexType columns(A.getColumns());
+    Dimensions wdims(dims.length());
+    indexType rows(A.rows());
+    indexType columns(A.columns());
     indexType offset = 0;
+    size_t maxLength = getMaxElementLength(columns, termWidth);
 
-    ArrayOf* elements = (ArrayOf*)A.getDataPointer();
+    ArrayOf* elements = (ArrayOf*)A.dataPointer();
     while (wdims.inside(dims)) {
         if (offset != 0) {
             if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
@@ -201,10 +205,10 @@ DisplayNdString(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::
         }
 
         io->outputMessage(name + L"(:,:");
-        for (indexType m = 2; m < dims.getLength(); m++) {
+        for (indexType m = 2; m < dims.length(); m++) {
             io->outputMessage(fmt::format(L",{}", static_cast<int>(wdims[m]) + 1));
         }
-        io->outputMessage(L") =\n");
+        io->outputMessage(L")" + displayHeaderEqualSign(A, true) + L"\n");
         if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
             io->outputMessage(L"\n");
         }
@@ -213,19 +217,18 @@ DisplayNdString(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::
         indexType nbElements = rows * columns;
         wstringVector cellSummarize(nbElements, L"");
         for (indexType k = 0; k < nbElements; ++k) {
-            cellSummarize[k]
-                = getAsFormattedString(elements, k + offset, currentNumericFormat, termWidth);
+            cellSummarize[k] = getAsFormattedString(elements, k + offset, maxLength);
             vSize[k / rows] = std::max(vSize[k / rows], cellSummarize[k].length());
         }
         indexType colsPerPage = getColsPerPage(vSize, termWidth);
         int pageCount = static_cast<int>(ceil(columns / (static_cast<single>(colsPerPage))));
-        bool withColumsHeader = (rows * columns > 1) && pageCount > 1;
+        bool withColumnsHeader = (rows * columns > 1) && pageCount > 1;
         for (int k = 0;
             k < pageCount && !NelsonConfiguration::getInstance()->getInterruptPending(evaluatorID);
             k++) {
             indexType colsInThisPage = columns - colsPerPage * k;
             colsInThisPage = (colsInThisPage > colsPerPage) ? colsPerPage : colsInThisPage;
-            if (withColumsHeader) {
+            if (withColumnsHeader) {
                 std::wstring msg
                     = columnsHeader(k * colsPerPage + 1, k * colsPerPage + colsInThisPage);
                 if (currentLineSpacing == NLS_LINE_SPACING_LOOSE) {
@@ -245,8 +248,9 @@ DisplayNdString(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::
                     j++) {
                     indexType colsPos = k * colsPerPage + j;
                     indexType idx = i + (k * colsPerPage + j) * rows;
-                    indexType len = vSize[colsPos];
-                    std::wstring msg = completeWithBlanksAtBeginning(cellSummarize[idx], len);
+                    // a single column is not padded, like a column vector
+                    indexType len = (columns == 1) ? 0 : vSize[colsPos];
+                    std::wstring msg = completeWithBlanksAtTheEnd(cellSummarize[idx], len);
                     io->outputMessage(BLANKS_AT_BOL + msg);
                 }
                 io->outputMessage(L"\n");
@@ -260,19 +264,34 @@ DisplayNdString(size_t evaluatorID, Interface* io, const ArrayOf& A, const std::
     }
 }
 //=============================================================================
+size_t
+getMaxElementLength(indexType columns, indexType termWidth)
+{
+    // A single column is never truncated. Otherwise each element may use its
+    // share of the terminal width, minus the leading blanks, the quotes and a
+    // separator, but never less than MIN_ELEMENT_LENGTH characters.
+    constexpr size_t MIN_ELEMENT_LENGTH = 19;
+    const size_t ELEMENT_DECORATION_LENGTH = LENGTH_BLANKS_AT_BOL + 3;
+    if (columns <= 1) {
+        return 0;
+    }
+    size_t share = static_cast<size_t>(termWidth / columns);
+    if (share < MIN_ELEMENT_LENGTH + ELEMENT_DECORATION_LENGTH) {
+        return MIN_ELEMENT_LENGTH;
+    }
+    return share - ELEMENT_DECORATION_LENGTH;
+}
+//=============================================================================
 std::wstring
-getAsFormattedString(ArrayOf* elements, indexType idx, NumericFormatDisplay currentNumericFormat,
-    indexType termWidth)
+getAsFormattedString(ArrayOf* elements, indexType idx, size_t maxLength)
 {
     std::wstring msg;
-    switch (elements[idx].getDataClass()) {
+    switch (elements[idx].dataClass()) {
     case NLS_CHAR: {
         if (elements[idx].isRowVector()) {
-            msg = elements[idx].getContentAsWideString(16);
-            if (msg.length() > 15) {
-                msg.pop_back();
-                msg = msg.substr(0, 15);
-                msg = msg + HORIZONTAL_ELLIPSIS;
+            msg = elements[idx].asWideString();
+            if (maxLength > 0 && msg.length() > maxLength) {
+                msg = msg.substr(0, maxLength - 1) + HORIZONTAL_ELLIPSIS;
             }
             msg = L"\"" + msg + L"\"";
         } else {

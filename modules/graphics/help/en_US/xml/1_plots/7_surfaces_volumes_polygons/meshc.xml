@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>meshc</keyword>
+  <short_description>Display a mesh with contour lines below it.</short_description>
+  <syntax>
+    <syntax_item>meshc(Z)</syntax_item>
+    <syntax_item>meshc(Z, C)</syntax_item>
+    <syntax_item>meshc(X, Y, Z)</syntax_item>
+    <syntax_item>meshc(X, Y, Z, C)</syntax_item>
+    <syntax_item>meshc(parent, ...)</syntax_item>
+    <syntax_item>meshc('Parent', parent, ...)</syntax_item>
+    <syntax_item>h = meshc(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>meshc</b> displays a mesh and contour lines projected at the base of the mesh.</p>
+    <p>The returned value is a two-element graphics vector containing the surface object followed by the contour object.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Mesh with contours.</example_item_description>
+      <example_item_data><![CDATA[meshc(peaks(30));]]></example_item_data>
+      <example_item_img src="../../../../images/meshc_1.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Use separate color data and a parent axes.</example_item_description>
+      <example_item_data><![CDATA[f = figure();
+ax = axes('Parent', f);
+Z = peaks(20);
+C = abs(Z);
+meshc('Parent', ax, Z, C, 'LineWidth', 1.5);]]></example_item_data>
+      <example_item_img src="../../../../images/meshc_2.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/7_surfaces_volumes_polygons/mesh">mesh</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/3_contour_plots/contour3">contour3</link></see_also_item>
+  </see_also>
+</xmldoc>

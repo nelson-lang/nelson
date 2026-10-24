@@ -18,5 +18,5 @@ matvar_t*
 SaveMatioCharacterArray(
     const std::string& variableName, const ArrayOf& variableValue, mat_ft matVersion);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

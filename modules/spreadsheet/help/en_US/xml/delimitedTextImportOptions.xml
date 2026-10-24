@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>delimitedTextImportOptions</keyword>
+  <short_description>Create options for importing delimited text data.</short_description>
+  <syntax>
+    <syntax_item>opts = delimitedTextImportOptions()</syntax_item>
+    <syntax_item>opts = delimitedTextImportOptions(Name, Value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>Name, Value</param_name>
+      <param_description>name-value arguments such as 'NumVariables', 'VariableNames', 'VariableTypes', 'Delimiter', or 'DataLines'.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>opts</param_name>
+      <param_description>nelson.io.text.DelimitedTextImportOptions object.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>delimitedTextImportOptions</b> creates an import options object for delimited text files.</p>
+    <p>The object uses the Nelson class <b>nelson.io.text.DelimitedTextImportOptions</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      >opts = delimitedTextImportOptions('NumVariables', 3) opts.Delimiter = {';'} opts.DataLines = [2 Inf]</example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${spreadsheet}detectImportOptions">detectImportOptions</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${spreadsheet}readtable">readtable</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${spreadsheet}readcell">readcell</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${spreadsheet}readmatrix">readmatrix</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

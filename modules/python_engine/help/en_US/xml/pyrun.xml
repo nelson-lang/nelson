@@ -81,6 +81,9 @@ y = pyrun(PYCODE, 'Y')]]></example_item_data>
       <link linkend="${python_engine}pyrunfile">pyrunfile</link>
     </see_also_item>
     <see_also_item>
+      <link linkend="${python_engine}pyfunction">pyfunction</link>
+    </see_also_item>
+    <see_also_item>
       <link linkend="${python_engine}pyenv">pyenv</link>
     </see_also_item>
     <see_also_item>

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "headcommentsBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "HeadComments.hpp"
 #include "FileSystemWrapper.hpp"
@@ -29,7 +30,7 @@ Nelson::HelpToolsGateway::headcommentsBuiltin(Evaluator* eval, int nLhs, const A
         ArrayOf arg1 = argIn[0];
         std::wstring functionName;
         if (arg1.isRowVectorCharacterArray()) {
-            functionName = arg1.getContentAsWideString();
+            functionName = arg1.asWideString();
             if (FileSystemWrapper::Path::is_regular_file(functionName)) {
                 filename = functionName;
             } else {
@@ -40,25 +41,27 @@ Nelson::HelpToolsGateway::headcommentsBuiltin(Evaluator* eval, int nLhs, const A
                         auto* fm = (MacroFunctionDef*)funcDef;
                         filename = fm->getFilename();
                     } else {
-                        Error(_W("built-in have no comments."));
+                        Error(L"Nelson:headcomments:noComments",
+                            L"built-in, mex, anonymous function have no comments.");
                     }
                 } else {
-                    Error(_W("function does not exist."));
+                    Error(L"Nelson:headcomments:functionDoesNotExist", L"Function does not exist.");
                 }
             }
         } else if (arg1.isFunctionHandle()) {
-            function_handle fh = arg1.getContentAsFunctionHandle();
+            function_handle fh = arg1.asFunctionHandle();
             FunctionDefPtr fun = reinterpret_cast<FunctionDef*>(fh.anonymousHandle);
             std::string name = fun->getName();
 
             if (!eval->getContext()->lookupFunction(name, fun)) {
-                Error(_W("function does not exist."));
+                Error(L"Nelson:headcomments:functionDoesNotExist", L"Function does not exist.");
             }
             if (fun->type() == NLS_MACRO_FUNCTION) {
                 auto* fm = (MacroFunctionDef*)fun;
                 filename = fm->getFilename();
             } else {
-                Error(_W("built-in, mex, anonymous function have no comments."));
+                Error(L"Nelson:headcomments:noComments",
+                    L"built-in, mex, anonymous function have no comments.");
             }
         }
         HEADCOMMENTS_ERROR err = HEADCOMMENTS_ERROR::MACRO_OK;
@@ -73,14 +76,14 @@ Nelson::HelpToolsGateway::headcommentsBuiltin(Evaluator* eval, int nLhs, const A
                     }
                 }
             } else {
-                retval << ArrayOf::toCellArrayOfCharacterColumnVectors(comments);
+                retval << ArrayOf::cellArrayFromArrayOfCharacterColumnVectors(comments);
             }
         } break;
         case HEADCOMMENTS_ERROR::NOT_A_MACRO: {
-            Error(_W("A valid function expected."));
+            Error(L"Nelson:headcomments:invalidFunction", L"A valid function expected.");
         } break;
         case HEADCOMMENTS_ERROR::FILE_NOT_EXIST: {
-            Error(_W("File does not exist."));
+            Error(L"Nelson:headcomments:fileDoesNotExist", L"File does not exist.");
         } break;
         }
     }

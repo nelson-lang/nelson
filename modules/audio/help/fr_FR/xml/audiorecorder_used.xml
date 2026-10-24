@@ -26,7 +26,7 @@
       <example_item_description />
       <example_item_data
         runnable="cli"
-      ><![CDATA[audiorecorder_used(),delete(audiorecorder_used())]]></example_item_data>
+      ><![CDATA[used = audiorecorder_used()]]></example_item_data>
     </example_item>
   </examples>
   <see_also>

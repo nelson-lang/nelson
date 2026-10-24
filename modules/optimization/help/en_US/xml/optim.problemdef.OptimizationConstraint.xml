@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>optim.problemdef.OptimizationConstraint</keyword>
+  <short_description>Optimization constraints.</short_description>
+  <syntax>
+    <syntax_item>constr = optimconstr(...)</syntax_item>
+    <syntax_item>prob.Constraints.name = constr</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>left, relation, right</param_name>
+      <param_description>left expression, relation operator, and right expression used to build a constraint.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>prob.Constraints.name</param_name>
+      <param_description>named constraint slot in an optimization problem.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>constr</param_name>
+      <param_description>optimization constraint object.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>optim.problemdef.OptimizationConstraint represents constraints built from optimization variables and expressions.</p>
+    <p>Constraints are attached to an OptimizationProblem through its Constraints property.</p>
+  </description>
+  <used_function>
+    <used_function_item>optimvar</used_function_item>
+    <used_function_item>optimproblem</used_function_item>
+  </used_function>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Build a constraint from optimization variables.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[x = optimvar('x', 2, 1, 'LowerBound', 0);
+constr = x(1) + x(2) <= 4]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${optimization}optimconstr">optimconstr</link></see_also_item>
+    <see_also_item><link linkend="${optimization}optimproblem">optimproblem</link></see_also_item>
+    <see_also_item><link linkend="${optimization}solve">solve</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

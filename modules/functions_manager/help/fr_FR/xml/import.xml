@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>import</keyword>
+  <short_description>Importer des noms depuis des espaces de noms.</short_description>
+  <syntax>
+    <syntax_item>import namespace.name</syntax_item>
+    <syntax_item>import namespace.className.staticMethodName</syntax_item>
+    <syntax_item>import namespace.*</syntax_item>
+    <syntax_item>import(namespace_name)</syntax_item>
+    <syntax_item>L = import()</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>namespace.name</param_name>
+      <param_description>un nom d&apos;import pointé.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>namespace.*</param_name>
+      <param_description>un import global d&apos;espace de noms.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>namespace_name</param_name>
+      <param_description>un scalaire chaîne ou un vecteur de caractères contenant un nom d&apos;import.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>L</param_name>
+      <param_description>un tableau de cellules de vecteurs de caractères : imports courants dans l&apos;ordre d&apos;insertion.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>import</b> ajoute au scope courant des fonctions de package, des constructeurs de classes de package, des méthodes statiques de package ou des imports globaux d&apos;espace de noms.</p>
+    <p>Les noms d&apos;import dupliqués sont ignorés. Les imports déclarés dans une fonction ou un script s&apos;appliquent à tout le corps de la fonction ou du script. Dans le scope de base, les imports restent actifs jusqu&apos;à <b>clear import</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[import nelson.classdefpkg.Options
+L = import()
+clear import
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${memory_manager}clear">clear</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${functions_manager}which">which</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

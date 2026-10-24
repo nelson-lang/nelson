@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nsidedpoly</keyword>
+  <short_description>Crée un polygone régulier.</short_description>
+  <syntax>
+    <syntax_item>pg = nsidedpoly(n)</syntax_item>
+    <syntax_item>pg = nsidedpoly(n, 'Center', c)</syntax_item>
+    <syntax_item>pg = nsidedpoly(n, 'Radius', r)</syntax_item>
+    <syntax_item>pg = nsidedpoly(n, 'SideLength', s)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>n</param_name><param_description>le nombre de côtés (un entier &gt;= 3).</param_description></param_input_item>
+    <param_input_item><param_name>'Center'</param_name><param_description>le centre [x y] (par défaut [0 0]).</param_description></param_input_item>
+    <param_input_item><param_name>'Radius'</param_name><param_description>le rayon du cercle circonscrit.</param_description></param_input_item>
+    <param_input_item><param_name>'SideLength'</param_name><param_description>la longueur de chaque côté.</param_description></param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>pg</param_name><param_description>un polyshape du polygone régulier.</param_description></param_output_item>
+  </param_output>
+  <description>
+    <p><b>nsidedpoly</b> renvoie un polygone régulier à <b>n</b> côtés sous forme
+      de <b>polyshape</b>. Sans rayon ni longueur de côté, le polygone a une aire
+      unitaire.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="adv-cli"><![CDATA[f = figure();
+plot(nsidedpoly(6, 'Radius', 2));
+axis equal]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${geometry}polyshape">polyshape</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item><history_version>2.0.0</history_version><history_description>Version initiale.</history_description></history_item>
+  </history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

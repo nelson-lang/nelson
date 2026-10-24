@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>fromWorkspace</keyword>
+<keyword_alias>block:fromWorkspace</keyword_alias>
+  <short_description>Lit un signal depuis une variable du workspace Nelson.</short_description>
+  <syntax>
+    <syntax_item>Type de bloc : fromWorkspace</syntax_item>
+  </syntax>
+  <param_output>
+    <param_output_item>
+      <param_name>ports de sortie</param_name>
+      <param_description>1 port de sortie (double scalaire ou vecteur, largeur issue de la variable).</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Émet le signal contenu dans la variable <code>VariableName</code> du workspace de base. La variable est lue une fois au lancement de la simulation. Deux formats sont acceptés :</p>
+    <ul>
+      <li>une matrice <code>[temps, valeurs]</code> : première colonne = temps, colonnes suivantes = éléments du signal ;</li>
+      <li>une structure avec les champs <code>time</code> (Nx1) et <code>signals.values</code> (NxW).</li>
+    </ul>
+    <p>
+      <img src="../../../../libraries/source/exports/fromWorkspace.svg" align="middle"/>
+    </p>
+    <p>Le temps doit être croissant au sens large, sans Inf ni NaN ; des instants dupliqués décrivent des discontinuités. Avec <code>Interpolate</code> à on, la sortie est interpolée linéairement (avant le premier point : extrapolation linéaire des deux premiers points ; à un instant dupliqué la valeur la plus récente gagne). À off, le bloc maintient le dernier échantillon (zéro avant le premier point).</p>
+    <p>Après le dernier point, <code>OutputAfterFinalValue</code> choisit <code>Extrapolation</code> (linéaire, exige l'interpolation), <code>Setting to zero</code> ou <code>Holding final value</code>.</p>
+    <p>La génération de code fige les échantillons dans des tables constantes avec la même sémantique de lecture (signaux scalaires).</p>
+    <p>
+      <b>Paramètres</b>
+    </p>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Paramètre</th>
+          <th>Valeur par défaut</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <code>VariableName</code>
+          </td>
+          <td>simin</td>
+        </tr>
+        <tr>
+          <td>
+            <code>SampleTime</code>
+          </td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>
+            <code>Interpolate</code>
+          </td>
+          <td>on</td>
+        </tr>
+        <tr>
+          <td>
+            <code>OutputAfterFinalValue</code>
+          </td>
+          <td>Extrapolation</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Caractéristiques du bloc</b>
+    </p>
+    <table border="1">
+      <tbody>
+        <tr>
+          <td>Type de bloc</td>
+          <td>fromWorkspace</td>
+        </tr>
+        <tr>
+          <td>Famille</td>
+          <td>Blocs sources</td>
+        </tr>
+        <tr>
+          <td>Phases</td>
+          <td>INIT, OUTPUT</td>
+        </tr>
+        <tr>
+          <td>Type de signal</td>
+          <td>double, scalaire ou vecteur</td>
+        </tr>
+        <tr>
+          <td>Génération de code</td>
+          <td>oui (tables constantes, signaux scalaires)</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>Generation de code : prise en charge pour C et Rust.</p>
+    <source_code label="Manifeste" path="modules/nflow_blocks/libraries/source/library.json" language="json"/>
+    <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/source/fromWorkspace.cpp" language="cpp"/>
+  </description>
+  <used_function/>
+  <bibliography/>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Lancer la démo From/To Workspace (définit 'simin' puis ouvre le modèle)</example_item_description>
+      <example_item_data><![CDATA[run([modulepath('nflow_blocks'), '/examples/workspace/From_Workspace_Demo.m']);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${nflow_blocks}sink/toWorkspace">toWorkspace</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${nflow_blocks}source/fileSource">fileSource</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

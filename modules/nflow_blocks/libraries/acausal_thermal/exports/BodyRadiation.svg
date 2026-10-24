@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="306.5" height="251.5" viewBox="-153.25 -128.25 306.5 251.5">
+  <rect x="-153.25" y="-128.25" width="306.5" height="251.5" rx="47.785" fill="#FDECEA" stroke="#F0A99D" stroke-width="3.25"/>
+  <g transform="matrix(1 0 0 -1 0 0)">
+    <rect x="50" y="-80" width="40" height="160" fill="#F0A99D" stroke="#9C2A1A" stroke-width="3.25"/>
+    <rect x="-90" y="-80" width="40" height="160" fill="#F0A99D" stroke="#9C2A1A" stroke-width="3.25"/>
+    <polyline points="-36,10 36,10" fill="none" stroke="#9C2A1A" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-36,10 -26,16" fill="none" stroke="#9C2A1A" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-36,10 -26,4" fill="none" stroke="#9C2A1A" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-36,-10 36,-10" fill="none" stroke="#9C2A1A" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="26,-16 36,-10" fill="none" stroke="#9C2A1A" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="26,-4 36,-10" fill="none" stroke="#9C2A1A" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-36,-30 36,-30" fill="none" stroke="#9C2A1A" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-36,-30 -26,-24" fill="none" stroke="#9C2A1A" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-36,-30 -26,-36" fill="none" stroke="#9C2A1A" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-36,30 36,30" fill="none" stroke="#9C2A1A" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="26,24 36,30" fill="none" stroke="#9C2A1A" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="26,36 36,30" fill="none" stroke="#9C2A1A" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <g transform="translate(0,105) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32" fill="#9C2A1A">BodyRadiation</text></g>
+    <g transform="translate(0,-105) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="24" fill="#9C2A1A">Gr</text></g>
+    <rect x="-50" y="-80" width="6" height="160" fill="#9C2A1A" stroke="#9C2A1A" stroke-width="3.25"/>
+    <rect x="45" y="-80" width="5" height="160" fill="#9C2A1A" stroke="#9C2A1A" stroke-width="3.25"/>
+  </g>
+</svg>

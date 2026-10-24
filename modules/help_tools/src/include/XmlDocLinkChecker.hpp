@@ -19,5 +19,5 @@ NLSHELP_TOOLS_IMPEXP bool
 xmldoclinkchecker(const wstringVector& xmlDirectories, const wstringVector& xmlFilesToCheck,
     wstringVector& errors, wstringVector& warnings, std::wstring& errorMessage);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

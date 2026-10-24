@@ -1,0 +1,7 @@
+/*
+ * Loaded through a relative href. The spike test reads the computed color back
+ * to prove the page's own assets are served next to the entry document.
+ */
+#probe {
+  color: rgb(1, 2, 3);
+}

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>adaptthresh</keyword>
+  <short_description>Calcule un seuil adaptatif d image.</short_description>
+  <syntax>
+    <syntax_item>T = adaptthresh(I)</syntax_item>
+    <syntax_item>T = adaptthresh(I, sensitivity)</syntax_item>
+    <syntax_item>T = adaptthresh(__, 'ForegroundPolarity', polarity)</syntax_item>
+    <syntax_item>T = adaptthresh(__, 'NeighborhoodSize', size)</syntax_item>
+    <syntax_item>T = adaptthresh(__, 'Statistic', statistic)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>I</param_name>
+      <param_description>Image d'entree.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>sensitivity</param_name>
+      <param_description>Valeur scalaire de sensibilite. La valeur par defaut est 0.5.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'ForegroundPolarity'</param_name>
+      <param_description>Polarite du premier plan, 'bright' ou 'dark'.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'NeighborhoodSize'</param_name>
+      <param_description>Taille de voisinage a deux elements utilisee pour les statistiques locales.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'Statistic'</param_name>
+      <param_description>Statistique locale : 'mean', 'gaussian' ou 'median'.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>T</param_name>
+      <param_description>Image de seuil adaptatif avec des valeurs dans l'intervalle [0, 1].</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Calcule une image de seuil local pour binarisation adaptative. Les polarites de premier plan prises en charge sont bright et dark. Les statistiques prises en charge sont mean, gaussian et median.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Binariser une image avec un seuil local</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[[X,Y]=meshgrid(linspace(-1,1,96),linspace(-1,1,64));
+I=0.25+0.35*X+0.45*exp(-12*(X.^2+Y.^2));
+T=adaptthresh(I,0.45,'NeighborhoodSize',[15 15]);
+BW=I>T;
+figure; subplot(1,3,1); imagesc(I); title('Input');
+subplot(1,3,2); imagesc(T); title('Threshold');
+subplot(1,3,3); imagesc(BW); title('Binary');]]></example_item_data>
+      <example_item_img
+        src="../../../images/adaptthresh_1.png"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}imbinarize">imbinarize</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}graythresh">graythresh</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

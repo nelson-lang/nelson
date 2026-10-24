@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>yyaxis</keyword>
+  <short_description>Create or select an axes with two y-axes.</short_description>
+  <syntax>
+    <syntax_item>yyaxis left</syntax_item>
+    <syntax_item>yyaxis right</syntax_item>
+    <syntax_item>yyaxis(ax, &apos;left&apos;)</syntax_item>
+    <syntax_item>yyaxis(ax, &apos;right&apos;)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>&apos;left&apos;</param_name>
+      <param_description
+      >Activate the left side. New plots are added to the left y-axis.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>&apos;right&apos;</param_name>
+      <param_description
+      >Activate the right side. New plots are added to the right y-axis.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description>Target axes: axes.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p><b>yyaxis</b> creates a chart with two y-axes and selects the active
+    side. If the current axes does not already have two y-axes, one is added;
+    if there is no current axes, one is created.</p>
+    <p>The two sides share the same x-axis but each has its own limits, colour,
+    scale, direction, ticks, label and children. Properties whose name starts
+    with <b>Y</b> (such as <b>YLim</b>, <b>YColor</b> or <b>YLabel</b>) apply to
+    the active side only. Query <b>YAxisLocation</b> to know which side is
+    active.</p>
+    <p>By default the left ruler uses the first colour of the axes
+    <b>ColorOrder</b> and the right ruler the second colour.</p>
+    <p>The two rulers are also available as objects through the axes
+    <b>YAxis</b> property: <b>YAxis(1)</b> is the left ruler and
+    <b>YAxis(2)</b> the right ruler, whatever the active side.</p>
+    <p><b>cla reset</b> removes the second y-axis and returns to a single
+    y-axis.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure();
+x = linspace(0, 10);
+yyaxis left
+plot(x, sin(x))
+ylabel('left side')
+yyaxis right
+plot(x, 100 * cos(x))
+ylabel('right side')
+]]></example_item_data>
+      <example_item_img
+        src="../../../images/yyaxis.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link
+        linkend="${graphics}2_graphics_objects/1_object_management/hold"
+      >hold</link>
+    </see_also_item>
+    <see_also_item>
+      <link
+        linkend="${graphics}3_labels_styling/1_axes_appearance/axis"
+      >axis</link>
+    </see_also_item>
+    <see_also_item>
+      <link
+        linkend="${graphics}3_labels_styling/4_labels_annotations/ylabel"
+      >ylabel</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

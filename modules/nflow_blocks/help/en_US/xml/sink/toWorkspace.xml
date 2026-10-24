@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>toWorkspace</keyword>
+<keyword_alias>block:toWorkspace</keyword_alias>
+  <short_description>Writes the input signal to a Nelson workspace variable.</short_description>
+  <syntax>
+    <syntax_item>Block type: toWorkspace</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>input ports</param_name>
+      <param_description>1 input port (scalar or vector, any signal type).</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p>Accumulates its input signal at major simulation steps and, when the simulation stops, writes it into the base-workspace variable <code>VariableName</code>.</p>
+    <p>
+      <img src="../../../../libraries/sink/exports/toWorkspace.svg" align="middle"/>
+    </p>
+    <p><code>Decimation</code> keeps one sample out of k (starting with the first). <code>MaxDataPoints</code> keeps only the last N decimated samples (<code>inf</code> keeps everything). <code>SaveFormat</code> selects the variable layout:</p>
+    <ul>
+      <li><code>Structure With Time</code>: fields <code>time</code>, <code>signals.values</code> (NxW), <code>signals.dimensions</code>, <code>signals.label</code>, <code>blockName</code>;</li>
+      <li><code>Structure</code>: same with an empty <code>time</code>;</li>
+      <li><code>Array</code>: NxW matrix of samples (use the simulation time grid for timing).</li>
+    </ul>
+    <p>In generated code the block is a no-op (workspace logging has no meaning there).</p>
+    <p>
+      <b>Parameters</b>
+    </p>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+          <th>Default value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <code>VariableName</code>
+          </td>
+          <td>simout</td>
+        </tr>
+        <tr>
+          <td>
+            <code>MaxDataPoints</code>
+          </td>
+          <td>inf</td>
+        </tr>
+        <tr>
+          <td>
+            <code>Decimation</code>
+          </td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>
+            <code>SaveFormat</code>
+          </td>
+          <td>Structure With Time</td>
+        </tr>
+        <tr>
+          <td>
+            <code>SampleTime</code>
+          </td>
+          <td>-1</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Block Characteristics</b>
+    </p>
+    <table border="1">
+      <tbody>
+        <tr>
+          <td>Block type</td>
+          <td>toWorkspace</td>
+        </tr>
+        <tr>
+          <td>Family</td>
+          <td>Sink blocks</td>
+        </tr>
+        <tr>
+          <td>Phases</td>
+          <td>INIT, AFTER_STEP</td>
+        </tr>
+        <tr>
+          <td>Signal data type</td>
+          <td>any (recorded as double)</td>
+        </tr>
+        <tr>
+          <td>Code generation</td>
+          <td>no-op</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>Code generation: supported for C and Rust.</p>
+    <source_code label="Manifest" path="modules/nflow_blocks/libraries/sink/library.json" language="json"/>
+    <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/sink/toWorkspace.cpp" language="cpp"/>
+  </description>
+  <used_function/>
+  <bibliography/>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Open the To Workspace demo (logs a sine to 'simout')</example_item_description>
+      <example_item_data><![CDATA[open_system([modulepath('nflow_blocks'), '/examples/workspace/To_Workspace_Demo.nflow']);]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${nflow_blocks}source/fromWorkspace">fromWorkspace</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${nflow_blocks}sink/scope">scope</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

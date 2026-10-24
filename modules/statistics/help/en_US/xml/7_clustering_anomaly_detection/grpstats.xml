@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>grpstats</keyword>
+  <short_description>Summary statistics organized by group.</short_description>
+  <syntax>
+    <syntax_item>tblstats = grpstats(tbl, groupvars)</syntax_item>
+    <syntax_item>tblstats = grpstats(tbl, groupvars, whichstats)</syntax_item>
+    <syntax_item>tblstats = grpstats(tbl, groupvars, whichstats, &apos;DataVars&apos;, datavars)</syntax_item>
+    <syntax_item>stats = grpstats(X, group)</syntax_item>
+    <syntax_item>[stats1, ..., statsN] = grpstats(X, group, whichstats)</syntax_item>
+    <syntax_item>[...] = grpstats(..., &apos;Alpha&apos;, alpha)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>grpstats</b> computes summary statistics for each observed group.</p>
+    <p>Supported statistic names are mean, sem, std, var, min, max, range, median, mode, numel, gname, meanci, and predci. Function handles are also accepted for array input and table data variables.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[X = [1 10; 2 20; 3 30; 4 40];
+g = [1 1 2 2]';
+[m, s] = grpstats(X, g, {'mean', 'std'})]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${data_analysis}groupsummary">groupsummary</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}tabulate">tabulate</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

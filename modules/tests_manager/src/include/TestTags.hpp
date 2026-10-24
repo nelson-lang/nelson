@@ -32,6 +32,7 @@ namespace Nelson {
 #define MPI_MODE_TAG "<--MPI MODE-->"
 #define AUDIO_INPUT_REQUIRED_TAG "<--AUDIO INPUT REQUIRED-->"
 #define AUDIO_OUTPUT_REQUIRED_TAG "<--AUDIO OUTPUT REQUIRED-->"
+#define AUDIO_REQUIRED_TAG "<--AUDIO REQUIRED-->"
 #define C_COMPILER_REQUIRED_TAG "<--C/C++ COMPILER REQUIRED-->"
 #define INDEX_64_BIT_REQUIRED_TAG "<--INDEX 64 BIT REQUIRED-->"
 #define NO_USER_MODULES_TAG "<--NO USER MODULES-->"
@@ -41,7 +42,9 @@ namespace Nelson {
 #define FILE_WATCHER_REQUIRED_TAG "<--FILE WATCHER REQUIRED-->"
 #define PYTHON_ENVIRONMENT_REQUIRED_TAG "<--PYTHON ENVIRONMENT REQUIRED-->"
 #define JULIA_ENVIRONMENT_REQUIRED_TAG "<--JULIA ENVIRONMENT REQUIRED-->"
-
+#define REUSE_PROCESS_TAG "<--REUSE PROCESS-->"
+#define WEIGHT_TAG_PREFIX "WEIGHT "
+#define TIMEOUT_TAG_PREFIX "TIMEOUT "
 class NLSTESTS_MANAGER_IMPEXP TestTags
 {
 private:
@@ -61,6 +64,7 @@ private:
     bool _mpiMode;
     bool _audioInputRequired;
     bool _audioOutputRequired;
+    bool _audioRequired;
     bool _cCompilerRequired;
     bool _index64BitRequired;
     bool _noUserModules;
@@ -70,6 +74,9 @@ private:
     bool _fileWatcherRequired;
     bool _pythonEnvironmentRequired;
     bool _juliaEnvironmentRequired;
+    bool _reuseProcess;
+    uint64 _weight;
+    uint64 _timeout;
 
 public:
     TestTags()
@@ -90,6 +97,7 @@ public:
         _mpiMode = false;
         _audioInputRequired = false;
         _audioOutputRequired = false;
+        _audioRequired = false;
         _cCompilerRequired = false;
         _index64BitRequired = false;
         _noUserModules = false;
@@ -99,6 +107,9 @@ public:
         _fileWatcherRequired = false;
         _pythonEnvironmentRequired = false;
         _juliaEnvironmentRequired = false;
+        _reuseProcess = false;
+        _weight = 1;
+        _timeout = 0;
     }
 
     bool
@@ -182,6 +193,11 @@ public:
         return _audioOutputRequired;
     }
     bool
+    isAudioRequired()
+    {
+        return _audioRequired;
+    }
+    bool
     isCCompilerRequired()
     {
         return _cCompilerRequired;
@@ -230,6 +246,24 @@ public:
     isJuliaEnvironmentRequired()
     {
         return _juliaEnvironmentRequired;
+    }
+
+    bool
+    isReuseProcess()
+    {
+        return _reuseProcess;
+    }
+
+    uint64
+    getWeight()
+    {
+        return _weight;
+    }
+
+    uint64
+    getTimeout()
+    {
+        return _timeout;
     }
 
     void
@@ -314,6 +348,11 @@ public:
         _audioOutputRequired = val;
     }
     void
+    setAudioRequired(bool val)
+    {
+        _audioRequired = val;
+    }
+    void
     setCCompilerRequired(bool val)
     {
         _cCompilerRequired = val;
@@ -361,6 +400,24 @@ public:
     setNativeArchitecturedRequired(bool val)
     {
         _nativeArchitectureRequired = val;
+    }
+
+    void
+    setReuseProcess(bool val)
+    {
+        _reuseProcess = val;
+    }
+
+    void
+    setWeight(uint64 val)
+    {
+        _weight = val;
+    }
+
+    void
+    setTimeout(uint64 val)
+    {
+        _timeout = val;
     }
 };
 //=============================================================================

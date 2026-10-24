@@ -16,7 +16,7 @@ function varargout = remove(varargin)
     return
   end
   key = varargin{2};
-  obj(key) = []; 
+  obj(key) = [];
   varargout{1} = obj;
 end
 %=============================================================================

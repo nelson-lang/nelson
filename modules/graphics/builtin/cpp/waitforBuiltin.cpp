@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -17,8 +17,10 @@
 #include "GOHelpers.hpp"
 #include "GORoot.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
-#include "ProcessEvents.hpp"
+#include "GraphicsEnvironment.hpp"
+#include "QueueProcessing.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -43,47 +45,59 @@ GraphicsGateway::waitforBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& 
     nargincheck(argIn, 1, 3);
     nargoutcheck(nLhs, 0, 0);
 
+#if defined(__EMSCRIPTEN__)
+    // The single-threaded WebAssembly worker cannot busy-wait for a GUI event:
+    // spinning here blocks the worker, so the awaited close/property/press event
+    // could never be delivered. Fail fast instead of hanging the browser.
+    Error(L"Nelson:waitfor:unsupportedInBrowser",
+        _W("waitfor is not available in the WebAssembly runtime."));
+#endif
+
     if (!argIn[0].isGraphicsObject()) {
-        Error(_W("Expected graphics object(s)."));
+        Error(L"Nelson:graphics:expectedGraphicsObject:expectedGraphicsObjectS",
+            L"Expected graphics object(s).");
     }
 
     if (!argIn[0].isGraphicsObject()) {
-        Error(_W("Expected graphics object(s)."));
+        Error(L"Nelson:graphics:expectedGraphicsObject:expectedGraphicsObjectS",
+            L"Expected graphics object(s).");
     }
-    nelson_handle go = argIn[0].getContentAsGraphicsObjectScalar();
+    nelson_handle go = argIn[0].asGraphicsObjectScalar();
     GraphicsObject* fp = getGraphicsObjectFromGraphicHandle(go);
     if (!fp) {
-        Error(_W("Invalid handle."));
+        Error(L"Nelson:graphics:invalidHandle", L"Invalid handle.");
     }
 
     switch (argIn.size()) {
     case 1: {
         // waitfor(h)
         do {
-            ProcessEvents();
+            GraphicsEnvironment::processGuiEvents();
+            processPendingCallbacksAndTimers(eval);
             std::this_thread::sleep_for(std::chrono::milliseconds(uint64(1)));
             fp = getGraphicsObjectFromGraphicHandle(go);
         } while (fp != nullptr);
     } break;
     case 2: {
         // waitfor(h, propertyName)
-        std::wstring propertyName = argIn[1].getContentAsWideString();
+        std::wstring propertyName = argIn[1].asWideString();
         GOGenericProperty* property = fp->findProperty(propertyName, false);
         if (property == nullptr) {
-            Error(_W("Invalid property."), L"Nelson:waitfor:BadProperty");
+            Error(L"Nelson:waitfor:BadProperty", L"Invalid property.");
         }
         do {
-            ProcessEvents();
+            GraphicsEnvironment::processGuiEvents();
+            processPendingCallbacksAndTimers(eval);
             std::this_thread::sleep_for(std::chrono::milliseconds(uint64(1)));
             fp = getGraphicsObjectFromGraphicHandle(go);
         } while (fp != nullptr && !property->isModified());
     } break;
     case 3: {
         // waitfor(h, propertyName, value)
-        std::wstring propertyName = argIn[1].getContentAsWideString();
+        std::wstring propertyName = argIn[1].asWideString();
         GOGenericProperty* goProperty = fp->findProperty(propertyName, false);
         if (goProperty == nullptr) {
-            Error(_W("Invalid property."), L"Nelson:waitfor:BadProperty");
+            Error(L"Nelson:waitfor:BadProperty", L"Invalid property.");
         }
         ArrayOf expectedValue = argIn[2];
         bool isEqual = false;
@@ -93,12 +107,16 @@ GraphicsGateway::waitforBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& 
         FunctionDef* funcDef = nullptr;
         std::string IsApproxName = "isequaln";
         if (!context->lookupFunction(IsApproxName, funcDef)) {
-            Error(_W("isequaln not found."), L"Nelson:waitfor:isequaln");
+            Error(L"Nelson:waitfor:isequalnNotFound", L"isequaln not found.");
         }
         do {
-            ProcessEvents();
+            GraphicsEnvironment::processGuiEvents();
+            processPendingCallbacksAndTimers(eval);
             std::this_thread::sleep_for(std::chrono::milliseconds(uint64(1)));
             fp = getGraphicsObjectFromGraphicHandle(go);
+            if (fp == nullptr) {
+                break;
+            }
             if ((goProperty->isModified() || firstTime)) {
                 firstTime = false;
                 ArrayOf currentValue = goProperty->get();
@@ -107,9 +125,9 @@ GraphicsGateway::waitforBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& 
                 inputs << expectedValue;
                 ArrayOfVector IsEqualResult = funcDef->evaluateFunction(eval, inputs, 1);
                 if (IsEqualResult.size() != 1) {
-                    Error(_W("isequaln lhs error."), L"Nelson:waitfor:isequaln");
+                    Error(L"Nelson:waitfor:isequalnLhsError", L"isequaln lhs error.");
                 }
-                isEqual = IsEqualResult[0].getContentAsLogicalScalar();
+                isEqual = IsEqualResult[0].asLogicalScalar();
             }
         } while (fp != nullptr && !isEqual);
 

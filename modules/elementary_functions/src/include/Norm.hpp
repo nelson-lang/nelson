@@ -20,5 +20,5 @@ Norm(const ArrayOf& arrayIn, double p);
 NLSELEMENTARY_FUNCTIONS_IMPEXP ArrayOf
 NormFrobenius(const ArrayOf& arrayIn);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

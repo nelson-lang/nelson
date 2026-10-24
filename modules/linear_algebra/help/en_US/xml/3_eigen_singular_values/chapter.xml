@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <module_name>linear_algebra</module_name>
+  <chapter>Eigenvalues and Singular Values</chapter>
+  <chapter_description>
+    <p>Functions for eigenvalue, singular-value, and Schur computations.</p>
+  </chapter_description>
+</xmldoc>

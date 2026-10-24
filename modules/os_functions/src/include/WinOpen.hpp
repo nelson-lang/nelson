@@ -15,5 +15,6 @@
 namespace Nelson {
 NLSOS_FUNCTIONS_IMPEXP bool
 WinOpen(const std::wstring& command);
-}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

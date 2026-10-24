@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,10 +9,11 @@
 //=============================================================================
 #include "jsonencodeBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "JsonEncode.hpp"
+#include "JsonPrettyPrint.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#include "PredefinedErrorMessages.hpp"
 #include "OverloadRequired.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -22,28 +23,39 @@ Nelson::JsonGateway::jsonencodeBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
     nargoutcheck(nLhs, 0, 1);
-    if (!((argIn.size() == 1 || argIn.size() == 3))) {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+    if (argIn.size() < 1) {
+        Error(L"Nelson:notEnoughInputs", L"Not enough input arguments.");
+    }
+    if ((argIn.size() % 2) != 1) {
+        Error(L"Nelson:wrongNumberOfInputs", L"Wrong number of input arguments.");
     }
     if (argIn[0].isHandle() || argIn[0].isClassType()) {
         OverloadRequired("jsonencode");
     }
-    bool convertNanInf = false;
+    // The flag keeps Inf/NaN as literals when true. The ConvertInfAndNaN option is the
+    // opposite and defaults to converting, so the flag starts false.
+    bool keepInfAndNaN = false;
+    bool prettyPrint = false;
     ArrayOf param1 = argIn[0];
-    if (argIn.size() == 3) {
-        ArrayOf param2 = argIn[1];
-        ArrayOf param3 = argIn[2];
-        std::wstring fieldname = param2.getContentAsWideString();
-        if (fieldname != L"ConvertInfAndNaN") {
-            Error(_W("Wrong value for argument #2: 'ConvertInfAndNaN' expected."));
+    for (size_t k = 1; k + 1 < argIn.size(); k += 2) {
+        std::wstring fieldname = argIn[k].asWideString();
+        logical fieldvalue = argIn[k + 1].asLogicalScalar();
+        if (fieldname == L"ConvertInfAndNaN") {
+            keepInfAndNaN = (fieldvalue == 0);
+        } else if (fieldname == L"PrettyPrint") {
+            prettyPrint = (fieldvalue != 0);
+        } else {
+            Error(L"Nelson:jsonencode:invalidOption", L"%s expected.",
+                L"Wrong value for argument: 'ConvertInfAndNaN' or 'PrettyPrint'");
         }
-        logical fieldvalue = param3.getContentAsLogicalScalar();
-        convertNanInf = (fieldvalue != 0);
     }
     std::wstring errorMessage;
-    ArrayOf res = jsonEncode(param1, convertNanInf, errorMessage);
+    ArrayOf res = jsonEncode(param1, keepInfAndNaN, errorMessage);
     if (!errorMessage.empty()) {
-        Error(errorMessage);
+        Error(L"Nelson:jsonencode:encodeFailed", errorMessage);
+    }
+    if (prettyPrint) {
+        res = ArrayOf::characterArray(jsonPrettyPrintForEncode(res.asWideString()));
     }
     retval << res;
 

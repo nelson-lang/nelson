@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>fitensemble</keyword>
+  <short_description>Fit an ensemble model using the legacy wrapper.</short_description>
+  <syntax>
+    <syntax_item>mdl = fitensemble(X, Y, method, numLearningCycles, learners)</syntax_item>
+    <syntax_item>mdl = fitensemble(..., Name, Value)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>fitensemble</b> routes legacy ensemble syntax to <b>fitrensemble</b> or <b>fitcensemble</b>. Use <b>Type</b> to select regression or classification.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[X = (1:6)';
+Y = [1; 2; 1.5; 4; 3.5; 5];
+mdl = fitensemble(X, Y, 'LSBoost', 3, 'Tree', 'Type', 'regression')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}fitrensemble">fitrensemble</link></see_also_item>
+    <see_also_item><link linkend="${statistics}fitcensemble">fitcensemble</link></see_also_item>
+  </see_also>
+</xmldoc>

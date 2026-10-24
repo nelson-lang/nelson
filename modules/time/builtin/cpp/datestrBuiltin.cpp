@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -11,6 +11,7 @@
 #include "InputOutputArgumentsCheckers.hpp"
 #include "DateString.hpp"
 #include "DateToFormattedString.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -25,14 +26,14 @@ Nelson::TimeGateway::datestrBuiltin(int nLhs, const ArrayOfVector& argIn)
         && argIn[0].isPositive();
 
     if (!isValid) {
-        Error(_W("Numeric input data must be real."));
+        Error(L"Nelson:time:numericInputDataReal", L"Numeric input data must be real.");
     }
 
     bool isLocalized = false;
     if (argIn.size() > 1) {
         const ArrayOf& lastArg = argIn.back();
         if (lastArg.isRowVectorCharacterArray() || lastArg.isScalarStringArray()) {
-            if (lastArg.getContentAsWideString() == L"local") {
+            if (lastArg.asWideString() == L"local") {
                 isLocalized = true;
             }
         }
@@ -44,42 +45,44 @@ Nelson::TimeGateway::datestrBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (argIn.size() > 1) {
         ArrayOf secondArg = argIn[1];
         if (secondArg.isDoubleType(true) && secondArg.isScalar()) {
-            predefinedFormatOutValue = (int)secondArg.getContentAsDoubleScalar();
+            predefinedFormatOutValue = (int)secondArg.asDoubleScalar();
             if (predefinedFormatOutValue < -1 || predefinedFormatOutValue > 31) {
-                Error(_W("Unknown date format number."));
+                Error(
+                    L"Nelson:time:unknownDateFormatNumber", L"Unknown %s.", L"date format number");
             }
         } else if (secondArg.isRowVectorCharacterArray() || secondArg.isScalarStringArray()) {
-            userFormatOut = secondArg.getContentAsWideString();
+            userFormatOut = secondArg.asWideString();
             if (!(argIn.size() == 2 && userFormatOut == L"local")) {
                 withUserFormatOut = true;
             }
         } else {
-            Error(_W("#2 argument must be a scalar or a character vector."));
+            Error(L"Nelson:time:e2ArgumentScalarCharacterVector",
+                L"#%d argument must be a scalar or a character vector.", 2);
         }
     }
 
-    double* ptrValues = (double*)argIn[0].getDataPointer();
+    double* ptrValues = (double*)argIn[0].dataPointer();
     if (argIn[0].isEmpty()) {
         size_t nbCols = 11;
         if (withUserFormatOut) {
             nbCols = userFormatOut.size();
         }
         Dimensions dims(0, nbCols);
-        ArrayOf emptyChar = ArrayOf::emptyConstructor(dims);
+        ArrayOf emptyChar = ArrayOf::empty(dims);
         emptyChar.promoteType(NLS_CHAR);
         retval << emptyChar;
 
     } else {
-        std::vector<double> doubleValues(ptrValues, ptrValues + argIn[0].getElementCount());
+        std::vector<double> doubleValues(ptrValues, ptrValues + argIn[0].elementCount());
         wstringVector results;
         if (withUserFormatOut) {
             results = dateToUserFormatString(
-                doubleValues, argIn[0].getDimensions(), userFormatOut, isLocalized);
+                doubleValues, argIn[0].dimensions(), userFormatOut, isLocalized);
         } else {
             results = DateString(
-                doubleValues, argIn[0].getDimensions(), isLocalized, predefinedFormatOutValue);
+                doubleValues, argIn[0].dimensions(), isLocalized, predefinedFormatOutValue);
         }
-        retval << ArrayOf::characterVectorToCharacterArray(results);
+        retval << ArrayOf::characterArrayFromRows(results);
     }
     return retval;
 }

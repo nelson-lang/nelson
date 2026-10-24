@@ -38,14 +38,12 @@ static const nlsGateway gateway[] = {
     { "usermodulesdir", (ptrBuiltin)Nelson::ModulesManagerGateway::usermodulesdirBuiltin, 1, 0 },
     { "requiremodule", (ptrBuiltin)Nelson::ModulesManagerGateway::requiremoduleBuiltin, 1, 1 },
     { "semver", (ptrBuiltin)Nelson::ModulesManagerGateway::semverBuiltin, 1, 2 },
-    { "addgateway", (ptrBuiltin)Nelson::ModulesManagerGateway::addgatewayBuiltin, 0, 1,
+    { "addgateway", (ptrBuiltin)Nelson::ModulesManagerGateway::addgatewayBuiltin, 0, -3,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "removegateway", (ptrBuiltin)Nelson::ModulesManagerGateway::removegatewayBuiltin, 0, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "gatewayinfo", (ptrBuiltin)Nelson::ModulesManagerGateway::gatewayinfoBuiltin, 2, 1 },
 };
-//=============================================================================
-NLSGATEWAYNAME()
 //=============================================================================
 static bool
 initializeModulesManagerModule(Nelson::Evaluator* eval)
@@ -59,9 +57,7 @@ finishModulesManagerModule(Nelson::Evaluator* eval)
     return true;
 }
 //=============================================================================
-NLSGATEWAYFUNCEXTENDED(gateway, (void*)initializeModulesManagerModule)
+NLS_GATEWAY_FUNC_EXTENDED_LAZY(gateway, (void*)initializeModulesManagerModule)
 //=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVEEXTENDED(gateway, (void*)finishModulesManagerModule)
+NLS_GATEWAY_REMOVE_EXTENDED(gateway, (void*)finishModulesManagerModule)
 //=============================================================================

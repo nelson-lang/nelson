@@ -5,7 +5,7 @@
   <keyword>Comment installer un paquet Python</keyword>
   <description>
     <p
-    >Nelson permet d&apos;intégrer de manière transparente des paquets Python dans les flux de travail.</p>
+    >Nelson peut utiliser des paquets Python depuis les flux de travail Nelson.</p>
     <p
     >Installer des paquets Python dans Nelson étend ses fonctionnalités et permet d&apos;exploiter un large éventail de bibliothèques pour l&apos;analyse de données, l&apos;apprentissage automatique, le calcul scientifique, et plus encore.</p>
     <p

@@ -418,13 +418,260 @@
   }
   window.buildGitHubEditUrl = buildGitHubEditUrl;
 
-  // After DOM ready: highlight MATLAB code blocks and set github edit link
+  // Notify the help viewer (parent frame) which page is now displayed, so it can
+  // synchronize the table of contents. This covers every way the content frame
+  // is navigated (search results, "see also" cross-links, homepage categories),
+  // not just doc(name). postMessage is used because on file:// the parent frame
+  // and this frame have distinct origins and cannot touch each other's DOM.
+  function notifyHelpViewerOfPage() {
+    try {
+      if (window.parent && window.parent !== window) {
+        window.parent.postMessage(
+          { type: "nelson-content-loaded", page: window.location.pathname },
+          "*",
+        );
+      }
+    } catch (_) {
+      /* ignore */
+    }
+  }
+
+  // --- Small helpers -------------------------------------------------------
+  function isFrench() {
+    try {
+      if (/^fr/i.test(document.documentElement.lang || "")) return true;
+      if (/(\/|\\)fr([_-]|\/|\\|$)/i.test(window.location.pathname)) return true;
+    } catch (_) {}
+    return false;
+  }
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+  function escapeRegExp(s) {
+    return String(s).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  }
+  function getQueryParam(name) {
+    try {
+      return new URLSearchParams(window.location.search).get(name);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  // --- (6) "On this page" mini table of contents ---------------------------
+  function buildOnThisPage() {
+    try {
+      var titles = document.querySelectorAll(".section-title");
+      var items = [];
+      for (var i = 0; i < titles.length; i++) {
+        var t = titles[i];
+        var label = (t.textContent || "").replace(/\s+/g, " ").trim();
+        if (!label) continue;
+        if (!t.id) t.id = "nlsec-" + i;
+        items.push({ id: t.id, label: label });
+      }
+      if (items.length < 2) return; // not worth a mini-toc
+
+      var nav = document.createElement("nav");
+      nav.className = "nelson-onthispage";
+      var head = document.createElement("div");
+      head.className = "nelson-onthispage__title";
+      head.textContent = isFrench() ? "Sur cette page" : "On this page";
+      nav.appendChild(head);
+      var ul = document.createElement("ul");
+      items.forEach(function (it) {
+        var li = document.createElement("li");
+        var a = document.createElement("a");
+        a.href = "#" + it.id;
+        a.textContent = it.label;
+        a.setAttribute("data-target", it.id);
+        a.addEventListener("click", function (e) {
+          e.preventDefault();
+          var el = document.getElementById(it.id);
+          if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+        li.appendChild(a);
+        ul.appendChild(li);
+      });
+      nav.appendChild(ul);
+
+      var header = document.querySelector(".header");
+      if (header && header.parentNode) {
+        header.parentNode.insertBefore(nav, header.nextSibling);
+      } else {
+        document.body.insertBefore(nav, document.body.firstChild);
+      }
+
+      // Scroll-spy: highlight the current section link while scrolling.
+      if (typeof IntersectionObserver === "function") {
+        var linkById = {};
+        var navLinks = nav.querySelectorAll("a[data-target]");
+        for (var k = 0; k < navLinks.length; k++) {
+          linkById[navLinks[k].getAttribute("data-target")] = navLinks[k];
+        }
+        var observer = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (entry) {
+              var link = linkById[entry.target.id];
+              if (!link) return;
+              if (entry.isIntersecting) {
+                for (var m = 0; m < navLinks.length; m++) {
+                  navLinks[m].classList.remove("active");
+                }
+                link.classList.add("active");
+              }
+            });
+          },
+          { rootMargin: "0px 0px -75% 0px", threshold: 0 },
+        );
+        items.forEach(function (it) {
+          var el = document.getElementById(it.id);
+          if (el) observer.observe(el);
+        });
+      }
+    } catch (_) {
+      /* ignore */
+    }
+  }
+
+  // --- (7) Previous / next sibling navigation ------------------------------
+  function postNavigate(href) {
+    try {
+      if (href && window.parent && window.parent !== window) {
+        window.parent.postMessage({ type: "nelson-navigate", page: href }, "*");
+      }
+    } catch (_) {}
+  }
+  function renderNeighbors(prev, next) {
+    try {
+      var existing = document.getElementById("nelson-prevnext");
+      if (existing && existing.parentNode) existing.parentNode.removeChild(existing);
+      if (!prev && !next) return;
+
+      var bar = document.createElement("nav");
+      bar.id = "nelson-prevnext";
+      bar.className = "nelson-prevnext";
+
+      function makeSide(side, n) {
+        var arrowL = side === "prev" ? "← " : "";
+        var arrowR = side === "next" ? " →" : "";
+        if (!n) {
+          var span = document.createElement("span");
+          span.className = "nelson-prevnext__link nelson-prevnext__" + side + " nelson-prevnext__disabled";
+          return span;
+        }
+        var a = document.createElement("a");
+        a.href = "#";
+        a.className = "nelson-prevnext__link nelson-prevnext__" + side;
+        a.innerHTML =
+          arrowL +
+          '<span class="nelson-prevnext__label">' + escapeHtml(n.label || "") + "</span>" +
+          arrowR;
+        a.addEventListener("click", function (e) {
+          e.preventDefault();
+          postNavigate(n.href);
+        });
+        return a;
+      }
+
+      bar.appendChild(makeSide("prev", prev));
+      bar.appendChild(makeSide("next", next));
+
+      var editLink = document.getElementById("github-edit-link");
+      var editSection = editLink && editLink.closest ? editLink.closest(".section") : null;
+      if (editSection && editSection.parentNode) {
+        editSection.parentNode.insertBefore(bar, editSection);
+      } else {
+        document.body.appendChild(bar);
+      }
+    } catch (_) {
+      /* ignore */
+    }
+  }
+
+  // --- (9) Highlight the search term inside the opened page ----------------
+  function highlightSearchTerm(term) {
+    try {
+      var q = (term || "").trim();
+      if (!q) return;
+      var re;
+      try {
+        re = new RegExp(escapeRegExp(q), "gi");
+      } catch (_) {
+        return;
+      }
+      var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+        acceptNode: function (node) {
+          if (!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+          var p = node.parentNode;
+          if (!p) return NodeFilter.FILTER_REJECT;
+          var tag = p.nodeName;
+          if (tag === "SCRIPT" || tag === "STYLE" || tag === "NOSCRIPT" || tag === "MARK")
+            return NodeFilter.FILTER_REJECT;
+          if (p.closest && p.closest(".nelson-onthispage, #nelson-prevnext"))
+            return NodeFilter.FILTER_REJECT;
+          return NodeFilter.FILTER_ACCEPT;
+        },
+      });
+      var nodes = [];
+      while (walker.nextNode()) nodes.push(walker.currentNode);
+
+      var first = null;
+      nodes.forEach(function (node) {
+        var text = node.nodeValue;
+        re.lastIndex = 0;
+        if (!re.test(text)) return;
+        re.lastIndex = 0;
+        var frag = document.createDocumentFragment();
+        var last = 0;
+        var m;
+        while ((m = re.exec(text)) !== null) {
+          if (m.index > last) frag.appendChild(document.createTextNode(text.slice(last, m.index)));
+          var mark = document.createElement("mark");
+          mark.className = "nelson-search-hit";
+          mark.textContent = m[0];
+          if (!first) first = mark;
+          frag.appendChild(mark);
+          last = m.index + m[0].length;
+          if (m[0].length === 0) re.lastIndex++; // guard against zero-length matches
+        }
+        if (last < text.length) frag.appendChild(document.createTextNode(text.slice(last)));
+        if (node.parentNode) node.parentNode.replaceChild(frag, node);
+      });
+
+      if (first) {
+        first.classList.add("nelson-search-hit--current");
+        try {
+          first.scrollIntoView({ block: "center" });
+        } catch (_) {
+          first.scrollIntoView();
+        }
+      }
+    } catch (_) {
+      /* ignore */
+    }
+  }
+
+  // The parent relays previous/next siblings computed from the table of contents.
+  window.addEventListener("message", function (ev) {
+    var d = ev && ev.data;
+    if (d && d.type === "nelson-neighbors") {
+      renderNeighbors(d.prev, d.next);
+    }
+  });
+
+  // After DOM ready: highlight Nelson code blocks and set github edit link
   document.addEventListener("DOMContentLoaded", function () {
     // general highlighting is handled by highlight.js loader (hljs.highlightAll)
     try {
       var link = document.getElementById("github-edit-link");
       if (link) link.href = buildGitHubEditUrl(window.location.href);
     } catch (_) {}
+    buildOnThisPage();
+    highlightSearchTerm(getQueryParam("highlight"));
+    notifyHelpViewerOfPage();
     // run a short delayed ensure to handle math rendering fallback if needed
     setTimeout(ensureMathRendered, 100);
   });

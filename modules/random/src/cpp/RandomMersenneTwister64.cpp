@@ -12,9 +12,6 @@
 #define _SCL_SECURE_NO_WARNINGS
 #endif
 //=============================================================================
-#include <fstream>
-#include <iostream>
-#include <sstream>
 #include "RandomMersenneTwister64.hpp"
 //=============================================================================
 #define MAGIC_SEED 5489
@@ -27,11 +24,7 @@ RandomMersenneTwister64::RandomMersenneTwister64()
     setSeed(seed);
 }
 //=============================================================================
-RandomMersenneTwister64::~RandomMersenneTwister64()
-{
-    uniform_real_generator(true);
-    normal_real_generator(true);
-}
+RandomMersenneTwister64::~RandomMersenneTwister64() = default;
 //=============================================================================
 std::wstring
 RandomMersenneTwister64::getGeneratorName()
@@ -79,7 +72,6 @@ RandomMersenneTwister64::getValuesAsDouble(
 {
     switch (_type) {
     case RNG_DISTRIBUTION_UNIFORM_REAL: {
-        // rows to columns order
         size_t p = (nbElements / lastDim);
         for (size_t k = 0; k < p; k++) {
             for (indexType l = 0; l < lastDim; l++) {
@@ -88,18 +80,17 @@ RandomMersenneTwister64::getValuesAsDouble(
         }
     } break;
     case RNG_DISTRIBUTION_UNIFORM_INT: {
-        // rows to columns order
         size_t p = (nbElements / lastDim);
         for (size_t k = 0; k < p; k++) {
             for (indexType l = 0; l < lastDim; l++) {
-                // MATLAB compatible: floor(rand * N) + 1 where N = maxInt
-                ar[k * lastDim + l]
-                    = static_cast<double>(static_cast<int>(std::floor(uniform01() * maxInt)) + 1);
+                // imin + floor(rand * (imax - imin + 1))
+                ar[k * lastDim + l] = static_cast<double>(minInt
+                    + static_cast<int64>(
+                        std::floor(uniform01() * static_cast<double>(maxInt - minInt + 1))));
             }
         }
     } break;
     case RNG_DISTRIBUTION_NORMAL: {
-        // rows to columns order
         size_t p = (nbElements / lastDim);
         for (size_t k = 0; k < p; k++) {
             for (indexType l = 0; l < lastDim; l++) {
@@ -118,7 +109,6 @@ RandomMersenneTwister64::getValuesAsSingle(
 {
     switch (_type) {
     case RNG_DISTRIBUTION_UNIFORM_REAL: {
-        // rows to columns order
         size_t p = (nbElements / lastDim);
         for (size_t k = 0; k < p; k++) {
             for (indexType l = 0; l < lastDim; l++) {
@@ -127,18 +117,17 @@ RandomMersenneTwister64::getValuesAsSingle(
         }
     } break;
     case RNG_DISTRIBUTION_UNIFORM_INT: {
-        // rows to columns order
         size_t p = (nbElements / lastDim);
         for (size_t k = 0; k < p; k++) {
             for (indexType l = 0; l < lastDim; l++) {
-                // MATLAB compatible: floor(rand * N) + 1 where N = maxInt
-                ar[k * lastDim + l]
-                    = static_cast<single>(static_cast<int>(std::floor(uniform01() * maxInt)) + 1);
+                // imin + floor(rand * (imax - imin + 1))
+                ar[k * lastDim + l] = static_cast<single>(minInt
+                    + static_cast<int64>(
+                        std::floor(uniform01() * static_cast<double>(maxInt - minInt + 1))));
             }
         }
     } break;
     case RNG_DISTRIBUTION_NORMAL: {
-        // rows to columns order
         size_t p = (nbElements / lastDim);
         for (size_t k = 0; k < p; k++) {
             for (indexType l = 0; l < lastDim; l++) {
@@ -154,51 +143,42 @@ RandomMersenneTwister64::getValuesAsSingle(
 std::vector<uint64>
 RandomMersenneTwister64::getState()
 {
-    std::vector<uint64> state;
-    std::stringstream line;
-    line << random_engine();
-    uint64 num = 0;
-    while (line >> num) {
-        state.push_back(num);
-    }
+    std::vector<uint64> state(MersenneTwister64Engine::stateSize);
+    random_engine().getState(state.data());
     return state;
 }
 //=============================================================================
 void
 RandomMersenneTwister64::setState(const uint32* _state, size_t len)
 {
-    std::stringstream line;
-    for (size_t k = 0; k < len; k++) {
-        line << ' ' << _state[k];
+    if (len == MersenneTwister64Engine::stateSize) {
+        random_engine().setState(_state);
     }
-    line >> random_engine();
 }
 //=============================================================================
 void
 RandomMersenneTwister64::setState(const uint64* _state, size_t len)
 {
-    std::stringstream line;
-    for (size_t k = 0; k < len; k++) {
-        line << ' ' << _state[k];
+    if (len == MersenneTwister64Engine::stateSize) {
+        random_engine().setState(_state);
     }
-    line >> random_engine();
 }
 //=============================================================================
 size_t
 RandomMersenneTwister64::getStateSize()
 {
-    return getState().size();
+    return MersenneTwister64Engine::stateSize;
 }
 //=============================================================================
 void
-RandomMersenneTwister64::setMinMaxUniformIntDistribution(int _min, int _max)
+RandomMersenneTwister64::setMinMaxUniformIntDistribution(int64 _min, int64 _max)
 {
     minInt = _min;
     maxInt = _max;
 }
 //=============================================================================
 void
-RandomMersenneTwister64::getMinMaxUniformIntDistribution(int& _min, int& _max)
+RandomMersenneTwister64::getMinMaxUniformIntDistribution(int64& _min, int64& _max)
 {
     _min = minInt;
     _max = maxInt;

@@ -13,61 +13,62 @@ function varargout = c2d(varargin)
   % sysd = c2d(sysc, Ts)
   % sysd = c2d(sysc, Ts, method)
   % sysd = c2d(sysc, Ts, 'prewarp', W)
-  
+
   narginchk(2, 4);
   nargoutchk(0, 1);
   sys = varargin{1};
-  
+
   if ~isct(sys)
-    error(_('Continuous model expected.'));
+    error('Nelson:control_system:invalidType', '%s expected.', 'Continuous model');
   end
-  
+
   if ~issiso(sys)
-    error(_('SISO LTI model expected.'));
+    error('Nelson:control_system:invalidType', '%s expected.', 'SISO LTI model');
   end
-  
+
+  variable = 'z';
   sys = ss(sys);
-  
+
   Ts = varargin{2};
   mustBeNumeric(Ts, 2);
   if ~isscalar(Ts);
-    error(_('Wrong size for input argument #2: scalar expected.'));
+    error('Nelson:control_system:wrongSize', 'Wrong size for argument #%d: %s expected.', 2, 'scalar');
   end
   if (Ts < 0)
-    error(_('Ts must be finite positive scalar.'));
+    error('Nelson:control_system:invalidSampleTime', 'Ts must be finite positive scalar.');
   end
-  
+
   w0 = 0;
   method = 'Z';
-  
+
   if nargin > 2
     method = toupper(convertStringsToChars(varargin{3}));
     if ~contains(method(1), {'Z', 'P', 'T'})
-      error(_('Wrong value for #3 input argument: valid method expected.'));
+      error('Nelson:control_system:wrongValue', 'Wrong value for argument #%d: %s expected.', 3, 'valid method');
     end
     method = method(1);
   end
-  
-  if nargin > 3 
+
+  if nargin > 3
     if ~strcmp(method, 'P')
-      error(_("Wrong value for #3 argument: 'prewarp' method expected."));
-      end
-      w0 = varargin{4};
-      mustBeNumeric(w0, 4);
-      if ~isscalar(w0)
-        error(_('Wrong size for input argument #4: scalar expected.'));
-      end
-      mustBePositive(w0, 4);
-      mustBeFinite(w0, 4);
+      error('Nelson:control_system:prewarpMethodExpected', 'Wrong value for #%d argument: ''prewarp'' method expected.', 3);
     end
-  end    
-  
+    w0 = varargin{4};
+    mustBeNumeric(w0, 4);
+    if ~isscalar(w0)
+      error('Nelson:control_system:wrongSize', 'Wrong size for argument #%d: %s expected.', 4, 'scalar');
+    end
+    mustBePositive(w0, 4);
+    mustBeFinite(w0, 4);
+  end
+
   if nargin == 4
     sysd = c2d(sys, Ts, method, w0);
   else
     sysd = c2d(sys, Ts, method);
   end
-  
+
   sysd = tf(sysd);
-  sysd.Variable = sys.Variable;
+  sysd.Variable = variable;
+  varargout{1} = sysd;
 end

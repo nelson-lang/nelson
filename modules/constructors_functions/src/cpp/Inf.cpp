@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -29,26 +29,30 @@ Inf(indexType m, indexType n)
 ArrayOf
 Inf(Dimensions& dims)
 {
+    return Inf(dims, NLS_DOUBLE);
+}
+//=============================================================================
+ArrayOf
+Inf(Dimensions& dims, NelsonType destinationClass)
+{
     dims.simplify();
-    indexType nbElements = dims.getElementCount();
+    indexType nbElements = dims.elementCount();
+    if (destinationClass == NLS_SINGLE) {
+        single* mat = nullptr;
+        if (nbElements != 0) {
+            mat = static_cast<single*>(
+                ArrayOf::allocateArrayOf(NLS_SINGLE, nbElements, stringVector(), false));
+            constexpr single value = std::numeric_limits<single>::infinity();
+            std::fill_n(mat, nbElements, value);
+        }
+        return ArrayOf(NLS_SINGLE, dims, mat, false);
+    }
     double* mat = nullptr;
     if (nbElements != 0) {
         mat = static_cast<double*>(
             ArrayOf::allocateArrayOf(NLS_DOUBLE, nbElements, stringVector(), false));
         constexpr double value = std::numeric_limits<double>::infinity();
-        if (nbElements == 1) {
-            mat[0] = value;
-        } else {
-
-#if WITH_OPENMP
-            OMP_PARALLEL_FOR_LOOP(nbElements)
-            for (ompIndexType k = 0; k < (ompIndexType)nbElements; k++) {
-                mat[k] = value;
-            }
-#else
-            std::fill_n(mat, nbElements, value);
-#endif
-        }
+        std::fill_n(mat, nbElements, value);
     }
     return ArrayOf(NLS_DOUBLE, dims, mat, false);
 }

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>binopdf</keyword>
+  <short_description>Fonction de masse binomiale</short_description>
+  <syntax><syntax_item>y = binopdf(x, n, p)</syntax_item></syntax>
+  <param_input><param_input_item><param_name>x</param_name><param_description>tableau numerique reel.</param_description></param_input_item><param_input_item><param_name>n</param_name><param_description>nombre entier non negatif d'essais.</param_description></param_input_item><param_input_item><param_name>p</param_name><param_description>probabilite de succes dans [0,1].</param_description></param_input_item></param_input>
+  <param_output><param_output_item><param_name>y</param_name><param_description>valeurs de masse de probabilite.</param_description></param_output_item></param_output>
+  <description><p><b>binopdf</b> calcule les valeurs de masse de probabilite binomiale.</p></description>
+  <examples><example_item><example_item_type>nelson</example_item_type><example_item_description /><example_item_data runnable="cli"><![CDATA[x = 0:10;
+y = binopdf(x, 10, 0.4);]]></example_item_data></example_item></examples>
+  <see_also><see_also_item><link linkend="${statistics}binocdf">binocdf</link></see_also_item><see_also_item><link linkend="${statistics}binoinv">binoinv</link></see_also_item></see_also>
+  <history><history_item><history_version>2.0.0</history_version><history_description>version initiale</history_description></history_item></history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

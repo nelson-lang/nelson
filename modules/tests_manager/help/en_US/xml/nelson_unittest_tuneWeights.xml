@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>nelson.unittest.tuneWeights</keyword>
+  <short_description>Calibrate scheduling weights from measured test durations.</short_description>
+  <syntax>
+    <syntax_item>proposal = nelson.unittest.tuneWeights(results)</syntax_item>
+    <syntax_item>proposal = nelson.unittest.tuneWeights(results, 'Apply', true)</syntax_item>
+    <syntax_item>[proposal, results] = nelson.unittest.tuneWeights(targets, Name, Value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>results</param_name>
+      <param_description>TestRunResult returned by nelson.unittest.run.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>targets</param_name>
+      <param_description>module name, directory, file name, cell array of targets, TestSuite, or
+        TestPlan. The targets are executed once to collect durations.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Apply</param_name>
+      <param_description>logical scalar. The default is false. When true, add, update, or remove
+        &lt;--WEIGHT N--&gt; tags in measured source files.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>MaxWeight</param_name>
+      <param_description>positive integer limiting generated weights. The default is 64.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Name, Value</param_name>
+      <param_description>other options are forwarded to nelson.unittest.run when targets are supplied.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>proposal</param_name>
+      <param_description>WeightTuningResult structure containing the measured files, durations, old and new
+        weights, actions, and summary.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>results</param_name>
+      <param_description>TestRunResult used for calibration.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>nelson.unittest.tuneWeights</b> derives static scheduling weights from measured durations. It does
+      not create or read a duration cache.</p>
+    <p>The default is a dry run. Source files are changed only when <b>Apply</b> is true.</p>
+    <p>Only passed tests and completed benches are eligible. Failed, skipped, timed out, missing, and deleted
+      files are ignored.</p>
+    <p>Durations are normalized independently for each module and for test and bench categories. The median
+      duration is weight 1. Larger durations are quantized to powers of two and limited by <b>MaxWeight</b>.
+      Quantization avoids source changes caused by small timing variations.</p>
+    <p>A generated weight of 1 is implicit: an existing weight tag is removed. Other weights add or replace a
+      single header tag while preserving the file line-ending style.</p>
+    <p>Supplying targets runs them once before producing the proposal. This calibration run prepares later
+      executions; using it as a mandatory prepass would run the same tests twice.</p>
+    <p>If reuse tags are also being calibrated, apply them first. Weight calibration should use a fresh run
+      performed with the final process-reuse configuration.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Review and then apply a proposal from an existing run.</example_item_description>
+      <example_item_data><![CDATA[
+results = nelson.unittest.run({'interpreter', 'statistics'});
+proposal = nelson.unittest.tuneWeights(results);
+proposal = nelson.unittest.tuneWeights(results, 'Apply', true);
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Calibrate module test weights, review the proposal, then apply the same measurements without another run.</example_item_description>
+      <example_item_data><![CDATA[
+[proposal, results] = nelson.unittest.tuneWeights('interpreter', ...
+  'Kind', 'test', 'Workers', 16);
+proposal.summary
+proposal.cases
+
+applied = nelson.unittest.tuneWeights(results, 'Apply', true);
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${tests_manager}nelson.unittest.run">nelson.unittest.run</link></see_also_item>
+    <see_also_item><link linkend="${tests_manager}nelson.unittest.plan">nelson.unittest.plan</link></see_also_item>
+    <see_also_item><link linkend="${tests_manager}nelson.unittest.tuneReuse">nelson.unittest.tuneReuse</link></see_also_item>
+  </see_also>
+</xmldoc>

@@ -13,7 +13,10 @@
 #include "nlsOperators_exports.h"
 //=============================================================================
 namespace Nelson {
+// fieldNames: field names shared by struct / class operands (empty for the other types).
 NLSOPERATORS_IMPEXP ArrayOf
-ConcatenateNdArray(ArrayOfMatrix& m, NelsonType destClass);
-}
+ConcatenateNdArray(
+    ArrayOfMatrix& m, NelsonType destClass, const stringVector& fieldNames = stringVector());
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

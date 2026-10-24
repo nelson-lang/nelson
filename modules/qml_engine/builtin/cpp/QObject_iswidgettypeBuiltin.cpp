@@ -10,10 +10,10 @@
 #include "QObject_iswidgettypeBuiltin.hpp"
 #include "ClassName.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "QObjectHandleObject.hpp"
 #include "iswidgettypeQObject.hpp"
-#include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -29,11 +29,12 @@ Nelson::QmlEngineGateway::QObject_iswidgettypeBuiltin(int nLhs, const ArrayOfVec
         std::string className;
         ClassName(param1, className);
         if (className != NLS_HANDLE_QOBJECT_CATEGORY_STR) {
-            Error(_W("QObject handle expected."));
+            Error(L"Nelson:QObject:notHandle", L"QObject handle expected.");
         }
         retval.push_back(iswidgettypeQObject(param1));
     } else {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_HANDLE_EXPECTED);
+        Error(
+            L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", ((1)), L"handle");
     }
     return retval;
 }

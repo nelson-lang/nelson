@@ -28,6 +28,10 @@
       <b>C = le(A, B)</b> renvoie un tableau logique avec des éléments égaux à<b>true</b> lorsque A est inférieur ou égal à B.</p>
     <p>
       <b>le</b> compare uniquement la partie réelle des tableaux numériques.</p>
+    <p>
+      Lorsque les entrees sont des tableaux sparse numeriques ou logiques, le resultat est un tableau sparse logique. Les operandes sparse single et single-complex sont pris en charge.</p>
+    <p>
+      Pour les tableaux sparse complexes, les comparaisons d'ordre utilisent le module de chaque valeur.</p>
   </description>
   <used_function />
   <bibliography />
@@ -89,6 +93,10 @@
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>operandes sparse single et single-complex pris en charge.</history_description>
     </history_item>
   </history>
   <authors>

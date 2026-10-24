@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>intervalTest</keyword>
+  <keyword_alias>block:intervalTest</keyword_alias>
+  <short_description>Outputs 1 when the input lies within [LowerLimit, UpperLimit], else 0.</short_description>
+  <syntax>
+    <syntax_item>Block type: intervalTest</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>input ports</param_name>
+      <param_description>1 input port(s) declared.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>output ports</param_name>
+      <param_description>1 output port(s) declared.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Outputs 1 when the input lies within [LowerLimit, UpperLimit], else 0.</p>
+    <table border="1">
+      <tbody>
+        <tr><td>Module</td><td><code>nflow_blocks</code></td></tr>
+        <tr><td>Library</td><td>Logic / Bit Operations</td></tr>
+        <tr><td>Type</td><td><code>intervalTest</code></td></tr>
+        <tr><td>Label</td><td>Interval Test</td></tr>
+      </tbody>
+    </table>
+    <p><img src="../../../../libraries/logic/exports/intervalTest.svg" align="middle"/></p>
+    <p><b>Description</b></p>
+    <p>Tests whether the input <code>u</code> lies inside a static interval. The bounds <code>LowerLimit</code> and <code>UpperLimit</code> are parameters; <code>IntervalClosedLeft</code> and <code>IntervalClosedRight</code> select whether each end is inclusive (<code>&gt;=</code>/<code>&lt;=</code>) or exclusive (<code>&gt;</code>/<code>&lt;</code>). The test is applied element-wise over a vector input.</p>
+    <p>Pure algebraic feedthrough (no state): the output at each step depends only on the current input.</p>
+    <p><b>Ports</b></p>
+    <p><b>Input(s)</b></p>
+    <table border="1">
+      <thead><tr><th>Port</th><th>Role</th><th>Side</th><th>Position</th></tr></thead>
+      <tbody>
+        <tr><td>Port_1</td><td>Numeric signal read by the block.</td><td>left</td><td>x=0, y=40</td></tr>
+      </tbody>
+    </table>
+    <p><b>Output(s)</b></p>
+    <table border="1">
+      <thead><tr><th>Port</th><th>Role</th><th>Side</th><th>Position</th></tr></thead>
+      <tbody>
+        <tr><td>Port_1</td><td>Numeric signal produced by the block.</td><td>right</td><td>x=100, y=40</td></tr>
+      </tbody>
+    </table>
+    <p><b>Parameters</b></p>
+    <table border="1">
+      <thead><tr><th>Parameter</th><th>Default value</th></tr></thead>
+      <tbody>
+        <tr><td><code>LowerLimit</code></td><td>0</td></tr>
+        <tr><td><code>UpperLimit</code></td><td>1</td></tr>
+        <tr><td><code>IntervalClosedLeft</code></td><td>1</td></tr>
+        <tr><td><code>IntervalClosedRight</code></td><td>1</td></tr>
+      </tbody>
+    </table>
+    <p><b>Block Characteristics</b></p>
+    <table border="1">
+      <tbody>
+        <tr><td>Block type</td><td>intervalTest</td></tr>
+        <tr><td>Family</td><td>Logic / Bit Operations</td></tr>
+        <tr><td>Rendered size</td><td>100 x 80</td></tr>
+        <tr><td>Phases</td><td>ALGEBRAIC</td></tr>
+        <tr><td>Internal state or history</td><td>no</td></tr>
+        <tr><td>Signal data type</td><td>double numeric values</td></tr>
+      </tbody>
+    </table>
+    <p><b>Algorithms</b></p>
+    <ul>
+      <li>ALGEBRAIC: out = (u &gt;= LowerLimit) &amp;&amp; (u &lt;= UpperLimit) ? 1 : 0, with strict comparisons when the corresponding end is open.</li>
+    </ul>
+    <p><b>Equation or Rule</b></p>
+    <latex>y = \begin{cases} 1 &amp; \text{lo} \le u \le \text{up} \\ 0 &amp; \text{otherwise} \end{cases}</latex>
+    <p><b>Extended Capabilities</b></p>
+    <p>Code generation: supported for C and Rust.</p>
+    <p><b>Implementation Sources</b></p>
+    <source_code label="Manifest" path="modules/nflow_blocks/libraries/logic/library.json" language="json"/>
+    <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/logic/intervalTest.cpp" language="cpp"/>
+  </description>
+  <used_function/>
+  <bibliography/>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Test a constant against [0, 1] and display the result.</example_item_description>
+      <example_item_data><![CDATA[d.blocks={ struct('id','c','type','constant','inputs',0,'outputs',1,'params',struct('Value',0.5)), struct('id','it','type','intervalTest','inputs',1,'outputs',1,'params',struct('LowerLimit',0,'UpperLimit',1)), struct('id','w','type','toWorkspace','inputs',1,'outputs',0,'params',struct('VariableName','y','SaveFormat','Array')) };
+d.connections={ struct('from','c','to','it','fromIndex',0,'toIndex',0), struct('from','it','to','w','fromIndex',0,'toIndex',0) };
+d.sampleTime=0.1; d.duration=0.2; d.solver='discrete'; d.variables=struct();
+r=jsondecode(__nflow_simulate__(jsonencode(d)));]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${nflow_blocks}logic/intervalTestDynamic">intervalTestDynamic</link></see_also_item>
+    <see_also_item><link linkend="${nflow_blocks}logic/compareToConstant">compareToConstant</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

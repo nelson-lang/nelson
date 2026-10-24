@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -18,7 +18,7 @@ template <class T>
 ArrayOf
 log10Complex(NelsonType destinationClass, T* values, bool allReal, Dimensions& dims)
 {
-    ompIndexType elementCount = dims.getElementCount();
+    ompIndexType elementCount = dims.elementCount();
     T* ptrOut = (T*)ArrayOf::allocateArrayOf(destinationClass, elementCount);
     std::complex<T>* outZ = reinterpret_cast<std::complex<T>*>(ptrOut);
     if (allReal) {
@@ -54,31 +54,31 @@ Logarithm10(const ArrayOf& A, bool& needToOverload)
         return res;
     }
     needToOverload = false;
-    switch (A.getDataClass()) {
+    switch (A.dataClass()) {
     case NLS_DOUBLE: {
-        Dimensions dimsA = A.getDimensions();
-        res = log10Complex<double>(NLS_DCOMPLEX, (double*)A.getDataPointer(), true, dimsA);
+        Dimensions dimsA = A.dimensions();
+        res = log10Complex<double>(NLS_DCOMPLEX, (double*)A.dataPointer(), true, dimsA);
         if (res.allReal()) {
             res.promoteType(NLS_DOUBLE);
         }
     } break;
     case NLS_DCOMPLEX: {
-        Dimensions dimsA = A.getDimensions();
-        res = log10Complex<double>(NLS_DCOMPLEX, (double*)A.getDataPointer(), false, dimsA);
+        Dimensions dimsA = A.dimensions();
+        res = log10Complex<double>(NLS_DCOMPLEX, (double*)A.dataPointer(), false, dimsA);
         if (res.allReal()) {
             res.promoteType(NLS_DOUBLE);
         }
     } break;
     case NLS_SINGLE: {
-        Dimensions dimsA = A.getDimensions();
-        res = log10Complex<single>(NLS_SCOMPLEX, (single*)A.getDataPointer(), true, dimsA);
+        Dimensions dimsA = A.dimensions();
+        res = log10Complex<single>(NLS_SCOMPLEX, (single*)A.dataPointer(), true, dimsA);
         if (res.allReal()) {
             res.promoteType(NLS_SINGLE);
         }
     } break;
     case NLS_SCOMPLEX: {
-        Dimensions dimsA = A.getDimensions();
-        res = log10Complex<single>(NLS_SCOMPLEX, (single*)res.getDataPointer(), false, dimsA);
+        Dimensions dimsA = A.dimensions();
+        res = log10Complex<single>(NLS_SCOMPLEX, (single*)res.dataPointer(), false, dimsA);
         if (res.allReal()) {
             res.promoteType(NLS_SINGLE);
         }

@@ -15,9 +15,9 @@
 #include "NelsonConfiguration.hpp"
 //=============================================================================
 namespace Nelson {
-//============================================================================
+//=============================================================================
 void
-Error(const std::wstring& msg, const std::wstring& id, bool asCaller)
+RaiseError(const std::wstring& msg, const std::wstring& id, bool asCaller)
 {
     if (!msg.empty()) {
         stackTrace trace;
@@ -26,15 +26,15 @@ Error(const std::wstring& msg, const std::wstring& id, bool asCaller)
             return;
         }
         DebugStack(eval->callstack, asCaller ? 1 : 0, trace);
-        Exception exception(msg, trace, id);
-        throw exception;
+        NelsonException NelsonException(msg, trace, id);
+        throw NelsonException;
     }
 }
 //=============================================================================
 void
-Error(const std::string& msg, const std::string& id, bool asCaller)
+RaiseError(const std::string& msg, const std::string& id, bool asCaller)
 {
-    Error(utf8_to_wstring(msg), utf8_to_wstring(id), asCaller);
+    RaiseError(utf8_to_wstring(msg), utf8_to_wstring(id), asCaller);
 }
 //=============================================================================
 } // namespace Nelson

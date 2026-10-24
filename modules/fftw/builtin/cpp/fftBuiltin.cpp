@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,10 +9,10 @@
 //=============================================================================
 #include "fftBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "Fft.hpp"
 #include "OverloadRequired.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -36,7 +36,7 @@ fftBuiltinPrivate(int nLhs, const ArrayOfVector& argIn)
             res = Fft(X);
         } else {
             // fft(X, n)
-            indexType n = N.getContentAsScalarIndex(false);
+            indexType n = N.asScalarIndex(true);
             res = Fft(X, n);
         }
     } break;
@@ -45,21 +45,18 @@ fftBuiltinPrivate(int nLhs, const ArrayOfVector& argIn)
         ArrayOf N = argIn[1];
         ArrayOf DIM = argIn[2];
         indexType n;
-        indexType dim = DIM.getContentAsScalarIndex(false);
+        indexType dim = DIM.asScalarIndex(false);
         if (N.isNumeric() && N.isEmpty()) {
             // fft(X, [], dim)
             if (X.isScalar()) {
                 n = 1;
             } else {
-                n = X.getDimensionLength(static_cast<int>(dim) - 1);
+                n = X.dimensionLength(static_cast<int>(dim) - 1);
             }
         } else {
-            n = N.getContentAsScalarIndex(false);
+            n = N.asScalarIndex(true);
         }
         res = Fft(X, n, dim - 1);
-    } break;
-    default: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
     } break;
     }
     retval << res;

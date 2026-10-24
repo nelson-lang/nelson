@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>xlsfinfo</keyword>
+  <short_description>Retourner les informations d&apos;un fichier tableur Open XML.</short_description>
+  <syntax>
+    <syntax_item>status = xlsfinfo(filename)</syntax_item>
+    <syntax_item>[status, sheets, format] = xlsfinfo(filename)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>une chaine : nom de fichier .xlsx.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>status</param_name>
+      <param_description>chaine de statut du format, ou chaine vide si le fichier ne peut pas etre lu.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>sheets</param_name>
+      <param_description>cellule contenant les noms de feuilles.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>format</param_name>
+      <param_description>chaine de format.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>xlsfinfo</b> retourne les metadonnees des fichiers .xlsx pris en charge par le backend Open XML.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Lister les feuilles d&apos;un classeur.</example_item_description>
+      <example_item_data runnable="cli">filename = [tempdir(), &apos;xlsfinfo_example.xlsx&apos;]; xlswrite(filename, [1 2], &apos;Run1&apos;, &apos;A1&apos;); [status, sheets, format] = xlsfinfo(filename)</example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${spreadsheet}xlsread">xlsread</link></see_also_item>
+    <see_also_item><link linkend="${spreadsheet}xlswrite">xlswrite</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

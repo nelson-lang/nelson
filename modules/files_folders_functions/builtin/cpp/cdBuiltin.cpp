@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -10,11 +10,11 @@
 #include "cdBuiltin.hpp"
 #include "ChangeDirectory.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "GetCurrentDirectory.hpp"
 #include "NelsonPrint.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -27,24 +27,26 @@ Nelson::FilesFoldersGateway::cdBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (argIn.empty()) {
         std::wstring pwd = GetCurrentDirectory();
         if (pwd.empty()) {
-            Error(_W("Impossible to get current directory."));
+            Error(L"Nelson:files_folders_functions:impossibleGetCurrentDirectory",
+                L"Impossible to get current directory.");
         } else {
             if (nLhs == 0) {
                 NelsonPrint(pwd);
             } else {
-                retval << ArrayOf::characterArrayConstructor(pwd);
+                retval << ArrayOf::characterArray(pwd);
             }
         }
     } else // argIn.size() == 1
     {
         if (argIn[0].isRowVectorCharacterArray()) {
-            std::wstring wpath = argIn[0].getContentAsWideString();
+            std::wstring wpath = argIn[0].asWideString();
             ArrayOf res = Cd(wpath);
             if (nLhs == 1) {
                 retval << res;
             }
         } else {
-            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1),
+                L"string");
         }
     }
     return retval;

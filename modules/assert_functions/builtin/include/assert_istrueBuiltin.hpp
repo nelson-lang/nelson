@@ -10,8 +10,12 @@
 #pragma once
 //=============================================================================
 #include "ArrayOf.hpp"
+#include "Evaluator.hpp"
 //=============================================================================
 namespace Nelson::AssertFunctionsGateway {
+//=============================================================================
+ArrayOfVector
+assertBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
 ArrayOfVector
 assert_istrueBuiltin(int nLhs, const ArrayOfVector& argIn);

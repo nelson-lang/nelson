@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,8 +9,9 @@
 //=============================================================================
 #include "rmdirBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 #include "RemoveDirectory.hpp"
-#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -18,33 +19,29 @@ ArrayOfVector
 Nelson::FilesFoldersGateway::rmdirBuiltin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    if (argIn.size() == 1 || argIn.size() == 2) {
-        bool bbSubfolder = false;
-        std::wstring arg1 = argIn[0].getContentAsWideString();
-        if (argIn.size() == 2) {
-            std::wstring arg2 = argIn[1].getContentAsWideString();
-            if ((arg2 == L"s") || (arg2 == L"S")) {
-                bbSubfolder = true;
-            } else {
-                Error("'s' expected.");
-            }
-        }
-        std::wstring errorMessage;
-        bool res = RemoveDirectory(arg1, bbSubfolder, errorMessage);
-        if (nLhs == 0) {
-            if (static_cast<int>(res) == false) {
-                Error(errorMessage);
-            }
+    nargincheck(argIn, 1, 2);
+    nargoutcheck(nLhs, 0, 2);
+    bool bbSubfolder = false;
+    std::wstring arg1 = argIn[0].asWideString();
+    if (argIn.size() == 2) {
+        std::wstring arg2 = argIn[1].asWideString();
+        if ((arg2 == L"s") || (arg2 == L"S")) {
+            bbSubfolder = true;
         } else {
-            retval << ArrayOf::logicalConstructor(res);
-            if (nLhs > 1) {
-                retval << ArrayOf::characterArrayConstructor(errorMessage);
-            } else {
-                Error(ERROR_WRONG_NUMBERS_OUTPUT_ARGS);
-            }
+            Error("Nelson:rmdir:invalidOption", "'s' expected.");
+        }
+    }
+    std::wstring errorMessage;
+    bool res = RemoveDirectory(arg1, bbSubfolder, errorMessage);
+    if (nLhs == 0) {
+        if (static_cast<int>(res) == false) {
+            Error(L"Nelson:rmdir:removeFailed", errorMessage);
         }
     } else {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
+        retval << ArrayOf::logicalScalar(res);
+        if (nLhs > 1) {
+            retval << ArrayOf::characterArray(errorMessage);
+        }
     }
     return retval;
 }

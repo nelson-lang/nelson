@@ -81,6 +81,16 @@
     <p>matrix of struct converted to <b>Matrix{Dict}</b>.</p>
     <p>
       <b>dictionary</b> converted to <b>Dict{Any, Any}</b>.</p>
+    <p>
+      <b>table</b> converted to a <b>DataFrames.DataFrame</b> when the DataFrames.jl
+      package is available (variable names become the column names); otherwise it
+      is converted to <b>Dict{Any, Any}</b>.</p>
+    <p>A <b>DataFrames.DataFrame</b> is converted to a Nelson <b>table</b> with
+      <b>table(df)</b>: numeric columns keep their numeric type, a Bool column
+      becomes a <b>logical</b> column, a textual column becomes a <b>string</b>
+      column, a numeric column that contains <b>missing</b> becomes a
+      <b>double</b> column with <b>NaN</b>, and a textual column that contains
+      <b>missing</b> becomes a <b>string</b> column with <b>&lt;missing&gt;</b>.</p>
     <p />
     <p
     >Ensure that all data passed between Julia and Nelson adheres to the type mappings described above for smooth conversions.</p>

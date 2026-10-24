@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -8,12 +8,15 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "audioplayer_playBuiltin.hpp"
+#include <chrono>
+#include <thread>
 #include "AudioplayerObject.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "HandleGenericObject.hpp"
 #include "HandleManager.hpp"
-#include "ProcessEventsDynamicFunction.hpp"
+#include "RuntimeDispatch.hpp"
 #include "NelsonConfiguration.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 #include "QueueProcessing.hpp"
@@ -33,54 +36,71 @@ audioplayer_playCommonBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& ar
     if (argIn.size() == 2) {
         ArrayOf param2 = argIn[1];
         if (param2.isScalar()) {
-            start = param2.getContentAsDoubleScalar();
+            start = param2.asDoubleScalar();
             startOnly = true;
             if (start < 1) {
-                Error(_W("start >= 1 expected."));
+                Error(L"Nelson:audioplayer:invalidStart", L"start >= 1 expected.");
             }
             start = start - 1;
-        } else if (param2.isVector() && param2.isNumeric() && (param2.getElementCount() == 2)) {
+        } else if (param2.isVector() && param2.isNumeric() && (param2.elementCount() == 2)) {
             param2.promoteType(NLS_DOUBLE);
-            auto* ptr = (double*)param2.getDataPointer();
+            auto* ptr = (double*)param2.dataPointer();
             start = ptr[0];
             end = ptr[1];
             if (start < 1 || end < 1) {
-                Error(_W("Index >= 1 expected."));
+                Error(L"Nelson:audio:invalidIndex", L"Index >= 1 expected.");
             }
             start = start - 1;
             end = end - 1;
         } else {
-            Error(_W("scalar or [start, end] vector expected."));
+            Error(L"Nelson:audioplayer:invalidRange", L"scalar or [start, end] vector expected.");
         }
     }
-    if (param1.getHandleCategory() != NLS_HANDLE_AUDIOPLAYER_CATEGORY_STR) {
-        Error(_W("audioplayer handle expected."));
+    if (param1.handleCategory() != NLS_HANDLE_AUDIOPLAYER_CATEGORY_STR) {
+        Error(L"Nelson:audioplayer:invalidHandle", L"audioplayer handle expected.");
     }
-    auto* objPlayer = (AudioplayerObject*)param1.getContentAsHandleScalar();
+    auto* objPlayer = (AudioplayerObject*)param1.asHandleScalar();
     if (argIn.size() == 1) {
-        objPlayer->play();
+        checkAudioStreamError(objPlayer->play());
     } else {
         if (startOnly) {
             if (start > objPlayer->getTotalSamples()) {
-                Error(_W("Invalid range."));
+                Error(L"Nelson:audio:invalidRange", L"Invalid range.");
             }
-            objPlayer->play(static_cast<int>(start));
+            checkAudioStreamError(objPlayer->play(static_cast<int>(start)));
         } else {
             if (start > objPlayer->getTotalSamples() || start > end
                 || end > objPlayer->getTotalSamples()) {
-                Error(_W("Invalid range."));
+                Error(L"Nelson:audio:invalidRange", L"Invalid range.");
             }
-            objPlayer->play(static_cast<int>(start), static_cast<int>(end));
+            checkAudioStreamError(objPlayer->play(static_cast<int>(start), static_cast<int>(end)));
         }
     }
     if (blocking) {
+        // Blocking playback ends after about the clip duration. A device that never
+        // signals completion would hang the call, so the wait is bounded.
+        bool hasDeadline = false;
+        std::chrono::steady_clock::time_point deadline;
+        int sampleRate = objPlayer->getSampleRate();
+        int totalSamples = objPlayer->getTotalSamples();
+        if (sampleRate > 0 && totalSamples > 0) {
+            double expectedSeconds = static_cast<double>(totalSamples) / sampleRate;
+            deadline = std::chrono::steady_clock::now()
+                + std::chrono::milliseconds(
+                    static_cast<long long>((expectedSeconds + 10.0) * 1000.0));
+            hasDeadline = true;
+        }
         do {
             processPendingCallbacksAndTimers(eval);
             if (eval->haveEventsLoop()) {
-                ProcessEventsDynamicFunctionWithoutWait();
+                Nelson::processGuiEvents(false);
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(1));
+            if (hasDeadline && std::chrono::steady_clock::now() > deadline) {
+                break;
             }
         } while (!NelsonConfiguration::getInstance()->getInterruptPending(eval->getID())
-            && objPlayer->getRunning());
+            && (objPlayer->getRunning() || objPlayer->isStreamFinishing()));
         objPlayer->stop();
     }
     return retval;
@@ -99,5 +119,5 @@ Nelson::AudioGateway::audioplayer_playBuiltin(Evaluator* eval, int nLhs, const A
     return audioplayer_playCommonBuiltin(eval, nLhs, argIn, false);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

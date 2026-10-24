@@ -19,6 +19,7 @@
 #include "CSVTableWriter.hpp"
 #include "characters_encoding.hpp"
 #include "i18n.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -44,7 +45,8 @@ CSVWriter::writeToFile(std::wstring& errorMessage)
     FILE* file = fopen(wstring_to_utf8(filename).c_str(), append ? "a" : "w");
 #endif
     if (!file) {
-        errorMessage = _W("Could not open file.");
+        errorMessage = Nelson::resolveMessageTemplate(
+            L"Nelson:spreadsheet:couldOpenFile", L"Could not open file.");
         return false;
     }
 
@@ -74,5 +76,5 @@ CSVWriter::writeToFile(std::wstring& errorMessage)
     return true;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

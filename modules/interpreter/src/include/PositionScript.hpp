@@ -22,11 +22,16 @@ private:
     std::wstring filename = L"";
     std::wstring functionname = L"";
     int line = -1;
+    bool directScript = false;
     //=============================================================================
 public:
     //=============================================================================
-    PositionScript(std::wstring functionname = L"", std::wstring filename = L"", int line = -1)
-        : filename(std::move(filename)), functionname(std::move(functionname)), line(line)
+    PositionScript(std::wstring functionname = L"", std::wstring filename = L"", int line = -1,
+        bool isDirectScript = false)
+        : filename(std::move(filename))
+        , functionname(std::move(functionname))
+        , line(line)
+        , directScript(isDirectScript)
     {
     }
     //=============================================================================
@@ -35,6 +40,7 @@ public:
         this->filename = copy.filename;
         this->functionname = copy.functionname;
         this->line = copy.line;
+        this->directScript = copy.directScript;
     }
     //=============================================================================
     void
@@ -46,6 +52,7 @@ public:
         this->filename = copy.filename;
         this->functionname = copy.functionname;
         this->line = copy.line;
+        this->directScript = copy.directScript;
     }
     //=============================================================================
     ~PositionScript()
@@ -53,18 +60,19 @@ public:
         this->filename.clear();
         this->functionname.clear();
         this->line = -1;
+        this->directScript = false;
     }
     //=============================================================================
-    [[nodiscard]] std::wstring
+    [[nodiscard]] const std::wstring&
     getFilename() const
     {
         return this->filename;
     }
     //=============================================================================
     void
-    setFilename(const std::wstring& filename)
+    setFilename(const std::wstring& scriptFilename)
     {
-        this->filename = filename;
+        this->filename = scriptFilename;
     }
     //=============================================================================
     [[nodiscard]] int
@@ -74,15 +82,21 @@ public:
     }
     //=============================================================================
     void
-    setFunctionName(const std::wstring& functionname)
+    setFunctionName(const std::wstring& scriptFunctionName)
     {
-        this->functionname = functionname;
+        this->functionname = scriptFunctionName;
     }
     //=============================================================================
-    [[nodiscard]] std::wstring
+    [[nodiscard]] const std::wstring&
     getFunctionName() const
     {
         return this->functionname;
+    }
+    //=============================================================================
+    [[nodiscard]] bool
+    isDirectScript() const
+    {
+        return this->directScript;
     }
     //=============================================================================
     [[nodiscard]] bool

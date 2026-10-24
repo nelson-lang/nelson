@@ -10,6 +10,6 @@
 path_ref = [modulepath('nelson', 'builtin'), '/libnlsDynamic_link', getdynlibext()];
 lib = dlopen(path_ref);
 f = dlsym(lib, 'dynlibTestMultiplyDoubleArrayWithReturn', 'int32', {'doublePtr', 'int32'});
-assert_isequal(f, f);
-assert_istrue(f == f);
+asserts.isequal(f, f);
+asserts.istrue(f == f);
 %=============================================================================

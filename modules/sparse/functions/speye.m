@@ -22,19 +22,19 @@ function sp = speye(varargin)
         m = arg(1);
         n = arg(2);
       else
-        error('Nelson:speye:InvalidInputFormat', _('Please use speye(n), speye(m, n) or speye([m, n]).'));
+        error('Nelson:speye:InvalidInputFormat', 'Please use speye(n), speye(m, n) or speye([m, n]).');
       end
     else
-      error('Nelson:speye:InvalidInputFormat', _('Please use speye(n), speye(m, n) or speye([m, n]).'));
+      error('Nelson:speye:InvalidInputFormat', 'Please use speye(n), speye(m, n) or speye([m, n]).');
     end
   elseif (nargin == 2)
     m = varargin{1};
     n = varargin{2};
     if ~isscalar(m) || ~isscalar(n)
-      error('Nelson:speye:InvalidInputFormat', _('Please use speye(n), speye(m, n) or speye([m, n]).'));
+      error('Nelson:speye:InvalidInputFormat', 'Please use speye(n), speye(m, n) or speye([m, n]).');
     end
   else
-    error(_('Wrong number of output arguments.'));
+    error('Nelson:speye:wrongNumberOutputArguments2', 'Wrong number of output arguments.');
   end
   if (m < 0)
     m = 0;

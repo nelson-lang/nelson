@@ -51,5 +51,27 @@ RegexPrepBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn);
 NLSSTRING_IMPEXP ArrayOfVector
 RegexpTranslateBuiltin(int nLhs, const ArrayOfVector& argIn);
 //=============================================================================
+NLSSTRING_IMPEXP bool
+RegexIsMatch(const std::wstring& input, const std::wstring& expression, bool ignoreCase = false);
+//=============================================================================
+NLSSTRING_IMPEXP double
+RegexCountMatches(
+    const std::wstring& input, const std::wstring& expression, bool ignoreCase = false);
+//=============================================================================
+NLSSTRING_IMPEXP std::vector<std::wstring>
+RegexMatchTexts(const std::wstring& input, const std::wstring& expression, bool ignoreCase = false,
+    bool emptyMatch = false);
+//=============================================================================
+NLSSTRING_IMPEXP std::vector<std::wstring>
+RegexSplitTexts(const std::wstring& input, const std::wstring& expression, bool ignoreCase = false);
+//=============================================================================
+NLSSTRING_IMPEXP bool
+RegexFirstMatchExtent(const std::wstring& input, const std::wstring& expression, int& start,
+    int& end, bool ignoreCase = false);
+//=============================================================================
+NLSSTRING_IMPEXP std::wstring
+RegexReplaceText(const std::wstring& input, const std::wstring& expression,
+    const std::wstring& replacement, bool ignoreCase = false, bool emptyMatch = false);
+//=============================================================================
 } // namespace Nelson
 //=============================================================================

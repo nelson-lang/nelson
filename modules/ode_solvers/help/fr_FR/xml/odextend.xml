@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>odextend</keyword>
+  <short_description>Prolonger une solution EDO.</short_description>
+  <syntax>
+    <syntax_item>solout = odextend(sol, odefun, tfinal)</syntax_item>
+    <syntax_item>solout = odextend(sol, odefun, tfinal, options)</syntax_item>
+  </syntax>
+  <description>
+    <p>
+      <b>odextend</b> continue une solution depuis son dernier point calcule jusqu'a un nouveau temps final.</p>
+    <table style="width:100%">
+  <tr><th>Element</th><th>Details</th></tr>
+  <tr><td>Solution en entree</td><td>Structure <b>sol</b> existante retournee par un solveur ODE.</td></tr>
+  <tr><td>Continuation</td><td>Etend la solution vers un nouveau temps final avec la meme definition du probleme.</td></tr>
+  <tr><td>Options</td><td>Les options peuvent ajuster tolerances, evenements, callbacks de sortie et limites de pas.</td></tr>
+  <tr><td>Resultat</td><td>Nouvelle structure <b>sol</b> compatible avec <b>deval</b>.</td></tr>
+</table>
+    <p>Quand <b>odefun</b> est vide, la fonction stockee dans la solution d'entree est reutilisee. Si le temps final demande est deja couvert par l'intervalle de solution, la solution d'entree est retournee. Prolonger dans la direction opposee est une erreur. Les champs d'evenements sont conserves et prolonges quand des donnees d'evenements existent. Les solutions sans donnees d'evenements ne recoivent pas de champs <b>xe</b>, <b>ye</b> ou <b>ie</b> vides.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_data runnable="cli"><![CDATA[sol = ode45(@(t,y) -y, [0 0.5], 1);
+sol = odextend(sol, [], 1)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ode_solvers}deval">deval</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ode_solvers}odeset">odeset</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

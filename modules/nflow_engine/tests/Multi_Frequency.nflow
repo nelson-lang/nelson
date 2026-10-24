@@ -1,0 +1,38 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "Allan CORNET",
+    "tool": "Nelson nflow"
+  },
+  "license": "LGPL-3.0",
+  "comments": "Three sine sources at 1, 2, 3 rad/s (Frequency in Hz = w/2pi) feed a 3-input scope. There is no single-trajectory reference for a multi-signal display, so this is a 'run' (smoke) case: it must simulate and produce finite samples. multi_frequency_out records the sum of the three inputs, a composite that depends on all of them, tapped only for the cardinality and finiteness check.",
+  "name": "Multi Frequency",
+  "blocks": [
+    { "id": "s1", "type": "sine", "x": 40, "y": 80, "rotation": 0,
+      "params": { "Amplitude": 1, "Frequency": 0.15915494309189535, "Phase": 0 } },
+    { "id": "s2", "type": "sine", "x": 40, "y": 200, "rotation": 0,
+      "params": { "Amplitude": 1, "Frequency": 0.3183098861837907, "Phase": 0 } },
+    { "id": "s3", "type": "sine", "x": 40, "y": 320, "rotation": 0,
+      "params": { "Amplitude": 1, "Frequency": 0.4774648292756860, "Phase": 0 } },
+    { "id": "scope1", "type": "scope", "x": 320, "y": 80, "rotation": 0,
+      "params": { "TMin": "", "TMax": "", "YMin": "", "YMax": "", "ShowTickLabels": false } },
+    { "id": "add", "type": "sum", "x": 320, "y": 320, "rotation": 0,
+      "params": { "Inputs": "+++" } },
+    { "id": "tw", "type": "toWorkspace", "x": 500, "y": 320, "rotation": 0,
+      "params": { "VariableName": "multi_frequency_out", "MaxDataPoints": "inf", "Decimation": 1, "SaveFormat": "Array", "SampleTime": "-1" } }
+  ],
+  "connections": [
+    { "from": "s1", "to": "scope1", "fromIndex": 0, "toIndex": 0 },
+    { "from": "s2", "to": "scope1", "fromIndex": 0, "toIndex": 1 },
+    { "from": "s3", "to": "scope1", "fromIndex": 0, "toIndex": 2 },
+    { "from": "s1", "to": "add", "fromIndex": 0, "toIndex": 0 },
+    { "from": "s2", "to": "add", "fromIndex": 0, "toIndex": 1 },
+    { "from": "s3", "to": "add", "fromIndex": 0, "toIndex": 2 },
+    { "from": "add", "to": "tw", "fromIndex": 0, "toIndex": 0 }
+  ],
+  "variables": "",
+  "runtime": 30,
+  "sampleTime": 0.1,
+  "autoRoute": true
+}

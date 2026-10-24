@@ -9,6 +9,7 @@
 //=============================================================================
 #include "NelsonGateway.hpp"
 #include "OverloadName.hpp"
+#include "BuiltInFunctionDef.hpp"
 #include "BackgroundPoolObject.hpp"
 #include "backgroundPoolBuiltin.hpp"
 #include "backgroundPool_getBuiltin.hpp"
@@ -121,14 +122,24 @@ static const nlsGateway gateway[] = {
     { OVERLOAD_FUNCTION_NAME(NLS_HANDLE_AFTEREACHFUTURE_CATEGORY_STR, "cancel"),
         (ptrBuiltin)Nelson::ParallelGateway::Future_cancelBuiltin, 0, 1, CPP_BUILTIN,
         NLS_OVERLOAD_AUTO_OFF },
+    { OVERLOAD_FUNCTION_NAME(NLS_HANDLE_FEVALFUTURE_CATEGORY_STR, "wait"),
+        (ptrBuiltin)Nelson::ParallelGateway::Future_waitBuiltin, 1, -1, CPP_BUILTIN_WITH_EVALUATOR,
+        NLS_OVERLOAD_AUTO_OFF },
+    { OVERLOAD_FUNCTION_NAME(NLS_HANDLE_AFTERALLFUTURE_CATEGORY_STR, "wait"),
+        (ptrBuiltin)Nelson::ParallelGateway::Future_waitBuiltin, 1, -1, CPP_BUILTIN_WITH_EVALUATOR,
+        NLS_OVERLOAD_AUTO_OFF },
+    { OVERLOAD_FUNCTION_NAME(NLS_HANDLE_AFTEREACHFUTURE_CATEGORY_STR, "wait"),
+        (ptrBuiltin)Nelson::ParallelGateway::Future_waitBuiltin, 1, -1, CPP_BUILTIN_WITH_EVALUATOR,
+        NLS_OVERLOAD_AUTO_OFF },
     //=============================================================================
     { "fetchNext", (ptrBuiltin)Nelson::ParallelGateway::fetchNextBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "afterEach", (ptrBuiltin)Nelson::ParallelGateway::afterEachBuiltin, 1, 3, CPP_BUILTIN },
-    { "parfeval", (ptrBuiltin)Nelson::ParallelGateway::parfevalBuiltin, 1, -3, CPP_BUILTIN },
+    { "parfeval", (ptrBuiltin)Nelson::ParallelGateway::parfevalBuiltin, 1, -3,
+        CPP_BUILTIN_WITH_EVALUATOR },
     { "cancelAll", (ptrBuiltin)Nelson::ParallelGateway::FevalQueue_cancelAllBuiltin, 0, 1 },
     { "afterAll", (ptrBuiltin)Nelson::ParallelGateway::afterAllBuiltin, 1, 3, CPP_BUILTIN },
-    { "wait", (ptrBuiltin)Nelson::ParallelGateway::Future_waitBuiltin, 1, 1,
+    { "wait", (ptrBuiltin)Nelson::ParallelGateway::Future_waitBuiltin, 1, -1,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "fetchOutputs", (ptrBuiltin)Nelson::ParallelGateway::fetchOutputsBuiltin, -1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
@@ -145,20 +156,32 @@ static const nlsGateway gateway[] = {
     //=============================================================================
 };
 //=============================================================================
-static bool
-finishParallelModule(Nelson::Evaluator* eval)
+static void
+drainBackgroundPool()
 {
     if (BackgroundPoolObject::isInitialized()) {
         BackgroundPoolObject::getInstance()->resetThreadPool();
     }
+}
+//=============================================================================
+static bool
+finishParallelModule(Nelson::Evaluator* eval)
+{
+    drainBackgroundPool();
     return true;
 }
 //=============================================================================
-NLSGATEWAYFUNC(gateway)
+static bool
+initializeParallelModule(Nelson::Evaluator* eval)
+{
+    // Drain the background pool before the interpreter tears down the builtin
+    // and gateway tables at shutdown: a still-running feval worker otherwise
+    // dereferences function definitions freed by the main thread.
+    RegisterPreModulesTeardownCallback(drainBackgroundPool);
+    return true;
+}
 //=============================================================================
-NLSGATEWAYINFO(gateway)
+NLS_GATEWAY_FUNC_EXTENDED_LAZY(gateway, (void*)initializeParallelModule)
 //=============================================================================
-NLSGATEWAYREMOVEEXTENDED(gateway, (void*)finishParallelModule)
-//=============================================================================
-NLSGATEWAYNAME()
+NLS_GATEWAY_REMOVE_EXTENDED(gateway, (void*)finishParallelModule)
 //=============================================================================

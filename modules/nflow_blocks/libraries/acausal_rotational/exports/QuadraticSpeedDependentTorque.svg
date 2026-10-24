@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="306.5" height="336.5" viewBox="-153.25 -153.25 306.5 336.5">
+  <rect x="-153.25" y="-153.25" width="306.5" height="336.5" rx="58.235" fill="#EAF7EC" stroke="#A6DDB0" stroke-width="3.25"/>
+  <g transform="matrix(1 0 0 -1 0 0)">
+    <polyline points="-50,-120 -30,-100" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-30,-120 -10,-100" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-10,-120 10,-100" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="10,-120 30,-100" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-30,-100 30,-100" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="-80" y="-56" width="160" height="120" fill="#FFFFFF" stroke="#A6DDB0" stroke-width="3.25"/>
+    <path d="M76.604 64.279 A100 100 0 0 1 -86.603 50" fill="none" stroke="#1E6B2E" stroke-width="3.25"/>
+    <polygon points="90,50 66,100 40,74 90,50" fill="#1E6B2E" stroke="#1E6B2E" stroke-width="3.25" stroke-linejoin="round"/>
+    <g transform="translate(0 -120) rotate(0)">
+    <path d="M45.963 38.567 A60 60 0 0 1 -45.963 38.567" fill="none" stroke="#1E6B2E" stroke-width="3.25"/>
+    </g>
+    <polyline points="0,-60 0,-100" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <g transform="translate(0,130) scale(1,-1)"><text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="32" fill="#1E6B2E">QuadraticSpeedDependentTorque</text></g>
+    <polygon points="-54,-94 -30,-78 -44,-66 -54,-94" fill="#1E6B2E" stroke="#1E6B2E" stroke-width="3.25" stroke-linejoin="round"/>
+    <polyline points="-50,-120 -30,-100" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-30,-120 -10,-100" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-10,-120 10,-100" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="10,-120 30,-100" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-30,-100 30,-100" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-60,40 -60,-50" fill="none" stroke="#A6DDB0" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="-75,-40 75,-40" fill="none" stroke="#A6DDB0" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M-60 -40 Q-40 -38 -30 -35 Q-20 -32 -10 -26 Q0 -20 10 -12 Q20 -4 30 6 Q40 16 58 42" fill="none" stroke="#1E6B2E" stroke-width="3.25" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

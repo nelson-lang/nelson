@@ -30,5 +30,5 @@ NLSSPECIAL_FUNCTIONS_IMPEXP ArrayOf
 LinearInterpolation1D(const ArrayOf& V, const ArrayOf& XQ, const std::wstring& methodName,
     const std::wstring& extrapolationMode, const ArrayOf* extrapolationValue = nullptr);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

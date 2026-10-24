@@ -10,17 +10,20 @@
 function varargout = weekday(varargin)
   narginchk(1, 3);
   nargoutchk(0, 2);
-  
+
   D = varargin{1};
+  if isa(D, 'datetime')
+    D = datenum(D);
+  end
   format = 'short';
   language = 'en_US';
-  
+
   if (nargin == 2)
     option = varargin{2};
-    supportedFormat= strcmpi(option, 'long') ||  strcmpi(option, 'short') 
+    supportedFormat = strcmpi(option, 'long') || strcmpi(option, 'short');
     supportedLanguage = strcmpi(option, 'local') || strcmpi(option, 'en_US');
-    if ~supportedFormat &&  ~supportedLanguage
-      error('Nelson:weekday:InvalidOption', _('"long" or "short" option expected.'));
+    if ~supportedFormat && ~supportedLanguage
+      error('Nelson:weekday:InvalidOption', '%s expected.', '"long" or "short" option');
     end
     if supportedFormat
       format = option;
@@ -29,35 +32,35 @@ function varargout = weekday(varargin)
       language = option;
     end
   end
-  
+
   if (nargin == 3)
     format = varargin{2};
-    supportedFormat= strcmpi(format, 'long') ||  strcmpi(format, 'short') 
+    supportedFormat = strcmpi(format, 'long') || strcmpi(format, 'short');
     if ~supportedFormat
-      error('Nelson:weekday:InvalidOption', _('"long" or "short" option expected.'));
+      error('Nelson:weekday:InvalidOption', '%s expected.', '"long" or "short" option');
     end
-    
+
     language = varargin{3};
     supportedLanguage = strcmpi(language, 'local') || strcmpi(language, 'en_US');
     if ~supportedLanguage
-      error('Nelson:weekday:InvalidOption', _('"local" or "en_US" option expected.'));
+      error('Nelson:weekday:InvalidOption', '%s expected.', '"local" or "en_US" option');
     end
   end
-  
+
   if (isstring(D) || iscellstr(D) || isnumeric(D))
     endsize = size(D);
   elseif (ischar(D))
     sz = size(D);
     endsize = [sz(1), 1];
   end
-  if (isstring(D) || ischar(D) || iscellstr (D))
-    D = datenum (D);
+  if (isstring(D) || ischar(D) || iscellstr(D))
+    D = datenum(D);
   end
-  D = floor (reshape (mod (D - 733048, 7), endsize));
+  D = floor(reshape(mod(D - 733048, 7), endsize));
   D(~D) = 7;
   varargout{1} = D;
   if (nargout == 2)
-    if (strcmpi (format, 'long'))
+    if (strcmpi(format, 'long'))
       if strcmpi(language, 'local')
         names = {_("Sunday"), _("Monday"), _("Tuesday"), _("Wednesday"), _("Thursday"), _("Friday"), _("Saturday")};
         names = string(names);
@@ -72,7 +75,7 @@ function varargout = weekday(varargin)
         names = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
       end
     end
-    
+
     varargout{2} = char(names(D));
   end
 end

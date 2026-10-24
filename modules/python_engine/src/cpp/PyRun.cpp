@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,15 +9,19 @@
 //=============================================================================
 #include "PyRun.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "PythonLibraryWrapper.hpp"
 #include "PythonEnvironment.hpp"
 #include "PythonEngine.hpp"
 #include "PythonRunner.hpp"
 #include "characters_encoding.hpp"
-#include "ProcessEventsDynamicFunction.hpp"
+#include "RuntimeDispatch.hpp"
 #include "PythonTypesWrapper.hpp"
 #include "PythonObjectHandle.hpp"
+#include "PyNelsonCallback.hpp"
+#include "NelsonConfiguration.hpp"
+#include "MainThreadTaskQueue.hpp"
 #include <thread>
 //=============================================================================
 namespace Nelson {
@@ -29,17 +33,24 @@ PyRun(Interface* io, bool haveEventsLoop, const void* voidPythonObjectHandle,
 {
     initializePythonEngine();
 
+    if (isExecutingNelsonPythonCallback()) {
+        Error(L"Nelson:Python:ReentrantCallback",
+            L"%s cannot be called from within a Nelson function handle that was invoked from "
+            L"Python.",
+            L"pyrun");
+    }
+
     if (names.size() != values.size()) {
-        Error(_W("Same name, value numbers expected."));
+        Error(L"Nelson:Python:nameValueMismatch", L"Same name, value numbers expected.");
     }
 
     PyObject* pyCode = nullptr;
     if (voidPythonObjectHandle) {
         PythonObjectHandle* poh = (PythonObjectHandle*)voidPythonObjectHandle;
         if (poh->getTypeName() != L"code") {
-            Error(_W("Valid Python code object expected."));
+            Error(L"Nelson:Python:invalidCodeObject", L"Valid Python code object expected.");
         }
-        pyCode = (PyObject*)poh->getPointer();
+        pyCode = (PyObject*)poh->pointer();
     }
 
     ArrayOfVector retval = {};
@@ -59,10 +70,23 @@ PyRun(Interface* io, bool haveEventsLoop, const void* voidPythonObjectHandle,
     std::thread thread([&runner, &globalDict, &pyCode, &commands]() {
         runner.runPythonCode(globalDict, pyCode, commands);
     });
-    thread.detach();
 
+    // Callbacks from pyfunction() are marshalled to this (interpreter) thread through the
+    // main-thread task queue: drain it here besides the GUI event pump.
+    Evaluator* mainEvaluator
+        = static_cast<Evaluator*>(NelsonConfiguration::getInstance()->getMainEvaluator());
     while (!runner.isResultReady()) {
-        ProcessEventsDynamicFunctionWithoutWait();
+        if (mainEvaluator != nullptr) {
+            MainThreadTaskQueue::getInstance()->processTasks(mainEvaluator);
+        }
+        Nelson::processGuiEvents(false);
+    }
+
+    // Join before `runner` (a stack local) is destroyed: a detached thread could call
+    // resultCondition.notify_one() after PyRun returned (use-after-free seen in the OS
+    // condition-variable wake path).
+    if (thread.joinable()) {
+        thread.join();
     }
 
     NLSPyEval_RestoreThread(_save);
@@ -74,7 +98,7 @@ PyRun(Interface* io, bool haveEventsLoop, const void* voidPythonObjectHandle,
     }
     std::wstring errorMessage = runner.getErrorMessage();
     if (!errorMessage.empty()) {
-        Error(errorMessage, L"Nelson:Python:Exception");
+        Error(L"Nelson:Python:NelsonException", errorMessage);
     }
 
     for (auto output : outputs) {
@@ -90,5 +114,5 @@ PyRun(Interface* io, bool haveEventsLoop, const void* voidPythonObjectHandle,
     return retval;
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>gather</keyword>
+  <short_description>Transfère un gpuArray vers l'espace de travail hôte.</short_description>
+  <syntax>
+    <syntax_item>A = gather(G)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>G</param_name>
+      <param_description>un gpuArray, ou toute valeur hôte.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>A</param_name>
+      <param_description>un tableau hôte avec les mêmes valeurs et le même type sous-jacent.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>A = gather(G)</b> copie le <b>gpuArray</b> <b>G</b> du périphérique vers l'espace de travail hôte. Le résultat est un tableau <b>single</b>, <b>logical</b> ou <b>single</b> complexe, correspondant au type sous-jacent de <b>G</b>.</p>
+    <p>Lorsque <b>G</b> est déjà une valeur hôte, <b>gather</b> la renvoie inchangée.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[G = gpuArray(single([1 2 3]));
+A = gather(G + 1)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${gpu_engine}gpuArray">gpuArray</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>constant</keyword>
+  <keyword_alias>block:constant</keyword_alias>
+  <short_description>Outputs a constant numeric value.</short_description>
+  <syntax>
+    <syntax_item>Block type: constant</syntax_item>
+  </syntax>
+  <param_output>
+    <param_output_item>
+      <param_name>output ports</param_name>
+      <param_description>1 output port(s) declared.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Outputs a constant numeric value.</p>
+    <table border="1">
+      <tbody>
+        <tr>
+          <td>Module</td>
+          <td>
+            <code>nflow_blocks</code>
+          </td>
+        </tr>
+        <tr>
+          <td>Library</td>
+          <td>Source blocks</td>
+        </tr>
+        <tr>
+          <td>Type</td>
+          <td>
+            <code>constant</code>
+          </td>
+        </tr>
+        <tr>
+          <td>Label</td>
+          <td>Constant</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <img src="../../../../libraries/source/exports/constant.svg" align="middle"/>
+    </p>
+    <p>
+      <b>Description</b>
+    </p>
+    <p>Represents a constant numeric source. Outputs the configured value.</p>
+    <p>
+      <b>Ports</b>
+    </p>
+    <p>
+      <b>Input(s)</b>
+    </p>
+    <p>This block declares no input ports.</p>
+    <p>
+      <b>Output(s)</b>
+    </p>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Port</th>
+          <th>Role</th>
+          <th>Side</th>
+          <th>Position</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Port_1</td>
+          <td>Numeric signal produced by the block.</td>
+          <td>right</td>
+          <td>x=80, y=40</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Parameters</b>
+    </p>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+          <th>Default value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <code>value</code>
+          </td>
+          <td>1</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Inspector Keys</b>
+    </p>
+    <p>These serialized keys are exposed by the block inspector.</p>
+    <ul>
+      <li>
+        <code>value</code>
+      </li>
+    </ul>
+    <p>
+      <b>Block Characteristics</b>
+    </p>
+    <table border="1">
+      <tbody>
+        <tr>
+          <td>Block type</td>
+          <td>constant</td>
+        </tr>
+        <tr>
+          <td>Family</td>
+          <td>Source blocks</td>
+        </tr>
+        <tr>
+          <td>Rendered size</td>
+          <td>80 x 80</td>
+        </tr>
+        <tr>
+          <td>Phases</td>
+          <td>OUTPUT</td>
+        </tr>
+        <tr>
+          <td>Direct feedthrough</td>
+          <td>see Algorithms</td>
+        </tr>
+        <tr>
+          <td>Internal state or history</td>
+          <td>not observed in the documented runtime</td>
+        </tr>
+        <tr>
+          <td>Signal data type</td>
+          <td>double numeric values</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      <b>Algorithms</b>
+    </p>
+    <ul>
+      <li>OUTPUT block with no inputs.</li>
+      <li>value is resolved numerically and written each output phase.</li>
+    </ul>
+    <p>
+      <b>Equation or Rule</b>
+    </p>
+    <latex>y = value</latex>
+    <p>
+      <b>Extended Capabilities</b>
+    </p>
+    <p>This page describes the native runtime behavior observed in the module C++ sources. Declared phases indicate when the simulation engine calls the block.</p>
+    <p>Code generation: supported for C and Rust.</p>
+    <p>
+      <b>Implementation Sources</b>
+    </p>
+    <source_code label="Manifest" path="modules/nflow_blocks/libraries/source/library.json" language="json"/>
+    <source_code label="Runtime" path="modules/nflow_blocks/src/cpp/source/constant.cpp" language="cpp"/>
+  </description>
+  <used_function/>
+  <bibliography/>
+  <see_also>
+    <see_also_item>
+      <link linkend="${nflow_blocks}source/step">step</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${nflow_blocks}source/ramp">ramp</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${nflow_blocks}source/sine">sine</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -19,37 +19,37 @@ ConvertStringsToChars(const ArrayOf& A, bool missingAsNaN)
 {
     ArrayOf res;
     if (A.isStringArray()) {
-        Dimensions dims = A.getDimensions();
+        Dimensions dims = A.dimensions();
         if (dims.isEmpty(false)) {
             res = ArrayOf(NLS_CELL_ARRAY, dims, nullptr);
         } else if (dims.isScalar()) {
-            auto* elementsStr = (ArrayOf*)A.getDataPointer();
+            auto* elementsStr = (ArrayOf*)A.dataPointer();
             ArrayOf element = elementsStr[0];
-            if (element.getDataClass() == NLS_CHAR) {
-                res = ArrayOf::characterArrayConstructor(element.getContentAsWideString());
+            if (element.dataClass() == NLS_CHAR) {
+                res = ArrayOf::characterArray(element.asWideString());
             } else {
                 if (missingAsNaN) {
-                    auto* elementsCell = new_with_exception<ArrayOf>(dims.getElementCount(), false);
+                    auto* elementsCell = new_with_exception<ArrayOf>(dims.elementCount(), false);
                     res = ArrayOf(NLS_CELL_ARRAY, dims, elementsCell);
-                    elementsCell[0] = ArrayOf::doubleConstructor(std::nan(""));
+                    elementsCell[0] = ArrayOf::doubleScalar(std::nan(""));
                 } else {
-                    res = ArrayOf::characterArrayConstructor("");
+                    res = ArrayOf::characterArray("");
                 }
             }
         } else {
-            auto* elementsCell = new_with_exception<ArrayOf>(dims.getElementCount(), false);
+            auto* elementsCell = new_with_exception<ArrayOf>(dims.elementCount(), false);
             ArrayOf valueAsCell = ArrayOf(NLS_CELL_ARRAY, dims, elementsCell);
-            auto* elementsStr = (ArrayOf*)A.getDataPointer();
-            ompIndexType elementCount = dims.getElementCount();
+            auto* elementsStr = (ArrayOf*)A.dataPointer();
+            ompIndexType elementCount = dims.elementCount();
             OMP_PARALLEL_FOR_LOOP(elementCount)
             for (ompIndexType q = 0; q < elementCount; q++) {
-                if (elementsStr[q].getDataClass() == NLS_CHAR) {
+                if (elementsStr[q].dataClass() == NLS_CHAR) {
                     elementsCell[q] = elementsStr[q];
                 } else {
                     if (missingAsNaN) {
-                        elementsCell[q] = ArrayOf::doubleConstructor(std::nan(""));
+                        elementsCell[q] = ArrayOf::doubleScalar(std::nan(""));
                     } else {
-                        elementsCell[q] = ArrayOf::characterArrayConstructor("");
+                        elementsCell[q] = ArrayOf::characterArray("");
                     }
                 }
             }

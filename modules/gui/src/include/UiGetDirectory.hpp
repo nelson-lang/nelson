@@ -18,5 +18,5 @@ NLSGUI_IMPEXP bool
 UiGetDirectory(
     const std::wstring& pathOrigin, const std::wstring& title, std::wstring& pathSelected);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -21,7 +21,7 @@ Nelson::ElementaryFunctionsGateway::allfiniteBuiltin(int nLhs, const ArrayOfVect
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
     bool needToOverload;
-    ArrayOf res = ArrayOf::logicalConstructor(AllFinite(argIn[0], needToOverload));
+    ArrayOf res = ArrayOf::logicalScalar(AllFinite(argIn[0], needToOverload));
     if (needToOverload) {
         OverloadRequired("allfinite");
     } else {

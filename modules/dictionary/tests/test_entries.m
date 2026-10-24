@@ -10,15 +10,28 @@
 names = ["Unicycle" "Bicycle" "Tricyle"];
 wheels = [1 2 3];
 d = dictionary(wheels, names);
-msg = _("'table' format not yet implemented.");
-assert_checkerror('E = entries(d)', msg);
+E = entries(d);
+asserts.isequal(class(E), 'table');
+asserts.isequal(E.Properties.VariableNames, {'Key', 'Value'});
+asserts.isequal(E.Key, [1; 2; 3]);
+asserts.isequal(E.Value, ["Unicycle"; "Bicycle"; "Tricyle"]);
 %=============================================================================
 R = entries(d, 'cell');
 REF = {1, "Unicycle"; 2, "Bicycle"; 3, "Tricyle"};
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 R = entries(d, 'struct');
-assert_isequal(R(1), struct('Key', 1, 'Value', "Unicycle"));
-assert_isequal(R(2), struct('Key', 2, 'Value', "Bicycle"));
-assert_isequal(R(3), struct('Key', 3, 'Value', "Tricyle"));
+asserts.isequal(R(1), struct('Key', 1, 'Value', "Unicycle"));
+asserts.isequal(R(2), struct('Key', 2, 'Value', "Bicycle"));
+asserts.isequal(R(3), struct('Key', 3, 'Value', "Tricyle"));
+%=============================================================================
+d = dictionary(string({'scalar', 'vector', 'cell'}), {1, [2 3], {4, 5}});
+R = entries(d, 'cell');
+asserts.isequal(R{1, 2}, 1);
+asserts.isequal(R{2, 2}, [2 3]);
+asserts.isequal(R{3, 2}, {4, 5});
+R = entries(d, 'table');
+asserts.isequal(R.Value{1}, 1);
+asserts.isequal(R.Value{2}, [2 3]);
+asserts.isequal(R.Value{3}, {4, 5});
 %=============================================================================

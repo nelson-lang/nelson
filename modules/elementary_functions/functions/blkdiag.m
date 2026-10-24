@@ -10,22 +10,22 @@
 function varargout = blkdiag(varargin)
   narginchk(1, 1000);
   nargoutchk(0, 1);
-  
-  isSupported = all(cellfun('ismatrix', varargin)) && all(cellfun ('isnumeric', varargin));
+
+  isSupported = all(cellfun('ismatrix', varargin)) && all(cellfun('isnumeric', varargin));
   if ~isSupported
-    error(_('all arguments must numeric matrix.'));
+    error('Nelson:validators:mustBeNumeric', '%s must be numeric.', 'All arguments');
   end
-  
+
   haveSparse = any(cellfun('issparse', varargin));
-  
+
   % need to manage string type
-  
+
   mat = cell2mat(cellfun(@size, varargin', 'UniformOutput', false));
   cs = cumsum([0 0; mat], 1);
-  
+
   % preallocate
   M = zeros(cs(end, :));
-  
+
   for k = 1:nargin
     arg = varargin{k};
     if (~isempty(arg))

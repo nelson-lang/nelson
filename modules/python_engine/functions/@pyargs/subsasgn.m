@@ -8,5 +8,5 @@
 % LICENCE_BLOCK_END
 %=============================================================================
 function varargout = subsasgn(varargin)
-  error(_('subsasgn not allowed for class ''pyargs''.'));
+  error('Nelson:pyargs:subsasgnNotAllowed', 'subsasgn not allowed for class ''pyargs''.');
 end

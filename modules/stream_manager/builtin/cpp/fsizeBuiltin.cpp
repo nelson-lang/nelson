@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,6 +9,7 @@
 //=============================================================================
 #include "fsizeBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "File.hpp"
 #include "FileSize.hpp"
@@ -28,21 +29,22 @@ Nelson::StreamGateway::fsizeBuiltin(int nLhs, const ArrayOfVector& argIn)
     if (param1.isDoubleType()) {
         auto* fm = static_cast<FilesManager*>(NelsonConfiguration::getInstance()->getFileManager());
         if (fm == nullptr) {
-            Error(_W("Problem with file manager."));
+            Error(L"Nelson:stream_manager:fileManagerNotAvailable", L"Problem with file manager.");
         }
-        auto iValue = static_cast<int32>(param1.getContentAsDoubleScalar());
+        auto iValue = static_cast<int32>(param1.asDoubleScalar());
         if (fm->isStdStream(iValue)) {
-            Error(_W("Not implemented for requested file identifier."));
+            Error(L"Nelson:stream_manager:notImplementedForFileIdentifier",
+                L"Not implemented for requested file identifier.");
         }
         if (fm->isOpened(iValue)) {
             File* f = fm->getFile(iValue);
             auto sz = static_cast<double>(FileSize(f));
-            retval << ArrayOf::doubleConstructor(sz);
+            retval << ArrayOf::doubleScalar(sz);
         } else {
-            Error(_W("Invalid file identifier."));
+            Error(L"Nelson:stream_manager:invalidFileIdentifier", L"Invalid file identifier.");
         }
     } else {
-        Error(_W("Invalid file identifier."));
+        Error(L"Nelson:stream_manager:invalidFileIdentifier", L"Invalid file identifier.");
     }
     return retval;
 }

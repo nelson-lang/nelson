@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>islocalmin</keyword>
+  <short_description>Detect local minima in data.</short_description>
+  <syntax>
+    <syntax_item>TF = islocalmin(A)</syntax_item>
+    <syntax_item>TF = islocalmin(A, dim)</syntax_item>
+    <syntax_item>TF = islocalmin(..., Name, Value)</syntax_item>
+    <syntax_item>[TF, P] = islocalmin(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>input data: real numeric or logical vector, matrix, N-D array, table or timetable.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>dim</param_name>
+      <param_description>dimension to operate along: positive integer scalar (default: first non-singleton dimension). Not supported for tables.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'MinProminence'</param_name>
+      <param_description>nonnegative scalar (default: 0): only the minima whose prominence is at least this value are returned.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'FlatSelection'</param_name>
+      <param_description>element marked in a flat minimum region: 'center' (default), 'first', 'last' or 'all'.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'MinSeparation'</param_name>
+      <param_description>nonnegative scalar (default: 0), in sample point units (a duration for datetime or duration sample points): a minimum closer than this value to a more prominent one is ignored.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'MaxNumExtrema'</param_name>
+      <param_description>positive integer: keep at most this number of the most prominent minima (default: no limit).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'ProminenceWindow'</param_name>
+      <param_description>positive scalar k or two-element vector [b f] of nonnegative values (a duration for datetime or duration sample points): the prominence of a minimum is computed with the data of the window [x-k/2, x+k/2) or [x-b, x+f] only.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'SamplePoints'</param_name>
+      <param_description>sorted vector of unique double, single, datetime or duration values: locations of the data (default: 1, 2, 3, ...). For a table, it can also be a table variable name. A timetable uses its row times.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'DataVariables'</param_name>
+      <param_description>table variables to operate on: names, indices, logical vector, function handle or vartype (default: all variables).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'OutputFormat'</param_name>
+      <param_description>'logical' (default): TF is a logical array; 'tabular': TF is a table with the DataVariables. Only for tables.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>TF</param_name>
+      <param_description>logical array of the size of A (or table), true at the local minima.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>P</param_name>
+      <param_description>prominence of each local minimum (0 elsewhere), same size as A; unsigned integer class for integer data. For a table, P is a table with the DataVariables.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>islocalmin</b> marks the elements of A that are smaller than their neighbors along the operating dimension. A run of equal values smaller than the values around it is one local minimum (see 'FlatSelection').</p>
+    <p>The first and last elements are never local minima. NaN values are ignored. -Inf values are always local minima, with an infinite prominence.</p>
+    <p>The prominence of a minimum measures how much it stands out: from the minimum, a horizontal line is drawn on each side up to the first strictly lower value or the end of the data; the basis is the lower of the two highest values found above these lines, and the prominence is the depth of the minimum below the basis. Every element of a flat minimum region carries its prominence.</p>
+    <p>islocalmin(A) gives the same result as islocalmax applied to the reversed data: the options behave the same way. The filters are applied in this order: 'MinProminence', 'MinSeparation' (a flat region counts as one minimum spanning its samples) and 'MaxNumExtrema' (on ties, the first minimum wins).</p>
+    <p>Without 'ProminenceWindow', the search runs in linear time: it is suitable for large signals.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Local minima and their prominence</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = [5 0 4 2 4 1 5];
+[TF, P] = islocalmin(A)
+islocalmin(A, 'MinProminence', 3)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Flat minima regions</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[x = 0:0.1:5;
+A = max(-0.75, -sin(pi * x));
+find(islocalmin(A, 'FlatSelection', 'first'))
+find(islocalmin(A, 'FlatSelection', 'all'))]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Most prominent minimum of each column</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = [3 4; 1 2; 2 4; 0 1; 3 4];
+TF = islocalmin(A, 'MaxNumExtrema', 1)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${data_analysis}islocalmax">islocalmax</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${data_analysis}min">min</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${data_analysis}movmin">movmin</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -7,11 +7,13 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--REUSE PROCESS-->
+%=============================================================================
 longStringSource = ['"', repmat('a', 1, 300), '"'];
 longString = eval(longStringSource);
-assert_isequal(strlength(longString), 300);
+asserts.isequal(strlength(longString), 300);
 %=============================================================================
 longCharacterArraySource = ['''', repmat('b', 1, 300), ''''];
 longCharacterArray = eval(longCharacterArraySource);
-assert_isequal(strlength(longCharacterArray), 300);
+asserts.isequal(strlength(longCharacterArray), 300);
 %=============================================================================

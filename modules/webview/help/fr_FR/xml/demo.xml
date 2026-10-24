@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>demo</keyword>
+  <short_description>Parcourir les exemples des modules Nelson et des toolboxes externes charges.</short_description>
+  <syntax>
+    <syntax_item>demo()</syntax_item>
+  </syntax>
+  <description>
+    <p><b>demo</b> ouvre la galerie d&apos;exemples. Un nouvel appel actualise le catalogue et remet au premier plan la fenetre existante.</p>
+    <p>La galerie liste les exemples de chaque module charge, les modeles et scripts NFlow (un modele NFlow s&apos;ouvre dans l&apos;editeur de schemas-blocs) et les exemples des toolboxes externes. Executer un exemple laisse la galerie ouverte : plusieurs demonstrations peuvent etre enchainees.</p>
+    <p>Sur le bureau, la galerie est une fenetre separee. Dans le bureau web, <b>demo</b> l&apos;affiche comme un panneau <b>Exemples</b> ancre a cote de la fenetre de commande (Aide > Exemples ouvre le meme panneau) : une seule fenetre de navigateur suffit. NFlow affiche la meme galerie dans son volet Fichier > Exemples.</p>
+    <p>Un module charge apparait lorsque son manifeste <b>examples/index.json</b> est valide. Chaque entree fournit un chemin relatif vers un script <b>.m</b>, un titre et une description ; les etiquettes et prerequis facultatifs servent au filtrage et a la preparation.</p>
+    <p><b>title</b> et <b>description</b> acceptent soit une chaine, soit un objet contenant des chaines non vides <b>en_US</b> et/ou <b>fr_FR</b>. Si la langue courante manque, l&apos;autre langue prise en charge sert de repli.</p>
+    <table>
+      <tr><th>Prerequis</th><th>Signification</th></tr>
+      <tr><td>gui</td><td>Bureau graphique ou backend graphique.</td></tr>
+      <tr><td>network</td><td>Acces reseau a la ressource utilisee par le script.</td></tr>
+      <tr><td>credentials</td><td>Donnees d&apos;authentification fournies par l&apos;utilisateur.</td></tr>
+      <tr><td>compiler</td><td>Compilateur de code natif configure.</td></tr>
+      <tr><td>mpi</td><td>Environnement d&apos;execution et lanceur MPI.</td></tr>
+      <tr><td>windows</td><td>Systeme d&apos;exploitation Windows.</td></tr>
+      <tr><td>python</td><td>Installation Python compatible.</td></tr>
+      <tr><td>julia</td><td>Installation Julia compatible.</td></tr>
+      <tr><td>audio-input</td><td>Peripherique d&apos;entree audio disponible.</td></tr>
+      <tr><td>audio-output</td><td>Peripherique de sortie audio disponible.</td></tr>
+      <tr><td>external-application</td><td>Application ou service local exterieur a Nelson.</td></tr>
+    </table>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Ouvrir ou actualiser la galerie d&apos;exemples.</example_item_description>
+      <example_item_data runnable="gui"><![CDATA[demo()]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${webview}web">web</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item><history_version>2.0.0</history_version><history_description>version initiale</history_description></history_item>
+  </history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

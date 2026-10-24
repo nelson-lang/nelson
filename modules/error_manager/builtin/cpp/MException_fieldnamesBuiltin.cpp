@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -11,6 +11,7 @@
 #include "MException.hpp"
 #include "ClassName.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
@@ -23,9 +24,9 @@ Nelson::ErrorManagerGateway::MException_fieldnamesBuiltin(int nLhs, const ArrayO
     nargincheck(argIn, 1, 1);
     nargoutcheck(nLhs, 0, 1);
     if (argIn[0].isClassType() && ClassName(argIn[0]) == "MException") {
-        retval << ArrayOf::toCellArrayOfCharacterColumnVectors(argIn[0].getFieldNames());
+        retval << ArrayOf::cellArrayFromArrayOfCharacterColumnVectors(argIn[0].fieldNames());
     } else {
-        Error(_W("MException expected."));
+        Error(L"Nelson:MException:invalidType", L"MException expected.");
     }
     return retval;
 }

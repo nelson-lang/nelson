@@ -10,23 +10,19 @@
 set(module_name f2c)
 set(module_library_name nlsF2C)
 # ==============================================================================
-if(CMAKE_SYSTEM_NAME
-   STREQUAL
-   "Linux")
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
   add_compile_definitions(_POSIX_SOURCE)
 endif()
 if(WIN32)
   add_compile_definitions(MSDOS)
   add_compile_definitions(NO_ISATTY)
 endif()
-add_compile_definitions(
-  INTEGER_STAR_8
+add_compile_definitions(INTEGER_STAR_8
   NO_My_ctype
-  Skip_f2c_Undefs)
+  Skip_f2c_Undefs
+)
 # ==============================================================================
-file(
-  GLOB
-  F2C_SRC
+file(GLOB F2C_SRC
   "${CMAKE_CURRENT_SOURCE_DIR}/src/c/libf2c/abort_.c"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/c/libf2c/backspace.c"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/c/libf2c/c_abs.c"
@@ -175,7 +171,8 @@ file(
   "${CMAKE_CURRENT_SOURCE_DIR}/src/c/libf2c/z_exp.c"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/c/libf2c/z_log.c"
   "${CMAKE_CURRENT_SOURCE_DIR}/src/c/libf2c/z_sin.c"
-  "${CMAKE_CURRENT_SOURCE_DIR}/src/c/libf2c/z_sqrt.c")
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/c/libf2c/z_sqrt.c"
+)
 # ==============================================================================
 # Build f2c runtime as a static library on Windows to ensure a .lib
 # is produced for downstream linking.
@@ -186,50 +183,52 @@ else()
 endif()
 # f2c runtime C sources have no visibility annotations — symbols must be
 # visible so that libraries (e.g. nlsSlicot) linking nlsF2C can resolve them.
-set_target_properties(${module_library_name} PROPERTIES C_VISIBILITY_PRESET
-                                                        default)
+set_target_properties(${module_library_name}
+  PROPERTIES C_VISIBILITY_PRESET default
+)
 # ==============================================================================
-target_include_directories(
-  ${module_library_name}
-  PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include>
-         $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
-  PRIVATE ${EIGEN3_INCLUDE_DIR}
-          ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/../sparse/src/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_mathematics/src/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/../operators/src/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
-          ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
-          ${Boost_INCLUDE_DIRS})
+target_include_directories(${module_library_name}
+  PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/include>
+    $<INSTALL_INTERFACE:include/${PROJECT_NAME}/${module_name}>
+  PRIVATE
+    ${EIGEN3_INCLUDE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/../commons/src/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/../types/src/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/../error_manager/src/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/../stream_manager/src/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/../sparse/src/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/../characters_encoding/src/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/../elementary_mathematics/src/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/../operators/src/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/../i18n/src/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/../interpreter/src/include
+)
 # ==============================================================================
-target_link_libraries(
-  ${module_library_name}
-  PRIVATE nlsElementary_mathematics
-          nlsError_manager
-          nlsTypes
-          nlsI18n)
+target_link_libraries(${module_library_name}
+  PRIVATE
+    nlsElementary_mathematics
+    nlsError_manager
+    nlsTypes
+    nlsI18n
+)
 # ==============================================================================
-file(
-  GLOB
-  F2C_HEADER
+file(GLOB F2C_HEADER
   "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.hpp"
-  "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.h")
-set_target_properties(
-  ${module_library_name}
-  PROPERTIES VERSION ${Nelson_VERSION}
-             SOVERSION ${Nelson_VERSION_MAJOR}
-             PUBLIC_HEADER "${F2C_HEADER}")
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/include/*.h"
+)
+set_target_properties(${module_library_name}
+  PROPERTIES
+    VERSION ${Nelson_VERSION}
+    SOVERSION ${Nelson_VERSION_MAJOR}
+    PUBLIC_HEADER "${F2C_HEADER}"
+)
 # ==============================================================================
 # f2c executable
 # ==============================================================================
-file(
-  GLOB
-  F2C_EXE_SRC
-  "${CMAKE_CURRENT_SOURCE_DIR}/src/c/f2c/*.c")
+file(GLOB F2C_EXE_SRC
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/c/f2c/*.c"
+)
 add_executable(nelson_f2c ${F2C_EXE_SRC})
 # ==============================================================================
 target_link_libraries(nelson_f2c)
@@ -249,11 +248,12 @@ install(
     WORLD_READ
     OWNER_EXECUTE
     OWNER_WRITE
-    OWNER_READ)
+    OWNER_READ
+)
 nelson_install_library(${module_library_name})
 nelson_install_module_data(
   ${module_name}
   EXTRA_TEST_PATTERNS
   "*.c"
-  "*.f")
-# ==============================================================================
+  "*.f"
+)

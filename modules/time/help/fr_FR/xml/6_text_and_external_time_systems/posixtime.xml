@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>posixtime</keyword>
+  <short_description>Convertit des valeurs datetime en secondes ecoulees depuis l epoque POSIX.</short_description>
+  <syntax>
+    <syntax_item>p = posixtime(t)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>inputs</param_name>
+      <param_description>Un tableau datetime.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>output</param_name>
+      <param_description>Un tableau double de secondes ecoulees depuis 1970-01-01 00:00:00.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Convertit des valeurs datetime en secondes ecoulees depuis l epoque POSIX.</p>
+    <p>posixtime est utile pour echanger avec des systemes qui representent les temps comme secondes depuis l epoque Unix.</p>
+    <p>Array-valued inputs keep their data shape when the operation supports arrays. Scalar operands are expanded where the implementation defines scalar expansion.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Utilisation de base.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[posixtime(datetime(1970, 1, 1))
+posixtime(datetime(1970, 1, 2))
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${time}datetime">datetime</link></see_also_item>
+    <see_also_item><link linkend="${time}duration">duration</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

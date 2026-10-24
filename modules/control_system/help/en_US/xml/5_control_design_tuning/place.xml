@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>place</keyword>
+  <short_description
+  >Pole placement gain selection using robust eigenstructure assignment.</short_description>
+  <syntax>
+    <syntax_item>K = place(A, B, p)</syntax_item>
+    <syntax_item>[K, prec] = place(A, B, p)</syntax_item>
+    <syntax_item>[K, prec, message] = place(A, B, p)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>State matrix: Nx-by-Nx matrix.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>B</param_name>
+      <param_description
+      >Input-to-state matrix: Nx-by-Nu matrix.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>p</param_name>
+      <param_description
+      >Desired closed-loop pole location vector of length Nx.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>K</param_name>
+      <param_description>Feedback gain matrix: Nu-by-Nx matrix.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>prec</param_name>
+      <param_description
+      >Estimated accuracy of the assigned poles, expressed as an approximate number of accurate decimal digits.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>message</param_name>
+      <param_description
+      >Warning message returned when one or more poles could not be placed to the requested accuracy (empty otherwise).</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>The function <b>place</b> computes the feedback gain matrix <b>K</b> such that the closed-loop poles of <b>A - B*K</b> are the entries of the vector <b>p</b>, i.e. <b>p = eig(A - B*K)</b>.</p>
+    <p>Unlike <b>acker</b>, which is restricted to single-input systems, <b>place</b> supports multi-input models (<b>B</b> with several columns) and selects the closed-loop eigenvectors so that the assignment is as insensitive as possible to perturbations.</p>
+    <p>Complex desired poles must be supplied in conjugate pairs. The multiplicity of any pole cannot exceed the rank of <b>B</b>. For real <b>A</b>, <b>B</b> and <b>p</b>, the resulting gain <b>K</b> is real.</p>
+    <p
+    >The algorithm is the rank-one update method described in J. Kautsky, N. K. Nichols and P. Van Dooren, &quot;Robust pole assignment in linear state feedback&quot;, International Journal of Control, vol. 41, no. 5, pp. 1129-1155, 1985.</p>
+  </description>
+  <used_function />
+  <bibliography
+  >J. Kautsky, N. K. Nichols and P. Van Dooren, &quot;Robust pole assignment in linear state feedback&quot;, International Journal of Control, 41(5):1129-1155, 1985.</bibliography>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[A = [-0.5 0 0; 0 -2 10; 0 1 -2];
+B = [1 0; 0 0; 0 1];
+p = [-3; -5; -7];
+[K, prec] = place(A, B, p)
+eig(A - B * K)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${control_system}acker">acker</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${control_system}lqr">lqr</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

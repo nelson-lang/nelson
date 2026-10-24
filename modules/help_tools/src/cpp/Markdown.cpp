@@ -56,7 +56,6 @@ bool
 Nelson::MarkdownString(
     const std::string& inputMarkdownString, std::string& outputHtmlString, MarkdownMode mode)
 {
-    // Convert input string to UTF-8 C string
     const char* markdown = inputMarkdownString.c_str();
 
     int options = CMARK_OPT_SAFE;
@@ -65,26 +64,21 @@ Nelson::MarkdownString(
             | CMARK_OPT_UNSAFE; /* allow raw HTML and unsafe URLs */
     }
 
-    // Parse the markdown into a cmark node
     cmark_node* doc = cmark_parse_document(markdown, inputMarkdownString.length(), options);
     if (!doc) {
         return false;
     }
 
-    // Render the document node as HTML
     char* html = cmark_render_html(doc, options);
 
-    // Clean up the cmark node
     cmark_node_free(doc);
 
     if (!html) {
         return false;
     }
 
-    // Assign the returned HTML to the output parameter
     outputHtmlString = html;
 
-    // Free the rendered HTML string
     free(html);
 
     return true;

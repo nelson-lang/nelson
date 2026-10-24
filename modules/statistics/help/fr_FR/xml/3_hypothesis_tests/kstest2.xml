@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>kstest2</keyword>
+  <short_description>Test de Kolmogorov-Smirnov a deux echantillons</short_description>
+  <syntax>
+    <syntax_item>h = kstest2(x1, x2)</syntax_item>
+    <syntax_item>h = kstest2(x1, x2, &apos;Alpha&apos;, alpha)</syntax_item>
+    <syntax_item>h = kstest2(x1, x2, &apos;Tail&apos;, tail)</syntax_item>
+    <syntax_item>[h, p, ks2stat] = kstest2(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>x1</param_name>
+      <param_description>vecteur reel : premier echantillon.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>x2</param_name>
+      <param_description>vecteur reel : second echantillon.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>alpha</param_name>
+      <param_description>scalaire dans (0,1), 0.05 par defaut : niveau de signification.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>tail</param_name>
+      <param_description>&apos;unequal&apos;, &apos;larger&apos; ou &apos;smaller&apos;.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>h</param_name>
+      <param_description>scalaire logique : decision du test.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>p</param_name>
+      <param_description>p-value asymptotique.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>ks2stat</param_name>
+      <param_description>statistique du test a deux echantillons.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>kstest2</b> compare les distributions empiriques de deux vecteurs d'echantillons.</p>
+    <p>Les valeurs NaN sont ignorees independamment avant le tri et le calcul des distributions empiriques.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[x1 = [1 2 3 4 5];
+x2 = [2 3 4 6 8 10];
+[h, p, ks2stat] = kstest2(x1, x2);
+[h2, p2] = kstest2(x1, x2, 'Tail', 'larger');]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${statistics}kstest">kstest</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${statistics}ttest2">ttest2</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

@@ -15,4 +15,4 @@
 addpath('/never_existing_dir/');
 R = lastwarn();
 REF = [_('Warning: Not a directory:'), ' ', '/never_existing_dir/', newline];
-assert_isequal(R, REF);
+asserts.isequal(R, REF);

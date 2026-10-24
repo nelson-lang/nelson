@@ -12,13 +12,16 @@
 #include <QtWidgets/QCompleter>
 #include <QtCore/QStringListModel>
 #include <QtCore/QAbstractItemModel>
+#include <QtCore/QModelIndex>
 #include <QtCore/QString>
 #include <vector>
 #include <string>
 #include "Types.hpp"
 //=============================================================================
 using namespace Nelson;
+//=============================================================================
 class QtTerminal;
+class QStandardItemModel;
 //=============================================================================
 class QtTerminalCompleter
 {
@@ -39,7 +42,6 @@ public:
     QCompleter*
     completer();
 
-    // Expose modelFromNelson for QtTerminal fallback
     QAbstractItemModel*
     modelFromNelson(const wstringVector& filesList, const wstringVector& builtinList,
         const wstringVector& macroList, const wstringVector& variableList,
@@ -48,9 +50,17 @@ public:
 
 private:
     void
+    populateModel(QStandardItemModel* model, const wstringVector& filesList,
+        const wstringVector& builtinList, const wstringVector& macroList,
+        const wstringVector& variableList, const wstringVector& fieldList,
+        const wstringVector& propertyList, const wstringVector& methodList);
+    void
     insertCompletion(const QString& completion);
+    void
+    activateIndex(const QModelIndex& index);
 
     QtTerminal* m_owner;
     QCompleter* m_qCompleter;
+    QStandardItemModel* m_model;
 };
 //=============================================================================

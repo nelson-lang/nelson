@@ -14,12 +14,19 @@
 //=============================================================================
 namespace Nelson {
 //=============================================================================
-/**
- * Subtraction (-) of two matrix: C = A - B).
- */
-//=============================================================================
 NLSOPERATORS_IMPEXP ArrayOf
 Subtraction(const ArrayOf& A, const ArrayOf& B);
+//=============================================================================
+/**
+ * Fast element-wise difference of a complex operand and a real operand.
+ * Subtracts on the real part only ((a + bi) - c = (a - c) + bi, c - (a + bi) =
+ * (c - a) - bi) instead of promoting the real operand to complex. The result is
+ * bit-identical for every value (no cross term), so it runs for dense operands of
+ * matching float width with equal shapes or one scalar, and returns false otherwise.
+ * Operand order is preserved.
+ */
+NLSOPERATORS_IMPEXP bool
+dotMinusComplexRealScaling(const ArrayOf& A, const ArrayOf& B, ArrayOf& result);
 //=============================================================================
 } // namespace Nelson
 //=============================================================================

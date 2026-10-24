@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "examples": [
+    {
+      "file": "fmi_cosimulation_example.m",
+      "title": {
+        "en_US": "FMI co-simulation",
+        "fr_FR": "Co-simulation FMI"
+      },
+      "description": {
+        "en_US": "Inspect and simulate the bundled Van der Pol FMU, then plot its outputs.",
+        "fr_FR": "Inspecter et simuler la FMU Van der Pol fournie, puis tracer ses sorties."
+      },
+      "tags": [
+        "fmi",
+        "co-simulation",
+        "van-der-pol"
+      ],
+      "requirements": [
+        "nflow",
+        "native-fmi",
+        "plots"
+      ]
+    },
+    {
+      "file": "ssp_controlled_drivetrain.m",
+      "title": {
+        "en_US": "Inspect an SSP drivetrain",
+        "fr_FR": "Inspecter une transmission SSP"
+      },
+      "description": {
+        "en_US": "Inspect the components and connections of an SSP composition.",
+        "fr_FR": "Inspecter les composants et les connexions d’une composition SSP."
+      },
+      "tags": [
+        "fmi",
+        "ssp",
+        "drivetrain"
+      ],
+      "requirements": [
+        "nflow",
+        "native-fmi"
+      ]
+    },
+    {
+      "file": "ssp_export_diagram.m",
+      "title": {
+        "en_US": "SSP diagram round trip",
+        "fr_FR": "Aller-retour SSP et diagramme"
+      },
+      "description": {
+        "en_US": "Import an SSP composition into NFlow and export the resulting diagram back to SSP.",
+        "fr_FR": "Importer une composition SSP dans NFlow et exporter le diagramme obtenu au format SSP."
+      },
+      "tags": [
+        "fmi",
+        "ssp",
+        "import",
+        "export"
+      ],
+      "requirements": [
+        "nflow",
+        "native-fmi"
+      ]
+    },
+    {
+      "file": "ssp_runnable_gainchain.m",
+      "title": {
+        "en_US": "Build a runnable SSP gain chain",
+        "fr_FR": "Construire une chaîne de gains SSP exécutable"
+      },
+      "description": {
+        "en_US": "Compile two native FMUs, package them in an SSP composition and simulate the result.",
+        "fr_FR": "Compiler deux FMU natives, les regrouper dans une composition SSP et simuler le résultat."
+      },
+      "tags": [
+        "fmi",
+        "ssp",
+        "code-generation"
+      ],
+      "requirements": [
+        "nflow",
+        "native-fmi"
+      ]
+    },
+    {
+      "file": "modelica/modelica_examples.m",
+      "title": {
+        "en_US": "Modelica physical models",
+        "fr_FR": "Modèles physiques Modelica"
+      },
+      "description": {
+        "en_US": "Compile and simulate physical models with an external OpenModelica installation.",
+        "fr_FR": "Compiler et simuler des modèles physiques avec une installation externe d’OpenModelica."
+      },
+      "tags": [
+        "fmi",
+        "modelica",
+        "physical-models"
+      ],
+      "requirements": [
+        "nflow",
+        "native-fmi",
+        "external-application"
+      ]
+    }
+  ]
+}

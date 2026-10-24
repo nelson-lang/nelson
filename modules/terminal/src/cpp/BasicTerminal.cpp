@@ -10,22 +10,81 @@
 #ifdef _MSC_VER
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
+#include <io.h>
 #endif
 #define FMT_HEADER_ONLY
 #include <fmt/printf.h>
 #include <fmt/format.h>
 #include <fmt/xchar.h>
+#include <cstdint>
+#include <cstdio>
 #include <cstring>
 #include <iostream>
+#include <string>
 #include <csignal>
+#include <future>
 #include <thread>
 #include <chrono>
 #include "BasicTerminal.hpp"
 #include "Evaluator.hpp"
+#include "RuntimeDispatch.hpp"
+#include "QueueProcessing.hpp"
+#include "AnsiSgr.hpp"
 #include "characters_encoding.hpp"
 #include "StringHelpers.hpp"
 //=============================================================================
 static bool bCONTROLC = false;
+//=============================================================================
+static bool
+enableVirtualTerminalProcessing(FILE* stream)
+{
+#ifdef _WIN32
+#ifndef ENABLE_VIRTUAL_TERMINAL_PROCESSING
+#define ENABLE_VIRTUAL_TERMINAL_PROCESSING 0x0004
+#endif
+    intptr_t osHandle = _get_osfhandle(_fileno(stream));
+    if (osHandle == -1) {
+        return false;
+    }
+    HANDLE handle = reinterpret_cast<HANDLE>(osHandle);
+    DWORD mode = 0;
+    if (GetConsoleMode(handle, &mode) == 0) {
+        return false;
+    }
+    if ((mode & ENABLE_VIRTUAL_TERMINAL_PROCESSING) != 0) {
+        return true;
+    }
+    return SetConsoleMode(handle, mode | ENABLE_VIRTUAL_TERMINAL_PROCESSING) != 0;
+#else
+    (void)stream;
+    return true;
+#endif
+}
+//=============================================================================
+static std::string
+readLineBlocking()
+{
+    std::string retLine;
+    for (;;) {
+        int currentChar = fgetc(stdin);
+        if (currentChar == EOF) {
+            break;
+        }
+        retLine.push_back(static_cast<char>(currentChar));
+        if (currentChar == '\n') {
+            break;
+        }
+    }
+    return retLine;
+}
+//=============================================================================
+static void
+processPromptIdle()
+{
+    Nelson::processPendingCallbacksAndTimers();
+    Nelson::processGuiEvents(false);
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+}
 //=============================================================================
 static void
 ControlC_Command()
@@ -52,7 +111,6 @@ CtrlHandler(DWORD fdwCtrlType)
     }
     return FALSE;
 }
-
 #endif
 //=============================================================================
 static void
@@ -70,25 +128,26 @@ BasicTerminal::getTextLine(const std::wstring& prompt, bool bIsInput)
 std::string
 BasicTerminal::getTextLine(const std::string& prompt, bool bIsInput)
 {
+    currentPrompt = prompt;
     atPrompt = true;
     fprintf(stdout, "%s", prompt.c_str());
+    fflush(stdout);
     this->diary.writeMessage(prompt);
-    std::string retLine;
 
-    for (;;) {
-        char currrentChar = fgetc(stdin);
-        retLine.push_back(currrentChar);
-        if (currrentChar == '\n') {
-            break;
-        }
+    std::future<std::string> lineFuture = std::async(std::launch::async, readLineBlocking);
+    while (lineFuture.wait_for(std::chrono::milliseconds(0)) != std::future_status::ready) {
+        processPromptIdle();
+        redrawPromptIfNeeded();
     }
+
+    std::string retLine = lineFuture.get();
     this->diary.writeMessage(retLine);
     if (bIsInput) {
         if (StringHelpers::ends_with(retLine, "\n")) {
             retLine.pop_back();
         }
     }
-    atPrompt = false;
+    clearPromptState();
     return retLine;
 }
 //=============================================================================
@@ -125,17 +184,57 @@ BasicTerminal::getTerminalHeight()
 void
 BasicTerminal::outputMessage(const std::wstring& msg)
 {
-    if (atPrompt) {
-        outputMessage(L"\n");
-    }
     outputMessage(wstring_to_utf8(msg));
 }
 //=============================================================================
 void
 BasicTerminal::outputMessage(const std::string& msg)
 {
+    markPromptInterrupted();
     fmt::print(stdout, "{0}", msg.c_str());
+    fflush(stdout);
+    if (promptRedrawPending) {
+        promptRedrawNeedsNewline = !StringHelpers::ends_with(msg, "\n");
+    }
     this->diary.writeMessage(msg);
+}
+//=============================================================================
+bool
+BasicTerminal::outputStyledText(const std::wstring& msg, const TextStyle& style)
+{
+    (void)style;
+    outputMessage(msg);
+    return false;
+}
+//=============================================================================
+bool
+BasicTerminal::outputAnsiText(const std::wstring& msg, bool asError)
+{
+    if (!containsAnsiEscape(msg)) {
+        if (asError) {
+            errorMessage(msg);
+        } else {
+            outputMessage(msg);
+        }
+        return false;
+    }
+
+    std::wstring text = asError ? msg + L"\n" : msg;
+    std::wstring plain = stripAnsiSgr(text);
+    std::string data = wstring_to_utf8(
+        enableVirtualTerminalProcessing(asError ? stderr : stdout) ? text : plain);
+
+    markPromptInterrupted();
+    FILE* stream = asError ? stderr : stdout;
+    fmt::print(stream, "{0}", data.c_str());
+    fflush(stream);
+    if (!asError && promptRedrawPending) {
+        promptRedrawNeedsNewline = !StringHelpers::ends_with(data, "\n");
+    } else if (asError) {
+        promptRedrawNeedsNewline = false;
+    }
+    this->diary.writeMessage(plain);
+    return true;
 }
 //=============================================================================
 void
@@ -148,11 +247,10 @@ void
 BasicTerminal::errorMessage(const std::string& msg)
 {
     std::string _msg = msg + "\n";
-    if (atPrompt) {
-        _msg = "\n" + msg;
-        atPrompt = false;
-    }
+    markPromptInterrupted();
     fmt::print(stderr, "{0}", _msg.c_str());
+    fflush(stderr);
+    promptRedrawNeedsNewline = false;
     diary.writeMessage(_msg);
 }
 //=============================================================================
@@ -166,18 +264,16 @@ void
 BasicTerminal::warningMessage(const std::string& msg)
 {
     std::string _msg = msg + "\n";
-    if (atPrompt) {
-        _msg = "\n" + _msg;
-        atPrompt = false;
-    }
+    markPromptInterrupted();
     fmt::print(stdout, "{0}", _msg.c_str());
+    fflush(stdout);
+    promptRedrawNeedsNewline = false;
     diary.writeMessage(_msg);
 }
 //=============================================================================
 void
 BasicTerminal::clearTerminal()
 {
-    // NOTHING
 }
 //=============================================================================
 BasicTerminal::BasicTerminal()
@@ -190,6 +286,8 @@ BasicTerminal::BasicTerminal()
     signal(SIGTSTP, intHandler);
 #endif
     atPrompt = false;
+    promptRedrawPending = false;
+    promptRedrawNeedsNewline = false;
 }
 //=============================================================================
 BasicTerminal::~BasicTerminal() = default;
@@ -198,6 +296,47 @@ bool
 BasicTerminal::isAtPrompt()
 {
     return atPrompt;
+}
+//=============================================================================
+void
+BasicTerminal::markPromptInterrupted()
+{
+    if (!atPrompt) {
+        return;
+    }
+    fmt::print(stdout, "\n");
+    fflush(stdout);
+    diary.writeMessage("\n");
+    atPrompt = false;
+    promptRedrawPending = !currentPrompt.empty();
+    promptRedrawNeedsNewline = false;
+}
+//=============================================================================
+void
+BasicTerminal::redrawPromptIfNeeded()
+{
+    if (!promptRedrawPending || currentPrompt.empty()) {
+        return;
+    }
+    if (promptRedrawNeedsNewline) {
+        fmt::print(stdout, "\n");
+        fflush(stdout);
+        diary.writeMessage("\n");
+    }
+    fmt::print(stdout, "{0}", currentPrompt.c_str());
+    fflush(stdout);
+    atPrompt = true;
+    promptRedrawPending = false;
+    promptRedrawNeedsNewline = false;
+}
+//=============================================================================
+void
+BasicTerminal::clearPromptState()
+{
+    atPrompt = false;
+    promptRedrawPending = false;
+    promptRedrawNeedsNewline = false;
+    currentPrompt.clear();
 }
 //=============================================================================
 void

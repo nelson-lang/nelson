@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,8 +9,8 @@
 //=============================================================================
 #include "uigetdirBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "UiGetDirectory.hpp"
-#include "PredefinedErrorMessages.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
@@ -26,23 +26,25 @@ Nelson::GuiGateway::uigetdirBuiltin(int nLhs, const ArrayOfVector& argIn)
     std::wstring title;
     if (!argIn.empty()) {
         if (argIn[0].isRowVectorCharacterArray()) {
-            pathOrigin = argIn[0].getContentAsWideString();
+            pathOrigin = argIn[0].asWideString();
         } else {
-            Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+            Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1),
+                L"string");
         }
     }
     if (argIn.size() > 1) {
         if (argIn[1].isRowVectorCharacterArray()) {
-            title = argIn[1].getContentAsWideString();
+            title = argIn[1].asWideString();
         } else {
-            Error(ERROR_WRONG_ARGUMENT_2_TYPE_STRING_EXPECTED);
+            Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (2),
+                L"string");
         }
     }
     bool bCancelled = UiGetDirectory(pathOrigin, title, pathSelected);
     if (bCancelled) {
-        retval << ArrayOf::doubleConstructor(0);
+        retval << ArrayOf::doubleScalar(0);
     } else {
-        retval << ArrayOf::characterArrayConstructor(pathSelected);
+        retval << ArrayOf::characterArray(pathSelected);
     }
     return retval;
 }

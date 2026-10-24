@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>mcpusage</keyword>
+  <short_description>Utiliser Nelson via MCP depuis un agent IA.</short_description>
+  <description>
+    <p><b>mcpusage</b> explique comment connecter un agent IA compatible MCP a Nelson.</p>
+    <p>Nelson lance le serveur MCP avec <b>mcpserver</b>. L'agent IA est le client MCP. Un fournisseur de modele local comme Ollama peut executer le modele de langage, mais Ollama lui-meme n'est pas le client MCP.</p>
+    <p>L'executable recommande est <b>nelson-adv-cli</b>, car il peut executer les commandes graphiques utilisees par <b>create_nelson_plot</b> tout en gardant la sortie standard reservee aux messages JSON-RPC MCP.</p>
+    <p>Declarer Nelson dans un client MCP est normalement une configuration a faire une seule fois. Refaire cette declaration seulement si le chemin de l'executable Nelson, le nom du serveur, la racine de workspace ou les options serveur changent.</p>
+    <p>Utiliser <b>--workspace-root</b> pour limiter les outils bases sur des fichiers a un dossier projet. Utiliser <b>--allow-execution=false</b> pour desactiver les outils d'execution, et <b>--allow-format=false</b> pour desactiver les outils de formatage.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Demarrer le serveur MCP Nelson manuellement.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[
+nelson-adv-cli --quiet --no-ipc --no-user-startup --no-user-modules -e "mcpserver('--workspace-root=D:/work/nelson-project --nelson-display-mode=adv-cli')"
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Declarer Nelson comme serveur MCP dans Codex.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[
+# Executer cette commande une fois par configuration Codex. La relancer seulement pour changer la commande ou les options.
+codex mcp add nelson -- nelson-adv-cli --quiet --no-ipc --no-user-startup --no-user-modules -e "mcpserver('--workspace-root=D:/work/nelson-project --nelson-display-mode=adv-cli')"
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Configuration client MCP generique avec un modele Ollama local.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[
+{
+  "model": {
+    "provider": "ollama",
+    "baseUrl": "http://127.0.0.1:11434",
+    "name": "gemma4:latest"
+  },
+  "mcpServers": {
+    "nelson": {
+      "command": "nelson-adv-cli",
+      "args": [
+        "--quiet",
+        "--no-ipc",
+        "--no-user-startup",
+        "--no-user-modules",
+        "-e",
+        "mcpserver('--workspace-root=D:/work/nelson-project --nelson-display-mode=adv-cli --max-output-characters=200000')"
+      ]
+    }
+  }
+}
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Premier prompt conseille pour un agent MCP.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[
+Utilise le serveur MCP Nelson.
+Appelle d'abord get_nelson_workspace.
+Appelle ensuite get_nelson_version.
+Utilise get_nelson_help quand tu as besoin de la syntaxe Nelson.
+Avant de modifier des fichiers, inspecte-les avec les outils en lecture seule.
+Pour creer un graphique, utilise create_nelson_plot et retourne le chemin PNG.
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Outils MCP utiles exposes par Nelson.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[
+get_nelson_workspace      Inspecte les dossiers racine et la politique active.
+get_nelson_version        Inspecte les versions Nelson et serveur MCP.
+get_nelson_help           Lit l'aide locale d'un symbole.
+detect_nelson_modules     Liste modules, fonctions, tests, builtins et aide.
+find_nelson_symbol        Localise definitions, tests, enregistrements et aide.
+get_nelson_function_info  Inspecte which, nargin, nargout, tests et aide d'un symbole.
+lint_nelson_code          Lance nelson-lint sur un fichier ou dossier sans modifier les fichiers.
+check_nelson_format       Verifie nelson-format sans modifier les fichiers.
+evaluate_nelson_code      Execute un snippet Nelson.
+run_nelson_file           Execute un fichier .m.
+run_nelson_test_file      Lance un fichier de test ou un module.
+format_nelson_file        Formate un fichier .m dans la racine de workspace.
+create_nelson_plot        Execute du code graphique et retourne un chemin PNG.
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Diagnostiquer les problemes MCP courants.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[
+Si le client ne liste pas les outils:
+  Verifier que le serveur MCP a ete declare dans la configuration du client.
+  Verifier que nelson-adv-cli est dans PATH ou utiliser un chemin absolu.
+  Garder --quiet --no-ipc dans la commande.
+  Ne pas ecrire de diagnostic sur la sortie standard.
+
+Si le workspace ou les options ont change:
+  Mettre a jour la declaration dans le client MCP.
+  Dans Codex, relancer codex mcp add avec les nouvelles options mcpserver.
+
+Si les outils fichiers sont refuses:
+  Verifier --workspace-root et utiliser des chemins dans ce dossier.
+
+Si la generation de graphiques echoue:
+  Utiliser --nelson-display-mode=adv-cli ou --nelson-display-mode=gui.
+  Le mode cli est reserve au texte.
+
+Si les reponses sont trop longues:
+  Reduire --max-output-characters ou demander a l'agent de retourner des sorties plus petites.
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ai}mcpserver">mcpserver</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${ai}mcpinfo">mcpinfo</link>
+    </see_also_item>
+  </see_also>
+ <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+</xmldoc>

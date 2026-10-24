@@ -17,8 +17,14 @@ namespace Nelson {
 class NLSGRAPHICS_IMPEXP GOText : public GraphicsObject
 {
 private:
-    QFont fnt;
+    FontSpec fnt;
     std::wstring text;
+    // When the interpreter is TeX and the string carries a super/subscript
+    // marker (and is single-line), 'text' holds the raw string (Greek/symbols
+    // still resolved at layout time) and the paint path lays out true raised /
+    // lowered runs. Otherwise 'text' holds the ready-to-draw string.
+    bool texScript = false;
+    bool stateInitialized = false;
     std::wstring
     replaceSpecialCharacters(const std::wstring& text);
 
@@ -27,6 +33,13 @@ public:
     ~GOText() override;
     virtual std::wstring
     getType() override;
+    std::string
+    getClassName() override
+    {
+        return GO_CLASS_NAME_TEXT_STR;
+    }
+    wstringVector
+    getVisibleFieldnames() override;
     virtual void
     constructProperties();
     virtual void
@@ -39,5 +52,5 @@ public:
     getTextHeightInPixels();
 };
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

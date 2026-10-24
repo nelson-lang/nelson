@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,13 +9,13 @@
 //=============================================================================
 #include "MPI_RecvBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "HandleManager.hpp"
 #include "MPI_CommHandleObject.hpp"
 #include "MPI_helpers.hpp"
 #include <mpi.h>
 #include "InputOutputArgumentsCheckers.hpp"
-
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -28,12 +28,12 @@ Nelson::MpiGateway::MPI_RecvBuiltin(int nLhs, const ArrayOfVector& argIn)
     int flagInit = 0;
     MPI_Initialized(&flagInit);
     if (!flagInit) {
-        Error(_W("MPI must be initialized."));
+        Error(L"Nelson:MPI:notInitialized", L"MPI must be initialized.");
     }
     ArrayOf tmp = argIn[0];
-    int source = tmp.getContentAsInteger32Scalar();
+    int source = tmp.asInt32Scalar();
     tmp = argIn[1];
-    int tag = tmp.getContentAsInteger32Scalar();
+    int tag = tmp.asInt32Scalar();
     MPI_Comm comm = MPI_COMM_WORLD;
     if (argIn.size() > 2) {
         ArrayOf param3 = argIn[2];
@@ -49,10 +49,10 @@ Nelson::MpiGateway::MPI_RecvBuiltin(int nLhs, const ArrayOfVector& argIn)
     free(cp);
     retval << A;
     if (nLhs > 1) {
-        retval << ArrayOf::int32Constructor(status.MPI_SOURCE);
+        retval << ArrayOf::int32Scalar(status.MPI_SOURCE);
     }
     if (nLhs > 2) {
-        retval << ArrayOf::int32Constructor(status.MPI_TAG);
+        retval << ArrayOf::int32Scalar(status.MPI_TAG);
     }
     return retval;
 }

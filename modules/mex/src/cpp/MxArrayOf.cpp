@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -15,9 +15,10 @@
 #include "MxArrayOf.hpp"
 #include "MxNumericTypes.h"
 #include "MxHelpers.hpp"
-#include "Exception.hpp"
+#include "NelsonException.hpp"
 #include "SparseConstructors.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 //=============================================================================
 namespace Nelson {
@@ -29,7 +30,7 @@ GetDimensions(const ArrayOf& array, mwSize& numdims)
     auto* dim_vec = (mwSize*)malloc(numdims * sizeof(mwSize));
     if (dim_vec != nullptr) {
         for (mwSize i = 0; i < numdims; i++) {
-            dim_vec[i] = array.getDimensions()[i];
+            dim_vec[i] = array.dimensions()[i];
         }
     }
     return dim_vec;
@@ -86,7 +87,7 @@ ArrayOfComplexToMexArray(const ArrayOf& array, mxClassID classID, bool interleav
     free(dim_vec);
     dim_vec = nullptr;
     if (ret) {
-        auto* sp = (nlsType*)array.getDataPointer();
+        auto* sp = (nlsType*)array.dataPointer();
         auto* dp_r = (mxType*)ret->realdata;
         auto* dp_i = (mxType*)ret->imagdata;
         size_t N = mxGetNumberOfElements(ret);
@@ -109,7 +110,7 @@ ArrayOfRealToMexArray(const ArrayOf& array, mxClassID classID)
     free(dim_vec);
     dim_vec = nullptr;
     if (ret) {
-        auto* sp = (nlsType*)array.getDataPointer();
+        auto* sp = (nlsType*)array.dataPointer();
         auto* dp = (mxType*)ret->realdata;
         size_t N = mxGetNumberOfElements(ret);
         OMP_PARALLEL_FOR_LOOP(N)
@@ -124,7 +125,7 @@ static mxArray*
 ArrayOfSparseToMxArray(const ArrayOf& nlsArrayOf, bool interleavedComplex)
 {
     mxArray* res;
-    switch (nlsArrayOf.getDataClass()) {
+    switch (nlsArrayOf.dataClass()) {
     case NLS_LOGICAL: {
         res = mxNewArray();
         if (res != nullptr) {
@@ -136,13 +137,13 @@ ArrayOfSparseToMxArray(const ArrayOf& nlsArrayOf, bool interleavedComplex)
             res->imagdata = nullptr;
             Eigen::SparseMatrix<Nelson::logical, 0, Nelson::signedIndexType>* spMat
                 = (Eigen::SparseMatrix<Nelson::logical, 0, Nelson::signedIndexType>*)
-                      nlsArrayOf.getSparseDataPointer();
-            Dimensions dims = nlsArrayOf.getDimensions();
+                      nlsArrayOf.sparseDataPointer();
+            Dimensions dims = nlsArrayOf.dimensions();
             res->nzmax = nlsArrayOf.nzmax();
-            res->number_of_dims = dims.getLength();
+            res->number_of_dims = dims.length();
             res->dims = (mwSize*)mxCalloc(res->number_of_dims, sizeof(mwSize));
             for (mwIndex k = 0; k < res->number_of_dims; ++k) {
-                res->dims[k] = dims.getAt(k);
+                res->dims[k] = dims.at(k);
             }
             if (spMat) {
                 res->nIr = (mwIndex)spMat->nonZeros();
@@ -174,15 +175,15 @@ ArrayOfSparseToMxArray(const ArrayOf& nlsArrayOf, bool interleavedComplex)
             res->issparse = true;
             res->ptr = nullptr;
             res->nzmax = nlsArrayOf.nzmax();
-            Dimensions dims = nlsArrayOf.getDimensions();
-            res->number_of_dims = dims.getLength();
+            Dimensions dims = nlsArrayOf.dimensions();
+            res->number_of_dims = dims.length();
             res->dims = (mwSize*)mxCalloc(res->number_of_dims, sizeof(mwSize));
             for (mwIndex k = 0; k < res->number_of_dims; ++k) {
-                res->dims[k] = dims.getAt(k);
+                res->dims[k] = dims.at(k);
             }
             Eigen::SparseMatrix<doublecomplex, 0, Nelson::signedIndexType>* spMat
                 = (Eigen::SparseMatrix<doublecomplex, 0, Nelson::signedIndexType>*)
-                      nlsArrayOf.getSparseDataPointer();
+                      nlsArrayOf.sparseDataPointer();
             if (spMat) {
                 res->nIr = (mwIndex)spMat->nonZeros();
                 res->nJc = (mwIndex)spMat->outerSize();
@@ -229,13 +230,13 @@ ArrayOfSparseToMxArray(const ArrayOf& nlsArrayOf, bool interleavedComplex)
             res->imagdata = nullptr;
             Eigen::SparseMatrix<mxDouble, 0, Nelson::signedIndexType>* spMat
                 = (Eigen::SparseMatrix<mxDouble, 0, Nelson::signedIndexType>*)
-                      nlsArrayOf.getSparseDataPointer();
-            Dimensions dims = nlsArrayOf.getDimensions();
+                      nlsArrayOf.sparseDataPointer();
+            Dimensions dims = nlsArrayOf.dimensions();
             res->nzmax = nlsArrayOf.nzmax();
-            res->number_of_dims = dims.getLength();
+            res->number_of_dims = dims.length();
             res->dims = (mwSize*)mxCalloc(res->number_of_dims, sizeof(mwSize));
             for (mwIndex k = 0; k < res->number_of_dims; ++k) {
-                res->dims[k] = dims.getAt(k);
+                res->dims[k] = dims.at(k);
             }
             if (spMat) {
                 res->nIr = (mwIndex)spMat->nonZeros();
@@ -503,7 +504,7 @@ mxArray*
 ArrayOfToMxArray(const ArrayOf& nlsArrayOf, bool interleavedComplex)
 {
     mxArray* res = nullptr;
-    switch (nlsArrayOf.getDataClass()) {
+    switch (nlsArrayOf.dataClass()) {
     case NLS_STRING_ARRAY: {
         res = mxNewArray();
         if (res != nullptr) {
@@ -558,7 +559,7 @@ ArrayOfToMxArray(const ArrayOf& nlsArrayOf, bool interleavedComplex)
         res = mxCreateCellArray(num_dim, dim_vec);
         free(dim_vec);
         if (res != nullptr) {
-            auto* sp = (ArrayOf*)nlsArrayOf.getDataPointer();
+            auto* sp = (ArrayOf*)nlsArrayOf.dataPointer();
             auto** dp = (mxArray**)res->realdata;
             size_t N = mxGetNumberOfElements(res);
             OMP_PARALLEL_FOR_LOOP(N)
@@ -568,30 +569,9 @@ ArrayOfToMxArray(const ArrayOf& nlsArrayOf, bool interleavedComplex)
         }
     } break;
     case NLS_CLASS_ARRAY:
+    case NLS_CLASSDEF_ARRAY:
     case NLS_FUNCTION_HANDLE:
     case NLS_STRUCT_ARRAY: {
-        res = mxNewArray();
-        if (res != nullptr) {
-            mwSize num_dim;
-            mwSize* dim_vec = GetDimensions(nlsArrayOf, num_dim);
-            res->number_of_dims = num_dim;
-            res->dims = copyDims(num_dim, dim_vec);
-            free(dim_vec);
-            res->classID = mxSTRUCT_CLASS;
-            res->issparse = false;
-            res->interleavedcomplex = interleavedComplex;
-            res->iscomplex = false;
-            res->imagdata = nullptr;
-            res->realdata = nullptr;
-            res->nzmax = 0;
-            res->nIr = 0;
-            res->nJc = 0;
-            res->Jc = nullptr;
-            res->Ir = nullptr;
-            auto* ptr = new ArrayOf(nlsArrayOf);
-            ptr->ensureSingleOwner();
-            res->ptr = (uint64_t*)ptr;
-        }
         res = mxNewArray();
         if (res != nullptr) {
             mwSize num_dim;
@@ -696,7 +676,7 @@ ArrayOfToMxArray(const ArrayOf& nlsArrayOf, bool interleavedComplex)
         }
     } break;
     default: {
-        Error(_("C MEX type not managed."));
+        Error("Nelson:MEX:typeNotManaged", "C MEX type not managed.");
     } break;
     }
     return res;
@@ -708,7 +688,7 @@ MxArrayToArrayOf(const mxArray* pm)
     ArrayOf res;
     if (pm == nullptr || (pm->dims == nullptr && pm->number_of_dims == 0)) {
         Dimensions dims(1, 0);
-        return ArrayOf::emptyConstructor(dims);
+        return ArrayOf::empty(dims);
     }
     NelsonType destClass = NLS_UNKNOWN;
     Dimensions dim;
@@ -737,7 +717,7 @@ MxArrayToArrayOf(const mxArray* pm)
     case mxLOGICAL_CLASS: {
         destClass = NLS_LOGICAL;
         if (pm->iscomplex) {
-            Error(_("C MEX type not managed."));
+            Error("Nelson:MEX:typeNotManaged", "C MEX type not managed.");
         }
         if (pm->issparse) {
             return MxArraySparseToArrayOf(pm);
@@ -749,7 +729,7 @@ MxArrayToArrayOf(const mxArray* pm)
     case mxCHAR_CLASS: {
         destClass = NLS_CHAR;
         if (pm->iscomplex) {
-            Error(_("C MEX type not managed."));
+            Error("Nelson:MEX:typeNotManaged", "C MEX type not managed.");
         }
         cp = ArrayOf::allocateArrayOf(destClass, N);
         MexRealToArrayOfReal<mxChar, charType>((mxChar*)pm->realdata, (charType*)cp, N);
@@ -795,7 +775,7 @@ MxArrayToArrayOf(const mxArray* pm)
     case mxINT8_CLASS: {
         destClass = NLS_INT8;
         if (pm->iscomplex) {
-            Error(_("C MEX type not managed."));
+            Error("Nelson:MEX:typeNotManaged", "C MEX type not managed.");
         }
         cp = ArrayOf::allocateArrayOf(destClass, N);
         MexRealToArrayOfReal<mxInt8, int8>((mxInt8*)pm->realdata, (int8*)cp, N);
@@ -803,7 +783,7 @@ MxArrayToArrayOf(const mxArray* pm)
     case mxUINT8_CLASS: {
         destClass = NLS_UINT8;
         if (pm->iscomplex) {
-            Error(_("C MEX type not managed."));
+            Error("Nelson:MEX:typeNotManaged", "C MEX type not managed.");
         }
         cp = ArrayOf::allocateArrayOf(destClass, N);
         MexRealToArrayOfReal<mxUint8, uint8>((mxUint8*)pm->realdata, (uint8*)cp, N);
@@ -811,7 +791,7 @@ MxArrayToArrayOf(const mxArray* pm)
     case mxINT16_CLASS: {
         destClass = NLS_INT16;
         if (pm->iscomplex) {
-            Error(_("C MEX type not managed."));
+            Error("Nelson:MEX:typeNotManaged", "C MEX type not managed.");
         }
         cp = ArrayOf::allocateArrayOf(destClass, N);
         MexRealToArrayOfReal<mxInt16, int16>((mxInt16*)pm->realdata, (int16*)cp, N);
@@ -819,7 +799,7 @@ MxArrayToArrayOf(const mxArray* pm)
     case mxUINT16_CLASS: {
         destClass = NLS_UINT16;
         if (pm->iscomplex) {
-            Error(_("C MEX type not managed."));
+            Error("Nelson:MEX:typeNotManaged", "C MEX type not managed.");
         }
         cp = ArrayOf::allocateArrayOf(destClass, N);
         MexRealToArrayOfReal<mxUint16, uint16>((mxUint16*)pm->realdata, (uint16*)cp, N);
@@ -827,7 +807,7 @@ MxArrayToArrayOf(const mxArray* pm)
     case mxINT32_CLASS: {
         destClass = NLS_INT32;
         if (pm->iscomplex) {
-            Error(_("C MEX type not managed."));
+            Error("Nelson:MEX:typeNotManaged", "C MEX type not managed.");
         }
         cp = ArrayOf::allocateArrayOf(destClass, N);
         MexRealToArrayOfReal<mxInt32, int32>((mxInt32*)pm->realdata, (int32*)cp, N);
@@ -835,7 +815,7 @@ MxArrayToArrayOf(const mxArray* pm)
     case mxUINT32_CLASS: {
         destClass = NLS_UINT32;
         if (pm->iscomplex) {
-            Error(_("C MEX type not managed."));
+            Error("Nelson:MEX:typeNotManaged", "C MEX type not managed.");
         }
         cp = ArrayOf::allocateArrayOf(destClass, N);
         MexRealToArrayOfReal<mxUint32, uint32>((mxUint32*)pm->realdata, (uint32*)cp, N);
@@ -843,7 +823,7 @@ MxArrayToArrayOf(const mxArray* pm)
     case mxINT64_CLASS: {
         destClass = NLS_INT64;
         if (pm->iscomplex) {
-            Error(_("C MEX type not managed."));
+            Error("Nelson:MEX:typeNotManaged", "C MEX type not managed.");
         }
         cp = ArrayOf::allocateArrayOf(destClass, N);
         MexRealToArrayOfReal<mxInt64, int64>((mxInt64*)pm->realdata, (int64*)cp, N);
@@ -851,7 +831,7 @@ MxArrayToArrayOf(const mxArray* pm)
     case mxUINT64_CLASS: {
         destClass = NLS_UINT64;
         if (pm->iscomplex) {
-            Error(_("C MEX type not managed."));
+            Error("Nelson:MEX:typeNotManaged", "C MEX type not managed.");
         }
         cp = ArrayOf::allocateArrayOf(destClass, N);
         MexRealToArrayOfReal<mxUint64, uint64>((mxUint64*)pm->realdata, (uint64*)cp, N);
@@ -863,11 +843,11 @@ MxArrayToArrayOf(const mxArray* pm)
         return res;
     } break;
     default: {
-        Error(_("C MEX type not managed."));
+        Error("Nelson:MEX:typeNotManaged", "C MEX type not managed.");
     } break;
     }
     return ArrayOf(destClass, dim, cp);
 }
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -9,5 +9,5 @@
 %=============================================================================
 R = urlencode('http://www+ad.com?doc=a b?c d#e');
 REF = 'http%3A%2F%2Fwww%2Bad.com%3Fdoc%3Da+b%3Fc+d%23e';
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================

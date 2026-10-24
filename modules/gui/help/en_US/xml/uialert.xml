@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>uialert</keyword>
+  <short_description>Displays an alert dialog for a UI figure.</short_description>
+  <syntax>
+    <syntax_item>uialert(parent, message, title)</syntax_item>
+    <syntax_item>uialert(parent, message, title, Name, Value)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>parent</param_name>
+      <param_description>Parent UI figure handle, usually created with uifigure.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>message</param_name>
+      <param_description>Message text displayed in the alert dialog. Use a character vector, string scalar, or cell array of text lines.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>title</param_name>
+      <param_description>Dialog title.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>Name, Value</param_name>
+      <param_description>Optional pairs. The 'Icon' option selects the icon style, such as 'info', 'warning', 'error', or 'question'.</param_description>
+    </param_input_item>
+  </param_input>
+  <description>
+    <p>uialert displays a modal alert message associated with a UI figure.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Renderable preview for the help image.</example_item_description>
+      <example_item_data><![CDATA[f = figure('Name', 'Alert preview', 'Position', [100 100 420 260], 'Color', [1 1 1]);
+axis([0 1 0 1]); axis off; hold on;
+patch([0.06 0.94 0.94 0.06], [0.12 0.12 0.88 0.88], [0.97 0.98 0.99], 'EdgeColor', [0.62 0.65 0.68]);
+
+text(0.16, 0.78, 'Status', 'FontSize', 12, 'FontWeight', 'bold');
+t = linspace(0, 2*pi, 50); patch(0.24 + 0.045*cos(t), 0.55 + 0.045*sin(t), [0.00 0.45 0.74], 'EdgeColor', [0.00 0.35 0.60]);
+text(0.24, 0.535, 'i', 'HorizontalAlignment', 'center', 'FontSize', 13, 'FontWeight', 'bold', 'Color', [1 1 1]);
+text(0.34, 0.54, 'Operation completed.', 'FontSize', 11);
+patch([0.42 0.58 0.58 0.42], [0.25 0.25 0.36 0.36], [0.95 0.95 0.95], 'EdgeColor', [0.55 0.55 0.55]);
+text(0.50, 0.30, 'OK', 'HorizontalAlignment', 'center', 'FontSize', 10);]]></example_item_data>
+      <example_item_img
+        src="../images/uialert_example.svg"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Display a warning alert.</example_item_description>
+      <example_item_data><![CDATA[f = uifigure('Visible', 'off', 'Name', 'Import');
+uialert(f, 'No file was selected.', 'Import', 'Icon', 'warning');
+close(f)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${gui}uiconfirm">uiconfirm</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${gui}uiprogressdlg">uiprogressdlg</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>Updated dialog API help.</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

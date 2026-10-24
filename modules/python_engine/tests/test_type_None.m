@@ -10,17 +10,21 @@
 % <--PYTHON ENVIRONMENT REQUIRED-->
 %=============================================================================
 R = pyrun('P = None', "P");
-assert_isequal(class(R), 'py.NoneType');
-assert_isequal(R.char, 'None');
-assert_checkerror('R.struct()', _('Wrong value for #2 argument. struct'));
-assert_checkerror('R.cell()', _('Wrong value for #2 argument. cell'));
-assert_checkerror('R.int8()', _('Wrong value for #2 argument. int8'));
-assert_checkerror('R.int16()', _('Wrong value for #2 argument. int16'));
-assert_checkerror('R.int32()', _('Wrong value for #2 argument. int32'));
-assert_checkerror('R.int64()', _('Wrong value for #2 argument. int64'));
-assert_checkerror('R.uint8()', _('Wrong value for #2 argument. uint8'));
-assert_checkerror('R.uint16()', _('Wrong value for #2 argument. uint16'));
-assert_checkerror('R.uint32()', _('Wrong value for #2 argument. uint32'));
-assert_checkerror('R.uint64()', _('Wrong value for #2 argument. uint64'));
-assert_checkerror('R.single()', _('Wrong value for #2 argument. single'));
-assert_checkerror('R.double()', _('Wrong value for #2 argument. double'));
+asserts.isequal(class(R), 'py.NoneType');
+asserts.isequal(R.char, 'None');
+asserts.istrue(contains(evalc('R'), 'Python NoneType'));
+asserts.istrue(contains(evalc('disp(R)'), 'Python NoneType'));
+asserts.isequal(strtrim(evalc('py.print(''f'')')), 'f');
+asserts.isequal(strtrim(evalc('py.print(''f'');')), 'f');
+asserts.checkerror('R.struct()', sprintf(_('Invalid property: %s.'), 'struct'));
+asserts.checkerror('R.cell()', sprintf(_('Invalid property: %s.'), 'cell'));
+asserts.checkerror('R.int8()', sprintf(_('Invalid property: %s.'), 'int8'));
+asserts.checkerror('R.int16()', sprintf(_('Invalid property: %s.'), 'int16'));
+asserts.checkerror('R.int32()', sprintf(_('Invalid property: %s.'), 'int32'));
+asserts.checkerror('R.int64()', sprintf(_('Invalid property: %s.'), 'int64'));
+asserts.checkerror('R.uint8()', sprintf(_('Invalid property: %s.'), 'uint8'));
+asserts.checkerror('R.uint16()', sprintf(_('Invalid property: %s.'), 'uint16'));
+asserts.checkerror('R.uint32()', sprintf(_('Invalid property: %s.'), 'uint32'));
+asserts.checkerror('R.uint64()', sprintf(_('Invalid property: %s.'), 'uint64'));
+asserts.checkerror('R.single()', sprintf(_('Invalid property: %s.'), 'single'));
+asserts.checkerror('R.double()', sprintf(_('Invalid property: %s.'), 'double'));

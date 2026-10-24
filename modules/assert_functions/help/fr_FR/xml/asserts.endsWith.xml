@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>asserts.endsWith</keyword>
+  <short_description>Verifie qu&apos;un texte se termine par un suffixe.</short_description>
+  <syntax>
+    <syntax_item>asserts.endsWith(text, suffix)</syntax_item>
+    <syntax_item>[res, msg] = asserts.endsWith(text, suffix)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>text</param_name><param_description>Vecteur de caracteres ou scalaire string a tester.</param_description></param_input_item>
+    <param_input_item><param_name>suffix</param_name><param_description>Suffixe attendu.</param_description></param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>res</param_name><param_description>true si l&apos;assertion reussit, false sinon.</param_description></param_output_item>
+    <param_output_item><param_name>msg</param_name><param_description>message d&apos;echec de l&apos;assertion, vide en cas de succes.</param_description></param_output_item>
+  </param_output>
+  <description>
+    <p>L&apos;assertion reussit lorsque text se termine par suffix.</p>
+    <p>Avec sorties, un suffixe manquant est retourne comme echec d&apos;assertion.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Expected suffix</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[asserts.endsWith('Nelson language', 'language');]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Capture a suffix failure</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[[res, msg] = asserts.endsWith('Nelson language', 'Nelson');]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${assert_functions}asserts.startsWith">asserts.startsWith</link></see_also_item>
+    <see_also_item><link linkend="${assert_functions}asserts.contains">asserts.contains</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item><history_version>2.0.0</history_version><history_description>version initiale</history_description></history_item>
+  </history>
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

@@ -8,6 +8,7 @@
 // LICENCE_BLOCK_END
 //=============================================================================
 #include "__contour__Builtin.hpp"
+#include "GOHelpers.hpp"
 #include "GOConstructorHelpers.hpp"
 #include "GOContour.hpp"
 //=============================================================================
@@ -19,9 +20,9 @@ ArrayOfVector
 __contour__Builtin(int nLhs, const ArrayOfVector& argIn)
 {
     ArrayOfVector retval;
-    retval << ArrayOf::graphicsObjectConstructor(GOCommonConstructorHelper(new GOContour, argIn));
+    retval << graphicsObjectHandle(GOCommonConstructorHelper(new GOContour, argIn));
     return retval;
 }
 //=============================================================================
-}
+} // namespace Nelson::GraphicsGateway
 //=============================================================================

@@ -7,13 +7,13 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('mustBeNonmissing'), -1);
-assert_isequal(nargout('mustBeNonmissing'), 0);
+asserts.isequal(nargin('mustBeNonmissing'), -1);
+asserts.isequal(nargout('mustBeNonmissing'), 0);
 %=============================================================================
 mustBeNonmissing([]);
 mustBeNonmissing([true, false]);
-assert_checkerror('mustBeNonmissing(["hello" string(NaN)])', _('Value must be non missing.'));
+asserts.checkerror('mustBeNonmissing(["hello" string(NaN)])', sprintf(_('%s must be nonmissing.'), 'Value'));
 %=============================================================================
-msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10),  _('Value must be non missing.')];
-assert_checkerror('mustBeNonmissing(NaN, 3)', msg);
+msg = [sprintf(_('Invalid input argument at position %d.'), 3), char(10), sprintf(_('%s must be nonmissing.'), 'Value')];
+asserts.checkerror('mustBeNonmissing(NaN, 3)', msg);
 %=============================================================================

@@ -1,0 +1,98 @@
+{
+  "version": "1.0.0",
+  "format": "nflow-2",
+  "metadata": {
+    "author": "",
+    "created": "2026-03-29",
+    "tool": "Nelson nflow"
+  },
+  "license": "",
+  "comments": "Unit test for AND gate: output is 1 only when both inputs are 1",
+  "name": "test_and",
+  "blocks": [
+    {
+      "id": "b1",
+      "type": "constant",
+      "x": 200,
+      "y": 160,
+      "rotation": 0,
+      "params": {
+        "Value": 1
+      }
+    },
+    {
+      "id": "b2",
+      "type": "constant",
+      "x": 200,
+      "y": 280,
+      "rotation": 0,
+      "params": {
+        "Value": 1
+      }
+    },
+    {
+      "id": "b3",
+      "type": "and",
+      "x": 450,
+      "y": 200,
+      "rotation": 0,
+      "params": {}
+    },
+    {
+      "id": "b4",
+      "type": "scope",
+      "x": 700,
+      "y": 200,
+      "rotation": 0,
+      "params": {
+        "TMin": "",
+        "TMax": "",
+        "YMin": "",
+        "YMax": "",
+        "width": 220,
+        "height": 160,
+        "ShowTickLabels": false
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "b1",
+      "to": "b3",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [280, 200],
+        [380, 200],
+        [380, 210],
+        [420, 210]
+      ]
+    },
+    {
+      "from": "b2",
+      "to": "b3",
+      "fromIndex": 0,
+      "toIndex": 1,
+      "points": [
+        [280, 320],
+        [460, 320],
+        [460, 250]
+      ]
+    },
+    {
+      "from": "b3",
+      "to": "b4",
+      "fromIndex": 0,
+      "toIndex": 0,
+      "points": [
+        [530, 220],
+        [700, 220]
+      ]
+    }
+  ],
+  "variables": "",
+  "runtime": 10,
+  "sampleTime": 0.01,
+  "autoRoute": true,
+  "locked": false
+}

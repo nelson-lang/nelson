@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -7,13 +7,135 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 // LICENCE_BLOCK_END
 //=============================================================================
+#ifdef _MSC_VER
+#define _CRT_SECURE_NO_WARNINGS
+#endif
+//=============================================================================
 #include "h5SaveLoadHelpers.hpp"
+#include <cstdio>
+#include <cstring>
+#include <ctime>
 #include "Error.hpp"
-#include "Exception.hpp"
+#include "ErrorID.hpp"
+#include "FileSystemWrapper.hpp"
+#include "NelsonException.hpp"
 #include "NewWithException.hpp"
+#include "StringHelpers.hpp"
+#include "characters_encoding.hpp"
 #include "i18n.hpp"
 //=============================================================================
+#if _MSC_VER
+#if defined(_WIN64)
+#define NLSFSEEK _fseeki64
+#else
+#define NLSFSEEK fseek
+#endif
+#else
+#if defined(__APPLE__) || defined(__MACH__)
+#define NLSFSEEK fseek
+#else
+#if defined(_LP64)
+#if defined(HAVE_FSEEK64)
+#define NLSFSEEK fseek64
+#else
+#define NLSFSEEK fseek
+#endif
+#else
+#define NLSFSEEK fseek
+#endif
+#endif
+#endif
+//=============================================================================
 namespace Nelson {
+//=============================================================================
+static std::wstring
+createHeader()
+{
+    std::wstring header = std::wstring(NELSON_HEADER);
+#ifdef _MSC_VER
+    time_t _tm = time(nullptr);
+    struct tm* curtime = localtime(&_tm);
+    std::wstring timestr = utf8_to_wstring(asctime(curtime));
+#else
+    struct tm newtime;
+    time_t ltime;
+    char buf[128];
+    ltime = time(&ltime);
+    localtime_r(&ltime, &newtime);
+    std::wstring timestr = utf8_to_wstring(asctime_r(&newtime, buf));
+#endif
+    StringHelpers::replace_last(timestr, L"\n", L"");
+    return header + std::wstring(L" on ") + timestr;
+}
+//=============================================================================
+hid_t
+createNh5FileWithHeader(const std::wstring& filename)
+{
+    char* header_offset = nullptr;
+    try {
+        header_offset = new char[8];
+        memset(header_offset, ' ', (size_t)8 * sizeof(char));
+    } catch (std::bad_alloc&) {
+        return H5I_INVALID_HID;
+    }
+    char* header_saturated = nullptr;
+    try {
+        header_saturated = new char[128];
+        memset(header_saturated, ' ', (size_t)128 * sizeof(char));
+    } catch (std::bad_alloc&) {
+        delete[] header_offset;
+        return H5I_INVALID_HID;
+    }
+
+    std::string utf_filename = wstring_to_utf8(filename);
+    hid_t plist_id = H5Pcreate(H5P_FILE_CREATE);
+    H5Pset_userblock(plist_id, 512);
+    hid_t plist_ap = H5Pcreate(H5P_FILE_ACCESS);
+#if H5_VERSION_GE(1, 10, 2)
+    H5Pset_libver_bounds(plist_ap, H5F_LIBVER_EARLIEST, H5F_LIBVER_V18);
+#endif
+    hid_t fid = H5Fcreate(utf_filename.c_str(), H5F_ACC_TRUNC, plist_id, plist_ap);
+    H5Fclose(fid);
+    H5Pclose(plist_id);
+    if (fid < 0) {
+        delete[] header_offset;
+        delete[] header_saturated;
+        H5Pclose(plist_ap);
+        return fid;
+    }
+#ifdef _MSC_VER
+    FILE* fp = _wfopen(filename.c_str(), L"r+b");
+#else
+    FILE* fp = fopen(utf_filename.c_str(), "r+b");
+#endif
+    if (fp == nullptr) {
+        delete[] header_offset;
+        delete[] header_saturated;
+        H5Pclose(plist_ap);
+        return H5I_INVALID_HID;
+    }
+    (void)NLSFSEEK(fp, 0, SEEK_SET);
+    std::string header = wstring_to_utf8(createHeader());
+    size_t len = snprintf(header_saturated, 116, "%s", header.c_str());
+    if (len >= 116) {
+        header_saturated[115] = '\0';
+    }
+
+    int16 endian = NELSON_HEADER_ENDIAN;
+    int16 version = NELSON_HEADER_VERSION;
+
+    fwrite(header_saturated, 1, 116, fp);
+    fwrite(header_offset, 1, 8, fp);
+    fwrite(&version, 2, 1, fp);
+    fwrite(&endian, 2, 1, fp);
+    fclose(fp);
+
+    fid = H5Fopen(utf_filename.c_str(), H5F_ACC_RDWR, plist_ap);
+    H5Pclose(plist_ap);
+    delete[] header_offset;
+    delete[] header_saturated;
+    return fid;
+}
 //=============================================================================
 bool
 isNelsonH5File(hid_t fid)
@@ -22,7 +144,8 @@ isNelsonH5File(hid_t fid)
     hid_t obj_id = H5Oopen(fid, "/", H5P_DEFAULT);
     if (obj_id < 0) {
         H5Fclose(fid);
-        Error(_W("Specified HDF5 object location could not be opened."));
+        Error(L"Nelson:hdf5:locationNotOpened",
+            L"Specified HDF5 object location could not be opened.");
     }
     htri_t exists = H5Aexists(obj_id, NELSON_SCHEMA_STR);
     if (exists > 0) {
@@ -86,7 +209,8 @@ updateNelsonH5Header(hid_t fid)
     hid_t obj_id = H5Oopen(fid, "/", H5P_DEFAULT);
     if (obj_id < 0) {
         H5Fclose(fid);
-        Error(_W("Specified HDF5 object location could not be opened."));
+        Error(L"Nelson:hdf5:locationNotOpened",
+            L"Specified HDF5 object location could not be opened.");
     }
     if (!addSchemaFormat(obj_id)) {
         H5Oclose(obj_id);
@@ -132,7 +256,7 @@ getVariableNames(hid_t fid)
 }
 //=============================================================================
 static bool
-getAttributeAsBool(hid_t fid, const std::string& location, const std::string& variableName,
+attributeAsBool(hid_t fid, const std::string& location, const std::string& variableName,
     const std::string& attributeName)
 {
     std::string h5path;
@@ -295,19 +419,19 @@ getNelsonDimensions(hid_t fid, const std::string& location, const std::string& v
 bool
 isNelsonEmpty(hid_t fid, const std::string& location, const std::string& variableName)
 {
-    return getAttributeAsBool(fid, location, variableName, NELSON_EMPTY_STR);
+    return attributeAsBool(fid, location, variableName, NELSON_EMPTY_STR);
 }
 //=============================================================================
 bool
 isNelsonSparse(hid_t fid, const std::string& location, const std::string& variableName)
 {
-    return getAttributeAsBool(fid, location, variableName, NELSON_SPARSE_STR);
+    return attributeAsBool(fid, location, variableName, NELSON_SPARSE_STR);
 }
 //=============================================================================
 bool
 isNelsonObject(hid_t fid, const std::string& location, const std::string& variableName)
 {
-    return getAttributeAsBool(fid, location, variableName, NELSON_OBJECT_STR);
+    return attributeAsBool(fid, location, variableName, NELSON_OBJECT_STR);
 }
 //=============================================================================
 uint64
@@ -349,7 +473,7 @@ getNelsonNzmax(hid_t fid, const std::string& location, const std::string& variab
 bool
 isNelsonComplex(hid_t fid, const std::string& location, const std::string& variableName)
 {
-    return getAttributeAsBool(fid, location, variableName, NELSON_COMPLEX_STR);
+    return attributeAsBool(fid, location, variableName, NELSON_COMPLEX_STR);
 }
 //=============================================================================
 hid_t
@@ -365,10 +489,10 @@ setCompression(const Dimensions& dims, bool useCompression)
         return H5Pcopy(H5P_DEFAULT);
     }
     hsize_t* dimsAsHsize_t = nullptr;
-    indexType nbElementsSizeData = dims.getLength();
+    indexType nbElementsSizeData = dims.length();
     try {
-        dimsAsHsize_t = new_with_exception<hsize_t>(dims.getLength(), true);
-    } catch (Exception&) {
+        dimsAsHsize_t = new_with_exception<hsize_t>(dims.length(), true);
+    } catch (NelsonException&) {
         H5Pclose(plist);
         return H5Pcopy(H5P_DEFAULT);
     }
@@ -376,7 +500,7 @@ setCompression(const Dimensions& dims, bool useCompression)
     for (indexType k = 1; k <= nbElementsSizeData; k++) {
         dimsAsHsize_t[k - 1] = (hsize_t)_dims[nbElementsSizeData - k];
     }
-    herr_t status = H5Pset_chunk(plist, (int)dims.getLength(), dimsAsHsize_t);
+    herr_t status = H5Pset_chunk(plist, (int)dims.length(), dimsAsHsize_t);
     delete[] dimsAsHsize_t;
     if (status < 0) {
         H5Pclose(plist);

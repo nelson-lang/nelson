@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>mkpp</keyword>
+  <short_description>Make a piecewise polynomial</short_description>
+  <syntax>
+    <syntax_item>pp = mkpp(breaks, coefs)</syntax_item>
+    <syntax_item>pp = mkpp(breaks, coefs, d)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>breaks</param_name>
+      <param_description>Vector of break points, of length pieces + 1.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>coefs</param_name>
+      <param_description>Matrix of polynomial coefficients, of size (pieces * prod(d)) by order. Each row holds the coefficients of one polynomial piece from the highest power to the constant term.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>d</param_name>
+      <param_description>Dimension of the values of the piecewise polynomial (default 1).</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>pp</param_name>
+      <param_description>Piecewise polynomial structure with fields form, breaks, coefs, pieces, order and dim.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>mkpp</b> builds a piecewise polynomial structure from its break points and coefficients. The structure can then be evaluated with <b>ppval</b>.</p>
+    <p>For each piece, the polynomial is evaluated in the local variable x - breaks(i), where breaks(i) is the left break point of the piece.</p>
+    <p>The number of pieces is numel(breaks) - 1 and the order is the number of columns of coefs.</p>
+  </description>
+  <used_function />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data><![CDATA[pp = mkpp([0 1 2], [1 0; 1 1]);
+ppval(pp, 0.5)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${polynomial_functions}ppval">ppval</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${special_functions}interp1">interp1</link>
+    </see_also_item>
+  </see_also>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

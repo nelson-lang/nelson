@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -12,8 +12,9 @@
 #include "StringHelpers.hpp"
 #include <unordered_map>
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
-#include "Exception.hpp"
+#include "NelsonException.hpp"
 #include "BaseToDecimal.hpp"
 #include "characters_encoding.hpp"
 #include "Transpose.hpp"
@@ -34,7 +35,7 @@ base2dec(const std::wstring& wstr, int base)
     wchar_t* str = nullptr;
     res = wcstoull(wstr.c_str(), &str, base);
     if (wcslen(str) > 0) {
-        Error(_W("Cannot convert: ") + wstr);
+        Error(L"Nelson:base2dec:cannotConvert", L"Cannot convert: %s", wstr);
     }
     return res;
 }
@@ -58,39 +59,42 @@ BaseToDecimal(ArrayOf& A, ArrayOf& Base, bool& needToOverload)
 {
     ArrayOf res;
     needToOverload = false;
-    double dbase = Base.getContentAsDoubleScalar();
+    double dbase = Base.asDoubleScalar();
     double fbase = std::floor(dbase);
     if (dbase != fbase) {
-        Error(_W("The base must be an integer value between 2 and 36."));
+        Error(L"Nelson:elementary_functions:invalidBase",
+            L"The base must be an integer value between 2 and 36.");
     }
     int ibase = static_cast<int>(fbase);
     if (ibase < 2 || ibase > 36) {
-        Error(_W("The base must be an integer value between 2 and 36."));
+        Error(L"Nelson:elementary_functions:invalidBase",
+            L"The base must be an integer value between 2 and 36.");
     }
     if (lastBase != ibase) {
         baseConverted.clear();
         lastBase = ibase;
     }
-    Dimensions dimsA = A.getDimensions();
+    Dimensions dimsA = A.dimensions();
     if (dimsA.isEmpty(false)) {
         baseConverted.clear();
-        res = ArrayOf::emptyConstructor();
+        res = ArrayOf::empty();
     } else {
         wstringVector elements;
-        switch (A.getDataClass()) {
+        switch (A.dataClass()) {
         case NLS_CHAR: {
             if (A.isRowVector()) {
-                elements.push_back(A.getContentAsWideString());
+                elements.push_back(A.asWideString());
             } else {
                 if (A.isNdArrayCharacterType()) {
-                    Error(_W("2D char array expected."));
+                    Error(L"Nelson:elementary_functions:e2DCharArrayExpected",
+                        L"2D char array expected.");
                 }
                 bool dummy;
                 ArrayOf Transposed = Transpose(A, dummy);
-                std::wstring wstr = Transposed.getContentAsArrayOfCharacters();
-                size_t commonLength = dimsA.getColumns();
-                elements.reserve(dimsA.getElementCount() / commonLength);
-                indexType elementCount = dimsA.getElementCount();
+                std::wstring wstr = Transposed.asCharacterArrayWideString();
+                size_t commonLength = dimsA.columns();
+                elements.reserve(dimsA.elementCount() / commonLength);
+                indexType elementCount = dimsA.elementCount();
                 for (indexType k = 0; k < elementCount; k = k + commonLength) {
                     std::wstring s = wstr.substr(k, commonLength);
                     elements.push_back(s);
@@ -98,10 +102,10 @@ BaseToDecimal(ArrayOf& A, ArrayOf& Base, bool& needToOverload)
             }
         } break;
         case NLS_CELL_ARRAY: {
-            elements = A.getContentAsWideStringVector(false);
+            elements = A.asWideStringVector(false);
         } break;
         case NLS_STRING_ARRAY: {
-            elements = A.getContentAsWideStringVector(false);
+            elements = A.asWideStringVector(false);
         } break;
         default: {
             needToOverload = true;

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>imgaussfilt3</keyword>
+  <short_description>Filter a 3-D volume with a Gaussian kernel.</short_description>
+  <syntax>
+    <syntax_item>B = imgaussfilt3(A)</syntax_item>
+    <syntax_item>B = imgaussfilt3(A, sigma)</syntax_item>
+    <syntax_item>B = imgaussfilt3(__, 'FilterSize', filterSize)</syntax_item>
+    <syntax_item>B = imgaussfilt3(__, 'Padding', pad)</syntax_item>
+    <syntax_item>B = imgaussfilt3(__, 'FilterDomain', domain)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>Numeric or logical 3-D volume. Complex numeric volumes are filtered by applying the same separable kernel to real and imaginary parts.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>sigma</param_name>
+      <param_description>Standard deviation of the Gaussian kernel. It can be a positive scalar or a three-element vector. The default value is 0.5.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'FilterSize'</param_name>
+      <param_description>Odd positive scalar or three-element vector that specifies the kernel size. By default the size is derived from sigma.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'Padding'</param_name>
+      <param_description>Boundary handling mode: 'replicate', 'symmetric', 'circular', or a finite scalar fill value.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>'FilterDomain'</param_name>
+      <param_description>Accepted for compatibility. The current implementation uses spatial separable convolution.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>B</param_name>
+      <param_description>Filtered 3-D volume with the same size as A.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Filter a numeric or logical 3-D volume with a separable Gaussian kernel. Complex numeric volumes are supported by filtering real and imaginary parts consistently. Sigma can be scalar or a three-element vector. Padding can be replicate, symmetric, circular, or a finite scalar value.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Smooth a synthetic 3-D volume</example_item_description>
+      <example_item_data><![CDATA[V = zeros(21, 21, 9);
+V(8:14, 8:14, 4:6) = 1;
+B = imgaussfilt3(V, 1.0, 'FilterSize', [5 5 5], 'Padding', 0);
+B(:, :, 5)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}imgaussfilt">imgaussfilt</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}imref3d">imref3d</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

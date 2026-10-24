@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // This file is part of Nelson.
 //=============================================================================
 // LICENCE_BLOCK_BEGIN
@@ -9,7 +9,9 @@
 //=============================================================================
 #include <algorithm>
 #include "slicot_mb03rdBuiltin.hpp"
+#include "SlicotFortranAbi.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
@@ -19,10 +21,10 @@ using namespace Nelson;
 extern "C"
 {
 #endif
-    extern int
+    extern SLICOT_SUBROUTINE
     mb03rd_(const char* JOBX, const char* SORT, int* N, double* PMAX, double* A, int* LDA,
         double* X, int* LDX, int* NBLCKS, double* BLSIZE, double* WR, double* WI, double* TOL,
-        double* DWORK, int* INFO);
+        double* DWORK, int* INFO SLICOT_STRLEN_DECL(2));
 #ifdef __cplusplus
 }
 #endif
@@ -37,90 +39,93 @@ Nelson::SlicotGateway::slicot_mb03rdBuiltin(int nLhs, const ArrayOfVector& argIn
     nargincheck(argIn, 6, 6);
     // INPUT VARIABLES
     ArrayOf JOBX = argIn[0];
-    Dimensions dimsJOBX = JOBX.getDimensions();
-    std::string JOBX_string = JOBX.getContentAsCString();
+    Dimensions dimsJOBX = JOBX.dimensions();
+    std::string JOBX_string = JOBX.asUtf8String();
     const char* JOBX_ptr = JOBX_string.c_str();
     ArrayOf SORT = argIn[1];
-    Dimensions dimsSORT = SORT.getDimensions();
-    std::string SORT_string = SORT.getContentAsCString();
+    Dimensions dimsSORT = SORT.dimensions();
+    std::string SORT_string = SORT.asUtf8String();
     const char* SORT_ptr = SORT_string.c_str();
     ArrayOf PMAX = argIn[2];
-    Dimensions dimsPMAX = PMAX.getDimensions();
+    Dimensions dimsPMAX = PMAX.dimensions();
     PMAX.promoteType(NLS_DOUBLE);
-    double* PMAX_ptr = (double*)PMAX.getDataPointer();
+    double* PMAX_ptr = (double*)PMAX.dataPointer();
     ArrayOf TOL = argIn[5];
-    Dimensions dimsTOL = TOL.getDimensions();
+    Dimensions dimsTOL = TOL.dimensions();
     TOL.promoteType(NLS_DOUBLE);
-    double* TOL_ptr = (double*)TOL.getDataPointer();
+    double* TOL_ptr = (double*)TOL.dataPointer();
     // IN/OUT VARIABLES
     ArrayOf A = argIn[3];
-    Dimensions dimsA = A.getDimensions();
+    Dimensions dimsA = A.dimensions();
     A.promoteType(NLS_DOUBLE);
     ArrayOf A_output = A;
     A_output.ensureSingleOwner();
-    double* A_output_ptr = (double*)A_output.getDataPointer();
+    double* A_output_ptr = (double*)A_output.dataPointer();
     ArrayOf X = argIn[4];
-    Dimensions dimsX = X.getDimensions();
+    Dimensions dimsX = X.dimensions();
     X.promoteType(NLS_DOUBLE);
     ArrayOf X_output = X;
     X_output.ensureSingleOwner();
-    double* X_output_ptr = (double*)X_output.getDataPointer();
+    double* X_output_ptr = (double*)X_output.dataPointer();
     // LOCAL VARIABLES
-    ArrayOf N = ArrayOf::int32RowVectorConstructor(1);
-    int* N_ptr = (int*)N.getDataPointer();
-    N_ptr[0] = (int)A.getColumns();
-    ArrayOf LDA = ArrayOf::int32RowVectorConstructor(1);
-    int* LDA_ptr = (int*)LDA.getDataPointer();
-    LDA_ptr[0] = std::max(1, (int)A.getColumns());
-    ArrayOf LDX = ArrayOf::int32RowVectorConstructor(1);
-    int* LDX_ptr = (int*)LDX.getDataPointer();
-    LDX_ptr[0] = std::max(1, (int)A.getColumns());
-    ArrayOf DWORK = ArrayOf::doubleMatrix2dConstructor(1, (int)A.getColumns());
-    double* DWORK_ptr = (double*)DWORK.getDataPointer();
+    ArrayOf N = ArrayOf::int32RowVector(1);
+    int* N_ptr = (int*)N.dataPointer();
+    N_ptr[0] = (int)A.columns();
+    ArrayOf LDA = ArrayOf::int32RowVector(1);
+    int* LDA_ptr = (int*)LDA.dataPointer();
+    LDA_ptr[0] = std::max(1, (int)A.columns());
+    ArrayOf LDX = ArrayOf::int32RowVector(1);
+    int* LDX_ptr = (int*)LDX.dataPointer();
+    LDX_ptr[0] = std::max(1, (int)A.columns());
+    ArrayOf DWORK = ArrayOf::doubleMatrix2d(1, (int)A.columns());
+    double* DWORK_ptr = (double*)DWORK.dataPointer();
     // OUTPUT VARIABLES
-    ArrayOf NBLCKS_output = ArrayOf::int32RowVectorConstructor(1);
-    int* NBLCKS_output_ptr = (int*)NBLCKS_output.getDataPointer();
-    ArrayOf BLSIZE_output
-        = ArrayOf::doubleMatrix2dConstructor((indexType)1, (indexType)(int)A.getColumns());
-    double* BLSIZE_output_ptr = (double*)BLSIZE_output.getDataPointer();
-    ArrayOf WR_output
-        = ArrayOf::doubleMatrix2dConstructor((indexType)1, (indexType)(int)A.getColumns());
-    double* WR_output_ptr = (double*)WR_output.getDataPointer();
-    ArrayOf WI_output
-        = ArrayOf::doubleMatrix2dConstructor((indexType)1, (indexType)(int)A.getColumns());
-    double* WI_output_ptr = (double*)WI_output.getDataPointer();
-    ArrayOf INFO_output = ArrayOf::int32RowVectorConstructor(1);
-    int* INFO_output_ptr = (int*)INFO_output.getDataPointer();
+    ArrayOf NBLCKS_output = ArrayOf::int32RowVector(1);
+    int* NBLCKS_output_ptr = (int*)NBLCKS_output.dataPointer();
+    ArrayOf BLSIZE_output = ArrayOf::doubleMatrix2d((indexType)1, (indexType)(int)A.columns());
+    double* BLSIZE_output_ptr = (double*)BLSIZE_output.dataPointer();
+    ArrayOf WR_output = ArrayOf::doubleMatrix2d((indexType)1, (indexType)(int)A.columns());
+    double* WR_output_ptr = (double*)WR_output.dataPointer();
+    ArrayOf WI_output = ArrayOf::doubleMatrix2d((indexType)1, (indexType)(int)A.columns());
+    double* WI_output_ptr = (double*)WI_output.dataPointer();
+    ArrayOf INFO_output = ArrayOf::int32RowVector(1);
+    int* INFO_output_ptr = (int*)INFO_output.dataPointer();
     // CHECK INPUT VARIABLES DIMENSIONS
     if (!dimsJOBX.isScalar()) {
-        Error(_W("Input argument #1: scalar expected."));
+        Error(L"Nelson:slicot:scalarExpected", L"Input argument #%d: scalar expected.", 1);
     }
     if (!dimsSORT.isScalar()) {
-        Error(_W("Input argument #2: scalar expected."));
+        Error(L"Nelson:slicot:scalarExpected", L"Input argument #%d: scalar expected.", 2);
     }
     if (!dimsPMAX.isScalar()) {
-        Error(_W("Input argument #3: scalar expected."));
+        Error(L"Nelson:slicot:scalarExpected", L"Input argument #%d: scalar expected.", 3);
     }
-    Dimensions dimsA_expected(std::max(1, (int)A.getColumns()), (int)A.getColumns());
+    Dimensions dimsA_expected(std::max(1, (int)A.columns()), (int)A.columns());
     if (!dimsA.equals(dimsA_expected)) {
-        Error(_("Input argument #4: wrong size.") + " " + dimsA_expected.toString() + " "
-            + "expected" + ".");
+        RaiseError(formatI18nMessage(Nelson::resolveMessageTemplate("Nelson:slicot:inputWrongSize",
+                                         "Input argument #%d: wrong size."),
+                       4)
+                + " " + dimsA_expected.toString() + " " + "expected" + ".",
+            "Nelson:slicot:wrongSize");
     }
-    Dimensions dimsX_expected(std::max(1, (int)A.getColumns()), (int)A.getColumns());
+    Dimensions dimsX_expected(std::max(1, (int)A.columns()), (int)A.columns());
     if (!dimsX.equals(dimsX_expected)) {
-        Error(_("Input argument #5: wrong size.") + " " + dimsX_expected.toString() + " "
-            + "expected" + ".");
+        RaiseError(formatI18nMessage(Nelson::resolveMessageTemplate("Nelson:slicot:inputWrongSize",
+                                         "Input argument #%d: wrong size."),
+                       5)
+                + " " + dimsX_expected.toString() + " " + "expected" + ".",
+            "Nelson:slicot:wrongSize");
     }
     if (!dimsTOL.isScalar()) {
-        Error(_W("Input argument #6: scalar expected."));
+        Error(L"Nelson:slicot:scalarExpected", L"Input argument #%d: scalar expected.", 6);
     }
     // CALL EXTERN FUNCTION
     try {
         mb03rd_(JOBX_ptr, SORT_ptr, N_ptr, PMAX_ptr, A_output_ptr, LDA_ptr, X_output_ptr, LDX_ptr,
             NBLCKS_output_ptr, BLSIZE_output_ptr, WR_output_ptr, WI_output_ptr, TOL_ptr, DWORK_ptr,
-            INFO_output_ptr);
+            INFO_output_ptr SLICOT_STRLEN_ARGS(2));
     } catch (const std::runtime_error&) {
-        Error("mb03rd function fails.");
+        Error("Nelson:slicot:computationFailed", "%s function fails.", "mb03rd");
     }
     // ASSIGN OUTPUT VARIABLES
     if (nLhs > 0) {

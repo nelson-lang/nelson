@@ -30,7 +30,7 @@ public:
     void
     disp(Interface* io);
     void*
-    getPointer();
+    pointer();
     bool
     get(const std::wstring& propertyName, ArrayOf& res);
     void
@@ -43,12 +43,12 @@ public:
     isMethod(const std::wstring& methodName) override;
 
     wstringVector
-    getProperties() override;
+    properties() override;
     wstringVector
-    getMethods() override;
+    methods() override;
 
     bool
-    isWriteableProperty(const std::wstring& propertyName);
+    isWritableProperty(const std::wstring& propertyName);
     bool
     isNull();
     LibPointerObject*
@@ -56,7 +56,7 @@ public:
     void
     reshape(indexType dimX, indexType dimY);
     std::wstring
-    getDataType();
+    dataType();
     void
     setDataType(const std::wstring& dataType);
 

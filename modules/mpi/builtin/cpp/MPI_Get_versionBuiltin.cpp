@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -22,9 +22,9 @@ Nelson::MpiGateway::MPI_Get_versionBuiltin(int nLhs, const ArrayOfVector& argIn)
     int version = 0;
     int subversion = 0;
     MPI_Get_version(&version, &subversion);
-    retval << ArrayOf::doubleConstructor(version);
+    retval << ArrayOf::doubleScalar(version);
     if (nLhs > 1) {
-        retval << ArrayOf::doubleConstructor(subversion);
+        retval << ArrayOf::doubleScalar(subversion);
     }
     return retval;
 }

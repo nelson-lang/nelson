@@ -22,22 +22,22 @@
       <code>argName (dimensions) class {validators} = defaultValue</code>
     </p>
     <p>
-      <b>(dimensions)</b> — Taille de l&apos;entrée spécifiée sous forme de liste séparée par des virgules d&apos;entiers ou de deux-points,
+      <b>(dimensions)</b> : Taille de l&apos;entrée spécifiée sous forme de liste séparée par des virgules d&apos;entiers ou de deux-points,
       par exemple <code>(1,1)</code>, <code>(1,:)</code>, ou <code>(3,5,2)</code>.
       Un deux-points permet n&apos;importe quelle longueur dans cette dimension.
       L&apos;entrée doit correspondre exactement aux dimensions déclarées, ou être compatible avec elles
       (par exemple, un vecteur colonne est compatible avec <code>(1,:)</code> et est automatiquement redimensionné).
       Les expressions ne sont pas autorisées dans les dimensions.</p>
     <p>
-      <b>class</b> — Un nom de classe unique tel que <code>double</code>, <code>char</code>, ou <code>string</code>.
+      <b>class</b> : Un nom de classe unique tel que <code>double</code>, <code>char</code>, ou <code>string</code>.
       La valeur est convertie en cette classe lorsque cela est possible.
       Si omis, toute classe est acceptée.</p>
     <p>
-      <b>{validators}</b> — Une liste séparée par des virgules de fonctions de validation, entourée d&apos;accolades ,
+      <b>{validators}</b> : Une liste séparée par des virgules de fonctions de validation, entourée d&apos;accolades ,
       par exemple <code>{mustBeNumeric, mustBeReal}</code>.
       Les fonctions de validation génèrent une erreur lorsque la condition n&apos;est pas remplie ; contrairement à la classe, elles ne modifient jamais la valeur de l&apos;argument.</p>
     <p>
-      <b>= defaultValue</b> — Une expression qui fournit une valeur par défaut et rend l&apos;argument optionnel.
+      <b>= defaultValue</b> : Une expression qui fournit une valeur par défaut et rend l&apos;argument optionnel.
       L&apos;expression peut faire référence aux arguments déclarés précédemment.
       Les arguments optionnels doivent être positionnés après tous les arguments requis dans la signature de la fonction et dans le bloc <b>arguments</b>.</p>
     <p>
@@ -180,7 +180,7 @@ end
   <history>
     <history_item>
       <history_version>1.17.0</history_version>
-      <history_description>initial version</history_description>
+      <history_description>version initiale</history_description>
     </history_item>
   </history>
   <authors>

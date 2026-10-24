@@ -16,9 +16,9 @@ namespace Nelson {
 //=============================================================================
 enum class InterpolationMethod
 {
-    Nearest, // Nearest-neighbor interpolation
-    Bilinear, // Bilinear interpolation
-    Bicubic // Bicubic interpolation
+    Nearest,
+    Bilinear,
+    Bicubic
 };
 //=============================================================================
 enum class BoundingBox
@@ -31,5 +31,5 @@ NLSIMAGE_PROCESSING_IMPEXP ArrayOf
 ImageRotation(
     const ArrayOf& image, double angle, InterpolationMethod method, BoundingBox boundingBox);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>timeseries.minus</keyword>
+  <short_description>Soustrait des donnees timeseries.</short_description>
+  <syntax>
+    <syntax_item>tsOut = minus(a, b)</syntax_item>
+    <syntax_item>tsOut = a - b</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>a</param_name>
+      <param_description>Objet timeseries gauche ou scalaire.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>b</param_name>
+      <param_description>Objet timeseries droit ou scalaire.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>tsOut</param_name>
+      <param_description>Objet timeseries resultant.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>minus</b> Soustrait les valeurs de donnees et preserve l'axe temporel d'une entree timeseries.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_data runnable="cli"><![CDATA[a = timeseries([10; 20], [1; 2]);
+b = timeseries([1; 2], [1; 2]);
+out = a - b;
+out.Data
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${time}timeseries">timeseries</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

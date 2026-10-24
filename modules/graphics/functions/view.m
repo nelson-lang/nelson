@@ -11,26 +11,33 @@ function varargout = view(varargin)
   % view(2), view(3)
   % view([0 90]), view([0 90 0])
   % view(az, el)
-  
+
   narginchk(0, 3);
   nargoutchk(0, 2);
   args = {};
-  
+
   if (nargin == 0)
-    ax = gca();  
+    ax = gca();
     args = {ax};
   elseif (nargin == 1)
-    ax = gca();  
+    ax = gca();
     args = {ax, varargin{1}};
   elseif (nargin == 2)
     if (isgraphics(varargin{1}))
       args = {varargin{1}, varargin{2}};
     else
-      ax = gca();  
+      ax = gca();
       args = {ax, varargin{1}, varargin{2}};
     end
   else
     args = varargin;
+  end
+  if (nargout == 0 && numel(args) == 3 && isgraphics(args{1}, 'axes'))
+    currentView = args{1}.View;
+    if (isequal(currentView, [args{2}, args{3}]))
+      varargout = {};
+      return
+    end
   end
   [azimuth, elevation] = __view__(args{:});
   if (nargout == 0)

@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -9,10 +9,10 @@
 //=============================================================================
 #include "setenvBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "SetVariableEnvironment.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
-#include "PredefinedErrorMessages.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
@@ -25,15 +25,19 @@ Nelson::OsFunctionsGateway::setenvBuiltin(int nLhs, const ArrayOfVector& argIn)
     std::wstring varEnvName;
     std::wstring varEnvValue;
     if (argIn[0].isRowVectorCharacterArray()) {
-        varEnvName = argIn[0].getContentAsWideString();
+        varEnvName = argIn[0].asWideString();
     } else {
-        Error(ERROR_WRONG_ARGUMENT_1_TYPE_STRING_EXPECTED);
+        Error(L"Nelson:invalidType", L"Wrong type for argument #%d: %s expected.", (1), L"string");
     }
+    bool success = false;
     if (argIn.size() == 2) {
-        varEnvValue = argIn[1].getContentAsWideString();
+        varEnvValue = argIn[1].asWideString();
+        success = SetVariableEnvironmentW(varEnvName, varEnvValue);
+    } else {
+        success = RemoveVariableEnvironmentW(varEnvName);
     }
-    if (!SetVariableEnvironmentW(varEnvName, varEnvValue)) {
-        Error(_W("Cannot set environment variable."));
+    if (!success) {
+        Error(L"Nelson:setenv:cannotSet", L"Cannot set environment variable.");
     }
     return retval;
 }

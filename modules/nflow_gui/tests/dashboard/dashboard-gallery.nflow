@@ -1,0 +1,176 @@
+{
+  "version": "2.0.0",
+  "format": "nflow-2",
+  "metadata": { "author": "Allan CORNET", "created": "2026-08-07", "tool": "Nelson nflow" },
+  "license": "LGPL-3.0",
+  "comments": "Dashboard block rendering and persistence fixture",
+  "name": "dashboard-gallery",
+  "blocks": [
+    {
+      "id": "d01",
+      "type": "dashboardScope",
+      "x": 640,
+      "y": 1280,
+      "width": 200,
+      "rotation": 0,
+      "params": { "Binding": null }
+    },
+    {
+      "id": "d02",
+      "type": "dashboardDisplay",
+      "x": 80,
+      "y": 1280,
+      "rotation": 0,
+      "params": { "Binding": null }
+    },
+    {
+      "id": "d03",
+      "type": "dashboardEdit",
+      "x": 360,
+      "y": 1280,
+      "rotation": 0,
+      "params": { "Binding": null }
+    },
+    {
+      "id": "d04",
+      "type": "dashboardGauge",
+      "x": 80,
+      "y": 80,
+      "rotation": 0,
+      "params": { "Binding": null }
+    },
+    {
+      "id": "d05",
+      "type": "dashboardHalfGauge",
+      "x": 80,
+      "y": 320,
+      "rotation": 0,
+      "params": { "Binding": null }
+    },
+    {
+      "id": "d06",
+      "type": "dashboardKnob",
+      "x": 360,
+      "y": 320,
+      "rotation": 0,
+      "params": { "Binding": null }
+    },
+    {
+      "id": "d07",
+      "type": "dashboardLamp",
+      "x": 640,
+      "y": 320,
+      "rotation": 0,
+      "params": { "Binding": null }
+    },
+    {
+      "id": "d08",
+      "type": "dashboardLinearGauge",
+      "x": 920,
+      "y": 320,
+      "rotation": 0,
+      "params": { "Binding": null }
+    },
+    {
+      "id": "d09",
+      "type": "dashboardMultiStateImage",
+      "x": 80,
+      "y": 560,
+      "rotation": 0,
+      "params": { "Binding": null }
+    },
+    {
+      "id": "d10",
+      "type": "dashboardPushButton",
+      "x": 360,
+      "y": 560,
+      "rotation": 0,
+      "params": { "Binding": null }
+    },
+    {
+      "id": "d11",
+      "type": "dashboardQuarterGauge",
+      "x": 640,
+      "y": 560,
+      "rotation": 0,
+      "params": { "Binding": null }
+    },
+    {
+      "id": "d12",
+      "type": "dashboardRadioButton",
+      "x": 920,
+      "y": 560,
+      "rotation": 0,
+      "params": { "Binding": null }
+    },
+    {
+      "id": "d13",
+      "type": "dashboardRockerSwitch",
+      "x": 80,
+      "y": 800,
+      "rotation": 0,
+      "params": { "Binding": null }
+    },
+    {
+      "id": "d14",
+      "type": "dashboardRotarySwitch",
+      "x": 360,
+      "y": 800,
+      "rotation": 0,
+      "params": { "Binding": null }
+    },
+    {
+      "id": "d15",
+      "type": "dashboardSlider",
+      "x": 640,
+      "y": 800,
+      "rotation": 0,
+      "params": { "Binding": null }
+    },
+    {
+      "id": "d16",
+      "type": "dashboardSliderSwitch",
+      "x": 920,
+      "y": 800,
+      "rotation": 0,
+      "params": { "Binding": null }
+    },
+    {
+      "id": "d17",
+      "type": "dashboardToggleSwitch",
+      "x": 80,
+      "y": 1040,
+      "rotation": 0,
+      "params": { "Binding": null }
+    },
+    {
+      "id": "d18",
+      "type": "dashboardCallbackButton",
+      "x": 360,
+      "y": 1040,
+      "rotation": 0,
+      "params": { "Binding": null }
+    },
+    {
+      "id": "d19",
+      "type": "dashboardCheckBox",
+      "x": 640,
+      "y": 1040,
+      "rotation": 0,
+      "params": { "Binding": null }
+    },
+    {
+      "id": "d20",
+      "type": "dashboardComboBox",
+      "x": 920,
+      "y": 1040,
+      "rotation": 0,
+      "params": { "Binding": null }
+    }
+  ],
+  "connections": [],
+  "variables": "",
+  "sampleTime": 0.01,
+  "runtime": 10,
+  "solver": "auto"
+}

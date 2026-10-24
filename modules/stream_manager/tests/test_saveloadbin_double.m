@@ -9,43 +9,46 @@
 %=============================================================================
 addpath([fileparts(nfilename('fullpathext'), 'path'), '/loadsavebin']);
 %=============================================================================
+test_saveload_file = [tempname(), '.bin'];
+%=============================================================================
 % double
 A = eye(5, 4);
-savebin([tempdir(), 'test_saveload_double.bin'], 'A');
+savebin(test_saveload_file, 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), 'test_saveload_double.bin']);
-assert_isequal(A, REF);
+loadbin(test_saveload_file);
+asserts.isequal(A, REF);
 %=============================================================================
 % double complex
-A = eye(5,4) + 2i;
-savebin([tempdir(), 'test_saveload_double.bin'], 'A');
+A = eye(5, 4) + 2i;
+savebin(test_saveload_file, 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), 'test_saveload_double.bin']);
-assert_isequal(A, REF);
+loadbin(test_saveload_file);
+asserts.isequal(A, REF);
 %=============================================================================
 % double empty
-A = ones(0,3);
-savebin([tempdir(), 'test_saveload_double.bin'], 'A');
+A = ones(0, 3);
+savebin(test_saveload_file, 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), 'test_saveload_double.bin']);
-assert_isequal(A, REF);
+loadbin(test_saveload_file);
+asserts.isequal(A, REF);
 %=============================================================================
 % nd array double
-A = ones(3,4,2);
-savebin([tempdir(), 'test_saveload_double.bin'], 'A');
+A = ones(3, 4, 2);
+savebin(test_saveload_file, 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), 'test_saveload_double.bin']);
-assert_isequal(A, REF);
+loadbin(test_saveload_file);
+asserts.isequal(A, REF);
 %=============================================================================
 % nd array double complex
-A = complex(ones(3,4,2), 2);
-savebin([tempdir(), 'test_saveload_double.bin'], 'A');
+A = complex(ones(3, 4, 2), 2);
+savebin(test_saveload_file, 'A');
 REF = A;
 clear A;
-loadbin([tempdir(), 'test_saveload_double.bin']);
-assert_isequal(A, REF);
+loadbin(test_saveload_file);
+asserts.isequal(A, REF);
+rmfile(test_saveload_file);
 %=============================================================================

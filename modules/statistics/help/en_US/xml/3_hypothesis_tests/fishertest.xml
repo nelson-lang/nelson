@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>fishertest</keyword>
+  <short_description>Fisher exact test for a 2-by-2 table.</short_description>
+  <syntax>
+    <syntax_item>h = fishertest(x)</syntax_item>
+    <syntax_item>[h, p, stats] = fishertest(x)</syntax_item>
+    <syntax_item>[h, p, stats] = fishertest(x, Name, Value)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>fishertest</b> performs Fisher&apos;s exact test for a 2-by-2 contingency table. The input can be a numeric matrix or a table containing nonnegative integer counts.</p>
+    <p>Name-value arguments include <b>Alpha</b> and <b>Tail</b>. The <b>stats</b> output contains <b>OddsRatio</b> and <b>ConfidenceInterval</b>.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[x = [3 6; 1 7];
+[h, p, stats] = fishertest(x, 'Tail', 'right')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}crosstab">crosstab</link></see_also_item>
+    <see_also_item><link linkend="${statistics}chi2gof">chi2gof</link></see_also_item>
+    <see_also_item><link linkend="${statistics}norminv">norminv</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

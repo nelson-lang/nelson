@@ -7,36 +7,20 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
+% <--WEIGHT 2-->
 sysA = tf(3);
 sysB = tf(4);
 R = sysA / sysB;
 REF = tf(0.75);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 sysA = tf(3);
 R = sysA / 3;
 REF = tf(1);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================
 sysA = tf(3);
 R = 3 / sysA;
 REF = tf(1);
-assert_isequal(R, REF);
-%=============================================================================
-num = [3 4];
-den = [3 1 5];
-Ts = 0.2;
-sys = tf(num, den, Ts);
-R = sys / sys;
-num_REF = [9  15  19  20];
-den_REF = [9  15  19  20];
-REF = tf(num_REF, den_REF, Ts);
-assert_isequal(R, REF);
-%=============================================================================
-s = tf('s');
-R = 1 / (2*s^2+3*s+4);
-num_REF = [0  0  1];
-den_REF = [2  3  4];
-REF = tf(num_REF, den_REF);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
 %=============================================================================

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>rowfilter</keyword>
+  <short_description>Create a row filter expression.</short_description>
+  <syntax>
+    <syntax_item>rf = rowfilter(names)</syntax_item>
+    <syntax_item>rf = rowfilter(T)</syntax_item>
+    <syntax_item>rf = rowfilter(info)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>names</param_name>
+      <param_description>variable names specified as a string array or cell array of character vectors.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>T</param_name>
+      <param_description>a table or timetable whose variable names are used by the filter.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>info</param_name>
+      <param_description>a <b>nelson.io.parquet.ParquetInfo</b> object whose variable names are used by the filter.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>rf</param_name>
+      <param_description>a <b>nelson.io.RowFilter</b> object.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>rowfilter</b> creates a filter object that exposes variable names through dot notation.</p>
+    <p>Use relational operators <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;</b>, <b>&lt;=</b>, <b>==</b>, and <b>~=</b> to create comparisons. Use logical operators <b>&amp;</b>, <b>|</b>, and <b>~</b> to combine expressions.</p>
+    <p>The resulting object can be passed to <b>parquetread</b> or <b>parquetDatastore</b> with the <b>RowFilter</b> name-value pair. It can also be applied directly to a table with <b>rf.apply(T)</b>.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[T = table([1; 2; 3; 4], [10; 20; 30; 40], ...
+  'VariableNames', {'Id', 'Value'});
+rf = rowfilter(T);
+R = (rf.Id >= 2 & rf.Value < 40).apply(T)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[filename = [tempdir(), 'doc_rowfilter.parquet'];
+T = table([1; 2; 3; 4], [10; 20; 30; 40], 'VariableNames', {'Id', 'Value'});
+parquetwrite(filename, T);
+info = parquetinfo(filename);
+rf = rowfilter(info);
+R = parquetread(filename, 'RowFilter', rf.Value >= 30)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${parquet}class_RowFilter">nelson.io.RowFilter</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${parquet}parquetread">parquetread</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${parquet}parquetDatastore">parquetDatastore</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

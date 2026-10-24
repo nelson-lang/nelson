@@ -10,12 +10,12 @@
 name: nelson
 base: core24
 icon: $SNAP/gui/logo.png
-summary: Let's Nelson! matrix language for engineering and scientific applications.
+summary: Nelson numerical computing language for engineering and scientific applications.
 description: |
-  Nelson is an- matrix/array programming language providing a powerful open computing environment for engineering and scientific applications using modern C/C++ libraries (Boost, Eigen, …) and others state of art numerical libraries.
-  It has sophisticated data structures (including cell, struct, linear systems, …), an interpreter and a high level programming language.
-  Nelson has been developed to be an open/modular system where an user can define these own data types and operations on these data types by using overload.
-  Syntax is very similar to GNU Octave or MATLAB® so that most programs are easily portable.
+  Nelson is a matrix and array programming language for engineering and scientific computing.
+  It provides an interpreter, a high-level language, plotting tools, and numerical libraries such as Eigen.
+  It supports data structures such as cell arrays, structs, and linear systems.
+  Its module and overload mechanisms let users add data types and operations.
 confinement: strict
 adopt-info: nelson
 compression: lzo
@@ -70,7 +70,7 @@ parts:
       cmake --build . -- -j $(nproc) buildhelp
       cmake --build . -- -j $(nproc) get_module_skeleton
 
-      # Include the icon's path in the desktop file, not just the name.
+      # Use the packaged icon path in the desktop file.
       # This needs to happen post-build or the build versioning will show as "modified locally"
       sed -i 's|Icon=nelson|Icon=usr/share/icons/hicolor/128x128/apps/nelson\.png|' desktop/io.github.nelson_lang.Nelson.desktop
 
@@ -104,7 +104,6 @@ parts:
       - libxml2-dev
       - libxslt1-dev
       - libopenblas-openmp-dev
-      - liblapacke-dev
       - libfftw3-dev
       - libasound-dev
       - portaudio19-dev
@@ -113,14 +112,12 @@ parts:
       - alsa-utils
       - libsqlite3-dev
       - libgl1
-      - hdf5-tools
       - zlib1g-dev
       - libcurl4-openssl-dev
       - libgit2-dev
       - libpcre2-dev
       - libeigen3-dev
       - libmatio-dev
-      - libboost-all-dev
       - libsqlite3-dev
       - qt6-base-dev
       - libqt6svg6
@@ -131,7 +128,6 @@ parts:
       - libqt6opengl6-dev
       - libqt6svg6-dev
       - qt6-declarative-dev
-      - qt6-documentation-tools
       - qml6-module-qtquick
       - qml6-module-qtquick-templates
       - qml6-module-qtquick-controls
@@ -139,7 +135,6 @@ parts:
       - qml6-module-qtquick-dialogs
       - qml6-module-qtqml-workerscript
       - qml6-module-qtquick-layouts
-      - qt6-tools-dev
       - qmlscene
       - cmake
       - python3-dev
@@ -161,7 +156,6 @@ parts:
       - libxml2
       - libxslt1.1
       - libopenblas0-openmp  
-      - liblapacke
       - libfftw3-double3
       - libfftw3-single3
       - libasound2-data
@@ -172,7 +166,6 @@ parts:
       - alsa-utils
       - libsqlite3-0
       - libgl1
-      - hdf5-tools
       - zlib1g
       - libicu74
       - libcurl4
@@ -206,7 +199,6 @@ parts:
       - libqt6quickdialogs2quickimpl6
       - libqt6quicklayouts6
       - libqt6quickparticles6
-      - qt6-documentation-tools
       - qml6-module-qtquick
       - qml6-module-qtquick-templates
       - qml6-module-qtquick-controls
@@ -216,13 +208,6 @@ parts:
       - qml6-module-qtquick-layouts
       - qmlscene
       - cmake
-      - libboost-chrono1.83.0
-      - libboost-date-time1.83.0
-      - libboost-filesystem1.83.0
-      - libboost-iostreams1.83.0
-      - libboost-regex1.83.0
-      - libboost-serialization1.83.0
-      - libboost-thread1.83.0
       - libpython3.12
       - python3-pip
       - python3-numpy
@@ -284,8 +269,6 @@ layout:
     bind-file: $SNAP/usr/bin/nelson-adv-cli-exec
   /usr/bin/nelson-gui-exec:
     bind-file: $SNAP/usr/bin/nelson-gui-exec
-  /usr/bin/qhelpgenerator:
-    bind-file: $SNAP/usr/lib/qt6/bin/qhelpgenerator
 
   /usr/lib/Nelson:
     bind: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/Nelson

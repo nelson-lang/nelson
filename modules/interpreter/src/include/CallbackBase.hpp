@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -37,9 +37,9 @@ public:
     bool
     operator==(const CallbackBase& other) const
     {
-        return this->callbackAsArrayOf.getDataPointer() == other.callbackAsArrayOf.getDataPointer();
+        return this->callbackAsArrayOf.dataPointer() == other.callbackAsArrayOf.dataPointer();
     }
 };
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -9,20 +9,31 @@
     <syntax_item>inf</syntax_item>
     <syntax_item>Inf(n)</syntax_item>
     <syntax_item>Inf(n, m)</syntax_item>
+    <syntax_item>Inf(n, classname)</syntax_item>
+    <syntax_item>Inf(n, m, classname)</syntax_item>
+    <syntax_item>Inf(classname)</syntax_item>
   </syntax>
   <param_input>
     <param_input_item>
       <param_name>n</param_name>
-      <param_description>une variable : matrice n-par-n</param_description>
+      <param_description>un entier scalaire : nombre de lignes (et de colonnes si m est omis).</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>m</param_name>
-      <param_description>une variable : matrice n-par-m</param_description>
+      <param_description>un entier scalaire : nombre de colonnes.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>classname</param_name>
+      <param_description>une chaîne : 'double' (par défaut) ou 'single'.</param_description>
     </param_input_item>
   </param_input>
   <description>
     <p>
       <b>Inf</b> retourne le symbole IEEE Inf (Infini).</p>
+    <p><b>Inf(n)</b> retourne une matrice n-par-n remplie de <b>Inf</b>.</p>
+    <p><b>Inf(n, m)</b> retourne une matrice n-par-m remplie de <b>Inf</b>.</p>
+    <p>L'argument optionnel <b>classname</b> sélectionne la classe du résultat et
+      doit valoir <b>'double'</b> (par défaut) ou <b>'single'</b>.</p>
   </description>
   <used_function />
   <bibliography />

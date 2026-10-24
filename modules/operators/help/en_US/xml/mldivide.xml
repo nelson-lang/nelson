@@ -11,11 +11,11 @@
   <param_input>
     <param_input_item>
       <param_name>A</param_name>
-      <param_description>a variable</param_description>
+      <param_description>a variable, a table or a timetable. When the other operand is a table or timetable, it must be a scalar.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>B</param_name>
-      <param_description>a variable</param_description>
+      <param_description>a variable, a table or a timetable. When the other operand is a table or timetable, it must be a scalar.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
@@ -27,6 +27,15 @@
   <description>
     <p>
       <b>C = mldivide(A, B)</b> returns the matrix left division of A and B.</p>
+    <p>
+      For sparse floating-point matrices, Nelson uses Eigen-based sparse solvers. Symmetric positive definite systems use sparse Cholesky paths, Hermitian or symmetric indefinite systems can use sparse LDLT, general square systems use sparse LU, and rectangular systems use sparse QR or iterative least-squares fallback paths.</p>
+    <p>
+      Sparse double, single, complex double, and complex single matrices are supported. Mixed real and complex inputs promote to the matching complex class. Sparse right-hand sides preserve sparse storage when the result can be represented sparsely.</p>
+    <p>
+      Rectangular sparse systems return a least-squares solution for overdetermined systems and a compatible sparse solution for underdetermined systems when the system is exactly satisfiable.</p>
+    <p>
+      Singular diagonal and structurally zero sparse systems report clear warnings or errors and return Inf or NaN entries where the scalar divisions require them.</p>
+    <p>When one operand is a table or timetable and the other operand is a scalar, <b>A \ B</b> is an element-wise operation applied to every variable, identical to <b>A .\ B</b>: variable names, units and row times are kept. Any other combination with a table or timetable (two tables, or a table and a non-scalar array) is an error: use <b>.\</b> instead.</p>
   </description>
   <used_function />
   <bibliography />
@@ -40,6 +49,56 @@
 A = B *2
 A \ B]]></example_item_data>
     </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[A = sparse(single([4 -1 0; -1 4 -1; 0 -1 3]));
+b = single([15; 10; 10]);
+x = A \ b
+full(A * x)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Rectangular sparse least-squares solve.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = sparse([1 0; 0 1; 1 1; 2 -1]);
+b = [1; 2; 4; 1];
+x = A \ b
+norm(A * x - b)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Sparse complex single solve with a sparse right-hand side.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = sparse(single([3 + 1i 1; 0 2 - 1i]));
+B = sparse(single([4 + 2i 0; 3 - 1i 1]));
+X = A \ B
+full(A * X)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Hermitian indefinite sparse single complex solve.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = sparse(single([0 1 + 2i; 1 - 2i 3]));
+B = sparse(single([1 + 1i 0; 2 - 1i 1]));
+X = A \ B
+full(A * X)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Underdetermined sparse system with an exact sparse solution.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[A = sparse([1 2 0; 0 4 3]);
+b = sparse([8; 18]);
+x = A \ b
+full(A * x)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Element-wise operation between a table and a scalar.</example_item_description>
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[T = table([1; 2], [4; 8]);
+2 \ T]]></example_item_data>
+    </example_item>
   </examples>
   <see_also>
     <see_also_item>
@@ -48,11 +107,25 @@ A \ B]]></example_item_data>
     <see_also_item>
       <link linkend="${operators}mrdivide">mrdivide</link>
     </see_also_item>
+    <see_also_item>
+      <link linkend="${table}table">table</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${table}timetable">timetable</link>
+    </see_also_item>
   </see_also>
   <history>
     <history_item>
       <history_version>1.0.0</history_version>
       <history_description>initial version</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>added Eigen-based sparse single, complex single, square, rectangular, sparse right-hand side, and underdetermined fallback documentation</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>table and timetable operands combined with a scalar (element-wise operation).</history_description>
     </history_item>
   </history>
   <authors>

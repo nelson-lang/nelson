@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>anova1</keyword>
+  <short_description>Analyse de variance a un facteur.</short_description>
+  <syntax>
+    <syntax_item>p = anova1(X)</syntax_item>
+    <syntax_item>p = anova1(X, group)</syntax_item>
+    <syntax_item>p = anova1(X, group, displayopt)</syntax_item>
+    <syntax_item>[p, tbl, stats] = anova1(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>anova1</b> effectue une analyse de variance a un facteur. Lorsque <b>X</b> est une matrice et que <b>group</b> est vide, les colonnes sont traitees comme des groupes. Lorsque <b>X</b> est un vecteur, <b>group</b> fournit une etiquette de groupe par observation.</p>
+    <p><b>displayopt</b> peut valoir <b>'on'</b> ou <b>'off'</b>. Les observations <b>NaN</b> sont omises.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data runnable="cli"><![CDATA[X = [6 7 8; 5 7 9; 4 8 NaN; 6 9 10];
+[p, tbl, stats] = anova1(X, [], 'off')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${statistics}fcdf">fcdf</link></see_also_item>
+    <see_also_item><link linkend="${statistics}grpstats">grpstats</link></see_also_item>
+    <see_also_item><link linkend="${statistics}vartest">vartest</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

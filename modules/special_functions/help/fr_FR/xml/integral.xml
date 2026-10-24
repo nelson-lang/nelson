@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>integral</keyword>
+  <short_description>Évalue numériquement une intégrale (quadrature adaptative)</short_description>
+  <syntax>
+    <syntax_item>q = integral(fun, a, b)</syntax_item>
+    <syntax_item>q = integral(fun, a, b, nom, valeur)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>fun</param_name>
+      <param_description>Fonction à intégrer : handle de fonction.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>a</param_name>
+      <param_description>Borne inférieure d&apos;intégration : scalaire réel (fini ou infini) ou scalaire complexe fini.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>b</param_name>
+      <param_description>Borne supérieure d&apos;intégration : scalaire réel (fini ou infini) ou scalaire complexe fini.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>nom, valeur</param_name>
+      <param_description>Une ou plusieurs paires nom/valeur : &apos;RelativeTolerance&apos;, &apos;AbsoluteTolerance&apos;, &apos;ArrayValued&apos;, &apos;Vectorized&apos;, &apos;Waypoints&apos;.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>q</param_name>
+      <param_description>Valeur de l&apos;intégrale.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>q = integral(fun, a, b)</b> intègre numériquement la fonction <b>fun</b> de <b>a</b> à <b>b</b> par une quadrature de Gauss-Kronrod adaptative globale.
+    </p>
+    <p>
+      Par défaut, <b>fun</b> est supposée vectorisée : elle doit accepter un vecteur d&apos;abscisses et renvoyer un vecteur de même taille.
+    </p>
+    <p>
+      Les bornes <b>a</b> et <b>b</b> peuvent être infinies (<b>-Inf</b> et/ou <b>Inf</b>) ; un changement de variable ramène l&apos;intervalle à un intervalle fini.
+    </p>
+    <p>
+      Si <b>a</b>, <b>b</b> ou un point de passage est complexe, <b>integral</b> calcule l&apos;intégrale le long des segments reliant <b>a</b>, les points de passage dans l&apos;ordre donné, puis <b>b</b>. Les bornes et points de passage complexes doivent être finis.
+    </p>
+    <p>
+      Les paires nom/valeur suivantes sont prises en charge :
+    </p>
+    <p><b>RelativeTolerance</b> (ou <b>RelTol</b>) : tolérance d&apos;erreur relative (défaut <b>1e-6</b>).</p>
+    <p><b>AbsoluteTolerance</b> (ou <b>AbsTol</b>) : tolérance d&apos;erreur absolue (défaut <b>1e-10</b>).</p>
+    <p><b>integral</b> cherche à satisfaire <b>abs(q - Q) &lt;= max(AbsoluteTolerance, RelativeTolerance * abs(q))</b> où <b>Q</b> est la valeur exacte.</p>
+    <p><b>ArrayValued</b> : si <b>true</b>, <b>fun</b> renvoie un tableau et est évaluée en une abscisse scalaire (défaut <b>false</b>).</p>
+    <p><b>Vectorized</b> : si <b>false</b>, <b>fun</b> est écrite pour des entrées scalaires : elle accepte un <b>x</b> scalaire et renvoie un scalaire, et <b>integral</b> l&apos;évalue point par point (défaut <b>true</b>, plus rapide). Ignorée si <b>ArrayValued</b> vaut <b>true</b>.</p>
+    <p><b>Waypoints</b> : vecteur de points réels ou complexes finis utilisés dans le maillage initial. Avec des bornes et des points de passage réels, l&apos;intervalle est découpé aux points de passage situés à l&apos;intérieur (leur ordre est sans importance) : ils servent à signaler les discontinuités ou les extrema locaux de la fonction. N&apos;utilisez pas de points de passage pour indiquer des singularités ; découpez plutôt l&apos;intervalle. Des points de passage complexes définissent un contour linéaire par morceaux.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+      ><![CDATA[q = integral(@(x) x.^2, 0, 1)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+      ><![CDATA[q = integral(@(x) exp(-x.^2), 0, Inf)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+      ><![CDATA[q = integral(@(x) [1; 1] .* x, 0, 1, 'ArrayValued', true)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Singularité en la borne inférieure : tolérances plus strictes</example_item_description>
+      <example_item_data
+      ><![CDATA[format long
+q1 = integral(@log, 0, 1)
+q2 = integral(@log, 0, 1, 'AbsoluteTolerance', 1e-12, 'RelativeTolerance', 0)
+format short]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Intégrale d&apos;une fonction écrite pour des entrées scalaires</example_item_description>
+      <example_item_data
+      ><![CDATA[fun = @(x) 2*x - x^2;
+q = integral(fun, 0, 1, 'Vectorized', false)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Intégrale sur un contour complexe défini par des points de passage (chemin fermé autour du pôle z = 1/2)</example_item_description>
+      <example_item_data
+      ><![CDATA[fun = @(z) 1 ./ (2*z - 1);
+q = integral(fun, 0, 0, 'Waypoints', [1+1i, 1-1i])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${special_functions}integral2">integral2</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${special_functions}integralInterpolant">integralInterpolant</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${linear_algebra}trapz">trapz</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>Option &apos;Waypoints&apos; et bornes complexes (intégrale sur un contour) ajoutées.</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>Option &apos;Vectorized&apos; ajoutée : intégration de fonctions écrites pour des entrées scalaires.</history_description>
+    </history_item>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>Noms &apos;AbsoluteTolerance&apos; et &apos;RelativeTolerance&apos; ajoutés (&apos;AbsTol&apos; et &apos;RelTol&apos; restent acceptés).</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

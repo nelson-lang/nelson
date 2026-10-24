@@ -16,7 +16,8 @@ namespace Nelson {
 namespace QmlEngineGateway {
     ArrayOfVector
     qt_constantBuiltin(int nLhs, const ArrayOfVector& argIn);
-};
+    //=============================================================================
+} // namespace QmlEngineGateway
 //=============================================================================
 }; // namespace Nelson
 //=============================================================================

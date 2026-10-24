@@ -94,6 +94,17 @@ D = [   1.0  0.0; 0.0 -1.0];
 [A_OUT, B_OUT, C_OUT, D_OUT, INFO] = slicot_ab04md(TYPE, ALPHA, BETA, A, B, C, D)]]></example_item_data>
     </example_item>
   </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${slicot}slicot_ab07nd">slicot_ab07nd</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${control_system}c2d">c2d</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${control_system}d2c">d2c</link>
+    </see_also_item>
+  </see_also>
   <history>
     <history_item>
       <history_version>1.0.0</history_version>

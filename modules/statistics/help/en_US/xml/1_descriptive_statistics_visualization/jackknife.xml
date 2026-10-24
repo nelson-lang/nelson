@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>jackknife</keyword>
+  <short_description>Jackknife statistics.</short_description>
+  <syntax>
+    <syntax_item>jackstat = jackknife(jackfun, X)</syntax_item>
+    <syntax_item>jackstat = jackknife(jackfun, X, Y, ...)</syntax_item>
+    <syntax_item>jackstat = jackknife(..., &apos;Options&apos;, options)</syntax_item>
+  </syntax>
+  <description><p><b>jackknife</b> evaluates a function on leave-one-out samples of nonscalar input data.</p></description>
+  <used_function>
+    <link linkend="${statistics}bootstrp">bootstrp</link>
+    <link linkend="${statistics}bootci">bootci</link>
+    <link linkend="${statistics}statset">statset</link>
+  </used_function>
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Compute leave-one-out estimates of the mean.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[x = (1:5)';
+jackstat = jackknife(@mean, x)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Return several statistics for each jackknife sample.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[x = (1:5)';
+jackstat = jackknife(@jackknifeStats, x)
+
+function y = jackknifeStats(x)
+  y = [mean(x) std(x)];
+end]]></example_item_data>
+    </example_item>
+  </examples>
+</xmldoc>

@@ -7,7 +7,7 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-if ~any(contains(argv(),'--noipc')) && ~strcmp(getenv('NELSON_WITHOUT_IPC'), 'TRUE')
+if ~any(contains(argv(), '--no-ipc')) && ~strcmp(getenv('NELSON_WITHOUT_IPC'), 'TRUE')
   addmodule([nelsonroot() '/modules/' 'ipc'], 'ipc');
 end
 %=============================================================================

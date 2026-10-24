@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>classdef tutorial</keyword>
+  <short_description>Tutoriel classdef pas a pas.</short_description>
+  <syntax>
+    <syntax_item>classdef ClassName, properties, methods, end</syntax_item>
+    <syntax_item>classdef SubClass &lt; SuperClass</syntax_item>
+    <syntax_item>classdef HandleClass &lt; handle</syntax_item>
+    <syntax_item>classdef MyClass &lt; handle &amp; nelson.mixin.Copyable</syntax_item>
+  </syntax>
+  <description>
+    <p>
+      Un fichier <b>classdef</b> definit un modele de classe. Le fichier contient une seule definition de classe et son nom doit correspondre au nom de la classe.</p>
+    <p>
+      Une definition de classe peut contenir des blocs <b>properties</b>, <b>methods</b>, <b>events</b> et <b>enumeration</b>. Les proprietes stockent l&apos;etat de l&apos;objet. Les methodes implementent le comportement. Les evenements et les ecouteurs sont utiles pour les classes handle qui notifient d&apos;autres parties du code.</p>
+    <p>
+      Les classes valeur copient leurs donnees lors d&apos;une affectation. Les classes handle heritent de <b>handle</b> et utilisent une semantique de reference: deux variables peuvent designer le meme objet.</p>
+    <p>
+      Nelson fournit aussi des classes mixin legeres sous <b>nelson.mixin</b>. <b>nelson.mixin.Copyable</b> ajoute une methode <b>copy</b> superficielle pour les classes handle. <b>nelson.mixin.CustomDisplay</b> redirige l&apos;affichage scalaire vers une methode protegee <b>displayScalarObject</b> quand la classe la definit.</p>
+    <p>
+      Les declarations de proprietes peuvent inclure une valeur par defaut, une validation de taille et de type, et des fonctions de validation. Les methodes d&apos;acces nommees <b>get.PropertyName</b> et <b>set.PropertyName</b> implementent l&apos;acces calcule ou valide aux proprietes. Les proprietes <b>Dependent</b> ne sont pas stockees; les proprietes <b>Transient</b> ne sont pas persistees; les proprietes handle <b>NonCopyable</b> sont reinitialisees par le mixin de copie.</p>
+    <p>
+      La methode statique generee <b>ClassName.empty(...)</b> cree des tableaux vides types. L&apos;expansion indexee initialise les elements manquants de classes valeur avec les valeurs par defaut et les elements manquants de classes handle avec des handles par defaut distincts.</p>
+    <p>
+      <b>saveObjectImpl</b> et <b>loadObjectImpl</b> statique personnalisent la persistance. Pour les tableaux non vides, ces methodes s&apos;executent element par element. Les tableaux vides conservent leur type et leur taille sans appeler les hooks scalaires, et les tableaux de handles sont verifies avant l&apos;execution des hooks de sauvegarde afin de detecter les elements invalides.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Creer une premiere classe valeur dans un fichier nomme MyClass.m.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[
+classdef MyClass
+  properties
+    Value
+  end
+
+  methods
+    function obj = MyClass(val)
+      if nargin > 0
+        obj.Value = val;
+      end
+    end
+  end
+end
+
+a = MyClass(42);
+disp(a.Value)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Utiliser un stockage prive et une propriete dependante.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[
+classdef Person
+  properties (Access = private)
+    AgeInternal = 0
+  end
+
+  properties
+    Name (1,1) string = ""
+  end
+
+  properties (Dependent)
+    Age
+  end
+
+  methods
+    function obj = Person(name, age)
+      if nargin > 0
+        obj.Name = name;
+        obj.AgeInternal = age;
+      end
+    end
+
+    function v = get.Age(obj)
+      v = obj.AgeInternal;
+    end
+  end
+end
+
+p = Person("Ada", 31);
+p.Age
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Heriter d&apos;une superclasse et appeler son constructeur et sa methode.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[
+classdef Vehicle
+  properties
+    Name (1,1) string = "vehicle"
+  end
+
+  methods
+    function obj = Vehicle(name)
+      if nargin > 0
+        obj.Name = name;
+      end
+    end
+
+    function start(obj)
+      fprintf("%s started\n", obj.Name);
+    end
+  end
+end
+
+classdef Car < Vehicle
+  properties
+    Brand (1,1) string = "unknown"
+  end
+
+  methods
+    function obj = Car(name, brand)
+      obj@Vehicle(name);
+      if nargin > 1
+        obj.Brand = brand;
+      end
+    end
+
+    function start(obj)
+      start@Vehicle(obj);
+      fprintf("Car brand: %s\n", obj.Brand);
+    end
+  end
+end
+
+c = Car("MyCar", "Toyota");
+c.start();
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Utiliser la semantique de reference des handles.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[
+classdef Counter < handle
+  properties
+    Value (1,1) double = 0
+  end
+
+  methods
+    function increment(obj)
+      obj.Value = obj.Value + 1;
+    end
+  end
+end
+
+a = Counter();
+b = a;
+a.increment();
+disp(b.Value)
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Ajouter une copie superficielle a une classe handle.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[
+classdef Config < handle & nelson.mixin.Copyable
+  properties
+    Mode (1,1) string = "default"
+    Options struct = struct()
+  end
+end
+
+c1 = Config();
+c1.Mode = "fast";
+c2 = copy(c1);
+c2.Mode = "safe";
+]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Personnaliser l&apos;affichage scalaire d&apos;un objet.</example_item_description>
+      <example_item_data runnable="false"><![CDATA[
+classdef Point2D < nelson.mixin.CustomDisplay
+  properties
+    X (1,1) double = 0
+    Y (1,1) double = 0
+  end
+
+  methods
+    function obj = Point2D(x, y)
+      if nargin > 0
+        obj.X = x;
+        obj.Y = y;
+      end
+    end
+  end
+
+  methods (Access = protected)
+    function displayScalarObject(obj)
+      fprintf("Point2D: (%.2f, %.2f)\n", obj.X, obj.Y);
+    end
+  end
+end
+
+p = Point2D(3.5, 4.2);
+p
+]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${interpreter}classdef">classdef</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}methods">methods</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}properties">properties</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}metaclass">metaclass</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${handle}events">events</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>tutoriel classdef ajoute</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

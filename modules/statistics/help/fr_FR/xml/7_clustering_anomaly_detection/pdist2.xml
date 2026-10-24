@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>pdist2</keyword>
+  <short_description>Distances deux a deux entre deux ensembles d&apos;observations.</short_description>
+  <syntax>
+    <syntax_item>D = pdist2(X, Y)</syntax_item>
+    <syntax_item>D = pdist2(X, Y, distance)</syntax_item>
+    <syntax_item>D = pdist2(X, Y, distance, distanceParameter)</syntax_item>
+    <syntax_item>D = pdist2(..., 'Smallest', K)</syntax_item>
+    <syntax_item>D = pdist2(..., 'Largest', K)</syntax_item>
+    <syntax_item>[D, I] = pdist2(..., 'Smallest', K)</syntax_item>
+    <syntax_item>[D, I] = pdist2(..., 'Largest', K)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>X</param_name><param_description>matrice numerique reelle pleine. Les lignes sont les observations.</param_description></param_input_item>
+    <param_input_item><param_name>Y</param_name><param_description>matrice numerique reelle pleine avec le meme nombre de colonnes que X.</param_description></param_input_item>
+    <param_input_item><param_name>distance</param_name><param_description>nom de distance ou handle de fonction. Les noms supportes incluent euclidean, squaredeuclidean, sqeuclidean, cityblock, chebychev, chebyshev, cosine, correlation, hamming, jaccard, minkowski, seuclidean, mahalanobis, spearman, fasteuclidean et fastseuclidean.</param_description></param_input_item>
+    <param_input_item><param_name>distanceParameter</param_name><param_description>parametre optionnel pour minkowski, seuclidean ou mahalanobis.</param_description></param_input_item>
+    <param_input_item><param_name>K</param_name><param_description>entier positif : nombre de plus petites ou plus grandes distances a retourner pour chaque ligne de Y.</param_description></param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item><param_name>D</param_name><param_description>matrice des distances. Sans Smallest ni Largest, D est de taille size(X, 1)-by-size(Y, 1). Avec Smallest ou Largest, D est de taille min(K, size(X, 1))-by-size(Y, 1).</param_description></param_output_item>
+    <param_output_item><param_name>I</param_name><param_description>indices des lignes de X pour les distances selectionnees. I est disponible uniquement avec Smallest ou Largest.</param_description></param_output_item>
+  </param_output>
+  <description><p><b>pdist2</b> calcule les distances deux a deux entre les lignes de <b>X</b> et les lignes de <b>Y</b>. Les distances integrees retournent NaN si l&apos;une des lignes contient NaN. Un handle de fonction de distance doit accepter une ligne de X et toutes les lignes de Y, puis retourner une distance par ligne de Y.</p></description>
+  <used_function>
+    <link linkend="${statistics}kmeans">kmeans</link>
+    <link linkend="${statistics}kmedoids">kmedoids</link>
+    <link linkend="${statistics}silhouette">silhouette</link>
+  </used_function>
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Calculer les distances euclidiennes deux a deux.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[X = [0 0; 1 0];
+Y = [0 0; 0 2];
+D = pdist2(X, Y)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Comparer plusieurs metriques de distance.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[X = [1 0; 0 1];
+Y = [1 0; 1 1];
+Dcos = pdist2(X, Y, 'cosine')
+Dhamming = pdist2(X, Y, 'hamming')]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Trouver des distances selectionnees et les indices des lignes.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[X = [0 0; 1 0; 0 3];
+Y = [0 0; 0 2];
+[D, I] = pdist2(X, Y, 'euclidean', 'Smallest', 2)]]></example_item_data>
+    </example_item>
+  </examples>
+</xmldoc>

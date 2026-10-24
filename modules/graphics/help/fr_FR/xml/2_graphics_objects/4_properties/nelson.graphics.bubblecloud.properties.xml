@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>bubblecloud properties</keyword>
+  <short_description>Proprietes de l'objet graphique bubblecloud.</short_description>
+  <description>
+    <p>Cette page documente les proprietes visibles retournees par <b>properties</b> pour un objet graphique <b>bubblecloud</b>.</p>
+    <table>
+      <tr>
+        <th>Propriete</th>
+        <th>Action</th>
+        <th>Type et valeurs prises en charge</th>
+      </tr>
+      <tr><td><b>Annotation</b></td><td>met a jour les metadonnees d'annotation des outils graphiques.</td><td>Type: objet d'annotation graphique ou handle vide. Valeurs prises en charge: objet d'annotation associe ou handle graphique vide.</td></tr>
+      <tr><td><b>BeingDeleted</b></td><td>indique si une suppression est en cours.</td><td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'off', 'on'.</td></tr>
+      <tr><td><b>BusyAction</b></td><td>controle la mise en file des callbacks.</td><td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'queue', 'cancel'.</td></tr>
+      <tr><td><b>ButtonDownFcn</b></td><td>s'execute quand l'objet recoit un evenement souris.</td><td>Type: valeur de callback. Valeurs prises en charge: [], handle de fonction, vecteur de caracteres, string scalaire ou cellule de callback.</td></tr>
+      <tr><td><b>Children</b></td><td>liste les primitives graphiques enfants du graphique.</td><td>Type: vecteur de handles graphiques. Valeurs prises en charge: vecteur vide ou handles enfants.</td></tr>
+      <tr><td><b>ContextMenu</b></td><td>associe le menu utilise par les actions de clic contextuel.</td><td>Type: handle graphique scalaire. Valeurs prises en charge: [] ou handle uicontextmenu.</td></tr>
+      <tr><td><b>CreateFcn</b></td><td>s'execute quand l'objet est cree.</td><td>Type: valeur de callback. Valeurs prises en charge: [], handle de fonction, vecteur de caracteres, string scalaire ou cellule de callback.</td></tr>
+      <tr><td><b>DeleteFcn</b></td><td>s'execute quand l'objet est supprime.</td><td>Type: valeur de callback. Valeurs prises en charge: [], handle de fonction, vecteur de caracteres, string scalaire ou cellule de callback.</td></tr>
+      <tr><td><b>DisplayName</b></td><td>stocke le libelle utilise par les legendes et l'identification.</td><td>Type: texte. Valeurs prises en charge: vecteur de caracteres ou string scalaire.</td></tr>
+      <tr><td><b>EdgeColor</b></td><td>definit la couleur du contour des bulles.</td><td>Type: valeur de couleur. Valeurs prises en charge: noms courts de couleur, triplet RGB dans [0,1] ou couleur hexadecimale.</td></tr>
+      <tr><td><b>FaceColor</b></td><td>definit la couleur de remplissage des bulles.</td><td>Type: valeur de couleur ou mot-cle de couleur. Valeurs prises en charge: noms courts de couleur, triplet RGB dans [0,1], couleur hexadecimale ou 'flat'.</td></tr>
+      <tr><td><b>GroupData</b></td><td>stocke les groupes utilises pour colorer les bulles et creer la legende.</td><td>Type: cellule de vecteurs de caracteres. Valeurs prises en charge: cellule vide ou une etiquette par bulle.</td></tr>
+      <tr><td><b>GroupVariable</b></td><td>stocke la variable de table utilisee pour les groupes.</td><td>Type: texte. Valeurs prises en charge: texte vide ou nom de variable de la table source.</td></tr>
+      <tr><td><b>HandleVisibility</b></td><td>controle la decouverte du handle par les recherches graphiques.</td><td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off', 'callback'.</td></tr>
+      <tr><td><b>HitTest</b></td><td>inclut ou exclut l'objet du test de clic souris.</td><td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off'.</td></tr>
+      <tr><td><b>InnerPosition</b></td><td>stocke le rectangle interieur du graphique.</td><td>Type: vecteur ligne numerique. Valeurs prises en charge: quatre valeurs finies [left bottom width height].</td></tr>
+      <tr><td><b>Interruptible</b></td><td>controle l'interruption des callbacks en cours.</td><td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off'.</td></tr>
+      <tr><td><b>LabelData</b></td><td>stocke les libelles affiches dans les bulles.</td><td>Type: cellule de vecteurs de caracteres. Valeurs prises en charge: cellule vide ou un libelle par bulle.</td></tr>
+      <tr><td><b>LabelVariable</b></td><td>stocke la variable de table utilisee pour les libelles.</td><td>Type: texte. Valeurs prises en charge: texte vide ou nom de variable de la table source.</td></tr>
+      <tr><td><b>LegendTitle</b></td><td>definit le titre affiche au-dessus des entrees de legende.</td><td>Type: texte. Valeurs prises en charge: vecteur de caracteres, string scalaire ou texte vide.</td></tr>
+      <tr><td><b>OuterPosition</b></td><td>stocke le rectangle exterieur du graphique.</td><td>Type: vecteur ligne numerique. Valeurs prises en charge: quatre valeurs finies [left bottom width height].</td></tr>
+      <tr><td><b>Parent</b></td><td>stocke le conteneur graphique parent.</td><td>Type: handle graphique scalaire. Valeurs prises en charge: handle figure.</td></tr>
+      <tr><td><b>PickableParts</b></td><td>controle les parties visibles selectionnables.</td><td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'visible', 'all', 'none'.</td></tr>
+      <tr><td><b>Position</b></td><td>stocke le rectangle de position du graphique.</td><td>Type: vecteur ligne numerique. Valeurs prises en charge: quatre valeurs finies [left bottom width height].</td></tr>
+      <tr><td><b>Selected</b></td><td>controle l'etat de selection.</td><td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off'.</td></tr>
+      <tr><td><b>SelectionHighlight</b></td><td>controle l'affichage de la selection.</td><td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off'.</td></tr>
+      <tr><td><b>SizeData</b></td><td>stocke les tailles numeriques des bulles.</td><td>Type: vecteur ligne numerique. Valeurs prises en charge: valeurs numeriques finies.</td></tr>
+      <tr><td><b>SizeVariable</b></td><td>stocke la variable de table utilisee pour les tailles.</td><td>Type: texte. Valeurs prises en charge: texte vide ou nom de variable de la table source.</td></tr>
+      <tr><td><b>SourceTable</b></td><td>stocke la table utilisee pour creer le graphique.</td><td>Type: table ou valeur vide. Valeurs prises en charge: [] ou table fournie a bubblecloud.</td></tr>
+      <tr><td><b>Tag</b></td><td>stocke un texte utilisateur pour identifier l'objet.</td><td>Type: texte. Valeurs prises en charge: vecteur de caracteres ou string scalaire.</td></tr>
+      <tr><td><b>Title</b></td><td>definit le titre du graphique.</td><td>Type: texte. Valeurs prises en charge: vecteur de caracteres, string scalaire ou texte vide.</td></tr>
+      <tr><td><b>Type</b></td><td>identifie le type de l'objet graphique.</td><td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'bubblecloud'.</td></tr>
+      <tr><td><b>Units</b></td><td>definit les unites des proprietes de position.</td><td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'normalized', 'pixels', 'inches', 'centimeters', 'points', 'characters'.</td></tr>
+      <tr><td><b>UserData</b></td><td>stocke les donnees utilisateur associees au graphique.</td><td>Type: toute valeur Nelson. Valeurs prises en charge: toute valeur.</td></tr>
+      <tr><td><b>Visible</b></td><td>controle la visibilite du graphique.</td><td>Type: texte scalaire ou vecteur ligne de caracteres. Valeurs prises en charge: 'on', 'off'.</td></tr>
+    </table>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Inspecter les proprietes de bubblecloud.</example_item_description>
+      <example_item_data><![CDATA[h = bubblecloud([10 20 30], {'A','B','C'});
+props = properties(h)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/4_data_distribution_plots/bubblecloud">bubblecloud</link></see_also_item>
+    <see_also_item><link linkend="${handle}properties">properties</link></see_also_item>
+  </see_also>
+</xmldoc>

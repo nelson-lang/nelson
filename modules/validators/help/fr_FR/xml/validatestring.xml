@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>validatestring</keyword>
+  <short_description>Verifie qu'un texte correspond a une valeur autorisee.</short_description>
+  <syntax>
+    <syntax_item>matched = validatestring(str, validStrings)</syntax_item>
+    <syntax_item>matched = validatestring(str, validStrings, argIndex)</syntax_item>
+    <syntax_item>matched = validatestring(str, validStrings, funcName)</syntax_item>
+    <syntax_item>matched = validatestring(str, validStrings, funcName, varName)</syntax_item>
+    <syntax_item>matched = validatestring(str, validStrings, funcName, varName, argIndex)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>str</param_name>
+      <param_description>texte a verifier, sous forme de vecteur de caracteres ou chaine scalaire.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>validStrings</param_name>
+      <param_description>valeurs de texte autorisees, sous forme de vecteur de caracteres, tableau de chaines ou cellule de vecteurs de caracteres.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>argIndex</param_name>
+      <param_description>entier positif utilise dans les messages d'erreur pour indiquer la position de l'argument.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>funcName</param_name>
+      <param_description>nom de fonction utilise dans les identifiants d'erreur generes.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>varName</param_name>
+      <param_description>nom de variable utilise dans les messages d'erreur generes.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>matched</param_name>
+      <param_description>valeur trouvee dans <b>validStrings</b>. La sortie est une chaine scalaire si <b>validStrings</b> est un tableau de chaines ; sinon c'est un vecteur de caracteres.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>validatestring</b> accepte les correspondances exactes et les correspondances partielles de debut de texte, sans tenir compte de la casse. Les correspondances exactes sont prioritaires.</p>
+    <p>Si une seule correspondance partielle existe, cette valeur est renvoyee. Si plusieurs correspondances partielles existent et que toutes les valeurs correspondantes forment une chaine de sous-chaines, la valeur la plus courte est renvoyee. Sinon une erreur d'ambiguite est emise.</p>
+    <p>Les messages d'erreur peuvent inclure une position d'argument, un nom de variable et un nom de fonction selon la syntaxe utilisee.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Correspondances exactes et partielles sans tenir compte de la casse.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[shape = validatestring('Rect', {'square', 'rectangle', 'triangle'});
+direction = validatestring("LEFT", ["left", "right"])]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Correspondance la plus courte dans une chaine de correspondances partielles.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[value = validatestring('rig', {'righteously', 'right', 'righteous'})]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Utiliser les arguments de contexte pour les erreurs generees.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[units = {'cm', 'm', 'in', 'ft'};
+choice = validatestring('CM', units, 'findArea', 'units', 4)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${validators}validateattributes">validateattributes</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${validators}inputParser">inputParser</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>1.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

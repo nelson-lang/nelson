@@ -15,5 +15,6 @@
 namespace Nelson {
 NLSENGINE_IMPEXP bool
 StartNelsonUserModules(Evaluator* eval);
-}
+//=============================================================================
+} // namespace Nelson
 //=============================================================================

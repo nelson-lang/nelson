@@ -9,13 +9,15 @@
 //=============================================================================
 #include "colonBuiltin.hpp"
 #include "Error.hpp"
-#include "PredefinedErrorMessages.hpp"
+#include "ErrorID.hpp"
+#include "InputOutputArgumentsCheckers.hpp"
 //=============================================================================
 using namespace Nelson;
 //=============================================================================
 ArrayOfVector
 Nelson::OperatorsGateway::colonBuiltin(Evaluator* eval, int nLhs, const ArrayOfVector& argIn)
 {
+    nargincheck(argIn, 2, 3);
     switch (argIn.size()) {
     case 2: {
         return eval->colonUnitOperator(argIn[0], argIn[1]);
@@ -23,9 +25,8 @@ Nelson::OperatorsGateway::colonBuiltin(Evaluator* eval, int nLhs, const ArrayOfV
     case 3: {
         return eval->colonOperator(argIn[0], argIn[1], argIn[2]);
     } break;
-    default: {
-        Error(ERROR_WRONG_NUMBERS_INPUT_ARGS);
-    } break;
+    default:
+        break;
     }
     return {};
 }

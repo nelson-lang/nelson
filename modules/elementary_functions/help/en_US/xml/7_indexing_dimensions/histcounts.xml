@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>histcounts</keyword>
+  <short_description>Histogram bin counts.</short_description>
+  <syntax>
+    <syntax_item>N = histcounts(X)</syntax_item>
+    <syntax_item>N = histcounts(X, nbins)</syntax_item>
+    <syntax_item>N = histcounts(X, edges)</syntax_item>
+    <syntax_item>[N, edges, bin] = histcounts(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>X</param_name>
+      <param_description>numeric or logical array containing the data to bin.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>nbins</param_name>
+      <param_description>positive integer scalar: requested number of bins.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>edges</param_name>
+      <param_description>strictly increasing numeric vector that defines bin edges.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>N</param_name>
+      <param_description>row vector of bin counts.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>edges</param_name>
+      <param_description>bin edges used for the count.</param_description>
+    </param_output_item>
+    <param_output_item>
+      <param_name>bin</param_name>
+      <param_description>array with the same shape as X containing the bin index for each element.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>histcounts counts the elements of X that fall into consecutive histogram bins.</p>
+    <p>You can specify either a number of bins or a vector of monotonically increasing bin edges. The last bin includes its right edge.</p>
+  </description>
+  <used_function>
+    <used_function_item>histcounts</used_function_item>
+  </used_function>
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Count values with explicit bin edges.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[x = [0 1 1 2 3 3 4];
+[N, edges, bin] = histcounts(x, 0:2:4)]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${elementary_functions}sortrows">sortrows</link></see_also_item>
+    <see_also_item><link linkend="${graphics}histogram">histogram</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

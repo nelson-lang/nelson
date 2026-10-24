@@ -10,8 +10,8 @@
 % <--ADV-CLI MODE-->
 % <--WITH DISPLAY-->
 %=============================================================================
-assert_isequal(nargin('qml_clearcomponentcache'), 0);
-assert_isequal(nargout('qml_clearcomponentcache'), 0);
+asserts.isequal(nargin('qml_clearcomponentcache'), 0);
+asserts.isequal(nargout('qml_clearcomponentcache'), 0);
 %=============================================================================
 qml_clearcomponentcache();
 %=============================================================================

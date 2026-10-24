@@ -17,5 +17,5 @@ namespace Nelson {
 NLSSTRING_IMPEXP std::wstring
 MatrixToString(ArrayOf A, indexType precision, bool withClass);
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

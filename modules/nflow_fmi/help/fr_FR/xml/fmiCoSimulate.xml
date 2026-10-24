@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>fmiCoSimulate</keyword>
+  <short_description>Exécute une co-simulation à pas fixe d'une FMU FMI 2.0 ou 3.0.</short_description>
+  <syntax>
+    <syntax_item>result = fmiCoSimulate(fmu, tStop)</syntax_item>
+    <syntax_item>result = fmiCoSimulate(fmu, tStop, dt)</syntax_item>
+    <syntax_item>result = fmiCoSimulate(fmu, tStop, dt, inputs)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>fmu</param_name>
+      <param_description>une chaîne de caractères&#160;: le chemin d'une archive <b>.fmu</b>, ou d'un répertoire de FMU déjà extrait. La FMU doit fournir l'interface de co-simulation (voir <b>fmiInfo</b>).</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>tStop</param_name>
+      <param_description>un scalaire réel strictement positif&#160;: l'instant d'arrêt de la simulation, dans l'unité de temps de la FMU (secondes). La simulation débute à l'instant <b>0</b>.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>dt</param_name>
+      <param_description>un scalaire réel strictement positif optionnel&#160;: le pas de communication. En son absence il vaut par défaut <b>tStop / 100</b> (cent pas). Il est ramené à <b>tStop</b> s'il est plus grand.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>inputs</param_name>
+      <param_description>une structure scalaire optionnelle dont les noms de champs sont des variables d'entrée <b>Float64</b> de la FMU et les valeurs les valeurs constantes maintenues sur ces entrées pendant toute l'exécution, par exemple <b>struct('u', 2.5)</b>. Les entrées non listées conservent leurs valeurs initiales.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>result</param_name>
+      <param_description>une structure scalaire contenant la trajectoire enregistrée, avec les champs <b>time</b>, <b>outputNames</b> et <b>outputs</b> décrits ci-dessous.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>fmiCoSimulate</b> exécute une <b>co-simulation</b> d'une <b>unité de maquette fonctionnelle</b> (FMU) conforme au standard <b>FMI 2.0</b> ou <b>3.0</b> et renvoie les valeurs de chaque sortie <b>Float64</b> à chaque point de communication.</p>
+    <p>La FMU est instanciée, initialisée entre les instants <b>0</b> et <b>tStop</b>, puis avancée avec un pas de communication fixe <b>dt</b>. Au début de chaque pas les sorties <b>Float64</b> courantes sont enregistrées&#160;; la FMU est ensuite avancée d'un pas. La boucle s'arrête à <b>tStop</b>, ou plus tôt si la FMU demande l'arrêt. La FMU est toujours terminée et libérée avant le retour de la fonction, y compris en cas d'erreur.</p>
+    <p>Aucune entrée externe n'est appliquée&#160;: les paramètres et les entrées de la FMU conservent les valeurs initiales déclarées dans sa description de modèle. La fonction reproduit donc la réponse libre du modèle tel qu'empaqueté. L'application d'entrées personnalisées n'est pas encore prise en charge par ce point d'entrée.</p>
+    <p>L'argument <b>fmu</b> accepte aussi bien une archive <b>.fmu</b> qu'un répertoire déjà extrait. Une archive <b>.fmu</b> est décompressée avec un extracteur durci contre le ZIP-slip dans un répertoire temporaire neuf, supprimé automatiquement au retour de la fonction&#160;; les entrées comportant un chemin absolu, une lettre de lecteur ou une remontée <b>..</b> sont rejetées.</p>
+    <p>La structure renvoyée <b>result</b> comporte les champs suivants&#160;:</p>
+    <table style="width:100%">
+      <tr>
+        <th>Champ</th>
+        <th>Taille</th>
+        <th>Détails</th>
+      </tr>
+      <tr>
+        <td>time</td>
+        <td>N x 1</td>
+        <td>les points de communication, débutant à <b>0</b> et strictement croissants par pas de <b>dt</b> (le dernier point peut être plus court lorsque la FMU s'arrête prématurément).</td>
+      </tr>
+      <tr>
+        <td>outputNames</td>
+        <td>1 x nOut</td>
+        <td>un tableau de cellules des noms des variables de sortie <b>Float64</b>, dans l'ordre de déclaration.</td>
+      </tr>
+      <tr>
+        <td>outputs</td>
+        <td>N x nOut</td>
+        <td>les valeurs de sortie enregistrées&#160;; la colonne <b>j</b> est la trajectoire de <b>outputNames{j}</b>, la ligne <b>i</b> correspond à <b>time(i)</b>.</td>
+      </tr>
+    </table>
+    <p>Le nombre de lignes <b>N</b> vaut <b>floor(tStop / dt) + 1</b> pour une exécution qui se termine à <b>tStop</b>. Lorsque la FMU ne déclare aucune sortie <b>Float64</b>, <b>outputNames</b> est vide et <b>outputs</b> possède zéro colonne, tandis que <b>time</b> est tout de même renvoyé.</p>
+    <p>Utilisez d'abord <b>fmiInfo</b> pour inspecter les variables et confirmer la présence de l'interface de co-simulation. Une erreur est levée lorsque <b>tStop</b> n'est pas strictement positif, lorsque la FMU ne gère pas la co-simulation, ou lorsqu'un appel FMI échoue.</p>
+  </description>
+
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Exécuter une co-simulation avec le pas par défaut.</example_item_description>
+      <example_item_data
+        ><![CDATA[result = fmiCoSimulate('VanDerPol.fmu', 20)]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Exécuter avec un pas de communication explicite et tracer les sorties.</example_item_description>
+      <example_item_data
+        ><![CDATA[r = fmiCoSimulate('VanDerPol.fmu', 20, 0.01);
+plot(r.time, r.outputs);
+legend(r.outputNames);
+xlabel('temps');
+title('Sorties de co-simulation FMU');]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Extraire une sortie nommée du résultat.</example_item_description>
+      <example_item_data
+        ><![CDATA[r = fmiCoSimulate('VanDerPol.fmu', 20, 0.01);
+col = find(strcmp(r.outputNames, 'x0'));
+x0 = r.outputs(:, col);]]></example_item_data>
+    </example_item>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Piloter une entrée de FMU avec une valeur constante (FMU Feedthrough livrée).</example_item_description>
+      <example_item_data runnable="cli"
+        ><![CDATA[fmu = [modulepath('nflow_fmi', 'root'), '/examples/Feedthrough.fmu'];
+r = fmiCoSimulate(fmu, 2, 0.1, struct('Float64_continuous_input', 2.5));
+col = find(strcmp(r.outputNames, 'Float64_continuous_output'));
+r.outputs(end, col)]]></example_item_data>
+    </example_item>
+  </examples>
+
+  <see_also>
+    <see_also_item>
+      <link linkend="${nflow_fmi}fmiInfo">fmiInfo</link>
+    </see_also_item>
+  </see_also>
+
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

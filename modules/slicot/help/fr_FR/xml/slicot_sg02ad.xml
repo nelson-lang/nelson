@@ -4,7 +4,7 @@
   <language>fr_FR</language>
   <keyword>slicot_sg02ad</keyword>
   <short_description
-  >Solution of continuous- or discrete-time algebraic Riccati equations for descriptor systems.</short_description>
+  >Résolution des équations de Riccati algébriques temps continu ou discret pour les systèmes descripteurs.</short_description>
   <syntax>
     <syntax_item
     >[RCONDU, X, ALFAR, ALFAI, BETA, S, T, U, IWARN, INFO] = slicot_sg02ad(DICO, JOBB, FACT, UPLO, JOBL, SCAL, SORT, ACC, P, A, E, B, Q, R, L, TOL)</syntax_item>
@@ -13,139 +13,139 @@
     <param_input_item>
       <param_name>DICO</param_name>
       <param_description
-      >Specifies the type of Riccati equation to be solved as follows: = &apos;C&apos;: Equation (1), continuous-time case; = &apos;D&apos;: Equation (2), discrete-time case.</param_description>
+      >Spécifie le type d&apos;équation de Riccati à résoudre : = &apos;C&apos; : équation (1), cas continu ; = &apos;D&apos; : équation (2), cas discret.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>JOBB</param_name>
       <param_description
-      >Specifies whether or not the matrix G is given, instead of the matrices B and R, as follows: = &apos;B&apos;: B and R are given; = &apos;G&apos;: G is given.</param_description>
+      >Spécifie si la matrice G est fournie au lieu des matrices B et R : = &apos;B&apos; : B et R sont fournis ; = &apos;G&apos; : G est fourni.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>FACT</param_name>
       <param_description
-      >Specifies whether or not the matrices Q and/or R (if JOBB = &apos;B&apos;) are factored, as follows: = &apos;N&apos;: Not factored, Q and R are given; = &apos;C&apos;: C is given, and Q = C&apos;C; = &apos;D&apos;:  D is given, and R = D&apos;D; = &apos;B&apos;: Both factors C and D are given, Q = C&apos;C, R = D&apos;D.</param_description>
+      >Spécifie si les matrices Q et/ou R (si JOBB = &apos;B&apos;) sont factorisées : = &apos;N&apos; : non factorisées, Q et R fournis ; = &apos;C&apos; : C donné, Q = C&apos;C ; = &apos;D&apos; : D donné, R = D&apos;D ; = &apos;B&apos; : facteurs C et D donnés, Q = C&apos;C, R = D&apos;D.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>UPLO</param_name>
       <param_description
-      >If JOBB = &apos;G&apos;, or FACT = &apos;N&apos;, specifies which triangle of the matrices G, or Q and R, is stored, as follows: = &apos;U&apos;: Upper triangle is stored; = &apos;L&apos;: Lower triangle is stored.</param_description>
+      >Si JOBB = &apos;G&apos; ou FACT = &apos;N&apos;, spécifie quel triangle des matrices G, ou Q et R, est stocké : = &apos;U&apos; : triangle supérieur stocké ; = &apos;L&apos; : triangle inférieur stocké.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>JOBL</param_name>
       <param_description
-      >Specifies whether or not the matrix L is zero, as follows: = &apos;Z&apos;: L is zero; = &apos;N&apos;: L is nonzero. JOBL is not used if JOBB = &apos;G&apos; and JOBL = &apos;Z&apos; is assumed. SLICOT Library routine SB02MT should be called just before SG02AD, for obtaining the results when JOBB = &apos;G&apos; and JOBL = &apos;N&apos;.</param_description>
+      >Spécifie si la matrice L est nulle : = &apos;Z&apos; : L est nulle ; = &apos;N&apos; : L est non nulle. JOBL n&apos;est pas utilisé si JOBB = &apos;G&apos; (on suppose JOBL = &apos;Z&apos;). La routine SB02MT de la bibliothèque SLICOT doit être appelée juste avant SG02AD pour obtenir les résultats lorsque JOBB = &apos;G&apos; et JOBL = &apos;N&apos;.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>SCAL</param_name>
       <param_description
-      >If JOBB = &apos;B&apos;, specifies whether or not a scaling strategy should be used to scale Q, R, and L, as follows: = &apos;G&apos;: General scaling should be used; = &apos;N&apos;: No scaling should be used. SCAL is not used if JOBB = &apos;G&apos;.</param_description>
+      >Si JOBB = &apos;B&apos;, spécifie si une stratégie de mise à l&apos;échelle doit être utilisée pour mettre à l&apos;échelle Q, R et L : = &apos;G&apos; : mise à l&apos;échelle générale ; = &apos;N&apos; : aucune mise à l&apos;échelle. SCAL n&apos;est pas utilisé si JOBB = &apos;G&apos;.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>SORT</param_name>
       <param_description
-      >Specifies which eigenvalues should be obtained in the top of the generalized Schur form, as follows: = &apos;S&apos;: Stable eigenvalues come first; = &apos;U&apos;: Unstable eigenvalues come first.</param_description>
+      >Spécifie quelles valeurs propres doivent apparaître en tête de la forme de Schur généralisée : = &apos;S&apos; : valeurs propres stables en premier ; = &apos;U&apos; : valeurs propres instables en premier.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>ACC</param_name>
       <param_description
-      >Specifies whether or not iterative refinement should be used to solve the system of algebraic equations giving the solution matrix X, as follows: = &apos;R&apos;: Use iterative refinement; = &apos;N&apos;: Do not use iterative refinement.</param_description>
+      >Spécifie si un raffinement itératif doit être utilisé pour résoudre le système d&apos;équations algébriques donnant la matrice solution X : = &apos;R&apos; : utiliser le raffinement itératif ; = &apos;N&apos; : ne pas utiliser le raffinement itératif.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>P</param_name>
       <param_description
-      >The number of system outputs. If FACT = &apos;C&apos; or &apos;D&apos; or &apos;B&apos;, P is the number of rows of the matrices C and/or D.</param_description>
+      >Le nombre de sorties du système. Si FACT = &apos;C&apos; ou &apos;D&apos; ou &apos;B&apos;, P est le nombre de lignes des matrices C et/ou D.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>A</param_name>
       <param_description
-      >The leading N-by-N part of this array must contain the state matrix A of the descriptor system.</param_description>
+      >La partie principale N-by-N de ce tableau doit contenir la matrice d&apos;état A du système descripteur.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>E</param_name>
       <param_description
-      >The leading N-by-N part of this array must contain the matrix E of the descriptor system.</param_description>
+      >La partie principale N-by-N de ce tableau doit contenir la matrice E du système descripteur.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>B</param_name>
       <param_description
-      >If JOBB = &apos;B&apos;, the leading N-by-M part of this array must contain the input matrix B of the system.</param_description>
+      >Si JOBB = &apos;B&apos;, la partie principale N-by-M de ce tableau doit contenir la matrice d&apos;entrée B du système.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>Q</param_name>
       <param_description
-      >If FACT = &apos;N&apos; or &apos;D&apos;, the leading N-by-N upper triangular part (if UPLO = &apos;U&apos;) or lower triangular part (if UPLO = &apos;L&apos;) of this array must contain the upper triangular part or lower triangular part, respectively, of the symmetric state weighting matrix Q. The stricly lower triangular part (if UPLO = &apos;U&apos;) or stricly upper triangular part (if UPLO = &apos;L&apos;) is not referenced. If FACT = &apos;C&apos; or &apos;B&apos;, the leading P-by-N part of this array must contain the output matrix C of the system. If JOBB = &apos;B&apos; and SCAL = &apos;G&apos;, then Q is modified internally, but is restored on exit.</param_description>
+      >Si FACT = &apos;N&apos; ou &apos;D&apos;, la partie principale N-by-N triangulaire supérieure (si UPLO = &apos;U&apos;) ou triangulaire inférieure (si UPLO = &apos;L&apos;) de ce tableau doit contenir la partie triangulaire supérieure ou inférieure, respectivement, de la matrice symétrique de pondération d&apos;état Q. La partie strictement inférieure (si UPLO = &apos;U&apos;) ou strictement supérieure (si UPLO = &apos;L&apos;) n&apos;est pas référencée. Si FACT = &apos;C&apos; ou &apos;B&apos;, la partie principale P-by-N de ce tableau doit contenir la matrice de sortie C du système. Si JOBB = &apos;B&apos; et SCAL = &apos;G&apos;, alors Q est modifié en interne, mais restauré à la sortie.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>R</param_name>
       <param_description
-      >If FACT = &apos;N&apos; or &apos;C&apos;, the leading M-by-M upper triangular part (if UPLO = &apos;U&apos;) or lower triangular part (if UPLO = &apos;L&apos;) of this array must contain the upper triangular part or lower triangular part, respectively, of the symmetric input weighting matrix R. The stricly lower triangular part (if UPLO = &apos;U&apos;) or stricly upper triangular part (if UPLO = &apos;L&apos;) is not referenced. If FACT = &apos;D&apos; or &apos;B&apos;, the leading P-by-M part of this array must contain the direct transmission matrix D of the system. If JOBB = &apos;B&apos; and SCAL = &apos;G&apos;, then R is modified internally, but is restored on exit.</param_description>
+      >Si FACT = &apos;N&apos; ou &apos;C&apos;, la partie principale M-by-M triangulaire supérieure (si UPLO = &apos;U&apos;) ou triangulaire inférieure (si UPLO = &apos;L&apos;) de ce tableau doit contenir la partie triangulaire supérieure ou inférieure, respectivement, de la matrice symétrique de pondération d&apos;entrée R. La partie strictement inférieure (si UPLO = &apos;U&apos;) ou strictement supérieure (si UPLO = &apos;L&apos;) n&apos;est pas référencée. Si FACT = &apos;D&apos; ou &apos;B&apos;, la partie principale P-by-M de ce tableau doit contenir la matrice de transmission directe D du système. Si JOBB = &apos;B&apos; et SCAL = &apos;G&apos;, alors R est modifié en interne, mais restauré à la sortie.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>L</param_name>
       <param_description
-      >If JOBL = &apos;N&apos; and JOBB = &apos;B&apos;, the leading N-by-M part of this array must contain the cross weighting matrix L. If JOBB = &apos;B&apos; and SCAL = &apos;G&apos;, then L is modified internally, but is restored on exit.</param_description>
+      >Si JOBL = &apos;N&apos; et JOBB = &apos;B&apos;, la partie principale N-by-M de ce tableau doit contenir la matrice de pondération croisée L. Si JOBB = &apos;B&apos; et SCAL = &apos;G&apos;, alors L est modifié en interne, mais restauré à la sortie.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>TOL</param_name>
       <param_description
-      >The tolerance to be used to test for near singularity of the original matrix pencil, specifically of the triangular M-by-M factor obtained during the reduction process.</param_description>
+      >La tolérance à utiliser pour tester la quasi-singularité du pencil matriciel original, spécifiquement du facteur triangulaire M-by-M obtenu lors du processus de réduction.</param_description>
     </param_input_item>
   </param_input>
   <param_output>
     <param_output_item>
       <param_name>RCONDU</param_name>
       <param_description
-      >If N &gt; 0 and INFO = 0 or INFO = 7, an estimate of the reciprocal of the condition number (in the 1-norm) of the N-th order system of algebraic equations from which the solution matrix X is obtained.</param_description>
+      >Si N &gt; 0 et INFO = 0 ou INFO = 7, une estimation du réciproque du nombre de condition (en norme 1) du système d&apos;ordre N d&apos;équations algébriques à partir duquel la matrice solution X est obtenue.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>X</param_name>
       <param_description
-      >If INFO = 0, the leading N-by-N part of this array contains the solution matrix X of the problem.</param_description>
+      >Si INFO = 0, la partie principale N-by-N de ce tableau contient la matrice solution X du problème.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>ALFAR</param_name>
       <param_description
-      >The generalized eigenvalues of the 2N-by-2N matrix pair, ordered as specified by SORT (if INFO = 0, or INFO &gt;= 5).</param_description>
+      >Les valeurs propres généralisées de la paire de matrices 2N-by-2N, ordonnées comme spécifié par SORT (si INFO = 0 ou INFO &gt;= 5).</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>ALFAI</param_name>
       <param_description
-      >The generalized eigenvalues of the 2N-by-2N matrix pair, ordered as specified by SORT (if INFO = 0, or INFO &gt;= 5).</param_description>
+      >Les valeurs propres généralisées de la paire de matrices 2N-by-2N, ordonnées comme spécifié par SORT (si INFO = 0 ou INFO &gt;= 5).</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>BETA</param_name>
       <param_description
-      >The generalized eigenvalues of the 2N-by-2N matrix pair, ordered as specified by SORT (if INFO = 0, or INFO &gt;= 5).</param_description>
+      >Les valeurs propres généralisées de la paire de matrices 2N-by-2N, ordonnées comme spécifié par SORT (si INFO = 0 ou INFO &gt;= 5).</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>S</param_name>
       <param_description
-      >The leading 2N-by-2N part of this array contains the ordered real Schur form S of the first matrix in the reduced matrix pencil associated to the optimal problem, corresponding to the scaled Q, R, and L, if JOBB = &apos;B&apos; and SCAL = &apos;G&apos;.</param_description>
+      >La partie principale 2N-by-2N de ce tableau contient la forme de Schur réelle ordonnée S de la première matrice du pencil réduit associé au problème optimal, correspondant aux Q, R et L mis à l&apos;échelle si JOBB = &apos;B&apos; et SCAL = &apos;G&apos;.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>T</param_name>
       <param_description
-      >The leading 2N-by-2N part of this array contains the ordered upper triangular form T of the second matrix in the reduced matrix pencil associated to the optimal problem, corresponding to the scaled Q, R, and L, if JOBB = &apos;B&apos; and SCAL = &apos;G&apos;.</param_description>
+      >La partie principale 2N-by-2N de ce tableau contient la forme triangulaire supérieure ordonnée T de la seconde matrice du pencil réduit associé au problème optimal, correspondant aux Q, R et L mis à l&apos;échelle si JOBB = &apos;B&apos; et SCAL = &apos;G&apos;.</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>U</param_name>
       <param_description
-      >The leading 2N-by-2N part of this array contains the right transformation matrix U which reduces the 2N-by-2N matrix pencil to the ordered generalized real Schur form (S,T).</param_description>
+      >La partie principale 2N-by-2N de ce tableau contient la matrice de transformation droite U qui réduit le pencil 2N-by-2N à la forme de Schur réelle généralisée ordonnée (S,T).</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>IWARN</param_name>
       <param_description
-      >= 0: no warning; = 1: the computed solution may be inaccurate due to poor scaling or eigenvalues too close to the boundary of the stability domain (the imaginary axis, if DICO = &apos;C&apos;, or the unit circle, if DICO = &apos;D&apos;).</param_description>
+      >= 0 : aucun avertissement ; = 1 : la solution calculée peut être imprécise en raison d&apos;une mauvaise mise à l&apos;échelle ou de valeurs propres trop proches de la frontière du domaine de stabilité (l&apos;axe imaginaire si DICO = &apos;C&apos;, ou le cercle unité si DICO = &apos;D&apos;).</param_description>
     </param_output_item>
     <param_output_item>
       <param_name>INFO</param_name>
       <param_description
-      >= 0: successful exit; = 1: if the computed extended matrix pencil is singular, possibly due to rounding errors; = 2: if the QZ algorithm failed; = 3: if reordering of the generalized eigenvalues failed; = 4: if after reordering, roundoff changed values of some complex eigenvalues so that leading eigenvalues in the generalized Schur form no longer satisfy the stability condition; this could also be caused due to scaling; = 5: if the computed dimension of the solution does not equal N; = 6: if the spectrum is too close to the boundary of the stability domain; = 7: if a singular matrix was encountered during the computation of the solution matrix X.</param_description>
+      >= 0 : sortie réussie ; = 1 : si le pencil matriciel étendu calculé est singulier, éventuellement en raison d&apos;erreurs d&apos;arrondi ; = 2 : si l&apos;algorithme QZ a échoué ; = 3 : si le réordonnancement des valeurs propres généralisées a échoué ; = 4 : si, après réordonnancement, les erreurs d&apos;arrondi ont modifié les valeurs de certaines valeurs propres complexes de sorte que les valeurs propres de tête de la forme de Schur généralisée ne satisfont plus la condition de stabilité ; cela peut aussi être dû à la mise à l&apos;échelle ; = 5 : si la dimension calculée de la solution n&apos;est pas égale à N ; = 6 : si le spectre est trop proche de la frontière du domaine de stabilité ; = 7 : si une matrice singulière a été rencontrée lors du calcul de la matrice solution X.</param_description>
     </param_output_item>
   </param_output>
   <description>
     <p
-    >To solve for X either the continuous-time algebraic Riccatiequation or the discrete-time algebraic Riccati equation</p>
+    >Résolution en X de l&apos;équation de Riccati algébrique temps continu ou de l&apos;équation de Riccati algébrique temps discret.</p>
   </description>
   <used_function>SG02AD</used_function>
   <bibliography
@@ -184,6 +184,17 @@ L = zeros(N, N);
 [RCONDU, X, ALFAR, ALFAI, BETA, S, T, U, IWARN, INFO] = slicot_sg02ad(DICO, JOBB, FACT, UPLO, JOBL, SCAL, SORT, ACC, P, A, E, B, Q, R, L, TOL)]]></example_item_data>
     </example_item>
   </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${slicot}slicot_sb02od">slicot_sb02od</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${control_system}care">care</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${control_system}dare">dare</link>
+    </see_also_item>
+  </see_also>
   <history>
     <history_item>
       <history_version>1.0.0</history_version>

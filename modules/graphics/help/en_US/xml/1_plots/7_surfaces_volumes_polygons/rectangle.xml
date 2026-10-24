@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>rectangle</keyword>
+  <short_description>Create a rectangle with sharp, rounded or curved corners</short_description>
+  <syntax>
+    <syntax_item>rectangle()</syntax_item>
+    <syntax_item>rectangle(&apos;Position&apos;, pos)</syntax_item>
+    <syntax_item>rectangle(&apos;Position&apos;, pos, &apos;Curvature&apos;, cur)</syntax_item>
+    <syntax_item>rectangle(..., propertyName, propertyValue)</syntax_item>
+    <syntax_item>rectangle(ax, ...)</syntax_item>
+    <syntax_item>go = rectangle(...)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>pos</param_name>
+      <param_description
+      >position and size, specified as a four-element vector [x y w h]. x and y set the location of the lower-left corner, w and h set the width and height in data units.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>cur</param_name>
+      <param_description
+      >curvature, specified as a scalar or a two-element vector [horizontal vertical], with each value in the range [0, 1]. 0 gives sharp corners and 1 gives the maximum curvature. Use [1 1] to draw an ellipse.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>ax</param_name>
+      <param_description
+      >a scalar graphics object value: parent container, specified as an axes.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyName</param_name>
+      <param_description>a scalar string or row vector character.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>propertyValue</param_name>
+      <param_description>a value.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>go</param_name>
+      <param_description>a graphics object: rectangle type.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>
+      <b>rectangle(&apos;Position&apos;, pos)</b> draws a rectangle at the location and size given by <b>pos</b> = [x y w h].</p>
+    <p>
+      <b>rectangle(&apos;Position&apos;, pos, &apos;Curvature&apos;, cur)</b> draws a rectangle with rounded corners. The horizontal curvature is the fraction of the width that is curved along the top and bottom edges; the vertical curvature is the fraction of the height that is curved along the left and right edges. A scalar value applies the same curvature length to both directions, using the shorter side, so the corners are circular. Use <b>[1 1]</b> to draw an ellipse.</p>
+    <p>
+      <b>rectangle(..., propertyName, propertyValue, ...)</b> sets optional properties using name-value pairs, such as <b>FaceColor</b>, <b>EdgeColor</b>, <b>LineStyle</b> and <b>LineWidth</b>.</p>
+    <p>By default a rectangle has no fill (<b>FaceColor</b> is <b>&apos;none&apos;</b>), a dark grey outline (<b>EdgeColor</b>), a solid line style and a line width of 0.5 point.</p>
+    <p>
+      <b>go = rectangle(...)</b> returns the handle <b>go</b> to the created rectangle object.</p></description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Rounded rectangle and ellipse</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[f = figure('Color', 'w');
+rectangle('Position', [0 0 2 1], 'Curvature', 0.2, ...
+  'FaceColor', [0.6 0.8 1], 'EdgeColor', 'k', 'LineWidth', 2);
+rectangle('Position', [2.5 0 1 1], 'Curvature', [1 1], ...
+  'FaceColor', [1 0.8 0.6], 'EdgeColor', 'k', 'LineWidth', 2);
+xlim([-0.3 3.8]);
+ylim([-0.3 1.3]);
+axis equal
+axis off]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${graphics}1_plots/7_surfaces_volumes_polygons/patch">patch</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}1_plots/7_surfaces_volumes_polygons/fill">fill</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${graphics}3_labels_styling/4_labels_annotations/annotation">annotation</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

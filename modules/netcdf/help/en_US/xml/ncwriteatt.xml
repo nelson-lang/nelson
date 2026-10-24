@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>ncwriteatt</keyword>
+  <short_description>Write an attribute to a netCDF file or variable.</short_description>
+  <syntax>
+    <syntax_item>ncwriteatt(filename, location, attname, attvalue)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>filename</param_name>
+      <param_description>Path of the netCDF file.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>location</param_name>
+      <param_description>Variable name, or &apos;/&apos; for a global attribute.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>attname</param_name>
+      <param_description>Attribute name.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>attvalue</param_name>
+      <param_description>Attribute value. Character and numeric arrays are supported.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>none</param_name>
+      <param_description>This function does not return a value.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>ncwriteatt writes metadata as a netCDF attribute. Use location &apos;/&apos; for global file metadata.</p>
+    <p>Attributes are useful for units, titles, scale factors, and provenance metadata.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Copy-paste example for ncwriteatt.</example_item_description>
+      <example_item_data runnable="cli"><![CDATA[filename = [tempdir(), 'help_ncwriteatt.nc'];
+nccreate(filename, 'temperature', 'Dimensions', {'x', 2});
+ncwriteatt(filename, '/', 'title', 'sample file');
+title = ncreadatt(filename, '/', 'title')]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${netcdf}ncreadatt">ncreadatt</link></see_also_item>
+    <see_also_item><link linkend="${netcdf}ncinfo">ncinfo</link></see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

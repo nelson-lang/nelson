@@ -7,36 +7,45 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-assert_isequal(nargin('floor'), 1)
-assert_isequal(nargout('floor'), 1)
+asserts.isequal(nargin('floor'), 1)
+asserts.isequal(nargout('floor'), 1)
 %=============================================================================
 A = [2.3 3.8 5.5 -2.3 -3.8 -5.5];
 R = floor(A);
-REF = [2     3     5    -3    -4    -6];
-assert_isequal(R, REF);
+REF = [2 3 5 -3 -4 -6];
+asserts.isequal(R, REF);
 %=============================================================================
 A = single([2.3 3.8 5.5 -2.3 -3.8 -5.5]);
 R = floor(A);
-REF = single([2     3     5    -3    -4    -6]);
-assert_isequal(R, REF);
+REF = single([2 3 5 -3 -4 -6]);
+asserts.isequal(R, REF);
 %=============================================================================
 A = [2.3 3.8 5.5 -2.3 -3.8 -5.5];
-REF = [2     3     5    -3    -4    -6];
+REF = [2 3 5 -3 -4 -6];
 R = floor(sparse(A));
 REF = sparse(REF);
-assert_isequal(R, REF);
+asserts.isequal(R, REF);
+%=============================================================================
+A = sparse(single([2.3 + 4.6i 0; -2.3 - 4.6i 3.1]));
+R = floor(A);
+asserts.istrue(issparse(R));
+asserts.isequal(class(R), 'single');
+REF = single([2 + 4i 0; -3 - 5i 3]);
+asserts.isapprox(full(R), REF, 1e-6);
 %=============================================================================
 A = complex([2.3 3.8 5.5 -2.3 -3.8 -5.5], [2.3 3.8 5.5 -2.3 -3.8 -5.5] * 2);
 R = floor(A);
-REF = [2.0000+4.0000i, 3.0000+7.0000i, 5.0000+11.0000i, -3.0000-5.0000i, -4.0000-8.0000i, -6.0000-11.0000i];
-assert_isequal(R, REF);
+REF = [2.0000 + 4.0000i, 3.0000 + 7.0000i, 5.0000 + 11.0000i, -3.0000 - 5.0000i, -4.0000 - 8.0000i, -6.0000 - 11.0000i];
+asserts.isequal(R, REF);
 %=============================================================================
 A = floor(int8(3));
 R = class(A);
-assert_isequal(R, 'int8');
+asserts.isequal(R, 'int8');
 %=============================================================================
-assert_isequal(floor(NaN), NaN);
-assert_isequal(floor(Inf), Inf);
-assert_isequal(floor(-Inf), -Inf);
-assert_isequal(floor(zeros(0, 3)), zeros(0, 3));
+asserts.isequal(floor(NaN), NaN);
+asserts.isequal(floor(Inf), Inf);
+asserts.isequal(floor(-Inf), -Inf);
+asserts.isequal(floor(zeros(0, 3)), zeros(0, 3));
+%=============================================================================
+asserts.isequal(floor([2.3 3.8 5.5 -2.3 -3.8 -5.5]), [2 3 5 -3 -4 -6]);
 %=============================================================================

@@ -11,7 +11,7 @@
 function varargout = tf2ss(numerator, denominator)
   narginchk(2, 2);
   nargoutchk(0, 4);
-  
+
   % Ensure the denominator is a row vector
   denominator = denominator(:)';
   if issingle(numerator) || issingle(denominator)
@@ -23,32 +23,32 @@ function varargout = tf2ss(numerator, denominator)
     B = zeros(0, 'like', numerator);
     C = zeros(0, 'like', numerator);
     D = zeros(0, 'like', numerator);
-  else 
+  else
     % Normalize transfer function to have a leading coefficient of 1
     numerator = numerator / denominator(1);
     denominator = denominator / denominator(1);
-    
+
     % Ensure lengths of numerator and denominator match
     numerator = padNumeratorWithZeros(numerator, denominator);
-    
+
     % Remove leading zero columns
     denominator = removeLeadingZeroColumns(denominator);
     numerator = removeLeadingZeroColumns(numerator);
-    
+
     % Remove leading zeros from the denominator
     idx = find(denominator);
     if ~isempty(idx)
       denominator = denominator(idx(1):end);
     end
-  
+
     [mb, nb] = size(numerator);
     na = size(denominator, 2);
-  
+
     % Pad numerator with zeros if necessary
     if nb < na
       numerator = padNumeratorWithZeros(numerator, na);
     end
-  
+
     [A, B, C, D] = computeStateSpaceMatrices(numerator, denominator, mb, nb, na);
   end
 

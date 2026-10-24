@@ -34,5 +34,5 @@ getPythonStandardOutput();
 NLSPYTHON_ENGINE_IMPEXP std::wstring
 getPythonStandardError();
 //=============================================================================
-}
+} // namespace Nelson
 //=============================================================================

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>parallelplot</keyword>
+  <short_description>Affiche un graphique en coordonnees paralleles.</short_description>
+  <syntax>
+    <syntax_item>parallelplot(X)</syntax_item>
+    <syntax_item>parallelplot(T)</syntax_item>
+    <syntax_item>parallelplot(T, &apos;CoordinateVariables&apos;, variables)</syntax_item>
+    <syntax_item>parallelplot(..., &apos;GroupData&apos;, groupe)</syntax_item>
+    <syntax_item>parallelplot(..., &apos;GroupVariable&apos;, variableGroupe)</syntax_item>
+    <syntax_item>parallelplot(..., &apos;CoordinateTickLabels&apos;, etiquettes)</syntax_item>
+    <syntax_item>h = parallelplot(...)</syntax_item>
+  </syntax>
+  <description>
+    <p><b>parallelplot</b> affiche les lignes d'une matrice numerique ou les variables numeriques d'une table sous forme de coordonnees paralleles.</p>
+    <p>L'objet retourne a le type <b>parallelplot</b>. Voir <link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.parallelplot.properties">proprietes de parallelplot</link> pour la liste complete des proprietes.</p>
+  </description>
+  <examples>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Tracer les lignes d'une matrice en coordonnees paralleles.</example_item_description>
+      <example_item_data><![CDATA[X = [1 10 100; 2 20 50; 3 30 0; 4 15 70];
+parallelplot(X, 'CoordinateTickLabels', {'A', 'B', 'C'});]]></example_item_data>
+      <example_item_img src="../../../../images/parallelplot_1.svg" align="middle" generate="true" />
+    </example_item>
+    <example_item>
+      <example_item_type>Nelson</example_item_type>
+      <example_item_description>Tracer des variables selectionnees dans une table et grouper les lignes par variable de table.</example_item_description>
+      <example_item_data><![CDATA[T = table([1; 2; 3], [4; 5; 6], {'a'; 'a'; 'b'}, 'VariableNames', {'A', 'B', 'G'});
+parallelplot(T, 'CoordinateVariables', {'A', 'B'}, 'GroupVariable', 'G');]]></example_item_data>
+      <example_item_img src="../../../../images/parallelplot_2.svg" align="middle" generate="true" />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${graphics}1_plots/4_data_distribution_plots/plotmatrix">plotmatrix</link></see_also_item>
+    <see_also_item><link linkend="${graphics}1_plots/4_data_distribution_plots/stackedplot">stackedplot</link></see_also_item>
+    <see_also_item><link linkend="${graphics}2_graphics_objects/4_properties/nelson.graphics.parallelplot.properties">proprietes de parallelplot</link></see_also_item>
+    <see_also_item><link linkend="${table}table">table</link></see_also_item>
+  </see_also>
+</xmldoc>

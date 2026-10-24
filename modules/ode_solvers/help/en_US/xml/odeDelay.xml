@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>odeDelay</keyword>
+  <short_description>Delay definition object for ODE workflows.</short_description>
+  <syntax>
+    <syntax_item>D = odeDelay()</syntax_item>
+    <syntax_item>D = odeDelay(name, value)</syntax_item>
+  </syntax>
+  <description>
+    <p>
+      <b>odeDelay</b> stores delay-related settings for retarded delay equations solved through the <b>ode</b> object.</p>
+    <table style="width:100%">
+      <tr>
+        <th>Object</th>
+        <th>Purpose</th>
+        <th>Used by</th>
+      </tr>
+      <tr>
+        <td><b>odeDelay</b></td>
+        <td>Stores a reusable definition for the <b>ode</b> object workflow.</td>
+        <td>The matching <b>ode</b> property and <b>solve</b>.</td>
+      </tr>
+      <tr>
+        <td>Validation</td>
+        <td>Checks supported names and shapes at construction time.</td>
+        <td>Tests and errors stay explicit before integration.</td>
+      </tr>
+    </table>
+    <p>The current scope supports positive constant or function-handle <b>ValueDelay</b> and <b>SlopeDelay</b> entries with numeric or function-handle <b>History</b>. Delay functions are evaluated as <b>d(t,y)</b> or <b>d(t,y,p)</b> and must reference a known past state. The ODE function receives delayed values as <b>f(t, y, z)</b>. When slope delays are present it receives <b>f(t, y, z, zp)</b>, where columns of <b>zp</b> contain delayed slopes.</p>
+    <p>Events, mass matrices, and direct sensitivities are supported for explicit or linearly implicit delayed equations. Adjoint sensitivities, separated complex parts, and fully implicit delayed equations are not supported yet and report explicit errors.</p>
+  </description>
+  <see_also>
+    <see_also_item>
+      <link linkend="${ode_solvers}ode">ode</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>initial version</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

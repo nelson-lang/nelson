@@ -11,6 +11,7 @@
 #include "HandleManager.hpp"
 #include "LibPointerObject.hpp"
 #include "i18n.hpp"
+#include "ErrorID.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -18,7 +19,10 @@ bool
 DeleteLibPointerObject(const ArrayOf& A)
 {
     return DeleteHandleObjects<LibPointerObject>(A, NLS_HANDLE_LIBPOINTER_CATEGORY_STR,
-        _W("libpointer handle expected."), _W("libpointer valid handle expected."));
+        Nelson::resolveMessageTemplate(
+            L"Nelson:dynamic_link:libpointerHandle", L"libpointer handle expected."),
+        resolveMessageTemplate(
+            L"Nelson:dynamic_link:libpointerValidHandle", L"libpointer valid handle expected."));
 }
 //=============================================================================
 } // namespace Nelson

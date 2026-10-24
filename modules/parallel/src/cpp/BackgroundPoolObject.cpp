@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 // Copyright (c) 2016-present Allan CORNET (Nelson)
 //=============================================================================
 // This file is part of Nelson.
@@ -15,8 +15,9 @@
 #include "NelsonConfiguration.hpp"
 #include "AnonymousMacroFunctionDef.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
-#include "PredefinedErrorMessages.hpp"
+#include "HandleState.hpp"
 //=============================================================================
 namespace Nelson {
 //=============================================================================
@@ -39,6 +40,9 @@ BackgroundPoolObject::isInitialized()
 //=============================================================================
 BackgroundPoolObject::~BackgroundPoolObject()
 {
+    if (m_pInstance == this) {
+        m_pInstance = nullptr;
+    }
     if (threadPool) {
         resetThreadPool();
         delete threadPool;
@@ -76,19 +80,18 @@ BackgroundPoolObject::getNumberOfThreads()
 BackgroundPoolObject::BackgroundPoolObject()
     : HandleGenericObject(NLS_HANDLE_BACKGROUNDPOOL_CATEGORY_STR, this, false)
 {
-    threadPool
-        = new BS::pause_thread_pool(NelsonConfiguration::getInstance()->getMaxNumCompThreads());
+    threadPool = new BS::pause_thread_pool(NelsonConfiguration::getInstance()->maxNumCompThreads());
     propertiesNames = { L"NumWorkers", L"Busy", L"FevalQueue" };
 }
 //=============================================================================
 wstringVector
-BackgroundPoolObject::getProperties()
+BackgroundPoolObject::properties()
 {
     return propertiesNames;
 }
 //=============================================================================
 wstringVector
-BackgroundPoolObject::getMethods()
+BackgroundPoolObject::methods()
 {
     return {};
 }
@@ -125,23 +128,24 @@ BackgroundPoolObject::get(const std::wstring& propertyName, ArrayOf& result)
 {
     if (propertyName == L"NumWorkers") {
         size_t numWorkers = threadPool->get_thread_count();
-        result = ArrayOf::doubleConstructor((double)numWorkers);
+        result = ArrayOf::doubleScalar((double)numWorkers);
         return true;
     }
     if (propertyName == L"Busy") {
         bool busy = (threadPool->get_tasks_running() != 0);
-        result = ArrayOf::logicalConstructor(busy);
+        result = ArrayOf::logicalScalar(busy);
         return true;
     }
     if (propertyName == L"FevalQueue") {
-        result = ArrayOf::handleConstructor(FevalQueueObject::getInstance());
+        result = ArrayOf::handle(FevalQueueObject::getInstance());
         return true;
     }
     return false;
 }
 //=============================================================================
 ArrayOf
-BackgroundPoolObject::feval(FunctionDef* fptr, int nLhs, const ArrayOfVector& argIn)
+BackgroundPoolObject::feval(
+    const ArrayOf& functionHandle, FunctionDef* fptr, int nLhs, const ArrayOfVector& argIn)
 {
     FevalFutureObject* retFuture = nullptr;
     try {
@@ -153,14 +157,17 @@ BackgroundPoolObject::feval(FunctionDef* fptr, int nLhs, const ArrayOfVector& ar
             retFuture = new FevalFutureObject(L"@" + utf8_to_wstring(fptr->getName()));
         }
     } catch (std::bad_alloc&) {
-        Error(ERROR_MEMORY_ALLOCATION);
+        Error(L"Nelson:outOfMemory", L"Memory allocation error... You may have run out of memory!");
     }
-    auto future = threadPool->submit_task(
-        [retFuture, fptr, nLhs, argIn]() { retFuture->evaluateFunction(fptr, nLhs, argIn, true); });
-    FevalQueueObject::getInstance()->add(retFuture);
-    ArrayOf result = ArrayOf::handleConstructor(retFuture);
-    nelson_handle* qp = (nelson_handle*)(result.getDataPointer());
-    retFuture->asNelsonHandle = qp[0];
+    ArrayOf result = ArrayOf::handle(retFuture);
+    HandleRef* qp = (HandleRef*)(result.dataPointer());
+    HandleRef futureRef = qp[0];
+    retFuture->asNelsonHandle = futureRef ? futureRef->id() : 0;
+    auto future
+        = threadPool->submit_task([futureRef, retFuture, functionHandle, fptr, nLhs, argIn]() {
+              retFuture->evaluateFunction(fptr, nLhs, argIn, true);
+          });
+    FevalQueueObject::getInstance()->add(futureRef);
     return result;
 }
 //=============================================================================
@@ -175,9 +182,28 @@ BackgroundPoolObject::resetThreadPool()
 {
     if (threadPool) {
         threadPool->pause();
-        FevalQueueObject::getInstance()->reset();
+        if (FevalQueueObject::isInitialized()) {
+            FevalQueueObject::getInstance()->reset();
+        }
+        threadPool->purge();
+        threadPool->reset(NelsonConfiguration::getInstance()->maxNumCompThreads());
         threadPool->unpause();
-        threadPool->reset(NelsonConfiguration::getInstance()->getMaxNumCompThreads());
+    }
+}
+//=============================================================================
+void
+BackgroundPoolObject::purgeQueuedTasks()
+{
+    if (threadPool) {
+        threadPool->purge();
+    }
+}
+//=============================================================================
+void
+BackgroundPoolObject::waitForTasksDone()
+{
+    if (threadPool) {
+        threadPool->wait();
     }
 }
 //=============================================================================

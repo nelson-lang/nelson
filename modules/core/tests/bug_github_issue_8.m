@@ -13,4 +13,4 @@
 % test_nargin & test_nargout failed in Windows binary version
 %=============================================================================
 r = dir([nelsonroot(), '/modules/core/tests/*.m']);
-assert_istrue(length(r) > 0);
+asserts.istrue(length(r) > 0);

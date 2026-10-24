@@ -9,6 +9,7 @@
 //=============================================================================
 #include "strrepBuiltin.hpp"
 #include "Error.hpp"
+#include "ErrorID.hpp"
 #include "i18n.hpp"
 #include "StringReplace.hpp"
 #include "InputOutputArgumentsCheckers.hpp"
@@ -24,7 +25,8 @@ Nelson::StringGateway::strrepBuiltin(int nLhs, const ArrayOfVector& argIn)
     bool needToOverload;
     ArrayOf res = StringReplace(argIn[0], argIn[1], argIn[2], true, needToOverload);
     if (needToOverload) {
-        Error(_W("Invalid input argument(s): cell or string expected."));
+        Error(L"Nelson:string:invalidInputArgumentSCell",
+            L"Invalid input argument(s): cell or string expected.");
     } else {
         retval << res;
     }

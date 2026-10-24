@@ -8,6 +8,7 @@
     <syntax_item>false</syntax_item>
     <syntax_item>l = false(n)</syntax_item>
     <syntax_item>l = false(sz)</syntax_item>
+    <syntax_item>l = false(size(A))</syntax_item>
     <syntax_item>l = false(n, m, ..., k)</syntax_item>
     <syntax_item>l = false(n, m, &apos;like&apos;, sp)</syntax_item>
   </syntax>
@@ -18,7 +19,11 @@
     </param_input_item>
     <param_input_item>
       <param_name>sz</param_name>
-      <param_description>a size vector.</param_description>
+      <param_description>a row vector of dimensions, such as the result of <b>size</b>.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>an array whose size is used to create the output.</param_description>
     </param_input_item>
     <param_input_item>
       <param_name>n, m, ..., k</param_name>
@@ -38,7 +43,7 @@
   </param_output>
   <description>
     <p>
-      <b>false</b> build a matrix of false.</p>
+      <b>false</b> builds an array of logical false values.</p>
   </description>
   <used_function />
   <bibliography />
@@ -51,6 +56,8 @@
       ><![CDATA[false
 false(4)
 false(4, 1, 4)
+A = zeros(2, 3);
+F = false(size(A))
 L = logical(sparse(1, 2))
 L2 = false(3,'like', L);]]></example_item_data>
     </example_item>

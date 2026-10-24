@@ -54,6 +54,10 @@ use or performance of this software.
 
 */
 
+#if defined(_MSC_VER)
+#pragma warning(disable : 4267)
+#endif
+
 #include <stdio.h>
 #ifndef NULL
 /* ANSI C */
@@ -403,7 +407,8 @@ lower_string(char *dest, char *src)
         result = NULL;
     }
     else
-        while (*dest++ = (c = *src++) >= 'A' && c <= 'Z' ? tolower(c) : c);
+        while ((*dest++ = (c = *src++) >= 'A' && c <= 'Z' ? tolower(c) : c) != '\0')
+            ;
     return result;
 } /* lower_string */
 

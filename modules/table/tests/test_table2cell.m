@@ -7,19 +7,19 @@
 % SPDX-License-Identifier: LGPL-3.0-or-later
 % LICENCE_BLOCK_END
 %=============================================================================
-T = table(["Y";"Y";"N";"N";"N"],[38;43;38;40;49], [124 93;109 77; 125 83; 117 75; 122 80], 'VariableNames', ["Smoker" "Age" "BloodPressure"], 'RowNames',["Chang" "Brown" "Ruiz" "Lee" "Garcia"]);
+T = table(["Y"; "Y"; "N"; "N"; "N"], [38; 43; 38; 40; 49], [124 93; 109 77; 125 83; 117 75; 122 80], 'VariableNames', ["Smoker" "Age" "BloodPressure"], 'RowNames', ["Chang" "Brown" "Ruiz" "Lee" "Garcia"]);
 R = table2cell(T);
 REF = {"Y", 38, [124 93];
-"Y", 43, [109 77];
-"N", 38, [125 83];
-"N", 40, [117 75];
-"N", 49, [122 80]};
-assert_isequal(R, REF);
+  "Y", 43, [109 77];
+  "N", 38, [125 83];
+  "N", 40, [117 75];
+  "N", 49, [122 80]};
+asserts.isequal(R, REF);
 %=============================================================================
-T = table([10;20;30],{'M';'F';'F'},'VariableNames',{'Age','Gender'},'RowNames',{'P1','P2','P3'})
+T = table([10; 20; 30], {'M'; 'F'; 'F'}, 'VariableNames', {'Age', 'Gender'}, 'RowNames', {'P1', 'P2', 'P3'})
 R = table2cell(T);
 REF = {10, 'M';
-20, 'F';
-30, 'F'};
-assert_isequal(R, REF);
+  20, 'F';
+  30, 'F'};
+asserts.isequal(R, REF);
 %=============================================================================

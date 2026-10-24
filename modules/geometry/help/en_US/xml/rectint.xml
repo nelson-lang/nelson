@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>en_US</language>
+  <keyword>rectint</keyword>
+  <short_description>Area of intersection of rectangles.</short_description>
+  <syntax>
+    <syntax_item>out = rectint(A, B)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>A</param_name>
+      <param_description>an M-by-4 matrix; each row is a rectangle <b>[x y width height]</b>.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>B</param_name>
+      <param_description>an N-by-4 matrix; each row is a rectangle <b>[x y width height]</b>.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>out</param_name>
+      <param_description>an M-by-N matrix; <b>out(i, j)</b> is the area of the intersection of rectangle <b>A(i, :)</b> and rectangle <b>B(j, :)</b>.</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p><b>rectint</b> returns the area of intersection of rectangles. Each
+      rectangle is given as a four-element row <b>[x y width height]</b>, where
+      <b>(x, y)</b> is a corner and <b>width</b> and <b>height</b> are the side
+      lengths. Rectangles that do not overlap contribute a zero area.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description />
+      <example_item_data
+        runnable="cli"
+      ><![CDATA[area = rectint([0 0 1 1], [0.5 0.5 1 1])]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${geometry}polyarea">polyarea</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item><history_version>2.0.0</history_version><history_description>Initial version.</history_description></history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

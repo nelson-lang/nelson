@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>nelson.compiler.BuildResult</keyword>
+  <keyword_alias>nelson.compiler.BuildResult</keyword_alias>
+  <short_description>Consulter le resultat d'une construction applicative.</short_description>
+  <syntax>
+    <syntax_item>result = nelson.compiler.build(options)</syntax_item>
+    <syntax_item>result = ncc(options)</syntax_item>
+    <syntax_item>result = nelson.compiler.BuildResult(report, options)</syntax_item>
+    <syntax_item>values = struct(result)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item><param_name>report</param_name><param_description>Structure scalaire contenant Executable, RuntimeDirectory, DependencyPlan, RuntimePlan, Manifest et SHA256.</param_description></param_input_item>
+    <param_input_item><param_name>options</param_name><param_description>Objet scalaire nelson.compiler.BuildOptions.</param_description></param_input_item>
+  </param_input>
+  <param_output><param_output_item><param_name>result</param_name><param_description>Resultat scalaire avec proprietes en lecture seule.</param_description></param_output_item></param_output>
+  <description>
+    <p>Obtenir normalement ce resultat avec <b>ncc(options)</b> ou <b>nelson.compiler.build(options)</b>. Le constructeur encapsule un rapport existant : il ne construit rien, ne verifie pas les fichiers et n'authentifie pas leur contenu.</p>
+    <p><b>BuildType</b> : standaloneApplication, ou standaloneWindowsApplication lorsque options.NoConsole vaut true.</p>
+    <p><b>Files</b> : cellule de chemins a distribuer, contenant Executable et, en mode bundled, RuntimeDirectory. Ce n'est ni un inventaire recursif ni un installateur.</p>
+    <p><b>Executable</b> : chemin absolu de l'executable natif. <b>RuntimeDirectory</b> : dossier runtime voisin, ou vide en mode installed. Deplacer ensemble l'executable bundled et son dossier runtime sans les renommer.</p>
+    <p><b>Options</b> : copie valeur de la configuration. Les modifications ulterieures des options de l'appelant ne modifient pas le resultat.</p>
+    <p><b>DependencyPlan</b> : analyse des dependances applicatives resolues. <b>RuntimePlan</b> : besoins du runtime et inventaire des fichiers selectionnes en mode bundled. Ces informations permettent de comprendre les modules et fichiers inclus.</p>
+    <p><b>Manifest</b> : manifeste applicatif embarque decrivant les entrees de l'archive et les besoins du runtime. <b>SHA256</b> : empreinte de l'executable produit, pas une signature d'editeur.</p>
+    <p><b>struct(result)</b> convertit le resultat en structure scalaire, y compris Options. Le rapport peut contenir des chemins absolus de la machine de construction ; les examiner avant publication. Ce resultat decrit le paquet applicatif actuel, pas un installateur.</p>
+    <p>Lorsque Options.EmbedArchive vaut false, Files contient aussi l'archive .nca entre l'executable et l'eventuel dossier runtime. SHA256 reste l'empreinte de l'executable ; l'integrite de l'archive est verifiee au lancement.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Consulter une construction</example_item_description>
+      <example_item_data runnable="false"><![CDATA[options = ncc('options', 'app_entry.m', 'OutputDir', 'application-build');
+result = ncc(options);
+disp(result.Files);
+disp(result.RuntimePlan);
+text = jsonencode(struct(result));]]></example_item_data>
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item><link linkend="${compiler}nelson.compiler.BuildOptions">nelson.compiler.BuildOptions</link></see_also_item>
+    <see_also_item><link linkend="${compiler}nelson.compiler.build">nelson.compiler.build</link></see_also_item>
+    <see_also_item><link linkend="${compiler}compiler_standalone_tutorial">compiler_standalone_tutorial</link></see_also_item>
+  </see_also>
+  <history />
+  <authors><author_item>Allan CORNET</author_item></authors>
+</xmldoc>

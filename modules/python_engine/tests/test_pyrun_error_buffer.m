@@ -12,13 +12,13 @@
 env = pyenv();
 [r, msg] = system([env.Executable + " -m pip install numpy --quiet"]);
 try
-    pyrun('import numpy as np');
+  pyrun('import numpy as np');
 catch
-    skip_testsuite(true, 'Numpy not available')
+  skip_testsuite(true, 'Numpy not available')
 end
 %=============================================================================
 install_numpy = ["import pip"; "pip.main(['install', 'numpy'])"]
 output = evalc('pyrun(install_numpy)');
 %=============================================================================
 output = evalc('pyrun(install_numpy)');
-assert_istrue(length(output) > 1000);
+asserts.istrue(length(output) > 1000);

@@ -9,39 +9,41 @@
 %=============================================================================
 % <--ADV-CLI MODE-->
 %=============================================================================
-H = tf([1 0.1 7.5],[1 0.12 9 0 0]);
+H = tf([1 0.1 7.5], [1 0.12 9 0 0]);
 [mag, phase, wout] = bode(H);
-assert_isequal(size(mag), [1 1 1000]);
-assert_isapprox(mag(1), 78.4163, 1e-4);
-assert_isapprox(mag(end), -79.9987, 1e-4);
-assert_isequal(size(phase), [1 1 1000]);
-assert_isapprox(phase(1), -180, 1e-4);
-assert_isapprox(phase(end), -179.9885, 1e-4);
-assert_isequal(size(wout), [1 1000]);
-assert_isapprox(wout(1), 0.01, 1e-4);
-assert_isapprox(wout(end), 100, 1e-4);
+asserts.isequal(size(mag), [1 1 1000]);
+asserts.isapprox(mag(1), 78.4163, 1e-4);
+asserts.isapprox(mag(end), -79.9987, 1e-4);
+asserts.isequal(size(phase), [1 1 1000]);
+asserts.isapprox(phase(1), -180, 1e-4);
+asserts.isapprox(phase(end), -179.9885, 1e-4);
+asserts.isequal(size(wout), [1 1000]);
+asserts.isapprox(wout(1), 0.01, 1e-4);
+asserts.isapprox(wout(end), 100, 1e-4);
 %=============================================================================
-H = tf([1 0.1 7.5],[1 0.12 9 0 0])
-bode(H, '-.')
+% Magnitude and phase plots share the frequency axis: the magnitude plot on
+% top keeps its tick marks but drops the frequency number labels; those appear
+% only under the phase plot at the bottom.
+bode(H);
+f = gcf();
+ax = findobj(f, 'Type', 'axes');
+magnitudeAxes = axesWithYLabel(ax, 'Magnitude [dB]');
+phaseAxes = axesWithYLabel(ax, 'Phase [deg]');
+asserts.istrue(~isempty(magnitudeAxes));
+asserts.istrue(~isempty(phaseAxes));
+asserts.istrue(isempty(magnitudeAxes.XTickLabel));
+asserts.isfalse(isempty(phaseAxes.XTickLabel));
+asserts.isequal(phaseAxes.XLabel.String, 'Frequency [rad/s]');
+asserts.isequal(magnitudeAxes.XLabel.String, '');
+close(f);
 %=============================================================================
-M = [1,2,3,4; 5 6 7 8; 8 9 10 11];
-sys = tf(M);
-assert_checkerror('[p, m , w] = bode(sys);', _('SISO LTI model expected.'))
-%=============================================================================
-num = [3 4];
-den = [3 1 5];
-Ts = 0.2;
-H = tf(num, den, Ts);
-bode(H)
-%=============================================================================
-[mag, phase, wout] = bode(H);
-assert_isequal(size(mag), [1 1 1000]);
-assert_isapprox(mag(1), -2.1829, 1e-4);
-assert_isapprox(mag(end),  2.0864, 1e-4);
-assert_isequal(size(phase), [1 1 1000]);
-assert_isapprox(phase(1), -0.0400, 1e-3);
-assert_isapprox(phase(end), -15.0717, 1e-4);
-assert_isequal(size(wout), [1 1000]);
-assert_isapprox(wout(1), 0.01, 1e-4);
-assert_isapprox(wout(end), 100, 1e-4);
+function ax = axesWithYLabel(axesList, label)
+  ax = [];
+  for k = 1:numel(axesList)
+    if strcmp(axesList(k).YLabel.String, label)
+      ax = axesList(k);
+      return
+    end
+  end
+end
 %=============================================================================

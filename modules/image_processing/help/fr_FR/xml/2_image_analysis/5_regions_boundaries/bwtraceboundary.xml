@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xmldoc>
+  <copyright>SAME AS NELSON SOFTWARE</copyright>
+  <language>fr_FR</language>
+  <keyword>bwtraceboundary</keyword>
+  <short_description>Trace les pixels de frontiere d un objet binaire.</short_description>
+  <syntax>
+    <syntax_item>B = bwtraceboundary(BW, p)</syntax_item>
+    <syntax_item>B = bwtraceboundary(BW, p, fstep, conn)</syntax_item>
+    <syntax_item>B = bwtraceboundary(BW, p, fstep, conn, m)</syntax_item>
+  </syntax>
+  <param_input>
+    <param_input_item>
+      <param_name>BW</param_name>
+      <param_description>Image binaire d'entree. Les valeurs non nulles sont traitees comme true.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>p</param_name>
+      <param_description>Point de depart de frontiere [row column].</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>fstep</param_name>
+      <param_description>Premiere direction de recherche.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>conn</param_name>
+      <param_description>Connectivite, 4 ou 8.</param_description>
+    </param_input_item>
+    <param_input_item>
+      <param_name>m</param_name>
+      <param_description>Nombre maximal de points de frontiere a renvoyer.</param_description>
+    </param_input_item>
+  </param_input>
+  <param_output>
+    <param_output_item>
+      <param_name>B</param_name>
+      <param_description>Coordonnees de frontiere sous forme de matrice N-by-2 [row column].</param_description>
+    </param_output_item>
+  </param_output>
+  <description>
+    <p>Trace les pixels de frontiere de l objet binaire qui contient le point de depart p = [ligne colonne]. Les connectivites prises en charge sont 4 et 8. La premiere direction de recherche peut etre N, NE, E, SE, S, SW, W ou NW en connectivite 8, et N, E, S ou W en connectivite 4.</p>
+  </description>
+  <used_function />
+  <bibliography />
+  <examples>
+    <example_item>
+      <example_item_type>nelson</example_item_type>
+      <example_item_description>Tracer la frontiere d un carre</example_item_description>
+      <example_item_data
+        runnable="adv-cli"
+      ><![CDATA[BW=false(64,64); BW(16:48,16:48)=true;
+B=bwtraceboundary(BW, [16 16], 'E', 8);
+figure; imagesc(BW); hold on; plot(B(:,2), B(:,1), 'r.'); title('Traced boundary');]]></example_item_data>
+      <example_item_img
+        src="../../../images/bwtraceboundary_1.png"
+        align="middle"
+        generate="true"
+      />
+    </example_item>
+  </examples>
+  <see_also>
+    <see_also_item>
+      <link linkend="${image_processing}bwboundaries">bwboundaries</link>
+    </see_also_item>
+    <see_also_item>
+      <link linkend="${image_processing}bwperim">bwperim</link>
+    </see_also_item>
+  </see_also>
+  <history>
+    <history_item>
+      <history_version>2.0.0</history_version>
+      <history_description>version initiale</history_description>
+    </history_item>
+  </history>
+  <authors>
+    <author_item>Allan CORNET</author_item>
+  </authors>
+</xmldoc>

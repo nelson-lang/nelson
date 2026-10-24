@@ -11,6 +11,7 @@
 #include "Operators.hpp"
 #include "OverloadName.hpp"
 #include "func2strBuiltin.hpp"
+#include "functionsBuiltin.hpp"
 #include "function_handle_extractionBuiltin.hpp"
 #include "function_handle_fieldnamesBuiltin.hpp"
 #include "function_handle_isequalBuiltin.hpp"
@@ -48,15 +49,12 @@ static const nlsGateway gateway[] = {
     { "str2func", (ptrBuiltin)Nelson::FunctionHandleGateway::str2funcBuiltin, 1, 1,
         CPP_BUILTIN_WITH_EVALUATOR },
     { "func2str", (ptrBuiltin)Nelson::FunctionHandleGateway::func2strBuiltin, 1, 1 },
+    { "functions", (ptrBuiltin)Nelson::FunctionHandleGateway::functionsBuiltin, 1, 1 },
     { "isfunction_handle", (ptrBuiltin)Nelson::FunctionHandleGateway::isfunction_handleBuiltin, 1,
         1 },
 };
 //=============================================================================
-NLSGATEWAYFUNC(gateway)
+NLS_GATEWAY_FUNC(gateway)
 //=============================================================================
-NLSGATEWAYINFO(gateway)
-//=============================================================================
-NLSGATEWAYREMOVE(gateway)
-//=============================================================================
-NLSGATEWAYNAME()
+NLS_GATEWAY_REMOVE(gateway)
 //=============================================================================
